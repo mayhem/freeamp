@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicBrowserUI.cpp,v 1.2 2000/04/05 14:58:22 hiro Exp $
+        $Id: MusicBrowserUI.cpp,v 1.3 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #define DEBUG 1
@@ -208,7 +208,7 @@ void
 MusicBrowserUI::AddFiles( const vector<string>& files )
 {
     bool playNow = true;
-    m_context->prefs->GetPlayImmediately( &playNow );
+    m_context->prefs->GetPrefBoolean(kPlayImmediatelyPref,  &playNow );
 
     vector<string>::const_iterator i;
     for ( i = files.begin(); i != files.end(); i++ )

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.64 2000/06/21 13:51:28 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.65 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -148,8 +148,8 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
             bool savePlaylist = true;
             uint32 index = 0;
 
-            m_context->prefs->GetSaveCurrentPlaylistOnExit(&savePlaylist);
-            m_context->prefs->GetSavedPlaylistPosition(&index);
+            m_context->prefs->GetPrefBoolean(kSaveCurrentPlaylistOnExitPref, &savePlaylist);
+            m_context->prefs->GetPrefInt32(kSavedPlaylistPositionPref, &index);
 
             if(savePlaylist)
             {
@@ -280,7 +280,7 @@ MusicBrowserUI::~MusicBrowserUI()
     }   
     
     if(!m_pParent)
-        m_context->prefs->SetViewMusicBrowser(m_state == STATE_EXPANDED);
+        m_context->prefs->SetPrefBoolean(kViewMusicBrowserPref, m_state == STATE_EXPANDED);
 
     CloseMainDialog();
 
@@ -351,7 +351,7 @@ void MusicBrowserUI::SaveCurrentPlaylist()
 {
     bool savePlaylist = true;
 
-    m_context->prefs->GetSaveCurrentPlaylistOnExit(&savePlaylist);
+    m_context->prefs->GetPrefBoolean(kSaveCurrentPlaylistOnExitPref, &savePlaylist);
 
     if(savePlaylist)
     {
@@ -367,7 +367,7 @@ void MusicBrowserUI::SaveCurrentPlaylist()
         FilePathToURL(path, url, &length);
 
         m_plm->WritePlaylist(url);
-        m_context->prefs->SetSavedPlaylistPosition(m_plm->GetCurrentIndex());
+        m_context->prefs->SetPrefInt32(kSavedPlaylistPositionPref, m_plm->GetCurrentIndex());
     }
 }
 
@@ -434,8 +434,8 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
         case INFO_PrefsChanged:
         {
             bool useTextLabels, useImages;
-            m_context->prefs->GetShowToolbarTextLabels(&useTextLabels);
-            m_context->prefs->GetShowToolbarImages(&useImages);
+            m_context->prefs->GetPrefBoolean(kShowToolbarTextLabelsPref, &useTextLabels);
+            m_context->prefs->GetPrefBoolean(kShowToolbarImagesPref, &useImages);
 
             vector<MusicBrowserUI *>::iterator i;
 
@@ -876,7 +876,7 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 HWND hwnd = (HWND)prop->GetInt32();
                 bool playNow;
 
-                m_context->prefs->GetPlayImmediately(&playNow);
+                m_context->prefs->GetPrefBoolean(kPlayImmediatelyPref, &playNow);
 
                 AddFileEvent(hwnd, playNow);
             }

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.58 2000/06/01 15:56:12 ksteinbe Exp $
+	$Id: main.cpp,v 1.59 2000/06/22 15:13:35 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -163,8 +163,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
     bool reclaimFileTypes, askBeforeReclaiming;
     uint32 length = sizeof(path);
-    context->prefs->GetReclaimFiletypes(&reclaimFileTypes);
-    context->prefs->GetAskToReclaimFiletypes(&askBeforeReclaiming);
+    context->prefs->GetPrefBoolean(kReclaimFiletypesPref, &reclaimFileTypes);
+    context->prefs->GetPrefBoolean(kAskToReclaimFiletypesPref, &askBeforeReclaiming);
     context->prefs->GetInstallDirectory(path, &length);
     strcat(path, "\\freeamp.exe");
 
@@ -470,7 +470,7 @@ static LRESULT WINAPI HiddenWndProc(HWND hwnd,
 
             bool playNow = false;
 
-            context->prefs->GetPlayImmediately(&playNow);
+            context->prefs->GetPrefBoolean(kPlayImmediatelyPref, &playNow);
             
             // If a single theme or rpm file gets passed, don't affect 
             // the play queue

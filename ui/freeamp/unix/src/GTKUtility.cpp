@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.11 2000/06/21 13:34:37 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.12 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include "config.h"
@@ -196,8 +196,8 @@ void InitializeGTK(FAContext *context)
     }
 
     bool reclaimFileTypes, askBeforeReclaiming;
-    context->prefs->GetReclaimFiletypes(&reclaimFileTypes);
-    context->prefs->GetAskToReclaimFiletypes(&askBeforeReclaiming);
+    context->prefs->GetPrefBoolean(kReclaimFiletypesPref, &reclaimFileTypes);
+    context->prefs->GetPrefBoolean(kAskToReclaimFiletypesPref, &askBeforeReclaiming);
 
     if (reclaimFileTypes)
         ReclaimFileTypes(context, askBeforeReclaiming);

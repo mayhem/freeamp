@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.6 2000/03/20 22:40:35 hiro Exp $
+   $Id: ThemeManager.cpp,v 1.7 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -138,7 +138,7 @@ Error ThemeManager::UseTheme(string &oThemeFile)
         }
     }
 
-    m_pContext->prefs->SetThemePath((char *)oThemeFile.c_str());
+    m_pContext->prefs->SetPrefString(kThemePathPref, (char *)oThemeFile.c_str());
     m_oCurrentTheme = string(dir);
     
     return kError_NoErr;

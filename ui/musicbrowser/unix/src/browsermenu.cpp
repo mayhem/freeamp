@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.cpp,v 1.11 2000/06/12 18:07:51 robert Exp $
+        $Id: browsermenu.cpp,v 1.12 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -622,8 +622,8 @@ void GTKMusicBrowser::CreateMenu(GtkWidget *topbox)
 void GTKMusicBrowser::SetToolbarType(void)
 {
     bool useText, useImages;
-    m_context->prefs->GetShowToolbarTextLabels(&useText);
-    m_context->prefs->GetShowToolbarImages(&useImages);
+    m_context->prefs->GetPrefBoolean(kShowToolbarTextLabelsPref, &useText);
+    m_context->prefs->GetPrefBoolean(kShowToolbarImagesPref, &useImages);
 
     if (useText && useImages)
         gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH);

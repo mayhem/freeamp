@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dsoundvolume.cpp,v 1.2 1999/10/19 07:12:59 elrod Exp $
+	$Id: dsoundvolume.cpp,v 1.3 2000/06/22 15:13:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -36,7 +36,7 @@ VolumeManager()
 
 int32
 DSoundVolumeManager::
-GetVolume(void)
+GetPrefInt32(kVolumePref, void)
 {
     
 
@@ -45,7 +45,7 @@ GetVolume(void)
 
 void
 DSoundVolumeManager::
-SetVolume(int32 v)
+SetPrefInt32(kVolumePref, int32 v)
 {
    
 }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.14 2000/06/21 13:34:37 ijr Exp $
+	$Id: id3v2.cpp,v 1.15 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -367,8 +367,8 @@ bool ID3v2::WriteMetaData(const char* url, const MetaData& metadata)
     if (strcasecmp(ptr, ".mp3"))
         return false;  
 
-    m_context->prefs->GetWriteID3v1(&bWriteID3v1);
-    m_context->prefs->GetWriteID3v2(&bWriteID3v2);
+    m_context->prefs->GetPrefBoolean(kWriteID3v1Pref, &bWriteID3v1);
+    m_context->prefs->GetPrefBoolean(kWriteID3v2Pref, &bWriteID3v2);
 
     whichTags = (bWriteID3v1) ? ID3TT_ID3V1 : 0;
     whichTags |= (bWriteID3v2) ? ID3TT_ID3V2 : 0;

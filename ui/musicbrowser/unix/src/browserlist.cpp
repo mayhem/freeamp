@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browserlist.cpp,v 1.10 2000/06/12 15:07:28 ijr Exp $
+        $Id: browserlist.cpp,v 1.11 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -80,7 +80,7 @@ void GTKMusicBrowser::RenumberPlaylistList(int starting)
         if (starting >= 1)
             totaltime = *(int *)(gtk_clist_get_row_data(GTK_CLIST(playlistList),
                                                         starting - 1));
-        m_context->prefs->GetAudioCDLength(&maxCDtime);
+        m_context->prefs->GetPrefInt32(kAudioCDLengthPref, &maxCDtime);
     }
 
     for (int i = starting; i < GTK_CLIST(playlistList)->rows; i++) {
@@ -268,7 +268,7 @@ void GTKMusicBrowser::UpdatePlaylistList(void)
 
     int32 totaltime = 0;
     int32 maxCDtime = 0;
-    m_context->prefs->GetAudioCDLength(&maxCDtime);
+    m_context->prefs->GetPrefInt32(kAudioCDLengthPref, &maxCDtime);
 
     int row = 0;
 

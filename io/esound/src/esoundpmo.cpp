@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-	$Id: esoundpmo.cpp,v 1.16 2000/06/21 13:34:36 ijr Exp $
+	$Id: esoundpmo.cpp,v 1.17 2000/06/22 15:13:35 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -114,7 +114,7 @@ EsounDPMO::~EsounDPMO()
    }
 }
 
-void EsounDPMO::GetVolume(int32 &left, int32 &right)
+void EsounDPMO::GetPrefInt32(kVolumePref, int32 &left, int32 &right)
 {
    left = right = -1;
 
@@ -141,7 +141,7 @@ void EsounDPMO::GetVolume(int32 &left, int32 &right)
    }
 }
 
-void EsounDPMO::SetVolume(int32 left, int32 right)
+void EsounDPMO::SetPrefInt32(kVolumePref, int32 left, int32 right)
 {
    if (mixer_fd > 0)
    {

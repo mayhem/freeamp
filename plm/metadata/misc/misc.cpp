@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.cpp,v 1.8 2000/06/21 13:34:37 ijr Exp $
+	$Id: misc.cpp,v 1.9 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -178,7 +178,7 @@ bool Misc::ReadMetaData(const char* url, MetaData* metadata)
     // do we need to convert underscores?
     bool convertUnderscores = false;
 
-    m_context->prefs->GetConvertUnderscoresToSpaces(&convertUnderscores);
+    m_context->prefs->GetPrefBoolean(kConvertUnderscoresToSpacesPref, &convertUnderscores);
 
     if(convertUnderscores)
     {

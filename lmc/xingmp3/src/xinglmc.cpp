@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.130 2000/06/01 13:59:29 robert Exp $
+   $Id: xinglmc.cpp,v 1.131 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -346,7 +346,7 @@ Error XingLMC::CanDecode()
    }
 
    if (IsError(m_pContext->prefs->
-	       GetStreamBufferInterval(&m_iBufferUpInterval)))
+	       GetPrefInt32(kStreamBufferIntervalPref, &m_iBufferUpInterval)))
       m_iBufferUpInterval = iDefaultBufferUpInterval;
 
    return kError_NoErr;
@@ -644,7 +644,7 @@ Error XingLMC::InitDecoder()
 
          info->max_buffer_size = m_iMaxWriteSize;
 
-         m_pContext->prefs->GetOutputBufferSize(&iNewSize);
+         m_pContext->prefs->GetPrefInt32(kOutputBufferSizePref, &iNewSize);
          iNewSize = max(iNewSize, iMinimumOutputBufferSize);
          iNewSize *= 1024;
    
@@ -746,7 +746,7 @@ void XingLMC::DecodeWork()
        return;
    }
 
-   m_pContext->prefs->GetDecoderThreadPriority(&iValue);
+   m_pContext->prefs->GetPrefInt32(kDecoderThreadPriorityPref, &iValue);
    m_decoderThread->SetPriority(iValue);
 
    for (m_frameCounter = 0; !m_bExit;)

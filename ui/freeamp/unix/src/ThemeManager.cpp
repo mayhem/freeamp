@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.16 2000/05/24 17:08:34 ijr Exp $
+   $Id: ThemeManager.cpp,v 1.17 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -44,7 +44,7 @@ ThemeManager::ThemeManager(FAContext *pContext)
     m_bDevelTheme = false;
 
     szThemePath[0] = 0;
-    eRet = pContext->prefs->GetThemePath(szThemePath, &len);
+    eRet = pContext->prefs->GetPrefString(kThemePathPref, szThemePath, &len);
     if (IsError(eRet) || strlen(szThemePath) == 0) {
         GetDefaultTheme(m_oCurrentTheme);
     }
@@ -184,7 +184,7 @@ Error ThemeManager::UseTheme(string &oThemeFile)
         }
     }
 
-    m_pContext->prefs->SetThemePath((char *)oThemeFile.c_str());
+    m_pContext->prefs->SetPrefString(kThemePathPref, (char *)oThemeFile.c_str());
     m_oCurrentTheme = string(dir);
     
     return kError_NoErr;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: volume.cpp,v 1.2 1999/10/19 07:12:45 elrod Exp $
+	$Id: volume.cpp,v 1.3 2000/06/22 15:13:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -32,14 +32,14 @@ ____________________________________________________________________________*/
 #include "volume.h"
 
 void
-VolumeManager::SetVolume(int32 v)
+VolumeManager::SetPrefInt32(kVolumePref, int32 v)
 {
 	PRINT(( "SetVolume\n" ));
 	return;
 }
 
 int32
-VolumeManager::GetVolume()
+VolumeManager::GetPrefInt32(kVolumePref, )
 {
 	PRINT(( "GetVolume\n" ));
 	return 0;

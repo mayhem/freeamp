@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.34 2000/06/21 13:34:36 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.35 2000/06/22 15:13:35 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -658,14 +658,14 @@ Error DownloadManager::Download(DownloadItem* item)
 
             result = kError_NoErr;  
 
-            m_context->prefs->GetUseProxyServer(&useProxy);
+            m_context->prefs->GetPrefBoolean(kUseProxyPref, &useProxy);
 
             if(useProxy)
             {
                 char proxy[kMaxURLLen + 1] = {0x00};
 
                 length = sizeof(proxy);
-                m_context->prefs->GetProxyServerAddress(proxy, &length);
+                m_context->prefs->GetPrefString(kProxyHostPref, proxy, &length);
 
                 numFields = sscanf(proxy, 
                                    "http://%[^:/]:%hu", proxyname, &port);

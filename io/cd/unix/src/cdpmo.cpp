@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.8 2000/05/06 12:05:49 ijr Exp $
+        $Id: cdpmo.cpp,v 1.9 2000/06/22 15:13:35 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -76,7 +76,7 @@ CDPMO::~CDPMO()
    cd_finish(m_cdDesc);
 }
 
-void CDPMO::SetVolume(int32 left, int32 right)
+void CDPMO::SetPrefInt32(kVolumePref, int32 left, int32 right)
 {
     if (m_cdDesc != -1)
     {
@@ -91,7 +91,7 @@ void CDPMO::SetVolume(int32 left, int32 right)
     }
 }
 
-void CDPMO::GetVolume(int32 &left, int32 &right)
+void CDPMO::GetPrefInt32(kVolumePref, int32 &left, int32 &right)
 {
     left = right = -1;
     if (m_cdDesc != -1)
@@ -141,7 +141,7 @@ Error CDPMO::Init(OutputInfo *info)
    char device[256];
    uint32 len = 256;
 
-   if (IsError(m_pContext->prefs->GetCDDevicePath(device, &len)))
+   if (IsError(m_pContext->prefs->GetPrefString(kCDDevicePathPref, device, &len)))
            return (Error)pmoError_DeviceOpenFailed;
 
    m_cdDesc = cd_init_device(device);

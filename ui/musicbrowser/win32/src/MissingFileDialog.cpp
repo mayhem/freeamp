@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: MissingFileDialog.cpp,v 1.3 2000/06/12 16:13:55 robert Exp $
+    $Id: MissingFileDialog.cpp,v 1.4 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -175,7 +175,7 @@ BOOL MissingFileDialog::DialogProc(HWND hwnd,
                                     "*.*\0"
                                     "\0";
 
-                    m_context->prefs->GetSaveMusicDirectory(initialDir, &size);
+                    m_context->prefs->GetPrefString(kSaveMusicDirPref, initialDir, &size);
 
                     // Setup open file dialog box structure
                     ofn.lStructSize       = sizeof(OPENFILENAME);

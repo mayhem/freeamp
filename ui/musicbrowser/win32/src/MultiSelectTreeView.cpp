@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.21 2000/06/12 10:08:21 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.22 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -412,7 +412,7 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
 
                 bool playNow;
 
-                m_context->prefs->GetPlayImmediately(&playNow);
+                m_context->prefs->GetPrefBoolean(kPlayImmediatelyPref, &playNow);
 
                 if(treedata && treedata->IsTrack())
                 {

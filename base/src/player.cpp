@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.209 2000/06/21 13:34:36 ijr Exp $
+        $Id: player.cpp,v 1.210 2000/06/22 15:13:35 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -618,23 +618,23 @@ Run()
    int32     uisActivated = 0;
    bool      bValue;
 
-   m_context->prefs->GetUseDebugLog(&bValue);
+   m_context->prefs->GetPrefBoolean(kUseDebugLogPref, &bValue);
    if (bValue)
       m_context->log->Open();
    
-   m_context->prefs->GetLogInput(&bValue);
+   m_context->prefs->GetPrefBoolean(kLogInputPref, &bValue);
    if (bValue)
       m_context->log->AddLogLevel(LogInput);
    
-   m_context->prefs->GetLogOutput(&bValue);
+   m_context->prefs->GetPrefBoolean(kLogOutputPref, &bValue);
    if (bValue)
       m_context->log->AddLogLevel(LogOutput);
    
-   m_context->prefs->GetLogDecode(&bValue);
+   m_context->prefs->GetPrefBoolean(kLogDecodePref, &bValue);
    if (bValue)
       m_context->log->AddLogLevel(LogDecode);
    
-   m_context->prefs->GetLogPerformance(&bValue);
+   m_context->prefs->GetPrefBoolean(kLogPerformancePref, &bValue);
    if (bValue)
       m_context->log->AddLogLevel(LogPerf);
 
@@ -1502,26 +1502,26 @@ Stop(Event *pEvent)
 
 void
 Player::
-GetVolume(Event *pEvent)
+GetPrefInt32(kVolumePref, Event *pEvent)
 {
     int32 left = -1, right = -1;
 
     delete pEvent;
     if (m_pmo) 
     {
-       m_pmo->GetVolume(left, right);
+       m_pmo->GetPrefInt32(kVolumePref, left, right);
        SendToUI(new VolumeEvent(INFO_VolumeInfo,left, right));
     }   
 }
 
 void
 Player::
-SetVolume(Event *pEvent)
+SetPrefInt32(kVolumePref, Event *pEvent)
 {
     int32 left=((VolumeEvent *) pEvent)->GetLeftVolume();
     int32 right=((VolumeEvent *) pEvent)->GetRightVolume();
     if (m_pmo) 
-        m_pmo->SetVolume(left, right);
+        m_pmo->SetPrefInt32(kVolumePref, left, right);
     delete pEvent;
 }
 
@@ -1894,11 +1894,11 @@ ServiceEvent(Event * pC)
             break;
 
         case CMD_GetVolume:
-            GetVolume(pC);
+            GetPrefInt32(kVolumePref, pC);
             break;
 
         case CMD_SetVolume:
-            SetVolume(pC);
+            SetPrefInt32(kVolumePref, pC);
             break;
 
         case CMD_ChangePosition:

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.14 2000/05/09 10:21:01 elrod Exp $
+	$Id: updatemanager.cpp,v 1.15 2000/06/22 15:13:35 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -512,10 +512,10 @@ Error UpdateManager::DownloadInfo(string& info,
     const char* file = NULL;
     uint32 length;
 
-    m_context->prefs->GetUseProxyServer(&useProxy);
+    m_context->prefs->GetPrefBoolean(kUseProxyPref, &useProxy);
 
     length = sizeof(proxyname);
-    m_context->prefs->GetProxyServerAddress(proxyname, &length);
+    m_context->prefs->GetPrefString(kProxyHostPref, proxyname, &length);
 
     if(useProxy)
     {
@@ -853,10 +853,10 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
 
             result = kError_NoErr;  
 
-            m_context->prefs->GetUseProxyServer(&useProxy);
+            m_context->prefs->GetPrefBoolean(kUseProxyPref, &useProxy);
 
             length = sizeof(proxyname);
-            m_context->prefs->GetProxyServerAddress(proxyname, &length);
+            m_context->prefs->GetPrefString(kProxyHostPref, proxyname, &length);
 
             if(useProxy)
             {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.7 2000/06/21 13:34:36 ijr Exp $
+   $Id: Http.cpp,v 1.8 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -177,10 +177,10 @@ Error Http::Download(const string &url, bool fileDownload)
 
         result = kError_NoErr;  
 
-        m_context->prefs->GetUseProxyServer(&useProxy);
+        m_context->prefs->GetPrefBoolean(kUseProxyPref, &useProxy);
 
         length = sizeof(proxyname);
-        m_context->prefs->GetProxyServerAddress(proxyname, &length);
+        m_context->prefs->GetPrefString(kProxyHostPref, proxyname, &length);
 
         if(useProxy)
         {

@@ -19,7 +19,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: wavoutpmo.cpp,v 1.5 2000/05/04 10:54:57 robert Exp $
+  $Id: wavoutpmo.cpp,v 1.6 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -86,14 +86,14 @@ WavOutPMO::
 
 void
 WavOutPMO::
-GetVolume(int32 &left, int32 &right)
+GetPrefInt32(kVolumePref, int32 &left, int32 &right)
 {
     left = right = -1;
 }
 
 void
 WavOutPMO::
-SetVolume(int32 left, int32 right)
+SetPrefInt32(kVolumePref, int32 left, int32 right)
 {
     ;
 }
@@ -141,7 +141,7 @@ Init(OutputInfo* info)
       strcpy(path, "unknown.wav");
 
    len = _MAX_PATH;
-   m_pContext->prefs->GetWAVOutDirectory(base, &len);
+   m_pContext->prefs->GetPrefString(kWAVOutputPathPref, base, &len);
    strcat(base, DIR_MARKER_STR);
    strcat(base, path);
 

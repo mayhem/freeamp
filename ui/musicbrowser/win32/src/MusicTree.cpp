@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.66 2000/06/21 13:28:25 elrod Exp $
+        $Id: MusicTree.cpp,v 1.67 2000/06/22 15:13:36 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -656,13 +656,13 @@ void MusicBrowserUI::FillPortables()
     insert.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_CHILDREN |
                         TVIF_SELECTEDIMAGE | TVIF_PARAM; 
 
-    if(kError_BufferTooSmall == m_context->prefs->GetUsersPortablePlayers(buffer, &size))
+    if(kError_BufferTooSmall == m_context->prefs->GetPrefString(kUsersPortablePlayersPref, buffer, &size))
     {
         buffer = (char*)malloc(size);
 
         if(buffer)
         {
-            m_context->prefs->GetUsersPortablePlayers(buffer, &size);
+            m_context->prefs->GetPrefString(kUsersPortablePlayersPref, buffer, &size);
             char* cp = buffer;
             char* name = cp;
 

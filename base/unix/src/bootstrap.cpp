@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.20 2000/02/17 01:03:34 ijr Exp $
+	$Id: bootstrap.cpp,v 1.20.2.1 2000/02/26 23:03:14 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -26,10 +26,13 @@ ____________________________________________________________________________*/
 #include <iostream.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h> 
+#include <sys/shm.h> 
 
-#ifdef DEBUG_MUTEXES
+#include <sys/types.h>
 #include <signal.h>
-#endif
 
 #include "player.h"
 #include "event.h"
@@ -41,6 +44,10 @@ ____________________________________________________________________________*/
 #include "facontext.h"
 #include "log.h"
 #include "unixprefs.h"
+
+const int iSemKey = 0xFA000000;
+const int iMemKey = 0xFA000001;
+const int iSharedMemSize = 4096;
 
 #if MP3_PROF
 extern "C" {
@@ -60,6 +67,60 @@ int main(int argc, char **argv)
 {
     FAContext *context = new FAContext;
     UnixPrefs *unixPrefs = new UnixPrefs;
+    key_t      tSemKey = iSemKey;
+    key_t      tMemKey = iMemKey;
+    int        iCmdSem, iCmdMem;
+    int        iProcess, i;
+    char      *pCmdLine = NULL, *pPtr;
+
+    iCmdSem = semget(tSemKey, 1, IPC_CREAT | 0666);
+    if (iCmdSem < 0)
+    {
+       printf("Cannot create/open a semaphore. Is SYS V IPC installed?\n");
+       exit(0);
+    }
+
+    // Check to see if the process that created that semaphore still
+    // exists
+    iProcess = semctl(iCmdSem, 0, GETVAL, 0);
+    if (iProcess > 0)
+    {
+        if (kill(iProcess, 0) >= 0)
+        {
+            iCmdMem = shmget(tMemKey, iSharedMemSize, 0666);
+            pCmdLine = (char *)shmat(iCmdMem, NULL, 0); 
+            for(i = 1, pPtr = pCmdLine; i < argc; i++)
+            {
+                strcpy(pPtr, argv[i]);
+                pPtr += strlen(pPtr) + 1;
+            }
+            *pPtr = 0;
+
+            // Now wait for the main freeamp to parse the args and then exit
+            while(*pCmdLine != 0)
+            {
+                if (kill(iProcess, 0) < 0)
+                   break;
+
+                sleep(1);
+            }
+
+            shmdt(pCmdLine);
+
+            exit(0);
+        }
+    }
+
+    // Set the current pid into the semaphore
+    semctl(iCmdSem, 0, SETVAL, getpid());
+
+    // Create the shared memory segment
+    iCmdMem = shmget(tMemKey, iSharedMemSize, IPC_CREAT | 0666);
+    if (iCmdMem != -1)
+    {
+        pCmdLine = (char *)shmat(iCmdMem, NULL, 0); 
+        pCmdLine[0] = 0;
+    }
 
     int errLine;
     if ((errLine = unixPrefs->GetErrorLineNumber()))
@@ -125,14 +186,46 @@ int main(int argc, char **argv)
     pP->RegisterPMOs(pmo);
     pP->RegisterUIs(ui);
 
-    if (pP->SetArgs(argc,argv)) {
-	pP->SetTerminationSemaphore(termSemaphore);
-	pP->Run();
-	
-	termSemaphore->Wait();
+    if (pP->SetArgs(argc,argv)) 
+    {
+        pP->SetTerminationSemaphore(termSemaphore);
+        pP->Run();
+
+        for(;;)
+        {
+            if (!termSemaphore->TimedWait(1000))
+            {
+                if (pCmdLine && strlen(pCmdLine) > 0)
+                {
+                    int iItems = context->plm->CountItems();
+                    bool bPlay;
+
+                    context->prefs->GetPlayImmediately(&bPlay);
+                    if (bPlay)
+                        context->plm->RemoveAll();
+
+                    for(i = 0, pPtr = pCmdLine; *pPtr; i++)
+                    {
+                        pP->HandleSingleArg(pPtr);
+                        pPtr += strlen(pPtr) + 1;
+                    }
+                    pCmdLine[0] = 0;
+
+                    if (iItems == 0 || bPlay)
+                        context->target->AcceptEvent(new Event(CMD_Play));
+                }
+            }
+            else
+                break;
+        }
     }
+
+    if (pCmdLine)
+       shmdt(pCmdLine); 
+    semctl (iCmdSem, IPC_RMID, 0);
 
     delete pP;
     delete context;
+
     return 0;
 }

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.60 2000/06/22 15:27:17 elrod Exp $
+	$Id: main.cpp,v 1.61 2000/10/28 15:29:31 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -69,7 +69,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 		 			 LPSTR lpszCmdLine, 
 					 int cmdShow)
 {
-    HANDLE runOnceMutex;
+    HANDLE runOnceMutex = NULL;
+    bool   allowMultipleInst = false;
 
     g_hinst = hInstance;
 
@@ -102,23 +103,29 @@ int APIENTRY WinMain(HINSTANCE hInstance,
         return 0;
     }
 
-	if(SendCommandLineToRealJukebox())
-	{
-		return 0;
-	}
+    FAContext *context = new FAContext;
+    context->prefs = new Win32Prefs();
+    context->prefs->GetPrefBoolean(kAllowMultipleInstancesPref, &allowMultipleInst);
 
-    runOnceMutex = CreateMutex(	NULL,
-							    TRUE,
-							    The_BRANDING" Should Only Run One Time!");
-
-    if(GetLastError() == ERROR_ALREADY_EXISTS)
+	if (!allowMultipleInst)
     {
-        SendCommandLineToHiddenWindow();
-        
-        CloseHandle(runOnceMutex);
-        return 0;
-    }
+	   if(SendCommandLineToRealJukebox())
+	   {
+           return 0;
+	   }
 
+       runOnceMutex = CreateMutex(	NULL,
+	    						    TRUE,
+		    					    The_BRANDING" Should Only Run One Time!");
+
+       if(GetLastError() == ERROR_ALREADY_EXISTS)
+	   { 
+           SendCommandLineToHiddenWindow();
+        
+           CloseHandle(runOnceMutex);
+           return 0;
+	   }
+	}
     // This causes a dynamic link error on some non NT systems, and
     // it didn't seem to help on multiprocessor NT systems, so I'm
     // commenting it.
@@ -128,10 +135,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     WSADATA sGawdIHateMicrosoft;
     WSAStartup(0x0002,  &sGawdIHateMicrosoft);
 
-    FAContext *context = new FAContext;
 
-    context->prefs = new Win32Prefs();
-     context->log = new LogFile("freeamp.log");
+    context->log = new LogFile("freeamp.log");
 
     // find all the plug-ins we use
     Registrar* registrar;
@@ -205,7 +210,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	delete context;
     delete thread;
 
-    CloseHandle(runOnceMutex);
+	if (!allowMultipleInst)
+       CloseHandle(runOnceMutex);
 
 	WSACleanup();
 

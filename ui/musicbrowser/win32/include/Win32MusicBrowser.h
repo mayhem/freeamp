@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.11 1999/11/01 22:57:19 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.12 1999/11/03 19:02:25 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -57,6 +57,12 @@ bool FileOpenDialog(HWND hwnd,
 
 LRESULT WINAPI 
 ListViewWndProc(HWND hwnd, 
+                UINT msg, 
+                WPARAM wParam, 
+                LPARAM lParam);
+
+LRESULT WINAPI 
+TreeViewWndProc(HWND hwnd, 
                 UINT msg, 
                 WPARAM wParam, 
                 LPARAM lParam);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.49 2000/05/08 13:56:54 robert Exp $
+	$Id: event.h,v 1.50 2000/05/23 08:49:23 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -80,7 +80,7 @@ class EventQueue {
 #define INFO_PlaylistRepeat     33 // sent by PLM to player to inform of a setting of repeat mode
 #define INFO_PlaylistShuffle    34 // sent by PLM to player to inform of a setting of shuffle mode
 #define INFO_PlaylistUpdated	35 // sent by PLM to player to inform of a playlist update
-#define INFO_PlaylistItemUpdated    36 // sent by PLM to player to inform of a playlistitem update
+#define INFO_PlaylistItemsUpdated 36 // sent by PLM to player to inform of a playlistitem update
 #define INFO_UserMessage        37 // sent by UI to Player, diseminated by Player to each UI
 #define _EQUALIZER_ENABLE_
 #ifdef  _EQUALIZER_ENABLE_

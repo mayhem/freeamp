@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.55 2000/05/08 16:39:00 robert Exp $
+        $Id: eventdata.h,v 1.56 2000/05/23 08:49:23 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -818,16 +818,16 @@ public:
     const PlaylistManager* Manager() const { return m_plm; }
 };
 
-class PlaylistItemUpdatedEvent : public Event {
-private:
-	const PlaylistItem* m_item;
+class PlaylistItemsUpdatedEvent : public Event {
+  private:
+    vector<PlaylistItem*> m_items;
     const PlaylistManager* m_plm;
 public:
-	PlaylistItemUpdatedEvent(const PlaylistItem* item, const PlaylistManager* plm) 
-    { m_type = INFO_PlaylistItemUpdated; m_item = item; m_plm = plm;}
-	virtual ~PlaylistItemUpdatedEvent() {}
+	PlaylistItemsUpdatedEvent(vector<PlaylistItem*>* items, const PlaylistManager* plm) 
+    { m_type = INFO_PlaylistItemsUpdated; m_items = *items; m_plm = plm;}
+	virtual ~PlaylistItemsUpdatedEvent() {}
 
-	const PlaylistItem* Item() const { return m_item; }
+	const vector<PlaylistItem*>* Items() const { return &m_items; }
     const PlaylistManager* Manager() const { return m_plm; }
 };
 

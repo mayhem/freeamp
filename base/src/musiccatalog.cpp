@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.56 2000/05/10 20:12:43 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.57 2000/05/23 08:49:23 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -63,6 +63,7 @@ MusicCatalog::MusicCatalog(FAContext *context, char *databasepath)
     m_unsorted = new vector<PlaylistItem *>;
     m_playlists = new vector<string>;
     m_streams = new vector<PlaylistItem *>;
+    m_watchTimer = NULL;
    
     if (databasepath)
         SetDatabase(databasepath);
@@ -84,7 +85,8 @@ MusicCatalog::~MusicCatalog()
 {
     ClearCatalog();
 
-    m_context->timerManager->StopTimer(m_watchTimer);
+    if(m_watchTimer)
+        m_context->timerManager->StopTimer(m_watchTimer);
 
     if (m_database)
         delete m_database;

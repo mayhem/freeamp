@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.112 2000/05/15 16:38:23 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.113 2000/05/23 08:49:23 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -490,18 +490,22 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          break;
       }
  
-      case INFO_PlaylistItemUpdated :
+      case INFO_PlaylistItemsUpdated:
       {
-         int                       i;
-         PlaylistItemUpdatedEvent *pInfo = 
-            (PlaylistItemUpdatedEvent *)e;
+         PlaylistItemsUpdatedEvent *pInfo = 
+            (PlaylistItemsUpdatedEvent *)e;
 
-         i = m_pContext->plm->GetCurrentIndex();
-         if (i >= 0)
+         vector<PlaylistItem*>::const_iterator i = pInfo->Items()->begin();
+
+         for(; i != pInfo->Items()->end(); i++)
          {
-             if (m_pContext->plm->ItemAt(i) == pInfo->Item())
-                UpdateMetaData(pInfo->Item());
-         }       
+            if((*i) == m_pContext->plm->GetCurrentItem())
+            {
+                UpdateMetaData(*i);
+                break;
+            }
+         }
+         
          break;
       }
       case INFO_PlaylistCurrentItemInfo:

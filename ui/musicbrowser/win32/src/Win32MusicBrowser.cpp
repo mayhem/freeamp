@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.58 2000/05/19 15:26:01 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.59 2000/05/23 08:49:23 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -646,12 +646,12 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             break; 
         }
 
-        case INFO_PlaylistItemUpdated:
+        case INFO_PlaylistItemsUpdated:
         {
-            PlaylistItemUpdatedEvent* pie = (PlaylistItemUpdatedEvent*)event;
+            PlaylistItemsUpdatedEvent* pie = (PlaylistItemsUpdatedEvent*)event;
 
             if(pie->Manager() == m_plm)
-                PlaylistListItemUpdated(pie->Item());
+                PlaylistListItemsUpdated(pie->Items());
             else
             {
                 vector<MusicBrowserUI *>::iterator i;
@@ -660,7 +660,7 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 {
                     if((*i)->PLManager() == pie->Manager())
                     {
-                        (*i)->PlaylistListItemUpdated(pie->Item());
+                        (*i)->PlaylistListItemsUpdated(pie->Items());
                         break;
                     }
                 }

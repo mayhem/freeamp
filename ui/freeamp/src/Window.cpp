@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.33.2.1 2000/05/09 09:58:28 robert Exp $
+   $Id: Window.cpp,v 1.33.2.2 2000/05/09 12:31:00 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -132,7 +132,7 @@ Error Window::Run(Pos &oWindowPos)
     vector<Window *>::iterator j;
     vector<Pos>::iterator      i;
     Pos                        oTemp;
-    
+ 
     IncUsageRef();
     for(j = m_oAdornments.begin(), i = m_oAdornmentPos.begin(); 
         j != m_oAdornments.end(); j++, i++)
@@ -161,6 +161,8 @@ void Window::VulcanMindMeldHost(bool bHost)
 Error Window::VulcanMindMeld(Window *pOther)
 {
     vector<Control *>::iterator i;
+    vector<Window *>::iterator  k;
+    vector<Pos>::iterator       l;
     ControlMapIterator          j;
     string                      oName;
 
@@ -180,6 +182,18 @@ Error Window::VulcanMindMeld(Window *pOther)
     for(i = pOther->m_oControls.begin(); i != pOther->m_oControls.end(); i++)
     {
         m_oControls.push_back(*i);
+    }    
+
+    m_oAdornments.clear();
+    for(k = pOther->m_oAdornments.begin(); k != pOther->m_oAdornments.end(); k++)
+    {
+        m_oAdornments.push_back(*k);
+    }    
+
+    m_oAdornmentPos.clear();
+    for(l = pOther->m_oAdornmentPos.begin(); l != pOther->m_oAdornmentPos.end(); l++)
+    {
+        m_oAdornmentPos.push_back(*l);
     }    
 
     m_oControlMap.clear();

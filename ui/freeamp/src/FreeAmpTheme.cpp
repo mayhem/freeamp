@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.4.4.2 2000/07/08 14:46:40 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.4.4.3 2000/07/08 14:58:26 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1141,6 +1141,10 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
           {
               string nick;
 #ifdef WIN32
+			  char buffer[254];
+			  unsigned long len = 255;
+			  GetUserName(buffer, &len);
+			  nick = string(buffer);
 #endif
 #ifdef HAVE_GTK
               struct passwd *pw;

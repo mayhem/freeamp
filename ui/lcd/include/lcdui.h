@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.h,v 1.3 1999/01/18 17:28:56 jdw Exp $
+	$Id: lcdui.h,v 1.4 1999/01/22 06:02:51 jdw Exp $
 ____________________________________________________________________________*/
 // LcdUI.h
 
@@ -48,7 +48,9 @@ class LcdUI : public UserInterface {
     virtual void SetPlayListManager(PlayListManager *);
     static void keyboardServiceFunction(void *);
     virtual ~LcdUI();
+   virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
  private:
+   Properties *m_propManager;
 
     int32 m_sock;
 

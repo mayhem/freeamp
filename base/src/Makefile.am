@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.13 1998/10/27 02:28:43 jdw Exp $
+##      $Id: Makefile.am,v 1.14 1999/01/22 06:02:49 jdw Exp $
 ##
 ############################################################################
 
@@ -33,7 +33,7 @@ FILES =
 INCLS = 
 else
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
-FILES = player.cpp playlist.cpp hashtable.cpp thread.cpp registrar.cpp registry.cpp
+FILES = player.cpp playlist.cpp hashtable.cpp thread.cpp registrar.cpp registry.cpp propimpl.cpp
 INCLS = -I@top_srcdir@/base/unix/include
 endif
 

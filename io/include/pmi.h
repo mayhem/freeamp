@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.10 1999/01/20 02:44:45 jdw Exp $
+	$Id: pmi.h,v 1.11 1999/01/22 06:02:50 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -42,6 +42,7 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "config.h"
 #include "errors.h"
+#include "properties.h"
 
 #define SEEK_FROM_START		SEEK_SET
 #define SEEK_FROM_CURRENT	SEEK_CUR
@@ -61,6 +62,8 @@ public:
 	               {return kError_GotDefaultMethod;}
 	 virtual Error  GetID3v1Tag(unsigned char *pTag)
 	               {return kError_GotDefaultMethod;}
+
+	 virtual Error SetPropManager(Properties *) = 0;
 		 
     virtual Error SetTo(char* url) = 0;
     virtual Error Close(void) = 0;

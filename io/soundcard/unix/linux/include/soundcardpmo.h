@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.7 1998/10/27 22:26:00 jdw Exp $
+	$Id: soundcardpmo.h,v 1.8 1999/01/22 06:02:50 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -61,7 +61,9 @@ public:
     virtual Error Pause();
     virtual Error Resume();
     virtual const char *GetErrorString(int32);
+   virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
  private:
+   Properties *m_propManager;
     bool m_properlyInitialized;
     int16 buffer[OBUFFERSIZE];
     int16 *bufferp[MAXCHANNELS];

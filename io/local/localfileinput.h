@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.h,v 1.7 1999/01/20 02:44:45 jdw Exp $
+        $Id: localfileinput.h,v 1.8 1999/01/22 06:02:50 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LOCALFILEINPUT_H_
@@ -47,6 +47,7 @@ class     LocalFileInput:public PhysicalMediaInput
    virtual Error GetLength(size_t &iSize); // filesize - ID3tag if any
    virtual Error  GetID3v1Tag(unsigned char *pTag);
 
+
    virtual Error SetTo(char *url);
    virtual Error Close(void);
    virtual const char *Url(void) const
@@ -54,11 +55,18 @@ class     LocalFileInput:public PhysicalMediaInput
       return m_path;
    }
    virtual const char *GetErrorString(int32);
-
-   private:
-
+   
+   virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
+ private:
+   Properties *m_propManager;
    FileBuffer *m_pPullBuffer;
    char       *m_path;
 };
 
 #endif /* _LOCALFILEINPUT_H_ */
+
+
+
+
+
+

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.4 1999/01/18 17:28:56 jdw Exp $
+	$Id: lcdui.cpp,v 1.5 1999/01/22 06:02:52 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -152,6 +152,7 @@ Error LcdUI::Init(int32 startupType) {
     sock_send_string(m_sock, "widget_add FA artist string\n");
     sock_send_string(m_sock, "widget_set FA songname 1 1 {Welcome To FreeAmp}\n");
     sock_send_string(m_sock, "widget_set FA timeline 4 1 {total       00:00:00}\n");
+    sock_send_string(m_sock, "widget_del FA heartbeat\n");
 #else 
     lcd.string(1,1," Welcome To FreeAmp");
     lcd.flush();

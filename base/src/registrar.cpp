@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.11 1998/12/01 19:24:09 jdw Exp $
+	$Id: registrar.cpp,v 1.12 1999/01/22 06:02:50 jdw Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -46,7 +46,7 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
 {
     Error error = kError_NoErr;
     char dir[MAX_PATH];
-    HashTable *pHT = new HashTable();
+    HashTable<int32 *> *pHT = new HashTable<int32 *>();
 
     if(registry == NULL)
         error = kError_InvalidParam;
@@ -176,7 +176,9 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
                         item->SetInitFunction(init);
 			totalFilesFound++;
 #ifndef WIN32
-			pHT->Insert(find.cFileName,(void *)1);
+			int32 *pInt = new int32;
+			*pInt = 1;
+			pHT->Insert(find.cFileName,pInt);
 #endif
                     }
                 }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ui.h,v 1.7 1998/12/14 19:58:30 jdw Exp $
+	$Id: ui.h,v 1.8 1999/01/22 06:02:51 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UI_H_
@@ -42,6 +42,7 @@ class UserInterface : public EventQueue {
     virtual void SetTarget(EventQueue *) = 0;
     virtual void SetPlayListManager(PlayListManager *) = 0;
     virtual Error Init(int32) = 0;
+    virtual Error SetPropManager(Properties *) = 0;
     virtual ~UserInterface() {}
 };
 

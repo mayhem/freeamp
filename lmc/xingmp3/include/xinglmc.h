@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.15 1999/01/19 05:10:20 jdw Exp $
+   $Id: xinglmc.h,v 1.16 1999/01/22 06:02:50 jdw Exp $
 
 ____________________________________________________________________________*/
 
@@ -111,7 +111,9 @@ class     XingLMC:public LogicalMediaConverter
    virtual Error SetEQData(bool);
 
 
-   private:
+   virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
+ private:
+   Properties *m_propManager;
 
    static void DecodeWorkerThreadFunc(void *);
    void      DecodeWork();

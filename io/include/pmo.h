@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.9 1998/10/27 22:25:59 jdw Exp $
+	$Id: pmo.h,v 1.10 1999/01/22 06:02:50 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -41,6 +41,7 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "config.h"
 #include "errors.h"
+#include "properties.h"
 
 #define MAXCHANNELS		2
 
@@ -64,6 +65,7 @@ public:
     virtual Error Pause(){ return kError_GotDefaultMethod;}
     virtual Error Resume(){ return kError_GotDefaultMethod; }
     virtual const char *GetErrorString(int32) { return NULL; }
+    virtual Error SetPropManager(Properties *) = 0;
 };
 
 #endif /* _PMO_H_ */

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.2 1999/01/20 17:57:22 jdw Exp $
+        $Id: httpinput.h,v 1.3 1999/01/22 06:02:50 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LOCALFILEINPUT_H_
@@ -55,10 +55,15 @@ class     HttpInput:public PhysicalMediaInput
    }
    virtual const char *GetErrorString(int32);
 
-   private:
+   virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
+ private:
+   Properties *m_propManager;
 
    HttpBuffer *m_pPullBuffer;
    char       *m_path;
 };
 
 #endif /* _LOCALFILEINPUT_H_ */
+
+
+

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.h,v 1.7 1998/12/14 19:58:30 jdw Exp $
+	$Id: cmdlineUI.h,v 1.8 1999/01/22 06:02:50 jdw Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -41,15 +41,17 @@ class cmdlineUI : public UserInterface {
     virtual void SetPlayListManager(PlayListManager *);
     static void keyboardServiceFunction(void *);
     virtual ~cmdlineUI();
+   virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
  private:
-    void ProcessArgs();
-    int32 m_startupLevel;
-    int32 m_argc;
-    char **m_argv;
-    EventQueue *m_playerEQ;
-    void processSwitch(char *);
-    Thread *keyboardListenThread;
-    PlayListManager *m_plm;
+   Properties *m_propManager;
+   void ProcessArgs();
+   int32 m_startupLevel;
+   int32 m_argc;
+   char **m_argv;
+   EventQueue *m_playerEQ;
+   void processSwitch(char *);
+   Thread *keyboardListenThread;
+   PlayListManager *m_plm;
 };
 
 

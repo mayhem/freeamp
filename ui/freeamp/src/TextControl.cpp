@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.9 2000/03/13 21:26:00 ijr Exp $
+   $Id: TextControl.cpp,v 1.10 2000/03/16 07:24:59 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -49,8 +49,8 @@ const int m_iMarqueeScrollIncrement = 5;
 TextControl::TextControl(Window *pWindow, string &oName) : 
              Control(pWindow, oName, pTransitions)
 {
-	m_pFont = NULL;
-	m_iMarqueePos = 0;
+    m_pFont = NULL;
+    m_iMarqueePos = 0;
     m_bStyleSet = false;
 }
 
@@ -66,10 +66,10 @@ void TextControl::SetStyle(Font *pFont, string &oAlign,
     m_bUnderline = bUnderline;
     m_pFont = pFont;
        
-	if (strcasecmp(oAlign.c_str(), "right") == 0)
+    if (strcasecmp(oAlign.c_str(), "right") == 0)
        m_eAlign = eRight;
     else   
-	if (strcasecmp(oAlign.c_str(), "center") == 0)
+    if (strcasecmp(oAlign.c_str(), "center") == 0)
        m_eAlign = eCenter;
     else   
        m_eAlign = eLeft;

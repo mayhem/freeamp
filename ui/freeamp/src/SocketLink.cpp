@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SocketLink.cpp,v 1.1.2.2 2000/07/08 14:46:40 robert Exp $
+   $Id: SocketLink.cpp,v 1.1.2.3 2000/07/09 12:48:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -138,7 +138,7 @@ Error SocketLink::CreateSocket(void)
 
 void SocketLink::WorkerThread(void)
 {
-   int                 uRet;
+   unsigned int        uRet;
    Error               eError;
    struct sockaddr_in  sOther;
 

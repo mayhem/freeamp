@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.4.4.4 2000/07/08 16:18:50 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.4.4.5 2000/07/09 12:48:34 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1126,11 +1126,13 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
           delete dir;
 #endif
 #ifdef HAVE_GTK
-          //TODO: ijr add code to launch the chat client app here
-
+          if (fork() == 0) {
+              execlp("xchat", "xchat", NULL);
+              _exit(0);
+          } 
 #endif
 
-          for(int i = 0; !m_socketLink->HasConnection() && i < 50; i++)
+          for(int i = 0; !m_socketLink->HasConnection() && i < 50; i++) 
               usleep(100000);
 
           if (!m_socketLink->HasConnection())

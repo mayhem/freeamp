@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.6 1999/12/09 07:37:56 ijr Exp $
+   $Id: GTKFont.cpp,v 1.7 1999/12/09 19:36:37 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <sys/stat.h>
@@ -269,9 +269,14 @@ void GTKFont::Render(Rect &oClipRect, string &oText, int iOffset,
     }
 #ifdef HAVE_FREETYPE
     else if (type == kFontTypeTTF) {
+       int ycoord;
+       ycoord = oClipRect.y1 + oClipRect.Height();
+       if (ttfont->ascent <= oClipRect.Height())
+           ycoord -= ttfont->descent;
+       else
+           ycoord -= ttfont->descent / 2;
        EFont_draw_string(bitmap->GetBitmap(), gc, oClipRect.x1 + iOffset, 
-                         oClipRect.y1 + oClipRect.Height() - 3, 
-                         (char *)oText.c_str(), ttfont);
+                         ycoord, (char *)oText.c_str(), ttfont);
     }
 #endif
     gdk_flush();

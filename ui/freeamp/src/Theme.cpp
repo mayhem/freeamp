@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.15 1999/12/08 15:33:43 robert Exp $
+   $Id: Theme.cpp,v 1.16 1999/12/09 19:36:37 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -722,8 +722,11 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
                           string("in tag <Style>");
            return kError_InvalidParam;
        }
-       
-	   if (oAttrMap.find("Color") != oAttrMap.end() && 
+
+#ifdef HAVE_GTK
+       pFont = new GTKFont(*(GTKFont *)pFont);
+#endif
+       if (oAttrMap.find("Color") != oAttrMap.end() && 
            oAttrMap["Color"] != string(""))
        {
            eRet = ParseColor(oAttrMap["Color"], oColor);
@@ -749,7 +752,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
                oColor, bBold, bItalic, bUnderline);
        
        return kError_NoErr;
-	}
+    }
 
     if (oElement == string("ChangeWindow"))
     {

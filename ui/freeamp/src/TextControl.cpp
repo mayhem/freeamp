@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.3 1999/10/20 18:23:04 robert Exp $
+   $Id: TextControl.cpp,v 1.4 1999/12/09 19:36:37 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -82,7 +82,9 @@ bool TextControl::StyleHasBeenSet(void)
 
 TextControl::~TextControl(void)
 {
-
+#ifdef HAVE_GTK
+    delete m_pFont;
+#endif
 }
 
 void TextControl::Init(void)

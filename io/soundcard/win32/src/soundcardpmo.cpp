@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.62 2000/03/28 01:34:54 elrod Exp $
+   $Id: soundcardpmo.cpp,v 1.63 2000/04/26 15:18:30 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -650,6 +650,8 @@ void SoundCardPMO::WorkerThread(void)
               // cleans up the pending headers so the bytes in use
               // value is correct.
               NextHeader(true);
+			  if (m_iHead == m_iTail)
+				 Debug_v("Underflow!");
     
               WasteTime();
               continue;

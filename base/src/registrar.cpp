@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.20 2000/03/01 03:49:28 elrod Exp $
+	$Id: registrar.cpp,v 1.21 2000/04/26 15:18:30 robert Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -154,7 +154,6 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
                 error = kError_LoadLibFailed;
 
                 module = LoadLibrary(file);
-            
                 if(module)
                 {
                     InitializeFunction init = NULL;

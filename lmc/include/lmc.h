@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.26 1999/11/05 22:56:40 robert Exp $
+	$Id: lmc.h,v 1.26.14.1 2000/06/02 16:20:40 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_LMC_H_
@@ -32,7 +32,7 @@ using namespace std;
 #include "errors.h"
 #include "eventdata.h"
 
-
+const int iMinimumOutputBufferSize = 64;
 
 class MediaInfoEvent;
 class PullBuffer;

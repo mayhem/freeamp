@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.123.4.1.2.2 2000/03/15 20:47:05 robert Exp $
+   $Id: xinglmc.cpp,v 1.123.4.1.2.2.4.1 2000/06/02 16:20:40 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -645,6 +645,7 @@ Error XingLMC::InitDecoder()
          info->max_buffer_size = m_iMaxWriteSize;
 
          m_pContext->prefs->GetOutputBufferSize(&iNewSize);
+         iNewSize = max(iNewSize, iMinimumOutputBufferSize);
          iNewSize *= 1024;
    
          //iNewSize -= iNewSize % (m_iMaxWriteSize * 16);
@@ -785,6 +786,7 @@ void XingLMC::DecodeWork()
           }
 
           if (iMaxFrameSize > (int)m_pInputBuffer->GetNumBytesInBuffer() &&
+              m_pInputBuffer->GetNumBytesInBuffer() > 0 &&
               m_pInputBuffer->IsEndOfStream())
               iReadSize = m_pInputBuffer->GetNumBytesInBuffer();
           else

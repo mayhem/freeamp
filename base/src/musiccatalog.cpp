@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.86 2000/09/22 07:12:42 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.87 2000/09/28 19:57:35 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -62,6 +62,7 @@ MusicCatalog::MusicCatalog(FAContext *context, char *databasepath)
     m_timerMutex = new Mutex();
     m_inUpdateSong = false;
     m_addImmediately = false;
+    m_bSurpressAddMessages = false;
     m_artistList = new vector<ArtistList *>;
     m_unsorted = new vector<PlaylistItem *>;
     m_playlists = new vector<string>;
@@ -738,6 +739,7 @@ Error MusicCatalog::RePopulateFromDatabase()
     m_context->target->AcceptEvent(new Event(INFO_MusicCatalogCleared));
 
     m_catMutex->Acquire(); 
+    m_bSurpressAddMessages = true;
     char *key = m_database->NextKey(NULL);
     Error err = kError_NoErr;
 
@@ -753,6 +755,7 @@ Error MusicCatalog::RePopulateFromDatabase()
         key = m_database->NextKey(key);
     }
     m_catMutex->Release();
+    m_bSurpressAddMessages = false;
     if (!m_sigs->empty() && m_context->aps->IsTurnedOn()) 
         m_context->target->AcceptEvent(new Event(INFO_UnsignaturedTracksExist)); 
     return kError_NoErr;
@@ -1290,7 +1293,7 @@ Error MusicCatalog::AcceptEvent(Event *e)
 
                 delete e;
             }
-            else 
+            else if (!m_bSurpressAddMessages)
                 m_context->target->AcceptEvent(e);
             break; }
         case INFO_SearchMusicDone: {

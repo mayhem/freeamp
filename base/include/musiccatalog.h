@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.h,v 1.18 2000/09/22 07:12:42 ijr Exp $
+        $Id: musiccatalog.h,v 1.19 2000/09/28 19:57:35 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -173,6 +173,7 @@ class MusicCatalog : public EventQueue
 
     bool   m_inUpdateSong;
     bool   m_addImmediately;
+    bool   m_bSurpressAddMessages;
 
     PlaylistItem *m_newItem;
     PlaylistItem *m_oldItem;

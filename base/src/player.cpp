@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.58 1998/12/02 09:16:09 jdw Exp $
+	$Id: player.cpp,v 1.59 1998/12/09 08:08:03 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -155,6 +155,8 @@ void Player::SetTerminationSemaphore(Semaphore *pSem) {
 
 /* return true if parsing was successful, false otherwise. */
 
+typedef char *pchar;
+
 bool Player::SetArgs(int32 argc, char** argv){
     Vector<char *> argVector;
 
@@ -218,7 +220,7 @@ bool Player::SetArgs(int32 argc, char** argv){
     }
     m_argc = argVector.NumElements();
     if (m_argc) {
-	m_argv = new (char *)[m_argc];
+	m_argv = new pchar[m_argc];
 	for(int f = 0;f < m_argc;f++) {
 	    m_argv[f] = argVector.ElementAt(f);
 	    //cerr << "Adding argument (" << f << "): " << m_argv[f] << endl;

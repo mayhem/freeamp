@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: winamp.cpp,v 1.3 2000/05/06 21:44:11 ijr Exp $
+   $Id: winamp.cpp,v 1.4 2000/06/12 13:13:10 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <string>
@@ -85,9 +85,10 @@ Error Winamp::ConvertToNative(string &oDir)
 
     m_context->prefs->GetInstallDirectory(dir, &len);
     sourcePath = string(dir);
-#if defined(unix)
-    sourcePath += string(BRANDING_SHARE_PATH);
+#ifdef unix
+    sourcePath += string("/freeamp");
 #endif
+    sourcePath += string(DIR_MARKER_STR) + string("plugins");
     sourcePath += string(DIR_MARKER_STR) + string("winamp_theme.xml");
 
     destPath = oDir + string(DIR_MARKER_STR) + string("theme.xml");

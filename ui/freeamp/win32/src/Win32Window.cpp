@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.11 1999/10/09 18:53:16 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.12 1999/10/11 21:25:07 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -311,6 +311,18 @@ Error Win32Window::VulcanMindMeld(Window *pOther)
     HRGN     hRgn;
     Error    eRet;
     Rect     oRect;
+    RECT     sRect;
+
+	oRect.x1 = oRect.x2 = oRect.y1 = oRect.y2 = 0;
+	GetWindowPosition(oRect);
+    sRect.left = oRect.x1;
+    sRect.right = oRect.x2;
+    sRect.top = oRect.y1;
+    sRect.right = oRect.y2;
+
+	// Invalidate the complete old window to ensure a redraw
+    if (oRect.Width() > 0 && oRect.Height() > 0)
+       InvalidateRect(NULL, &sRect, true);
     
     eRet = Window::VulcanMindMeld(pOther);
     if (IsError(eRet))

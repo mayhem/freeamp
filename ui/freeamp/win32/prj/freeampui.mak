@@ -718,132 +718,36 @@ $(DS_POSTBUILD_DEP) : "xing - Win32 NASM Release"\
  "freeampui - Win32 Debug" || "$(CFG)" == "freeampui - Win32 NASM Debug" ||\
  "$(CFG)" == "freeampui - Win32 NASM Release"
 SOURCE=..\src\bitmapview.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_BITMA=\
-	"..\..\..\..\config\config.h"\
 	"..\include\bitmapview.h"\
 	"..\include\dib.h"\
 	"..\include\renderer.h"\
 	"..\include\view.h"\
+	
+NODEP_CPP_BITMA=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\bitmapview.obj" : $(SOURCE) $(DEP_CPP_BITMA) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_BITMA=\
-	"..\..\..\..\config\config.h"\
-	"..\include\bitmapview.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\bitmapview.obj" : $(SOURCE) $(DEP_CPP_BITMA) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_BITMA=\
-	"..\..\..\..\config\config.h"\
-	"..\include\bitmapview.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\bitmapview.obj" : $(SOURCE) $(DEP_CPP_BITMA) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_BITMA=\
-	"..\..\..\..\config\config.h"\
-	"..\include\bitmapview.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\bitmapview.obj" : $(SOURCE) $(DEP_CPP_BITMA) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\buttonview.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_BUTTO=\
-	"..\..\..\..\config\config.h"\
 	"..\include\buttonview.h"\
 	"..\include\dib.h"\
 	"..\include\renderer.h"\
 	"..\include\view.h"\
+	
+NODEP_CPP_BUTTO=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\buttonview.obj" : $(SOURCE) $(DEP_CPP_BUTTO) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_BUTTO=\
-	"..\..\..\..\config\config.h"\
-	"..\include\buttonview.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\buttonview.obj" : $(SOURCE) $(DEP_CPP_BUTTO) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_BUTTO=\
-	"..\..\..\..\config\config.h"\
-	"..\include\buttonview.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\buttonview.obj" : $(SOURCE) $(DEP_CPP_BUTTO) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_BUTTO=\
-	"..\..\..\..\config\config.h"\
-	"..\include\buttonview.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\buttonview.obj" : $(SOURCE) $(DEP_CPP_BUTTO) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\config\config.win32
 
@@ -879,8 +783,10 @@ InputPath=..\..\..\..\config\config.win32
 
 SOURCE=..\src\control.cpp
 DEP_CPP_CONTR=\
-	"..\..\..\..\config\config.h"\
 	"..\include\control.h"\
+	
+NODEP_CPP_CONTR=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\control.obj" : $(SOURCE) $(DEP_CPP_CONTR) "$(INTDIR)"\
@@ -889,73 +795,22 @@ DEP_CPP_CONTR=\
 
 
 SOURCE=..\src\controlinfo.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_CONTRO=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\utility.h"\
+	
+NODEP_CPP_CONTRO=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\controlinfo.obj" : $(SOURCE) $(DEP_CPP_CONTRO) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_CONTRO=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\utility.h"\
-	
-
-"$(INTDIR)\controlinfo.obj" : $(SOURCE) $(DEP_CPP_CONTRO) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_CONTRO=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\utility.h"\
-	
-
-"$(INTDIR)\controlinfo.obj" : $(SOURCE) $(DEP_CPP_CONTRO) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_CONTRO=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\utility.h"\
-	
-
-"$(INTDIR)\controlinfo.obj" : $(SOURCE) $(DEP_CPP_CONTRO) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\dialview.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_DIALV=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
@@ -973,7 +828,6 @@ DEP_CPP_DIALV=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
 	"..\include\bitmapview.h"\
 	"..\include\buttonview.h"\
@@ -994,211 +848,34 @@ DEP_CPP_DIALV=\
 	"..\include\view.h"\
 	"..\include\volumeview.h"\
 	
-
-"$(INTDIR)\dialview.obj" : $(SOURCE) $(DEP_CPP_DIALV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_DIALV=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
+NODEP_CPP_DIALV=\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
 	
 
 "$(INTDIR)\dialview.obj" : $(SOURCE) $(DEP_CPP_DIALV) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_DIALV=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
-	
-
-"$(INTDIR)\dialview.obj" : $(SOURCE) $(DEP_CPP_DIALV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_DIALV=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
-	
-
-"$(INTDIR)\dialview.obj" : $(SOURCE) $(DEP_CPP_DIALV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\dib.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_DIB_C=\
-	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
+	
+NODEP_CPP_DIB_C=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\dib.obj" : $(SOURCE) $(DEP_CPP_DIB_C) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_DIB_C=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	
-
-"$(INTDIR)\dib.obj" : $(SOURCE) $(DEP_CPP_DIB_C) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_DIB_C=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	
-
-"$(INTDIR)\dib.obj" : $(SOURCE) $(DEP_CPP_DIB_C) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_DIB_C=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	
-
-"$(INTDIR)\dib.obj" : $(SOURCE) $(DEP_CPP_DIB_C) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\fontwidth.cpp
-DEP_CPP_FONTW=\
+NODEP_CPP_FONTW=\
 	"..\..\..\..\config\config.h"\
 	
 
-"$(INTDIR)\fontwidth.obj" : $(SOURCE) $(DEP_CPP_FONTW) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
+"$(INTDIR)\fontwidth.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -1304,9 +981,6 @@ DEP_RSC_FREEA=\
 !ENDIF 
 
 SOURCE=..\src\freeampui.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_FREEAM=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
@@ -1326,7 +1000,6 @@ DEP_CPP_FREEAM=\
 	"..\..\..\..\base\include\utility.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
 	"..\include\bitmapview.h"\
 	"..\include\buttonview.h"\
@@ -1353,174 +1026,16 @@ DEP_CPP_FREEAM=\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
 	
-
-"$(INTDIR)\freeampui.obj" : $(SOURCE) $(DEP_CPP_FREEAM) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_FREEAM=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\eventdata.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\include\utility.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
+NODEP_CPP_FREEAM=\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\fontwidth.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\prefdialog.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\stringitem.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
 	
 
 "$(INTDIR)\freeampui.obj" : $(SOURCE) $(DEP_CPP_FREEAM) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_FREEAM=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\eventdata.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\include\utility.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\fontwidth.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\prefdialog.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\stringitem.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
-	
-
-"$(INTDIR)\freeampui.obj" : $(SOURCE) $(DEP_CPP_FREEAM) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_FREEAM=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\eventdata.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\include\utility.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\fontwidth.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\prefdialog.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\stringitem.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
-	{$(INCLUDE)}"\mmsystem.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
-	
-
-"$(INTDIR)\freeampui.obj" : $(SOURCE) $(DEP_CPP_FREEAM) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\listview.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_LISTV=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
@@ -1538,7 +1053,6 @@ DEP_CPP_LISTV=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
 	"..\include\bitmapview.h"\
 	"..\include\buttonview.h"\
@@ -1559,151 +1073,14 @@ DEP_CPP_LISTV=\
 	"..\include\view.h"\
 	"..\include\volumeview.h"\
 	
-
-"$(INTDIR)\listview.obj" : $(SOURCE) $(DEP_CPP_LISTV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_LISTV=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
+NODEP_CPP_LISTV=\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
 	
 
 "$(INTDIR)\listview.obj" : $(SOURCE) $(DEP_CPP_LISTV) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_LISTV=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
-	
-
-"$(INTDIR)\listview.obj" : $(SOURCE) $(DEP_CPP_LISTV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_LISTV=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
-	
-
-"$(INTDIR)\listview.obj" : $(SOURCE) $(DEP_CPP_LISTV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\mutex.cpp
 DEP_CPP_MUTEX=\
@@ -1715,11 +1092,10 @@ DEP_CPP_MUTEX=\
 
 
 SOURCE=..\..\..\..\base\src\playlist.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\event.h"\
+	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\metadata.h"\
@@ -1731,34 +1107,11 @@ DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\include\utility.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\config\config.h"\
 	
 NODEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\win32impl.h"\
-	
-
-"$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_PLAYL=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\registrar.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -1766,145 +1119,32 @@ DEP_CPP_PLAYL=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_PLAYL=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\registrar.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_PLAYL=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\registrar.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\config\config.h"\
-	
-NODEP_CPP_PLAYL=\
-	"..\..\..\..\base\include\win32impl.h"\
-	
-
-"$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\prefdialog.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_PREFD=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\config\config.h"\
 	"..\include\prefdialog.h"\
 	
 NODEP_CPP_PREFD=\
 	"..\..\..\..\base\include\win32impl.h"\
-	
-
-"$(INTDIR)\prefdialog.obj" : $(SOURCE) $(DEP_CPP_PREFD) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_PREFD=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\registrar.h"\
-	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\config\config.h"\
-	"..\include\prefdialog.h"\
 	
 
 "$(INTDIR)\prefdialog.obj" : $(SOURCE) $(DEP_CPP_PREFD) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_PREFD=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\registrar.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\config\config.h"\
-	"..\include\prefdialog.h"\
-	
-
-"$(INTDIR)\prefdialog.obj" : $(SOURCE) $(DEP_CPP_PREFD) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_PREFD=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\registrar.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\config\config.h"\
-	"..\include\prefdialog.h"\
-	
-NODEP_CPP_PREFD=\
-	"..\..\..\..\base\include\win32impl.h"\
-	
-
-"$(INTDIR)\prefdialog.obj" : $(SOURCE) $(DEP_CPP_PREFD) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\base\src\preferences.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_PREFE=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
+	
+NODEP_CPP_PREFE=\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -1912,77 +1152,18 @@ DEP_CPP_PREFE=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\base\src\registrar.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_REGIS=\
+	"..\..\..\..\base\include\debug.h"\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\hashtable.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\config\config.h"\
 	
 NODEP_CPP_REGIS=\
 	"..\..\..\..\base\include\win32impl.h"\
-	
-
-"$(INTDIR)\registrar.obj" : $(SOURCE) $(DEP_CPP_REGIS) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_REGIS=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\registrar.h"\
-	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -1990,47 +1171,12 @@ DEP_CPP_REGIS=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_REGIS=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\registrar.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\registrar.obj" : $(SOURCE) $(DEP_CPP_REGIS) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_REGIS=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\registrar.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\config\config.h"\
-	
-NODEP_CPP_REGIS=\
-	"..\..\..\..\base\include\win32impl.h"\
-	
-
-"$(INTDIR)\registrar.obj" : $(SOURCE) $(DEP_CPP_REGIS) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\base\src\registry.cpp
 DEP_CPP_REGIST=\
 	"..\..\..\..\base\include\registry.h"\
+	
+NODEP_CPP_REGIST=\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -2041,9 +1187,11 @@ DEP_CPP_REGIST=\
 
 SOURCE=..\src\renderer.cpp
 DEP_CPP_RENDE=\
-	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\renderer.h"\
+	
+NODEP_CPP_RENDE=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\renderer.obj" : $(SOURCE) $(DEP_CPP_RENDE) "$(INTDIR)"\
@@ -2052,9 +1200,6 @@ DEP_CPP_RENDE=\
 
 
 SOURCE=..\src\resizeview.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_RESIZ=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
@@ -2072,7 +1217,6 @@ DEP_CPP_RESIZ=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
 	"..\include\bitmapview.h"\
 	"..\include\buttonview.h"\
@@ -2093,215 +1237,30 @@ DEP_CPP_RESIZ=\
 	"..\include\view.h"\
 	"..\include\volumeview.h"\
 	
-
-"$(INTDIR)\resizeview.obj" : $(SOURCE) $(DEP_CPP_RESIZ) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_RESIZ=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
+NODEP_CPP_RESIZ=\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
 	
 
 "$(INTDIR)\resizeview.obj" : $(SOURCE) $(DEP_CPP_RESIZ) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_RESIZ=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
-	
-
-"$(INTDIR)\resizeview.obj" : $(SOURCE) $(DEP_CPP_RESIZ) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_RESIZ=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\metadata.h"\
-	"..\..\..\..\base\include\playlist.h"\
-	"..\..\..\..\base\include\playlistformat.h"\
-	"..\..\..\..\base\include\plmevent.h"\
-	"..\..\..\..\base\include\portabledevice.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\queue.h"\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\..\..\include\ui.h"\
-	"..\include\bitmapview.h"\
-	"..\include\buttonview.h"\
-	"..\include\control.h"\
-	"..\include\controlinfo.h"\
-	"..\include\dialview.h"\
-	"..\include\dib.h"\
-	"..\include\freeampui.h"\
-	"..\include\listitem.h"\
-	"..\include\listview.h"\
-	"..\include\renderer.h"\
-	"..\include\resizeview.h"\
-	"..\include\scrollview.h"\
-	"..\include\statusview.h"\
-	"..\include\textview.h"\
-	"..\include\timeview.h"\
-	"..\include\utility.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
-	
-
-"$(INTDIR)\resizeview.obj" : $(SOURCE) $(DEP_CPP_RESIZ) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\scrollview.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_SCROL=\
-	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\renderer.h"\
 	"..\include\scrollview.h"\
 	"..\include\view.h"\
+	
+NODEP_CPP_SCROL=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\scrollview.obj" : $(SOURCE) $(DEP_CPP_SCROL) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_SCROL=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\scrollview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\scrollview.obj" : $(SOURCE) $(DEP_CPP_SCROL) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_SCROL=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\scrollview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\scrollview.obj" : $(SOURCE) $(DEP_CPP_SCROL) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_SCROL=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\scrollview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\scrollview.obj" : $(SOURCE) $(DEP_CPP_SCROL) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\semaphore.cpp
 DEP_CPP_SEMAP=\
@@ -2313,230 +1272,64 @@ DEP_CPP_SEMAP=\
 
 
 SOURCE=..\src\statusview.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_STATU=\
-	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\renderer.h"\
 	"..\include\statusview.h"\
 	"..\include\view.h"\
+	
+NODEP_CPP_STATU=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\statusview.obj" : $(SOURCE) $(DEP_CPP_STATU) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_STATU=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\statusview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\statusview.obj" : $(SOURCE) $(DEP_CPP_STATU) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_STATU=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\statusview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\statusview.obj" : $(SOURCE) $(DEP_CPP_STATU) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_STATU=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\statusview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\statusview.obj" : $(SOURCE) $(DEP_CPP_STATU) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\stringitem.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_STRIN=\
-	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\listitem.h"\
 	"..\include\renderer.h"\
 	"..\include\stringitem.h"\
+	
+NODEP_CPP_STRIN=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\stringitem.obj" : $(SOURCE) $(DEP_CPP_STRIN) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_STRIN=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\listitem.h"\
-	"..\include\renderer.h"\
-	"..\include\stringitem.h"\
-	
-
-"$(INTDIR)\stringitem.obj" : $(SOURCE) $(DEP_CPP_STRIN) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_STRIN=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\listitem.h"\
-	"..\include\renderer.h"\
-	"..\include\stringitem.h"\
-	
-
-"$(INTDIR)\stringitem.obj" : $(SOURCE) $(DEP_CPP_STRIN) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_STRIN=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\listitem.h"\
-	"..\include\renderer.h"\
-	"..\include\stringitem.h"\
-	
-
-"$(INTDIR)\stringitem.obj" : $(SOURCE) $(DEP_CPP_STRIN) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\textview.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_TEXTV=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\renderer.h"\
 	"..\include\textview.h"\
 	"..\include\view.h"\
+	
+NODEP_CPP_TEXTV=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\textview.obj" : $(SOURCE) $(DEP_CPP_TEXTV) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_TEXTV=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\textview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\textview.obj" : $(SOURCE) $(DEP_CPP_TEXTV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_TEXTV=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\textview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\textview.obj" : $(SOURCE) $(DEP_CPP_TEXTV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_TEXTV=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\textview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\textview.obj" : $(SOURCE) $(DEP_CPP_TEXTV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\base\src\thread.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_THREA=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
 	
 NODEP_CPP_THREA=\
 	"..\..\..\..\base\src\beosthread.h"\
 	"..\..\..\..\base\src\linuxthread.h"\
 	"..\..\..\..\base\src\solaristhread.h"\
-	
-
-"$(INTDIR)\thread.obj" : $(SOURCE) $(DEP_CPP_THREA) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_THREA=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -2544,296 +1337,76 @@ DEP_CPP_THREA=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_THREA=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\thread.obj" : $(SOURCE) $(DEP_CPP_THREA) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_THREA=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-NODEP_CPP_THREA=\
-	"..\..\..\..\base\src\beosthread.h"\
-	"..\..\..\..\base\src\linuxthread.h"\
-	"..\..\..\..\base\src\solaristhread.h"\
-	
-
-"$(INTDIR)\thread.obj" : $(SOURCE) $(DEP_CPP_THREA) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\timeview.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_TIMEV=\
-	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\renderer.h"\
 	"..\include\timeview.h"\
 	"..\include\view.h"\
+	
+NODEP_CPP_TIMEV=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\timeview.obj" : $(SOURCE) $(DEP_CPP_TIMEV) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_TIMEV=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\timeview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\timeview.obj" : $(SOURCE) $(DEP_CPP_TIMEV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_TIMEV=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\timeview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\timeview.obj" : $(SOURCE) $(DEP_CPP_TIMEV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_TIMEV=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\timeview.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\timeview.obj" : $(SOURCE) $(DEP_CPP_TIMEV) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\utility.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_UTILI=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\utility.h"\
+	
+NODEP_CPP_UTILI=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_UTILI=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\utility.h"\
-	
-
-"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_UTILI=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\utility.h"\
-	
-
-"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_UTILI=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\utility.h"\
-	
-
-"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\view.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_VIEW_=\
-	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\view.h"\
+	
+NODEP_CPP_VIEW_=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\view.obj" : $(SOURCE) $(DEP_CPP_VIEW_) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_VIEW_=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\view.obj" : $(SOURCE) $(DEP_CPP_VIEW_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_VIEW_=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\view.obj" : $(SOURCE) $(DEP_CPP_VIEW_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_VIEW_=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\view.h"\
-	
-
-"$(INTDIR)\view.obj" : $(SOURCE) $(DEP_CPP_VIEW_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\volumeview.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_VOLUM=\
-	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\renderer.h"\
 	"..\include\view.h"\
 	"..\include\volumeview.h"\
+	
+NODEP_CPP_VOLUM=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\volumeview.obj" : $(SOURCE) $(DEP_CPP_VOLUM) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_VOLUM=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
-	
-
-"$(INTDIR)\volumeview.obj" : $(SOURCE) $(DEP_CPP_VOLUM) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_VOLUM=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
-	
-
-"$(INTDIR)\volumeview.obj" : $(SOURCE) $(DEP_CPP_VOLUM) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_VOLUM=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	"..\include\view.h"\
-	"..\include\volumeview.h"\
-	
-
-"$(INTDIR)\volumeview.obj" : $(SOURCE) $(DEP_CPP_VOLUM) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32prefs.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_WIN32=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\win32\include\win32prefs.h"\
+	
+NODEP_CPP_WIN32=\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -2841,58 +1414,13 @@ DEP_CPP_WIN32=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_WIN32T=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
+	
+NODEP_CPP_WIN32T=\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -2900,47 +1428,6 @@ DEP_CPP_WIN32T=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 !IF  "$(CFG)" == "freeampui - Win32 Release"
 

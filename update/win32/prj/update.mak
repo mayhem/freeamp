@@ -29,10 +29,6 @@ NULL=
 NULL=nul
 !ENDIF 
 
-CPP=cl.exe
-MTL=midl.exe
-RSC=rc.exe
-
 !IF  "$(CFG)" == "update - Win32 Release"
 
 OUTDIR=.\Release
@@ -59,6 +55,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /ML /W3 /GX /O2 /I "..\\" /I "..\..\include" /I "..\include"\
  /I "..\..\..\io\include" /I "..\..\..\base\include" /I\
  "..\..\..\base\win32\include" /I "..\..\..\config" /I "..\..\..\ui\include" /I\
@@ -66,7 +63,40 @@ CPP_PROJ=/nologo /ML /W3 /GX /O2 /I "..\\" /I "..\..\include" /I "..\include"\
  /Fp"$(INTDIR)\update.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Release/
 CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\update.res" /d "NDEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\update.bsc" 
@@ -126,6 +156,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /MLd /W3 /Gm /GX /Zi /Od /I "..\\" /I "..\..\include" /I\
  "..\include" /I "..\..\..\io\include" /I "..\..\..\base\include" /I\
  "..\..\..\base\win32\include" /I "..\..\..\config" /I "..\..\..\ui\include" /I\
@@ -133,7 +164,40 @@ CPP_PROJ=/nologo /MLd /W3 /Gm /GX /Zi /Od /I "..\\" /I "..\..\include" /I\
  /Fp"$(INTDIR)\update.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\update.res" /d "_DEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\update.bsc" 
@@ -201,6 +265,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /MLd /W3 /Gm /GX /Zi /Od /I "..\\" /I "..\..\include" /I\
  "..\include" /I "..\..\..\io\include" /I "..\..\..\base\include" /I\
  "..\..\..\base\win32\include" /I "..\..\..\config" /I "..\..\..\ui\include" /I\
@@ -209,7 +274,40 @@ CPP_PROJ=/nologo /MLd /W3 /Gm /GX /Zi /Od /I "..\\" /I "..\..\include" /I\
  /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Debug/
 CPP_SBRS=.\Debug/
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\update.res" /d "_DEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\update.bsc" 
@@ -279,6 +377,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /ML /W3 /GX /O2 /I "..\\" /I "..\..\include" /I "..\include"\
  /I "..\..\..\io\include" /I "..\..\..\base\include" /I\
  "..\..\..\base\win32\include" /I "..\..\..\config" /I "..\..\..\ui\include" /I\
@@ -286,7 +385,40 @@ CPP_PROJ=/nologo /ML /W3 /GX /O2 /I "..\\" /I "..\..\include" /I "..\include"\
  /Fp"$(INTDIR)\update.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Release/
 CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\update.res" /d "NDEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\update.bsc" 
@@ -319,44 +451,11 @@ $(DS_POSTBUILD_DEP) : ".\update.exe"
 
 !ENDIF 
 
-.c{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
 
 !IF "$(CFG)" == "update - Win32 Release" || "$(CFG)" == "update - Win32 Debug"\
  || "$(CFG)" == "update - Win32 NASM Debug" || "$(CFG)" ==\
  "update - Win32 NASM Release"
 SOURCE=..\main.cpp
-
-!IF  "$(CFG)" == "update - Win32 Release"
-
 DEP_CPP_MAIN_=\
 	"..\..\..\base\include\errors.h"\
 	"..\..\..\base\include\facontext.h"\
@@ -367,9 +466,14 @@ DEP_CPP_MAIN_=\
 	"..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
+	"..\..\..\lib\xml\include\Parse.h"\
 	
+NODEP_CPP_MAIN_=\
+	"..\..\..\config\config.h"\
+	
+
+!IF  "$(CFG)" == "update - Win32 Release"
+
 
 "$(INTDIR)\main.obj" : $(SOURCE) $(DEP_CPP_MAIN_) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
@@ -377,19 +481,6 @@ DEP_CPP_MAIN_=\
 
 !ELSEIF  "$(CFG)" == "update - Win32 Debug"
 
-DEP_CPP_MAIN_=\
-	"..\..\..\base\include\errors.h"\
-	"..\..\..\base\include\facontext.h"\
-	"..\..\..\base\include\log.h"\
-	"..\..\..\base\include\preferences.h"\
-	"..\..\..\base\include\thread.h"\
-	"..\..\..\base\include\updatemanager.h"\
-	"..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	
 
 "$(INTDIR)\main.obj" : $(SOURCE) $(DEP_CPP_MAIN_) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
@@ -397,19 +488,6 @@ DEP_CPP_MAIN_=\
 
 !ELSEIF  "$(CFG)" == "update - Win32 NASM Debug"
 
-DEP_CPP_MAIN_=\
-	"..\..\..\base\include\errors.h"\
-	"..\..\..\base\include\facontext.h"\
-	"..\..\..\base\include\log.h"\
-	"..\..\..\base\include\preferences.h"\
-	"..\..\..\base\include\thread.h"\
-	"..\..\..\base\include\updatemanager.h"\
-	"..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	
 
 "$(INTDIR)\main.obj"	"$(INTDIR)\main.sbr" : $(SOURCE) $(DEP_CPP_MAIN_)\
  "$(INTDIR)"
@@ -418,19 +496,6 @@ DEP_CPP_MAIN_=\
 
 !ELSEIF  "$(CFG)" == "update - Win32 NASM Release"
 
-DEP_CPP_MAIN_=\
-	"..\..\..\base\include\errors.h"\
-	"..\..\..\base\include\facontext.h"\
-	"..\..\..\base\include\log.h"\
-	"..\..\..\base\include\preferences.h"\
-	"..\..\..\base\include\thread.h"\
-	"..\..\..\base\include\updatemanager.h"\
-	"..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	
 
 "$(INTDIR)\main.obj" : $(SOURCE) $(DEP_CPP_MAIN_) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
@@ -442,6 +507,8 @@ SOURCE=..\..\..\base\src\preferences.cpp
 DEP_CPP_PREFE=\
 	"..\..\..\base\include\errors.h"\
 	"..\..\..\base\include\preferences.h"\
+	
+NODEP_CPP_PREFE=\
 	"..\..\..\config\config.h"\
 	
 
@@ -477,15 +544,17 @@ DEP_CPP_PREFE=\
 !ENDIF 
 
 SOURCE=..\..\..\base\win32\src\win32prefs.cpp
-
-!IF  "$(CFG)" == "update - Win32 Release"
-
 DEP_CPP_WIN32=\
 	"..\..\..\base\include\errors.h"\
 	"..\..\..\base\include\preferences.h"\
 	"..\..\..\base\win32\include\win32prefs.h"\
+	
+NODEP_CPP_WIN32=\
 	"..\..\..\config\config.h"\
 	
+
+!IF  "$(CFG)" == "update - Win32 Release"
+
 
 "$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
@@ -493,12 +562,6 @@ DEP_CPP_WIN32=\
 
 !ELSEIF  "$(CFG)" == "update - Win32 Debug"
 
-DEP_CPP_WIN32=\
-	"..\..\..\base\include\errors.h"\
-	"..\..\..\base\include\preferences.h"\
-	"..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\config\config.h"\
-	
 
 "$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
@@ -506,12 +569,6 @@ DEP_CPP_WIN32=\
 
 !ELSEIF  "$(CFG)" == "update - Win32 NASM Debug"
 
-DEP_CPP_WIN32=\
-	"..\..\..\base\include\errors.h"\
-	"..\..\..\base\include\preferences.h"\
-	"..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\config\config.h"\
-	
 
 "$(INTDIR)\win32prefs.obj"	"$(INTDIR)\win32prefs.sbr" : $(SOURCE)\
  $(DEP_CPP_WIN32) "$(INTDIR)"
@@ -520,12 +577,6 @@ DEP_CPP_WIN32=\
 
 !ELSEIF  "$(CFG)" == "update - Win32 NASM Release"
 
-DEP_CPP_WIN32=\
-	"..\..\..\base\include\errors.h"\
-	"..\..\..\base\include\preferences.h"\
-	"..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\config\config.h"\
-	
 
 "$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
@@ -540,7 +591,7 @@ SOURCE=..\res\update.rc
 
 "$(INTDIR)\update.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\update.res" /i\
- "\Local\src\freeamp1.5\update\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\update\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "update - Win32 Debug"
@@ -548,7 +599,7 @@ SOURCE=..\res\update.rc
 
 "$(INTDIR)\update.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\update.res" /i\
- "\Local\src\freeamp1.5\update\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\update\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "update - Win32 NASM Debug"
@@ -556,7 +607,7 @@ SOURCE=..\res\update.rc
 
 "$(INTDIR)\update.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\update.res" /i\
- "\Local\src\freeamp1.5\update\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\update\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "update - Win32 NASM Release"
@@ -564,7 +615,7 @@ SOURCE=..\res\update.rc
 
 "$(INTDIR)\update.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\update.res" /i\
- "\Local\src\freeamp1.5\update\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\update\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ENDIF 

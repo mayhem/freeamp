@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.39 1999/10/09 18:52:57 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.40 1999/10/11 21:25:02 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -331,7 +331,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
 
       case INFO_PrefsChanged:
       {
-         //ReloadTheme();
+         ReloadTheme();
       	 break;
       }
       
@@ -723,8 +723,7 @@ void FreeAmpTheme::ShowOptions(void)
 #else
     pWindow = new GTKPreferenceWindow(m_pContext, m_pThemeMan);
 #endif       
-    if (pWindow->Show(m_pWindow))
-    	  ReloadTheme();
+    pWindow->Show(m_pWindow);
           
     delete pWindow;
 }

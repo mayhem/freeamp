@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.1.2.8 1999/10/06 17:53:23 robert Exp $
+   $Id: Parse.cpp,v 1.1.2.9 1999/10/11 21:24:49 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -37,7 +37,7 @@ const int iMaxPCDataLength = 4096;
 
 Parse::Parse(void)
 {
-	 m_oLastError = string("");
+	m_oLastError = string("");
     m_iErrorLine = 1;
     m_fpFile = NULL;
 }

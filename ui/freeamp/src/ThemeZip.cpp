@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.1.2.6 1999/10/11 04:20:00 ijr Exp $
+   $Id: ThemeZip.cpp,v 1.1.2.7 1999/10/11 21:25:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -286,7 +286,7 @@ Error ThemeZip::CleanupThemeZip(void)
    for(i = m_oCreatedFiles.begin(); i != m_oCreatedFiles.end(); i++)
    {
    	   if (unlink((*i).c_str()))
-           return kError_Unlink;
+           return kError_UnlinkFailed;
    }        
 
    return kError_NoErr;

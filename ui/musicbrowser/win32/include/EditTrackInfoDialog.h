@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.h,v 1.3 2000/03/01 03:49:30 elrod Exp $
+        $Id: EditTrackInfoDialog.h,v 1.4 2000/05/23 13:37:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EDITTRACKINFO_H_
@@ -44,6 +44,7 @@ class EditTrackInfoDialog
  public:
 
     EditTrackInfoDialog(FAContext* context,
+                        HINSTANCE hinst,
                         HWND hwnd, 
                         const vector<ArtistList*>* artistList, 
                         MetaData* editMetaData,
@@ -66,6 +67,7 @@ class EditTrackInfoDialog
 
  private:
     FAContext* m_context;
+    HINSTANCE m_hinst;
     HWND m_hwnd;
     const vector<ArtistList*>* m_artistList; 
     MetaData* m_editMetaData;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.cpp,v 1.13 2000/03/01 03:49:30 elrod Exp $
+        $Id: EditTrackInfoDialog.cpp,v 1.14 2000/05/23 13:37:30 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -45,13 +45,14 @@ ____________________________________________________________________________*/
 
 
 EditTrackInfoDialog::EditTrackInfoDialog(FAContext* context,
+                                         HINSTANCE hinst,
                                          HWND hwnd, 
                                          const vector<ArtistList*>* artistList,
                                          MetaData* editMetaData,
                                          const char* location):
     m_hwnd(hwnd), m_artistList(artistList), 
     m_editMetaData(editMetaData), m_context(context), 
-    m_location(location)
+    m_location(location), m_hinst(hinst)
 {
 
 }
@@ -87,10 +88,9 @@ BOOL CALLBACK EditTrackInfoDlgProc(HWND hwnd,
 bool EditTrackInfoDialog::Show()   
 {
     bool result = false;
-    HINSTANCE hinst = (HINSTANCE)GetWindowLong(m_hwnd, GWL_HINSTANCE);
 
     result = (0 < DialogBoxParam(
-                          hinst, 
+                          m_hinst, 
                           MAKEINTRESOURCE(IDD_EDITINFO),
                           m_hwnd, 
                           ::EditTrackInfoDlgProc, 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.200 2000/05/23 08:49:23 elrod Exp $
+        $Id: player.cpp,v 1.201 2000/05/23 13:37:30 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1974,6 +1974,7 @@ ServiceEvent(Event * pC)
         case CMD_AddFiles:
         case CMD_LoadTheme:
         case CMD_ShowPreferences:
+        case CMD_EditCurrentPlaylistItemInfo:
             SendEventToUI(pC);
             delete pC;
             break;

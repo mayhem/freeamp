@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cmdlineUI.cpp,v 1.26 2000/08/09 17:28:47 robert Exp $
+        $Id: cmdlineUI.cpp,v 1.27 2000/09/21 17:31:40 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream>
@@ -177,7 +177,7 @@ keyboardServiceFunction(void *pclcio)
             int32     cf = int32((pMe->m_currSeconds + STEP_SIZE) / pMe->m_secondsPerFrame);
 
             if (cf > pMe->m_totalFrames)
-               cf = pMe->m_totalFrames;
+               cf = pMe->m_totalFrames - 1;
             Event    *e = new ChangePositionEvent(cf);
 
             pMe->m_currSeconds += STEP_SIZE;

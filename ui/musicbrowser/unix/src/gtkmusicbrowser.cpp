@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.76 2000/03/28 02:13:58 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.77 2000/04/06 22:36:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -897,6 +897,21 @@ void GTKMusicBrowser::AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist,
     }
 }
 
+void GTKMusicBrowser::AddTracksDoubleClick(vector<PlaylistItem *> *newlist)
+{
+    bool playNow = false;
+
+    m_context->prefs->GetPlayImmediately(&playNow);
+
+    if (playNow) {
+        DeleteListEvent();
+        m_currentindex = 0;
+        AddTracksPlaylistEvent(newlist, true, true);
+    }
+    else
+        AddTracksPlaylistEvent(newlist, true);
+}
+    
 void GTKMusicBrowser::PlayEvent(void)
 {
     m_plm->SetCurrentIndex(m_currentindex);

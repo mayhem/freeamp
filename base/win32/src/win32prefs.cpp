@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32prefs.cpp,v 1.15 2000/01/21 01:03:20 elrod Exp $
+	$Id: win32prefs.cpp,v 1.16 2000/04/06 22:36:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -302,6 +302,16 @@ SetDefaults()
         strcat(path, "\\");
         strcat(path, "My Music");
 	    SetPrefString(kSaveMusicDirPref, path);
+    }
+
+    // set watch this dir value
+    size = sizeof(buf);
+    if (GetPrefString(kWatchThisDirectoryPref, buf, &size) == kError_NoPrefValue)
+    {
+        strcpy(path, cwd);
+        strcat(path, "\\");
+        strcat(path, "My Music");
+            SetPrefString(kWatchThisDirectoryPref, path);
     }
 
     // set db directory value

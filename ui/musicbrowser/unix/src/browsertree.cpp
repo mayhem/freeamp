@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.6 2000/03/25 19:03:58 ijr Exp $
+        $Id: browsertree.cpp,v 1.7 2000/04/06 22:36:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1087,7 +1087,7 @@ static void tree_clicked(GtkWidget *widget, GdkEventButton *event,
 
     if (event->type == GDK_2BUTTON_PRESS) {
         vector<PlaylistItem *> *newlist = p->GetTreeSelection();
-        p->AddTracksPlaylistEvent(newlist, true);
+        p->AddTracksDoubleClick(newlist);
 
 //        if (p->GetTreeClick() == kTreeFavoriteStreamsHead)
 //            p->AddNewStream();

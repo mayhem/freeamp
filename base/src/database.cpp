@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.5 2000/02/20 04:16:16 ijr Exp $
+        $Id: database.cpp,v 1.6 2000/04/06 22:36:40 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -163,17 +163,15 @@ char *Database::NextKey(char *key)
     else
         returnKey = gdbm_firstkey(m_dbase);
 
-    if (!returnKey.dptr) {
-        m_lock->Release();
+    m_lock->Release();
+
+    if (!returnKey.dptr) 
         return NULL;
-    }
  
     nextKey = new char[returnKey.dsize]; 
     strcpy(nextKey, returnKey.dptr);
 
     free(returnKey.dptr);
-
-    m_lock->Release();
 
     if ((nextKey != NULL) && (!strcmp(DATABASE_VERSION_KEY, nextKey)))
         nextKey = NextKey(nextKey);

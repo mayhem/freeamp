@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.24 2000/03/13 21:25:59 ijr Exp $
+        $Id: unixprefs.cpp,v 1.25 2000/04/06 22:36:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -543,6 +543,14 @@ SetDefaults()
         string tempdir = string(getenv("HOME"));
         tempdir += "/MyMusic";
         SetPrefString(kSaveMusicDirPref, tempdir.c_str());
+    }
+
+    size = sizeof(buf);
+    if (GetPrefString(kWatchThisDirectoryPref, buf, &size) == kError_NoPrefValue) 
+    {
+        string tempdir = string(getenv("HOME"));
+        tempdir += "/MyMusic";
+        SetPrefString(kWatchThisDirectoryPref, tempdir.c_str());
     }
 
     Preferences::SetDefaults();

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.29 2000/03/28 02:13:58 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.30 2000/04/06 22:36:41 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -52,7 +52,6 @@ void mouse_move(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
 void button_down(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
 {
     Pos oPos;
-
     oPos.x = (int)e->button.x_root;
     oPos.y = (int)e->button.y_root;
     gdk_threads_leave();

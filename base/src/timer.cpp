@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: timer.cpp,v 1.3 2000/03/31 19:16:34 hiro Exp $
+	$Id: timer.cpp,v 1.4 2000/04/06 22:36:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -39,7 +39,7 @@ ____________________________________________________________________________*/
 
 
 Timer::Timer(uint32 milliseconds):
-m_ticks(milliseconds), m_thread(NULL), m_alive(true)
+m_ticks(milliseconds), m_thread(NULL), m_alive(true), m_sleepFirst(false)
 {
      
 }
@@ -53,6 +53,11 @@ Timer::~Timer()
         m_thread->Resume();
         m_semaphore.Wait();
     }
+}
+
+void Timer::SleepFirst(void)
+{
+    m_sleepFirst = true;
 }
 
 void Timer::Set(uint32 milliseconds)
@@ -73,19 +78,30 @@ void Timer::Start()
 
 void Timer::Stop()
 {
+#ifdef unix
+    if (m_thread) {
+        m_alive = false;
+        m_semaphore.Wait();
+        m_thread = NULL;
+    }
+#else
     if(m_thread)
         m_thread->Suspend();
+#endif
 }
 
 void Timer::ThreadFunction()
 {
+    if (m_sleepFirst)
+        GoToSleep(m_ticks);
+
     do
     {
         Tick();
 
         GoToSleep(m_ticks);
 
-    }while(m_alive);  
+    } while(m_alive);  
 
     m_semaphore.Signal();
 }

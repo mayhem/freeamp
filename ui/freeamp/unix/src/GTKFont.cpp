@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.17 2000/03/13 21:26:00 ijr Exp $
+   $Id: GTKFont.cpp,v 1.18 2000/04/06 22:36:41 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <sys/stat.h>
@@ -232,7 +232,6 @@ Error GTKFont::Load(int iFontHeight, bool bBold, bool bItalic)
                 fontname = BuildFontString(bold, italic, size - 1);
                 gfont = gdk_font_load(fontname.c_str());
                 if (!gfont) {
-//    cout << "fallback.. size is " << size << endl;
                     gfont = gdk_font_load("variable");  
                     if (!gfont) {
                         gfont = gdk_font_load("default");

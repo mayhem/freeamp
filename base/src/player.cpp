@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.34 1999/10/07 07:15:47 elrod Exp $
+        $Id: player.cpp,v 1.133.2.35 1999/10/08 07:50:30 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -143,20 +143,21 @@ EventQueue()
         MKDIR(tempDir);
     }
 
+    string freeampdir = tempDir;
+    freeampdir += DIR_MARKER_STR;
+    freeampdir += "metadatabase";
+    m_musicBrowser->SetDatabase(freeampdir.c_str());
+
     // make sure the music dir exists so we have a place to store our 
     // stuff
 
+    length = _MAX_PATH;
     m_context->prefs->GetPrefString(kSaveMusicDirPref, tempDir, &length);
 
     if(-1 == stat(tempDir, &st))
     {
         MKDIR(tempDir);
     }
-
-    string freeampdir = tempDir;
-    freeampdir += DIR_MARKER_STR;
-    freeampdir += "metadatabase";
-    m_musicBrowser->SetDatabase(freeampdir.c_str());
 
     delete [] tempDir;
     m_dlm = new DownloadManager(m_context);

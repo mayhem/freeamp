@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.4 1998/11/16 02:33:45 jdw Exp $
+##      $Id: Makefile.am,v 1.5 1998/11/25 20:13:43 jdw Exp $
 ##
 ############################################################################
 
@@ -53,4 +53,8 @@ libfauicmdline_a_SOURCES = $(FILES)
 
 INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/lmc/include -I@top_srcdir@/io/include `gtk-config --cflags`
 CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT)
+
+
+
+
 

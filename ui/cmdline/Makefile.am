@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.8 1998/10/22 00:52:02 jdw Exp $
+##      $Id: Makefile.am,v 1.9 1998/11/25 20:13:43 jdw Exp $
 ##
 ############################################################################
 
@@ -49,5 +49,5 @@ CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT)
 all-local: cmdline-local
 
 cmdline-local: cmdlineUI.o
-	gcc -shared -Wl,-soname,freeamp-@target_os@.ui -o freeamp-@target_os@.ui cmdlineUI.o
-	cp freeamp-@target_os@.ui @top_srcdir@/plugins
+	gcc -shared -Wl,-soname,freeampcmd-@target_os@.ui -o freeampcmd-@target_os@.ui cmdlineUI.o
+	cp freeampcmd-@target_os@.ui @top_srcdir@/plugins

@@ -18,20 +18,18 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.4 1998/10/16 23:33:57 jdw Exp $
+##      $Id: Makefile.am,v 1.1 1998/10/16 23:33:57 jdw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
-if AM_HAVE_WIN32
+if AM_HAVE_LINUX
+FILES = soundcardpmo.cpp soundcardlib.cpp
+MYLIBS = libfasndcard.a
+else
 FILES = 
 MYLIBS = 
-TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
-else
-FILES = localfileinput.cpp localfilelib.cpp
-MYLIBS = libfaiolocal.a
-TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 endif
 
 if AM_HAVE_LINUXTHREADS
@@ -39,13 +37,23 @@ REENT = -D_REENTRANT
 endif
 
 noinst_LIBRARIES = $(MYLIBS)
-libfaiolocal_a_SOURCES = $(FILES)
+libfasndcard_a_SOURCES = $(FILES)
 
-INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS)
-CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT) -D__@target_os@__
+INCLUDES = -I@top_srcdir@/base/include -I@top_srcdir@/base/unix/@target_os@/include  -I@srcdir@/../include -I@top_srcdir@/config -I@top_srcdir@/io/include -I@top_srcdir@/ui/include
+CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT) -D__@target_os@__ -fPIC
 
-all-local: localfile-local
 
-localfile-local: localfileinput.o localfilelib.o
-	gcc -shared -Wl,-soname,localfileinput-@target_os@.pmi -o localfileinput-@target_os@.pmi localfileinput.o localfilelib.o
-	cp localfileinput-@target_os@.pmi @top_srcdir@/io
+all-local: sndcard-local
+
+sndcard-local: soundcardpmo.o soundcardlib.o
+	gcc -shared -Wl,-soname,soundcard-@target_os@.pmo -o soundcard-@target_os@.pmo soundcardpmo.o soundcardlib.o
+	cp soundcard-@target_os@.pmo @top_srcdir@/io
+
+
+
+
+
+
+
+
+

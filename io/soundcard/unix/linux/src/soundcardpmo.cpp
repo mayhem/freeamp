@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.3 1998/10/14 17:11:11 jdw Exp $
+	$Id: soundcardpmo.cpp,v 1.1 1998/10/16 23:33:57 jdw Exp $
 ____________________________________________________________________________*/
 
 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.248 2000/10/27 19:58:37 ijr Exp $
+        $Id: player.cpp,v 1.249 2000/10/30 12:45:30 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -331,9 +331,7 @@ Player::
 
     TYPICAL_DELETE(m_context->timerManager);
     TYPICAL_DELETE(m_sigStopMutex);
-#ifndef WIN32
     TYPICAL_DELETE(m_plm);
-#endif
 }
 
 void      

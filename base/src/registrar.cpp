@@ -17,14 +17,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.1 1998/10/15 21:40:27 jdw Exp $
+	$Id: registrar.cpp,v 1.2 1998/10/16 00:21:50 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
 #define STRICT
 #ifdef WIN32
 #include <windows.h>
-#include <commctrl.h>
 #endif // WIN32
 
 #include <stdio.h>

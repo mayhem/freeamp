@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.h,v 1.6 2000/06/05 14:20:25 robert Exp $
+   $Id: Bitmap.h,v 1.7 2000/06/10 18:47:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BITMAP_H__
@@ -43,6 +43,7 @@ class Bitmap
     public:
 
               Bitmap(const string &oName);
+              Bitmap(const string &oName, int i);
      virtual ~Bitmap(void);
 
      virtual void    GetName(string &oName);

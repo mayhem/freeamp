@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.35 2000/06/08 12:53:09 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.36 2000/06/10 18:47:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -287,8 +287,10 @@ Error GTKWindow::VulcanMindMeld(Window *pOther)
 
 void GTKWindow::PanelStateChanged(void)
 {
-    Rect       oRect;
+    Rect       oRect, oWindowRect;
     GdkBitmap *mask;
+
+    GetCanvas()->SetNoScreenUpdate(true);
 
     Window::PanelStateChanged();
 
@@ -298,7 +300,10 @@ void GTKWindow::PanelStateChanged(void)
     gdk_threads_enter();
     if (mask)
         gdk_window_shape_combine_mask(mainWindow->window, mask, 0, 0);
+    gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
     gdk_threads_leave();
+
+    GetCanvas()->SetNoScreenUpdate(false);
 
     ((GTKCanvas *)GetCanvas())->Paint(oRect);
 }
@@ -455,7 +460,7 @@ void GTKWindow::DropFiles(char *filename)
     if (filename) {
         char *filereturn = new char[strlen(filename) + 1];
         strcpy(filereturn, filename);
-        char *temp = strtok(filereturn, "\n");
+        char *temp = strtok(filename, "\n");
         do {
             char *realname = strchr(temp, ':');
             realname++;

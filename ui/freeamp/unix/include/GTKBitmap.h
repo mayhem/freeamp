@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.h,v 1.5 2000/06/05 14:20:25 robert Exp $
+   $Id: GTKBitmap.h,v 1.6 2000/06/10 18:47:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKBITMAP_H__
@@ -43,7 +43,7 @@ class GTKBitmap : public Bitmap
     public:
 
               GTKBitmap(string &oName);
-	      GTKBitmap(int iWidth, int iHeight, string &oName);
+	      GTKBitmap(int iWidth, int iHeight, const string &oName);
      virtual ~GTKBitmap(void);
 
      virtual Error LoadBitmapFromDisk(string &oFile);
@@ -60,6 +60,8 @@ class GTKBitmap : public Bitmap
      GdkPixmap *GetBitmap() { return m_Bitmap; }
      GdkPixmap *GetMask() { return m_MaskBitmap; }
      void       SetMask(GdkPixmap *mask) { m_MaskBitmap = mask; }
+
+void BlitIt(int x, int y);
 
     protected:
      Error ReadleShort(FILE *file, gushort *ret);

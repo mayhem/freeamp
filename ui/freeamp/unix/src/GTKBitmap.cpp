@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.9 2000/06/05 14:20:26 robert Exp $
+   $Id: GTKBitmap.cpp,v 1.10 2000/06/10 18:47:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -64,7 +64,7 @@ GTKBitmap::GTKBitmap(string &oName)
     m_height = 0;
 }
 
-GTKBitmap::GTKBitmap(int iWidth, int iHeight, string &oName) 
+GTKBitmap::GTKBitmap(int iWidth, int iHeight, const string &oName) 
           :Bitmap(oName)
 {
     m_oBitmapName = oName;
@@ -619,3 +619,15 @@ Error GTKBitmap::MakeTransparent(Rect &oRect)
 
     return kError_NoErr;
 }
+
+void GTKBitmap::BlitIt(int x, int y)
+{
+   GdkGC *m_GC;
+
+   gdk_threads_enter();
+   m_GC = gdk_gc_new(gdk_window_foreign_new(GDK_ROOT_WINDOW()));
+   gdk_draw_pixmap(gdk_window_foreign_new(GDK_ROOT_WINDOW()), m_GC, 
+                   m_MaskBitmap, 0, 0, x, y, m_width, m_height);
+   gdk_gc_unref(m_GC);
+   gdk_threads_leave();    
+} 

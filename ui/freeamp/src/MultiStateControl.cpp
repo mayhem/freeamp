@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MultiStateControl.cpp,v 1.9 2000/05/15 09:34:41 robert Exp $
+   $Id: MultiStateControl.cpp,v 1.10 2000/06/10 18:47:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -193,7 +193,7 @@ void MultiStateControl::Init(void)
                      m_oStateBitmapRect[0][CS_Normal].x1; 
         m_oRect.y2 = m_oRect.y1 + m_oStateBitmapRect[0][CS_Normal].y2 -
                      m_oStateBitmapRect[0][CS_Normal].y1; 
-
+        //m_oOrigRect = m_oRect;
     }    
     m_oMutex.Release();
     

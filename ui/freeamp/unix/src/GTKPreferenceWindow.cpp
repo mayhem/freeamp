@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.39 2000/06/06 12:45:06 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.40 2000/06/10 18:47:28 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -629,7 +629,7 @@ void GTKPreferenceWindow::ConvertUnderscoresToggle(int active)
 static void convert_underscores_toggle(GtkWidget *w, GTKPreferenceWindow *p)
 {
     int i = GTK_TOGGLE_BUTTON(w)->active;
-    p->ConvertUnderscoresToggle(i);
+    p->AllowMultipleToggle(i);
 }
 
 void GTKPreferenceWindow::ReclaimTypesToggle(int active)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.13 2000/06/05 14:20:25 robert Exp $
+   $Id: ButtonControl.cpp,v 1.14 2000/06/10 18:47:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -168,11 +168,11 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
        }
        if (m_pPanelToToggle)
        {
-           m_pPanelToToggle->m_bIsOpen = !m_pPanelToToggle->m_bIsOpen;
+           m_pPanelToToggle->TogglePanelPos();
            m_pParent->SendControlMessage(this, CM_TogglePanel);
            return;
        }
-       if (m_oName == "ReloadTheme")
+       if (m_oName == string("ReloadTheme"))
        {
           m_pParent->SendControlMessage(this, CM_Pressed);
           return;
@@ -188,7 +188,7 @@ bool ButtonControl::PosInControl(Pos &oPos)
     bool bRet;
     
     m_oMutex.Acquire();
-    
+
     bRet = m_oRect.IsPosInRect(oPos);
     if (bRet && m_pBitmap)
     {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.46.8.1 2000/06/05 15:57:23 elrod Exp $
+        $Id: preferences.cpp,v 1.46.8.2 2000/06/07 01:55:50 skx Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -89,7 +89,7 @@ const char* kEqualizerSettingsPref = "EqualizerSettings";
 const char* kSavedPlaylistPositionPref = "SavedPlaylistPosition";
 const char* kMusicBrowserPositionPref = "MusicBrowserPosition";
 const char* kMusicBrowserHeaderWidthsPref = "MusicBrowserHeaderWidths";
-const char* kPlaylistHeaderColumns = "Title|Artist|Albumn|Time|Genre";
+const char* kPlaylistHeaderColumns = "Title|Artist|Album|Time|Genre";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -155,7 +155,7 @@ const char* kDefaultEqualizerSettings = "1,50,50,50,50,50,50,50,50,50,50";
 const uint32 kDefaultSavedPlaylistPosition = 0;
 const char* kDefaultMusicBrowserPosition = "-1,-1,-1,-1,-1";
 const char* kDefaultMusicBrowserHeaderWidths = "-1,-1,-1.-1";
-const char* kDefaultPlaylistHeaderColumns = "Title|Artist|Albumn|Time|Genre";
+const char* kDefaultPlaylistHeaderColumns = "Title|Artist|Album|Time|Genre";
 Error
 Preferences::
 SetDefaults()

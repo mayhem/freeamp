@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.45.8.1 2000/06/05 15:57:25 elrod Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.45.8.2 2000/06/07 01:55:50 skx Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -3060,11 +3060,12 @@ bool Win32PreferenceWindow::PrefBrowserProc(HWND hwnd,
 			// "Available" listbox.
 			//
 			char *available [] = {  "Artist",
-									"Title",
 									"Album",
-									"Time",
-									"Genre",
 									"Comment",
+									"Genre",
+									"Location",
+									"Time",
+									"Title",
 									"Year"
 									};
 

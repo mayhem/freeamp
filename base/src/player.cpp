@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.23 1998/10/19 07:51:44 elrod Exp $
+	$Id: player.cpp,v 1.24 1998/10/19 11:01:05 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -170,6 +170,70 @@ Player::~Player() {
         delete m_uiRegistry;
         m_uiRegistry = NULL;
     }
+
+    if(m_argUI)
+    {
+        delete [] m_argUI;
+        m_argUI = NULL;
+    }
+}
+
+
+void Player::SetArgs(int32 argc, char** argv){
+    PlayList* playlist = new PlayList;
+    char *arg = NULL;
+    bool shuffle = false;
+    bool play = false;
+
+    for(int32 i = 1;i < argc; i++) 
+    {
+	    arg = argv[i];
+
+	    if (arg[0] == '-') 
+        {
+	        switch (arg[1]) 
+            {
+		        case 's':
+                {
+                    shuffle = true;
+		            break;
+	            } 
+
+                case 'p':
+                {
+                    play = true;
+		            break;
+	            } 
+
+                case 'u':
+                case 'U':
+                {
+                    if( arg[2] == 'i' ||
+                        arg[2] == 'I')
+                    {
+                        i++;
+                        m_argUI = new char[strlen(arg) + 1];
+                        strcpy(m_argUI, arg);
+                    }
+		            break;
+	            } 
+            }
+        }
+        else 
+        {
+            playlist->Add(arg,0);
+	    }
+    }
+
+    playlist->SetFirst();
+
+    if(shuffle) 
+	    playlist->Shuffle();
+    
+    Player::GetPlayer()->AcceptEvent(new Event(CMD_SetPlaylist,playlist));
+
+    if(play)
+        Player::GetPlayer()->AcceptEvent(new Event(CMD_Play));
 }
 
 void Player::Run(){
@@ -465,14 +529,14 @@ int32 Player::ServiceEvent(Event *pC) {
 	    }
 	    
 	    case CMD_NextMediaPiece:
-		m_myPlayList->SetNext();
-		return 0;
+		    m_myPlayList->SetNext();
+		    return 0;
 	    break;
 	    
-            case CMD_PrevMediaPiece:
-                m_myPlayList->SetPrev();
-                return 0;
-                break;
+        case CMD_PrevMediaPiece:
+            m_myPlayList->SetPrev();
+            return 0;
+            break;
 		
 	    case CMD_Pause: {
 		if (m_lmcRef) {
@@ -514,10 +578,16 @@ int32 Player::ServiceEvent(Event *pC) {
 	    }
 	    
 	    case CMD_SetPlaylist:
-		m_myPlayList = (PlayList *)pC->GetArgument();
-		//m_myPlayList->SetFirst();  // Should be done by object creating the playlist
-		return 0;
-		break;
+
+            if (m_myPlayList) {
+                delete m_myPlayList;
+                m_myPlayList = NULL;
+            }
+
+		    m_myPlayList = (PlayList *)pC->GetArgument();
+
+		    return 0;
+	    	break;
 		
 	    case CMD_QuitPlayer: {
 		Event *e = new Event(CMD_Stop);

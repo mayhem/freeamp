@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.15 1998/10/19 07:51:44 elrod Exp $
+	$Id: main.cpp,v 1.16 1998/10/19 11:01:05 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -104,6 +104,11 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     player->RegisterPMIs(pmi);
     player->RegisterPMOs(pmo);
     player->RegisterUIs(ui);
+
+    // Let the player know if there are special requests from the user
+    // __argc and __argv are magical variables provided for us
+    // in MS's STDLIB.H file. 
+    player->SetArgs(__argc, __argv);
 
     // kick things off... player is now in charge!
     player->Run();

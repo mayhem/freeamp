@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.10 1998/10/19 07:51:44 elrod Exp $
+	$Id: player.h,v 1.11 1998/10/19 11:01:05 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -61,6 +61,7 @@ class Player {
     int32 RegisterUIs(UIRegistry* registry);
 
     void Run();
+    void SetArgs(int32 argc, char** argv);
 
     void testQueue();
     static void EventServiceThreadFunc(void *);

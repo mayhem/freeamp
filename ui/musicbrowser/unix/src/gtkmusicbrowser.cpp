@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.14 1999/10/06 18:47:02 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.15 1999/10/12 21:41:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -95,7 +95,8 @@ vector<PlaylistItem *> *getTreeSelection(GtkWidget *item)
             newlist->push_back(i);
             break; }
         case 5: {
-//            char *fname = (char *)gtk_object_get_user_data(GTK_OBJECT(item));
+            char *fname = (char *)gtk_object_get_user_data(GTK_OBJECT(item));
+            localui->ReadPlaylist(fname, newlist);
             break; }
         default:
             break;
@@ -760,15 +761,15 @@ void open_list()
 {
     localui->SaveCurrentPlaylist();
 
-    FileSelector *filesel = new FileSelector("Open a New Playlist");
+    FileSelector *filesel = new FileSelector("Import a Playlist");
     if (filesel->Run())
-        localui->LoadPlaylist(filesel->GetReturnPath());
+        localui->ImportPlaylist(filesel->GetReturnPath());
     delete filesel;
 }
 
 void save_list()
 {
-    FileSelector *filesel = new FileSelector("Save This Playlist");
+    FileSelector *filesel = new FileSelector("Export This Playlist");
     if (filesel->Run())
         localui->SaveCurrentPlaylist(filesel->GetReturnPath());
     delete filesel;

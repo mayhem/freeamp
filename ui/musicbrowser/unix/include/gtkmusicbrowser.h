@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.1.2.9 1999/10/04 17:57:59 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.1.2.10 1999/10/12 21:41:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -106,6 +106,7 @@ class MusicBrowserUI : public UserInterface {
   
   public:
     /* event callbacks */
+    void ReadPlaylist(char *filename, vector<PlaylistItem *> *plist);
 
     /* gtk-specific code in callbacl*/
     void ExpandCollapseEvent();
@@ -126,6 +127,7 @@ class MusicBrowserUI : public UserInterface {
     void PopUpInfoEditor();
     void SaveCurrentPlaylist(char *path = NULL);
     void LoadPlaylist(char *path);
+    void ImportPlaylist(char *path);
 };
 
 #endif

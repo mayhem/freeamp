@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.15 1999/10/11 22:01:23 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.16 1999/10/12 21:41:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h" 
@@ -48,7 +48,6 @@ MusicBrowserUI::MusicBrowserUI(FAContext *context)
 MusicBrowserUI::~MusicBrowserUI()
 {
 }
-
 
 Error MusicBrowserUI::Init(int32 startup_level) 
 {
@@ -272,7 +271,7 @@ void MusicBrowserUI::SaveCurrentPlaylist(char *path)
     if (m_currentListName == "")
         return;
 
-    char *ext = strrchr(path, '.');
+    char *ext = strrchr(m_currentListName.c_str(), '.');
     if (ext)
         ext = ext + 1;
     Error result = kError_NoErr;
@@ -297,13 +296,20 @@ void MusicBrowserUI::SaveCurrentPlaylist(char *path)
     m_plm->WritePlaylist((char *)m_currentListName.c_str(), &format);
 }
 
+void MusicBrowserUI::ImportPlaylist(char *path)
+{
+    if (!path)
+        return;
+    m_context->browser->m_catalog->AddPlaylist(path);
+    UpdateCatalog();
+}
+
 void MusicBrowserUI::LoadPlaylist(char *path)
 {
     Error err;
 
     if (!path)
         return;
-
 
     err = m_plm->ReadPlaylist(path);
     if (err == kError_NoErr) {
@@ -314,4 +320,9 @@ void MusicBrowserUI::LoadPlaylist(char *path)
             gdk_threads_leave();
         }
     }
+}
+
+void MusicBrowserUI::ReadPlaylist(char *path, vector<PlaylistItem *> *plist)
+{
+    m_plm->ReadPlaylist(path, plist);
 }

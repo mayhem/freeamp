@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pls.cpp,v 1.2 1999/11/10 23:46:28 robert Exp $
+	$Id: pls.cpp,v 1.3 1999/11/11 00:29:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -273,7 +273,7 @@ void PLS::AddItem(vector<PlaylistItem*>* list, char *entry,
             entry[index] = 0x00;
         }
         else
-            return;
+            break;
     }
 
     // is there anything left?

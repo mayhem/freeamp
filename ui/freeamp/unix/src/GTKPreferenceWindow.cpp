@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.7 1999/11/08 23:31:50 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.8 1999/11/09 00:45:51 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -106,12 +106,12 @@ bool GTKPreferenceWindow::Show(Window *pWindow)
    
     GtkWidget *pane;
     GtkWidget *label;
-
+/*
     label = gtk_label_new("General");
     gtk_widget_show(label);
     pane = CreatePage1();
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), pane, label);
-
+*/
     label = gtk_label_new("Themes");
     gtk_widget_show(label);
     pane = CreatePage5();

@@ -100,6 +100,7 @@
 #define IDD_PREF_ADVANCED               233
 #define IDD_PREF_PLUGINS                234
 #define IDD_PREF_DIRECTORY              235
+#define IDD_PREF_BROWSER                236
 #define IDB_CHECKED                     542
 #define IDB_UNCHECKED                   543
 #define IDC_FADE                        1001
@@ -177,6 +178,10 @@
 #define IDC_ADD                         1065
 #define IDC_ADDDIR                      1065
 #define IDC_REMOVEDIR                   1066
+#define IDC_AVAILABLE_COLUMN_LIST       1069
+#define IDC_CURRENT_COLUMN_LIST         1070
+#define IDC_REMOVE_COLUMN               1071
+#define IDC_ADD_COLUMN                  1072
 #define IDMC_MYMUSIC                    6900
 #define IDMC_PLAY                       6901
 #define IDMC_STOP                       6902
@@ -194,7 +199,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        201
 #define _APS_NEXT_COMMAND_VALUE         40013
-#define _APS_NEXT_CONTROL_VALUE         1067
+#define _APS_NEXT_CONTROL_VALUE         1072
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.40.2.1 2000/02/24 04:55:37 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.40.2.2 2000/02/26 20:03:05 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -517,7 +517,7 @@ Error MusicCatalog::Remove(const char *url)
 
     if (!strncmp("P", data, 1))
         retvalue = RemovePlaylist(url);
-    else if (!strncmp("M", data, 1))
+    else if (!strncmp("M", data, 1)) 
         retvalue = RemoveSong(url);
     else if (!strncmp("S", data, 1))
         retvalue = RemoveStream(url);
@@ -616,15 +616,50 @@ void MusicCatalog::SetDatabase(const char *path)
         m_database = NULL;
     }
 
-    PruneDatabase();
-
     if (m_database) {
         RePopulateFromDatabase();
+        PruneDatabase(true, true);
         Sort();
     }
 }
 
-void MusicCatalog::PruneDatabase(void)
+typedef struct PruneThreadStruct {
+    MusicCatalog *mc;
+    Thread *thread;
+    bool sendmessages;
+} PruneThreadStruct;
+
+void MusicCatalog::PruneDatabase(bool sendmessages, bool spawn)
+{
+    if (spawn) {
+        Thread *thread = Thread::CreateThread();
+
+        if (thread) {
+            PruneThreadStruct *pts = new PruneThreadStruct;
+
+            pts->mc = this;
+            pts->sendmessages = sendmessages;
+            pts->thread = thread;
+
+            thread->Create(prune_thread_function, pts);
+        }
+    }
+    else {
+        PruneThread(sendmessages);
+    }
+}
+
+void MusicCatalog::prune_thread_function(void *arg)
+{
+    PruneThreadStruct *pts = (PruneThreadStruct *)arg;
+
+    pts->mc->PruneThread(pts->sendmessages);
+
+    delete pts->thread;
+    delete pts;
+}
+
+void MusicCatalog::PruneThread(bool sendmessages)
 {
     char *key = m_database->NextKey(NULL);
     struct stat st;
@@ -634,12 +669,18 @@ void MusicCatalog::PruneDatabase(void)
             uint32 length = strlen(key) + 1;
             char *filename = new char[length];
 
-            if (IsntError(URLToFilePath(key, filename, &length)))
+            if (IsntError(URLToFilePath(key, filename, &length))) {
                 if (-1 == stat(filename, &st)) {
-                    m_database->Remove(key);
-                    key = NULL;
+                    if (sendmessages) {
+                        Remove(key);
+                        key = NULL;
+                    }
+                    else {
+                        m_database->Remove(key);
+                        key = NULL;
+                    }
                 }
-
+            }
             delete [] filename;
         }
         key = m_database->NextKey(key);

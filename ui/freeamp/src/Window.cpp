@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.29.2.1 2000/02/23 02:57:26 robert Exp $
+   $Id: Window.cpp,v 1.29.2.2 2000/02/26 20:03:05 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -234,7 +234,6 @@ void Window::GetName(string &oName)
 Error Window::ControlEnable(const string &oTarget, bool bSet, bool &bEnable)
 {
     ControlMapIterator i;
-    int                j;
 
     IncUsageRef();
        
@@ -248,7 +247,7 @@ Error Window::ControlEnable(const string &oTarget, bool bSet, bool &bEnable)
 
     DecUsageRef();
 
-    return (j == 0) ? kError_InvalidParam : kError_NoErr;
+    return kError_NoErr;
 }
 
 Error Window::ControlShow(const string &oTarget, bool bSet, bool &bShow)

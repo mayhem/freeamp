@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.29 2000/02/15 18:42:37 robert Exp $
+   $Id: Theme.cpp,v 1.29.2.1 2000/02/26 20:03:05 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -238,7 +238,8 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
                 
                 delete pZip;
                 return kError_InvalidParam;
-            }    
+            }
+            m_pThemeMan->UseTheme(oFile);
         }
 
         if (IsError(eRet))

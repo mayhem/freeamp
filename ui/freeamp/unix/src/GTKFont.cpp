@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.15 2000/01/18 20:40:39 ijr Exp $
+   $Id: GTKFont.cpp,v 1.15.2.1 2000/02/26 20:03:05 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <sys/stat.h>
@@ -74,7 +74,7 @@ GTKFont::GTKFont(FAContext *context, string &oName, string &oFace,
     HANDLE handle;
  
     m_context->prefs->GetInstallDirectory(dir, &len);
-    ttfbase = string(dir) + "/../share/freeamp/fonts";
+    ttfbase = string(dir) + "/" + BRANDING_SHARE_PATH + "/fonts";
     ttfpath = ttfbase + "/*.ttf";
  
     struct stat st;

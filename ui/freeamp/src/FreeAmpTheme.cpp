@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.4 2000/02/25 00:10:26 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.5 2000/02/26 20:03:05 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -213,6 +213,9 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
 
    szTemp = new char[iLen];
    m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
+
+   if (strlen(szTemp) < 1) 
+       strcpy(szTemp, BRANDING_DEFAULT_THEME);
    
    if (_stat(szTemp, &buf) < 0)
    {
@@ -224,6 +227,9 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
    
       m_pContext->prefs->GetInstallDirectory(dir, &len);
       oThemePath = string(dir);
+#if defined(unix)
+      oThemePath += string(BRANDING_SHARE_PATH);
+#endif
       oThemePath += string(DIR_MARKER_STR);    
       oThemePath += string("themes");
       oThemePath += string(DIR_MARKER_STR);    
@@ -1124,6 +1130,9 @@ void FreeAmpTheme::ReloadTheme(void)
     
        m_pContext->prefs->GetInstallDirectory(dir, &len);
        oThemePath = string(dir);
+#if defined(unix)
+       oThemePath += string(BRANDING_SHARE_PATH);
+#endif
        oThemePath += string(DIR_MARKER_STR);    
        oThemePath += string("themes");
        oThemePath += string(DIR_MARKER_STR);    

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.13 2000/01/18 20:40:40 ijr Exp $
+   $Id: ThemeManager.cpp,v 1.13.2.1 2000/02/26 20:03:05 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -96,7 +96,7 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
         oThemeFileMap[THEME_IN_DEVEL] = m_oDevelTheme;
 
     m_pContext->prefs->GetInstallDirectory(dir, &len);
-    oThemeBasePath = string(dir) + "/../share/freeamp/themes";
+    oThemeBasePath = string(dir) + "/" + BRANDING_SHARE_PATH + "/themes";
     oThemePath = oThemeBasePath + string("/*.fat");    
 
     handle = FindFirstFile((char *)oThemePath.c_str(), &find);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.24 1999/03/17 03:30:56 robert Exp $
+	$Id: freeamp.cpp,v 1.25 1999/04/09 00:32:32 robert Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -358,7 +358,7 @@ Error FreeAmpUI::Init(int32 startup_type)
     wm_hints->initial_state = NormalState;
     wm_hints->input = True;
     wm_hints->icon_pixmap = m_iconPixmap;
-    wm_hints->flags = StateHint | IconPixmapHint | InputHint;
+    wm_hints->flags = StateHint | IconPixmapHint | InputHint | WindowGroupHint;
     
     class_hints->res_name = m_argv[0];
     class_hints->res_class = "Basicwin";
@@ -366,6 +366,8 @@ Error FreeAmpUI::Init(int32 startup_type)
     XSetWMProperties(m_display, m_mainWindow->GetWindow(), &windowName, &iconName, 
 		     m_argv, m_argc, size_hints, wm_hints, 
 		     class_hints);
+
+    XSetCommand(m_display, m_mainWindow->GetWindow(), m_argv, m_argc);
     
     /* Select event types wanted */
     int32 tmpMask = ExposureMask | ButtonReleaseMask |

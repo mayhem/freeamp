@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.27 1998/11/01 23:05:31 jdw Exp $
+	$Id: xinglmc.cpp,v 1.28 1998/11/02 02:34:59 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -190,7 +190,19 @@ Error XingLMC::InitDecoder() {
 			return kError_OutOfMemory;
 		}
 
-		MpegInfoEvent *mie = new MpegInfoEvent(totalFrames,m_frameBytes, bitrate, samprate, layer, ((head.sync & 1)==0)? 2:1,head.mode);
+		MpegInfoEvent *mie = new MpegInfoEvent(totalFrames,
+						       m_frameBytes, 
+						       bitrate, 
+						       samprate, 
+						       layer, 
+						       (head.sync == 2)? 3:(head.id)?1:2,
+						       (head.mode == 0x3 ? 1 : 2),
+						       head.original,
+						       head.prot,
+						       head.emphasis,
+						       head.mode,
+						       head.mode_ext
+		    );
 		if (mie) {
 			if (m_target) m_target->AcceptEvent(mie);
 			mie = NULL;

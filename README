@@ -37,11 +37,20 @@ Helper Application. Then all that needsjust click on the 'New...' button
 to start adding new associations.  For all the following mime-types, fill
 in the Application field to be: freeamp %s
 
-The mimetypes that FreeAmp can handle are: 
-     audio/x-mpeg     audio/x-mp3     audio/x-mpegurl   audio/x-scpls
-     audio/mpeg       audio/mp3       audio/mpegurl     audio/scpls
-     application/vnd.rn-rn_music_package
-     application/x-freeamp-theme
+The mimetypes and their extension that FreeAmp can handle are: 
+     
+     mimetype                             extension
+     ----------------------------------------------
+     audio/x-mpeg                         mp3
+     audio/x-mp3                          mp3
+     audio/mpeg                           mp3
+     audio/mp3                            mp3
+     audio/mpegurl                        m3u 
+     audio/x-mpegurl                      m3u
+     audio/scpls                          pls
+     audio/x-scpls                        pls
+     application/vnd.rn-rn_music_package  rmp
+     application/x-freeamp-theme          fat
 
 Just set up seperate associations for each of these mimetypes, and 
 FreeAmp will be launched whenever you click on a relavent URL in your
@@ -51,7 +60,7 @@ browser.
 USING FREEAMP:
 ----------------------------------------------------------------------
 
-FreeAmp 2.0.1 for Win32 and Linux:
+FreeAmp 2.0.5 for Win32 and Linux:
 
   freeamp [options] [file 1] [file 2]...
 
@@ -107,12 +116,11 @@ The current development and release versions of FreeAmp can be found
 at http://www.freeamp.org.
 
 To join a low volume mailing list which will announce updates to the
-release software, send mail to freeamp-announce-request@freeamp.org
-with the body:  subscribe
+release software, visit:
+http://www.freeamp.org/mailman/listinfo/freeamp-announce 
 
 To join a mailing list actively discussing the ongoing development of
-FreeAmp, send mail to freeamp-dev-request@freeamp.org with the body:
-subscribe
+FreeAmp, visit: http://www.freeamp.org/mailman/listinfo/freeamp-dev 
 
 To make feature suggestions, send mail to freeamp-features@freeamp.org, 
 or, better yet, if you are able, add the feature yourself and send us 

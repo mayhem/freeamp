@@ -1,10 +1,10 @@
 Summary: MP3 audio player with theme user interface and streaming support
 Name: emusic
-Version: 2.0.2
-Release: b1
+Version: 2.0.3
+Release: 1
 Copyright: GPL
 Group: Applications/Multimedia
-Source: ftp://www.freeamp.org/pub/emusic/src/emusic-%{version}-%{release}.tar.gz
+Source: ftp://www.freeamp.org/pub/emusic/src/emusic-%{version}.tar.gz
 Prefix: /usr
 BuildRoot: /var/tmp/%{name}-%{version}-root
 ExcludeArch: sparc

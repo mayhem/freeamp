@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.46 2000/02/16 22:49:37 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.46.4.1 2000/03/06 23:03:09 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -132,7 +132,7 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
 
     Init();
 
-    if (m_pParent == NULL)
+    if(m_pParent == NULL)
     {
        m_plm = m_context->plm;
 
@@ -162,7 +162,8 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
                 m_initialCount = items.size();
                 m_autoPlayHack = true;
 
-                m_plm->AddItems(&items);
+                if(m_initialCount)
+                    m_plm->AddItems(&items);
             }           
        }
     }

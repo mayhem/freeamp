@@ -19,14 +19,17 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.cpp,v 1.3 1999/10/19 07:12:48 elrod Exp $
+	$Id: semaphore.cpp,v 1.3.4.1 2000/02/26 23:03:14 robert Exp $
 ____________________________________________________________________________*/
 
 
 #include "config.h"
 
 #include <pthread.h>
+#include <time.h>
+#include <sys/time.h>
 #include <iostream.h>
+#include <errno.h>
 
 #include "semaphore.h"
 
@@ -46,10 +49,40 @@ void Semaphore::Wait() {
     //decrement the semaphore
     pthread_mutex_lock(&mutex);
     count--;
-    while (count <=0) {
-	pthread_cond_wait(&cond,&mutex);
+    while (count <=0) 
+    {
+        pthread_cond_wait(&cond,&mutex);
     }
     pthread_mutex_unlock(&mutex);
+}
+
+bool Semaphore::TimedWait(int iMilliSecs)
+{
+    struct timespec due;
+    struct timeval  tv;
+    bool            ret = true;
+
+    pthread_mutex_lock(&mutex);
+
+    gettimeofday(&tv, NULL);
+    due.tv_nsec = (tv.tv_usec * 1000) + (iMilliSecs * 1000000);
+    due.tv_sec = tv.tv_sec + (due.tv_nsec / 1000000000);
+    due.tv_nsec %= 1000000000;
+
+    count--;
+    while (count <=0) 
+    {
+        if (pthread_cond_timedwait(&cond,&mutex, &due) == ETIMEDOUT)
+        {
+            count++;
+            ret = false;
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex);
+
+    return ret;
 }
 
 void Semaphore::Signal() {

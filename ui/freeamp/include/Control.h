@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.7 2000/02/16 02:20:47 ijr Exp $
+   $Id: Control.h,v 1.7.2.2 2000/02/23 18:16:20 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -137,6 +137,7 @@ class Control
 
       virtual bool PosInControl(Pos &oPos);
       virtual bool WantsTimingMessages(void);
+      virtual bool UseToDragWindow(void) { return false; };
       virtual void Init(void) = 0;
       virtual void AcceptTransition(ControlTransitionEnum eTrans,
                                     Pos *pMousePos = NULL);
@@ -154,9 +155,9 @@ class Control
       // Call this function to blit the face of the control
       // Args: iFrame: Which frame to blit
       //       iNumFrames: how many frames in the x direction in the bitmap
-      virtual void BlitFrame(int iFrame, int iNumFrames, Rect *pRect = NULL); 
-      virtual void BlitFrameHoriz(int iFrame, int iNumFrames, Rect *pRect = NULL);
-      virtual void BlitFrameVert(int iFrame, int iNumFrames, Rect *pRect = NULL);
+      virtual void BlitFrame(int iFrame, int iNumFrames, Rect *pRect = NULL, bool bUpdate = true); 
+      virtual void BlitFrameHoriz(int iFrame, int iNumFrames, Rect *pRect = NULL, bool bUpdate = true);
+      virtual void BlitFrameVert(int iFrame, int iNumFrames, Rect *pRect = NULL, bool bUpdate = true);
       virtual void BlitMultiStateFrame(int iFrame, int iNumFramesInBitmap,
                                        int iRow, int iNumRowsInBitmap);  
 

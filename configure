@@ -583,7 +583,7 @@ echo "$ac_t""$host" 1>&6
 
 
 cat >> confdefs.h <<EOF
-#define FREEAMP_VERSION "2.0.3"
+#define FREEAMP_VERSION "2.0.5"
 EOF
 
 
@@ -1388,7 +1388,7 @@ else
 fi
 done
 
-for ac_func in getmntinfo
+for ac_func in getmntinfo shmget shmat shmdt semget semctl
 do
 echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
 echo "configure:1395: checking for $ac_func" >&5
@@ -2923,7 +2923,7 @@ fi
   else
      GTK_CFLAGS=`$GTK_CONFIG --cflags`
      GTK_LIBS=`$GTK_CONFIG --libs gthread`
-     min_gtk_version="1.2.2"
+     min_gtk_version="1.2.5"
      echo $ac_n "checking for GTK+ version >= $min_gtk_version""... $ac_c" 1>&6
 echo "configure:2929: checking for GTK+ version >= $min_gtk_version" >&5
      gtk_config_major=`$GTK_CONFIG --version | sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)/\1/'`

@@ -18,10 +18,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.25 2000/01/23 05:57:03 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.25.2.2.2.2 2000/03/04 17:32:52 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
+#include "config.h"
+
 #include <stdlib.h>
 #include <assert.h>
 #include <sys/stat.h>
@@ -1435,7 +1437,7 @@ void GTKPreferenceWindow::DeleteThemeEvent(void)
     }
     Error err = m_pThemeMan->DeleteTheme(m_oThemeList[themeToDelete]);
 
-    if (IsntError(err)) {
+    if (IsError(err)) {
         MessageDialog oBox(m_pContext);
         string        oErr, oMessage;
 
@@ -1463,6 +1465,9 @@ void GTKPreferenceWindow::UpdateThemeList(void)
     m_pThemeMan->GetCurrentTheme(originalValues.currentTheme);
     m_oThemeList.clear();
 
+    gtk_clist_freeze(GTK_CLIST(themeList));
+    gtk_clist_clear(GTK_CLIST(themeList));
+
     m_pThemeMan->GetThemeList(m_oThemeList);
     for (i = m_oThemeList.begin(); i != m_oThemeList.end(); i++, iLoop++) {
          char *Text[1];
@@ -1471,9 +1476,23 @@ void GTKPreferenceWindow::UpdateThemeList(void)
          if ((*i).second == originalValues.currentTheme) 
              originalValues.listboxIndex = proposedValues.listboxIndex 
                                          = currentValues.listboxIndex = iLoop;
+         else {
+             char *name = strrchr((*i).second.c_str(), '/');
+             if (name) {
+                 name++;
+                 if (name && *name) {
+                     if (!strcmp(name, originalValues.currentTheme.c_str())) 
+                         originalValues.listboxIndex = 
+                                             proposedValues.listboxIndex 
+                                           = currentValues.listboxIndex = iLoop;
+                 }
+             }
+         }
     }
 
     gtk_clist_select_row(GTK_CLIST(themeList), proposedValues.listboxIndex, 0);
+
+    gtk_clist_thaw(GTK_CLIST(themeList));
 }
 
 void GTKPreferenceWindow::SetFont()

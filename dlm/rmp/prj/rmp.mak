@@ -111,9 +111,9 @@ BSC32_SBRS= \
 LINK32=link.exe
 LINK32_FLAGS=fabaselib.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
  comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
- odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:no\
- /pdb:"$(OUTDIR)\rmp.pdb" /machine:I386 /def:".\rmp.def" /out:"rmp.dlf"\
- /implib:"$(OUTDIR)\rmp.lib" /libpath:"..\..\..\base\win32" 
+ odbc32.lib odbccp32.lib /nologo /base:"0x11300000" /subsystem:windows /dll\
+ /incremental:no /pdb:"$(OUTDIR)\rmp.pdb" /machine:I386 /def:".\rmp.def"\
+ /out:"rmp.dlf" /implib:"$(OUTDIR)\rmp.lib" /libpath:"..\..\..\base\win32" 
 DEF_FILE= \
 	".\rmp.def"
 LINK32_OBJS= \
@@ -133,7 +133,7 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "fabaselib - Win32 Release" ".\rmp.dlf"
-   IF NOT EXIST ..\..\..\base\win32\prj\plugins mkdir                                 ..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\base\win32\prj\plugins
 	copy rmp.dlf  ..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -222,9 +222,10 @@ BSC32_SBRS= \
 LINK32=link.exe
 LINK32_FLAGS=fabaselib.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
  comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
- odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
- /pdb:"$(OUTDIR)\rmp.pdb" /debug /machine:I386 /def:".\rmp.def" /out:"rmp.dlf"\
- /implib:"$(OUTDIR)\rmp.lib" /pdbtype:sept /libpath:"..\..\..\base\win32" 
+ odbc32.lib odbccp32.lib /nologo /base:"0x11300000" /subsystem:windows /dll\
+ /incremental:yes /pdb:"$(OUTDIR)\rmp.pdb" /debug /machine:I386 /def:".\rmp.def"\
+ /out:"rmp.dlf" /implib:"$(OUTDIR)\rmp.lib" /pdbtype:sept\
+ /libpath:"..\..\..\base\win32" 
 DEF_FILE= \
 	".\rmp.def"
 LINK32_OBJS= \
@@ -244,7 +245,7 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "fabaselib - Win32 Debug" ".\rmp.dlf"
-   IF NOT EXIST ..\..\..\base\win32\prj\plugins mkdir                                 ..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\base\win32\prj\plugins
 	copy rmp.dlf  ..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -330,9 +331,9 @@ BSC32_SBRS= \
 LINK32=link.exe
 LINK32_FLAGS=fabaselib.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
  comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
- odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:no\
- /pdb:"$(OUTDIR)\rmp.pdb" /machine:I386 /def:".\rmp.def" /out:"rmp.dlf"\
- /implib:"$(OUTDIR)\rmp.lib" /libpath:"..\..\..\base\win32" 
+ odbc32.lib odbccp32.lib /nologo /base:"0x11300000" /subsystem:windows /dll\
+ /incremental:no /pdb:"$(OUTDIR)\rmp.pdb" /machine:I386 /def:".\rmp.def"\
+ /out:"rmp.dlf" /implib:"$(OUTDIR)\rmp.lib" /libpath:"..\..\..\base\win32" 
 DEF_FILE= \
 	".\rmp.def"
 LINK32_OBJS= \
@@ -352,7 +353,7 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "fabaselib - Win32 NASM Release" ".\rmp.dlf"
-   IF NOT EXIST ..\..\..\base\win32\prj\plugins mkdir                                 ..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\base\win32\prj\plugins
 	copy rmp.dlf  ..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -440,9 +441,10 @@ BSC32_SBRS= \
 LINK32=link.exe
 LINK32_FLAGS=fabaselib.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
  comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
- odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
- /pdb:"$(OUTDIR)\rmp.pdb" /debug /machine:I386 /def:".\rmp.def" /out:"rmp.dlf"\
- /implib:"$(OUTDIR)\rmp.lib" /pdbtype:sept /libpath:"..\..\..\base\win32" 
+ odbc32.lib odbccp32.lib /nologo /base:"0x11300000" /subsystem:windows /dll\
+ /incremental:yes /pdb:"$(OUTDIR)\rmp.pdb" /debug /machine:I386 /def:".\rmp.def"\
+ /out:"rmp.dlf" /implib:"$(OUTDIR)\rmp.lib" /pdbtype:sept\
+ /libpath:"..\..\..\base\win32" 
 DEF_FILE= \
 	".\rmp.def"
 LINK32_OBJS= \
@@ -462,7 +464,7 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "fabaselib - Win32 NASM Debug" ".\rmp.dlf"
-   IF NOT EXIST ..\..\..\base\win32\prj\plugins mkdir                                 ..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\base\win32\prj\plugins
 	copy rmp.dlf  ..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -472,6 +474,9 @@ $(DS_POSTBUILD_DEP) : "fabaselib - Win32 NASM Debug" ".\rmp.dlf"
 !IF "$(CFG)" == "rmp - Win32 Release" || "$(CFG)" == "rmp - Win32 Debug" ||\
  "$(CFG)" == "rmp - Win32 NASM Release" || "$(CFG)" == "rmp - Win32 NASM Debug"
 SOURCE=..\..\..\lib\xml\src\Parse.cpp
+
+!IF  "$(CFG)" == "rmp - Win32 Release"
+
 DEP_CPP_PARSE=\
 	"..\..\..\base\include\debug.h"\
 	"..\..\..\base\include\errors.h"\
@@ -482,6 +487,47 @@ DEP_CPP_PARSE=\
 "$(INTDIR)\Parse.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 Debug"
+
+DEP_CPP_PARSE=\
+	"..\..\..\base\include\debug.h"\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\Parse.h"\
+	
+
+"$(INTDIR)\Parse.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 NASM Release"
+
+DEP_CPP_PARSE=\
+	"..\..\..\base\include\debug.h"\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\Parse.h"\
+	
+
+"$(INTDIR)\Parse.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 NASM Debug"
+
+DEP_CPP_PARSE=\
+	"..\..\..\base\include\debug.h"\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\Parse.h"\
+	
+
+"$(INTDIR)\Parse.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\rmp.cpp
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.cpp,v 1.7 2000/01/21 01:03:20 elrod Exp $
+	$Id: rmp.cpp,v 1.7.4.1 2000/03/03 23:51:00 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -158,7 +158,6 @@ Error RMP::PCData(string &oData)
     if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/TRACKID"))
     {
         m_oTrackId = oData;
-    	m_pMetaData->SetTrack(atoi(oData.c_str()));
         return kError_NoErr;
     }
     if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/DIR"))

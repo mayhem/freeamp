@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.18 2000/02/06 08:59:16 hiro Exp $
+	$Id: utility.cpp,v 1.18.2.1.2.1 2000/03/04 18:32:38 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -44,6 +44,7 @@ using namespace std;
 #include <shlobj.h>
 #define MKDIR(z) mkdir(z)
 #else
+#include "win32impl.h"
 #include <unistd.h>
 #define MKDIR(z) mkdir(z, 0755)
 #endif
@@ -690,3 +691,102 @@ bool ResolveLink(string& path)
 }
 
 #endif
+
+#ifndef WIN32
+
+const unsigned iCopyBufferSize = 8192;
+
+bool CopyFile(const char *pExistingFileName, 
+              const char *pNewFileName,      // name of new file
+              bool bFailIfExists)      // operation if file exists
+{
+    FILE  *fpDest, *fpSrc;
+    char   szBuffer[iCopyBufferSize];
+    unsigned iRet;
+
+    if (bFailIfExists && !access(pNewFileName, 0))
+        return false;
+
+    fpDest = fopen(pNewFileName, "wb");
+    if (fpDest == NULL)
+        return false;
+
+    fpSrc = fopen(pExistingFileName, "rb");
+    if (fpSrc == NULL)
+        return false;
+
+    for(;;)
+    {
+        iRet = fread(szBuffer, 1, iCopyBufferSize, fpSrc);
+        if (iRet < 0)
+        {
+            fclose(fpDest);
+            fclose(fpSrc);
+            return false;
+        }
+
+        if (fwrite(szBuffer, 1, iRet, fpDest) != iRet)
+        {
+            fclose(fpDest);
+            fclose(fpSrc);
+            return false;
+        }
+        if (iRet != iCopyBufferSize)
+           break; 
+    }
+
+    fclose(fpDest);
+    fclose(fpSrc);
+
+    return true;
+}
+
+#endif
+
+string FindFile(string oPath)
+{
+    char *findpath, *path, *filename, *slash;
+    string retvalue = oPath;
+
+    path = new char[_MAX_PATH];
+    strcpy(path, oPath.c_str());
+
+    slash = strrchr(path, DIR_MARKER);
+
+    if (!slash)
+        return retvalue;
+
+    slash++;
+    filename = new char[strlen(slash) + 1];
+    strcpy(filename, slash);
+    *slash = '\0';
+
+    findpath = new char[strlen(path) + 1];
+    strcpy(findpath, path);
+
+    strcat(findpath, "*");
+#ifdef WIN32
+    strcat(findpath, ".*");
+#endif
+
+    WIN32_FIND_DATA find;
+    HANDLE handle;
+
+    handle = FindFirstFile(findpath, &find);
+    if (handle != INVALID_HANDLE_VALUE) {
+        do {
+            if (!strcasecmp(find.cFileName, filename)) {
+                retvalue = string(path) + string(find.cFileName);
+                break;
+            }
+        }
+        while (FindNextFile(handle, &find));
+        FindClose(handle);
+    }
+
+    delete [] findpath;
+    delete [] path;
+    delete [] filename;
+
+    return retvalue;
+}

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.6 2000/02/08 20:03:16 robert Exp $
+   $Id: SliderControl.cpp,v 1.6.2.2.2.1 2000/03/07 18:53:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -83,6 +83,9 @@ void SliderControl::Transition(ControlTransitionEnum  eTrans,
 {
     Rect oRect;
 
+    if (m_eCurrentState == CS_Dragging && eTrans == CT_SetValue)
+        return;
+    
     switch(eTrans)
     {
        case CT_MouseEnter:
@@ -244,7 +247,7 @@ void SliderControl::HandleJump(ControlTransitionEnum  eTrans,
 void SliderControl::HandleDrag(ControlTransitionEnum  eTrans,
                                Pos                   *pPos)
 {
-    int     iDelta, iNewPos;
+    int     iDelta, iNewPos, iOldPos;
 
     m_oMutex.Acquire();
 
@@ -275,34 +278,30 @@ void SliderControl::HandleDrag(ControlTransitionEnum  eTrans,
         m_oMutex.Release();
         return;
     }    
-    m_oMutex.Release();
 
-	MoveThumb(m_iCurrentPos, iNewPos);
-
-    m_oMutex.Acquire();
-
+    iOldPos = m_iCurrentPos;
     m_iCurrentPos = iNewPos;
     m_oLastPos = *pPos;
     
 	m_iValue = (m_iCurrentPos * 100) / m_iRange;
     m_oMutex.Release();
 
+	MoveThumb(iOldPos, iNewPos);
     m_pParent->SendControlMessage(this, CM_SliderUpdate);
 }
 
 void SliderControl::MoveThumb(int iCurrentPos, int iNewPos)
 {
     Canvas *pCanvas;
-    Rect    oRect;
+    Rect    oEraseRect, oRect;
 
-    oRect.x1 = m_oRect.x1 + iCurrentPos;
-    oRect.x2 = oRect.x1 + m_iThumbWidth + 1;
-    oRect.y1 = m_oRect.y1;
-    oRect.y2 = m_oRect.y2 + 1;
+    oEraseRect.x1 = m_oRect.x1 + iCurrentPos;
+    oEraseRect.x2 = oEraseRect.x1 + m_iThumbWidth + 1;
+    oEraseRect.y1 = m_oRect.y1;
+    oEraseRect.y2 = m_oRect.y2 + 1;
     
     pCanvas = m_pParent->GetCanvas();
-    pCanvas->Erase(oRect);
-    pCanvas->Invalidate(oRect);
+    pCanvas->Erase(oEraseRect);
 
     oRect.x1 = m_oRect.x1 + iNewPos;
     oRect.x2 = oRect.x1 + m_iThumbWidth;
@@ -312,19 +311,22 @@ void SliderControl::MoveThumb(int iCurrentPos, int iNewPos)
     switch(m_eCurrentState)
     {
        case CS_Normal:
-          BlitFrame(0, 3, &oRect);
+          BlitFrame(0, 3, &oRect, false);
           break;
 
        case CS_Dragging:
        case CS_MouseOver:
-          BlitFrame(1, 3, &oRect);
+          BlitFrame(1, 3, &oRect, false);
           break;
 
        case CS_Disabled:
-          BlitFrame(2, 3, &oRect);
+          BlitFrame(2, 3, &oRect, false);
           break;
 
        default:
           break;
     }
-}
+    
+    oEraseRect.Union(oRect);
+    pCanvas->Invalidate(oEraseRect);
+}                                                         

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.49 2000/02/18 10:14:49 elrod Exp $
+	$Id: main.cpp,v 1.49.2.2.2.1 2000/03/03 23:28:50 robert Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -77,8 +77,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
         return 0;
     }
 
-    if (IsWinNT() && IsMultiProcessor())
-        SetProcessAffinityMask(GetCurrentProcess(), 0);
+    //if (IsWinNT() && IsMultiProcessor())
+    //    SetProcessAffinityMask(GetCurrentProcess(), 0);
 
     WSADATA sGawdIHateMicrosoft;
     WSAStartup(0x0002,  &sGawdIHateMicrosoft);
@@ -427,6 +427,12 @@ static LRESULT WINAPI HiddenWndProc(HWND hwnd,
             bool playNow = false;
 
             context->prefs->GetPlayImmediately(&playNow);
+            
+            // If a single theme or rpm file gets passed, don't affect 
+            // the play queue
+            if (strcasecmp("fat", array + strlen(array) - 3) == 0 ||
+                strcasecmp("rmp", array + strlen(array) - 3) == 0)
+                playNow = false;
 
             if(playNow)
             {
@@ -509,7 +515,7 @@ static LRESULT WINAPI HiddenWndProc(HWND hwnd,
                 if(giveToDLM)
                     dlm->ReadDownloadFile(url);
                 else if(giveToTheme)
-                    context->target->AcceptEvent(new LoadThemeEvent(url, ""));
+                    context->player->AddTheme(url);
                 else
                     plm->AddItem(url);
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.6.2.2 2000/02/25 00:17:38 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.6.2.3 2000/02/25 20:08:04 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -154,7 +154,7 @@ Error Win32UpdateManager::UpdateComponents(UMCallBackFunction function,
 		              NULL );
 
 		            // now display this string
- 		            MessageBox(NULL, (char*)lpMessageBuffer, 0, MB_OK);
+ 		            MessageBox(NULL, (char*)lpMessageBuffer, appPath, MB_OK);
 
 		            // Free the buffer allocated by the system
 		            LocalFree( lpMessageBuffer );

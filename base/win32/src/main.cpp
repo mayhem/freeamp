@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.25 1999/04/26 09:01:27 elrod Exp $
+	$Id: main.cpp,v 1.26 1999/05/03 03:52:24 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -188,4 +188,3 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 
 	return 0;
 }
-

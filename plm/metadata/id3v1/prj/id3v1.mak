@@ -448,6 +448,9 @@ $(DS_POSTBUILD_DEP) : ".\id3v1.mdf"
  "$(CFG)" == "id3v1 - Win32 NASM Release" || "$(CFG)" ==\
  "id3v1 - Win32 NASM Debug"
 SOURCE=..\id3v1.cpp
+
+!IF  "$(CFG)" == "id3v1 - Win32 Release"
+
 DEP_CPP_ID3V1=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\facontext.h"\
@@ -455,15 +458,66 @@ DEP_CPP_ID3V1=\
 	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\id3v1.h"\
-	
-NODEP_CPP_ID3V1=\
 	"..\..\..\..\config\config.h"\
+	"..\id3v1.h"\
 	
 
 "$(INTDIR)\id3v1.obj" : $(SOURCE) $(DEP_CPP_ID3V1) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "id3v1 - Win32 Debug"
+
+DEP_CPP_ID3V1=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\facontext.h"\
+	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\config\config.h"\
+	"..\id3v1.h"\
+	
+
+"$(INTDIR)\id3v1.obj" : $(SOURCE) $(DEP_CPP_ID3V1) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "id3v1 - Win32 NASM Release"
+
+DEP_CPP_ID3V1=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\facontext.h"\
+	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\config\config.h"\
+	"..\id3v1.h"\
+	
+
+"$(INTDIR)\id3v1.obj" : $(SOURCE) $(DEP_CPP_ID3V1) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "id3v1 - Win32 NASM Debug"
+
+DEP_CPP_ID3V1=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\facontext.h"\
+	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\config\config.h"\
+	"..\id3v1.h"\
+	
+
+"$(INTDIR)\id3v1.obj" : $(SOURCE) $(DEP_CPP_ID3V1) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\res\id3v1.rc
 

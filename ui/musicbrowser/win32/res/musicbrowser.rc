@@ -38,8 +38,6 @@ BEGIN
                     WS_EX_CLIENTEDGE
     LTEXT           "My Music Catalog:",IDC_MUSICCATALOGTEXT,4,6,59,8
     LTEXT           "Playlist:",IDC_PLAYLISTTEXT,142,6,24,8
-    COMBOBOX        IDC_PLAYLISTCOMBO,173,4,131,73,CBS_DROPDOWNLIST | 
-                    WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "&Up",IDC_UP,307,21,50,14
     PUSHBUTTON      "D&elete",IDC_DELETE,307,69,50,14
     PUSHBUTTON      "&Add",IDC_ADD,307,55,50,14
@@ -52,6 +50,8 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,0,357,1
     PUSHBUTTON      "&Randomize",IDC_RANDOMIZE,307,88,50,14
     PUSHBUTTON      "Music Search",IDC_SEARCH,84,4,50,13
+    EDITTEXT        IDC_PLAYLISTNAME,169,4,134,13,ES_AUTOHSCROLL | 
+                    ES_READONLY
 END
 
 IDD_OPENURL DIALOG FIXED IMPURE  0, 0, 280, 21
@@ -76,7 +76,11 @@ BEGIN
     IDD_MUSICBROWSER, DIALOG
     BEGIN
         RIGHTMARGIN, 357
+<<<<<<< musicbrowser.rc
+        BOTTOMMARGIN, 169
+=======
         BOTTOMMARGIN, 168
+>>>>>>> 1.1.2.15
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -157,6 +161,7 @@ END
 // remains consistent on all systems.
 IDI_ARROW               ICON    DISCARDABLE     "arrow.ico"
 IDI_BLANK               ICON    DISCARDABLE     "blank.ico"
+IDI_ACTIVELIST          ICON    DISCARDABLE     "active.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

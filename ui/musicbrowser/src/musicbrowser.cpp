@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.12 1999/10/17 05:40:23 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.13 1999/10/17 22:45:33 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -131,7 +131,6 @@ void MusicBrowserUI::GTKEventService(void)
 
 int32 MusicBrowserUI::AcceptEvent(Event *event)
 {
-    
     switch (event->Type()) {
         case CMD_Cleanup: {
 #ifdef HAVE_GTK        
@@ -184,7 +183,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             m_bSearchInProgress = false;
                         
             InitTree();
-            FillPlaylistCombo();
+            //FillPlaylistCombo();
 #endif                
             break; }
         case INFO_BrowserMessage: {
@@ -264,6 +263,17 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 ExpandCollapseEvent();
             gdk_threads_leave();
             break; }
+
+#if WIN32            
+        case INFO_ActivePlaylistChanged:
+            SetActivePlaylist();
+            break;
+            
+        case INFO_ActivePlaylistCleared:
+            ActivePlaylistCleared();
+            break;
+#endif
+            
         default:
             break;
     }
@@ -440,6 +450,7 @@ void MusicBrowserUI::SaveCurrentPlaylist(char *path)
     m_plm->WritePlaylist((char *)m_currentListName.c_str(), &format);
 }
 
+#ifdef HAVE_GTK
 void MusicBrowserUI::ImportPlaylist(char *path)
 {
     if (!path)
@@ -450,6 +461,7 @@ void MusicBrowserUI::ImportPlaylist(char *path)
     string Path = path;
     LoadPlaylist(Path);
 }
+#endif
 
 void MusicBrowserUI::ReadPlaylist(char *path, vector<PlaylistItem *> *plist)
 {

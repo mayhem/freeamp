@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.17 1999/10/17 05:06:35 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.18 1999/10/17 22:45:39 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -174,9 +174,9 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
                 case IDC_CLEARLIST:
                    g_ui->DeleteListEvent();
                 return 1;
-                case IDC_PLAYLISTCOMBO:
-                   if (HIWORD(wParam) == CBN_SELCHANGE)
-                       g_ui->PlaylistComboChanged();
+//                case IDC_PLAYLISTCOMBO:
+//                   if (HIWORD(wParam) == CBN_SELCHANGE)
+//                       g_ui->PlaylistComboChanged();
                 return 1;
                 case ID_VIEW_MUSICCATALOG:
                    g_ui->ExpandCollapseEvent();
@@ -369,13 +369,14 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     
     hShell = GetModuleHandle("SHELL32.DLL");
     
-    hList = ImageList_Create(16, 16, ILC_COLOR24|ILC_MASK, 3, 0);
+    hList = ImageList_Create(16, 16, ILC_COLOR24|ILC_MASK, 4, 0);
     dwIcon = 4;     // 'Closed folder' Icon
     ImageList_AddIcon(hList, LoadIcon(hShell, MAKEINTRESOURCE(dwIcon)));
     dwIcon = 5; 	   // 'Open folder' icon
     ImageList_AddIcon(hList, LoadIcon(hShell, MAKEINTRESOURCE(dwIcon)));
     dwIcon = 152; 	   // 'File folder' icon (hopefully)
     ImageList_AddIcon(hList, LoadIcon(hShell, MAKEINTRESOURCE(dwIcon)));
+    ImageList_AddIcon(hList, LoadIcon(g_hinst, MAKEINTRESOURCE(IDI_ACTIVELIST)));
  
     TreeView_SetImageList(GetDlgItem(m_hWnd, IDC_MUSICTREE),
                           hList, TVSIL_NORMAL); 
@@ -390,9 +391,9 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
                           
     InitTree();                      
     InitList();
-    FillPlaylistCombo();
+//    FillPlaylistCombo();
 
-    m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
+//    m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
     
     m_hStatus= CreateStatusWindow(WS_CHILD | WS_VISIBLE,
                                   "", m_hWnd, IDC_STATUS);
@@ -813,15 +814,10 @@ void MusicBrowserUI::FillPlaylists(void)
         i++,iIndex++)
     {
        if (!iIndex) 
-       {
-           sInsert.item.pszText = "Master Playlist";
-           sInsert.item.cchTextMax = strlen(sInsert.item.pszText);
-       }
-       else    
-       {
-           sInsert.item.pszText = (char *)(*i).c_str();
-           sInsert.item.cchTextMax = (*i).length();
-       }
+          continue;
+          
+       sInsert.item.pszText = (char *)(*i).c_str();
+       sInsert.item.cchTextMax = (*i).length();
        sInsert.item.iImage = 2;
        sInsert.item.iSelectedImage = 2;
        sInsert.item.cChildren= 0;
@@ -832,6 +828,7 @@ void MusicBrowserUI::FillPlaylists(void)
     }    
 }
 
+#if 0
 void MusicBrowserUI::PlaylistComboChanged(void)
 {
     int sel;
@@ -870,6 +867,52 @@ void MusicBrowserUI::FillPlaylistCombo(void)
         
     ComboBox_SetCurSel(hwndCombo, 0);
 }
+#endif
+
+void MusicBrowserUI::SetActivePlaylist(void)
+{
+    
+    m_activeListName = m_currentListName;
+    SetActivePlaylistIcon(3);
+}
+
+void MusicBrowserUI::ActivePlaylistCleared(void)
+{
+    SetActivePlaylistIcon(2);
+    m_activeListName = "";
+}
+
+void MusicBrowserUI::SetActivePlaylistIcon(int iImage)
+{
+    HTREEITEM hItem;
+    TV_ITEM   sItem;
+    char      szText[MAX_PATH];
+ 
+    hItem = TreeView_GetChild(GetDlgItem(m_hWnd, IDC_MUSICTREE), 
+                              m_hPlaylistItem);
+    for(; hItem != NULL;)
+    {
+       sItem.mask = TVIF_TEXT;
+       sItem.hItem = hItem;
+       sItem.pszText = szText;
+       sItem.cchTextMax = MAX_PATH;
+       TreeView_GetItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sItem);
+       
+       if (strcmp(szText, m_activeListName.c_str()) == 0)
+       {
+           sItem.mask = TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+           sItem.hItem = hItem;
+           sItem.iImage = iImage;
+           sItem.iSelectedImage = iImage;
+           TreeView_SetItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sItem);
+           break;
+       } 
+
+       hItem = TreeView_GetNextSibling(GetDlgItem(m_hWnd, IDC_MUSICTREE),
+                                       hItem);
+    }
+}
+
 
 void MusicBrowserUI::LoadPlaylist(string &oPlaylist)
 {
@@ -878,21 +921,20 @@ void MusicBrowserUI::LoadPlaylist(string &oPlaylist)
 
     WritePlaylist();
 
-    if (oPlaylist.length() == 0)
+    if (oPlaylist == m_activeListName)
     {
         m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
-        ComboBox_SetCurSel(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), 0);
+        //ComboBox_SetCurSel(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), 0);
     }
     else
     {   
-        int sel;
-
         m_context->plm->SetExternalPlaylist((char *)oPlaylist.c_str());
         m_context->plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
-        sel = ComboBox_FindString(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO),
-                                  0, (char *)oPlaylist.c_str());
-        ComboBox_SetCurSel(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), sel);
+        //sel = ComboBox_FindString(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO),
+        //                          0, (char *)oPlaylist.c_str());
+        //ComboBox_SetCurSel(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), sel);
     }
+    SetWindowText(GetDlgItem(m_hWnd, IDC_PLAYLISTNAME), oPlaylist.c_str());
         
     m_currentListName = oPlaylist;
     m_currentindex = 0;
@@ -906,8 +948,23 @@ void MusicBrowserUI::WritePlaylist(void)
     int                i;
     Error              eRet = kError_NoErr;
 
-    if (!m_bListChanged || m_currentListName.length() == 0)
+    if (!m_bListChanged)
        return;
+       
+    if (m_currentListName == m_activeListName)
+    {
+       vector<PlaylistItem *>           oTempList;
+       vector<PlaylistItem *>::iterator j;
+       
+       for(i = 0; i < m_context->plm->CountItems(); i++)
+          oTempList.push_back(new PlaylistItem(*m_context->plm->ItemAt(i)));
+       
+       m_context->plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
+       m_plm->RemoveAll();
+       
+       for(j = oTempList.begin(); j != oTempList.end(); j++)
+          m_context->plm->AddItem(*j, false);
+    }
 
     _splitpath(m_currentListName.c_str(), NULL, NULL, NULL, ext);
     for(i = 0; ; i++)
@@ -922,6 +979,10 @@ void MusicBrowserUI::WritePlaylist(void)
     if (!IsError(eRet))
         m_context->plm->WritePlaylist((char *)m_currentListName.c_str(),
                                       &oInfo);   
+
+    if (m_currentListName == m_activeListName)
+       m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
+
     m_bListChanged = false;
 }
 
@@ -947,7 +1008,7 @@ void MusicBrowserUI::UpdatePlaylistList(void)
         sItem.iItem = i;
         sItem.lParam = i;
         sItem.iImage = (m_currentplaying == i && 
-                        m_currentListName.length() == 0) ? 0 : 1;
+                        m_currentListName == m_activeListName) ? 0 : 1;
         ListView_InsertItem(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), &sItem);
 
         sItem.mask = LVIF_TEXT;
@@ -1122,7 +1183,7 @@ void MusicBrowserUI::NewPlaylist(void)
         
         m_context->browser->m_catalog->AddPlaylist(sOpen.lpstrFile);
         InitTree();
-        FillPlaylistCombo();
+        //FillPlaylistCombo();
         LoadPlaylist(playlist);
     }
 }
@@ -1178,7 +1239,7 @@ void MusicBrowserUI::OpenPlaylist(void)
         
         m_context->browser->m_catalog->AddPlaylist(sOpen.lpstrFile);
         InitTree();
-        FillPlaylistCombo();
+        //FillPlaylistCombo();
         LoadPlaylist(playlist);
     }
 }

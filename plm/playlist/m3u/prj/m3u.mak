@@ -441,6 +441,9 @@ $(DS_POSTBUILD_DEP) : ".\m3u.plf"
 !IF "$(CFG)" == "m3u - Win32 Release" || "$(CFG)" == "m3u - Win32 Debug" ||\
  "$(CFG)" == "m3u - Win32 NASM Release" || "$(CFG)" == "m3u - Win32 NASM Debug"
 SOURCE=..\m3u.cpp
+
+!IF  "$(CFG)" == "m3u - Win32 Release"
+
 DEP_CPP_M3U_C=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\facontext.h"\
@@ -454,15 +457,84 @@ DEP_CPP_M3U_C=\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\m3u.h"\
-	
-NODEP_CPP_M3U_C=\
 	"..\..\..\..\config\config.h"\
+	"..\m3u.h"\
 	
 
 "$(INTDIR)\m3u.obj" : $(SOURCE) $(DEP_CPP_M3U_C) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "m3u - Win32 Debug"
+
+DEP_CPP_M3U_C=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\facontext.h"\
+	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\include\registry.h"\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\config\config.h"\
+	"..\m3u.h"\
+	
+
+"$(INTDIR)\m3u.obj" : $(SOURCE) $(DEP_CPP_M3U_C) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "m3u - Win32 NASM Release"
+
+DEP_CPP_M3U_C=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\facontext.h"\
+	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\include\registry.h"\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\config\config.h"\
+	"..\m3u.h"\
+	
+
+"$(INTDIR)\m3u.obj" : $(SOURCE) $(DEP_CPP_M3U_C) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "m3u - Win32 NASM Debug"
+
+DEP_CPP_M3U_C=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\facontext.h"\
+	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\include\registry.h"\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\config\config.h"\
+	"..\m3u.h"\
+	
+
+"$(INTDIR)\m3u.obj" : $(SOURCE) $(DEP_CPP_M3U_C) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\res\m3u.rc
 

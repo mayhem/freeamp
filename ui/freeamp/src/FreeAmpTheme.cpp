@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.44 1999/10/17 06:37:57 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.45 1999/10/17 22:45:29 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -43,6 +43,7 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "debug.h"
 #include "PreferenceWindow.h"
+#include "playlist.h"
 
 void WorkerThreadStart(void* arg);
 
@@ -216,8 +217,23 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          m_pWindow->ControlEnable(string("VolumePlus"), true, bSet);
          m_pWindow->ControlEnable(string("VolumeMinus"), true, bSet);
 
+
+//         PlaylistItem *pItem;
+//         
+//         pItem = m_pContext->plm->ItemAt(m_pContext->plm->
+//                                         GetCurrentIndex());
+//         Debug_v("Artist: %s", pItem->GetMetaData().Artist().c_str());
+//         Debug_v("Album: %s", pItem->GetMetaData().Album().c_str());
+
          break;
       }
+      
+      case INFO_PlaylistItemUpdated:
+      {
+         Debug_v("PlaylistitemUpdated");
+         break;
+      }
+      
       case INFO_StreamInfo:
       {
          char szTitle[100];

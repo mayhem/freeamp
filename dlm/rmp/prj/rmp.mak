@@ -485,25 +485,68 @@ DEP_CPP_DEBUG=\
 
 
 SOURCE=..\..\..\lib\xml\src\Parse.cpp
+
+!IF  "$(CFG)" == "rmp - Win32 Release"
+
 DEP_CPP_PARSE=\
 	"..\..\..\base\include\debug.h"\
 	"..\..\..\base\include\errors.h"\
-	"..\..\..\lib\xml\include\Parse.h"\
-	
-NODEP_CPP_PARSE=\
 	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
 	
 
 "$(INTDIR)\Parse.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+!ELSEIF  "$(CFG)" == "rmp - Win32 Debug"
+
+DEP_CPP_PARSE=\
+	"..\..\..\base\include\debug.h"\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
+	
+
+"$(INTDIR)\Parse.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 NASM Release"
+
+DEP_CPP_PARSE=\
+	"..\..\..\base\include\debug.h"\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
+	
+
+"$(INTDIR)\Parse.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 NASM Debug"
+
+DEP_CPP_PARSE=\
+	"..\..\..\base\include\debug.h"\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
+	
+
+"$(INTDIR)\Parse.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
 SOURCE=..\..\..\base\src\preferences.cpp
+
+!IF  "$(CFG)" == "rmp - Win32 Release"
+
 DEP_CPP_PREFE=\
 	"..\..\..\base\include\errors.h"\
 	"..\..\..\base\include\preferences.h"\
-	
-NODEP_CPP_PREFE=\
 	"..\..\..\config\config.h"\
 	
 
@@ -511,7 +554,48 @@ NODEP_CPP_PREFE=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+!ELSEIF  "$(CFG)" == "rmp - Win32 Debug"
+
+DEP_CPP_PREFE=\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 NASM Release"
+
+DEP_CPP_PREFE=\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 NASM Debug"
+
+DEP_CPP_PREFE=\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
 SOURCE=..\rmp.cpp
+
+!IF  "$(CFG)" == "rmp - Win32 Release"
+
 DEP_CPP_RMP_C=\
 	"..\..\..\base\include\downloadformat.h"\
 	"..\..\..\base\include\downloadmanager.h"\
@@ -526,32 +610,151 @@ DEP_CPP_RMP_C=\
 	"..\..\..\base\include\utility.h"\
 	"..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\lib\xml\include\Parse.h"\
-	"..\rmp.h"\
-	
-NODEP_CPP_RMP_C=\
 	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
+	"..\rmp.h"\
 	
 
 "$(INTDIR)\rmp.obj" : $(SOURCE) $(DEP_CPP_RMP_C) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+!ELSEIF  "$(CFG)" == "rmp - Win32 Debug"
+
+DEP_CPP_RMP_C=\
+	"..\..\..\base\include\downloadformat.h"\
+	"..\..\..\base\include\downloadmanager.h"\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\facontext.h"\
+	"..\..\..\base\include\log.h"\
+	"..\..\..\base\include\metadata.h"\
+	"..\..\..\base\include\plmevent.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\base\include\registry.h"\
+	"..\..\..\base\include\thread.h"\
+	"..\..\..\base\include\utility.h"\
+	"..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\base\win32\include\semaphore.h"\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
+	"..\rmp.h"\
+	
+
+"$(INTDIR)\rmp.obj" : $(SOURCE) $(DEP_CPP_RMP_C) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 NASM Release"
+
+DEP_CPP_RMP_C=\
+	"..\..\..\base\include\downloadformat.h"\
+	"..\..\..\base\include\downloadmanager.h"\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\facontext.h"\
+	"..\..\..\base\include\log.h"\
+	"..\..\..\base\include\metadata.h"\
+	"..\..\..\base\include\plmevent.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\base\include\registry.h"\
+	"..\..\..\base\include\thread.h"\
+	"..\..\..\base\include\utility.h"\
+	"..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\base\win32\include\semaphore.h"\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
+	"..\rmp.h"\
+	
+
+"$(INTDIR)\rmp.obj" : $(SOURCE) $(DEP_CPP_RMP_C) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 NASM Debug"
+
+DEP_CPP_RMP_C=\
+	"..\..\..\base\include\downloadformat.h"\
+	"..\..\..\base\include\downloadmanager.h"\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\facontext.h"\
+	"..\..\..\base\include\log.h"\
+	"..\..\..\base\include\metadata.h"\
+	"..\..\..\base\include\plmevent.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\base\include\registry.h"\
+	"..\..\..\base\include\thread.h"\
+	"..\..\..\base\include\utility.h"\
+	"..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\base\win32\include\semaphore.h"\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
+	"..\rmp.h"\
+	
+
+"$(INTDIR)\rmp.obj" : $(SOURCE) $(DEP_CPP_RMP_C) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
 SOURCE=..\..\..\base\src\utility.cpp
+
+!IF  "$(CFG)" == "rmp - Win32 Release"
+
 DEP_CPP_UTILI=\
 	"..\..\..\base\include\errors.h"\
 	"..\..\..\base\include\preferences.h"\
 	"..\..\..\base\include\utility.h"\
+	"..\..\..\config\config.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
 	
-NODEP_CPP_UTILI=\
+
+"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 Debug"
+
+DEP_CPP_UTILI=\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\base\include\utility.h"\
 	"..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 NASM Release"
+
+DEP_CPP_UTILI=\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\base\include\utility.h"\
+	"..\..\..\config\config.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+
+"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "rmp - Win32 NASM Debug"
+
+DEP_CPP_UTILI=\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\base\include\utility.h"\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\res\rmp.rc
 

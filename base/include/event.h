@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.28.4.12 1999/10/17 05:40:09 ijr Exp $
+	$Id: event.h,v 1.28.4.13 1999/10/17 22:44:47 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -29,14 +29,19 @@ ____________________________________________________________________________*/
 class Event {
 
  public:
-    Event(int32 c) { m_type = c; }
+    Event(int32 c) 
+        { m_type = c; m_internal = false; };
+    Event(int32 c, bool isInternal) 
+        { m_type = c; m_internal = isInternal; };
 
     virtual ~Event() {}
     int32 Type() { return m_type; }
+    bool  IsInternal(void) { return m_internal; };
 
  protected:
     Event() {}
     int32 m_type;
+    bool  m_internal;
  
 };
 
@@ -123,6 +128,8 @@ class EventQueue {
 #define INFO_PlaylistItemRemoved    59 // sent by PLM to player to inform of a playlistitem update
 #define INFO_PlaylistCurrentItemInfo 60 // sent by PLM to player to inform of the current items info
 #define INFO_PrefsChanged           61 // send by a preferences window whenever the preferences changed
+#define INFO_ActivePlaylistChanged 62 // sent by the player when a playlist becomes the active playlist
+#define INFO_ActivePlaylistCleared 63 // sent by the player when the active playlist is no longer needed
 
 #endif // _EVENT_H_
 

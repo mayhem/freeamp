@@ -60,8 +60,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                            ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
-              ..\..\..\..\base\win32\prj\plugins
+                             ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
+               ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "simple - Win32 Debug"
@@ -93,8 +93,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                            ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
-              ..\..\..\..\base\win32\prj\plugins
+                             ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
+               ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
@@ -128,8 +128,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                            ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
-              ..\..\..\..\base\win32\prj\plugins
+                             ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
+               ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
@@ -161,8 +161,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                            ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
-              ..\..\..\..\base\win32\prj\plugins
+                             ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
+               ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ENDIF 
@@ -209,13 +209,7 @@ InputPath=..\..\..\..\config\config.win32
 
 # PROP BASE Intermediate_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
-# Begin Custom Build
-InputPath=..\..\..\..\config\config.win32
-
-"..\..\..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\..\..\..\config\config.win32 ..\..\..\..\config\config.h
-
-# End Custom Build
+# PROP Exclude_From_Build 1
 
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
 

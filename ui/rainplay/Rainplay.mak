@@ -757,6 +757,8 @@ DEP_CPP_MUTEX=\
 SOURCE=..\..\base\src\playlist.cpp
 DEP_CPP_PLAYL=\
 	"..\..\base\include\errors.h"\
+	"..\..\base\include\event.h"\
+	"..\..\base\include\eventdata.h"\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\metadata.h"\
@@ -768,6 +770,7 @@ DEP_CPP_PLAYL=\
 	"..\..\base\include\registrar.h"\
 	"..\..\base\include\registry.h"\
 	"..\..\base\include\thread.h"\
+	"..\..\base\include\utility.h"\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\config\config.h"\
 	

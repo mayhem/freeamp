@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.1.2.15 1999/10/17 05:40:23 ijr Exp $
+        $Id: Win32MusicBrowser.h,v 1.1.2.16 1999/10/17 22:45:34 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -120,13 +120,16 @@ class MusicBrowserUI : public UserInterface
 
     void InitList(void);
     void LoadPlaylist(string &oPlaylist);
+    void ActivePlaylistCleared(void);
+    void SetActivePlaylist(void);
+    void SetActivePlaylistIcon(int iImage);
 
     void InitTree(void);
     void FillArtists(void);
     void FillAlbums(TV_ITEM *pItem);
     void FillPlaylists(void);
     void FillTracks(TV_ITEM *pItem);
-    void FillPlaylistCombo(void);
+//    void FillPlaylistCombo(void);
 
     void  UpdateButtonStates(void);
     void  MoveControls(int iPixelsToMove);
@@ -143,7 +146,7 @@ class MusicBrowserUI : public UserInterface
     PlaylistManager     *m_plm;
     bool                 m_initialized, isVisible, m_bListChanged, 
                          m_bSearchInProgress, m_bDragging;
-    string               m_currentListName;
+    string               m_currentListName, m_activeListName;
     Thread              *m_uiThread;
     POINT                m_sMinSize;
     HTREEITEM	         m_hPlaylistItem, m_hCatalogItem, m_hDropTarget;

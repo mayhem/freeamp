@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.77 2000/06/12 16:13:55 robert Exp $
+        $Id: Win32MusicBrowser.h,v 1.78 2000/06/12 23:38:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -49,7 +49,7 @@ using namespace std;
 #include "DataIndex.h"
 #include "DropTarget.h"
 #include "timer.h"
-#include "Icecast.h"
+#include "FreeAmpStreams.h"
 
 class FAContext;
 
@@ -278,7 +278,9 @@ class MusicBrowserUI : public UserInterface
     void    FillUncatTracks();
     void    FillPortables();
     void    FillWiredPlanet();
-    void    FillStreams(vector<IcecastStreamInfo> &list);
+    void    FillStreams();
+    void    UpdateStreams(vector<FreeAmpStreamInfo> &list);
+    HTREEITEM MusicBrowserUI::CreateStreamFolder(string& treePath);
     void    FillFavorites();
     int32   GetCurrentItemFromMousePos();
     void    GetSelectedMusicTreeItems(vector<PlaylistItem*>* items);

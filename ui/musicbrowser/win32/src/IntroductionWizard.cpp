@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: IntroductionWizard.cpp,v 1.6 2000/01/10 19:38:53 elrod Exp $
+        $Id: IntroductionWizard.cpp,v 1.7 2000/01/11 02:03:49 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -55,7 +55,7 @@ static BOOL CALLBACK IntroWizardHello(HWND hwnd,
             DRAWITEMSTRUCT* dis = (DRAWITEMSTRUCT*)lParam;
             UINT ctrlId = wParam;
             const char* kCaption1 = "Welcome!";
-            const char* kCaption2 = "What is My Music?";
+            const char* kCaption2 = "What is \'My Music\'?";
             const char* kMsg1 = "This wizard will help you begin organizing your "
                                 "music collection and get you started playing "
                                 "your music.";

@@ -17,7 +17,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: YPClient.cpp,v 1.7 2000/09/29 12:13:57 ijr Exp $
+        $Id: YPClient.cpp,v 1.8 2000/09/29 13:06:08 sward Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -57,12 +57,15 @@ YPClient::YPClient()
 
 YPClient::~YPClient()
 {
-    if (m_pSocket->IsConnected()) 
-        this->Disconnect();
-    if (m_pSocket != NULL) 
-        delete m_pSocket;
-    if (m_pMutex != NULL)
+     if (m_pSocket != NULL)
+	 {
+		delete m_pSocket;
+	 }
+    
+	if (m_pMutex != NULL)
+	{
         delete m_pMutex;
+	}
 }
 
 int YPClient::Connect(string& strIP, int nPort)

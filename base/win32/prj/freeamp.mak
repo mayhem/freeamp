@@ -92,8 +92,8 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\..\lib\gdbm" /I\
- "..\include" /I "..\..\include" /I "..\..\..\config" /I\
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\..\config" /I\
+ "..\include" /I "..\..\include" /I "..\..\..\lib\gdbm" /I\
  "..\..\..\ui\win32Test\include" /I "..\..\..\ui\win32Test\res" /I\
  "..\..\..\io\include" /I "..\..\..\ui\include" /I "..\..\..\lmc\include" /D\
  "WIN32" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\freeamp.pch" /YX\
@@ -248,8 +248,8 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\..\lib\gdbm" /I\
- "..\include" /I "..\..\include" /I "..\..\..\config" /I\
+CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\..\config" /I\
+ "..\include" /I "..\..\include" /I "..\..\..\lib\gdbm" /I\
  "..\..\..\ui\win32Test\include" /I "..\..\..\ui\win32Test\res" /I\
  "..\..\..\io\include" /I "..\..\..\ui\include" /I "..\..\..\lmc\include" /D\
  "WIN32" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\freeamp.pch" /YX\
@@ -404,8 +404,8 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\..\lib\gdbm" /I\
- "..\include" /I "..\..\include" /I "..\..\..\config" /I\
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\..\config" /I\
+ "..\include" /I "..\..\include" /I "..\..\..\lib\gdbm" /I\
  "..\..\..\ui\win32Test\include" /I "..\..\..\ui\win32Test\res" /I\
  "..\..\..\io\include" /I "..\..\..\ui\include" /I "..\..\..\lmc\include" /D\
  "WIN32" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\freeamp.pch" /YX\
@@ -562,8 +562,8 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\..\lib\gdbm" /I\
- "..\include" /I "..\..\include" /I "..\..\..\config" /I\
+CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\..\config" /I\
+ "..\include" /I "..\..\include" /I "..\..\..\lib\gdbm" /I\
  "..\..\..\ui\win32Test\include" /I "..\..\..\ui\win32Test\res" /I\
  "..\..\..\io\include" /I "..\..\..\ui\include" /I "..\..\..\lmc\include" /D\
  "WIN32" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\freeamp.pch" /YX\

@@ -18,12 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.7 1999/09/20 18:05:40 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.8 1999/09/20 23:25:11 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 
 #include "FreeAmpTheme.h"
+#include "MessageDialog.h"
 #include "eventdata.h"
 #include "event.h"
 #include "id3v1.h"
@@ -60,11 +61,11 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
    eRet = ParseFile(oThemeFile);
    if (IsError(eRet))
    {
-   	 string oErr;
-   	 // THis code needs to be cross-platform!
-   	 //GetErrorString(oErr);
-       //MessageBox(NULL, oErr.c_str(), "FreeAmp", MB_OK);
-       //Debug_v("ParseError: %s", oErr.c_str());
+	   MessageDialog oBox;
+   	   string        oErr;
+
+   	   GetErrorString(oErr);
+       oBox.Show(oErr.c_str(), string("FreeAmp"), kMessageOk);
    }
    SelectWindow(oName);
    

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.1.2.4 1999/09/17 20:31:03 robert Exp $
+   $Id: Window.cpp,v 1.1.2.5 1999/09/20 23:25:13 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -283,3 +283,4 @@ void Window::HandleMouseLButtonUp(Pos &oPos)
     return;
 }
 
+                             

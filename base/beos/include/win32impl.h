@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32impl.h,v 1.1.12.1 1999/09/09 02:42:00 elrod Exp $
+	$Id: win32impl.h,v 1.1.12.2 1999/09/28 01:01:51 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32IMPL_H_
@@ -26,14 +26,17 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include <kernel/image.h>
 
-#define MAX_PATH 1024
-
 class FILETIME
 {
 public:
     int32 dwLowDateTime;
     int32 dwHighDateTime;
 };
+
+#define FILE_ATTRIBUTE_DIRECTORY        0x00000010L
+#define FILE_ATTRIBUTE_NORMAL           0x00000080L
+/* Not in Win32, but something is needed to indicate a symlink */
+#define FILE_ATTRIBUTE_SYMLINK          0x00000040L
 
 class WIN32_FIND_DATA
 {

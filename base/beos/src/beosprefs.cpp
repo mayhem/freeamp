@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: beosprefs.cpp,v 1.5.2.1 1999/09/22 18:58:20 ijr Exp $
+        $Id: beosprefs.cpp,v 1.5.2.2 1999/09/28 01:01:51 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -58,7 +58,7 @@ const char*  kDefaultALSADevice = "1:1";
 
 class LibDirFindHandle {
  public:
-    List <char *> *m_pLibDirs;
+    vector <char *> *m_pLibDirs;
     int32 m_current;
 };
 
@@ -403,7 +403,7 @@ BeOSPrefs()
             if (*p)
             {
                 char *end;
-                char *out;
+                // char *out;
                 int32 length;
                 
                 entry->key = ReadQuotableString(p, (const char **)&end, ":#");
@@ -437,13 +437,13 @@ BeOSPrefs()
                 }
                 AppendToString(&entry->suffix, p, length);
                 
-                m_entries.AddItem(entry);
+                m_entries.push_back(entry);
                 entry = new BeOSPrefEntry;
             }
         }
 
         if (entry->prefix)
-            m_entries.AddItem(entry);
+            m_entries.push_back(entry);
         else
             delete entry;
         
@@ -505,6 +505,8 @@ SetDefaults()
         SetPrefString(kALSADevicePref, kDefaultALSADevice);
     
     Preferences::SetDefaults();
+
+    return kError_NoErr;
 }
 
 Error
@@ -543,13 +545,13 @@ Save()
 
         m_mutex.Acquire();
                 
-        int32 numEntries = m_entries.CountItems();
+        int32 numEntries = m_entries.size();
         int32 i;
         BeOSPrefEntry *entry;
         
         for (i = 0; i < numEntries; i++)
         {
-            entry = m_entries.ItemAt(i);
+            entry = m_entries[i];
             if (entry->prefix)
                 fputs(entry->prefix, prefsFile);
             if (entry->key && entry->separator && entry->value)
@@ -610,7 +612,7 @@ BeOSPrefs::
 GetPrefString(const char* pref, char* buf, uint32* len)
 {
     BeOSPrefEntry *entry;
-    int32 index;
+    // int32 index;
 
     m_mutex.Acquire();
 
@@ -658,7 +660,7 @@ SetPrefString(const char* pref, const char* buf)
         AppendToString(&entry->key, pref, strlen(pref));
         AppendToString(&entry->separator, ": ", 2);
         AppendToString(&entry->suffix, "\n", 1);
-        m_entries.AddItem(entry);
+        m_entries.push_back(entry);
         m_ht.Insert(pref, entry);
     }
     AppendToString(&entry->value, buf, strlen(buf));
@@ -700,7 +702,7 @@ GetFirstLibDir(char *path, uint32 *len)
     }
     pEnv = pPath;
     LibDirFindHandle *hLibDirFind = new LibDirFindHandle();
-    hLibDirFind->m_pLibDirs = new List<char *>();
+    hLibDirFind->m_pLibDirs = new vector<char *>();
     hLibDirFind->m_current = 0;
 
     char *pCol = (char *)1;
@@ -709,11 +711,11 @@ GetFirstLibDir(char *path, uint32 *len)
         pCol = strchr(pPart,':');
         if (pCol) *pCol = '\0';
         char *pFoo = strdup_new(pPart);
-        hLibDirFind->m_pLibDirs->AddItem(pFoo);
+        hLibDirFind->m_pLibDirs->push_back(pFoo);
         pPart = pCol + sizeof(char);
     }
 
-    pPath = hLibDirFind->m_pLibDirs->ItemAt(0);
+    pPath = (*hLibDirFind->m_pLibDirs)[0];
     if (pPath) {
         strncpy(path,pPath,*len);
         *len = strlen(pPath);
@@ -736,7 +738,7 @@ GetNextLibDir(LibDirFindHandle *hLibDirFind, char *path, uint32 *len)
 {
     if (hLibDirFind) {
         hLibDirFind->m_current++;
-        char *pPath = hLibDirFind->m_pLibDirs->ItemAt(hLibDirFind->m_current);
+        char *pPath = (*hLibDirFind->m_pLibDirs)[hLibDirFind->m_current];
         if (pPath) {
             strncpy(path,pPath,*len);
             *len = strlen(pPath);
@@ -757,7 +759,10 @@ BeOSPrefs::
 GetLibDirClose(LibDirFindHandle *hLibDirFind)
 {
     if (hLibDirFind) {
-        hLibDirFind->m_pLibDirs->DeleteAll();
+        vector <char*>::iterator i = hLibDirFind->m_pLibDirs->begin();
+
+        for (; i != hLibDirFind->m_pLibDirs->end(); i++)
+            delete *i;
         delete hLibDirFind->m_pLibDirs;
         delete hLibDirFind;
     }

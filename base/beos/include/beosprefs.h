@@ -19,12 +19,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: beosprefs.h,v 1.3.4.1 1999/09/09 02:42:00 elrod Exp $
+	$Id: beosprefs.h,v 1.3.4.2 1999/09/28 01:01:51 hiro Exp $
 ____________________________________________________________________________*/
 
 
 #ifndef INCLUDED_BEOSPREFS_H
 #define INCLUDED_BEOSPREFS_H
+
+#include <vector>
+using namespace std;
 
 #include "config.h"
 #include "errors.h"
@@ -79,7 +82,7 @@ private:
     bool m_saveEnable, m_changed;
     int m_errorLineNumber;	// 0 if no error
 
-    List<BeOSPrefEntry *> m_entries;
+    vector<BeOSPrefEntry *> m_entries;
     HashTable<BeOSPrefEntry *> m_ht;
 };
 

@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.10 1999/07/13 22:32:38 robert Exp $
+        $Id: unixprefs.cpp,v 1.11 1999/08/03 18:31:28 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -506,6 +506,8 @@ SetDefaults()
         SetPrefString(kALSADevicePref, kDefaultALSADevice);
     
     Preferences::SetDefaults();
+
+    return kError_NoErr;
 }
 
 Error
@@ -697,7 +699,7 @@ GetFirstLibDir(char *path, uint32 *len)
 //      cout << "Using env: " << pEnv << endl;
         pPath = strdup_new(pEnv);
     } else {
-        pPath = strdup_new(GetLibDirs());
+        pPath = strdup_new((char *)GetLibDirs());
     }
     pEnv = pPath;
     LibDirFindHandle *hLibDirFind = new LibDirFindHandle();

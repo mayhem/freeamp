@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.6 1999/07/28 01:40:55 elrod Exp $
+   $Id: tstream.cpp,v 1.7 1999/08/03 18:31:29 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -261,7 +261,7 @@ void TitleStreamServer::WorkerThread(void)
       {
           iStructSize = sizeof(struct sockaddr_in);
           iRet = recvfrom(m_hHandle, buf, 255, 0, (struct sockaddr *)m_pSin, 
-                          &iStructSize);
+                          (socklen_t *)&iStructSize);
       }
       else
           iRet = recv(m_hHandle, buf, 255, 0);

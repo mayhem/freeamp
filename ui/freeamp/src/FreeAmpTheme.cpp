@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.78 2000/02/09 21:21:26 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.79 2000/02/10 01:45:14 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1154,7 +1154,14 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
      case 'H':
      	ShowHelp();
         break;
-    }
+
+     case '@':
+     {
+        string oText("23:59:59");
+        m_pWindow->ControlStringValue("Time", true, oText);
+        break;
+     }    
+   }
 }
 
 bool FreeAmpTheme::HandleMenuCommand(uint32 uCommand)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.13 2000/02/04 22:24:04 robert Exp $
+   $Id: Theme.h,v 1.14 2000/02/10 01:45:14 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -121,7 +121,7 @@ class Theme : public Parse
       string            m_oDefaultFont;
 	  string            m_oThemeName, m_oThemeAuthor;
 	  string            m_oAuthorEMail, m_oAuthorWebPage;
-	  string            m_oSavedText;
+	  string            m_oSavedText, m_oMiscInfo;
 	  bool              m_bCreditsShown;
 };
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.26 2000/02/09 16:00:37 robert Exp $
+   $Id: Theme.cpp,v 1.27 2000/02/10 01:45:14 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -988,6 +988,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            m_oAuthorEMail = oAttrMap["EMail"];
 	   if (oAttrMap.find("WebPage") != oAttrMap.end())
            m_oAuthorWebPage = oAttrMap["WebPage"];
+	   if (oAttrMap.find("Misc") != oAttrMap.end())
+           m_oMiscInfo = oAttrMap["Misc"];
        
        return kError_NoErr;
     }
@@ -1250,6 +1252,9 @@ void Theme::ShowThemeCredits(void)
 
         if (m_oAuthorWebPage.size() > 0)
            oText += string(" (") + m_oAuthorWebPage + string(")");     
+           
+        if (m_oAuthorWebPage.size() > 0)
+           oText += string(" ") + m_oMiscInfo + string(" ");     
     }   
     else
        oText = "<No theme credit info available>";

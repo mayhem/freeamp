@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.h,v 1.3 1998/10/19 07:51:44 elrod Exp $
+	$Id: xinglmc.h,v 1.4 1998/10/20 23:01:03 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -95,6 +95,8 @@ private:
     int32                   m_frameBytes;
     bool                    m_isPaused;
     Thread*                 m_decoderThread;
+
+    int32                   m_frameCounter;
 };
 
 #endif /* _XINGLMC_H */

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.4 1998/10/20 20:04:14 elrod Exp $
+	$Id: simpleui.cpp,v 1.5 1998/10/20 23:01:04 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -40,7 +40,6 @@ ____________________________________________________________________________*/
 #include "playlist.h"
 #include "about.h"
 #include "resource.h"
-
 
 HINSTANCE g_hInstance = NULL;
 
@@ -295,6 +294,7 @@ AcceptEvent(Event* event)
 						        TBM_SETPOS,
 						        (WPARAM)TRUE,
 						        (LPARAM)pmtp->m_frame);
+
                 }
 
 	            break; 
@@ -370,7 +370,7 @@ SetArgs(int32 argc, char** argv)
     playlist->SetFirst();
 
     if(shuffle) 
-	    playlist->Shuffle();
+        playlist->SetOrder(PlayList::ORDER_SHUFFLED);
     
     m_target->AcceptEvent(m_target, new Event(CMD_SetPlaylist,playlist));
 
@@ -680,8 +680,8 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
 											TBM_GETPOS, 
 											0, 
 											0);
-
-					//player->SeekToPosition(position);
+                    
+                    m_ui->m_target->AcceptEvent( m_ui->m_target, new Event(CMD_ChangePosition, (void*)position));
 		  	
 					m_ui->m_scrolling = false;
 					break;

@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.28 1998/10/20 08:49:46 elrod Exp $
+	$Id: player.cpp,v 1.29 1998/10/20 23:01:03 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -421,9 +421,15 @@ int32 Player::ServiceEvent(Event *pC) {
 		    SEND_NORMAL_EVENT(INFO_Stopped);
                 }
                 return 0;
-		break;
+		    break;
 	    }
 	    
+        case CMD_ChangePosition: {
+            m_lmcRef->ChangePosition(m_lmcRef, (int32) pC->GetArgument());        
+            return 0;
+		    break;
+	    }
+
 	    case CMD_Play: {
 		PlayListItem *pc = m_myPlayList->GetCurrent();
         Error error = kError_NoErr;

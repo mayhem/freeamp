@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupl3.c,v 1.1 1998/10/14 02:50:36 elrod Exp $
+	$Id: cupl3.c,v 1.2 1998/10/20 23:01:04 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  cupL3.c  ***************************************************
@@ -764,7 +764,7 @@ IN_OUT L3audio_decode(unsigned char *bs, unsigned char *pcm)
    return decode_function(bs, pcm);
 }
 
-static int called_times = 0;
+int called_times = 0;
 extern int wait_n_times;
 
 /*--------------------------------------------------------------------*/

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.7 1998/10/19 07:51:44 elrod Exp $
+	$Id: event.h,v 1.8 1998/10/20 23:01:03 elrod Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -91,6 +91,7 @@ typedef struct EventQueue{
 #define CMD_UnPause             22 // sent by CIO to player to tell it to unpause current song.  Note: a play causes the current song to be played from beginning (no arg)
 #define CMD_TogglePause         24 // sent by CIO to player to change the boolean state Paused (no arg)
 #define INFO_Playing            26 // sent by player to COO to say that it is beginning to play a song
+#define CMD_ChangePosition      27 // sent by CIO to player to change the position in the song to decode from (arg = frame position)
 #endif // _EVENT_H_
 
 

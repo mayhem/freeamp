@@ -1,6 +1,6 @@
 # Freeamp master Makefile
 # blown into bits and reconstructed by dogcow
-# $Id: Makefile.in,v 1.7 1999/04/22 08:24:01 mhw Exp $
+# $Id: Makefile.in,v 1.8 1999/04/26 21:52:14 dogcow Exp $
 
 SHELL = /bin/sh
 
@@ -210,6 +210,7 @@ plugins/obsinput-$(HOST_OS).pmi: $(OBSPMI)
 
 # soundcardpmo is os-dependent, so have to fool with $(OSDEP)
 SCPMOOBJ = io/soundcard/$(OSDEP)/src/soundcardpmo.o
+SCPMOOBJ +=io/soundcard/$(OSDEP)/src/volume.o
 
 plugins/soundcard-$(HOST_OS).pmo: $(SCPMOOBJ)
 	$(LINKMOD) -o $@ $(SCPMOOBJ)

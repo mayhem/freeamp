@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: metadata.h,v 1.2 1999/10/19 07:12:45 elrod Exp $
+	$Id: metadata.h,v 1.3 1999/10/25 00:16:57 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_METADATA_H_
@@ -124,6 +124,14 @@ class MetaData {
 
 };
 
+typedef enum MetaDataOrder {
+    MetaDataOrder_First  =    0,  // for some reason this plugin should be called before others
+    MetaDataOrder_Low    =    25, // not very reliable, perhaps parsing the filename
+    MetaDataOrder_Medium =    50, // not too reliable, perhaps limited in the amount of data allowed
+    MetaDataOrder_High   =    75, // reliable, no restrictions on length of data
+    MetaDataOrder_Last   =    100 // for some reason this plugin should be called after others
+} MetaDataOrder;
+
 class MetaDataFormat {
  public:
     MetaDataFormat(FAContext *context) {}
@@ -131,6 +139,7 @@ class MetaDataFormat {
 
     virtual bool ReadMetaData(const char* url, MetaData* metadata) = 0;
     virtual bool WriteMetaData(const char* url, const MetaData& metadata) = 0;
+    virtual MetaDataOrder Order() = 0;
 };
 
 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.37 2000/10/27 10:04:06 ijr Exp $
+        $Id: apsinterface.cpp,v 1.38 2000/10/27 23:23:04 robert Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -195,15 +195,21 @@ int APSInterface::APSFillMetaData(APSMetaData* pmetaData)
     }
 
     // Now start the data extraction process.
-    // Select the first item in the list of returned items
+    // Select the album context of the exchanged data
+    mb_Select(o, MB_SelectExchangedAlbum);
+    if (mb_GetResultData(o, MB_GetAlbumName, temp, 255))
+        pmetaData->SetAlbum(temp);
+
+    printf("Album: %s\n", temp);
+
+    // Select the main context of the exchanged data
     mb_Select(o, MB_SelectExchangedData);
 
     if (mb_GetResultData(o, MB_GetArtistName, temp, 255))
         pmetaData->SetArtist(temp);
     if (mb_GetResultData(o, MB_GetTrackName, temp, 255))
         pmetaData->SetTitle(temp);
-    if (mb_GetResultData(o, MB_GetAlbumName, temp, 255))
-        pmetaData->SetAlbum(temp);
+    printf("Track: %s\n", temp);
     if (mb_GetResultData(o, MB_GetGenre, temp, 255))
         pmetaData->SetGenre(temp);
     if (mb_GetResultData(o, MB_GetDescription, temp, 255))

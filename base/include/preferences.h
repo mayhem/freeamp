@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.9 1999/07/26 20:22:13 robert Exp $
+	$Id: preferences.h,v 1.10 1999/07/27 16:57:00 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PREFERENCES_H
@@ -56,9 +56,9 @@ extern const char* kSaveStreamsDirPref;
 extern const char* kUseProxyPref;
 extern const char* kProxyHostPref;
 extern const char* kPreBufferPref;
-extern const char* kUseNIC;
-extern const char* kNICAddress;
-extern const char* kUseTitleStreaming;  
+extern const char* kUseAlternateNICPref;
+extern const char* kAlternateNICAddressPref;
+extern const char* kUseTitleStreamingPref;  
 
 class LibDirFindHandle;
 
@@ -168,6 +168,12 @@ class Preferences {
 
     Error GetPrebufferLength(int32* value);
     Error SetPrebufferLength(int32 value);
+
+    Error GetUseAlternateNIC(bool* value);
+    Error SetUseAlternateNIC(bool value);
+
+    Error GetAlternateNICAddress(char* address, uint32* len);
+    Error SetAlternateNICAddress(char* address);
 
 };
 

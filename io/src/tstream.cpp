@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.3 1999/07/27 02:12:55 elrod Exp $
+   $Id: tstream.cpp,v 1.4 1999/07/27 16:57:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -97,12 +97,12 @@ Error TitleStreamServer::Init(int &iPort)
       memset(&sin, 0, sinlen);
       sin.sin_family = AF_INET;
 
-      m_pContext->prefs->GetPrefBoolean(kUseNIC, &bUseAltNIC);
+      m_pContext->prefs->GetPrefBoolean(kUseAlternateNICPref, &bUseAltNIC);
       if (bUseAltNIC)
       {
           uint32 len = 100;
   
-          m_pContext->prefs->GetPrefString(kNICAddress, szSourceAddr, &len);
+          m_pContext->prefs->GetPrefString(kAlternateNICAddressPref, szSourceAddr, &len);
           if ( len == 0 )
               m_pContext->log->Error("UseAlternateNIC is true but AlternateNIC "
                                      "has no value ?!");
@@ -153,12 +153,12 @@ Error TitleStreamServer::MulticastInit(char *szAddr, int iPort)
     m_pSin->sin_family = AF_INET;
     m_pSin->sin_port = htons(iPort);
 
-    m_pContext->prefs->GetPrefBoolean(kUseNIC, &bUseAltNIC);
+    m_pContext->prefs->GetPrefBoolean(kUseAlternateNICPref, &bUseAltNIC);
     if (bUseAltNIC)
     {
         uint32 len = 100;
 
-        m_pContext->prefs->GetPrefString(kNICAddress, szSourceAddr, &len);
+        m_pContext->prefs->GetPrefString(kAlternateNICAddressPref, szSourceAddr, &len);
         if ( len == 0 )
             m_pContext->log->Error("UseAlternateNIC is true but AlternateNIC "
                                    "has no value ?!");

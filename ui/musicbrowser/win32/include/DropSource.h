@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DropSource.h,v 1.1 1999/11/07 02:06:23 elrod Exp $
+        $Id: DropSource.h,v 1.2 1999/11/14 17:57:11 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DROPSOURCE_H_
@@ -27,8 +27,8 @@ ____________________________________________________________________________*/
 class FAR DropSource : public IDropSource
 {
  public:    
-    DropSource(HWND hwndTree, NM_TREEVIEW* nmtv);
-	~DropSource ();
+    DropSource(HWND hwndSrc, HIMAGELIST himl, POINT hotspot, POINT dragPt);
+	~DropSource();
 
     /* IUnknown methods */
     STDMETHOD(QueryInterface)(REFIID riid, void FAR* FAR* ppvObj);
@@ -44,6 +44,6 @@ class FAR DropSource : public IDropSource
 	HWND		m_hwnd;
 	ULONG		m_ncyoffset;
 	ULONG		m_ncxoffset;
-};  
+};
 
 #endif // INCLUDED_DROPSOURCE_H_

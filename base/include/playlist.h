@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.46 1999/11/11 00:12:25 ijr Exp $
+	$Id: playlist.h,v 1.47 1999/11/14 17:57:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -239,6 +239,7 @@ class PlaylistManager {
     Error MoveItem(PlaylistItem* item, uint32 index);
     Error MoveItem(uint32 oldIndex, uint32 newIndex);
     Error MoveItems(vector<PlaylistItem*>* items, uint32 index);
+    Error MoveItems(vector<uint32>* items, uint32 index);
 
     // Functions for sorting
     Error Sort(PlaylistSortKey key, PlaylistSortType type = PlaylistSortType_Ascending);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.31 1999/11/12 21:29:53 elrod Exp $
+        $Id: Dialog.cpp,v 1.32 1999/11/14 17:57:11 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -31,8 +31,6 @@ ____________________________________________________________________________*/
 #include "utility.h"
 #include "resource.h"
 #include "Win32MusicBrowser.h"
-#include "DropSource.h"
-#include "DropObject.h"
 #include "eventdata.h"
 #include "help.h"
 
@@ -95,7 +93,7 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
             return 1;
         }    
 
-        case WM_DROPURLS:
+        case UWM_DROPURLS:
             filesAreURLs = true;
         case WM_DROPFILES:
         {
@@ -961,25 +959,6 @@ void MusicBrowserUI::SetTitles(void)
        oTitle = "Editing " + oName + " - " + BRANDING;
        SetWindowText(m_hWnd, oTitle.c_str());
     }   
-}
-
-void MusicBrowserUI::BeginDrag(HWND hwnd, NM_TREEVIEW* nmtv)
-{
-    if(m_hNewPlaylistItem != nmtv->itemNew.hItem)
-    {
-        vector<string>* urls = new vector<string>;
-
-        GetSelectedMusicTreeItems(urls); 
-
-        DataObject* data = new DataObject(urls);
-        DropSource* src = new DropSource(hwnd, nmtv);
-        DWORD dwEffect = 0;
-
-        DoDragDrop(data, src, DROPEFFECT_COPY|DROPEFFECT_SCROLL, &dwEffect); 
-
-        data->Release();
-        src->Release();
-    }
 }
 
 void MusicBrowserUI::DropFiles(HDROP dropHandle, bool filesAreURLs)

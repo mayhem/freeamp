@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.25 1999/11/12 21:29:53 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.26 1999/11/14 17:57:11 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -155,7 +155,6 @@ class MusicBrowserUI : public UserInterface
     void   MoveControls(int iPixelsToMove);
     bool   CreateMainDialog(void);
     Error  CloseMainDialog(void);
-    void   BeginDrag(HWND hwnd, NM_TREEVIEW* nmtv);
     uint32 CalcStringEllipsis(HDC hdc, string& displayString, 
                                  int32 columnWidth);
     void   ShowHelp(uint32 topic);
@@ -203,6 +202,7 @@ class MusicBrowserUI : public UserInterface
     void  PlaylistListItemRemoved(const PlaylistItem* item, uint32 oldIndex);
     void  PlaylistListSorted(void);
     void  InitList(void);
+    void  LVBeginDrag(HWND hwnd, NM_LISTVIEW* nmlv);
     
 
     // Functions in Win32MusicBrowser.cpp
@@ -225,6 +225,8 @@ class MusicBrowserUI : public UserInterface
     void    AddAllTrackURLs(vector<string>* urls);
     void    AddUncatagorizedTrackURLs(vector<string>* urls);
     void    AddSelectedPlaylistItems(vector<string>* urls);
+    void    TVBeginDrag(HWND hwnd, NM_TREEVIEW* nmtv);
+
 
     // Data members
     EventQueue          *m_playerEQ;

@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.33 1998/10/24 00:39:34 jdw Exp $
+	$Id: player.cpp,v 1.34 1998/10/24 06:38:23 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -85,9 +85,10 @@ Player::Player() {
 }
 
 Player::~Player() {
+
     if (m_pTermSem) {
-	delete m_pTermSem;
-	m_pTermSem = NULL;
+	    delete m_pTermSem;
+	    m_pTermSem = NULL;
     }
     //cout << "waiting for service thread to end..." << endl;
     m_eventServiceThread->Join();

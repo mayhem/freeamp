@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.13 2000/03/15 23:00:03 ijr Exp $
+   $Id: Control.cpp,v 1.14 2000/03/16 08:57:20 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -267,10 +267,17 @@ void Control::BlitFrame(ControlStateEnum eFrame, int iState, Rect *pRect,
         iState = 0;
 
     if (m_oStateBitmapRect[iState].find(eFrame) == 
-        m_oStateBitmapRect[iState].end()) 
-        m_oStateBitmapRect[iState][eFrame] = 
+        m_oStateBitmapRect[iState].end()) {
+        if (eFrame == CS_DisabledMO && 
+           m_oStateBitmapRect[iState].find(CS_Disabled) != 
+           m_oStateBitmapRect[iState].end())
+            m_oStateBitmapRect[iState][eFrame] = 
+                                    m_oStateBitmapRect[iState][CS_Disabled]; 
+        else
+            m_oStateBitmapRect[iState][eFrame] = 
                                     m_oStateBitmapRect[iState][CS_Normal];
-
+    }
+ 
     oFrameRect = m_oStateBitmapRect[iState][eFrame];
 
     oFrameRect.x2++;

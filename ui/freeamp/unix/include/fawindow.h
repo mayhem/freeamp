@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.h,v 1.7 1998/11/25 20:13:43 jdw Exp $
+	$Id: fawindow.h,v 1.8 1998/11/28 06:03:09 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -75,7 +75,7 @@ class FAMainWindow : public FAWindow {
     FAMainWindow(Display *, int32,GC, Window,int32,int32,int32,int32);
     virtual ~FAMainWindow();
     virtual void DoEvent(XEvent);
-    virtual void Draw(int32);
+    virtual void Draw(int32 = 0);
 };
 
 class FADumbWindow : public FAWindow {
@@ -84,7 +84,7 @@ class FADumbWindow : public FAWindow {
     FADumbWindow(Display *, int32,GC, Window,int32,int32,int32,int32);
     virtual ~FADumbWindow();
     virtual void DoEvent(XEvent);
-    virtual void Draw(int32);
+    virtual void Draw(int32 = 0);
 };
 
 
@@ -111,7 +111,7 @@ class FATriStateWindow : public FAWindow {
     void SetCurrentTime(int32 h, int32 m, int32 s);
     void SetTotalTime(int32 h, int32 m, int32 s);
     virtual void DoEvent(XEvent);
-    virtual void Draw(int32);
+    virtual void Draw(int32 = 0);
 };
 
 class FALcdWindow : public FAWindow {
@@ -202,7 +202,7 @@ class FALcdWindow : public FAWindow {
     void SetDisplayState(int32);
     void SetVolume(int32);
     int32 GetDisplayState() { return m_displayState; }
-    virtual void Draw(int32);
+    virtual void Draw(int32 = 0);
 };
 
 typedef void (*dial_motion_function)(void *,int32,int32,int32);
@@ -218,7 +218,7 @@ class FADialWindow : public FAWindow {
     virtual ~FADialWindow();
     void SetMotionFunction(dial_motion_function,void *);
     virtual void DoEvent(XEvent);
-    virtual void Draw(int32);
+    virtual void Draw(int32 = 0);
 
 };
 

@@ -10,6 +10,7 @@
 #define IDI_EXE_ICON                    101
 #define IDM_PLAYLISTEDITOR              102
 #define IDD_PLAYER                      103
+#define IDD_DIALOG                      103
 #define IDD_ABOUT                       104
 #define IDB_ABOUT8                      105
 #define IDD_PLAYLISTEDITOR              107

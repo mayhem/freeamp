@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.1.2.1 1999/09/26 03:07:57 elrod Exp $
+	$Id: downloadui.h,v 1.1.2.2 1999/09/26 06:33:17 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef INCLUDED_SIMPLE_UI_H_
-#define INCLUDED_SIMPLE_UI_H_
+#ifndef INCLUDED_DOWNLOAD_UI_H_
+#define INCLUDED_DOWNLOAD_UI_H_
 
 /* system headers */
 #include <stdlib.h>
@@ -37,16 +37,13 @@ ____________________________________________________________________________*/
 #include "queue.h"
 #include "facontext.h"
 #include "preferences.h"
-
-#define	UIState_Stopped 0
-#define	UIState_Playing 1
-#define	UIState_Paused  2
+#include "downloadmanager.h"
 
 
-class SimpleUI : public UserInterface {
+class DownloadUI : public UserInterface {
  public:
-    SimpleUI(FAContext *context);
-    ~SimpleUI();
+    DownloadUI(FAContext *context);
+    ~DownloadUI();
 
     virtual Error Init(int32 startup_type);
     virtual int32 AcceptEvent(Event*);
@@ -56,21 +53,15 @@ class SimpleUI : public UserInterface {
 						            UINT msg, 
 						            WPARAM wParam, 
 						            LPARAM lParam );
-    
-    void SetHwnd(HWND hwnd);
-    void ReadPreferences();
-    void AddTrayIcon();
-    void RemoveTrayIcon();
-    void SetTrayTooltip(char *str);
 
-    Semaphore*      m_uiSemaphore;
+    void SetWindowHandle(HWND hwnd){m_hwnd = hwnd;}
 
-    bool            m_scrolling;
-    HICON           m_trayIcon;
-    Preferences*    m_prefs;
-    int32		    m_state;
+    BOOL InitDialog();
+    BOOL Command(int32 command, HWND src);
 
+   
  protected:
+
     void ParseArgs(int32 argc, char** argv);
 
     static void UIThreadFunc(void *);
@@ -78,30 +69,16 @@ class SimpleUI : public UserInterface {
     FAContext*		m_context;
 
  private:
+    Semaphore*          m_uiSemaphore;
     PlaylistManager*    m_plm;
+    Preferences*        m_prefs;
     Properties*         m_propManager;
-    int32			    m_totalSeconds;
-    float			    m_secondsPerFrame;
     Thread*             m_uiThread;
     EventQueue*         m_target;
+    DownloadManager*    m_dlm;
 
-    bool                m_onTop;
-    bool                m_liveInTray;
-    char                m_trayTooltip[64];
-
-    HWND            m_hwnd;
-    HWND            m_hwndPlay;
-	HWND            m_hwndStop;
-	HWND            m_hwndPause;
-	HWND            m_hwndNext;
-	HWND            m_hwndLast;
-	HWND            m_hwndSlider;
-    HWND            m_hwndCurrent;
-    HWND            m_hwndTotal;
-	HWND            m_hwndStatus;
-
-    
+    HWND m_hwnd;
 };
 
 
-#endif // _SIMPLE_UI_H_
+#endif // INCLUDED_DOWNLOAD_UI_H_

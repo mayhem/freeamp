@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.2 1999/09/26 03:38:08 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.3 1999/09/26 06:33:17 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -47,9 +47,9 @@ BOOL CALLBACK MainProc(	HWND hwnd,
 						WPARAM wParam, 
 						LPARAM lParam ); 
 
-extern "C" SimpleUI *Initialize(FAContext *context)
+extern "C" DownloadUI *Initialize(FAContext *context)
 {
-    return new SimpleUI(context);
+    return new DownloadUI(context);
 }
 
 
@@ -77,15 +77,14 @@ INT WINAPI DllMain (HINSTANCE hInst,
 }
 
 
-SimpleUI::
-SimpleUI(FAContext *context):
-     UserInterface()
+DownloadUI::DownloadUI(FAContext *context):UserInterface()
 {
     m_context = context;
     m_prefs = context->prefs;
     m_plm = m_context->plm;
     m_target = m_context->target;
     m_propManager = m_context->props;
+    m_dlm = m_context->downloadManager;
 
     m_uiSemaphore = new Semaphore();
 
@@ -95,38 +94,17 @@ SimpleUI(FAContext *context):
     m_uiSemaphore->Wait();
 }
 
-SimpleUI::
-~SimpleUI()
+DownloadUI::~DownloadUI()
 {
     delete m_uiSemaphore;
 }
 
-void 
-SimpleUI::
-SetHwnd(HWND hwnd)
-{
-    m_hwnd = hwnd;
-
-    m_hwndPlay	    = GetDlgItem(m_hwnd, IDC_PLAY);
-	m_hwndStop	    = GetDlgItem(m_hwnd, IDC_STOP);
-	m_hwndPause	    = GetDlgItem(m_hwnd, IDC_PAUSE);
-	m_hwndNext	    = GetDlgItem(m_hwnd, IDC_NEXTSONG);
-	m_hwndLast	    = GetDlgItem(m_hwnd, IDC_LASTSONG);
-	m_hwndSlider    = GetDlgItem(m_hwnd, IDC_SLIDER);
-    m_hwndCurrent   = GetDlgItem(m_hwnd, IDC_CURRENT_TIME);
-    m_hwndTotal		= GetDlgItem(m_hwnd, IDC_TOTAL_TIME);
-	m_hwndStatus	= GetDlgItem(m_hwnd, IDC_STATUS);
-}
-
-int32 
-SimpleUI::
-AcceptEvent(Event* event)
+int32 DownloadUI::AcceptEvent(Event* event)
 {
     int32 result = 255;
 
     if(event) 
     {
-        
         switch(event->Type()) 
         {
 	        case CMD_Cleanup: 
@@ -146,66 +124,32 @@ AcceptEvent(Event* event)
     return result;
 }
 
-void  
-SimpleUI::
-ParseArgs(int32 argc, char** argv)
+void DownloadUI::ParseArgs(int32 argc, char** argv)
 {
-    PlaylistManager* Playlist = m_plm;
     char *arg = NULL;
-    bool shuffle = false;
-    bool autoplay = false;
     int32 count = 0;
 
     for(int32 i = 1;i < argc; i++) 
     {
 	    arg = argv[i];
 
-	    if (arg[0] == '-') 
+	    if(arg[0] == '-') 
         {
-	        switch (arg[1]) 
-            {
-		        case 's':
-                {
-                    shuffle = true;
-		            break;
-	            } 
-
-                case 'p':
-                {
-                    autoplay = true;
-		            break;
-	            } 
-            }
+	        //switch(arg[1]) 
+            //{
+		        
+            //}
         }
-        else 
-        {
-            Playlist->AddItem(arg,0);
-            count++;
-	    }
-    }
-
-    Playlist->SetCurrentIndex(0);
-
-    if(shuffle) 
-        Playlist->SetShuffleMode(true);
-    
-    if(count)
-    {
-        EnableWindow(m_hwndPlay, TRUE);
-
-        if(count > 1)
-			EnableWindow(m_hwndNext, TRUE);
+       
     }
 }
 
-void
-SimpleUI::
-CreateUI()
+void DownloadUI::CreateUI()
 {
     InitCommonControls();
 
 	DialogBoxParam( g_hInstance, 
-                    MAKEINTRESOURCE(IDD_PLAYER),
+                    MAKEINTRESOURCE(IDD_DIALOG),
                     NULL,
                     MainProc, 
                     (LPARAM)this);
@@ -213,128 +157,73 @@ CreateUI()
     m_target->AcceptEvent(new Event(CMD_QuitPlayer));
 }
 
-void 
-SimpleUI::
-UIThreadFunc(void* arg)
+void DownloadUI::UIThreadFunc(void* arg)
 {
-    SimpleUI* ui = (SimpleUI*)arg;
+    DownloadUI* ui = (DownloadUI*)arg;
 
     ui->CreateUI();
 }
 
-Error 
-SimpleUI::
-Init(int32 startup_type) 
+Error DownloadUI::Init(int32 startup_type) 
 { 
     ParseArgs(m_context->argc, m_context->argv);
     return kError_NoErr;
 }
 
+BOOL DownloadUI::InitDialog()
+{
+    
+    m_uiSemaphore->Signal();
 
-BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd, 
+    return TRUE;
+}
+
+
+BOOL DownloadUI::Command(int32 command, HWND src)
+{
+    switch(command)
+	{
+		case IDC_PLAY:
+		{
+			break;
+		}
+
+		case IDC_EXIT:
+		{
+			PostQuitMessage(0);
+			break;
+		}
+	}
+
+	return TRUE;		
+}
+
+
+BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd, 
 						            UINT msg, 
 						            WPARAM wParam, 
 						            LPARAM lParam )
 {
 	BOOL result = FALSE;
-    static SimpleUI* m_ui = NULL;
+    static DownloadUI* m_ui = NULL;
 
 	switch(msg)
 	{
 		case WM_INITDIALOG:
 		{
-			HWND hwndStatus = NULL;
-			HWND hwndPlay	= GetDlgItem(hwnd, IDC_PLAY);
-			HWND hwndStop	= GetDlgItem(hwnd, IDC_STOP);
-			HWND hwndPause	= GetDlgItem(hwnd, IDC_PAUSE);
-			HWND hwndNext	= GetDlgItem(hwnd, IDC_NEXTSONG);
-			HWND hwndLast	= GetDlgItem(hwnd, IDC_LASTSONG);
-			HWND hwndSlider	= GetDlgItem(hwnd, IDC_SLIDER);
+            m_ui = (DownloadUI*)lParam;
 
-			EnableWindow(hwndPlay, FALSE);
-			EnableWindow(hwndNext, FALSE);
-			EnableWindow(hwndLast, FALSE);
+            m_ui->SetWindowHandle(hwnd);
 
-			EnableWindow(hwndStop, FALSE);
-			EnableWindow(hwndPause, FALSE);
-			EnableWindow(hwndSlider, FALSE);
-
-			hwndStatus= CreateStatusWindow(	WS_CHILD | WS_VISIBLE, 
-											"", 
-											hwnd, 
-											IDC_STATUS);
-			const int32 kNumPanes = 3;
-			int32 panes[kNumPanes]= {60, 125,-1};
-
-			SendMessage(hwndStatus, SB_SETPARTS, kNumPanes, (LPARAM) panes);
-
-            m_ui = (SimpleUI*)lParam;
-
-            m_ui->SetHwnd(hwnd);
-
-			result = TRUE;
-
-            m_ui->m_uiSemaphore->Signal();
+            result = m_ui->InitDialog();
 
 			break;
 		}
 
 		case WM_COMMAND:
 		{
-            static bool isPaused = false;
-
-			switch(wParam)
-			{
-				case IDC_PLAY:
-				{
-                    if(isPaused)
-                    {
-                        m_ui->m_target->AcceptEvent(new Event(CMD_TogglePause));
-                        isPaused = false;
-                    }
-                    else
-                    {
-                        m_ui->m_target->AcceptEvent(new Event(CMD_Play));
-                    }
-
-					break;
-				}
-
-				case IDC_PAUSE:
-				{
-                    isPaused = true;
-                    m_ui->m_target->AcceptEvent(new Event(CMD_TogglePause));
-					break;
-				}
-
-				case IDC_STOP:
-				{
-                    m_ui->m_target->AcceptEvent(new Event(CMD_Stop));
-					break;
-				}
-
-				case IDC_NEXTSONG:
-				{
-                    m_ui->m_target->AcceptEvent(new Event(CMD_NextMediaPiece));
-					break;
-				}
-
-				case IDC_LASTSONG:
-				{
-                    m_ui->m_target->AcceptEvent(new Event(CMD_PrevMediaPiece));
-					break;
-				}
-
-				case IDC_EXIT:
-				{
-					PostQuitMessage(0);
-					break;
-				}
-			}
-
-			result = TRUE;
-			break;
-		}
+            m_ui->Command(wParam, (HWND)lParam);
+        }
 
 		case WM_CLOSE:
 		{

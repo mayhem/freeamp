@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.21 2000/10/19 14:37:13 robert Exp $
+        $Id: pmo.cpp,v 1.22 2000/12/29 21:09:15 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -219,6 +219,7 @@ void PhysicalMediaOutput::CheckForBufferUp(bool bForceBufferUp)
 
    if (!m_pPmi->IsStreaming() || 
        m_pPmiBuffer == NULL ||
+       m_pPmiBuffer->IsEndOfStream() || 
        m_pInputBuffer == NULL)
       return;
 

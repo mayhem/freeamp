@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.54 1999/04/09 09:50:07 elrod Exp $
+	$Id: freeampui.cpp,v 1.55 1999/04/17 03:13:31 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -323,6 +323,12 @@ MainWndProc(HWND hwnd,
         case WM_KEYDOWN:
         {
             ui->KeyDown(wParam);
+            break;
+        }
+
+        case WM_EXITSIZEMOVE:
+        {
+            ui->ExitSizeMove();
             break;
         }
 
@@ -640,7 +646,14 @@ Destroy()
         }
     }
 
+    // Tell windows msg loop we wanna die
+    PostQuitMessage(0);
+}
 
+void
+FreeAmpUI::
+ExitSizeMove()
+{
     // save window position
     RECT windowRect;
 
@@ -650,9 +663,6 @@ Destroy()
                                 windowRect.top,
                                 windowRect.right - windowRect.left, 
                                 windowRect.bottom - windowRect.top);
-
-    // Tell windows msg loop we wanna die
-    PostQuitMessage(0);
 }
 
 void 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.29 1999/04/08 07:25:34 elrod Exp $
+	$Id: freeampui.h,v 1.30 1999/04/17 03:13:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -107,6 +107,7 @@ class FreeAmpUI : public UserInterface {
     void Timer(int32 timerID);
     void InitMenuPopup(HMENU menuHandle, uint32 position, bool systemMenu);
     void MinMaxInfo(MINMAXINFO* info);
+    void ExitSizeMove();
     void TrayNotify(int32 notifyMessage);
 
     void FilesReceived(char* array, int32 count);

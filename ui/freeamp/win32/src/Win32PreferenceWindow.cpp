@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.31.2.3 2000/02/25 00:00:43 elrod Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.31.2.4 2000/02/28 07:14:24 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1786,14 +1786,19 @@ bool Win32PreferenceWindow::PrefAboutProc(HWND hwnd,
                         "Jason Woodward.";
                     const char* credit2 =
                         "Other people have also contributed to FreeAmp:";
-                    const char* credit3 =
+                    /*const char* credit3 =
                         "Brian Almeida, Stephan Auerhahn, William Bull, Jimen Ching, "
                         "Alan Cutter, Gabor Fleischer, Skip Hansen, Reece Hart, "
                         "Jean-Michel HERVE, Henrik Johnson, Hiromasa Kato, Harald Klein, "
                         "Anton Kruger, Chad Loder, Michael Bruun "
                         "Petersen, Daniel Pustka, Sylvain Rebaud, The Snowblind Alliance, "
                         "Tom Spindler, Chen Su, Jean Tourrilhes, Valters Vingolds, "
-                        "and Mark Weaver.";
+                        "and Mark Weaver.";*/
+                    const char* credit3 =
+                        "William Bull, Alan Cutter, Gabor Fleischer, "
+                        "Jean-Michel HERVE, Hiromasa Kato, Michael Bruun "
+                        "Petersen, Sylvain Rebaud, The Snowblind Alliance, "
+                        "Tom Spindler,Valters Vingolds, and Mark Weaver.";
                     const char* credit4 =
                         "FreeAmp is being released under the terms of the "
                         "GPL. As is provided by the GPL, all of EMusic.com's "

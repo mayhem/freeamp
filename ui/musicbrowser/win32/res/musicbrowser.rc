@@ -123,11 +123,11 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Search for &Music",           ID_FILE_SEARCHFORMUSIC
         MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_FILE_EXIT
+        MENUITEM "&Close",                      ID_FILE_EXIT
     END
     POPUP "E&dit"
     BEGIN
-        MENUITEM "&View Info",                  ID_EDIT_VIEWINFO
+        MENUITEM "&View Info",                  ID_EDIT_VIEWINFO, GRAYED
     END
     POPUP "&View"
     BEGIN

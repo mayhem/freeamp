@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.8 1999/10/16 21:52:14 robert Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.9 1999/10/16 23:34:37 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -217,7 +217,9 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 }
                 else 
                 {
+#if HAVE_GTK
                     CreatePlaylist();
+#endif                
                     m_initialized = true;
                 }
             }
@@ -248,7 +250,9 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 }
                 else 
                 {
+#if HAVE_GTK
                     CreatePlaylist();
+#endif                
                     m_initialized = true;
                 }
             }

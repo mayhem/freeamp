@@ -18,11 +18,14 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.13 1999/10/16 21:52:20 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.14 1999/10/16 23:34:41 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
 #include <windowsx.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <direct.h>
 
 #include "config.h"
 #include "utility.h"
@@ -154,8 +157,6 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
                 case IDC_ADD:
                    g_ui->AddEvent();
                 return 1;
-                case IDC_NEWLIST:
-                return 1;
                 case IDC_CLEARLIST:
                    g_ui->DeleteListEvent();
                 return 1;
@@ -169,6 +170,17 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
                 case ID_FILE_OPENPLAYLIST:
                    g_ui->OpenPlaylist();
                 return 1;
+                case ID_FILE_EXIT:
+                   g_ui->HideBrowser();
+                return 1;
+                case ID_FILE_SAVEPLAYLIST:
+                   g_ui->WritePlaylist();
+                return 1;
+                case IDC_NEWLIST:
+                case ID_FILE_NEWPLAYLIST:
+                   g_ui->NewPlaylist();
+                return 1;
+                
             }    
         }        
     }
@@ -272,6 +284,9 @@ void MusicBrowserUI::ExpandCollapseEvent(void)
     sItem.fType = MFT_STRING;
     sItem.cch = strlen(sItem.dwTypeData);
     SetMenuItemInfo(hMenu, ID_VIEW_MUSICCATALOG, false, &sItem);
+    
+    InvalidateRect(m_hWnd, NULL, true);
+    UpdateWindow(m_hWnd);
 }
 
 void MusicBrowserUI::MoveControls(int iPixelsToMove)
@@ -476,7 +491,6 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
             TV_ITEM sItem;
             TV_HITTESTINFO tv_htinfo;
 
-            memset(&tv_htinfo, 0, sizeof(TV_HITTESTINFO));
             GetCursorPos(&tv_htinfo.pt);
             ScreenToClient(GetDlgItem(m_hWnd, IDC_MUSICTREE), &tv_htinfo.pt);
 
@@ -503,6 +517,7 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
                             PlaylistItem *item;
                             
                             item = new PlaylistItem(*m_oMusicCrossRefs[sItem.lParam].pTrack);
+                            
                             m_context->plm->AddItem(item, false);
                             UpdatePlaylistList();
                             m_bListChanged = true;
@@ -689,6 +704,7 @@ void MusicBrowserUI::FillPlaylistCombo(void)
     int                      iIndex;
 
     HWND hwndCombo = GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO); 
+    ComboBox_ResetContent(hwndCombo);
     ComboBox_AddString(hwndCombo, "Master Playlist");
 
     for(i = m_context->browser->m_catalog->m_playlists->begin(), iIndex = 0; 
@@ -720,10 +736,10 @@ void MusicBrowserUI::LoadPlaylist(string &oPlaylist)
     {   
         int sel;
 
-        m_context->plm->RemoveAll();
-        m_context->plm->ReadPlaylist((char *)oPlaylist.c_str());
-        sel = ComboBox_FindString(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), 0, 
-                                  (char *)oPlaylist.c_str());
+        m_context->plm->SetExternalPlaylist((char *)oPlaylist.c_str());
+        m_context->plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
+        sel = ComboBox_FindString(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO),
+                                  0, (char *)oPlaylist.c_str());
         ComboBox_SetCurSel(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), sel);
     }
         
@@ -740,12 +756,8 @@ void MusicBrowserUI::WritePlaylist(void)
     Error              eRet = kError_NoErr;
 
     if (!m_bListChanged || m_currentListName.length() == 0)
-    {
-       Debug_v("Skipping write -- master playlist or playlist not changed");
        return;
-    }   
 
-    Debug_v("Saving playlist %s", m_currentListName.c_str());
     _splitpath(m_currentListName.c_str(), NULL, NULL, NULL, ext);
     for(i = 0; ; i++)
     {
@@ -838,43 +850,138 @@ void MusicBrowserUI::ToggleVisEvent(void)
 
 void MusicBrowserUI::NewPlaylist(void)
 {
-    //SaveCurrentPlaylist();
-    DeleteListEvent();
-    m_currentListName = "";
-}
-
-void MusicBrowserUI::SetStatusText(const char *text)
-{
-}
-
-void MusicBrowserUI::CreatePlaylist(void)
-{
-}
-
-//    const char* kPlaylistFileFilter =
-//            "MPEG Audio Streams (.mpg, .mp1, .mp2, .mp3, .mpp)\0"
-//            "*.mpg;*.mp1;*.mp2;*.mp3;*.mpp\0"
-//            "All Files (*.*)\0"
-//            "*.*\0";
-
-void MusicBrowserUI::OpenPlaylist(void)
-{
-    int32              i, offset = 0;
+    int32              i, iOffset = 0;
+    uint32             size;
     PlaylistFormatInfo format;
     char               szFilter[512];
+    OPENFILENAME       sOpen;
+    char               szFile[MAX_PATH], szInitialDir[MAX_PATH];
         
     for(i = 0; ; i++)
     {
        if (m_context->plm->GetSupportedPlaylistFormats(&format, i) != kError_NoErr)
           break;
     
-//       strcpy(szFilter
-       
-       Debug_v("Ext: '%s' Desc: '%s'", 
-            format.GetExtension(),
-            format.GetDescription());
+       sprintf(szFilter + iOffset, "%s (.%s)", 
+            format.GetDescription(),
+            format.GetExtension());
+       iOffset += strlen(szFilter + iOffset) + 1;     
+
+       sprintf(szFilter + iOffset, "*.%s", 
+            format.GetExtension());
+       iOffset += strlen(szFilter + iOffset) + 1;     
     }
     
+    strcpy(szFilter + iOffset, "All Files (*.*)\0");
+    iOffset += strlen(szFilter + iOffset) + 1;     
+    strcpy(szFilter + iOffset, "*.*\0");
+    iOffset += strlen(szFilter + iOffset) + 1;     
+    szFilter[iOffset] = 0;
+
+    size = MAX_PATH;
+    if (!IsError(m_context->prefs->GetInstallDirectory(szInitialDir, &size)))
+    {
+        struct _stat buf;
+        
+        strcat(szInitialDir, "\\Playlists");
+        if (_stat(szInitialDir, &buf) != 0)
+           _mkdir(szInitialDir);
+           
+        sOpen.lpstrInitialDir = szInitialDir;
+    }
+    else
+        sOpen.lpstrInitialDir = NULL;
+    
+    szFile[0] = 0;
+    sOpen.lStructSize = sizeof(OPENFILENAME);
+    sOpen.hwndOwner = m_hWnd;
+    sOpen.hInstance = NULL;
+    sOpen.lpstrFilter = szFilter;
+    sOpen.lpstrCustomFilter = NULL;
+    sOpen.nMaxCustFilter = 0;
+    sOpen.nFilterIndex = 1;
+    sOpen.lpstrFile = szFile;
+    sOpen.nMaxFile = MAX_PATH;
+    sOpen.lpstrFileTitle = NULL;
+    sOpen.lpstrTitle = "Choose Name for New Playlist";
+    sOpen.Flags = OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY |
+                  OFN_PATHMUSTEXIST;
+    sOpen.lpstrDefExt = "m3u";
+      
+    if (GetSaveFileName(&sOpen))
+    {
+        string playlist = sOpen.lpstrFile;
+        FILE   *fpFile;
+        
+        fpFile = fopen(sOpen.lpstrFile, "wt");
+        if (fpFile == 0)
+        {
+            MessageBox(m_hWnd, "Cannot create new playlist.", "Playlist", MB_OK);
+            return;
+        }    
+        fclose(fpFile);
+        
+        m_context->browser->m_catalog->AddPlaylist(sOpen.lpstrFile);
+        InitTree();
+        FillPlaylistCombo();
+        LoadPlaylist(playlist);
+    }
+}
+
+void MusicBrowserUI::OpenPlaylist(void)
+{
+    int32              i, iOffset = 0;
+    PlaylistFormatInfo format;
+    char               szFilter[512];
+    OPENFILENAME       sOpen;
+    char               szFile[MAX_PATH];
+        
+    for(i = 0; ; i++)
+    {
+       if (m_context->plm->GetSupportedPlaylistFormats(&format, i) != kError_NoErr)
+          break;
+    
+       sprintf(szFilter + iOffset, "%s (.%s)", 
+            format.GetDescription(),
+            format.GetExtension());
+       iOffset += strlen(szFilter + iOffset) + 1;     
+
+       sprintf(szFilter + iOffset, "*.%s", 
+            format.GetExtension());
+       iOffset += strlen(szFilter + iOffset) + 1;     
+    }
+    
+    strcpy(szFilter + iOffset, "All Files (*.*)\0");
+    iOffset += strlen(szFilter + iOffset) + 1;     
+    strcpy(szFilter + iOffset, "*.*\0");
+    iOffset += strlen(szFilter + iOffset) + 1;     
+    szFilter[iOffset] = 0;
+    
+    szFile[0] = 0;
+    sOpen.lStructSize = sizeof(OPENFILENAME);
+    sOpen.hwndOwner = m_hWnd;
+    sOpen.hInstance = NULL;
+    sOpen.lpstrFilter = szFilter;
+    sOpen.lpstrCustomFilter = NULL;
+    sOpen.nMaxCustFilter = 0;
+    sOpen.nFilterIndex = 1;
+    sOpen.lpstrFile = szFile;
+    sOpen.nMaxFile = MAX_PATH;
+    sOpen.lpstrFileTitle = NULL;
+    sOpen.lpstrInitialDir = NULL;
+    sOpen.lpstrTitle = "Open Playlist";
+    sOpen.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+    sOpen.lpstrDefExt = "m3u";
+      
+    if (GetOpenFileName(&sOpen))
+    {
+        string playlist = sOpen.lpstrFile;
+        
+        m_context->browser->m_catalog->AddPlaylist(sOpen.lpstrFile);
+        InitTree();
+        FillPlaylistCombo();
+        LoadPlaylist(playlist);
+    }
 }
 
 void MusicBrowserUI::AddEvent(void)

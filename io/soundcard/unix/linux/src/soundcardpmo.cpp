@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.39 2000/05/07 17:06:23 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.40 2000/05/19 12:58:33 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -178,6 +178,20 @@ Error SoundCardPMO::Init(OutputInfo * info)
    audio_fd = fd;
 
    channels = info->number_of_channels;
+
+   int mask;
+
+   if (ioctl(audio_fd, SNDCTL_DSP_GETFMTS, &mask) == -1) 
+   {
+      ReportError("Cannot determing the playback formats supported by"
+                  " the soundcard");
+      return (Error) pmoError_IOCTL_SNDCTL_DSP_SAMPLESIZE;
+   }
+   if ((mask & AFMT_S16_LE) == 0)
+   {
+      ReportError("The soundcard does not support 16 bit sample size.");
+      return (Error) pmoError_IOCTL_SNDCTL_DSP_SAMPLESIZE;
+   }
 
    // configure the device:
    int       play_precision = 16;

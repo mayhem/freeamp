@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.10 1999/12/13 12:49:51 robert Exp $
+   $Id: ThemeManager.cpp,v 1.11 1999/12/17 01:36:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -65,7 +65,7 @@ ThemeManager::ThemeManager(FAContext *pContext)
         {
            m_bDevelTheme = true;
            m_oDevelTheme = m_oCurrentTheme;
-           m_oCurrentTheme = THEME_IN_DEVEL;
+           m_oCurrentTheme = string(THEME_IN_DEVEL);
         }   
         else
         {

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cdct.c,v 1.8 1999/07/15 19:38:51 elrod Exp $
+	$Id: cdct.c,v 1.9 1999/07/15 20:20:01 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cdct.c  ***************************************************
@@ -102,10 +102,12 @@ void fdct32(float x[], float c[])
    float b[32];
    int p, q;
 #endif
+
    float *src = x;
 
 #ifdef  _EQUALIZER_ENABLE_
    int i;
+   float b[32];
    if (enableEQ) {
        for(i=0; i<32; i++)
 	   b[i] = x[i] * equalizer[i];

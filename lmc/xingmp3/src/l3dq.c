@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: l3dq.c,v 1.3 1999/07/13 18:42:20 robert Exp $
+	$Id: l3dq.c,v 1.4 1999/07/15 20:20:02 robert Exp $
 ____________________________________________________________________________*/
 
 /****  quant.c  ***************************************************
@@ -174,7 +174,7 @@ void dequant(SAMPLE Sample[], int *nsamp,
 	       Sample[i].x = xs * look_pow[ISMAX + Sample[i].s];
 	    else
 	    {
-		float tmpConst = (1.0/3.0);
+		float tmpConst = (float)(1.0/3.0);
 	       tmp = (double) Sample[i].s;
 	       Sample[i].x = (float) (xs * tmp * pow(fabs(tmp), tmpConst));
 	    }
@@ -217,7 +217,7 @@ block type = 2  short blocks
 		  buf[j][w] = xs * look_pow[ISMAX + Sample[i].s];
 	       else
 	       {
-		  float tmpConst = (1.0/3.0);
+		  float tmpConst = (float)(1.0/3.0);
 		  tmp = (double) Sample[i].s;
 		  buf[j][w] = (float) (xs * tmp * pow(fabs(tmp), tmpConst));
 	       }

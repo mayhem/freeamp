@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.92 1999/07/13 18:48:52 robert Exp $
+   $Id: xinglmc.cpp,v 1.93 1999/07/15 20:20:03 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -271,7 +271,6 @@ Error XingLMC::GetHeadInfo()
 Error XingLMC::CanDecode()
 {
    Error      Err;
-   int32      dummy;
 
    if (!m_pInputBuffer)
    {

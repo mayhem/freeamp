@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.41 2000/05/15 12:52:02 robert Exp $
+   $Id: Theme.cpp,v 1.42 2000/05/18 10:12:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1508,9 +1508,7 @@ DB
        return kError_NoErr;
     }
 
-    m_oLastError = string("Invalid tag: ") + oElement;
-
-    return kError_InvalidParam;
+    return kError_NoErr;
 }
 
 Error Theme::EndElement(string &oElement)
@@ -1629,9 +1627,7 @@ Error Theme::EndElement(string &oElement)
        return kError_NoErr;
     }
 
-    m_oLastError = string("Invalid close tag: ") + oElement;
-
-    return kError_InvalidParam;
+    return kError_NoErr;
 }    
 
 Error Theme::PCData(string &oData)

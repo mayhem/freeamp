@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.37 2000/05/20 12:32:00 ijr Exp $
+        $Id: AUTHORS,v 1.37.4.1 2000/06/05 15:57:20 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -132,3 +132,6 @@ Michael Rich <istan@alltel.net>
 
 "Terje Malmedal" <tm@funcom.com>
 * fix for displaying European characters in the linux freeamp ui
+
+Steve Kemp <skx@tardis.ed.ac.uk>
+* Playlist column selection code for Win32 version of musicbrowser.ui

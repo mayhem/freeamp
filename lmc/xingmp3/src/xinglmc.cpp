@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.116 2000/01/10 19:38:52 elrod Exp $
+   $Id: xinglmc.cpp,v 1.117 2000/01/29 20:38:24 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -850,7 +850,7 @@ void XingLMC::DecodeWork()
       if (m_pOutputBuffer)
       {
 #if __BYTE_ORDER != __LITTLE_ENDIAN
-         x.out_bytes = cvt_to_wave(pOutBuffer, x.out_bytes);
+         x.out_bytes = cvt_to_wave((unsigned char *)pOutBuffer, x.out_bytes);
 #endif
 
 #define _VISUAL_ENABLE_

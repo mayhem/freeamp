@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.13 1999/11/11 00:12:25 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.14 1999/11/13 01:21:45 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -126,8 +126,11 @@ Error MusicCatalog::RemovePlaylist(const char *url)
     for (; i != m_playlists->end(); i++)
          if ((*i) == url) {
              string tempstr = url;
-             if (tempstr.find("currentlist.m3u") >= tempstr.length())
+             if (tempstr.find("currentlist.m3u") >= tempstr.length()) {
+                 string sUrl = url; 
+                 m_context->target->AcceptEvent(new MusicCatalogPlaylistRemovedEvent(sUrl));
                  m_playlists->erase(i);
+             }
              return kError_NoErr;
          }   
 
@@ -162,6 +165,9 @@ Error MusicCatalog::AddPlaylist(const char *url)
             m_playlists->insert(m_playlists->begin(), url);
         else
             m_playlists->push_back(url);
+
+        string sUrl = url;
+        m_context->target->AcceptEvent(new MusicCatalogPlaylistAddedEvent(sUrl));
         return kError_NoErr;
     }
 
@@ -311,6 +317,7 @@ Error MusicCatalog::AddSong(const char *url)
             m_artistList->push_back(newartist);
         }
     }
+    m_context->target->AcceptEvent(new MusicCatalogTrackAddedEvent(newtrack));
     return kError_NoErr;
 }
 

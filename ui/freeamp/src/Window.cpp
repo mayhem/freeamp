@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.7 1999/11/10 20:57:39 robert Exp $
+   $Id: Window.cpp,v 1.8 1999/11/13 01:21:45 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -88,7 +88,7 @@ Error Window::VulcanMindMeld(Window *pOther)
 
     m_pCanvas = pOther->m_pCanvas;
     Init();   
-    
+   
     return kError_NoErr;
 }
 

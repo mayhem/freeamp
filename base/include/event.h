@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.36 1999/11/12 19:03:59 robert Exp $
+	$Id: event.h,v 1.37 1999/11/13 01:21:45 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -129,6 +129,11 @@ class EventQueue {
 #define CMD_AddFiles                65 // sent by the theme ui to have the music browser show an add tracks dialog for quickly adding/playing tracks
 #define CMD_QueryPlayerState      66 // asks the player object to resend out its state
 #define CMD_LoadTheme             67 // load a theme from a file
+
+#define INFO_MusicCatalogTrackAdded 68 // sent by MC to the player to inform of a track added
+#define INFO_MusicCatalogTrackRemoved 69 // sent by MC to the player to inform of a track removal
+#define INFO_MusicCatalogPlaylistAdded 70 // sent by MC to the player after a playlist was added
+#define INFO_MusicCatalogPlaylistRemoved 71 // sent by the MC to the player after a playlist removal
 
 #endif // _EVENT_H_
 

@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.59 1999/11/11 00:12:25 ijr Exp $
+dnl $Id: configure.in,v 1.60 1999/11/13 01:21:45 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-1999 EMusic.com
 dnl
@@ -96,7 +96,7 @@ case "$host_os" in
   linux*)
     AC_DEFINE(HAVE_LINUX)
 dnl  OSLINK='-Wl,soname,${*F}'
-    LDFLAGS="$LDFLAGS -Wl,--export-dynamic"
+    LDFLAGS="$LDFLAGS -Wl,-export-dynamic"
 dnl not needed.
     ;;
   solaris*)

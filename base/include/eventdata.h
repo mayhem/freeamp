@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.37 1999/11/12 19:04:00 robert Exp $
+        $Id: eventdata.h,v 1.38 1999/11/13 01:21:45 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -548,9 +548,54 @@ public:
    }
 };
 
-class PlaylistItemAddedEvent : public Event {
+class MusicCatalogTrackAddedEvent : public Event {
 private:
-	const PlaylistItem* m_item;
+    const PlaylistItem* m_item;
+public:
+    MusicCatalogTrackAddedEvent(const PlaylistItem* item)
+    { m_type = INFO_MusicCatalogTrackAdded; m_item = item; }
+    virtual ~MusicCatalogTrackAddedEvent() {}
+
+    const PlaylistItem* Item() const { return m_item; }
+};
+
+class MusicCatalogTrackRemovedEvent : public Event {
+private:
+    const PlaylistItem* m_item;
+public:
+    MusicCatalogTrackRemovedEvent(const PlaylistItem* item)
+    { m_type = INFO_MusicCatalogTrackAdded; m_item = item; }
+    virtual ~MusicCatalogTrackRemovedEvent() {}
+
+    const PlaylistItem* Item() const { return m_item; }
+};
+
+class MusicCatalogPlaylistAddedEvent : public Event {
+private:
+    string m_item;
+public:
+    MusicCatalogPlaylistAddedEvent(string &item)
+    { m_type = INFO_MusicCatalogPlaylistAdded; m_item = item; }
+    virtual ~MusicCatalogPlaylistAddedEvent() {}
+
+    const string Item() const { return m_item; }
+};
+
+class MusicCatalogPlaylistRemovedEvent : public Event {
+private:
+    string m_item;
+public:
+    MusicCatalogPlaylistRemovedEvent(string & item)
+    { m_type = INFO_MusicCatalogPlaylistRemoved; m_item = item; }
+    virtual ~MusicCatalogPlaylistRemovedEvent() {}
+
+    const string Item() const { return m_item; }
+};
+
+
+class PlaylistItemAddedEvent : public Event {
+  private:
+    const PlaylistItem* m_item;
     const PlaylistManager* m_plm;
 public:
 	PlaylistItemAddedEvent(const PlaylistItem* item, const PlaylistManager* plm) 

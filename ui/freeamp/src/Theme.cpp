@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.9 1999/11/05 01:19:43 robert Exp $
+   $Id: Theme.cpp,v 1.10 1999/11/13 01:21:45 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -103,8 +103,7 @@ Theme::Theme(FAContext *context)
 #ifdef WIN32
     m_pWindow = new Win32Window(this, funkyName);
 #elif defined(HAVE_GTK)
-    InitializeGTK(context);
-    
+    InitializeGTK(context);    
     m_pWindow = new GTKWindow(this, funkyName);
 #elif defined(__BEOS__)
     m_pWindow = new BeOSWindow(this, funkyName);

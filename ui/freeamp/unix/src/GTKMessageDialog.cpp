@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKMessageDialog.cpp,v 1.3 1999/11/08 02:22:48 ijr Exp $
+   $Id: GTKMessageDialog.cpp,v 1.4 1999/11/13 01:21:46 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <gtk/gtk.h>
@@ -47,11 +47,6 @@ MessageDialogReturnEnum MessageDialog::
 }
 
 static gboolean message_destroy(GtkWidget *widget)
-{
-    return FALSE;
-}
-
-static gboolean message_quit(GtkWidget *widget)
 {
     return FALSE;
 }

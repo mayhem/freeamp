@@ -1,6 +1,6 @@
 #!/bin/sh -e
 #
-# $Id: install-freeamp,v 1.6.4.1 1999/10/11 04:20:00 ijr Exp $
+# $Id: install-freeamp,v 1.6.4.2 1999/10/17 16:38:24 ijr Exp $
 #
 
 prefix=/usr/local
@@ -27,6 +27,9 @@ for dir in "$bindir" "$libdir" "$fadir" "$plugdir" "$sharedir" "$fathemedir" "$t
 done
 
 install -c -m 755 freeamp "$bindir"
+if test -f "MakeTheme"; then
+    install -c -m 755 MakeTheme "$bindir"
+fi
 for file in themes/*.*; do
     echo "install -c -o root -m 644 $file $themedir"
     install -c -o root -m 644 "$file" "$themedir"

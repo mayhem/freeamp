@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmi.cpp,v 1.1 1999/07/02 01:13:49 robert Exp $
+        $Id: pmi.cpp,v 1.2 1999/07/06 23:11:03 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -57,7 +57,6 @@ PhysicalMediaInput::PhysicalMediaInput(FAContext *context):
 
 PhysicalMediaInput::~PhysicalMediaInput()
 {
-
     m_bExit = true;
     m_bPause = false;
     m_pSleepSem->Signal();

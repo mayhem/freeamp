@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.9 1999/07/06 18:14:54 robert Exp $
+        $Id: preferences.cpp,v 1.10 1999/07/06 23:10:55 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -48,6 +48,7 @@ const char* kSaveStreamsPref = "SaveStreams";
 const char* kSaveStreamsDirPref = "SaveStreamsDirectory";
 const char* kUseProxyPref = "UseProxy";
 const char* kProxyHostPref = "ProxyHost";  
+const char* kPreBufferPref = "PreBuffer";  
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -65,6 +66,7 @@ const int32 kDefaultDecoderThreadPriority = 4;
 const bool  kDefaultLogging = false;
 const bool  kDefaultSaveStreams = false;
 const char* kDefaultSaveStreamsDir = ".";
+const int32 kDefaultPreBuffer = 0;
 
 Error
 Preferences::
@@ -114,6 +116,9 @@ SetDefaults()
 
     if (GetPrefString(kSaveStreamsDirPref, dummyString, &size) == kError_NoPrefValue)
         SetPrefString(kSaveStreamsDirPref, kDefaultSaveStreamsDir);
+
+    if (GetPrefInt32(kPreBufferPref, &dummyInt) == kError_NoPrefValue)
+        SetPrefInt32(kPreBufferPref, kDefaultPreBuffer);
 
     return kError_NoErr;
 }

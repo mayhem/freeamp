@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.6 1999/07/06 18:14:52 robert Exp $
+	$Id: preferences.h,v 1.7 1999/07/06 23:10:52 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PREFERENCES_H
@@ -55,6 +55,7 @@ extern const char* kSaveStreamsPref;
 extern const char* kSaveStreamsDirPref;
 extern const char* kUseProxyPref;
 extern const char* kProxyHostPref;
+extern const char* kPreBufferPref;
 
 class LibDirFindHandle;
 

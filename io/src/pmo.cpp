@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.6 1999/07/06 18:14:58 robert Exp $
+        $Id: pmo.cpp,v 1.7 1999/07/06 23:11:04 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -35,6 +35,7 @@ ____________________________________________________________________________*/
 #include <config.h>
 #include "pipeline.h"
 #include "pullbuffer.h"
+#include "preferences.h"
 #include "eventbuffer.h"
 #include "eventdata.h"
 #include "facontext.h"
@@ -47,6 +48,10 @@ PhysicalMediaOutput::PhysicalMediaOutput(FAContext *context) :
 {
     m_pPmi = NULL;
     m_pLmc = NULL;
+
+    if (context->prefs->GetPrefInt32(kPreBufferPref, &m_iPreBuffer) == 
+        kError_NoPrefValue)
+         m_iPreBuffer = 0;
 }
 
 PhysicalMediaOutput::~PhysicalMediaOutput()
@@ -124,6 +129,11 @@ void PhysicalMediaOutput::Resume(void)
     }
 
     PipelineUnit::Resume();
+}
+
+void PhysicalMediaOutput::PreBuffer(void)
+{
+    usleep(m_iPreBuffer * 1000);
 }
 
 bool PhysicalMediaOutput::WasteTime()

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.19 1999/07/02 01:13:35 robert Exp $
+	$Id: pmo.h,v 1.20 1999/07/06 23:11:00 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -89,9 +89,11 @@ public:
 protected:
 
     virtual bool  WasteTime();
+    virtual void  PreBuffer();
 
     PhysicalMediaInput    *m_pPmi;
     LogicalMediaConverter *m_pLmc;
+    int                    m_iPreBuffer;
 };
 
 #endif /* _PMO_H_ */

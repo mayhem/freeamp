@@ -23,7 +23,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.17 1999/07/02 19:05:02 robert Exp $
+        $Id: alsapmo.cpp,v 1.18 1999/07/06 23:10:56 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -282,6 +282,9 @@ void AlsaPMO::WorkerThread(void)
 
    // Don't do anything until resume is called.
    m_pPauseSem->Wait();
+
+   // Sleep for a pre buffer period
+   PreBuffer();
 
    // The following should be abstracted out into the general thread
    // classes:

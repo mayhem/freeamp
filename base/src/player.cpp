@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.124 1999/07/06 18:14:53 robert Exp $
+        $Id: player.cpp,v 1.125 1999/07/06 23:10:53 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -590,7 +590,6 @@ EventServiceThreadFunc(void *pPlayer)
          rtnVal = pP->ServiceEvent(pC);
       }
    }
-   printf("Event service thread bye bye!\n");
 }
 
 int32     
@@ -917,6 +916,10 @@ CreatePMO(PlayListItem * pc, Event * pC)
    pmo->SetPMI(pmi);
    pmo->SetLMC(lmc);
 
+   pmi = NULL;
+   m_lmc = lmc;
+   lmc = NULL;
+
    error = pmo->SetTo(pc->URL());
    if (IsError(error))
    {
@@ -924,11 +927,8 @@ CreatePMO(PlayListItem * pc, Event * pC)
       goto epilogue;
    }
 
-   pmi = NULL;
    m_pmo = pmo;
    pmo = NULL;
-   m_lmc = lmc;
-   lmc = NULL;
 
    epilogue:
 

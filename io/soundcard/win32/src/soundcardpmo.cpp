@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.39 1999/07/05 23:11:16 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.40 1999/07/06 23:11:02 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -413,6 +413,9 @@ void SoundCardPMO::WorkerThread(void)
 
    // Don't do anything until resume is called.
    m_pPauseSem->Wait();
+
+   // Wait for prebuffer period
+   PreBuffer();
 
    m_pContext->prefs->GetDecoderThreadPriority(&iValue);
    m_pBufferThread->SetPriority(iValue);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.10 1999/07/06 23:10:55 robert Exp $
+        $Id: preferences.cpp,v 1.11 1999/07/09 00:50:25 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -67,6 +67,8 @@ const bool  kDefaultLogging = false;
 const bool  kDefaultSaveStreams = false;
 const char* kDefaultSaveStreamsDir = ".";
 const int32 kDefaultPreBuffer = 0;
+const char *kDefaultProxyHost = "proxy.youdomain.com";
+const bool  kDefaultUseProxy = false;
 
 Error
 Preferences::
@@ -119,6 +121,13 @@ SetDefaults()
 
     if (GetPrefInt32(kPreBufferPref, &dummyInt) == kError_NoPrefValue)
         SetPrefInt32(kPreBufferPref, kDefaultPreBuffer);
+
+	if (GetPrefBoolean(kUseProxyPref, &dummyBool) == kError_NoPrefValue)
+        SetPrefBoolean(kUseProxyPref, kDefaultUseProxy);
+
+	dummyInt = 255;
+    if (GetPrefString(kProxyHostPref, dummyString, (unsigned int *)&dummyInt) == kError_NoPrefValue)
+		SetPrefString(kProxyHostPref, kDefaultProxyHost);
 
     return kError_NoErr;
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.19 1999/07/02 01:13:38 robert Exp $
+        $Id: localfileinput.cpp,v 1.20 1999/07/09 00:50:32 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -48,7 +48,7 @@ ____________________________________________________________________________*/
 
 const uint32 iReadBlock = 8192;
 
-#define DB printf("%s:%d\n", __FILE__, __LINE__);
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 extern    "C"
 {
@@ -337,6 +337,7 @@ void LocalFileInput::WorkerThread(void)
           if (iRead < iReadBlock)
              m_pOutputBuffer->SetEndOfStream(true);
       }
+
       if (eError == kError_BufferTooSmall)
       {
           m_pSleepSem->Wait();

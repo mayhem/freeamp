@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.126 1999/07/08 16:59:24 robert Exp $
+        $Id: player.cpp,v 1.127 1999/07/09 00:50:24 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -43,6 +43,7 @@ ____________________________________________________________________________*/
 #include "facontext.h"
 #include "log.h"
 #include "pmo.h"
+
 
 #define DB printf("%s:%d\n", __FILE__, __LINE__);
 
@@ -1008,7 +1009,6 @@ Stop(Event *pEvent)
     if (m_pmo)
     {
        m_pmo->Pause();
-
        delete    m_pmo;
  
        m_pmo = NULL;

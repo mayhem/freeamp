@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: eventbuffer.cpp,v 1.10 1999/07/02 01:13:47 robert Exp $
+   $Id: eventbuffer.cpp,v 1.11 1999/07/09 00:50:37 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -28,8 +28,9 @@ ____________________________________________________________________________*/
 #include <sys/types.h>
 
 #include "eventbuffer.h"
+#include "debug.hpp"
 
-#define DB printf("%x: %s:%d\n", pthread_self(), __FILE__, __LINE__);
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 EventBuffer::EventBuffer(size_t iBufferSize, size_t iOverFlowSize, 
                          FAContext *context) : 
@@ -71,10 +72,13 @@ Error EventBuffer::BeginRead(void *&pBuffer, size_t iBytesWanted)
       iMaxBytes = (GetBufferSize() - iReadIndex) + pEvent->iIndex;
    }
 
-   if (iBytesWanted > iMaxBytes)
+   //Debug_v("Mb: %d wn: %d (event at: %d, ri: %d, wi: %d bi: %d bs: %d)",  iMaxBytes, iBytesWanted,
+   //    pEvent->iIndex, iReadIndex, GetWriteIndex(), GetNumBytesInBuffer(), GetBufferSize());
+   if (iBytesWanted >= iMaxBytes)
       return kError_EventPending;
    else
-      return PullBuffer::BeginRead(pBuffer, iBytesWanted);
+	  return PullBuffer::BeginRead(pBuffer, iBytesWanted);
+
 }
 
 Error EventBuffer::AcceptEvent(Event *pPMOEvent)

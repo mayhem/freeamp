@@ -18,9 +18,9 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.9 1999/01/23 10:23:50 jdw Exp $
+##      $Id: Makefile.am,v 1.1 1999/01/23 10:23:50 jdw Exp $
 ##
 ############################################################################
 
-SUBDIRS = gtk cmdline src mpg123 freeamp lcd irman
+SUBDIRS = src
 

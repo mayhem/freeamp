@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.54 1998/11/10 07:58:01 jdw Exp $
+	$Id: player.cpp,v 1.55 1998/11/20 03:27:46 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -269,8 +269,8 @@ void Player::Run(){
 		        m_ui->SetTarget((EventQueue *)this);
 		        m_ui->SetPlayListManager(m_plm);
                 m_ui->SetArgs(m_argc, m_argv);
-		        m_ui->Init();
                 RegisterActiveUI(m_ui);
+		        m_ui->Init();
 		        uisActivated++;
                 break;
             }

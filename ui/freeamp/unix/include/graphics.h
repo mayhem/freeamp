@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: graphics.h,v 1.2 1998/11/19 21:37:25 jdw Exp $
+	$Id: graphics.h,v 1.3 1998/11/20 03:27:46 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _GRAPHICS_H_
@@ -49,6 +49,8 @@ Pixmap right_side_pixmap;
 #include "leftside256.xpm"
 Pixmap left_side_pixmap;
 
+#define LCD_X 149
+#define LCD_Y 0
 #define LCD_WIDTH 190
 #define LCD_HEIGHT 51
 #include "lcd.xpm"
@@ -172,5 +174,14 @@ Pixmap shuffle_buttons_pixmap;
 #include "open_buttons.xpm"
 #include "open_buttons256.xpm"
 Pixmap open_buttons_pixmap;
+
+
+#include "small_font.xpm"
+#include "small_font256.xpm"
+Pixmap small_font_pixmap;
+
+#include "big_font.xpm"
+#include "big_font256.xpm"
+Pixmap big_font_pixmap;
 
 #endif // _GRAPHICS_H_

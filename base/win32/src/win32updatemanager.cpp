@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.1.2.3 1999/10/11 20:58:28 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.1.2.4 1999/10/12 20:48:12 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -105,7 +105,7 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
     
     findFileHandle = FindFirstFile(filePath, &findData);
 
-    cout << "searching in "<< path << ":" << endl;
+    //cout << "searching in "<< path << ":" << endl;
 
     if(findFileHandle != INVALID_HANDLE_VALUE)
     {
@@ -145,7 +145,7 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
                             uint32 size;
                             UpdateItem* item = new UpdateItem;
 
-                            item->SetLocalFileName(string("findData.cFileName"));
+                            item->SetLocalFileName(string(findData.cFileName));
                             item->SetLocalFilePath(string(filePath));
 
                             if(VerQueryValue(data, "\\", (void**)&fileInfo, &size))
@@ -162,7 +162,7 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
                                 uint32 minor = LOWORD(fileInfo->dwFileVersionMS);
                                 uint32 rev = HIWORD(fileInfo->dwFileVersionLS);
 
-                                ost << major << "." << minor << "." << rev << endl;
+                                ost << major << "." << minor << "." << rev;
                                 
                                 item->SetLocalFileVersion(ost.str());
 

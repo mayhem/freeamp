@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.1.2.4 1999/10/09 18:53:15 robert Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.1.2.5 1999/10/12 20:48:13 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -31,6 +31,7 @@ ____________________________________________________________________________*/
 #include <assert.h>
 
 #include "eventdata.h"
+#include "win32updatemanager.h"
 #include "Win32PreferenceWindow.h"
 #include "Win32Window.h"
 #include "Debug.h"
@@ -44,6 +45,7 @@ const char* kThemeFileFilter =
             "All Files (*.*)\0"
             "*.*\0";
 
+uint32 CalcStringEllipsis(HDC hdc, string& displayString, int32 columnWidth);
 
 static BOOL CALLBACK 
 PrefPage1Callback(HWND hwnd, 
@@ -88,7 +90,16 @@ PrefPage5Callback(HWND hwnd,
                   LPARAM lParam)
 {
 	return g_pCurrentPrefWindow->PrefPage5Proc(hwnd, msg, wParam, lParam);
-}          
+}      
+
+static BOOL CALLBACK 
+PrefPage6Callback(HWND hwnd, 
+                  UINT msg, 
+                  WPARAM wParam, 
+                  LPARAM lParam)
+{
+	return g_pCurrentPrefWindow->PrefPage6Proc(hwnd, msg, wParam, lParam);
+}             
 
 Win32PreferenceWindow::Win32PreferenceWindow(FAContext *context,
                                              ThemeManager *pThemeMan) :
@@ -113,7 +124,7 @@ bool Win32PreferenceWindow::Show(Window *pWindow)
 bool Win32PreferenceWindow::DisplayPreferences(HWND hwndParent, Preferences* prefs)
 {
     bool result = false;
-    PROPSHEETPAGE psp[5];
+    PROPSHEETPAGE psp[6];
     PROPSHEETHEADER psh;
 	
     HINSTANCE hinst = (HINSTANCE)GetWindowLong(hwndParent, GWL_HINSTANCE);
@@ -148,20 +159,29 @@ bool Win32PreferenceWindow::DisplayPreferences(HWND hwndParent, Preferences* pre
     psp[3].dwSize = sizeof(PROPSHEETPAGE);
     psp[3].dwFlags = 0;
     psp[3].hInstance = hinst;
-    psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PREF3);
+    psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PREF6);
     psp[3].pszIcon = NULL;
-    psp[3].pfnDlgProc = PrefPage3Callback;
+    psp[3].pfnDlgProc = PrefPage6Callback;
     psp[3].pszTitle = NULL;
     psp[3].lParam = (LPARAM)prefs;
 
     psp[4].dwSize = sizeof(PROPSHEETPAGE);
     psp[4].dwFlags = 0;
     psp[4].hInstance = hinst;
-    psp[4].pszTemplate = MAKEINTRESOURCE(IDD_PREF4);
+    psp[4].pszTemplate = MAKEINTRESOURCE(IDD_PREF3);
     psp[4].pszIcon = NULL;
-    psp[4].pfnDlgProc = PrefPage4Callback;
+    psp[4].pfnDlgProc = PrefPage3Callback;
     psp[4].pszTitle = NULL;
     psp[4].lParam = (LPARAM)prefs;
+
+    psp[5].dwSize = sizeof(PROPSHEETPAGE);
+    psp[5].dwFlags = 0;
+    psp[5].hInstance = hinst;
+    psp[5].pszTemplate = MAKEINTRESOURCE(IDD_PREF4);
+    psp[5].pszIcon = NULL;
+    psp[5].pfnDlgProc = PrefPage4Callback;
+    psp[5].pszTitle = NULL;
+    psp[5].lParam = (LPARAM)prefs;
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE;
@@ -1734,4 +1754,361 @@ bool Win32PreferenceWindow::PrefPage5Proc(HWND hwnd,
     }
 
     return result;
+}
+
+bool Win32PreferenceWindow::PrefPage6Proc(HWND hwnd, 
+                                          UINT msg, 
+                                          WPARAM wParam, 
+                                          LPARAM lParam)      
+{
+    bool result = false;
+    static PROPSHEETPAGE* psp = NULL;
+    static Preferences* prefs = NULL;
+    static HWND hwndList = NULL;
+    static HWND hwndDescription = NULL;
+    static HWND hwndUpdate = NULL;
+    static HWND hwndCheck = NULL;
+    const char* kNoSelection = "No component is selected.";
+
+    
+    switch(msg)
+    {
+        case WM_INITDIALOG:
+        {
+            // remember these for later...
+            psp = (PROPSHEETPAGE*)lParam;
+            prefs = (Preferences*)psp->lParam;
+
+            hwndList = GetDlgItem(hwnd, IDC_LIST);
+            hwndDescription = GetDlgItem(hwnd, IDC_DESCRIPTION);
+            hwndUpdate = GetDlgItem(hwnd, IDC_UPDATE);
+            hwndCheck = GetDlgItem(hwnd, IDC_CHECK);
+
+            // Init our controls
+
+            // First let's add our columns
+            RECT rect;
+            GetClientRect(hwndList, &rect);
+
+            LV_COLUMN lvc;
+
+            lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
+            lvc.fmt = LVCFMT_LEFT; // left align column
+            lvc.cx = (rect.right-rect.left)/2; // width of column in pixels
+            lvc.pszText = "Component Name";
+            lvc.iSubItem = 0;
+
+            lvc.cx -= GetSystemMetrics(SM_CXVSCROLL); // width of the scrollbar
+
+            if((rect.right-rect.left)%2) // squeeze out every last pixel :)
+                lvc.cx += 1;
+
+            ListView_InsertColumn(hwndList, 0, &lvc);
+
+            lvc.pszText = "Your Version";
+            lvc.cx = (rect.right-rect.left)/4; // width of column in pixels
+            lvc.iSubItem = 1;
+
+            ListView_InsertColumn(hwndList, 1, &lvc);
+
+            lvc.pszText = "Latest Version";
+            lvc.iSubItem = 2;
+
+            ListView_InsertColumn(hwndList, 2, &lvc);
+
+            // Add Items that are currently in the update manager
+            LV_ITEM lv_item;
+            UpdateItem* item = NULL;
+            uint32 i = 0;
+
+            while(item = m_pContext->updateManager->ItemAt(i++))
+            {
+                lv_item.mask = LVIF_PARAM | LVIF_STATE;
+                lv_item.state = 0;
+                lv_item.stateMask = 0;
+                lv_item.iItem = ListView_GetItemCount(hwndList);
+                lv_item.iSubItem = 0;
+                lv_item.lParam = (LPARAM)item;
+
+                ListView_InsertItem(hwndList, &lv_item);
+            }
+
+            // Don't want this to be blank on startup
+            SetWindowText(hwndDescription, kNoSelection);
+
+            break;
+        }
+
+        case WM_COMMAND:
+        {
+            switch(LOWORD(wParam))
+            {
+                case IDC_UPDATE:
+                {
+                
+                	break;
+                }
+
+                case IDC_CHECK:
+                {
+                    
+                    m_pContext->updateManager->RetrieveLatestVersionInfo();
+                    ListView_RedrawItems(hwndList, 0, ListView_GetItemCount(hwndList) - 1);
+                    
+                    break;
+                }                
+            }
+
+            break;
+        }
+
+        case WM_DRAWITEM:
+        {
+            DRAWITEMSTRUCT* dis = (DRAWITEMSTRUCT*) lParam;
+            int32 controlId = (UINT) wParam;
+            UpdateItem* item = (UpdateItem*)dis->itemData;
+
+            uint32 localMajorVersion, currentMajorVersion;
+            uint32 localMinorVersion, currentMinorVersion;
+            uint32 localRevisionVersion, currentRevisionVersion;
+            int32 numFields;
+            bool currentVersionMoreRecent = false;
+            
+            numFields = sscanf(item->GetLocalFileVersion().c_str(),
+                   "%lu.%lu.%lu", 
+                   &localMajorVersion,&localMinorVersion,&localRevisionVersion);
+
+            if(numFields < 3)
+                localRevisionVersion = 0;
+
+            if(numFields < 2)
+                localMinorVersion = 0;
+
+            if(numFields < 1)
+                localMajorVersion = 0;
+            
+            numFields = sscanf(item->GetCurrentFileVersion().c_str(),
+                   "%d.%d.%d", 
+                   &currentMajorVersion,&currentMinorVersion,&currentRevisionVersion);
+
+            if(numFields < 3)
+                currentRevisionVersion = 0;
+
+            if(numFields < 2)
+                currentMinorVersion = 0;
+
+            if(numFields < 1)
+                currentMajorVersion = 0;
+
+            // is the version on the server more recent?
+            if( (currentMajorVersion > localMajorVersion) ||
+                (currentMajorVersion == localMajorVersion && 
+                 currentMinorVersion > localMinorVersion) ||
+                (currentMajorVersion == localMajorVersion && 
+                 currentMinorVersion == localMinorVersion &&
+                 currentRevisionVersion > localRevisionVersion))
+            {
+                currentVersionMoreRecent = true;
+            }
+
+
+            uint32 uiFlags = ILD_TRANSPARENT;
+            RECT rcClip;
+
+            // Check to see if this item is selected
+            if(dis->itemState & ODS_SELECTED)
+            {
+                // Set the text background and foreground colors
+                SetTextColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
+                SetBkColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHT));
+            }
+            else
+            {
+                // Set the text background and foreground colors 
+                // to the standard window colors
+                SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+                SetBkColor(dis->hDC, GetSysColor(COLOR_WINDOW));
+            }
+
+            rcClip = dis->rcItem;            
+
+            // Check to see if the string fits in the clip rect.  If not, truncate
+            // the string and add "...".
+            string displayString = item->GetLocalFileName();
+
+            CalcStringEllipsis(dis->hDC, 
+                               displayString, 
+                               ListView_GetColumnWidth(hwndList, 0));
+
+            ExtTextOut( dis->hDC, 
+                        rcClip.left + 3, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+
+            UINT oldAlign = SetTextAlign(dis->hDC, TA_CENTER);    
+
+            rcClip.left += ListView_GetColumnWidth(hwndList, 0);
+
+            displayString = item->GetLocalFileVersion();
+
+            CalcStringEllipsis(dis->hDC, 
+                               displayString, 
+                               ListView_GetColumnWidth(hwndList, 1));
+
+            if(currentVersionMoreRecent && !(dis->itemState & ODS_SELECTED))
+                SetTextColor(dis->hDC, RGB(192, 0, 0));
+
+            ExtTextOut( dis->hDC, 
+                        rcClip.left + (ListView_GetColumnWidth(hwndList, 1))/2, 
+                        rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+                   
+        
+            rcClip.left += ListView_GetColumnWidth(hwndList, 1);
+
+            displayString = item->GetCurrentFileVersion();
+
+            CalcStringEllipsis(dis->hDC, 
+                               displayString, 
+                               ListView_GetColumnWidth(hwndList, 2));
+
+            if(currentVersionMoreRecent && !(dis->itemState & ODS_SELECTED))
+                SetTextColor(dis->hDC, RGB(0, 127, 0));
+
+            ExtTextOut( dis->hDC, 
+                        rcClip.left + (ListView_GetColumnWidth(hwndList, 1))/2,
+                        rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+
+            SetTextAlign(dis->hDC, oldAlign);   
+
+
+            // If we changed the colors for the selected item, undo it
+            if(dis->itemState & ODS_SELECTED)
+            {
+                // Set the text background and foreground colors
+                SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+                SetBkColor(dis->hDC, GetSysColor(COLOR_WINDOW));
+            }
+
+            // If the item is focused, now draw a focus rect around the entire row
+            if(dis->itemState & ODS_FOCUS)
+            {
+                // Draw the focus rect
+                DrawFocusRect(dis->hDC, &dis->rcItem);
+            }
+
+            result = true;
+            break;
+        }
+
+        case WM_NOTIFY:
+        {
+            NMHDR* notify = (NMHDR*)lParam;
+
+            if(notify->hwndFrom == hwndList)
+            {
+                NM_LISTVIEW* nmlv = (NM_LISTVIEW*)notify;
+
+                if(notify->code == LVN_ITEMCHANGED)
+                {
+                    UpdateItem* item = (UpdateItem*)nmlv->lParam;
+
+                    SetWindowText(hwndDescription, item->GetFileDescription().c_str());
+                }
+            }
+            else
+            {
+                switch(notify->code)
+                {
+                    case PSN_SETACTIVE:
+                    {
+                    
+                        break;
+                    }
+
+                    case PSN_APPLY:
+                    {
+                        SavePrefsValues(prefs, &currentValues);
+                        break;
+                    }
+
+                    case PSN_KILLACTIVE:
+                    {
+                    
+                        break;
+                    }
+
+                    case PSN_RESET:
+                    {
+                        SavePrefsValues(prefs, &originalValues);
+                        break;
+                    }
+                }
+            }
+
+            break;
+        }
+    }
+
+    return result;
+}
+
+uint32 CalcStringEllipsis(HDC hdc, string& displayString, int32 columnWidth)
+{
+    const TCHAR szEllipsis[] = TEXT("...");
+    SIZE   sizeString;
+    SIZE   sizeEllipsis;
+    string temp;
+    
+    // Adjust the column width to take into account the edges
+    //columnWidth -= 4;
+
+    temp = displayString;        
+
+    GetTextExtentPoint32(hdc, temp.c_str(), temp.size(), &sizeString);       
+
+    // If the width of the string is greater than the column width shave
+    // the string and add the ellipsis
+    if(sizeString.cx > columnWidth)
+    {
+        GetTextExtentPoint32(hdc, szEllipsis, strlen(szEllipsis), &sizeEllipsis);
+       
+        while(temp.size() > 1)
+        {
+            temp.erase(temp.size() - 1, 1);
+
+            GetTextExtentPoint32(hdc, temp.c_str(), temp.size(), &sizeString);
+            
+            if ((uint32)(sizeString.cx + sizeEllipsis.cx) <= columnWidth)
+            {
+                // The string with the ellipsis finally fits                
+                // Concatenate the two strings and break out of the loop
+                temp += szEllipsis;
+                displayString = temp;
+                break;
+            }
+            else if(temp.size() == 1)
+            {
+                temp += szEllipsis;
+                displayString = temp;
+                break;
+            }
+        }
+    }
+
+    GetTextExtentPoint32(hdc, displayString.c_str(), displayString.size(), &sizeString);
+
+    return sizeString.cx;
 }

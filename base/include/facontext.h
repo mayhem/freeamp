@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.3.8.6 1999/09/26 01:47:59 elrod Exp $
+	$Id: facontext.h,v 1.3.8.7 1999/10/12 20:48:05 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FACONTEXT_H_
@@ -40,6 +40,7 @@ class Properties;
 class EventQueue;
 class MusicBrowser;
 class DownloadManager;
+class UpdateManager;
 
 class FAContext
 {
@@ -49,10 +50,12 @@ class FAContext
 	  minorVersion(c_minorVersion),
 	  prefs(0),
 	  log(0),
-          props(0),
-          plm(0),
-          target(0),
+      props(0),
+      plm(0),
+      target(0),
 	  browser(0),
+      downloadManager(0),
+      updateManager(0),
 #ifndef WIN32	  
 	  gtkInitialized(false),
 #endif	  
@@ -62,10 +65,10 @@ class FAContext
     
     ~FAContext()
     {
-	if (log)
-	    delete log;
-	if (prefs)
-	    delete prefs;
+	    if (log)
+	        delete log;
+	    if (prefs)
+	        delete prefs;
     }
 
     bool CompatibleVersion() { return majorVersion == c_majorVersion; }
@@ -78,6 +81,7 @@ class FAContext
     EventQueue *target;
     MusicBrowser *browser;
     DownloadManager *downloadManager;
+    UpdateManager *updateManager;
 #ifndef WIN32
     Mutex gtkLock;
     bool gtkInitialized;

@@ -29,6 +29,8 @@ NULL=
 NULL=nul
 !ENDIF 
 
+CPP=cl.exe
+
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
 OUTDIR=.\Release
@@ -65,42 +67,11 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS"\
- /Fp"$(INTDIR)\zlib.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I "..\include" /D "WIN32" /D "NDEBUG" /D\
+ "_WINDOWS" /Fp"$(INTDIR)\zlib.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c\
+ 
 CPP_OBJS=.\Release/
 CPP_SBRS=.
-
-.c{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\zlib.bsc" 
 BSC32_SBRS= \
@@ -164,43 +135,11 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP=cl.exe
 CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I "..\include" /D "WIN32" /D "_DEBUG" /D\
  "_WINDOWS" /Fp"$(INTDIR)\zlib.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c\
  
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
-
-.c{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\zlib.bsc" 
 BSC32_SBRS= \
@@ -264,43 +203,11 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP=cl.exe
 CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I "..\include" /D "WIN32" /D "_DEBUG" /D\
  "_WINDOWS" /Fp"$(INTDIR)\zlib.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c\
  
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
-
-.c{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\zlib.bsc" 
 BSC32_SBRS= \
@@ -364,11 +271,39 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS"\
- /Fp"$(INTDIR)\zlib.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I "..\include" /D "WIN32" /D "NDEBUG" /D\
+ "_WINDOWS" /Fp"$(INTDIR)\zlib.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c\
+ 
 CPP_OBJS=.\Release/
 CPP_SBRS=.
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\zlib.bsc" 
+BSC32_SBRS= \
+	
+LIB32=link.exe -lib
+LIB32_FLAGS=/nologo /out:"..\zlib.lib" 
+LIB32_OBJS= \
+	"$(INTDIR)\adler32.obj" \
+	"$(INTDIR)\compress.obj" \
+	"$(INTDIR)\crc32.obj" \
+	"$(INTDIR)\deflate.obj" \
+	"$(INTDIR)\gzio.obj" \
+	"$(INTDIR)\infblock.obj" \
+	"$(INTDIR)\infcodes.obj" \
+	"$(INTDIR)\inffast.obj" \
+	"$(INTDIR)\inflate.obj" \
+	"$(INTDIR)\inftrees.obj" \
+	"$(INTDIR)\infutil.obj" \
+	"$(INTDIR)\trees.obj" \
+	"$(INTDIR)\uncompr.obj" \
+	"$(INTDIR)\zutil.obj"
+
+"..\zlib.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+    $(LIB32) @<<
+  $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
+<<
+
+!ENDIF 
 
 .c{$(CPP_OBJS)}.obj::
    $(CPP) @<<
@@ -399,35 +334,6 @@ CPP_SBRS=.
    $(CPP) @<<
    $(CPP_PROJ) $< 
 <<
-
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\zlib.bsc" 
-BSC32_SBRS= \
-	
-LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"..\zlib.lib" 
-LIB32_OBJS= \
-	"$(INTDIR)\adler32.obj" \
-	"$(INTDIR)\compress.obj" \
-	"$(INTDIR)\crc32.obj" \
-	"$(INTDIR)\deflate.obj" \
-	"$(INTDIR)\gzio.obj" \
-	"$(INTDIR)\infblock.obj" \
-	"$(INTDIR)\infcodes.obj" \
-	"$(INTDIR)\inffast.obj" \
-	"$(INTDIR)\inflate.obj" \
-	"$(INTDIR)\inftrees.obj" \
-	"$(INTDIR)\infutil.obj" \
-	"$(INTDIR)\trees.obj" \
-	"$(INTDIR)\uncompr.obj" \
-	"$(INTDIR)\zutil.obj"
-
-"..\zlib.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
-    $(LIB32) @<<
-  $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
-<<
-
-!ENDIF 
 
 
 !IF "$(CFG)" == "zlib - Win32 Release" || "$(CFG)" == "zlib - Win32 Debug" ||\
@@ -437,17 +343,20 @@ SOURCE=..\src\adler32.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_ADLER=\
-	"..\src\zlib.h"\
+DEP_CPP_ADLER=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\adler32.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\adler32.obj" : $(SOURCE) $(DEP_CPP_ADLER) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 Debug"
 
 DEP_CPP_ADLER=\
+	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	
 
@@ -458,6 +367,7 @@ DEP_CPP_ADLER=\
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Debug"
 
 DEP_CPP_ADLER=\
+	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	
 
@@ -467,11 +377,12 @@ DEP_CPP_ADLER=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_ADLER=\
-	"..\src\zlib.h"\
+DEP_CPP_ADLER=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	
 
-"$(INTDIR)\adler32.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\adler32.obj" : $(SOURCE) $(DEP_CPP_ADLER) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -481,17 +392,20 @@ SOURCE=..\src\compress.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_COMPR=\
-	"..\src\zlib.h"\
+DEP_CPP_COMPR=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\compress.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\compress.obj" : $(SOURCE) $(DEP_CPP_COMPR) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 Debug"
 
 DEP_CPP_COMPR=\
+	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	
 
@@ -502,6 +416,7 @@ DEP_CPP_COMPR=\
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Debug"
 
 DEP_CPP_COMPR=\
+	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	
 
@@ -511,11 +426,12 @@ DEP_CPP_COMPR=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_COMPR=\
-	"..\src\zlib.h"\
+DEP_CPP_COMPR=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	
 
-"$(INTDIR)\compress.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\compress.obj" : $(SOURCE) $(DEP_CPP_COMPR) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -525,17 +441,20 @@ SOURCE=..\src\crc32.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_CRC32=\
-	"..\src\zlib.h"\
+DEP_CPP_CRC32=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\crc32.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\crc32.obj" : $(SOURCE) $(DEP_CPP_CRC32) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 Debug"
 
 DEP_CPP_CRC32=\
+	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	
 
@@ -546,6 +465,7 @@ DEP_CPP_CRC32=\
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Debug"
 
 DEP_CPP_CRC32=\
+	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	
 
@@ -555,11 +475,12 @@ DEP_CPP_CRC32=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_CRC32=\
-	"..\src\zlib.h"\
+DEP_CPP_CRC32=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	
 
-"$(INTDIR)\crc32.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\crc32.obj" : $(SOURCE) $(DEP_CPP_CRC32) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -569,11 +490,15 @@ SOURCE=..\src\deflate.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_DEFLA=\
-	"..\src\deflate.h"\
+DEP_CPP_DEFLA=\
+	"..\include\deflate.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\deflate.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\deflate.obj" : $(SOURCE) $(DEP_CPP_DEFLA) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -581,6 +506,9 @@ NODEP_CPP_DEFLA=\
 
 DEP_CPP_DEFLA=\
 	"..\include\deflate.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
 "$(INTDIR)\deflate.obj" : $(SOURCE) $(DEP_CPP_DEFLA) "$(INTDIR)"
@@ -591,6 +519,9 @@ DEP_CPP_DEFLA=\
 
 DEP_CPP_DEFLA=\
 	"..\include\deflate.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
 "$(INTDIR)\deflate.obj" : $(SOURCE) $(DEP_CPP_DEFLA) "$(INTDIR)"
@@ -599,11 +530,14 @@ DEP_CPP_DEFLA=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_DEFLA=\
-	"..\src\deflate.h"\
+DEP_CPP_DEFLA=\
+	"..\include\deflate.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
-"$(INTDIR)\deflate.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\deflate.obj" : $(SOURCE) $(DEP_CPP_DEFLA) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -613,17 +547,22 @@ SOURCE=..\src\gzio.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_GZIO_=\
-	"..\src\zutil.h"\
+DEP_CPP_GZIO_=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\gzio.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\gzio.obj" : $(SOURCE) $(DEP_CPP_GZIO_) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 Debug"
 
 DEP_CPP_GZIO_=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -634,6 +573,8 @@ DEP_CPP_GZIO_=\
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Debug"
 
 DEP_CPP_GZIO_=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -643,11 +584,13 @@ DEP_CPP_GZIO_=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_GZIO_=\
-	"..\src\zutil.h"\
+DEP_CPP_GZIO_=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
-"$(INTDIR)\gzio.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\gzio.obj" : $(SOURCE) $(DEP_CPP_GZIO_) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -657,15 +600,18 @@ SOURCE=..\src\infblock.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_INFBL=\
-	"..\src\infblock.h"\
-	"..\src\infcodes.h"\
-	"..\src\inftrees.h"\
-	"..\src\infutil.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFBL=\
+	"..\include\infblock.h"\
+	"..\include\infcodes.h"\
+	"..\include\inftrees.h"\
+	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\infblock.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\infblock.obj" : $(SOURCE) $(DEP_CPP_INFBL) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -676,6 +622,8 @@ DEP_CPP_INFBL=\
 	"..\include\infcodes.h"\
 	"..\include\inftrees.h"\
 	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -690,6 +638,8 @@ DEP_CPP_INFBL=\
 	"..\include\infcodes.h"\
 	"..\include\inftrees.h"\
 	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -699,15 +649,17 @@ DEP_CPP_INFBL=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_INFBL=\
-	"..\src\infblock.h"\
-	"..\src\infcodes.h"\
-	"..\src\inftrees.h"\
-	"..\src\infutil.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFBL=\
+	"..\include\infblock.h"\
+	"..\include\infcodes.h"\
+	"..\include\inftrees.h"\
+	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
-"$(INTDIR)\infblock.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\infblock.obj" : $(SOURCE) $(DEP_CPP_INFBL) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -717,16 +669,19 @@ SOURCE=..\src\infcodes.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_INFCO=\
-	"..\src\infblock.h"\
-	"..\src\infcodes.h"\
-	"..\src\inffast.h"\
-	"..\src\inftrees.h"\
-	"..\src\infutil.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFCO=\
+	"..\include\infblock.h"\
+	"..\include\infcodes.h"\
+	"..\include\inffast.h"\
+	"..\include\inftrees.h"\
+	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\infcodes.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\infcodes.obj" : $(SOURCE) $(DEP_CPP_INFCO) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -738,6 +693,8 @@ DEP_CPP_INFCO=\
 	"..\include\inffast.h"\
 	"..\include\inftrees.h"\
 	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -753,6 +710,8 @@ DEP_CPP_INFCO=\
 	"..\include\inffast.h"\
 	"..\include\inftrees.h"\
 	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -762,16 +721,18 @@ DEP_CPP_INFCO=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_INFCO=\
-	"..\src\infblock.h"\
-	"..\src\infcodes.h"\
-	"..\src\inffast.h"\
-	"..\src\inftrees.h"\
-	"..\src\infutil.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFCO=\
+	"..\include\infblock.h"\
+	"..\include\infcodes.h"\
+	"..\include\inffast.h"\
+	"..\include\inftrees.h"\
+	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
-"$(INTDIR)\infcodes.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\infcodes.obj" : $(SOURCE) $(DEP_CPP_INFCO) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -781,16 +742,19 @@ SOURCE=..\src\inffast.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_INFFA=\
-	"..\src\infblock.h"\
-	"..\src\infcodes.h"\
-	"..\src\inffast.h"\
-	"..\src\inftrees.h"\
-	"..\src\infutil.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFFA=\
+	"..\include\infblock.h"\
+	"..\include\infcodes.h"\
+	"..\include\inffast.h"\
+	"..\include\inftrees.h"\
+	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\inffast.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\inffast.obj" : $(SOURCE) $(DEP_CPP_INFFA) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -802,6 +766,8 @@ DEP_CPP_INFFA=\
 	"..\include\inffast.h"\
 	"..\include\inftrees.h"\
 	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -817,6 +783,8 @@ DEP_CPP_INFFA=\
 	"..\include\inffast.h"\
 	"..\include\inftrees.h"\
 	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -826,16 +794,18 @@ DEP_CPP_INFFA=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_INFFA=\
-	"..\src\infblock.h"\
-	"..\src\infcodes.h"\
-	"..\src\inffast.h"\
-	"..\src\inftrees.h"\
-	"..\src\infutil.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFFA=\
+	"..\include\infblock.h"\
+	"..\include\infcodes.h"\
+	"..\include\inffast.h"\
+	"..\include\inftrees.h"\
+	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
-"$(INTDIR)\inffast.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\inffast.obj" : $(SOURCE) $(DEP_CPP_INFFA) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -845,12 +815,15 @@ SOURCE=..\src\inflate.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_INFLA=\
-	"..\src\infblock.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFLA=\
+	"..\include\infblock.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\inflate.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\inflate.obj" : $(SOURCE) $(DEP_CPP_INFLA) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -858,6 +831,8 @@ NODEP_CPP_INFLA=\
 
 DEP_CPP_INFLA=\
 	"..\include\infblock.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -869,6 +844,8 @@ DEP_CPP_INFLA=\
 
 DEP_CPP_INFLA=\
 	"..\include\infblock.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -878,12 +855,14 @@ DEP_CPP_INFLA=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_INFLA=\
-	"..\src\infblock.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFLA=\
+	"..\include\infblock.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
-"$(INTDIR)\inflate.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\inflate.obj" : $(SOURCE) $(DEP_CPP_INFLA) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -893,13 +872,16 @@ SOURCE=..\src\inftrees.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_INFTR=\
-	"..\src\inffixed.h"\
-	"..\src\inftrees.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFTR=\
+	"..\include\inffixed.h"\
+	"..\include\inftrees.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\inftrees.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\inftrees.obj" : $(SOURCE) $(DEP_CPP_INFTR) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -908,6 +890,8 @@ NODEP_CPP_INFTR=\
 DEP_CPP_INFTR=\
 	"..\include\inffixed.h"\
 	"..\include\inftrees.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -920,6 +904,8 @@ DEP_CPP_INFTR=\
 DEP_CPP_INFTR=\
 	"..\include\inffixed.h"\
 	"..\include\inftrees.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -929,13 +915,15 @@ DEP_CPP_INFTR=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_INFTR=\
-	"..\src\inffixed.h"\
-	"..\src\inftrees.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFTR=\
+	"..\include\inffixed.h"\
+	"..\include\inftrees.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
-"$(INTDIR)\inftrees.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\inftrees.obj" : $(SOURCE) $(DEP_CPP_INFTR) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -945,15 +933,18 @@ SOURCE=..\src\infutil.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_INFUT=\
-	"..\src\infblock.h"\
-	"..\src\infcodes.h"\
-	"..\src\inftrees.h"\
-	"..\src\infutil.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFUT=\
+	"..\include\infblock.h"\
+	"..\include\infcodes.h"\
+	"..\include\inftrees.h"\
+	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\infutil.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\infutil.obj" : $(SOURCE) $(DEP_CPP_INFUT) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -964,6 +955,8 @@ DEP_CPP_INFUT=\
 	"..\include\infcodes.h"\
 	"..\include\inftrees.h"\
 	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -978,6 +971,8 @@ DEP_CPP_INFUT=\
 	"..\include\infcodes.h"\
 	"..\include\inftrees.h"\
 	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -987,15 +982,17 @@ DEP_CPP_INFUT=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_INFUT=\
-	"..\src\infblock.h"\
-	"..\src\infcodes.h"\
-	"..\src\inftrees.h"\
-	"..\src\infutil.h"\
-	"..\src\zutil.h"\
+DEP_CPP_INFUT=\
+	"..\include\infblock.h"\
+	"..\include\infcodes.h"\
+	"..\include\inftrees.h"\
+	"..\include\infutil.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
-"$(INTDIR)\infutil.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\infutil.obj" : $(SOURCE) $(DEP_CPP_INFUT) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -1005,12 +1002,16 @@ SOURCE=..\src\trees.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_TREES=\
-	"..\src\deflate.h"\
-	"..\src\trees.h"\
+DEP_CPP_TREES=\
+	"..\include\deflate.h"\
+	"..\include\trees.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\trees.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\trees.obj" : $(SOURCE) $(DEP_CPP_TREES) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -1019,6 +1020,9 @@ NODEP_CPP_TREES=\
 DEP_CPP_TREES=\
 	"..\include\deflate.h"\
 	"..\include\trees.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
 "$(INTDIR)\trees.obj" : $(SOURCE) $(DEP_CPP_TREES) "$(INTDIR)"
@@ -1030,6 +1034,9 @@ DEP_CPP_TREES=\
 DEP_CPP_TREES=\
 	"..\include\deflate.h"\
 	"..\include\trees.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
 "$(INTDIR)\trees.obj" : $(SOURCE) $(DEP_CPP_TREES) "$(INTDIR)"
@@ -1038,12 +1045,15 @@ DEP_CPP_TREES=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_TREES=\
-	"..\src\deflate.h"\
-	"..\src\trees.h"\
+DEP_CPP_TREES=\
+	"..\include\deflate.h"\
+	"..\include\trees.h"\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
 	
 
-"$(INTDIR)\trees.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\trees.obj" : $(SOURCE) $(DEP_CPP_TREES) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -1053,17 +1063,20 @@ SOURCE=..\src\uncompr.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_UNCOM=\
-	"..\src\zlib.h"\
+DEP_CPP_UNCOM=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\uncompr.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\uncompr.obj" : $(SOURCE) $(DEP_CPP_UNCOM) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 Debug"
 
 DEP_CPP_UNCOM=\
+	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	
 
@@ -1074,6 +1087,7 @@ DEP_CPP_UNCOM=\
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Debug"
 
 DEP_CPP_UNCOM=\
+	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	
 
@@ -1083,11 +1097,13 @@ DEP_CPP_UNCOM=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_UNCOM=\
-	"..\src\zlib.h"\
+DEP_CPP_UNCOM=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\uncompr.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\uncompr.obj" : $(SOURCE) $(DEP_CPP_UNCOM) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -1097,17 +1113,22 @@ SOURCE=..\src\zutil.c
 
 !IF  "$(CFG)" == "zlib - Win32 Release"
 
-NODEP_CPP_ZUTIL=\
-	"..\src\zutil.h"\
+DEP_CPP_ZUTIL=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\zutil.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\zutil.obj" : $(SOURCE) $(DEP_CPP_ZUTIL) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 Debug"
 
 DEP_CPP_ZUTIL=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -1118,6 +1139,8 @@ DEP_CPP_ZUTIL=\
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Debug"
 
 DEP_CPP_ZUTIL=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
 	"..\include\zutil.h"\
 	
 
@@ -1127,11 +1150,14 @@ DEP_CPP_ZUTIL=\
 
 !ELSEIF  "$(CFG)" == "zlib - Win32 NASM Release"
 
-NODEP_CPP_ZUTIL=\
-	"..\src\zutil.h"\
+DEP_CPP_ZUTIL=\
+	"..\include\zconf.h"\
+	"..\include\zlib.h"\
+	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
-"$(INTDIR)\zutil.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\zutil.obj" : $(SOURCE) $(DEP_CPP_ZUTIL) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

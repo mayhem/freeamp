@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.1.2.9 1999/10/11 21:24:49 robert Exp $
+   $Id: Parse.cpp,v 1.1.2.10 1999/10/12 20:48:12 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -222,12 +222,14 @@ Error Parse::DoParse(void)
 
         if (!bError)
         {
-             eRet = BeginElement(oElementName, oAttrMap);
-             if (bEmptyTag && !IsError(eRet))
-                eRet = EndElement(oElementName);
+            string temp = oAttrMap["NAME"];
 
-             if (IsError(eRet))
-                bError = true;
+            eRet = BeginElement(oElementName, oAttrMap);
+            if (bEmptyTag && !IsError(eRet))
+            eRet = EndElement(oElementName);
+
+            if (IsError(eRet))
+            bError = true;
         }
     }
 

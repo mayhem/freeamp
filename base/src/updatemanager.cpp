@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.1.2.4 1999/10/11 06:06:31 elrod Exp $
+	$Id: updatemanager.cpp,v 1.1.2.5 1999/10/12 20:48:05 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -153,7 +153,7 @@ Error UpdateManager::InternalRetrieveLatestVersionInfo(
 
     if(IsntError(result))
     {
-        result = ParseString(info);//File(string("c:\\temp\\version_info.xml"));
+        result = ParseString(info);//ParseFile(string("c:\\temp\\version_info.xml"));
     }
     
     return result;

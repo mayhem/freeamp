@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.26.6.3 1999/10/11 06:06:38 elrod Exp $
+	$Id: main.cpp,v 1.26.6.4 1999/10/12 20:48:12 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -120,15 +120,14 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     WSAStartup(0x0002,  &sGawdIHateMicrosoft);
 
     FAContext *context = new FAContext;
-    Win32Prefs* prefs = new Win32Prefs();
-    //prefs->Initialize();
 
-    context->prefs = prefs;
+    context->prefs = new Win32Prefs();
     context->log = new LogFile("freeamp.log");
 
-    Win32UpdateManager um(context);
-
-    um.DetermineLocalVersions();
+    context->updateManager = new Win32UpdateManager(context);
+    context->updateManager->DetermineLocalVersions();
+    context->updateManager->SetPlatform(string("WIN32"));
+    //context->updateManager->RetrieveLatestVersionInfo();
 
     // find all the plug-ins we use
     Registrar* registrar;
@@ -184,6 +183,7 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 
     // clean up our act
     delete player;
+    delete context->updateManager;
 	delete context;
 
     CloseHandle(runOnceMutex);

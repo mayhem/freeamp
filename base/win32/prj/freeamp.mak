@@ -805,15 +805,12 @@ $(DS_POSTBUILD_DEP) : "musicbrowser - Win32 NASM Debug"\
  "freeamp - Win32 Debug" || "$(CFG)" == "freeamp - Win32 NASM Release" ||\
  "$(CFG)" == "freeamp - Win32 NASM Debug"
 SOURCE=..\..\src\database.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_DATAB=\
 	"..\..\..\config\config.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\include\database.h"\
 	"..\..\include\errors.h"\
-	"..\include\mutex.h"\
+	"..\include\Mutex.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
 	
@@ -822,54 +819,6 @@ DEP_CPP_DATAB=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_DATAB=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\include\database.h"\
-	"..\..\include\errors.h"\
-	"..\include\mutex.h"\
-	
-
-"$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_DATAB=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\include\database.h"\
-	"..\..\include\errors.h"\
-	"..\include\mutex.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
-	
-
-"$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_DATAB=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\include\database.h"\
-	"..\..\include\errors.h"\
-	"..\include\mutex.h"\
-	
-
-"$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\debug.cpp
 DEP_CPP_DEBUG=\
@@ -881,9 +830,6 @@ DEP_CPP_DEBUG=\
 
 
 SOURCE=..\..\src\downloadmanager.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_DOWNL=\
 	"..\..\..\config\config.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
@@ -906,7 +852,7 @@ DEP_CPP_DOWNL=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
+	"..\include\Mutex.h"\
 	"..\include\semaphore.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
@@ -919,111 +865,6 @@ NODEP_CPP_DOWNL=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_DOWNL=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\include\database.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	
-
-"$(INTDIR)\downloadmanager.obj" : $(SOURCE) $(DEP_CPP_DOWNL) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_DOWNL=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\include\database.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
-	
-NODEP_CPP_DOWNL=\
-	"..\..\include\win32impl.h"\
-	
-
-"$(INTDIR)\downloadmanager.obj" : $(SOURCE) $(DEP_CPP_DOWNL) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_DOWNL=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\include\database.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	
-
-"$(INTDIR)\downloadmanager.obj" : $(SOURCE) $(DEP_CPP_DOWNL) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\log.cpp
 DEP_CPP_LOG_C=\
@@ -1035,15 +876,12 @@ DEP_CPP_LOG_C=\
 
 
 SOURCE=..\src\main.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_MAIN_=\
 	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\..\lib\xml\include\parse.h"\
+	"..\..\..\lib\xml\include\Parse.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -1071,7 +909,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\thread.h"\
 	"..\..\include\updatemanager.h"\
 	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
+	"..\include\Mutex.h"\
 	"..\include\semaphore.h"\
 	"..\include\win32prefs.h"\
 	"..\include\win32updatemanager.h"\
@@ -1084,153 +922,8 @@ NODEP_CPP_MAIN_=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_MAIN_=\
-	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
-	"..\..\include\database.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\player.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\..\include\queue.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\updatemanager.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	"..\include\win32prefs.h"\
-	"..\include\win32updatemanager.h"\
-	
-
-"$(INTDIR)\main.obj" : $(SOURCE) $(DEP_CPP_MAIN_) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_MAIN_=\
-	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
-	"..\..\include\database.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\player.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\..\include\queue.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\updatemanager.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	"..\include\win32prefs.h"\
-	"..\include\win32updatemanager.h"\
-	
-NODEP_CPP_MAIN_=\
-	"..\..\include\win32impl.h"\
-	
-
-"$(INTDIR)\main.obj" : $(SOURCE) $(DEP_CPP_MAIN_) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_MAIN_=\
-	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
-	"..\..\include\database.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\player.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\..\include\queue.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\updatemanager.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	"..\include\win32prefs.h"\
-	"..\include\win32updatemanager.h"\
-	
-
-"$(INTDIR)\main.obj" : $(SOURCE) $(DEP_CPP_MAIN_) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\musiccatalog.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_MUSIC=\
 	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
@@ -1262,8 +955,10 @@ DEP_CPP_MUSIC=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
+	"..\include\Mutex.h"\
 	"..\include\semaphore.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_MUSIC=\
 	"..\..\src\win32impl.h"\
@@ -1273,144 +968,11 @@ NODEP_CPP_MUSIC=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_MUSIC=\
-	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
-	"..\..\include\database.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\player.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\..\include\queue.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	
-
-"$(INTDIR)\musiccatalog.obj" : $(SOURCE) $(DEP_CPP_MUSIC) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_MUSIC=\
-	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
-	"..\..\include\database.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\player.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\..\include\queue.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	
-NODEP_CPP_MUSIC=\
-	"..\..\src\win32impl.h"\
-	
-
-"$(INTDIR)\musiccatalog.obj" : $(SOURCE) $(DEP_CPP_MUSIC) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_MUSIC=\
-	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
-	"..\..\include\database.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\player.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\..\include\queue.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	
-
-"$(INTDIR)\musiccatalog.obj" : $(SOURCE) $(DEP_CPP_MUSIC) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\lib\xml\src\Parse.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_PARSE=\
 	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
+	"..\..\..\lib\xml\include\Parse.h"\
 	"..\..\include\debug.h"\
 	"..\..\include\errors.h"\
 	
@@ -1419,54 +981,8 @@ DEP_CPP_PARSE=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_PARSE=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\errors.h"\
-	
-
-"$(INTDIR)\Parse.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_PARSE=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\errors.h"\
-	
-
-"$(INTDIR)\Parse.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_PARSE=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\errors.h"\
-	
-
-"$(INTDIR)\Parse.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\player.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_PLAYE=\
 	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
@@ -1501,7 +1017,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
+	"..\include\Mutex.h"\
 	"..\include\semaphore.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
@@ -1514,152 +1030,8 @@ NODEP_CPP_PLAYE=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_PLAYE=\
-	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pmi.h"\
-	"..\..\..\io\include\pmo.h"\
-	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
-	"..\..\include\database.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\player.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\..\include\queue.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	
-
-"$(INTDIR)\player.obj" : $(SOURCE) $(DEP_CPP_PLAYE) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_PLAYE=\
-	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pmi.h"\
-	"..\..\..\io\include\pmo.h"\
-	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
-	"..\..\include\database.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\player.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\..\include\queue.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
-	
-NODEP_CPP_PLAYE=\
-	"..\..\include\win32impl.h"\
-	
-
-"$(INTDIR)\player.obj" : $(SOURCE) $(DEP_CPP_PLAYE) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_PLAYE=\
-	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pmi.h"\
-	"..\..\..\io\include\pmo.h"\
-	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm_fa.h"\
-	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
-	"..\..\include\database.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\downloadformat.h"\
-	"..\..\include\downloadmanager.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\musicbrowser.h"\
-	"..\..\include\player.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\..\include\queue.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	
-
-"$(INTDIR)\player.obj" : $(SOURCE) $(DEP_CPP_PLAYE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\playlist.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_PLAYL=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
@@ -1677,7 +1049,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
+	"..\include\Mutex.h"\
 	
 NODEP_CPP_PLAYL=\
 	"..\..\include\win32impl.h"\
@@ -1687,163 +1059,23 @@ NODEP_CPP_PLAYL=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_PLAYL=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	
-
-"$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_PLAYL=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	
-NODEP_CPP_PLAYL=\
-	"..\..\include\win32impl.h"\
-	
-
-"$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_PLAYL=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	
-
-"$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\propimpl.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_PROPI=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
 	"..\..\include\hashtable.h"\
 	"..\..\include\properties.h"\
 	"..\..\include\propimpl.h"\
-	"..\include\mutex.h"\
+	"..\include\Mutex.h"\
 	
 
 "$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_PROPI=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\include\mutex.h"\
-	
-
-"$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_PROPI=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\include\mutex.h"\
-	
-
-"$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_PROPI=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\properties.h"\
-	"..\..\include\propimpl.h"\
-	"..\include\mutex.h"\
-	
-
-"$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\thread.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_THREA=\
 	"..\..\..\config\config.h"\
 	"..\..\include\thread.h"\
@@ -1859,59 +1091,11 @@ NODEP_CPP_THREA=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_THREA=\
-	"..\..\..\config\config.h"\
-	"..\..\include\thread.h"\
-	"..\include\win32thread.h"\
-	
-
-"$(INTDIR)\thread.obj" : $(SOURCE) $(DEP_CPP_THREA) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_THREA=\
-	"..\..\..\config\config.h"\
-	"..\..\include\thread.h"\
-	"..\include\win32thread.h"\
-	
-NODEP_CPP_THREA=\
-	"..\..\src\beosthread.h"\
-	"..\..\src\linuxthread.h"\
-	"..\..\src\solaristhread.h"\
-	
-
-"$(INTDIR)\thread.obj" : $(SOURCE) $(DEP_CPP_THREA) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_THREA=\
-	"..\..\..\config\config.h"\
-	"..\..\include\thread.h"\
-	"..\include\win32thread.h"\
-	
-
-"$(INTDIR)\thread.obj" : $(SOURCE) $(DEP_CPP_THREA) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\updatemanager.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_UPDAT=\
 	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
+	"..\..\..\lib\xml\include\Parse.h"\
 	"..\..\..\lib\zlib\include\zconf.h"\
 	"..\..\..\lib\zlib\include\zlib.h"\
 	"..\..\include\errors.h"\
@@ -1929,7 +1113,7 @@ DEP_CPP_UPDAT=\
 	"..\..\include\thread.h"\
 	"..\..\include\updatemanager.h"\
 	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
+	"..\include\Mutex.h"\
 	"..\include\semaphore.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
@@ -1939,107 +1123,8 @@ DEP_CPP_UPDAT=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_UPDAT=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\..\lib\zlib\include\zconf.h"\
-	"..\..\..\lib\zlib\include\zlib.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\updatemanager.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	
-
-"$(INTDIR)\updatemanager.obj" : $(SOURCE) $(DEP_CPP_UPDAT) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_UPDAT=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\..\lib\zlib\include\zconf.h"\
-	"..\..\..\lib\zlib\include\zlib.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\updatemanager.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
-	
-
-"$(INTDIR)\updatemanager.obj" : $(SOURCE) $(DEP_CPP_UPDAT) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_UPDAT=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\..\lib\zlib\include\zconf.h"\
-	"..\..\..\lib\zlib\include\zlib.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\updatemanager.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	
-
-"$(INTDIR)\updatemanager.obj" : $(SOURCE) $(DEP_CPP_UPDAT) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\utility.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_UTILI=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
@@ -2053,59 +1138,11 @@ DEP_CPP_UTILI=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_UTILI=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\utility.h"\
-	
-
-"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_UTILI=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\utility.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
-	
-
-"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_UTILI=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\utility.h"\
-	
-
-"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\win32updatemanager.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_WIN32=\
 	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
+	"..\..\..\lib\xml\include\Parse.h"\
 	"..\..\..\lib\zlib\include\zconf.h"\
 	"..\..\..\lib\zlib\include\zlib.h"\
 	"..\..\include\errors.h"\
@@ -2123,7 +1160,7 @@ DEP_CPP_WIN32=\
 	"..\..\include\thread.h"\
 	"..\..\include\updatemanager.h"\
 	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
+	"..\include\Mutex.h"\
 	"..\include\semaphore.h"\
 	"..\include\win32updatemanager.h"\
 	{$(INCLUDE)}"sys\types.h"\
@@ -2133,104 +1170,6 @@ DEP_CPP_WIN32=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_WIN32=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\..\lib\zlib\include\zconf.h"\
-	"..\..\..\lib\zlib\include\zlib.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\updatemanager.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	"..\include\win32updatemanager.h"\
-	
-
-"$(INTDIR)\win32updatemanager.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_WIN32=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\..\lib\zlib\include\zconf.h"\
-	"..\..\..\lib\zlib\include\zlib.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\updatemanager.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	"..\include\win32updatemanager.h"\
-	{$(INCLUDE)}"sys\types.h"\
-	
-
-"$(INTDIR)\win32updatemanager.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_WIN32=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lib\xml\include\parse.h"\
-	"..\..\..\lib\zlib\include\zconf.h"\
-	"..\..\..\lib\zlib\include\zlib.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
-	"..\..\include\facontext.h"\
-	"..\..\include\log.h"\
-	"..\..\include\metadata.h"\
-	"..\..\include\playlist.h"\
-	"..\..\include\playlistformat.h"\
-	"..\..\include\plmevent.h"\
-	"..\..\include\portabledevice.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registry.h"\
-	"..\..\include\thread.h"\
-	"..\..\include\updatemanager.h"\
-	"..\..\include\utility.h"\
-	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	"..\include\win32updatemanager.h"\
-	
-
-"$(INTDIR)\win32updatemanager.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\config\config.win32
 
@@ -2257,11 +1196,16 @@ InputPath=..\..\..\config\config.win32
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
 
+InputPath=..\..\..\config\config.win32
+
+"..\..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\..\..\config\config.win32 ..\..\..\config\config.h
+
 !ENDIF 
 
 SOURCE=..\src\mutex.cpp
 DEP_CPP_MUTEX=\
-	"..\include\mutex.h"\
+	"..\include\Mutex.h"\
 	
 
 "$(INTDIR)\mutex.obj" : $(SOURCE) $(DEP_CPP_MUTEX) "$(INTDIR)"
@@ -2269,9 +1213,6 @@ DEP_CPP_MUTEX=\
 
 
 SOURCE=..\..\src\preferences.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_PREFE=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
@@ -2282,46 +1223,6 @@ DEP_CPP_PREFE=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\preferences.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_PREFE=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\preferences.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\preferences.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\semaphore.cpp
 DEP_CPP_SEMAP=\
@@ -2333,9 +1234,6 @@ DEP_CPP_SEMAP=\
 
 
 SOURCE=..\src\win32prefs.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_WIN32P=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
@@ -2347,54 +1245,8 @@ DEP_CPP_WIN32P=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_WIN32P=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\preferences.h"\
-	"..\include\win32prefs.h"\
-	
-
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32P) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_WIN32P=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\preferences.h"\
-	"..\include\win32prefs.h"\
-	
-
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32P) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_WIN32P=\
-	"..\..\..\config\config.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\preferences.h"\
-	"..\include\win32prefs.h"\
-	
-
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32P) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\win32thread.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_WIN32T=\
 	"..\..\..\config\config.h"\
 	"..\..\include\thread.h"\
@@ -2405,51 +1257,8 @@ DEP_CPP_WIN32T=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\config\config.h"\
-	"..\..\include\thread.h"\
-	"..\include\win32thread.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\config\config.h"\
-	"..\..\include\thread.h"\
-	"..\include\win32thread.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\config\config.h"\
-	"..\..\include\thread.h"\
-	"..\include\win32thread.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\registrar.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_REGIS=\
 	"..\..\..\config\config.h"\
 	"..\..\include\debug.h"\
@@ -2467,61 +1276,6 @@ NODEP_CPP_REGIS=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_REGIS=\
-	"..\..\..\config\config.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	
-
-"$(INTDIR)\registrar.obj" : $(SOURCE) $(DEP_CPP_REGIS) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_REGIS=\
-	"..\..\..\config\config.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	
-NODEP_CPP_REGIS=\
-	"..\..\include\win32impl.h"\
-	
-
-"$(INTDIR)\registrar.obj" : $(SOURCE) $(DEP_CPP_REGIS) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_REGIS=\
-	"..\..\..\config\config.h"\
-	"..\..\include\debug.h"\
-	"..\..\include\errors.h"\
-	"..\..\include\hashtable.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
-	
-
-"$(INTDIR)\registrar.obj" : $(SOURCE) $(DEP_CPP_REGIS) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\registry.cpp
 DEP_CPP_REGIST=\

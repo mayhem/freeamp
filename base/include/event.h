@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.28.4.13 1999/10/17 22:44:47 robert Exp $
+	$Id: event.h,v 1.28.4.14 1999/10/18 23:17:43 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -30,19 +30,14 @@ class Event {
 
  public:
     Event(int32 c) 
-        { m_type = c; m_internal = false; };
-    Event(int32 c, bool isInternal) 
-        { m_type = c; m_internal = isInternal; };
+        { m_type = c; };
 
     virtual ~Event() {}
     int32 Type() { return m_type; }
-    bool  IsInternal(void) { return m_internal; };
 
  protected:
     Event() {}
     int32 m_type;
-    bool  m_internal;
- 
 };
 
 class EventQueue {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.1.2.5 1999/10/17 05:40:09 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.1.2.6 1999/10/18 23:17:44 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -165,7 +165,7 @@ void MusicCatalog::AddOneFromDatabase(char *key)
     if (!strncmp("P", data, 1)) {
         string tempstr = key;
         if (tempstr.find("currentlist.m3u") < tempstr.length())
-            m_playlists->insert(0, key); 
+            m_playlists->insert(m_playlists->begin(), key); 
         else  
             m_playlists->push_back(key);
     }

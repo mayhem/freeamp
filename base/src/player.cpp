@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.42 1999/10/18 01:35:02 robert Exp $
+        $Id: player.cpp,v 1.133.2.43 1999/10/18 23:17:45 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -60,9 +60,6 @@ Player   *Player::m_thePlayer = NULL;
 const char *szPlaylistExt = ".M3U";
 
 #define SEND_NORMAL_EVENT(e) { Event *ev = new Event(e); GetUIManipLock();    \
-                               SendToUI(ev); ReleaseUIManipLock(); delete ev; \
-                             }
-#define SEND_INTERNAL_EVENT(e) { Event *ev = new Event(e, true); GetUIManipLock();    \
                                SendToUI(ev); ReleaseUIManipLock(); delete ev; \
                              }
 
@@ -1199,8 +1196,8 @@ DoneOutputting(Event *pEvent)
 
    if (SetState(PlayerState_Stopped))
    {
-       SEND_INTERNAL_EVENT(INFO_Stopped);
-       AcceptEvent(new Event(CMD_PlayPaused, true));
+       SEND_NORMAL_EVENT(INFO_Stopped);
+       AcceptEvent(new Event(CMD_PlayPaused));
    }
 
    SEND_NORMAL_EVENT(INFO_DoneOutputting);
@@ -1211,11 +1208,11 @@ DoneOutputting(Event *pEvent)
 
       if (m_playerState == PlayerState_Paused)
       {
-         AcceptEvent(new Event(CMD_PlayPaused, true));
+         AcceptEvent(new Event(CMD_PlayPaused));
       }
       else
       {
-         AcceptEvent(new Event(CMD_Play, true));
+         AcceptEvent(new Event(CMD_Play));
       }
    }
    else
@@ -1239,30 +1236,6 @@ Stop(Event *pEvent)
  
        m_pmo = NULL;
     }
-
-#if 0
-    if (pEvent && !pEvent->IsInternal())
-    {
-       vector<PlaylistItem *>            oTempList;
-       vector<PlaylistItem *>::iterator  j;
-       int                               i;
-       
-       // Copy the contents of the current external list to the
-       // master list
-       m_context->plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
-       for(i = 0; i < m_context->plm->CountItems(); i++)
-          oTempList.push_back(new PlaylistItem(*m_context->plm->ItemAt(i)));
-       
-       m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
-       m_plm->RemoveAll();
-       
-       for(j = oTempList.begin(); j != oTempList.end(); j++)
-          m_context->plm->AddItem(*j, false);
-       m_plm->SetCurrentIndex(0);
-       
-       SendToUI(new VolumeEvent(INFO_ActivePlaylistCleared));
-    }   
-#endif
 
     if (SetState(PlayerState_Stopped))
     {
@@ -1338,30 +1311,6 @@ Play(Event *pEvent)
        }
     }
 
-#if 0
-    if (!pEvent->IsInternal())
-    {
-       vector<PlaylistItem *>            oTempList;
-       vector<PlaylistItem *>::iterator  j;
-       int                               i;
-       
-       // Copy the contents of the current external list to the
-       // master list
-       m_context->plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
-       for(i = 0; i < m_context->plm->CountItems(); i++)
-          oTempList.push_back(new PlaylistItem(*m_context->plm->ItemAt(i)));
-       
-       m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
-       m_plm->RemoveAll();
-       
-       for(j = oTempList.begin(); j != oTempList.end(); j++)
-          m_context->plm->AddItem(*j, false);
-       m_plm->SetCurrentIndex(0);
-       
-       SendToUI(new VolumeEvent(INFO_ActivePlaylistChanged));
-    }
-#endif
-    
     if (!m_pmo)
     {
        pItem = m_plm->GetCurrentItem();
@@ -1398,7 +1347,7 @@ Next(Event *pEvent)
 {
    if (m_playerState != PlayerState_Stopped)
    {
-      AcceptEvent(new Event(CMD_Stop, true));
+      AcceptEvent(new Event(CMD_Stop));
    }
 
    m_plm->GotoNextItem(true);
@@ -1406,9 +1355,9 @@ Next(Event *pEvent)
    if (m_playerState != PlayerState_Stopped)
    {
        if (m_playerState == PlayerState_Paused)
-          AcceptEvent(new Event(CMD_PlayPaused, true));
+          AcceptEvent(new Event(CMD_PlayPaused));
        else
-          AcceptEvent(new Event(CMD_Play, true));
+          AcceptEvent(new Event(CMD_Play));
    }
 
    delete pEvent;
@@ -1420,7 +1369,7 @@ Previous(Event *pEvent)
 {
    if (m_playerState != PlayerState_Stopped)
    {
-      AcceptEvent(new Event(CMD_Stop, true));
+      AcceptEvent(new Event(CMD_Stop));
    }
 
    m_plm->GotoPreviousItem(true);
@@ -1428,9 +1377,9 @@ Previous(Event *pEvent)
    if (m_playerState != PlayerState_Stopped)
    {
        if (m_playerState == PlayerState_Paused)
-          AcceptEvent(new Event(CMD_PlayPaused, true));
+          AcceptEvent(new Event(CMD_PlayPaused));
        else
-          AcceptEvent(new Event(CMD_Play, true));
+          AcceptEvent(new Event(CMD_Play));
    }
 
    delete pEvent;

@@ -18,9 +18,10 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.5 1999/12/02 22:06:53 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.6 1999/12/03 21:07:57 elrod Exp $
 ____________________________________________________________________________*/
 
+#define STRICT
 #include <windows.h>
 #include <windowsx.h>
 #include <sys/types.h>
@@ -144,7 +145,7 @@ EditLabelWndProc(HWND hwnd,
 
     }
 
-    return CallWindowProc((int (__stdcall *)(void))lpOldProc, hwnd, msg, wParam, lParam );
+    return CallWindowProc(lpOldProc, hwnd, msg, wParam, lParam );
 }
 
 void MusicBrowserUI::EditItemLabel(HWND hwnd, HTREEITEM item)
@@ -709,5 +710,5 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
     } 
 	
 	//  Pass all non-custom messages to old window proc
-	return CallWindowProc((int (__stdcall *)(void))lpOldProc, hwnd, msg, wParam, lParam );
+	return CallWindowProc(lpOldProc, hwnd, msg, wParam, lParam );
 }

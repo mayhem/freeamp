@@ -18,9 +18,10 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.31 1999/12/03 02:40:51 elrod Exp $
+        $Id: MusicTree.cpp,v 1.32 1999/12/03 21:07:57 elrod Exp $
 ____________________________________________________________________________*/
 
+#define STRICT
 #include <windows.h>
 #include <windowsx.h>
 #include <sys/types.h>

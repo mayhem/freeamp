@@ -18,10 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EnumFormatEtc.cpp,v 1.1 1999/11/07 02:06:23 elrod Exp $
+        $Id: EnumFormatEtc.cpp,v 1.2 1999/12/03 21:07:56 elrod Exp $
 ____________________________________________________________________________*/
 
 // system header files
+#define STRICT
 #include <windows.h>
 #include <shlobj.h>
 

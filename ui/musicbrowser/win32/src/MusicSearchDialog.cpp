@@ -18,10 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicSearchDialog.cpp,v 1.3 1999/11/22 07:32:19 elrod Exp $
+        $Id: MusicSearchDialog.cpp,v 1.4 1999/12/03 21:07:57 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
+#define STRICT
 #include <windows.h>
 #include <windowsx.h>
 #include <shlobj.h>

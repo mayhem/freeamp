@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DropTarget.cpp,v 1.5 1999/11/14 17:57:11 elrod Exp $
+        $Id: DropTarget.cpp,v 1.6 1999/12/03 21:07:56 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 #endif
 
 // system header files
+#define STRICT
 #include <windows.h>
 #include <commctrl.h>
 #include <shlobj.h>
@@ -222,7 +223,7 @@ void DropTarget::AutoScroll(int scrollCode)
     {
         m_scrolling = true;
 
-        m_timer = SetTimer(GetParent(m_hwnd), SCROLL_TIMER, 250, (int (__stdcall *)(void))ScrollProc);
+        m_timer = SetTimer(GetParent(m_hwnd), SCROLL_TIMER, 250, ScrollProc);
     }
 }
 

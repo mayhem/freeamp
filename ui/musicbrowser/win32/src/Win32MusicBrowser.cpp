@@ -18,15 +18,19 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.33 1999/12/03 03:23:31 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.34 1999/12/03 21:07:57 elrod Exp $
 ____________________________________________________________________________*/
 
-#include <algorithm>
+#define STRICT
 #include <windows.h>
 #include <windowsx.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <direct.h>
+
+#include <algorithm>
+
+using namespace std;
 
 #include "config.h"
 #include "utility.h"

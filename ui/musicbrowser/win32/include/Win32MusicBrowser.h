@@ -18,12 +18,13 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.46 1999/12/03 02:40:50 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.47 1999/12/03 21:07:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
 #define INCLUDED_WIN32MUSICBROWSER_H_
 
+#define STRICT
 #include <windows.h>
 #include <commctrl.h>
 

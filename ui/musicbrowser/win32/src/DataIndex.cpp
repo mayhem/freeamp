@@ -18,9 +18,10 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DataIndex.cpp,v 1.4 1999/12/02 22:06:53 elrod Exp $
+        $Id: DataIndex.cpp,v 1.5 1999/12/03 21:07:56 elrod Exp $
 ____________________________________________________________________________*/
 
+#define STRICT
 #include <windows.h>
 #include <windowsx.h>
 #include <sys/types.h>

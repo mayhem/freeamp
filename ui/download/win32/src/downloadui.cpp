@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.6 1999/09/27 11:46:09 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.7 1999/09/27 19:59:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -257,9 +257,13 @@ BOOL DownloadUI::InitDialog()
 
     // Add a few test items to the list view
     MetaData md;
+
+    md.SetArtist("The Crystal Method");
+    md.SetAlbum("Vegas");
+    md.SetGenre("Electronica");
     md.SetTitle("Trip Like I Do");
 
-    DownloadItem* dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    DownloadItem* dli = new DownloadItem("http://www.blah.com","a.mp3", &md);
     dli->SetState(kDownloadItemState_Queued);
     dli->SetTotalBytes(2221568);
     dli->SetBytesReceived(54432);
@@ -273,8 +277,11 @@ BOOL DownloadUI::InitDialog()
 
     ListView_InsertItem(m_hwndList, &item);
 
+    md.SetArtist("The Oneders");
+    md.SetAlbum("One Hit Wonders...");
+    md.SetGenre("Classic Rock");
     md.SetTitle("That Thing You Do");
-    dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    dli = new DownloadItem("http://www.blah.com","b.mp3", &md);
     dli->SetState(kDownloadItemState_Downloading);
     dli->SetTotalBytes(61952);
     dli->SetBytesReceived(32567);
@@ -284,8 +291,11 @@ BOOL DownloadUI::InitDialog()
     
     ListView_InsertItem(m_hwndList, &item);
 
+    md.SetArtist("The Glimmers");
+    md.SetAlbum("Where are you now?");
+    md.SetGenre("Classic Rock");
     md.SetTitle("Rhyme and Reason By the Bank of the River");
-    dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    dli = new DownloadItem("http://www.blah.com","c.mp3", &md);
     dli->SetState(kDownloadItemState_Paused);
     dli->SetTotalBytes(1000);
     dli->SetBytesReceived(800);
@@ -294,8 +304,11 @@ BOOL DownloadUI::InitDialog()
     
     ListView_InsertItem(m_hwndList, &item);
 
+    md.SetArtist("Various Artist");
+    md.SetAlbum("The Commitments");
+    md.SetGenre("Sound Track");
     md.SetTitle("Mustang Sally");
-    dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    dli = new DownloadItem("http://www.blah.com","d.mp3",  &md);
     dli->SetState(kDownloadItemState_Queued);
     dli->SetTotalBytes(6345634);
     dli->SetBytesReceived(0);
@@ -304,8 +317,11 @@ BOOL DownloadUI::InitDialog()
     
     ListView_InsertItem(m_hwndList, &item);
 
+    md.SetArtist("Pink Floyd");
+    md.SetAlbum("The Wall");
+    md.SetGenre("Classic Rock");
     md.SetTitle("Another Brick in the Wall");
-    dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    dli = new DownloadItem("http://www.blah.com","e.mp3", &md);
     dli->SetState(kDownloadItemState_Done);
     dli->SetTotalBytes(245352343);
     dli->SetBytesReceived(245352343);
@@ -314,8 +330,11 @@ BOOL DownloadUI::InitDialog()
     
     ListView_InsertItem(m_hwndList, &item);
 
+    md.SetArtist("Guns & Roses");
+    md.SetAlbum("Lose Your Illusion, Disc 1");
+    md.SetGenre("Hard Rock");
     md.SetTitle("Welcome to the Jungle");
-    dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    dli = new DownloadItem("http://www.blah.com", "f.mp3", &md);
     dli->SetState(kDownloadItemState_Cancelled);
     dli->SetTotalBytes(34534343);
     dli->SetBytesReceived(45345);
@@ -324,8 +343,11 @@ BOOL DownloadUI::InitDialog()
     
     ListView_InsertItem(m_hwndList, &item);
 
+    md.SetArtist("The gang");
+    md.SetAlbum("Songs that make your smile");
+    md.SetGenre("Classics");
     md.SetTitle("Happy Birthday To You...");
-    dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    dli = new DownloadItem("http://www.blah.com", "g.mp3",  &md);
     dli->SetState(kDownloadItemState_Error);
     dli->SetTotalBytes(34534343);
     dli->SetBytesReceived(45345);
@@ -661,6 +683,53 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
             rcClip.left += 2;
 
+            uint32 itemCount =  ListView_GetItemCount(m_hwndList);
+            DownloadItem* dli = NULL;
+
+            ostringstream debug;
+            //debug << "itemCount: " << itemCount << endl;
+            //OutputDebugString(debug.str().c_str());
+
+            if(itemCount)
+            {
+                LV_ITEM item;
+
+                for(uint32 i = 0; i < itemCount; i++)
+                {
+                    item.mask = LVIF_PARAM | LVIF_STATE;
+                    item.state = 0;
+                    item.stateMask = LVIS_FOCUSED|LVIS_SELECTED;
+                    item.iItem = i;
+                    item.lParam = 0;
+
+                    if(ListView_GetItem(m_hwndList, &item))
+                    {
+                        debug << "Item " << i << " state: " <<  item.state << endl;
+                        OutputDebugString(debug.str().c_str());
+
+                        if(item.state & LVIS_SELECTED)
+                        {
+                            dli = (DownloadItem*)item.lParam;
+
+                            debug << "FoundItem: " << i << endl;
+                            OutputDebugString(debug.str().c_str());
+                            break;
+                        }
+                    }
+                }
+
+                if(!dli)
+                {
+                    item.mask = LVIF_PARAM;
+                    item.iItem = 0;
+                    item.lParam = 0;
+
+                    ListView_GetItem(m_hwndList, &item);
+
+                    dli = (DownloadItem*)item.lParam;
+                }
+            }
+
             switch(dis->itemID)
             {
                 case 0:
@@ -676,7 +745,10 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
                     rcClip.left = dis->rcItem.left + dataOffset;
 
-                    displayString = "The Crystal Method";
+                    displayString = "";
+
+                    if(dli)
+                        displayString = dli->GetMetaData().Artist();
 
                     SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 
@@ -704,7 +776,10 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
                     rcClip.left = dis->rcItem.left + dataOffset;
 
-                    displayString = "Vegas";
+                    displayString = "";
+
+                    if(dli)
+                        displayString = dli->GetMetaData().Album();
 
                     SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 
@@ -731,7 +806,10 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
                     rcClip.left = dis->rcItem.left + dataOffset;
 
-                    displayString = "Trip Like I Do";
+                    displayString = "";
+
+                    if(dli)
+                        displayString = dli->GetMetaData().Title();
 
                     SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 
@@ -758,7 +836,11 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
                     rcClip.left = dis->rcItem.left + dataOffset;
 
-                    displayString = "Electronica";
+                    displayString = "";
+
+                    if(dli)
+                        displayString = dli->GetMetaData().Genre();
+
 
                     SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 
@@ -785,7 +867,11 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
                     rcClip.left = dis->rcItem.left + dataOffset;
 
-                    displayString = "The Crystal Method - Vegas";
+                    displayString = "";
+
+                    //if(dli)
+                        //displayString = dli->GetMetaData().Playlist();
+
 
                     SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 
@@ -812,7 +898,10 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
                     rcClip.left = dis->rcItem.left + dataOffset;
 
-                    displayString = "The Crystal Method - Vegas - 1 - Trip Like I Do.mp3";
+                    displayString = "";
+
+                    if(dli)
+                        displayString = dli->DestinationFile();
 
                     SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 
@@ -893,6 +982,30 @@ BOOL DownloadUI::Command(int32 command, HWND src)
 	}
 
 	return TRUE;		
+}
+
+BOOL DownloadUI::Notify(int32 controlId, NMHDR* nmh)
+{
+    BOOL result = TRUE;
+
+    switch(controlId)
+    {
+        case IDC_LIST:
+        {
+            NM_LISTVIEW* nmlv = (NM_LISTVIEW*)nmh;
+
+            if(nmh->code == LVN_ITEMCHANGED)
+            {
+                 ListView_RedrawItems(m_hwndInfo, 0, ListView_GetItemCount(m_hwndInfo) - 1);
+                 //OutputDebugString("LVN_ITEMCHANGING\r\n");
+            }
+
+            break;
+        }
+
+    }
+
+    return result;
 }
 
 
@@ -991,7 +1104,14 @@ BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd,
 		case WM_COMMAND:
 		{
             result = m_ui->Command(wParam, (HWND)lParam);
+            break;
         }       
+
+        case WM_NOTIFY:
+        {
+            result = m_ui->Notify(wParam, (NMHDR*)lParam);
+            break;
+        }  
 
 		case WM_CLOSE:
 		{

@@ -1,9 +1,7 @@
-
 /*____________________________________________________________________________
 	
-	FreeAmp - The Free MP3 Player
-
-	Portions Copyright (C) 1998 GoodNoise
+	FreeAMP - The Free MP3 Player
+	Portions copyright (C) 1998 GoodNoise
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -19,43 +17,18 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.5 1998/10/13 08:46:10 elrod Exp $
+	$Id: utility.h,v 1.1 1998/10/13 08:46:10 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PLAYLIST_H_
-#define _PLAYLIST_H_
+#ifndef _UTILITY_H_
+#define _UTILITY_H_
 
-#include "vector.h"
+#include "config.h"
+#include "error.h"
 
-class PlayListItem {
- public:
-    char *url;
-    int32 type;
-    int32 startFrame;
+Error InitWindowsRegistry(void);
 
-    PlayListItem();
-    ~PlayListItem();
-};
-
-class PlayList {
- private:
-    Vector<PlayListItem *> *pMediaElems;
-    int32 current;
-    int32 skipNum;
- public:
-    PlayList();
-    ~PlayList();
-    void add(char *,int);
-    void setSkip(int32 f) { skipNum = f; } // logical media units to skip at beginning
-    int32 getSkip() { return skipNum; }
-    PlayListItem *getFirst();
-    PlayListItem *getNext();
-    PlayListItem *getPrev();
-    PlayListItem *getCurrent();
-    void setFirst();
-    void setNext();
-    void setPrev();
-};
+Error GetInstallDirectory(char* path, int32 len);
 
 
-#endif // _PLAYLIST_H_
+#endif // _UTILITY_H_

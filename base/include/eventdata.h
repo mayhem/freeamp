@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.2 1998/10/12 03:44:19 jdw Exp $
+	$Id: eventdata.h,v 1.3 1998/10/13 08:46:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -61,7 +61,7 @@ class Id3TagInfo {
     }
 
  private:
-    nullinit() {
+    void nullinit() {
 	*songname = '\0';
 	*artist = '\0';
 	*album = '\0';

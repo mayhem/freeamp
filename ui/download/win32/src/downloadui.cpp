@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.4 1999/09/27 01:51:24 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.5 1999/09/27 09:40:52 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -30,10 +30,9 @@ ____________________________________________________________________________*/
 
 #include <string>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
-
-
 
 /* project headers */
 #include "config.h"
@@ -43,6 +42,15 @@ using namespace std;
 #include "eventdata.h"
 #include "playlist.h"
 #include "resource.h"
+
+static const int32 kProgressHeight = 8;
+static const int32 kProgressWidth = 7;
+
+static const int32 kPrePadding = 4;
+static const int32 kElementPadding = 5;
+static const int32 kPostPadding = 5;
+static const int32 kMinProgressWidth = 3;
+static const int32 kTotalPadding = kPrePadding + kElementPadding + kPostPadding;
 
 HINSTANCE g_hInstance = NULL;
 
@@ -95,11 +103,14 @@ DownloadUI::DownloadUI(FAContext *context):UserInterface()
     m_uiThread = Thread::CreateThread();
     m_uiThread->Create(UIThreadFunc,this);
 
+    m_progressBitmap = NULL;
+
     m_uiSemaphore->Wait();
 }
 
 DownloadUI::~DownloadUI()
 {
+    DeleteObject(m_progressBitmap);
     delete m_uiSemaphore;
 }
 
@@ -208,12 +219,14 @@ BOOL DownloadUI::InitDialog()
     ListView_InsertColumn(m_hwndList, 1, &lvc);
 
     // init the images    
-    m_imageList = ImageList_Create(16, 16, ILC_MASK, 1, 0);
+    m_noteImage = ImageList_Create(16, 16, ILC_MASK, 1, 0);
     HBITMAP bmp = LoadBitmap(g_hInstance, MAKEINTRESOURCE(IDB_NOTE));
-    ImageList_AddMasked(m_imageList, bmp, RGB(255,0,0));
+    ImageList_AddMasked(m_noteImage, bmp, RGB(255,0,0));
     DeleteObject(bmp);
 
-    ListView_SetImageList(m_hwndList, m_imageList, LVSIL_SMALL);
+    m_progressBitmap = LoadBitmap(g_hInstance, MAKEINTRESOURCE(IDB_PROGRESS));
+
+    ListView_SetImageList(m_hwndList, m_noteImage, LVSIL_SMALL);
 
     // Add a test item
     LV_ITEM item;
@@ -224,11 +237,13 @@ BOOL DownloadUI::InitDialog()
 
     DownloadItem* dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
     dli->SetState(kDownloadItemState_Queued);
+    dli->SetTotalBytes(2221568);
+    dli->SetBytesReceived(54432);
 
     item.mask = LVIF_PARAM | LVIF_STATE;
     item.state = 0;
     item.stateMask = 0;
-    item.iItem = 0;
+    item.iItem = ListView_GetItemCount(m_hwndList);
     item.iSubItem = 0;
     item.lParam = (LPARAM)dli;
 
@@ -236,7 +251,21 @@ BOOL DownloadUI::InitDialog()
 
     md.SetTitle("That Thing You Do");
     dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
-    dli->SetState(kDownloadItemState_Queued);
+    dli->SetState(kDownloadItemState_Downloading);
+    dli->SetTotalBytes(61952);
+    dli->SetBytesReceived(32567);
+
+    item.iItem = ListView_GetItemCount(m_hwndList);
+    item.lParam = (LPARAM)dli;
+    
+    ListView_InsertItem(m_hwndList, &item);
+
+    md.SetTitle("Rhyme and Reason By the Bank of the River");
+    dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    dli->SetState(kDownloadItemState_Downloading);
+    dli->SetTotalBytes(1000);
+    dli->SetBytesReceived(1000);
+    item.iItem = ListView_GetItemCount(m_hwndList);
     item.lParam = (LPARAM)dli;
     
     ListView_InsertItem(m_hwndList, &item);
@@ -291,7 +320,7 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
             CalcStringEllipsis(dis->hDC, 
                                displayString, 
-                               ListView_GetColumnWidth(m_hwndList, 0) - cxImage + 1);
+                               ListView_GetColumnWidth(m_hwndList, 0) - (cxImage + 1));
 
             ExtTextOut( dis->hDC, 
                         rcClip.left + cxImage + 1, rcClip.top + 1, 
@@ -308,6 +337,227 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                                 rcClip.left, rcClip.top,
                                 uiFlags);
             }
+
+            // draw the progress column
+
+            rcClip.left += ListView_GetColumnWidth(m_hwndList, 0);
+
+            int32 progressWidth = 0;
+
+            switch(dli->GetState())
+            {
+                case kDownloadItemState_Queued:
+                {
+                    if(!(dis->itemState & ODS_SELECTED))
+                        SetTextColor(dis->hDC, RGB(0, 127, 0));
+
+                    ostringstream ost;
+                    float total;
+                    
+                    ost.precision(2);
+                    ost.flags(ios_base::fixed);
+
+                    total = dli->GetTotalBytes();
+
+                    if(total >= 1048576)
+                    {
+                        total /= 1048576;
+                        ost << "Queued (" << total << " MB)";
+                    }
+                    else if(total >= 1024)
+                    {
+                        total /= 1024;
+                        ost << "Queued (" << total << " KB)";
+                    }
+                    else
+                    {
+                        ost << "Queued (" << dli->GetTotalBytes() << " Bytes)";
+                    }
+                   
+                    displayString = ost.str();
+
+                    break;
+                }
+
+                case kDownloadItemState_Downloading:
+                {
+                    if(!(dis->itemState & ODS_SELECTED))
+                        SetTextColor(dis->hDC, RGB(0, 0, 192));
+
+                    ostringstream ost;
+                    float total;
+                    float recvd;
+                    uint32 percent;
+                    
+                    ost.precision(2);
+                    ost.flags(ios_base::fixed);
+
+                    total = dli->GetTotalBytes();
+                    recvd = dli->GetBytesReceived();
+                    percent= (uint32)recvd/total*100;
+
+                    if(total >= 1048576)
+                    {
+                        total /= 1048576;
+                        recvd /= 1048576;
+                        ost  << percent << "% (" << recvd << " of "<< total << " MB) ";
+                    }
+                    else if(total >= 1024)
+                    {
+                        total /= 1024;
+                        recvd /= 1024;
+                        ost << percent << "% ("<< recvd << " of "<< total << " MB)";
+                    }
+                    else
+                    {
+                        ost << percent << "% (" << dli->GetBytesReceived() << " of " << 
+                            dli->GetTotalBytes() << " Bytes)";
+                    }
+                   
+                    displayString = ost.str();
+
+                    SIZE stringSize;
+                    
+                    GetTextExtentPoint32(dis->hDC, displayString.c_str(), 
+                                            displayString.size(), &stringSize);
+                    
+                    int32 leftoverWidth = ListView_GetColumnWidth(m_hwndList, 1) - (stringSize.cx + kTotalPadding);
+
+                    // do we have room to show a progress bar?
+                    if(leftoverWidth - kMinProgressWidth > 0)
+                    {
+                        progressWidth = leftoverWidth; // padding on ends and between elements
+                        int32 bmpWidth = (float)(progressWidth - 3) * (float)percent/(float)100;
+                        int32 count = bmpWidth/(kProgressWidth);
+                        int32 remainder = bmpWidth%(kProgressWidth);
+
+                        //ostringstream debug;
+                        //debug << "bmpWidth: " << bmpWidth << endl << "progressWidth: " << progressWidth << endl;
+                        //OutputDebugString(debug.str().c_str());
+
+                        HDC memDC = CreateCompatibleDC(dis->hDC);
+                        SelectObject(memDC, m_progressBitmap);
+
+                        rcClip.left += kPrePadding;
+
+                        RECT progressRect = rcClip;
+
+                        progressRect.top += ((rcClip.bottom - rcClip.top) - kProgressHeight)/2 - 1;
+                        progressRect.bottom = progressRect.top + kProgressHeight + 2;
+                        progressRect.right = progressRect.left + progressWidth;
+
+
+                        if(dis->itemState & ODS_SELECTED)
+                        {
+                            HBRUSH brush = CreateSolidBrush(GetSysColor(COLOR_WINDOW));
+
+                            FillRect(dis->hDC, &progressRect, brush);
+                            DeleteObject(brush);
+                        }
+
+                        DrawEdge(dis->hDC, &progressRect, EDGE_SUNKEN, BF_RECT);
+
+                        uint32 i = 0;
+
+                        for(i = 0; i< count; i++)
+                        {
+                            BitBlt(dis->hDC, progressRect.left + 2 + i*kProgressWidth, progressRect.top + 2, kProgressWidth, kProgressHeight, 
+                                   memDC, 0, 0, SRCCOPY);
+
+                        }
+
+                        if(remainder)
+                        {
+                            BitBlt(dis->hDC, progressRect.left + 2 + i*kProgressWidth, progressRect.top + 2, remainder, kProgressHeight, 
+                                   memDC, 0, 0, SRCCOPY);
+                        }
+
+
+                        DeleteDC(memDC);
+                    }
+
+                    break;
+                }
+
+                case kDownloadItemState_Cancelled:
+                    if(!(dis->itemState & ODS_SELECTED))
+                        SetTextColor(dis->hDC, RGB(192, 0, 0));
+
+                    displayString = "Cancelled";
+                    break;
+                case kDownloadItemState_Paused:
+                {
+                    if(!(dis->itemState & ODS_SELECTED))
+                        SetTextColor(dis->hDC, RGB(0, 128, 128));
+
+                    ostringstream ost;
+                    float total;
+                    float recvd;
+                    uint32 percent;
+                    
+                    ost.precision(2);
+                    ost.flags(ios_base::fixed);
+
+                    total = dli->GetTotalBytes();
+                    recvd = dli->GetBytesReceived();
+                    percent= (uint32)recvd/total*100;
+
+                    if(total >= 1048576)
+                    {
+                        total /= 1048576;
+                        recvd /= 1048576;
+                        ost << "Paused (" << recvd << " of "<< total << " MB - " << percent << "%)";
+                    }
+                    else if(total >= 1024)
+                    {
+                        total /= 1024;
+                        recvd /= 1024;
+                        ost << "Paused (" << recvd << " of "<< total << " MB - " << percent << "%)";
+                    }
+                    else
+                    {
+                        ost << "Paused (" << dli->GetBytesReceived() << " of " << 
+                            dli->GetTotalBytes() << " Bytes - " << percent << "%)";
+                    }
+                   
+                    displayString = ost.str();
+
+                    break;
+                }
+
+                case kDownloadItemState_Error:
+                    if(!(dis->itemState & ODS_SELECTED))
+                        SetTextColor(dis->hDC, RGB(192, 0, 0));
+
+                    displayString = "Error";
+                    break;
+
+                case kDownloadItemState_Done:
+                    displayString = "Download Complete";
+                    break;
+
+                default:
+                    break;
+            }
+
+            uint32 pad = 0;
+
+            if(progressWidth)
+                pad = (progressWidth + kElementPadding);
+
+            CalcStringEllipsis(dis->hDC, 
+                               displayString, 
+                               ListView_GetColumnWidth(m_hwndList, 1) - pad);
+
+            rcClip.left += pad;
+
+            ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
 
             // If we changed the colors for the selected item, undo it
             if(dis->itemState & ODS_SELECTED)
@@ -452,7 +702,7 @@ BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd,
 	return result;
 }
 
-void DownloadUI::CalcStringEllipsis(HDC hdc, string& displayString, uint32 columnWidth)
+uint32 DownloadUI::CalcStringEllipsis(HDC hdc, string& displayString, int32 columnWidth)
 {
     const TCHAR szEllipsis[] = TEXT("...");
     SIZE   sizeString;
@@ -460,7 +710,7 @@ void DownloadUI::CalcStringEllipsis(HDC hdc, string& displayString, uint32 colum
     string temp;
     
     // Adjust the column width to take into account the edges
-    columnWidth -= 4;
+    //columnWidth -= 4;
 
     temp = displayString;        
 
@@ -468,11 +718,11 @@ void DownloadUI::CalcStringEllipsis(HDC hdc, string& displayString, uint32 colum
 
     // If the width of the string is greater than the column width shave
     // the string and add the ellipsis
-    if((uint32)sizeString.cx > columnWidth)
+    if(sizeString.cx > columnWidth)
     {
         GetTextExtentPoint32(hdc, szEllipsis, strlen(szEllipsis), &sizeEllipsis);
        
-        while(temp.size() > 0)
+        while(temp.size() > 1)
         {
             temp.erase(temp.size() - 1, 1);
 
@@ -485,8 +735,17 @@ void DownloadUI::CalcStringEllipsis(HDC hdc, string& displayString, uint32 colum
                 temp += szEllipsis;
                 displayString = temp;
                 break;
-                
+            }
+            else if(temp.size() == 1)
+            {
+                temp += szEllipsis;
+                displayString = temp;
+                break;
             }
         }
     }
+
+    GetTextExtentPoint32(hdc, displayString.c_str(), displayString.size(), &sizeString);
+
+    return sizeString.cx;
 }

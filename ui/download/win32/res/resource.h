@@ -4,6 +4,7 @@
 //
 #define IDI_EXE_ICON                    101
 #define IDD_DIALOG                      102
+#define IDB_PROGRESS                    104
 #define IDB_NOTE                        542
 #define IDC_PAUSE                       1000
 #define IDC_LIST                        1001
@@ -16,7 +17,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        104
+#define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40000
 #define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           101

@@ -283,6 +283,10 @@ SOURCE=..\res\download.rc
 
 SOURCE=..\res\icon1.ico
 # End Source File
+# Begin Source File
+
+SOURCE=..\res\progress256.bmp
+# End Source File
 # End Group
 # End Target
 # End Project

@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.cpp,v 1.2 2000/05/04 14:20:34 robert Exp $
+   $Id: vorbislmc.cpp,v 1.3 2000/06/18 18:14:17 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -121,9 +121,9 @@ void VorbisLMC::Clear()
       ((EventBuffer *)m_pOutputBuffer)->Clear();
 }
 
-vector<char *> *VorbisLMC::GetExtensions(void)
+vector<const char *> *VorbisLMC::GetExtensions(void)
 {
-   vector<char *> *extList = new vector<char *>;
+   vector<const char *> *extList = new vector<const char *>;
 
    extList->push_back("OGG");
 
@@ -417,9 +417,9 @@ Error VorbisLMC::ChangePosition(int32 position)
    return kError_NoErr;
 }
 
-int VorbisLMC::SeekWrapper(void *stream, long offset, int whence)
+int VorbisLMC::SeekWrapper(void *stream, int64_t offset, int whence)
 {
-   return ((VorbisLMC *)stream)->Seek(offset, whence);
+   return ((VorbisLMC *)stream)->Seek((int32)offset, whence);
 }
 
 int VorbisLMC::Seek(long offset, int whence)

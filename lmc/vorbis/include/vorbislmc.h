@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.h,v 1.1 2000/04/28 00:42:54 robert Exp $
+   $Id: vorbislmc.h,v 1.2 2000/06/18 18:14:17 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -62,14 +62,14 @@ class VorbisLMC : public LogicalMediaConverter
    virtual Error Prepare(PullBuffer *pInputBuffer, PullBuffer *&pOutBuffer);
    virtual Error InitDecoder();
 
-   virtual vector<char *> *GetExtensions(void);
+   virtual vector<const char *> *GetExtensions(void);
 
-   virtual Error SetEQData(float *f) { ; };
-   virtual Error SetEQData(bool b) { ; };
+   virtual Error SetEQData(float *f) { return kError_YouScrewedUp; };
+   virtual Error SetEQData(bool b) { return kError_YouScrewedUp; };
    
  private:
 
-   static int    SeekWrapper(void *stream, long offset, int whence);
+   static int    SeekWrapper(void *stream, int64_t offset, int whence);
    static long   TellWrapper(void *stream);
    static int CloseWrapper(void *stream);
    static size_t ReadWrapper(void *buf, size_t size, size_t num, void *stream);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.cpp,v 1.5 1999/03/17 03:30:58 robert Exp $
+	$Id: irmanui.cpp,v 1.6 1999/04/07 23:36:56 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -30,7 +30,7 @@ ____________________________________________________________________________*/
 #include <sys/time.h>
 #include <termios.h>
 #include <signal.h>
-
+#include <errno.h>
 
 #include "config.h"
 #include "irmanui.h"

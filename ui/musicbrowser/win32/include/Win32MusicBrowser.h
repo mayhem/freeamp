@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.87 2000/09/24 19:26:25 ijr Exp $
+        $Id: Win32MusicBrowser.h,v 1.88 2000/09/27 12:16:39 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -307,7 +307,6 @@ class MusicBrowserUI : public UserInterface
     void    FillAllTracks();
     void    FillUncatTracks();
     void    FillPortables();
-    void    FillWiredPlanet();
     void    FillStreams();
     void    FillRelatable();
     void    UpdateStreams(vector<FreeAmpStreamInfo> &list);
@@ -320,7 +319,7 @@ class MusicBrowserUI : public UserInterface
     void    AddAllTrackItems(vector<PlaylistItem*>* items);
     void    AddUncatagorizedTrackItems(vector<PlaylistItem*>* items);
     void    GetSelectedPlaylistItems(vector<string>* urls);
-    void    GetSelectedStreamItems(vector<PlaylistItem*>* items);
+    void    GetSelectedStreamItems(vector<PlaylistItem*>* items, HTREEITEM root = NULL);
     void    GetSelectedCDItems(vector<string>* urls);
     void    GetSelectedFavoritesItems(vector<PlaylistItem*>* items);
     void    TVBeginDrag(HWND hwnd, NM_TREEVIEW* nmtv);
@@ -391,7 +390,6 @@ class MusicBrowserUI : public UserInterface
     HTREEITEM	        m_hPlaylistItem, m_hMyMusicItem, m_hPortableItem;
     HTREEITEM           m_hAllItem, m_hUncatItem, m_hStreamsItem, m_hCDItem;
     HTREEITEM           m_hNewPlaylistItem, m_hNewPortableItem;
-    HTREEITEM           m_hWiredPlanetItem, m_hShoutCastItem, m_hIceCastItem;
     HTREEITEM           m_hFavoritesItem, m_hNewFavoritesItem;
     HTREEITEM           m_hRelatableItem;
     int                 m_iCollapseMoveAmount;

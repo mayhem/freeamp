@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.12 2000/09/24 19:57:27 ijr Exp $
+        $Id: cdpmo.cpp,v 1.13 2000/09/27 12:16:39 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -61,6 +61,7 @@ CDPMO::CDPMO(FAContext *context) :
    sentData = false;
    trackDone = false;
    Int32PropValue *pProp;
+   m_volume = NULL;
 
    m_hWnd = 0;
 

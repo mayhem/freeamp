@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.34 1999/11/27 16:47:20 elrod Exp $
+	$Id: main.cpp,v 1.35 1999/11/28 23:59:39 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -400,7 +400,7 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
     DWORD   type;
     char    buf[MAX_PATH];
     DWORD   len = sizeof(buf);
-    bool permission = false;
+    bool    permission = false;
 
     if(!askBeforeReclaiming)
         permission = true;
@@ -442,7 +442,10 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
                         if(ret == IDOK)
                             permission = true;
                         else
-                            break;
+                        {
+                            RegCloseKey(typeKey);
+                            return;
+                        }
 
                     }
 
@@ -492,9 +495,6 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
             RegCloseKey(appKey);
         }
     }
-
-    if(!permission)
-        return;
 
     // reclaim netscape filetypes
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.7 1999/03/02 02:57:59 robert Exp $
+   $Id: pullbuffer.h,v 1.8 1999/03/04 07:23:46 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PULLBUFFER_H_
@@ -47,7 +47,8 @@ class PullBuffer
       virtual  Error    BeginWrite (void *&pBuffer, size_t &iBytesToWrite);
       virtual  Error    EndWrite   (size_t iNumBytesWritten);
 
-      virtual  Error    BeginRead  (void *&pBuffer, size_t &iBytesNeeded);
+      virtual  Error    BeginRead  (void *&pBuffer, size_t &iBytesNeeded,
+                                    bool bBlock = true);
       virtual  Error    EndRead    (size_t iBytesUsed);
 
       virtual  Error    DiscardBytes();
@@ -75,15 +76,18 @@ class PullBuffer
 
     protected:
 
+      int      GetWriteIndex();
+      int      GetReadIndex();
+
       Semaphore *m_pWriteSem, *m_pReadSem;
       Mutex     *m_pMutex;
       bool       m_bExit;
 
     private:
 
+      int            m_iReadIndex, m_iWriteIndex;
       bool           m_bEOS, m_bReadOpPending, m_bWriteOpPending;
       unsigned char *m_pPullBuffer;
-      int            m_iReadIndex, m_iWriteIndex;
       size_t         m_iBytesInBuffer, m_iOverflowSize, m_iBufferSize;
       size_t         m_iWriteTriggerSize;
 };

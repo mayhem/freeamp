@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: filebuffer.cpp,v 1.7 1999/03/02 01:03:21 robert Exp $
+   $Id: filebuffer.cpp,v 1.8 1999/03/04 07:23:48 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -29,6 +29,9 @@ ____________________________________________________________________________*/
 #endif
 
 #include "filebuffer.h"
+#include "log.h"
+
+extern LogFile *g_Log;
 
 #define DB //printf("%s:%d\n", __FILE__, __LINE__);
 
@@ -202,7 +205,12 @@ void FileBuffer::WorkerThread(void)
       if (eError == kError_NoErr)
       {
           iRead = fread((unsigned char *)pBuffer, 1, iToCopy, m_fpFile);
-          EndWrite(iRead);
+          eError = EndWrite(iRead);
+          if (IsError(eError))
+          {
+              g_Log->Error("local: EndWrite returned: %d\n", eError);
+              break;
+          }
 
           if (iRead < iToCopy)
              SetEndOfStream(true);

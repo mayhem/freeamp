@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.10 1999/01/22 06:02:50 jdw Exp $
+	$Id: pmo.h,v 1.11 1999/03/04 07:23:45 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -39,6 +39,7 @@ ____________________________________________________________________________*/
 
 
 /* project headers */
+#include "event.h"
 #include "config.h"
 #include "errors.h"
 #include "properties.h"
@@ -55,17 +56,33 @@ typedef struct OutputInfo
 
 }OutputInfo;
 
-class PhysicalMediaOutput{
-
+class PhysicalMediaOutput
+{
 public:
     virtual ~PhysicalMediaOutput() { }
     virtual Error Init(OutputInfo* /*info*/){ return kError_GotDefaultMethod; }
-    virtual Error Reset(bool /*user_stop*/){ return kError_GotDefaultMethod; }
-    virtual Error Write(int32 &, void * /* pBuffer */, int32 /* bufflength */) { return kError_GotDefaultMethod; }
+
+    virtual Error BeginWrite(void *&pBuffer, size_t &iBytesToWrite)
+        { return kError_GotDefaultMethod; };
+    virtual Error EndWrite  (size_t iNumBytesWritten)
+        { return kError_GotDefaultMethod; };
+    virtual Error AcceptEvent(Event *)
+        { return kError_GotDefaultMethod; };
+    virtual int32 GetBufferPercentage()
+	               {return 0;};
+                 
+    virtual Error SetTarget(EventQueue *target)
+                  {m_target = target; }
     virtual Error Pause(){ return kError_GotDefaultMethod;}
     virtual Error Resume(){ return kError_GotDefaultMethod; }
+    virtual Error Clear(){ return kError_GotDefaultMethod; }
+    virtual void  WaitToQuit(){ };
     virtual const char *GetErrorString(int32) { return NULL; }
     virtual Error SetPropManager(Properties *) = 0;
+
+protected:
+
+    EventQueue *m_target;
 };
 
 #endif /* _PMO_H_ */

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.6 1999/03/02 04:36:48 robert Exp $
+        $Id: obsinput.cpp,v 1.7 1999/03/04 07:23:50 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -199,14 +199,17 @@ EndRead(size_t bytesused)
    return m_pPullBuffer->EndRead(bytesused);
 }
 
-int32 ObsInput::
-GetBufferPercentage()
+int32 ObsInput::GetBufferPercentage()
 {
    return m_pPullBuffer->GetBufferPercentage();
 }
 
-void ObsInput::
-Pause()
+int32 ObsInput::GetNumBytesInBuffer()
+{
+   return m_pPullBuffer->GetNumBytesInBuffer();
+}
+
+void ObsInput:: Pause()
 {
    return m_pPullBuffer->Pause();
 }

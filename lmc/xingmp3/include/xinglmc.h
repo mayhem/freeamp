@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.21 1999/03/02 04:36:51 robert Exp $
+   $Id: xinglmc.h,v 1.22 1999/03/04 07:23:59 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -121,7 +121,7 @@ class     XingLMC:public LogicalMediaConverter
 	Error       AdvanceBufferToNextFrame();
 	Error       GetHeadInfo();
 
-   bool        m_properlyInitialized;
+   bool        m_properlyInitialized, m_bExit;
    int32       m_frameWaitTill;
    Semaphore  *m_pauseSemaphore;
    AUDIO       m_audioMethods;
@@ -131,11 +131,8 @@ class     XingLMC:public LogicalMediaConverter
    PhysicalMediaInput *m_input;
    PhysicalMediaOutput *m_output;
 
-   unsigned char *m_pcmBuffer;
-   uint32    m_pcmBufBytes;
-   uint32    m_pcmTrigger;
-
-   int       m_frameBytes;
+   int       m_iMaxWriteSize;
+   int       m_frameBytes, m_iBufferUpBytes;
 	MPEG_HEAD m_sMpegHead;
 	int32     m_iBitRate;
    bool      m_isPaused, m_bBufferingUp;

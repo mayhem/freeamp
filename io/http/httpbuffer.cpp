@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: httpbuffer.cpp,v 1.6 1999/03/03 11:55:29 elrod Exp $
+   $Id: httpbuffer.cpp,v 1.7 1999/03/04 07:23:41 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -479,7 +479,12 @@ void HttpBuffer::WorkerThread(void)
           //   printf("%02X ", ((char*)pBuffer)[i] & 0xFF);
           //printf(" (%d - %d)\n", iToCopy, iReadSize);
 
-          EndWrite(iRead);
+          eError = EndWrite(iRead);
+          if (IsError(eError))
+          {
+              g_Log->Error("http: EndWrite returned: %d\n", eError);
+              break;
+          }
       }
       if (eError == kError_BufferTooSmall)
       {

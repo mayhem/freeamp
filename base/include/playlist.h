@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.18 1999/02/28 00:21:25 robert Exp $
+	$Id: playlist.h,v 1.19 1999/03/04 07:23:38 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -31,6 +31,7 @@ ____________________________________________________________________________*/
 #include "registry.h"
 #include "eventdata.h"
 #include "mutex.h"
+#include "pmi.h"
 
 class PlayListItem {
  private:

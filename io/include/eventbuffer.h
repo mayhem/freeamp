@@ -18,41 +18,45 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: streambuffer.h,v 1.3 1999/03/04 07:23:47 robert Exp $
+   $Id: eventbuffer.h,v 1.1 1999/03/04 07:23:44 robert Exp $
 ____________________________________________________________________________*/
 
-#ifndef _STREAMBUFFER_H_
-#define _STREAMBUFFER_H_
+#ifndef _EVENTBUFFER_H_
+#define _EVENTBUFFER_H_
 
 /* system headers */
 #include <stdlib.h>
 
 #include "pullbuffer.h"
+#include "pmoevent.h"
+#include "queue.h"
 
-const int iReceiveTimeout = 1;
+struct BufferEvent
+{
+    int    iIndex;
+    Event *pEvent;
+};
 
-class StreamBuffer : public PullBuffer
+class EventBuffer : public PullBuffer
 {
     public:
 
-               StreamBuffer(size_t iBufferSize, 
-                            size_t iOverflowSize,
-                            size_t iWriteTriggerSize);
-      virtual ~StreamBuffer(void);
+               EventBuffer(size_t iBufferSize, 
+                           size_t iOverflowSize,
+                           size_t iWriteTriggerSize);
+      virtual ~EventBuffer(void);
 
-//      virtual  Error    BeginRead  (void *&pBuffer, size_t &iBytesNeeded);
-      virtual  Error    BeginWrite (void *&pBuffer, size_t &iBytesNeeded);
+      virtual  Error      AcceptEvent(Event *);
+      virtual  Error      Clear(void);
 
-      virtual  bool     IsBufferingUp(int iBytesNeeded);
-		virtual  void     Pause()
-		                  { m_bPause = true; };     
-		virtual  void     Resume()
-		                  { m_bPause = false; };     
+      virtual  Event     *GetEvent(void);
+      virtual  Event     *PeekEvent(void);
+      virtual  Error      BeginRead(void *&pBuffer, size_t &iNumBytes);
+      virtual  Error      BeginWrite(void *&pBuffer, size_t &iNumBytes);
 
     protected:
-
-	   bool      m_bBufferingUp, m_bPause;
-		Mutex    *m_pStreamMutex;
+     
+      Queue <BufferEvent *> *m_pQueue;
 };
 
 #endif

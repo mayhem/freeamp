@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.19 1999/01/25 23:00:09 robert Exp $
+	$Id: eventdata.h,v 1.20 1999/03/04 07:23:37 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -28,11 +28,13 @@ ____________________________________________________________________________*/
 #include <iostream.h>
 #include <string.h>
 
-#include "lmc.h"
+//#include "lmc.h"
 //#include "playlist.h"
 #include "event.h"
 #include "id3v1.h"
 #include "vector.h"
+
+class LogicalMediaConverter; 
 
 class UserMessageEvent : public Event {
  private:

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: streambuffer.cpp,v 1.4 1999/03/01 22:47:34 robert Exp $
+   $Id: streambuffer.cpp,v 1.5 1999/03/04 07:23:58 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -51,6 +51,7 @@ bool StreamBuffer::IsBufferingUp(int32 iBytesNeeded)
    return GetNumBytesInBuffer() < iBytesNeeded;
 }
 
+#if 0
 Error StreamBuffer::BeginRead(void *&pBuffer, size_t &iBytesNeeded)
 {
    Error eRet;
@@ -80,6 +81,8 @@ Error StreamBuffer::BeginRead(void *&pBuffer, size_t &iBytesNeeded)
   
    if (GetNumBytesInBuffer() < iBytesNeeded && !IsEndOfStream())
 	{
+       printf("bytes in buffer: %d needed %d size: %d\n", 
+            GetNumBytesInBuffer(), iBytesNeeded, GetBufferSize());
        if (IsEndOfStream())
            eRet = kError_InputUnsuccessful;
 		 else
@@ -97,6 +100,7 @@ Error StreamBuffer::BeginRead(void *&pBuffer, size_t &iBytesNeeded)
 
    return PullBuffer::BeginRead(pBuffer, iBytesNeeded);
 }
+#endif
 
 Error StreamBuffer::BeginWrite(void *&pBuffer, size_t &iBytesNeeded)
 {

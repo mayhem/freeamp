@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.6 1999/03/01 22:47:26 robert Exp $
+        $Id: httpinput.h,v 1.7 1999/03/04 07:23:43 robert Exp $
 ____________________________________________________________________________*/
 
-#ifndef _HTTPFILEINPUT_H_
-#define _HTTPFILEINPUT_H_
+#ifndef _HTTPINPUT_H_
+#define _HTTPINPUT_H_
 
 /* system headers */
 #include <stdlib.h>
@@ -51,6 +51,7 @@ class     HttpInput:public PhysicalMediaInput
    virtual bool  IsStreaming(void)
                  { return true; };
 	virtual int32 GetBufferPercentage();
+	virtual int32 GetNumBytesInBuffer();
    virtual Error SetBufferSize(size_t iNewSize);
 	virtual bool  CachePMI()
 	              { return true; };

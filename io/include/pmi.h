@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.14 1999/03/01 22:47:27 robert Exp $
+	$Id: pmi.h,v 1.15 1999/03/04 07:23:44 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -71,6 +71,8 @@ public:
     virtual Error SetBufferSize(size_t iSize)
 	               {return kError_GotDefaultMethod;}
     virtual int32 GetBufferPercentage()
+	               {return 0;};
+    virtual int32 GetNumBytesInBuffer()
 	               {return 0;};
 	 virtual void  Pause()
 	               { };

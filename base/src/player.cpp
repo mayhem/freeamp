@@ -18,13 +18,14 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.80 1999/03/02 04:36:43 robert Exp $
+        $Id: player.cpp,v 1.81 1999/03/04 07:23:40 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
 #include <assert.h>
 
 #include "event.h"
+#include "lmc.h"
 #include "player.h"
 #include "thread.h"
 #include "debug.h"
@@ -35,7 +36,6 @@ ____________________________________________________________________________*/
 #include "eventdata.h"
 #include "registrar.h"
 #include "preferences.h"
-#include "lmc.h"
 #include "properties.h"
 #include "log.h"
 
@@ -751,6 +751,7 @@ void Player::CreateLMC(PlayListItem * pc, Event * pC)
    {
       pmo = (PhysicalMediaOutput *) item->InitFunction()(g_Log);
       pmo->SetPropManager((Properties *) this);
+      pmo->SetTarget((EventQueue *)this);
    }
 
    error = kError_NoErr;

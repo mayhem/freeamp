@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.4 1999/03/01 10:40:59 mhw Exp $
+##      $Id: Makefile.am,v 1.5 1999/03/04 07:23:54 robert Exp $
 ##
 ############################################################################
 
@@ -29,7 +29,8 @@ FILES =
 MYLIBS = 
 TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 else
-FILES = pmiregistry.cpp pmoregistry.cpp pullbuffer.cpp streambuffer.cpp
+FILES = pmiregistry.cpp pmoregistry.cpp pullbuffer.cpp streambuffer.cpp \
+        eventbuffer.cpp
 MYLIBS = libfaiosrc.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@host_os@/include
 endif

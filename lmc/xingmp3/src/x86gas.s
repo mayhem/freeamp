@@ -20,11 +20,15 @@
 #	along with this program; if not, write to the Free Software
 #	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #	
-#	$Id: x86gas.s,v 1.1 1999/03/01 10:40:59 mhw Exp $
+#	$Id: x86gas.s,v 1.2 1999/03/02 14:53:03 mhw Exp $
 #
-	.align 16
+
+.extern wincoef
+.extern coef32
+
 .globl window_dual
-	.type	 window_dual,@function
+
+	.align 16
 window_dual:
 	pushl %ebp
 	pushl %edi
@@ -189,13 +193,10 @@ window_dual:
 	popl %ebp
 	ret
 
-.Lfe2:
-	.size	 window_dual,.Lfe2-window_dual
 
+.globl fdct32
 
 	.align 16
-.globl fdct32
-	.type	 fdct32,@function
 fdct32:
 	pushl %ebp
 	pushl %edi
@@ -312,7 +313,7 @@ fdct32:
 	jg .BackMiddleLoop	# Jump back if mi > 0
 
 	movl 4(%esp),%ebx	# ebx = m (temporarily)
-	sarl $1,%ebx		# Half m for next iter
+	sarl $1,%ebx		# Halve m for next iter
 	jg .BackOuterLoop	# Jump back if m > 0
 
 
@@ -322,5 +323,3 @@ fdct32:
 	popl %edi
 	popl %ebp
 	ret
-.Lfe3:
-	.size	 fdct32,.Lfe3-fdct32

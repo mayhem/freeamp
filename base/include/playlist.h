@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.42 1999/10/25 10:29:41 elrod Exp $
+	$Id: playlist.h,v 1.43 1999/10/25 22:01:00 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -176,6 +176,14 @@ class PlaylistItemSort : public binary_function<PlaylistItem*, PlaylistItem*, bo
    
  private:
     PlaylistSortKey m_sortKey;
+};
+
+class MetaDataSort : public binary_function<PlaylistItem*, PlaylistItem*, bool> {
+
+ public:
+    MetaDataSort() { }
+
+    bool operator() (MetaDataFormat* item1, MetaDataFormat* item2) const;
 };
 
 class PlaylistManager {

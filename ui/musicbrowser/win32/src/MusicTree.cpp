@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.34 1999/12/09 07:01:22 elrod Exp $
+        $Id: MusicTree.cpp,v 1.35 1999/12/12 19:51:39 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -777,8 +777,8 @@ void MusicBrowserUI::MusicCatalogPlaylistAdded(string item)
 
         sInsert.item.pszText = szBase;
         sInsert.item.cchTextMax = strlen(szBase);
-        sInsert.item.iImage = 0;
-        sInsert.item.iSelectedImage = 0;
+        sInsert.item.iImage = 1;
+        sInsert.item.iSelectedImage = 1;
         sInsert.item.cChildren= 0;
         sInsert.item.lParam = m_oTreeIndex.Add(oCrossRef);
         sInsert.hInsertAfter = TVI_SORT;
@@ -788,8 +788,8 @@ void MusicBrowserUI::MusicCatalogPlaylistAdded(string item)
         TreeView_DeleteItem(m_hMusicCatalog, m_hNewPlaylistItem);
         sInsert.item.pszText = kNewPlaylist;
         sInsert.item.cchTextMax = strlen(kNewPlaylist);
-        sInsert.item.iImage = 0;
-        sInsert.item.iSelectedImage = 0;
+        sInsert.item.iImage = 1;
+        sInsert.item.iSelectedImage = 1;
         sInsert.item.cChildren= 0;
         sInsert.item.lParam = -1;
         sInsert.hInsertAfter = TVI_FIRST;

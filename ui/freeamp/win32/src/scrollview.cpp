@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: scrollview.cpp,v 1.3 1999/03/18 06:36:28 elrod Exp $
+	$Id: scrollview.cpp,v 1.4 1999/03/18 07:55:27 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -160,8 +160,8 @@ MouseMove(int32 x, int32 y, int32 modifiers)
 
             int32 total = m_max - m_min;
 
-            dy = m_scrollRect.top - viewRect.top;
-            float proportion = ((float)(m_scrollRect.top - viewRect.top)/
+            dy = rect.top - rect.top;
+            float proportion = ((float)(rect.top - viewRect.top)/
                                 (float)(viewRect.bottom - viewRect.top));
 
 

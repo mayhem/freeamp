@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.29 1999/09/29 01:13:18 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.30 1999/09/29 17:40:21 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -54,6 +54,7 @@ typedef ostrstream ostringstream;
 #include <errno.h>
 #include <iostream>
 #include <algorithm>
+//#include <iterators>
 
 #include "config.h"
 #include "facontext.h"
@@ -1210,33 +1211,31 @@ void DownloadManager::LoadResumableDownloadItems()
 
     if(database.Working())
     {
-        char *key = database.NextKey(NULL);
+        char *key = NULL;
 
-        while (key) 
+        while(key = database.NextKey(key)) 
         {
             char* value = database.Value(key);
 
             if(!value)
                 continue;
 
-            istringstream ist;
-
-            ist.str(value);
-
-            uint32 numFields;
-
-            ist >> numFields;
-
+            uint32 numFields, offset = 0;
+ 
+            sscanf(value, "%d%n", &numFields, &offset);
             uint32* fieldLength =  new uint32[numFields];
-
+ 
             for(uint32 i = 0; i < numFields; i++)
             {
-                ist >> fieldLength[i];
+               uint32 temp;
+ 
+               sscanf(value + offset, " %d %n", &fieldLength[i], &temp);
+               printf("field %d: %d\n", i, fieldLength[i]);
+               offset += temp;
             }
 
-            string data;
-
-            data = ist.str();
+            string data = value;
+            data.erase(0, offset);
 
             DownloadItem* item = new DownloadItem();
             MetaData metadata;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.21.2.1 2000/01/02 00:59:35 ijr Exp $
+	$Id: config.h.in,v 1.21.2.2 2000/01/04 01:28:19 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -46,6 +46,8 @@ ____________________________________________________________________________*/
 #define HAVE_ERRNO_H 0
 
 /* cdaudio stuff */
+#undef SOLARIS_GETMNTENT
+#undef BROKEN_SOLARIS_LEADOUT
 #undef HAVE_GETMNTENT
 #undef STDC_HEADERS
 #undef IRIX_CDAUDIO

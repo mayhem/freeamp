@@ -2,7 +2,7 @@
    
    FreeAmp - The Free MP3 Player
 
-   Portions Copyright (C) 1999 EMusic.com
+   Portions Copyright (C) 1999-2000 EMusic.com
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: cdlmc.cpp,v 1.1 1999/12/29 01:22:38 ijr Exp $
+   $Id: cdlmc.cpp,v 1.1.2.1 2000/01/04 01:28:20 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -102,28 +102,14 @@ Error CDLMC::ChangePosition(int32 position)
 #define _EQUALIZER_ENABLE_
 #ifdef  _EQUALIZER_ENABLE_
 
-extern "C" {
-
-float equalizer[32] = {
-    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-};
-int enableEQ = false;
-           }
-
-Error CDLMC::SetEQData(float *arrayEQ) {
-    Error error = kError_NoErr;
-        for(int i=0; i<32; i++)
-                equalizer[i] = arrayEQ[i];
-        return error;
+Error CDLMC::SetEQData(float *arrayEQ) 
+{
+    return kError_NoErr;
 }
 
-Error CDLMC::SetEQData(bool enable) {
-    Error error = kError_NoErr;
-        enableEQ = enable;
-        return error;
+Error CDLMC::SetEQData(bool enable)
+{    
+    return kError_NoErr;
 }
 #endif  //_EQUALIZER_ENABLE_
 #undef  _EQUALIZER_ENABLE_

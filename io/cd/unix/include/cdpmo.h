@@ -1,7 +1,7 @@
 /*____________________________________________________________________________
         
         FreeAmp - The Free MP3 Player
-        Portions copyright (C) 1999 EMusic.com
+        Portions copyright (C) 1999-2000 EMusic.com
 
         This program is free software; you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.h,v 1.1.2.2 2000/01/02 02:25:25 ijr Exp $
+        $Id: cdpmo.h,v 1.1.2.3 2000/01/04 01:28:19 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDPMO_H_

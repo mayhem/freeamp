@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.70.2.1 2000/01/02 00:59:34 ijr Exp $
+dnl $Id: configure.in,v 1.70.2.2 2000/01/04 01:28:18 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-1999 EMusic.com
 dnl
@@ -119,6 +119,8 @@ dnl  OSLINK='-Wl,soname,${*F}'
 dnl not needed.
     ;;
   solaris*)
+    AC_DEFINE(SOLARIS_GETMNTENT)
+    AC_DEFINE(BROKEN_SOLARIS_LEADOUT)
     host_os="solaris"
     if test "$GCC" != "yes" ; then
       dnl probably Sun CC.

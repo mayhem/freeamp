@@ -2,7 +2,7 @@
  
         FreeAmp - The Free MP3 Player
  
-        Portions Copyright (C) 1999 EMusic.com
+        Portions Copyright (C) 1999-2000 EMusic.com
         Portions Copyright (C) 1998-1999 Tony Arcieri
         Portions Copyright (C) 1999 Quinton Dolan
   
@@ -20,7 +20,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-        $Id: cdaudio.cpp,v 1.1.2.1 2000/01/02 00:59:35 ijr Exp $
+        $Id: cdaudio.cpp,v 1.1.2.2 2000/01/04 01:28:19 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -49,6 +49,10 @@ ____________________________________________________________________________*/
 
 #ifdef HAVE_SYS_MNTENT_H
 #include <sys/mntent.h>
+#endif
+
+#ifdef SOLARIS_GETMNTENT
+#include <sys/mnttab.h>
 #endif
 
 #ifdef HAVE_SYS_UCRED_H
@@ -100,7 +104,10 @@ cd_init_device(char *device_name)
 {
    int cd_desc;
 
-#ifdef HAVE_GETMNTENT
+#ifdef SOLARIS_GETMNTENT
+   FILE *mounts;
+   struct mnttab mnt;
+#elif defined(HAVE_GETMNTENT)
    FILE *mounts;
    struct mntent *mnt;
 #endif
@@ -123,7 +130,20 @@ cd_init_device(char *device_name)
       strncpy(devname, device_name, 255);
       len = strlen(devname);
    }
-#ifdef HAVE_GETMNTENT
+#ifdef SOLARIS_GETMNTENT
+   if((mounts = fopen(MNTTAB, "r")) == NULL)
+      return -1;
+   
+   while(getmntent(mounts, &mnt) == 0) {
+      if(strncmp(mnt.mnt_fstype, devname, len) == 0) {
+         errno = EBUSY;
+         return -1;
+      }
+   }
+
+   if(fclose(mounts) != 0)
+      return -1;
+#elif defined(HAVE_GETMNTENT)
    if((mounts = setmntent(MOUNTED, "r")) == NULL)
       return -1;
       
@@ -321,6 +341,10 @@ cd_play_frames(int cd_desc, int startframe, int endframe)
 {
    struct CDAUDIO_MSF cdmsf;
 
+#ifdef BROKEN_SOLARIS_LEADOUT
+   endframe -= 1;
+#endif
+
    cdmsf.CDMSF_START_M = startframe / 4500;
    cdmsf.CDMSF_START_S = (startframe % 4500) / 75;
    cdmsf.CDMSF_START_F = startframe % 75;
@@ -423,16 +447,22 @@ cd_eject(int cd_desc)
 int
 cd_close(int cd_desc)
 {
+#ifdef CDAUDIO_CLOSE
    if(ioctl(cd_desc, CDAUDIO_CLOSE) < 0)
      return -1;
-   
+
    return 0;
+#else
+   errno = ENOTTY;
+   return -1;
+#endif 
 }
 
 /* Return the current volume setting */
 int
 cd_get_volume(int cd_desc, struct disc_volume *vol)
 {
+#ifdef CDAUDIO_GET_VOLUME
    struct CDAUDIO_VOLSTAT cdvol;
 #ifdef CDAUDIO_VOLSTAT_DATA
    struct CDAUDIO_VOLSTAT_DATA cdvol_data;
@@ -456,6 +486,10 @@ cd_get_volume(int cd_desc, struct disc_volume *vol)
 #endif
    
    return 0;
+#else
+   errno = ENOTTY;
+   return -1;
+#endif
 }
 
 /* Set the volume */

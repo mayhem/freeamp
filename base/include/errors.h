@@ -1,7 +1,7 @@
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
-	Portions copyright (C) 1998-1999 EMusic.com
+	Portions copyright (C) 1998-2000 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.24.2.1 2000/01/02 00:59:35 ijr Exp $
+	$Id: errors.h,v 1.24.2.2 2000/01/04 01:28:18 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_ERROR_H

@@ -2,7 +2,7 @@
 
         FreeAmp - The Free MP3 Player
 
-        Portions Copyright (C) 1999 EMusic.com
+        Portions Copyright (C) 1999-2000 EMusic.com
         Portions Copyright (C) 1998-1999 Tony Arcieri
 
         This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: discids.cpp,v 1.2.2.1 2000/01/02 01:17:48 ijr Exp $
+        $Id: discids.cpp,v 1.2.2.2 2000/01/04 01:28:20 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"

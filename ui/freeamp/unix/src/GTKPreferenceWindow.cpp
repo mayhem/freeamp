@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1999 EMusic.com
+	Portions Copyright (C) 1999-2000 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.20.2.1 2000/01/03 20:57:09 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.20.2.2 2000/01/04 01:28:21 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */

@@ -2,7 +2,7 @@
         
    FreeAmp - The Free MP3 Player
 
-   Copyright (C) 1999 EMusic.com
+   Copyright (C) 1999-2000 EMusic.com
    Portions Copyright (C) 1999 Valters Vingolds
 
    This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.61.2.1 2000/01/02 00:59:35 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.61.2.2 2000/01/04 01:28:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 

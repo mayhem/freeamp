@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.9.4.6 2000/03/05 23:04:54 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.9.4.7 2000/03/05 23:43:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -316,6 +316,7 @@ void DownloadUI::CreateDownloadList(GtkWidget *box)
     gtk_signal_connect(GTK_OBJECT(m_List), "select_row",
                        GTK_SIGNAL_FUNC(set_current_sel_internal), this);
     gtk_widget_show(m_List);
+    gtk_clist_column_titles_passive(GTK_CLIST(m_List));
 }
 
 void cancel_internal(GtkWidget *w, DownloadUI *p)

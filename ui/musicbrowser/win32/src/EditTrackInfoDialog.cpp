@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.cpp,v 1.6 1999/12/09 07:01:21 elrod Exp $
+        $Id: EditTrackInfoDialog.cpp,v 1.7 1999/12/09 07:01:58 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -191,7 +191,7 @@ BOOL MusicBrowserUI::EditTrackInfoDlgProc(HWND hwnd,
                 {
                     bool notJustWhiteSpace = false;
 
-                    for(uint32 index = 0; index < length; indexi++)
+                    for(uint32 index = 0; index < length; index++)
                     {
                         if(!isspace((*i)[index]))
                         {

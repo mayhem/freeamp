@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.19 1998/12/13 01:45:39 jdw Exp $
+	$Id: freeamp.cpp,v 1.20 1998/12/14 19:58:30 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -95,8 +95,9 @@ void FreeAmpUI::SetPlayListManager(PlayListManager *plm) {
     m_plm = plm;
 }
 
-Error FreeAmpUI::Init()
+Error FreeAmpUI::Init(int32 startup_type)
 {
+    m_startupType = startup_type;
     if (m_noStartUp) {
 	return kError_InitFailedSafely;
     }
@@ -460,7 +461,6 @@ void FreeAmpUI::ParseArgs() {
     char *arg = NULL;
     bool shuffle = false;
     bool autoplay = false;
-    int32 count = 0;
 
     for(int32 i = 1;i < m_argc; i++) {
 	arg = m_argv[i];
@@ -475,18 +475,21 @@ void FreeAmpUI::ParseArgs() {
 		    break;
             }
         } else {
-            m_plm->Add(arg,0);
-            count++;
+	    if (m_startupType == PRIMARY_UI) {
+		m_plm->Add(arg,0);
+	    }
 	}
     }
-
-    m_plm->SetFirst();
-    
-    if(shuffle) 
-        m_plm->SetShuffle(SHUFFLE_SHUFFLED);
-    
-    if(autoplay)
-       m_playerEQ->AcceptEvent(new Event(CMD_Play));
+    if (m_startupType == PRIMARY_UI) {
+	m_plm->SetFirst();
+    }
+    if (m_startupType == PRIMARY_UI) {
+	if(shuffle) 
+	    m_plm->SetShuffle(SHUFFLE_SHUFFLED);
+	
+	if(autoplay)
+	    m_playerEQ->AcceptEvent(new Event(CMD_Play));
+    }
 }
 
 

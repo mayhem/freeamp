@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.21 1998/12/01 19:24:09 jdw Exp $
+	$Id: player.h,v 1.22 1998/12/14 19:58:29 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -110,7 +110,7 @@ class Player : public EventQueue {
     PMORegistry*            m_pmoRegistry;
     UIRegistry*             m_uiRegistry;
 
-    char*                   m_argUI;
+    Vector<char *>*                   m_argUIvector;
 
     int32                   m_argc;          
     char**                  m_argv;

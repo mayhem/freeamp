@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.15 1998/11/08 04:34:09 jdw Exp $
+	$Id: eventdata.h,v 1.16 1998/12/14 19:58:29 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -33,6 +33,29 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "id3v1.h"
 #include "vector.h"
+
+class UserMessageEvent : public Event {
+ private:
+    char *m_info;
+ public:
+    virtual ~UserMessageEvent() { 
+	if (m_info) {
+	    delete m_info;
+	    m_info = NULL;
+	}
+    }
+    UserMessageEvent() {
+	m_type = INFO_UserMessage;
+	m_info = NULL;
+    }
+    UserMessageEvent(const char *info) {
+	m_type = INFO_UserMessage;
+	m_info = strdup(info);
+    }
+    const char *GetInfo() {
+	return m_info;
+    }
+};
 
 class MediaInfoEvent : public Event {
  public:

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.h,v 1.1 1998/12/14 03:30:11 jdw Exp $
+	$Id: lcdui.h,v 1.2 1998/12/14 19:58:30 jdw Exp $
 ____________________________________________________________________________*/
 // LcdUI.h
 
@@ -44,11 +44,15 @@ class LcdUI : public UserInterface {
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
-    virtual Error Init();
+    virtual Error Init(int32);
     virtual void SetPlayListManager(PlayListManager *);
     static void keyboardServiceFunction(void *);
     virtual ~LcdUI();
  private:
+    int32 m_startupType;
+    int32 m_argc;
+    char **m_argv;
+    void ProcessArgs();
     void BlitTimeLine();
     int32 m_timeType;
     int32 m_currHours, m_currMinutes, m_currSeconds;

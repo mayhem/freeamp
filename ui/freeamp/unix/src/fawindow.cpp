@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.cpp,v 1.12 1998/12/13 20:04:22 jdw Exp $
+	$Id: fawindow.cpp,v 1.13 1998/12/14 19:58:30 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 #include <stdio.h>
 
 
+#include "player.h"
 #include "fawindow.h"
 #include "lcd_display_mask.xbm"
 #include "lcd_icons_mask.xbm"
@@ -363,6 +364,17 @@ void FALcdWindow::DoEvent(XEvent e) {
 	    if (m_insideDisplay) {
 		int32 nextStateArray[] = { 5, 5, 4, 2, 5, 2};
 		SetState(nextStateArray[m_displayState]);
+		switch (m_displayState) {
+		    case CurrentTimeState:
+			Player::GetPlayer()->AcceptEvent(new UserMessageEvent("time_curr_mode"));
+			break;
+		    case RemainingTimeState:
+			Player::GetPlayer()->AcceptEvent(new UserMessageEvent("time_remain_mode"));
+			break;
+		    case TotalTimeState:
+			Player::GetPlayer()->AcceptEvent(new UserMessageEvent("time_total_mode"));
+			break;
+		}
 	    }
 	    break;  }
 	case EnterNotify:

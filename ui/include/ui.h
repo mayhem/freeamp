@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ui.h,v 1.6 1998/12/01 19:24:11 jdw Exp $
+	$Id: ui.h,v 1.7 1998/12/14 19:58:30 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UI_H_
@@ -29,13 +29,19 @@ ____________________________________________________________________________*/
 
 #include "playlist.h"
 
+enum {
+    PRIMARY_UI = 0,  // passed to Init method of Primary UI at startup
+    SECONDARY_UI_STARTUP = 1, // passed to Init methods of other UIs loaded at startup
+    SECONDARY_UI_RUNTIME = 2  // passed to Init method of UI loaded some other time
+};
+
 class UserInterface : public EventQueue {
  public:
     virtual int32 AcceptEvent(Event *) = 0;
     virtual void SetArgs(int32,char **) = 0;
     virtual void SetTarget(EventQueue *) = 0;
     virtual void SetPlayListManager(PlayListManager *) = 0;
-    virtual Error Init() = 0;
+    virtual Error Init(int32) = 0;
     virtual ~UserInterface() {}
 };
 

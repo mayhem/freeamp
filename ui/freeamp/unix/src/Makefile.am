@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.6 1998/12/12 22:36:39 jdw Exp $
+##      $Id: Makefile.am,v 1.7 1998/12/14 19:58:30 jdw Exp $
 ##
 ############################################################################
 
@@ -56,7 +56,7 @@ endif
 noinst_LIBRARIES = $(MYLIBS)
 libfaui_a_SOURCES = $(FILES)
 
-INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/lmc/include -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@srcdir@/../res
+INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/lmc/include -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@srcdir@/../res -I@top_srcdir@/base/unix/include
 CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT)
 
 

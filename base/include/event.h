@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.17 1998/11/10 07:58:01 jdw Exp $
+	$Id: event.h,v 1.18 1998/12/14 19:58:29 jdw Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -82,6 +82,7 @@ class EventQueue {
 #define INFO_PlayListRepeat     33 // sent by PLM to player to inform of a setting of repeat mode
 #define INFO_PlayListShuffle    34 // sent by PLM to player to inform of a setting of shuffle mode
 #define INFO_PlayListUpdated	35 // sent by PLM to player to inform of a playlist update
+#define INFO_UserMessage        36 // sent by UI to Player, diseminated by Player to each UI
 #endif // _EVENT_H_
 
 

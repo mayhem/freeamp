@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.32 1999/10/06 00:48:37 robert Exp $
+        $Id: player.cpp,v 1.133.2.33 1999/10/06 18:31:13 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -119,8 +119,6 @@ EventQueue()
 
     m_didUsage = false;
     m_autoplay = true;
-
-    m_iVolume = -1;
 
     m_props.RegisterPropertyWatcher("pcm_volume", (PropertyWatcher *) this);
 
@@ -1118,10 +1116,6 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
    {
       pmo = (PhysicalMediaOutput *) item->InitFunction()(m_context);
       pmo->SetPropManager((Properties *) this);
-      if (m_iVolume < 0)
-         m_iVolume = pmo->GetVolume();
-      
-      pmo->SetVolume(m_iVolume);
    }
 
    error = kError_NoErr;
@@ -1243,20 +1237,11 @@ void
 Player::
 GetVolume(Event *pEvent)
 {
-    int iVolume = 0;
+    int iVolume = -1;
 
     delete pEvent;
     if (m_pmo) 
-    {
-       iVolume = m_iVolume = m_pmo->GetVolume();
-    }
-    else
-    {
-       if (m_iVolume < 0)
-          iVolume = 0;
-       else
-          iVolume = m_iVolume;
-    }
+       iVolume = m_pmo->GetVolume();
     SendToUI(new VolumeEvent(INFO_VolumeInfo,iVolume));
 }
 
@@ -1266,10 +1251,7 @@ SetVolume(Event *pEvent)
 {
     int32 v=((VolumeEvent *) pEvent)->GetVolume();
     if (m_pmo) 
-    {
         m_pmo->SetVolume(v);
-    }
-    m_iVolume = v;
     delete pEvent;
 }
 

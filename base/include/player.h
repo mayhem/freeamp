@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.42.4.12 1999/10/04 02:42:34 elrod Exp $
+        $Id: player.h,v 1.42.4.13 1999/10/06 18:31:12 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -158,7 +158,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     // and COO's haven't sent in 
     // their "Ready To Die" infos.
 
-    int32     m_imQuitting, m_iVolume;
+    int32     m_imQuitting;
     vector < UserInterface * >*m_uiList;
 
     Mutex    *m_uiManipLock;

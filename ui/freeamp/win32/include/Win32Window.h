@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.1.2.3 1999/09/17 20:31:06 robert Exp $
+   $Id: Win32Window.h,v 1.1.2.4 1999/09/27 17:47:34 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -54,6 +54,8 @@ class Win32Window : public Window
      virtual Error GetMousePos(Pos &oPos);
      virtual Error SetWindowPosition(Rect &oWindowRect);
      virtual Error GetWindowPosition(Rect &oWindowRect);
+     virtual Error Minimize(void);
+     virtual Error Restore(void);
 
 	 virtual HWND  GetWindowHandle(void);
              void  SaveWindowPos(Pos &oPos);

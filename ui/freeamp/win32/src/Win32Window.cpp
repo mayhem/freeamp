@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.5 1999/09/23 18:13:54 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.6 1999/09/27 17:47:35 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -352,3 +352,16 @@ Error Win32Window::GetWindowPosition(Rect &oWindowRect)
     return kError_NoErr;
 }
 
+Error Win32Window::Minimize(void)
+{
+	ShowWindow(m_hWnd, SW_MINIMIZE);
+
+    return kError_NoErr;
+}
+
+Error Win32Window::Restore(void)
+{
+	ShowWindow(m_hWnd, SW_RESTORE);
+
+    return kError_NoErr;
+}

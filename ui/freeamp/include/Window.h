@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.9 1999/09/26 03:23:33 robert Exp $
+   $Id: Window.h,v 1.1.2.10 1999/09/27 17:47:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -97,6 +97,8 @@ class Window
       virtual Error SetTitle(string &oTitle) = 0;
       virtual Error CaptureMouse(bool bCapture) = 0;
       virtual Error HideMouse(bool bHide) = 0;
+      virtual Error Minimize(void) = 0;
+      virtual Error Restore(void) = 0;
       
       // Mouse position is in screen coordinates
       virtual Error SetMousePos(Pos &oMousePos) = 0;

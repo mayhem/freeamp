@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.13 1999/09/27 02:02:31 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.14 1999/09/27 17:47:32 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -369,6 +369,11 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
                                 
        return kError_NoErr;
    }    
+   if (oControlName == string("Minimize") && eMesg == CM_Pressed)
+   {
+       m_pWindow->Minimize();
+       return kError_NoErr;
+   }
    if (oControlName == string("Volume") && 
        (eMesg == CM_ValueChanged || eMesg == CM_SliderUpdate))
    {

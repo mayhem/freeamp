@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32volume.cpp,v 1.2 1999/04/26 02:50:24 elrod Exp $
+	$Id: win32volume.cpp,v 1.3 1999/04/26 04:14:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -33,9 +33,11 @@ Win32VolumeManager::Win32VolumeManager()
 
 }
 
-void Win32VolumeManager::SetVolume(int32 v) 
+void Win32VolumeManager::SetVolume(int32 volume) 
 {
-    waveOutSetVolume((HWAVEOUT)WAVE_MAPPER , MAKELPARAM(0xFFFF*v, 0xFFFF*v)); 
+    waveOutSetVolume(   (HWAVEOUT)WAVE_MAPPER, 
+                        MAKELPARAM( 0xFFFF*volume/100, 
+                                    0xFFFF*volume/100));
 }
 
 int32 Win32VolumeManager::GetVolume() 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.9 2000/03/08 01:04:23 robert Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.10 2000/03/08 05:30:13 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -552,8 +552,6 @@ static int32 GetContentLengthFromHeader(const char* buffer)
 
 static void GetContentTimeFromHeader(const char* buffer, string &mTime)
 {
-    int32 result = -1;
-
     char* cp = strstr(buffer, "Last-Modified:");
     if(cp)
     {
@@ -823,11 +821,7 @@ Error DownloadManager::Download(DownloadItem* item)
                 //   fclose(f);
                 //}   
                 
-                //cout << query << endl;
-
                 int count;
-
-                //*m_debug << "send:" << endl << query;
 
                 err = Send(s, query, strlen(query), 0, count, item);
                 if (IsError(err))
@@ -920,8 +914,6 @@ Error DownloadManager::Download(DownloadItem* item)
 
                         int32 fileSize = GetContentLengthFromHeader(buffer);
 
-                        if(fileSize > 0)
-                            item->SetTotalBytes(fileSize);
 
                         //cout << destPath << endl;
 
@@ -936,17 +928,18 @@ Error DownloadManager::Download(DownloadItem* item)
                             
                             GetContentTimeFromHeader(buffer, mTime);
                             item->SetMTime(mTime.c_str());
+                            if(fileSize > 0)
+                               item->SetTotalBytes(fileSize);
                         }
-                        else
-                            item->SetMTime("");
-                        
 
                         int fd = open(destPath, openFlags, S_IREAD | S_IWRITE);
 
                         if(fd >= 0)
                         {
                             Error err;
-                            
+
+                            lseek(fd, 0, SEEK_END);
+
                             result = kError_NoErr;
                             int wcount = 0;
 
@@ -978,13 +971,13 @@ Error DownloadManager::Download(DownloadItem* item)
                                 err = Recv(s, buffer, bufferSize, 0, count, item);
                                 if (IsError(err))
                                     result = kError_UserCancel;
-                            
-                                if(count > 0)
-                                {
-                                    wcount = write(fd, buffer, count);
-                                    item->SetBytesReceived(count + item->GetBytesReceived());
-                                    SendProgressMessage(item);
-                                }
+                                else 
+                                   if(count > 0)
+                                   {
+                                       wcount = write(fd, buffer, count);
+                                       item->SetBytesReceived(count + item->GetBytesReceived());
+                                       SendProgressMessage(item);
+                                   }
 
                                 if(count < 0) 
                                     result = kError_IOError;
@@ -998,7 +991,6 @@ Error DownloadManager::Download(DownloadItem* item)
                             }while(count > 0 && IsntError(result) && 
                                    m_runDownloadThread && wcount >= 0 && 
                                    (item->GetTotalBytes() > item->GetBytesReceived()));
-
                             close(fd);                           
                         }
                         else
@@ -1610,6 +1602,7 @@ Error DownloadManager::Recv(int hHandle, char *pBuffer, int iSize,
     struct timeval      sTv;
     int                 iRet;
 
+    iRead = 0;
     for(; !m_exit && item->GetState() == kDownloadItemState_Downloading;)
     {
         sTv.tv_sec = 0; sTv.tv_usec = 0;
@@ -1641,6 +1634,7 @@ Error DownloadManager::Send(int hHandle, char *pBuffer, int iSize,
     struct timeval      sTv;
     int                 iRet;
 
+    iRead = 0;
     for(; !m_exit && item->GetState() == kDownloadItemState_Downloading;)
     {
         sTv.tv_sec = 0; sTv.tv_usec = 0;

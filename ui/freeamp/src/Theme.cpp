@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.23 1999/10/11 22:01:23 ijr Exp $
+   $Id: Theme.cpp,v 1.1.2.24 1999/10/12 23:28:15 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -378,7 +378,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_ParseError;
        }
 
-       return eRet;
+       return kError_NoErr;
     }
 
     if (oElement == string("Bitmap"))

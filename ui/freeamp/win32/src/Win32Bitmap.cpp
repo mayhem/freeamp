@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.1.2.13 1999/10/06 00:48:47 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.1.2.14 1999/10/12 23:28:17 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -137,7 +137,7 @@ void Win32Bitmap::CreateMaskBitmap(void)
           Debug_v("GetDIBits failed. Last Error: %d", GetLastError());
           break;
        }   
-          
+
        memset(pMaskData, 0x00, (sInfo.bmWidth / 8) + 4);
    	   for(iCol = 0, pColorPtr = (Color *)pData; 
            iCol < sInfo.bmWidth; iCol++, pColorPtr++)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.17.2.7 1999/10/09 18:54:38 robert Exp $
+        $Id: preferences.cpp,v 1.17.2.8 1999/10/12 23:27:59 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -83,7 +83,7 @@ const bool  kDefaultUseProxy = false;
 const bool  kDefaultUseNIC = false;
 const char *kDefaultNICAddress = "192.168.1.1";
 const bool  kDefaultUseTitleStreaming = true;
-const char *kDefaultThemePath = ".";  
+const char *kDefaultThemePath = "";  
 const char *kDefaultMainWindowPos = "100,100";  
 #ifdef WIN32
 const char *kDefaultThemeDefaultFont = "Arial";

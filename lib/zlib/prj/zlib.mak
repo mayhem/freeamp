@@ -380,6 +380,7 @@ DEP_CPP_ADLER=\
 DEP_CPP_ADLER=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\adler32.obj" : $(SOURCE) $(DEP_CPP_ADLER) "$(INTDIR)"
@@ -429,6 +430,7 @@ DEP_CPP_COMPR=\
 DEP_CPP_COMPR=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\compress.obj" : $(SOURCE) $(DEP_CPP_COMPR) "$(INTDIR)"
@@ -478,6 +480,7 @@ DEP_CPP_CRC32=\
 DEP_CPP_CRC32=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\crc32.obj" : $(SOURCE) $(DEP_CPP_CRC32) "$(INTDIR)"
@@ -535,6 +538,7 @@ DEP_CPP_DEFLA=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\deflate.obj" : $(SOURCE) $(DEP_CPP_DEFLA) "$(INTDIR)"
@@ -588,6 +592,7 @@ DEP_CPP_GZIO_=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\gzio.obj" : $(SOURCE) $(DEP_CPP_GZIO_) "$(INTDIR)"
@@ -657,6 +662,7 @@ DEP_CPP_INFBL=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\infblock.obj" : $(SOURCE) $(DEP_CPP_INFBL) "$(INTDIR)"
@@ -730,6 +736,7 @@ DEP_CPP_INFCO=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\infcodes.obj" : $(SOURCE) $(DEP_CPP_INFCO) "$(INTDIR)"
@@ -803,6 +810,7 @@ DEP_CPP_INFFA=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\inffast.obj" : $(SOURCE) $(DEP_CPP_INFFA) "$(INTDIR)"
@@ -860,6 +868,7 @@ DEP_CPP_INFLA=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\inflate.obj" : $(SOURCE) $(DEP_CPP_INFLA) "$(INTDIR)"
@@ -921,6 +930,7 @@ DEP_CPP_INFTR=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\inftrees.obj" : $(SOURCE) $(DEP_CPP_INFTR) "$(INTDIR)"
@@ -990,6 +1000,7 @@ DEP_CPP_INFUT=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\infutil.obj" : $(SOURCE) $(DEP_CPP_INFUT) "$(INTDIR)"
@@ -1051,6 +1062,7 @@ DEP_CPP_TREES=\
 	"..\include\zconf.h"\
 	"..\include\zlib.h"\
 	"..\include\zutil.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\trees.obj" : $(SOURCE) $(DEP_CPP_TREES) "$(INTDIR)"

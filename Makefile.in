@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.30.2.12 1999/10/11 04:20:00 ijr Exp $
+# $Id: Makefile.in,v 1.30.2.13 1999/10/16 21:22:29 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -38,7 +38,7 @@ FREEAMPbeosOBJ += base/beos/src/mutex.o base/beos/src/semaphore.o
 FREEAMPbeosOBJ += base/beos/src/utility.o
 FREEAMPbeosOBJ += base/beos/src/win32impl.o
 
-FREEAMPOBJ =  base/src/log.o base/src/player.o base/src/musicbrowser.o
+FREEAMPOBJ =  base/src/log.o base/src/player.o base/src/musiccatalog.o
 FREEAMPOBJ += base/src/playlist.o base/src/propimpl.o base/src/registrar.o
 FREEAMPOBJ += base/src/registry.o base/src/thread.o io/src/eventbuffer.o
 FREEAMPOBJ += base/src/prefixprefs.o base/src/preferences.o
@@ -52,14 +52,14 @@ FREEAMPOBJ += $(GDBMOBJ) $(PARSEOBJ)
 all: freeamp plugins
 
 #CYGWINFREEAMPLIBS =
-UNIXFREEAMPLIBS = -ldl -lpthread $(X_LIBS) $(X_EXTRA_LIBS) $(EXTRALIBS)
+UNIXFREEAMPLIBS = -ldl -lpthread $(EXTRALIBS)
 BEOSFREEAMPLIBS = -lbe -lroot
 
 FREEAMPLIBS = $($(OSTYPE)FREEAMPLIBS)
 
 freeamp: $(FREEAMPOBJ) $(freeamp_DEPENDENCIES)
 	@rm -f freeamp
-	$(CXXLINK) $(FREEAMPOBJ) $(LDFLAGS) -ldl -lpthread $(X_LIBS) $(X_EXTRA_LIBS) $(EXTRALIBS)
+	$(CXXLINK) $(FREEAMPOBJ) $(LDFLAGS) -ldl -lpthread $(EXTRALIBS)
 
 clean: freeamp-clean plugins-clean
 

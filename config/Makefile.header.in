@@ -1,6 +1,6 @@
 # Freeamp Makefile header 
 # contains all the compiler-related configure-extracted vars
-# $Id: Makefile.header.in,v 1.4.2.10 1999/10/02 15:57:45 ijr Exp $
+# $Id: Makefile.header.in,v 1.4.2.11 1999/10/16 21:22:30 ijr Exp $
 
 SHELL = /bin/sh
 
@@ -44,6 +44,7 @@ CXXLD = $(CXX)
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_CONFIG = @GTK_CONFIG@
 GTK_LIBS = @GTK_LIBS@
+ESD_LIBS = @ESD_LIBS@
 MAKEINFO = @MAKEINFO@
 NASM = @NASM@
 PACKAGE = @PACKAGE@

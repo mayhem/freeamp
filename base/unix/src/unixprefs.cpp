@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.13.2.6 1999/10/01 15:22:33 ijr Exp $
+        $Id: unixprefs.cpp,v 1.13.2.7 1999/10/16 21:22:30 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -47,7 +47,7 @@ ____________________________________________________________________________*/
 
 // default values
 const char*  kDefaultLibraryPath = ".:~/.freeamp:" UNIX_LIBDIR "/freeamp";
-const char*  kDefaultUI = "freeamp-xlib.ui";
+const char*  kDefaultUI = "freeamp.ui";
 const char*  kDefaultTextUI = "freeampcmd.ui";
 const char*  kDefaultPMO = "soundcard.pmo";
 const char*  kDefaultALSADevice = "1:1";

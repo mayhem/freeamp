@@ -20,7 +20,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-        $Id: cdaudio.cpp,v 1.4 2000/04/04 01:55:20 ijr Exp $
+        $Id: cdaudio.cpp,v 1.5 2000/05/12 09:53:58 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -100,7 +100,10 @@ cd_stat(string cd_desc, struct disc_info *disc, bool read_toc)
    char mciReturn[128];
 
    sprintf(mciCommand, "status %s number of tracks wait", cd_desc.c_str());
-   mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
+   int ret = mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
+
+   char buf[256];
+   mciGetErrorString(ret, buf, sizeof(buf));
 
    int numTracks = atoi(mciReturn);
 

@@ -18,13 +18,16 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: metadata.h,v 1.1.2.2 1999/08/24 23:42:46 elrod Exp $
+	$Id: metadata.h,v 1.1.2.3 1999/08/26 04:28:18 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _METADATA_H_
 #define _METADATA_H_
 
 #include <string>
+
+using namespace std;
+
 #include <assert.h>
 
 #include "config.h"
@@ -113,6 +116,15 @@ class MetaData {
     uint32 m_track;
     uint32 m_time;
 
+};
+
+class MetaDataFormat {
+ public:
+    MetaDataFormat();
+    virtual ~MetaDataFormat();
+
+    virtual bool ReadMetaData(const char* url, MetaData* metadata);
+    virtual bool WriteMetaData(const char* url, const MetaData& metadata);
 };
 
 

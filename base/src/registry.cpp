@@ -18,144 +18,97 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.cpp,v 1.9 1999/04/01 17:02:57 elrod Exp $
+	$Id: registry.cpp,v 1.9.12.1 1999/08/26 04:28:19 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
+#include <iostream>
 #include "registry.h"
 
 
-Registry::
-Registry()
+Registry::Registry()
 {
-    m_elements = new List<RegistryItem*>();
-    m_count = 0;
+    
 }
 
-Registry::
-~Registry()
+Registry::~Registry()
 {
-    if (m_elements) {
-        m_elements->DeleteAll();
-	    delete m_elements;
-	    m_elements = NULL;
+    m_elements.clear();
+}
+
+void Registry::AddItem(RegistryItem& item)
+{
+    m_elements.push_back(item);
+}
+
+const RegistryItem* Registry::GetItem(int32 index)
+{
+    RegistryItem* result = NULL;
+
+    if(index < m_elements.size())
+    {
+        result = &m_elements.at(index);
     }
+
+    return result;
 }
 
-void 
-Registry::
-Add(RegistryItem* info)
+int32 Registry::CountItems()
 {
-    if (info) {
-	    m_elements->AddItem(info);
-    }
+    return m_elements.size();
 }
 
-RegistryItem* 
-Registry::
-GetItem(int32 index)
+RegistryItem::RegistryItem()
 {
-    return m_elements->ItemAt(index);
-}
-
-int32 
-Registry::
-GetNumItems()
-{
-    return m_elements->CountItems();
-}
-
-RegistryItem::
-RegistryItem()
-{
-    m_path = NULL;
-    m_description = NULL;
-    m_name = NULL;
     m_init = NULL;
     m_module = NULL;
 }
 
-RegistryItem::
-~RegistryItem()
+RegistryItem::~RegistryItem()
 {
-    if(m_path)
-        delete [] m_path;
-
-    if(m_name)
-        delete [] m_name;
-
-    if(m_description)
-        delete [] m_description;
-
 #ifdef WIN32
     if(m_module)
-        FreeLibrary((HMODULE)m_module);
+        FreeLibrary(m_module);
+
+    m_module = NULL;
 #endif
+
+    cout << "Delete Registry Item" << endl;
 
 }
 
-void 
-RegistryItem::
-SetPath(char* path)
+void RegistryItem::SetPath(char* path)
 {
     if(path)
     {
-        if(m_path)
-            delete [] m_path;
-
-        m_path = new char [strlen(path) + 1];
-
-        strcpy(m_path, path);
+       m_path = path;
     }
 }
 
-void 
-RegistryItem::
-SetName(char* name)
+void RegistryItem::SetName(char* name)
 {
     if(name)
     {
-        if(m_name)
-            delete [] m_name;
-
-        m_name = new char [strlen(name) + 1];
-
-        strcpy(m_name, name);
+        m_name = name;
     }
 }
  
 
-void 
-RegistryItem::
-SetDescription(char* description)
+void RegistryItem::SetDescription(char* description)
 {
     if(description)
     {
-        if(m_description)
-            delete [] m_description;
-
-        m_description = new char [strlen(description) + 1];
-
-        strcpy(m_description, description);
+        m_description = description;
     }
 }
 
-void 
-RegistryItem::
-SetInitFunction(InitializeFunction function)
+void RegistryItem::SetInitFunction(InitializeFunction function)
 {
     if(function)
         m_init = function;
 }
 
-void 
-RegistryItem::
-SetModule(void* module)
+void RegistryItem::SetModule(ModuleRef module)
 {
     if(module)
         m_module = module;
 }
-

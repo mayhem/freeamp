@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.6 1999/08/25 00:20:07 elrod Exp $
+	$Id: playlist.h,v 1.40.4.7 1999/08/26 04:28:18 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -32,6 +32,7 @@ ____________________________________________________________________________*/
 using namespace std;
 
 #include "config.h"
+#include "facontext.h"
 
 #include "errors.h"
 #include "mutex.h"
@@ -39,6 +40,7 @@ using namespace std;
 #include "metadata.h"
 #include "playlistformat.h"
 #include "portabledevice.h"
+#include "registry.h"
 
 typedef enum {
     kPlaylistSortKey_FirstKey,
@@ -78,6 +80,13 @@ typedef enum {
 
 #define kInvalidIndex 0xFFFFFFFF
 
+typedef enum {
+    kPlaylistItemState_Normal,
+    kPlaylistItemState_RetrievingMetaData,
+    kPlaylistItemState_Delete
+
+} PlaylistItemState;
+
 class PlaylistItem {
 
  public:
@@ -89,6 +98,9 @@ class PlaylistItem {
 
     Error GetURL(char* buf, uint32* len) { return SetBuffer(buf, m_url.c_str(), len); }
     const string& URL() const { return m_url; }
+
+    void SetState(PlaylistItemState state) { m_state = state; }
+    PlaylistItemState GetState() const { return m_state; }
 
  protected:
     Error SetBuffer(char* dest, const char* src, uint32* len)
@@ -122,6 +134,7 @@ class PlaylistItem {
  private:
     MetaData m_metadata;
     string m_url;
+    PlaylistItemState m_state;
 };
 
 class PlaylistItemSort : public binary_function<PlaylistItem*, PlaylistItem*, bool> {
@@ -138,7 +151,7 @@ class PlaylistItemSort : public binary_function<PlaylistItem*, PlaylistItem*, bo
 class PlaylistManager {
 
  public:
-    PlaylistManager();
+    PlaylistManager(FAContext* context);
     virtual ~PlaylistManager();
 
     // Playlist actions
@@ -198,9 +211,9 @@ class PlaylistManager {
     Error GetPortablePlaylist(DeviceInfo* device);
 
     // External playlist support
-    Error GetSupportedPlaylistFormats(PlaylistFormat* format, uint32 index);
+    Error GetSupportedPlaylistFormats(PlaylistFormatInfo* format, uint32 index);
     Error ReadPlaylist(char* url, vector<PlaylistItem*>* items = NULL);
-    Error WritePlaylist(char* url, PlaylistFormat* format, 
+    Error WritePlaylist(char* url, PlaylistFormatInfo* format, 
                             vector<PlaylistItem*>* items = NULL);
 
     // Portable player communication
@@ -226,11 +239,13 @@ class PlaylistManager {
     void RetrieveMetaData(PlaylistItem* item);
     void RetrieveMetaData(vector<PlaylistItem*>* list);
 
-
-    
+    static void metadata_thread_function(void* arg);
+    void MetaDataThreadFunction(vector<PlaylistItem*>* list);
 
 
  private:
+
+    FAContext* m_context;
 
     class ShuffleItem {
 
@@ -256,7 +271,9 @@ class PlaylistManager {
 
     Mutex       m_mutex;
 
-
+    vector<MetaDataFormat*>         m_metadataFormats;
+    vector<PlaylistFormatInfo*>     m_playlistFormats;
+    //vector<PortablePlayer*>         m_portablePlayers;
 
 };
 

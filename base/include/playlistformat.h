@@ -18,37 +18,67 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlistformat.h,v 1.1.2.2 1999/08/24 23:42:46 elrod Exp $
+	$Id: playlistformat.h,v 1.1.2.3 1999/08/26 04:28:18 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_FORMAT_H_
 #define _PLAYLIST_FORMAT_H_
 
 #include <string>
+#include <vector>
+
+using namespace std;
+
 #include <assert.h>
 
 #include "config.h"
 #include "errors.h"
 
+class PlaylistFormatInfo;
+class PlaylistItem;
 
 class PlaylistFormat {
 
  public:
 
-    PlaylistFormat() {}
-    
-    virtual ~PlaylistFormat() {}
+    PlaylistFormat();
+    virtual ~PlaylistFormat();
 
-    Error SetExtension(const char* extension){ m_extension = extension; return kError_NoErr; }
+    virtual Error GetSupportedFormats(PlaylistFormatInfo* info, uint32 index);
+    virtual Error ReadPlaylist(char* url, vector<PlaylistItem*>* items = NULL);
+    virtual Error WritePlaylist(char* url, PlaylistFormatInfo* format, 
+                            vector<PlaylistItem*>* items = NULL);
+
+ private:
+  
+};
+
+typedef PlaylistFormat* FormatRef;
+
+class PlaylistFormatInfo {
+
+ public:
+
+    PlaylistFormatInfo() {}
+    
+    virtual ~PlaylistFormatInfo() {}
+
+    Error SetExtension(const char* extension)
+    { m_extension = extension; return kError_NoErr; }
     const char* GetExtension() const { return m_extension.c_str(); }
 
-    Error SetDescription(const char* description) { m_description = description; return kError_NoErr; }
+    Error SetDescription(const char* description) 
+    { m_description = description; return kError_NoErr; }
     const char* GetDescription() { return m_description.c_str(); }
+
+    Error SetRef(FormatRef ref) { m_ref = ref; return kError_NoErr; }
+    const FormatRef GetRef() const { return m_ref; }
 
  private:
   
     string m_extension;
     string m_description;
+    FormatRef m_ref;
 };
 
 

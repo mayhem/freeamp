@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.16 1999/07/13 18:42:01 robert Exp $
+	$Id: registrar.cpp,v 1.16.4.1 1999/08/26 04:28:19 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -141,11 +141,11 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
 
 		//cerr << "Trying to load: " << file << endl;
 
-                RegistryItem* item = new RegistryItem;
+                RegistryItem item;
 
-                item->SetPath(file);
-                item->SetName(find.cFileName);
-                item->SetDescription(find.cFileName);
+                item.SetPath(file);
+                item.SetName(find.cFileName);
+                item.SetDescription(find.cFileName);
 
                 HMODULE module = NULL;
                 error = kError_LoadLibFailed;
@@ -157,31 +157,29 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
                     InitializeFunction init = NULL;
                     error = kError_FindFuncFailed;
 
-                    item->SetModule(module);
+                    item.SetModule(module);
 
                     init = (InitializeFunction)GetProcAddress(module, "Initialize");
 
                     if(init)
                     {
                         error = kError_NoErr;
-                        item->SetInitFunction(init);
-			totalFilesFound++;
+                        item.SetInitFunction(init);
+			            totalFilesFound++;
 #ifndef WIN32
-			int32 *pInt = new int32;
-			*pInt = 1;
-			pHT->Insert(find.cFileName,pInt);
+			            int32 *pInt = new int32;
+			            *pInt = 1;
+			            pHT->Insert(find.cFileName,pInt);
 #endif
                     }
                 }
                 
                 if(IsntError(error))
-                    registry->Add(item);
+                    registry->AddItem(item);
                 else
                 {
                     if(module)
                         FreeLibrary(module);
-
-                    delete item;
                 }
                 
             }while(FindNextFile(handle, &find));
@@ -208,18 +206,6 @@ Registrar::
 CleanupRegistry(Registry* registry)
 {
     Error           error   = kError_NoErr;
-    RegistryItem*   item    = NULL;
-    int32           index   = 0;
-
-    while((item = registry->GetItem(index++)))
-    {
-        HMODULE module = NULL;
-
-        module = (HMODULE)item->Module();
-
-        if(module)
-            FreeLibrary(module);
-    }
- 
+    
     return error;
 }

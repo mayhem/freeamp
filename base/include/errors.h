@@ -17,7 +17,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.18.4.2 1999/08/25 23:08:29 robert Exp $
+<<<<<<< errors.h
+	$Id: errors.h,v 1.18.4.3 1999/08/26 04:28:18 elrod Exp $
+=======
+	$Id: errors.h,v 1.18.4.3 1999/08/26 04:28:18 elrod Exp $
+>>>>>>> 1.18.4.2
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -69,7 +73,7 @@ typedef enum Error
     kError_DbaseItemNotStored   = 38,
     kError_ParseError           = 39,
     kError_NotFound             = 40,
-
+    kError_NoMoreFormats        = 41,
 
     kError_LastError            = 9999
 }Error;

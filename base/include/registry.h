@@ -18,17 +18,32 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.h,v 1.7 1999/04/21 04:20:43 elrod Exp $
+	$Id: registry.h,v 1.7.8.1 1999/08/26 04:28:18 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _REGISTRY_H_
 #define _REGISTRY_H_
 
+#ifdef WIN32
+#define STRICT
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
+#include <vector>
+#include <string>
+
+using namespace std;
+
 #include "config.h"
-#include "list.h"
-#include "log.h"
 
 class FAContext;
+
+#ifdef WIN32
+typedef HMODULE ModuleRef;
+#else
+typedef void* ModuleRef;
+#endif
 
 typedef void *(*InitializeFunction)(FAContext *);
 
@@ -37,42 +52,51 @@ class RegistryItem {
     RegistryItem();
     virtual ~RegistryItem();
 
-    virtual void SetPath(char* path);
-    virtual const char* Path() const {return m_path;}
+    void SetPath(char* path);
+    const char* Path() {return m_path.c_str();}
 
-    virtual void SetName(char* name);
-    virtual const char* Name() const {return m_name;}
+    void SetName(char* name);
+    const char* Name() {return m_name.c_str();}
 
-    virtual void SetDescription(char* description);
-    virtual const char* Description() const { return m_description;}
+    void SetDescription(char* description);
+    const char* Description() { return m_description.c_str();}
 
-    virtual void SetInitFunction(InitializeFunction function);
-    virtual const InitializeFunction InitFunction() const { return m_init;}
+    void SetInitFunction(InitializeFunction function);
+    const InitializeFunction InitFunction() const { return m_init;}
 
-    virtual void SetModule(void* module);
-    virtual const void* Module() const { return m_module;}
+    void SetModule(ModuleRef module);
+    const ModuleRef Module() const { return m_module;}
+
+    bool operator < (const RegistryItem& x) const
+    {
+        return (x.m_path < m_path);
+    }
+
+    bool operator == (const RegistryItem& x) const
+    {
+        return (x.m_path == m_path);
+    }
 
  private:
-    char*               m_path;
-    char*               m_name;
-    char*               m_description;
+    string              m_path;
+    string              m_name;
+    string              m_description;
     InitializeFunction  m_init;
-    void*               m_module;
+    ModuleRef           m_module;
 
 };
 
 class Registry {
- private:
-    List<RegistryItem*> *m_elements;
-    int32 m_count;
-    
  public:
     Registry();
     virtual ~Registry();
 
-    virtual void Add(RegistryItem*);
-    virtual RegistryItem* GetItem(int32 index);
-	 virtual int32 GetNumItems();
+    void AddItem(RegistryItem& item);
+    const RegistryItem* GetItem(int32 index);
+	int32 CountItems();
+
+ private:
+    vector<RegistryItem> m_elements;
 };
 
 

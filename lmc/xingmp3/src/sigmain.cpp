@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigmain.cpp,v 1.3 2000/09/29 14:13:41 robert Exp $
+        $Id: sigmain.cpp,v 1.4 2000/10/02 12:17:30 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -36,6 +36,7 @@ ____________________________________________________________________________*/
 
 #include "metadata.h"
 
+#include "plm/metadata/id3v1/id3v1.h"
 #include "plm/metadata/id3v2/id3v2.h"
 #include "musicbrainz/mb_c.h"
 
@@ -95,10 +96,12 @@ Error URLToFilePath(const char* url, char* path, uint32* length)
 
 bool get_metadata(char *file, MetaData *m)
 {
+   ID3v1    id31(NULL);
    ID3v2    id3(NULL); // NULL means we can't call the WriteMetaData function
    string   url("file://");
 
    url += string(file);
+   id31.ReadMetaData(url.c_str(), m);
    return id3.ReadMetaData(url.c_str(), m);
 }
 
@@ -195,6 +198,10 @@ int main(int argc, char *argv[])
        {
            printf("Error calculating signature.\n");
        }
+   }
+   else
+   {
+       printf("Error getting metadata.\n");
    }
 
    return 0;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.cpp,v 1.9 2000/09/28 08:08:01 ijr Exp $
+	$Id: id3v1.cpp,v 1.10 2000/10/02 12:17:30 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -224,6 +224,7 @@ const char* genre_strings[] = {
 
 #define kNumGenres sizeof(genre_strings)/sizeof(char*)
 
+#ifndef COMPILING_SIGAPP
 extern "C"
 {
    MetaDataFormat *Initialize(FAContext* context)
@@ -231,6 +232,7 @@ extern "C"
       return new ID3v1(context);
    }
 }
+#endif
 
 ID3v1::ID3v1(FAContext* context):MetaDataFormat(context)
 {

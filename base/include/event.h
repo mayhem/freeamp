@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.28.4.8 1999/10/01 08:07:01 elrod Exp $
+	$Id: event.h,v 1.28.4.9 1999/10/01 22:23:18 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -118,6 +118,9 @@ class EventQueue {
 #define CMD_ToggleDownloadUI     55 // sent to the DownloadManager UI via Player to toggle its visibility
 #define CMD_TogglePlaylistUI     56 // sent to the MusicBrowserUI via Player to popup/disappear in Playlist Manager ui mode
 #define CMD_ToggleMusicBrowserUI 57 // sent to the MusicBrowserUI via the Player to popup/disappear in MusicBrowser mode
+
+#define INFO_PlaylistItemAdded    58 // sent by PLM to player to inform of a playlistitem update
+#define INFO_PlaylistItemRemoved    59 // sent by PLM to player to inform of a playlistitem update
 
 #endif // _EVENT_H_
 

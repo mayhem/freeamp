@@ -17,7 +17,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: uuid.h,v 1.2 2000/08/17 21:09:32 robert Exp $
+        $Id: uuid.h,v 1.3 2000/08/17 21:47:30 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UUID_H_
@@ -26,6 +26,7 @@ ____________________________________________________________________________*/
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef unsigned char uuid_t[17];
 

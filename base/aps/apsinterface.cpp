@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.9 2000/08/17 21:09:32 robert Exp $
+        $Id: apsinterface.cpp,v 1.10 2000/08/17 21:47:30 robert Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -154,7 +154,7 @@ int APSInterface::APSFillMetaData(APSMetaData* pmetaData, bool bUseCollection)
 
     o.SetServer(string("www.musicbrainz.org"), 80);
 
-    uuid_ascii((uuid_t)pmetaData->GUID().c_str(), guid);
+    uuid_ascii((unsigned char*)pmetaData->GUID().c_str(), guid);
 
     args.push_back(pmetaData->Title());
     args.push_back(string(guid));

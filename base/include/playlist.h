@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.11 1999/08/29 20:24:32 elrod Exp $
+	$Id: playlist.h,v 1.40.4.12 1999/08/30 04:50:58 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -90,10 +90,36 @@ typedef enum {
 class PlaylistItem {
 
  public:
-    PlaylistItem(const char* url, const MetaData* metadata = NULL);
-    virtual ~PlaylistItem();
+    PlaylistItem(const char* url, const MetaData* metadata = NULL)
+    {
+        assert(url);
 
-    Error SetMetaData(const MetaData* metadata);
+        if(url)
+            m_url = url;
+
+        if(metadata)
+            SetMetaData(metadata);
+
+        m_state = kPlaylistItemState_Normal;
+    }
+
+    virtual ~PlaylistItem() {}
+
+    Error SetMetaData(const MetaData* metadata)
+    {
+        Error result = kError_InvalidParam;
+        assert(metadata);
+
+        if(metadata)
+        {
+            result = kError_NoErr;
+
+            m_metadata = *metadata;
+        }
+
+        return result;
+    }
+
     const MetaData& GetMetaData() const { return m_metadata; }
 
     Error GetURL(char* buf, uint32* len) { return SetBuffer(buf, m_url.c_str(), len); }

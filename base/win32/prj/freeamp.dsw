@@ -89,6 +89,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name id3v1
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name m3u
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -139,6 +142,18 @@ Package=<4>
 ###############################################################################
 
 Project: "id3v1"=..\..\..\plm\metadata\id3v1\prj\id3v1.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "m3u"=..\..\..\plm\playlist\m3u\prj\m3u.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

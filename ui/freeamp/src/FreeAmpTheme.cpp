@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.96 2000/03/17 21:47:10 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.97 2000/03/21 23:40:08 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -597,7 +597,7 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          tempstr = text;
          m_pWindow->ControlStringValue("SampleRate", true, tempstr);
 
-         bool bEnable = info->GetChannels();
+         bool bEnable = (info->GetChannels() != 0);
          m_pWindow->ControlEnable(string("StereoIndicator"), true, bEnable);
          bEnable = !bEnable;
          m_pWindow->ControlEnable(string("MonoIndicator"), true, bEnable);
@@ -1541,7 +1541,7 @@ void FreeAmpTheme::DropFiles(vector<string> *pFileList)
             }
             if (!IsError(eRet))
             {
-                length = sizeof(url);
+                length = _MAX_PATH + 7;
                 FilePathToURL((*i).c_str(), url, &length);
                 
                 m_pContext->plm->ReadPlaylist(url);

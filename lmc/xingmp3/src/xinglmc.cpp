@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.28 1998/11/02 02:34:59 jdw Exp $
+	$Id: xinglmc.cpp,v 1.29 1998/11/02 07:13:00 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -191,6 +191,7 @@ Error XingLMC::InitDecoder() {
 		}
 
 		MpegInfoEvent *mie = new MpegInfoEvent(totalFrames,
+								milliseconds_per_frame / 1000,
 						       m_frameBytes, 
 						       bitrate, 
 						       samprate, 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.h,v 1.4 1998/10/29 06:04:56 elrod Exp $
+	$Id: simpleui.h,v 1.5 1998/11/02 07:13:00 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SIMPLE_UI_H_
@@ -67,6 +67,8 @@ class SimpleUI : public UserInterface {
 
 
  private:
+	 int32			m_totalSeconds;
+	 float			m_secondsPerFrame;
     Thread*         m_uiThread;
     EventQueue*     m_target;
 

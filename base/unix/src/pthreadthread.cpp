@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pthreadthread.cpp,v 1.4 2000/05/24 11:28:46 ijr Exp $
+	$Id: pthreadthread.cpp,v 1.5 2000/05/24 14:31:40 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -85,10 +85,8 @@ Create(thread_function function, void* arg, bool detach)
     {
 	result = false;
     }
-    if (detach) {
-        cout << "detaching\n";
+    if (detach) 
         pthread_detach(m_threadHandle);
-    }
 
     return result;
 }

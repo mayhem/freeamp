@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: musicbrowser.cpp,v 1.36 2000/05/20 12:32:00 ijr Exp $
+    $Id: musicbrowser.cpp,v 1.37 2000/05/24 14:31:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -121,10 +121,11 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 mainBrowser->ShowMusicBrowser();
             break; }
         case CMD_AddFiles:
+        case CMD_EditCurrentPlaylistItemInfo:
         case INFO_MusicCatalogRegenerating:
         case INFO_MusicCatalogDoneRegenerating:
         case INFO_PlaylistCurrentItemInfo:
-        case INFO_PlaylistItemUpdated:
+        case INFO_PlaylistItemsUpdated:
         case INFO_PlaylistItemMoved:
         case INFO_CDDiscStatus: 
         case INFO_PrefsChanged: {

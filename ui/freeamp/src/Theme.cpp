@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.42 2000/05/18 10:12:53 robert Exp $
+   $Id: Theme.cpp,v 1.43 2000/05/24 14:31:40 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -386,7 +386,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
 #ifdef WIN32         
           ((Win32Window *)m_pWindow)->ConvertTo256Color(m_pBitmaps);
 #endif       
-   
+  
           m_pWindow->VulcanMindMeld(pNewWindow);
        }   
        m_bThemeLoaded = true;

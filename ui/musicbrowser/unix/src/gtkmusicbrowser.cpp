@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.83 2000/05/20 12:32:00 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.84 2000/05/24 14:31:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1240,6 +1240,13 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
             if (master)
                 AddFileCMD();
             break; }
+        case CMD_EditCurrentPlaylistItemInfo: {
+            if (master) {
+                gdk_threads_enter();
+                PopUpInfoEditor(m_plm->GetCurrentItem());
+                gdk_threads_enter();
+            }
+            break; }
         case INFO_Playing: {
             pauseState = 1;
             stopState = 0;
@@ -1427,25 +1434,29 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
                 }
             }
             break; }
-        case INFO_PlaylistItemUpdated: {
-            PlaylistItemUpdatedEvent *piue = (PlaylistItemUpdatedEvent *)e;
-            PlaylistItem *item = (PlaylistItem *)piue->Item();
+        case INFO_PlaylistItemsUpdated: {
+            PlaylistItemsUpdatedEvent *piue = (PlaylistItemsUpdatedEvent *)e;
 
-            char *url = (char *)item->URL().c_str();
-            char *ext = strrchr(url, '.');;
-            if (ext)
-                ext++;
-            if (ext && *ext) {
-                if (!strncasecmp("CDA", ext, 3) && isVisible && !m_bCDMode)
-                    UpdateCDTree(item);
+            vector<PlaylistItem *>::const_iterator i = piue->Items()->begin();
+
+            for (; i != piue->Items()->end(); i++) {
+                char *url = (char *)(*i)->URL().c_str();
+                char *ext = strrchr(url, '.');
+                if (ext)
+                    ext++;
+                if (ext && *ext) {
+                    if (!strncasecmp("CDA", ext, 3) && !m_bCDMode)
+                        UpdateCDTree(*i);
+                }
             }
 
             if (piue->Manager() == m_plm && isVisible) {
                 gdk_threads_enter();
-                UpdatePlaylistItem(item);
+                UpdatePlaylistItems(piue->Items());
                 gdk_threads_leave();
             }
             break; }
+
         case INFO_PlaylistItemMoved: {
             PlaylistItemMovedEvent *pime = (PlaylistItemMovedEvent *)e;
             

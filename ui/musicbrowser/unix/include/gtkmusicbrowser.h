@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.40 2000/05/09 10:21:02 elrod Exp $
+    $Id: gtkmusicbrowser.h,v 1.41 2000/05/24 14:31:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -144,7 +144,7 @@ class GTKMusicBrowser {
     void AddPlaylistItems(vector<PlaylistItem *> *items);
     void RemovePlaylistItems(vector<uint32> *indices);
     void RenumberPlaylistList(int starting);
-    void UpdatePlaylistItem(PlaylistItem *item);
+    void UpdatePlaylistItems(const vector<PlaylistItem *> *items);
 
     Properties *m_propManager;
 

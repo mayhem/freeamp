@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.39 2000/08/21 13:07:38 robert Exp $
+        $Id: AUTHORS,v 1.40 2000/08/23 22:25:43 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -135,6 +135,9 @@ Michael Rich <istan@alltel.net>
 
 "Michael Jennings" <mej@valinux.com>
 * compile fixes for the linux build
+
+"Mo DeJong" <mdejong@cygnus.com>
+* Makefile patch for when srcdir != builddir
 
 "Alexander Haväng" <eel@musiknet.se>
 * icecast title streaming fixes

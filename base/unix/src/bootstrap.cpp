@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.23 2000/03/15 23:00:03 ijr Exp $
+	$Id: bootstrap.cpp,v 1.24 2000/03/23 12:37:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -63,6 +63,13 @@ static void PrintMutexDebugInfo(int sig)
 }
 #endif
 
+#ifndef semun
+union semun 
+{
+    int val;
+};
+#endif
+
 int main(int argc, char **argv) 
 {
     FAContext *context = new FAContext;
@@ -73,7 +80,7 @@ int main(int argc, char **argv)
     int        iProcess, i;
     char      *pCmdLine = NULL, *pPtr;
 
-    union { int val; } unsem;
+    union semun unsem;
     unsem.val = 0;
     
     context->prefs = unixPrefs;

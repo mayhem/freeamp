@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.88 2000/03/17 11:08:08 hiro Exp $
+dnl $Id: configure.in,v 1.89 2000/03/23 12:37:31 ijr Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -425,6 +425,7 @@ if test "$have_gtk" = "true"; then
   OSDEPPLUGINS="$OSDEPPLUGINS plugins/musicbrowser.ui"
   OSDEPPLUGINS="$OSDEPPLUGINS plugins/freeamp.ui"
   OSDEPPLUGINS="$OSDEPPLUGINS plugins/download.ui"
+  OSDEPPLUGINS="$OSDEPPLUGINS plugins/winamp.ftf"
   OSINC="$OSINC -I$srcdir/ui/musicbrowser/unix/include"
   OSINC="$OSINC -I$srcdir/ui/freeamp/include -I$srcdir/ui/freeamp/unix/include"
   OSINC="$OSINC -I$srcdir/ui/download/unix/include"

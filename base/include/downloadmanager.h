@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.7 2000/01/16 02:48:26 robert Exp $
+	$Id: downloadmanager.h,v 1.7.2.1 2000/02/25 03:04:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -108,19 +108,19 @@ class DownloadItem {
 
     const MetaData& GetMetaData() const { return m_metadata; }
 
-    Error SetSourceURL(const char* url) { m_src = url; return kError_NoErr;}
+    Error SetSourceURL(const char* url) { m_src = string(url); return kError_NoErr;}
     Error GetSourceURL(char* buf, uint32* len) { return SetBuffer(buf, m_src.c_str(), len); }
     const string& SourceURL() const { return m_src; }
 
-    Error SetSourceCookie(const char* cookie) { m_cookie = cookie; return kError_NoErr;}
+    Error SetSourceCookie(const char* cookie) { m_cookie = string(cookie); return kError_NoErr;}
     Error GetSourceCookie(char* buf, uint32* len) { return SetBuffer(buf, m_cookie.c_str(), len); }
     const string& SourceCookie() const { return m_cookie; }
 
-    Error SetDestinationFile(const char* file) { m_dest = file; return kError_NoErr;}
+    Error SetDestinationFile(const char* file) { m_dest = string(file); return kError_NoErr;}
     Error GetDestinationFile(char* buf, uint32* len) { return SetBuffer(buf, m_dest.c_str(), len); }
     const string& DestinationFile() const { return m_dest; }
 
-    Error SetPlaylistName(const char* file) { m_playlist = file; return kError_NoErr;}
+    Error SetPlaylistName(const char* file) { m_playlist = string(file); return kError_NoErr;}
     Error GetPlaylistName(char* buf, uint32* len) { return SetBuffer(buf, m_playlist.c_str(), len); }
     const string& PlaylistName() const { return m_playlist; }
 

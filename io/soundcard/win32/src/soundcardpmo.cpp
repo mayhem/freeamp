@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.22 1999/03/11 02:53:31 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.23 1999/03/12 20:29:43 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -562,5 +562,6 @@ void SoundCardPMO::WorkerThread(void)
 
       Write(pBuffer);
    }
+   g_Log->Log(LogDecode, "PMO: Soundcard thread exiting\n");
 }    
 

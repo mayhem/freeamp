@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.90 1999/03/11 02:53:25 robert Exp $
+        $Id: player.cpp,v 1.91 1999/03/12 20:29:39 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -42,6 +42,8 @@ ____________________________________________________________________________*/
 
 Player   *Player::m_thePlayer = NULL;
 LogFile *g_Log = NULL;
+
+const char *szPlaylistExt = ".M3U";
 
 #define DB //printf("%s:%d\n", __FILE__, __LINE__);
 #define SEND_NORMAL_EVENT(e) { Event *ev = new Event(e); GetUIManipLock();    \
@@ -283,12 +285,28 @@ SetArgs(int32 argc, char **argv)
             }
             break;
          default:
-            argList.AddItem(argv[i]);
+             argList.AddItem(argv[i]);
          }
       }
       else
-      {
-         argList.AddItem(argv[i]);
+	  {
+		 char *pPtr;
+
+		 pPtr = strrchr(argv[i], '.');
+		 if (pPtr && strcasecmp(pPtr, szPlaylistExt) == 0)
+		 { 
+		 	 Error eRet;
+
+		     eRet = m_plm->ExpandM3U(argv[i], argList);
+		     if (IsError(eRet))
+#ifndef WIN32
+                printf("Error: Cannot open file '%s'.\n", argv[i]);
+#else
+                MessageBox(NULL, "Cannot open playlist file", argv[i], MB_OK); 
+#endif
+		 }
+		 else
+             argList.AddItem(argv[i]);
       }
    }
    m_argc = argList.CountItems();
@@ -1040,7 +1058,7 @@ int Player::Quit(Event *pEvent)
 {
    Event *pe;
 
-   AcceptEvent(new Event(CMD_Stop));
+   Stop(NULL);
    // 1) Set "I'm already quitting flag" (or exit if its already Set)
    m_imQuitting = 1;
    // 2) Get CIO/COO manipulation lock
@@ -1196,7 +1214,7 @@ int32 Player::ServiceEvent(Event * pC)
       return 255;
    }
 
-   //printf("Got event %d\n", pC->Type());
+   //print("Got event %d\n", pC->Type());
    switch (pC->Type())
    {
       case INFO_DoneOutputting:

@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.64 1999/03/11 02:53:34 robert Exp $
+   $Id: xinglmc.cpp,v 1.65 1999/03/12 20:29:44 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -208,6 +208,7 @@ Stop()
       m_input->Break();
 
       m_decoderThread->Join();  // wait for thread to exit
+      g_Log->Log(LogDecode, "LMC: Decoder thread exited.\n");
 
       delete m_input;
       m_input = NULL;

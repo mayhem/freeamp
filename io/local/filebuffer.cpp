@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: filebuffer.cpp,v 1.9 1999/03/05 23:17:28 robert Exp $
+   $Id: filebuffer.cpp,v 1.10 1999/03/12 20:29:41 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -221,4 +221,5 @@ void FileBuffer::WorkerThread(void)
           m_pWriteSem->Wait();
       }
    }
+   g_Log->Log(LogInput, "PMI: filebuffer thread exit\n");
 }

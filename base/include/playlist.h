@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.28 1999/03/08 14:31:24 elrod Exp $
+	$Id: playlist.h,v 1.29 1999/03/12 20:29:37 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -35,6 +35,8 @@ ____________________________________________________________________________*/
 #include "eventdata.h"
 #include "mutex.h"
 #include "pmi.h"
+
+const int iMaxFileNameLen = 1024;
 
 class PlayListItem {
 
@@ -277,6 +279,9 @@ class PlayListManager {
     void DoForEach(bool (*func)(PlayListItem*, void*), void*);
 
     const PlayListItem** Items() const;
+
+    Error ExpandM3U(char *szM3UFile, List<char *> &MP3List);
+
 
  protected:
     inline int32 CheckIndex(int32 index);

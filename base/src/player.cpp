@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.205 2000/06/05 17:47:01 ijr Exp $
+        $Id: player.cpp,v 1.206 2000/06/05 19:19:20 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1148,7 +1148,8 @@ GetExtension(const char *title)
    char *temp_ext;
    char *ext_return = NULL;
 
-   if (strncmp(title, "file://", 7) != 0)
+   if (!strncasecmp(title, "http://", 7) || 
+       !strncasecmp(title, "rtp://", 6))
    {
        ext_return = new char[4];
        strcpy(ext_return, "MP3");

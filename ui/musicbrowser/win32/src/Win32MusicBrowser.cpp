@@ -18,9 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.8 1999/10/15 16:53:08 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.9 1999/10/15 18:42:04 elrod Exp $
 ____________________________________________________________________________*/
 
+#include <windows.h>
+#include <windowsx.h>
 
 #include "config.h"
 #include "utility.h"
@@ -179,11 +181,15 @@ Error MusicBrowserUI::CreateMainDialog(void)
                     (DLGPROC)MainDlgProc, 
                     (LPARAM)this);
 
-    while(GetMessage(&msg,m_hWnd,0,0))
+    if(m_hWnd)
     {
-        if(m_hWnd)
+        while(GetMessage(&msg,NULL,0,0))
         {
-            IsDialogMessage(m_hWnd, &msg);
+            if(!IsDialogMessage(m_hWnd, &msg))
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
         }
     }
     return kError_NoErr;
@@ -208,6 +214,7 @@ Error MusicBrowserUI::CloseMainDialog(void)
 void MusicBrowserUI::ShowBrowser(bool bShowExpanded)
 {
 	ShowWindow(m_hWnd, SW_SHOW);
+    SetForegroundWindow(m_hWnd);
 }
 
 void MusicBrowserUI::HideBrowser(void)
@@ -726,16 +733,18 @@ void MusicBrowserUI::FillPlaylistCombo(void)
 {
     vector<string>::iterator i;
 
-    SendMessage(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), CB_ADDSTRING,
-               0, (LPARAM)"Master Playlist");
+    HWND hwndCombo = GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO); 
+
+    ComboBox_AddString(hwndCombo, "Master Playlist");
 
     for(i = m_context->browser->m_catalog->m_playlists->begin(); 
         i != m_context->browser->m_catalog->m_playlists->end(); 
         i++)
     {
-       SendMessage(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), CB_ADDSTRING,
-                   0, (LPARAM)(*i).c_str());
-    }    
+        ComboBox_AddString(hwndCombo, (*i).c_str());
+    } 
+        
+    ComboBox_SetCurSel(hwndCombo, 0);
 }
 
 void MusicBrowserUI::LoadPlaylist(string &oPlaylist)

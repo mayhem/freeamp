@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.30 1999/11/04 03:25:56 elrod Exp $
+	$Id: main.cpp,v 1.31 1999/11/10 15:28:44 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -59,7 +59,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 							    TRUE,
 							    BRANDING " Should Only Run One Time!");
 
-    if(0)//GetLastError() == ERROR_ALREADY_EXISTS)
+    if(GetLastError() == ERROR_ALREADY_EXISTS)
     {
         SendCommandLineToHiddenWindow();
         

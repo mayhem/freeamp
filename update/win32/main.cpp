@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.2 1999/10/19 07:13:33 elrod Exp $
+	$Id: main.cpp,v 1.3 1999/10/21 02:29:51 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -50,7 +50,7 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 							    BRANDING" Should Only Run One Time!");
 
     // make sure FreeAmp is not running while this happens...
-    while(WAIT_TIMEOUT == WaitForSingleObject(runOnceMutex, 0))
+    while(WAIT_TIMEOUT == WaitForSingleObject(runOnceMutex, 5000))
     {
         int32 result;
 
@@ -78,6 +78,9 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     MoveFiles(updatePath, appPath);
 
     CloseHandle(runOnceMutex);
+
+    strcat(appPath, "\\freeamp.exe");
+    WinExec(appPath, SW_NORMAL);
 
 	return 0;
 }

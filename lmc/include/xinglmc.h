@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.h,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: xinglmc.h,v 1.2 1998/10/13 21:53:29 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -53,7 +53,7 @@ class XingLMC : public LMC {
 
 public:
 //	XingLMC(PhysicalMediaInput* input, PhysicalMediaOutput* output,EventCallback callback, void* cookie);
-    XingLMC(PhysicalMediaInput* input, PhysicalMediaOutput* output);
+    XingLMC();
     
     virtual ~XingLMC();
     
@@ -63,6 +63,11 @@ public:
     virtual void Resume();
     virtual void Reset();
     virtual bool ChangePosition(int32 position);
+
+    virtual void SetPMI(PhysicalMediaInput *);
+    virtual void SetPMO(PhysicalMediaOutput *);
+    virtual void SetInfoEventQueue(EventQueue *);
+    virtual void Init();
 //	bool SetCallback(EventCallback callback, void* cookie);
 
     void DecodeWork();
@@ -72,6 +77,7 @@ private:
     int32 bs_fill();
     void bs_clear();
 private:
+    EventQueue *myEQ;
     Mutex *seek_mutex;
     Queue<XingCommand *> *xcqueue;
     PhysicalMediaInput*				m_input;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.3 1998/10/12 03:44:36 jdw Exp $
+	$Id: Mpg123UI.cpp,v 1.4 1998/10/13 21:53:29 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -61,10 +61,9 @@ Mpg123UI::Mpg123UI() {
 
 void mysigterm(int f) {
     Event *e = new Event(CMD_Stop);
-    Player::getPlayer()->acceptEvent(*e);
+    Player::getPlayer()->acceptEvent(e);
     e = new Event(CMD_QuitPlayer);
-    Player::getPlayer()->acceptEvent(*e);
-    delete e;
+    Player::getPlayer()->acceptEvent(e);
 }
 
 void mysigint(int f) {
@@ -81,14 +80,12 @@ int32 Mpg123UI::acceptCIOEvent(Event *e) {
 	switch (e->getEvent()) {
 	    case INFO_PlayListDonePlay: {
 		Event *e = new Event(CMD_QuitPlayer);
-		Player::getPlayer()->acceptEvent(*e);
-		delete e;
+		Player::getPlayer()->acceptEvent(e);
 		break; }
 	    case CMD_Cleanup: {
 		Event *e = new Event(INFO_ReadyToDieCIO,this);
 		//cout << "I'm gonna ACTUALLY kill myself" << endl;
-		Player::getPlayer()->acceptEvent(*e);
-		delete e;
+		Player::getPlayer()->acceptEvent(e);
 		break; }
 	    default:
 		break;
@@ -170,8 +167,7 @@ int32 Mpg123UI::acceptCOOEvent(Event *e) {
 	    case CMD_Cleanup: {
 		Event *e = new Event(INFO_ReadyToDieCOO);
 		//cout << "i'm gonna NOT kill myself..." << endl;
-		Player::getPlayer()->acceptEvent(*e);
-		delete e;
+		Player::getPlayer()->acceptEvent(e);
 		break; }
 	    default:
 		break;
@@ -311,11 +307,9 @@ void Mpg123UI::setArgs(int argc, char **argv) {
     pl->setFirst();
     pl->setSkip(skipFirst);
     Event *e = new Event(CMD_SetPlaylist,pl);
-    Player::getPlayer()->acceptEvent(*e);
-    delete e;
+    Player::getPlayer()->acceptEvent(e);
     e = new Event(CMD_Play);
-    Player::getPlayer()->acceptEvent(*e);
-    delete e;
+    Player::getPlayer()->acceptEvent(e);
 }
 
 

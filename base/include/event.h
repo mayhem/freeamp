@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: event.h,v 1.2 1998/10/13 21:53:29 jdw Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -46,6 +46,10 @@ class Event {
     
 };
 
+class EventQueue {
+ public:
+    virtual int32 acceptEvent(Event *) = 0;
+};
 
 #define CMD_Stop                1  // stop current play  (no arg)
 #define CMD_Play                2  // Play current media piece from beginning (no arg)

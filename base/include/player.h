@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: player.h,v 1.2 1998/10/13 21:53:29 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -48,14 +48,14 @@ typedef enum {
     STATE_Stopped,
 } PlayerState;
 
-class Player {
+class Player : public EventQueue {
 
  public:
     //Player();
     static Player *getPlayer();
     ~Player();
 
-    int32 acceptEvent(Event c);
+    virtual int32 acceptEvent(Event *);
     int32 registerCOO(COO *);
     int32 registerCIO(CIO *);
     void testQueue();

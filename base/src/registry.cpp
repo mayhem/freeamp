@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.cpp,v 1.9.12.2 1999/08/27 03:09:36 elrod Exp $
+	$Id: registry.cpp,v 1.9.12.3 1999/08/27 09:32:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream>
@@ -32,10 +32,13 @@ Registry::Registry()
 
 Registry::~Registry()
 {
-    m_elements.clear();
+    uint32 count = m_elements.size();
+
+    for(uint32 i = 0; i < count; i++)
+        delete m_elements.at(i);
 }
 
-void Registry::AddItem(RegistryItem& item)
+void Registry::AddItem(RegistryItem* item)
 {
     m_elements.push_back(item);
 }
@@ -46,7 +49,7 @@ RegistryItem* Registry::GetItem(int32 index)
 
     if(index < m_elements.size())
     {
-        result = &m_elements.at(index);
+        result = m_elements.at(index);
     }
 
     return result;

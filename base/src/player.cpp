@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.4 1999/08/27 07:16:45 elrod Exp $
+        $Id: player.cpp,v 1.133.2.5 1999/08/27 09:32:20 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -474,7 +474,7 @@ Run()
    }
    else
    {
-      char *orig = m_argUIList->at(uiListIndex);
+      char *orig = m_argUIList->at(uiListIndex++);
       name = new char[strlen(orig) + 1];
 
       strcpy(name, orig);
@@ -514,10 +514,10 @@ Run()
                break;
             }
          }
-         char     *p = m_argUIList->at(++uiListIndex);
 
-         if (p)
+         if(uiListIndex < m_argUIList->size())
          {
+            char *p = m_argUIList->at(uiListIndex++);
             strcpy(name, p);
          }
          else
@@ -525,6 +525,7 @@ Run()
             *name = '\0';
          }
       }
+
       if (!uisActivated)
       {
 #ifdef WIN32
@@ -622,13 +623,16 @@ RegisterLMCs(Registry * registry)
 
    for (int iLoop = 0; iLoop < iItems; iLoop++)
    {
-      lmc_item = registry->GetItem(iLoop);
+      RegistryItem* temp = registry->GetItem(iLoop);
 
-      lmc = (LogicalMediaConverter *)lmc_item->InitFunction()(m_context);
+      lmc = (LogicalMediaConverter *)temp->InitFunction()(m_context);
       vector<char *> *extList = lmc->GetExtensions();
 
       for (int iextLoop = 0; iextLoop < extList->size(); iextLoop++)
-           m_lmcExtensions->Insert(extList->at(iextLoop), lmc_item);
+      {
+          lmc_item = new RegistryItem(*temp);
+          m_lmcExtensions->Insert(extList->at(iextLoop), lmc_item);
+      }
 
       delete extList;
       delete lmc;

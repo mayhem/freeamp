@@ -64,16 +64,12 @@ CLEAN :"fileinput - Win32 ReleaseCLEAN" "soundcard - Win32 ReleaseCLEAN"\
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\freeamp.res"
-	-@erase "$(INTDIR)\hashtable.obj"
-	-@erase "$(INTDIR)\lmcregistry.obj"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
 	-@erase "$(INTDIR)\musicsearch.obj"
 	-@erase "$(INTDIR)\mutex.obj"
 	-@erase "$(INTDIR)\player.obj"
 	-@erase "$(INTDIR)\playlist.obj"
-	-@erase "$(INTDIR)\pmiregistry.obj"
-	-@erase "$(INTDIR)\pmoregistry.obj"
 	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\propimpl.obj"
 	-@erase "$(INTDIR)\registrar.obj"
@@ -81,7 +77,6 @@ CLEAN :
 	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\thread.obj"
-	-@erase "$(INTDIR)\uiregistry.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
@@ -117,16 +112,12 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
 	"$(INTDIR)\freeamp.res" \
-	"$(INTDIR)\hashtable.obj" \
-	"$(INTDIR)\lmcregistry.obj" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
 	"$(INTDIR)\musicsearch.obj" \
 	"$(INTDIR)\mutex.obj" \
 	"$(INTDIR)\player.obj" \
 	"$(INTDIR)\playlist.obj" \
-	"$(INTDIR)\pmiregistry.obj" \
-	"$(INTDIR)\pmoregistry.obj" \
 	"$(INTDIR)\preferences.obj" \
 	"$(INTDIR)\propimpl.obj" \
 	"$(INTDIR)\registrar.obj" \
@@ -134,7 +125,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\thread.obj" \
-	"$(INTDIR)\uiregistry.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
 	"..\..\..\io\dsound\win32\prj\Release\dsoundcard.lib" \
@@ -182,16 +172,12 @@ CLEAN :"fileinput - Win32 DebugCLEAN" "soundcard - Win32 DebugCLEAN"\
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\freeamp.res"
-	-@erase "$(INTDIR)\hashtable.obj"
-	-@erase "$(INTDIR)\lmcregistry.obj"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
 	-@erase "$(INTDIR)\musicsearch.obj"
 	-@erase "$(INTDIR)\mutex.obj"
 	-@erase "$(INTDIR)\player.obj"
 	-@erase "$(INTDIR)\playlist.obj"
-	-@erase "$(INTDIR)\pmiregistry.obj"
-	-@erase "$(INTDIR)\pmoregistry.obj"
 	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\propimpl.obj"
 	-@erase "$(INTDIR)\registrar.obj"
@@ -199,7 +185,6 @@ CLEAN :
 	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\thread.obj"
-	-@erase "$(INTDIR)\uiregistry.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(INTDIR)\win32prefs.obj"
@@ -238,16 +223,12 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /pdbtype:sept /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
 	"$(INTDIR)\freeamp.res" \
-	"$(INTDIR)\hashtable.obj" \
-	"$(INTDIR)\lmcregistry.obj" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
 	"$(INTDIR)\musicsearch.obj" \
 	"$(INTDIR)\mutex.obj" \
 	"$(INTDIR)\player.obj" \
 	"$(INTDIR)\playlist.obj" \
-	"$(INTDIR)\pmiregistry.obj" \
-	"$(INTDIR)\pmoregistry.obj" \
 	"$(INTDIR)\preferences.obj" \
 	"$(INTDIR)\propimpl.obj" \
 	"$(INTDIR)\registrar.obj" \
@@ -255,7 +236,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\thread.obj" \
-	"$(INTDIR)\uiregistry.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
 	"..\..\..\io\dsound\win32\prj\Debug\dsoundcard.lib" \
@@ -305,16 +285,12 @@ CLEAN :"fileinput - Win32 NASM ReleaseCLEAN"\
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\freeamp.res"
-	-@erase "$(INTDIR)\hashtable.obj"
-	-@erase "$(INTDIR)\lmcregistry.obj"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
 	-@erase "$(INTDIR)\musicsearch.obj"
 	-@erase "$(INTDIR)\mutex.obj"
 	-@erase "$(INTDIR)\player.obj"
 	-@erase "$(INTDIR)\playlist.obj"
-	-@erase "$(INTDIR)\pmiregistry.obj"
-	-@erase "$(INTDIR)\pmoregistry.obj"
 	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\propimpl.obj"
 	-@erase "$(INTDIR)\registrar.obj"
@@ -322,7 +298,6 @@ CLEAN :
 	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\thread.obj"
-	-@erase "$(INTDIR)\uiregistry.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
@@ -358,16 +333,12 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
 	"$(INTDIR)\freeamp.res" \
-	"$(INTDIR)\hashtable.obj" \
-	"$(INTDIR)\lmcregistry.obj" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
 	"$(INTDIR)\musicsearch.obj" \
 	"$(INTDIR)\mutex.obj" \
 	"$(INTDIR)\player.obj" \
 	"$(INTDIR)\playlist.obj" \
-	"$(INTDIR)\pmiregistry.obj" \
-	"$(INTDIR)\pmoregistry.obj" \
 	"$(INTDIR)\preferences.obj" \
 	"$(INTDIR)\propimpl.obj" \
 	"$(INTDIR)\registrar.obj" \
@@ -375,7 +346,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\thread.obj" \
-	"$(INTDIR)\uiregistry.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
 	"..\..\..\io\dsound\win32\prj\Release\dsoundcard.lib" \
@@ -425,16 +395,12 @@ CLEAN :"fileinput - Win32 NASM DebugCLEAN" "soundcard - Win32 NASM DebugCLEAN"\
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\freeamp.res"
-	-@erase "$(INTDIR)\hashtable.obj"
-	-@erase "$(INTDIR)\lmcregistry.obj"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
 	-@erase "$(INTDIR)\musicsearch.obj"
 	-@erase "$(INTDIR)\mutex.obj"
 	-@erase "$(INTDIR)\player.obj"
 	-@erase "$(INTDIR)\playlist.obj"
-	-@erase "$(INTDIR)\pmiregistry.obj"
-	-@erase "$(INTDIR)\pmoregistry.obj"
 	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\propimpl.obj"
 	-@erase "$(INTDIR)\registrar.obj"
@@ -442,7 +408,6 @@ CLEAN :
 	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\thread.obj"
-	-@erase "$(INTDIR)\uiregistry.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(INTDIR)\win32prefs.obj"
@@ -481,16 +446,12 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /pdbtype:sept /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
 	"$(INTDIR)\freeamp.res" \
-	"$(INTDIR)\hashtable.obj" \
-	"$(INTDIR)\lmcregistry.obj" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
 	"$(INTDIR)\musicsearch.obj" \
 	"$(INTDIR)\mutex.obj" \
 	"$(INTDIR)\player.obj" \
 	"$(INTDIR)\playlist.obj" \
-	"$(INTDIR)\pmiregistry.obj" \
-	"$(INTDIR)\pmoregistry.obj" \
 	"$(INTDIR)\preferences.obj" \
 	"$(INTDIR)\propimpl.obj" \
 	"$(INTDIR)\registrar.obj" \
@@ -498,7 +459,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\thread.obj" \
-	"$(INTDIR)\uiregistry.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
 	"..\..\..\io\dsound\win32\prj\Debug\dsoundcard.lib" \
@@ -552,17 +512,6 @@ LINK32_OBJS= \
 !IF "$(CFG)" == "freeamp - Win32 Release" || "$(CFG)" ==\
  "freeamp - Win32 Debug" || "$(CFG)" == "freeamp - Win32 NASM Release" ||\
  "$(CFG)" == "freeamp - Win32 NASM Debug"
-SOURCE=..\..\src\hashtable.cpp
-DEP_CPP_HASHT=\
-	"..\..\..\config\config.h"\
-	"..\..\include\hashtable.h"\
-	
-
-"$(INTDIR)\hashtable.obj" : $(SOURCE) $(DEP_CPP_HASHT) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
 SOURCE=..\..\src\log.cpp
 DEP_CPP_LOG_C=\
 	"..\..\include\log.h"\
@@ -574,18 +523,11 @@ DEP_CPP_LOG_C=\
 
 SOURCE=..\src\main.cpp
 DEP_CPP_MAIN_=\
-	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pmi.h"\
-	"..\..\..\io\include\pmiregistry.h"\
-	"..\..\..\io\include\pmoregistry.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\io\include\std.h"\
 	"..\..\..\lib\gdbm\gdbm.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\lmc\include\lmcregistry.h"\
 	"..\..\..\ui\include\ui.h"\
-	"..\..\..\ui\include\uiregistry.h"\
 	"..\..\include\database.h"\
 	"..\..\include\errors.h"\
 	"..\..\include\event.h"\
@@ -593,11 +535,13 @@ DEP_CPP_MAIN_=\
 	"..\..\include\facontext.h"\
 	"..\..\include\hashtable.h"\
 	"..\..\include\id3v1.h"\
-	"..\..\include\list.h"\
 	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
 	"..\..\include\musicsearch.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
+	"..\..\include\playlistformat.h"\
+	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
 	"..\..\include\propimpl.h"\
@@ -612,6 +556,7 @@ DEP_CPP_MAIN_=\
 	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_MAIN_=\
+	"..\..\..\config\config.h"\
 	"..\..\include\win32impl.h"\
 	
 
@@ -622,18 +567,11 @@ NODEP_CPP_MAIN_=\
 
 SOURCE=..\..\src\musicsearch.cpp
 DEP_CPP_MUSIC=\
-	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pmi.h"\
-	"..\..\..\io\include\pmiregistry.h"\
-	"..\..\..\io\include\pmoregistry.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\io\include\std.h"\
 	"..\..\..\lib\gdbm\gdbm.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\lmc\include\lmcregistry.h"\
 	"..\..\..\ui\include\ui.h"\
-	"..\..\..\ui\include\uiregistry.h"\
 	"..\..\include\database.h"\
 	"..\..\include\errors.h"\
 	"..\..\include\event.h"\
@@ -641,11 +579,13 @@ DEP_CPP_MUSIC=\
 	"..\..\include\facontext.h"\
 	"..\..\include\hashtable.h"\
 	"..\..\include\id3v1.h"\
-	"..\..\include\list.h"\
 	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
 	"..\..\include\musicsearch.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
+	"..\..\include\playlistformat.h"\
+	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
 	"..\..\include\propimpl.h"\
@@ -658,6 +598,7 @@ DEP_CPP_MUSIC=\
 	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_MUSIC=\
+	"..\..\..\config\config.h"\
 	"..\..\src\win32impl.h"\
 	
 
@@ -668,19 +609,13 @@ NODEP_CPP_MUSIC=\
 
 SOURCE=..\..\src\player.cpp
 DEP_CPP_PLAYE=\
-	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
 	"..\..\..\io\include\pmi.h"\
-	"..\..\..\io\include\pmiregistry.h"\
 	"..\..\..\io\include\pmo.h"\
-	"..\..\..\io\include\pmoregistry.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\io\include\std.h"\
 	"..\..\..\lib\gdbm\gdbm.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\lmc\include\lmcregistry.h"\
 	"..\..\..\ui\include\ui.h"\
-	"..\..\..\ui\include\uiregistry.h"\
 	"..\..\include\database.h"\
 	"..\..\include\debug.h"\
 	"..\..\include\errors.h"\
@@ -689,11 +624,13 @@ DEP_CPP_PLAYE=\
 	"..\..\include\facontext.h"\
 	"..\..\include\hashtable.h"\
 	"..\..\include\id3v1.h"\
-	"..\..\include\list.h"\
 	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
 	"..\..\include\musicsearch.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
+	"..\..\include\playlistformat.h"\
+	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
 	"..\..\include\propimpl.h"\
@@ -707,6 +644,7 @@ DEP_CPP_PLAYE=\
 	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_PLAYE=\
+	"..\..\..\config\config.h"\
 	"..\..\include\win32impl.h"\
 	
 
@@ -717,29 +655,22 @@ NODEP_CPP_PLAYE=\
 
 SOURCE=..\..\src\playlist.cpp
 DEP_CPP_PLAYL=\
-	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pipeline.h"\
-	"..\..\..\io\include\pmi.h"\
-	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\io\include\rio.h"\
-	"..\..\..\io\include\std.h"\
 	"..\..\include\errors.h"\
-	"..\..\include\event.h"\
-	"..\..\include\eventdata.h"\
 	"..\..\include\facontext.h"\
-	"..\..\include\id3v1.h"\
-	"..\..\include\list.h"\
 	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
 	"..\..\include\playlist.h"\
+	"..\..\include\playlistformat.h"\
+	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
-	"..\..\include\properties.h"\
+	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\include\mutex.h"\
-	"..\include\semaphore.h"\
-	"..\include\win32thread.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_PLAYL=\
+	"..\..\..\config\config.h"\
+	"..\..\include\win32impl.h"\
 	
 
 "$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
@@ -748,14 +679,18 @@ DEP_CPP_PLAYL=\
 
 
 SOURCE=..\..\src\propimpl.cpp
+
+!IF  "$(CFG)" == "freeamp - Win32 Release"
+
 DEP_CPP_PROPI=\
-	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
 	"..\..\include\hashtable.h"\
-	"..\..\include\list.h"\
 	"..\..\include\properties.h"\
 	"..\..\include\propimpl.h"\
 	"..\include\mutex.h"\
+	
+NODEP_CPP_PROPI=\
+	"..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"\
@@ -763,25 +698,61 @@ DEP_CPP_PROPI=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\src\registrar.cpp
-DEP_CPP_REGIS=\
-	"..\..\..\config\config.h"\
+!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
+
+DEP_CPP_PROPI=\
 	"..\..\include\errors.h"\
 	"..\..\include\hashtable.h"\
-	"..\..\include\list.h"\
-	"..\..\include\log.h"\
-	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
-	"..\..\include\registry.h"\
+	"..\..\include\properties.h"\
+	"..\..\include\propimpl.h"\
+	"..\include\mutex.h"\
 	
-NODEP_CPP_REGIS=\
-	"..\..\include\win32impl.h"\
+NODEP_CPP_PROPI=\
+	"..\..\..\config\config.h"\
 	
 
-"$(INTDIR)\registrar.obj" : $(SOURCE) $(DEP_CPP_REGIS) "$(INTDIR)"\
+"$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
+
+DEP_CPP_PROPI=\
+	"..\..\include\errors.h"\
+	"..\..\include\hashtable.h"\
+	"..\..\include\properties.h"\
+	"..\..\include\propimpl.h"\
+	"..\include\mutex.h"\
+	
+NODEP_CPP_PROPI=\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
+
+DEP_CPP_PROPI=\
+	"..\..\include\errors.h"\
+	"..\..\include\hashtable.h"\
+	"..\..\include\properties.h"\
+	"..\..\include\propimpl.h"\
+	"..\include\mutex.h"\
+	
+NODEP_CPP_PROPI=\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\..\..\io\rio\rio.cpp
 DEP_CPP_RIO_C=\
@@ -802,11 +773,11 @@ NODEP_CPP_RIO_C=\
 
 SOURCE=..\..\src\thread.cpp
 DEP_CPP_THREA=\
-	"..\..\..\config\config.h"\
 	"..\..\include\thread.h"\
 	"..\include\win32thread.h"\
 	
 NODEP_CPP_THREA=\
+	"..\..\..\config\config.h"\
 	"..\..\src\beosthread.h"\
 	"..\..\src\linuxthread.h"\
 	"..\..\src\solaristhread.h"\
@@ -860,9 +831,11 @@ DEP_CPP_MUTEX=\
 
 SOURCE=..\..\src\preferences.cpp
 DEP_CPP_PREFE=\
-	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
 	"..\..\include\preferences.h"\
+	
+NODEP_CPP_PREFE=\
+	"..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
@@ -880,11 +853,16 @@ DEP_CPP_SEMAP=\
 
 
 SOURCE=..\src\win32prefs.cpp
+
+!IF  "$(CFG)" == "freeamp - Win32 Release"
+
 DEP_CPP_WIN32=\
-	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
 	"..\..\include\preferences.h"\
 	"..\include\win32prefs.h"\
+	
+NODEP_CPP_WIN32=\
+	"..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
@@ -892,11 +870,63 @@ DEP_CPP_WIN32=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
+
+DEP_CPP_WIN32=\
+	"..\..\include\errors.h"\
+	"..\..\include\preferences.h"\
+	"..\include\win32prefs.h"\
+	
+NODEP_CPP_WIN32=\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
+
+DEP_CPP_WIN32=\
+	"..\..\include\errors.h"\
+	"..\..\include\preferences.h"\
+	"..\include\win32prefs.h"\
+	
+NODEP_CPP_WIN32=\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
+
+DEP_CPP_WIN32=\
+	"..\..\include\errors.h"\
+	"..\..\include\preferences.h"\
+	"..\include\win32prefs.h"\
+	
+NODEP_CPP_WIN32=\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
 SOURCE=..\src\win32thread.cpp
 DEP_CPP_WIN32T=\
-	"..\..\..\config\config.h"\
 	"..\..\include\thread.h"\
 	"..\include\win32thread.h"\
+	
+NODEP_CPP_WIN32T=\
+	"..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
@@ -904,71 +934,33 @@ DEP_CPP_WIN32T=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\..\lmc\src\lmcregistry.cpp
-DEP_CPP_LMCRE=\
-	"..\..\..\config\config.h"\
-	"..\..\..\lmc\include\lmcregistry.h"\
-	"..\..\include\list.h"\
-	"..\..\include\log.h"\
+SOURCE=..\..\src\registrar.cpp
+DEP_CPP_REGIS=\
+	"..\..\include\errors.h"\
+	"..\..\include\hashtable.h"\
+	"..\..\include\preferences.h"\
+	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	
-
-"$(INTDIR)\lmcregistry.obj" : $(SOURCE) $(DEP_CPP_LMCRE) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\io\src\pmiregistry.cpp
-DEP_CPP_PMIRE=\
+NODEP_CPP_REGIS=\
 	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pmiregistry.h"\
-	"..\..\include\list.h"\
-	"..\..\include\log.h"\
-	"..\..\include\registry.h"\
+	"..\..\include\win32impl.h"\
 	
 
-"$(INTDIR)\pmiregistry.obj" : $(SOURCE) $(DEP_CPP_PMIRE) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\io\src\pmoregistry.cpp
-DEP_CPP_PMORE=\
-	"..\..\..\config\config.h"\
-	"..\..\..\io\include\pmoregistry.h"\
-	"..\..\include\list.h"\
-	"..\..\include\log.h"\
-	"..\..\include\registry.h"\
-	
-
-"$(INTDIR)\pmoregistry.obj" : $(SOURCE) $(DEP_CPP_PMORE) "$(INTDIR)"\
+"$(INTDIR)\registrar.obj" : $(SOURCE) $(DEP_CPP_REGIS) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 SOURCE=..\..\src\registry.cpp
 DEP_CPP_REGIST=\
-	"..\..\..\config\config.h"\
-	"..\..\include\list.h"\
-	"..\..\include\log.h"\
 	"..\..\include\registry.h"\
+	
+NODEP_CPP_REGIST=\
+	"..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\registry.obj" : $(SOURCE) $(DEP_CPP_REGIST) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\ui\src\uiregistry.cpp
-DEP_CPP_UIREG=\
-	"..\..\..\config\config.h"\
-	"..\..\..\ui\include\uiregistry.h"\
-	"..\..\include\list.h"\
-	"..\..\include\log.h"\
-	"..\..\include\registry.h"\
-	
-
-"$(INTDIR)\uiregistry.obj" : $(SOURCE) $(DEP_CPP_UIREG) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 

@@ -158,10 +158,6 @@ LINK32=link.exe
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\src\hashtable.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\log.cpp
 # End Source File
 # Begin Source File
@@ -183,10 +179,6 @@ SOURCE=..\..\src\playlist.cpp
 # Begin Source File
 
 SOURCE=..\..\src\propimpl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\registrar.cpp
 # End Source File
 # Begin Source File
 
@@ -273,23 +265,11 @@ SOURCE=..\src\win32thread.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\..\lmc\src\lmcregistry.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\io\src\pmiregistry.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\io\src\pmoregistry.cpp
+SOURCE=..\..\src\registrar.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\registry.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\ui\src\uiregistry.cpp
 # End Source File
 # End Group
 # Begin Group "text files"

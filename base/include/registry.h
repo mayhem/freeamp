@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.h,v 1.7.8.2 1999/08/27 03:09:35 elrod Exp $
+	$Id: registry.h,v 1.7.8.3 1999/08/27 09:32:20 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _REGISTRY_H_
@@ -91,12 +91,12 @@ class Registry {
     Registry();
     virtual ~Registry();
 
-    void AddItem(RegistryItem& item);
+    void AddItem(RegistryItem* item);
     RegistryItem* GetItem(int32 index);
 	int32 CountItems();
 
  private:
-    vector<RegistryItem> m_elements;
+    vector<RegistryItem*> m_elements;
 };
 
 

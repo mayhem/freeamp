@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.10.2.1 2000/01/04 02:17:06 ijr Exp $
+   $Id: ThemeManager.cpp,v 1.10.2.2 2000/01/04 02:22:29 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -80,6 +80,8 @@ Error ThemeManager::GetDefaultTheme(string &oThemePath)
     string strName = themeName;
 
     oThemePath = oThemeList[strName];
+ 
+    delete [] themeName;
 
     return kError_NoErr;
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.1.2.9 1999/10/01 20:55:56 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.1.2.10 1999/10/04 00:28:56 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -44,6 +44,7 @@ class FreeAmpTheme : public UserInterface, public Theme
         virtual Error Init(int32 startup_type);
         virtual void  LoadFreeAmpTheme(void);
         
+        virtual void  HandleKeystroke(unsigned char cKey);
         virtual Error HandleControlMessage(string &oControlName, 
                                            ControlMessageEnum eMesg);
         virtual void  InitControls(void);

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.27 1999/10/01 15:22:33 ijr Exp $
+        $Id: player.cpp,v 1.133.2.28 1999/10/04 00:28:43 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -520,6 +520,8 @@ Run()
    else
    {
       char *orig = (*m_argUIList)[uiListIndex++];
+	  // RAK: This pointer is later re-used when the size of the
+      // contents may have changed. See comment below.
       name = new char[strlen(orig) + 1];
 
       strcpy(name, orig);
@@ -613,6 +615,13 @@ Run()
          if(uiListIndex < m_argUIList->size())
          {
             char *p = (*m_argUIList)[uiListIndex++];
+            
+            // RAK: Boundschecker was pissed about this. This copy
+            // may be larger than the space allocated on line 524
+            // So, delete the old pointer and create a new one.
+            delete name;
+            name = new char[strlen(p) + 1];
+            
             strcpy(name, p);
          }
          else

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.22.2.5 1999/09/29 01:13:29 elrod Exp $
+        $Id: obsinput.cpp,v 1.22.2.6 1999/10/04 00:28:54 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -396,7 +396,9 @@ void ObsInput::WorkerThread(void)
    }
 
    delete pTemp;
-   close(m_hHandle);
+   if (m_hHandle >= 0)
+      close(m_hHandle);
+      
    m_hHandle = -1;
    m_pContext->log->Log(LogInput, "Worker thread done");
 }

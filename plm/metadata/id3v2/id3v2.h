@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.h,v 1.1.2.2 1999/10/02 08:47:44 robert Exp $
+	$Id: id3v2.h,v 1.1.2.3 1999/10/04 00:28:55 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_ID3V2_H
@@ -36,7 +36,8 @@ using namespace std;
 
 #include "metadata.h"
 
-class ID3v2 : public MetaDataFormat {
+class ID3v2 : public MetaDataFormat 
+{
  public:
     ID3v2(FAContext *context);
     virtual ~ID3v2();

@@ -41,10 +41,10 @@ ALL : ".\portio.sys" "..\..\..\ReadMe.txt" "..\..\..\Copying.txt"\
 
 !ELSE 
 
-ALL : "download - Win32 Release" "rmp - Win32 Release" "theme - Win32 Release"\
- "pmp300 - Win32 Release" "m3u - Win32 Release" "id3v1 - Win32 Release"\
- "gdbm - Win32 Release" "dsoundcard - Win32 Release" "simple - Win32 Release"\
- "obsinput - Win32 Release" "httpinput - Win32 Release"\
+ALL : "id3v2 - Win32 Release" "download - Win32 Release" "rmp - Win32 Release"\
+ "theme - Win32 Release" "pmp300 - Win32 Release" "m3u - Win32 Release"\
+ "id3v1 - Win32 Release" "gdbm - Win32 Release" "dsoundcard - Win32 Release"\
+ "simple - Win32 Release" "obsinput - Win32 Release" "httpinput - Win32 Release"\
  "freeampui - Win32 Release" "xing - Win32 Release" "soundcard - Win32 Release"\
  "fileinput - Win32 Release" ".\portio.sys" "..\..\..\ReadMe.txt"\
  "..\..\..\Copying.txt" "..\..\..\Changes.txt" "..\..\..\Authors.txt"\
@@ -60,7 +60,7 @@ CLEAN :"fileinput - Win32 ReleaseCLEAN" "soundcard - Win32 ReleaseCLEAN"\
  "gdbm - Win32 ReleaseCLEAN" "id3v1 - Win32 ReleaseCLEAN"\
  "m3u - Win32 ReleaseCLEAN" "pmp300 - Win32 ReleaseCLEAN"\
  "theme - Win32 ReleaseCLEAN" "rmp - Win32 ReleaseCLEAN"\
- "download - Win32 ReleaseCLEAN" 
+ "download - Win32 ReleaseCLEAN" "id3v2 - Win32 ReleaseCLEAN" 
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -177,6 +177,7 @@ LINK32_OBJS= \
 	"..\..\..\lib\gdbm\gdbm.lib" \
 	"..\..\..\lmc\xingmp3\win32\prj\Release\xing.lib" \
 	"..\..\..\plm\metadata\id3v1\prj\Release\id3v1.lib" \
+	"..\..\..\plm\metadata\id3v2\prj\Release\id3v2.lib" \
 	"..\..\..\plm\playlist\m3u\prj\Release\m3u.lib" \
 	"..\..\..\plm\portable\pmp300\prj\Release\pmp300.lib" \
 	"..\..\..\ui\download\win32\prj\Release\download.lib" \
@@ -201,13 +202,14 @@ ALL : ".\portio.sys" "..\..\..\ReadMe.txt" "..\..\..\Copying.txt"\
 
 !ELSE 
 
-ALL : "download - Win32 Debug" "rmp - Win32 Debug" "theme - Win32 Debug"\
- "pmp300 - Win32 Debug" "m3u - Win32 Debug" "id3v1 - Win32 Debug"\
- "gdbm - Win32 Debug" "dsoundcard - Win32 Debug" "simple - Win32 Debug"\
- "obsinput - Win32 Debug" "httpinput - Win32 Debug" "freeampui - Win32 Debug"\
- "xing - Win32 Debug" "soundcard - Win32 Debug" "fileinput - Win32 Debug"\
- ".\portio.sys" "..\..\..\ReadMe.txt" "..\..\..\Copying.txt"\
- "..\..\..\Changes.txt" "..\..\..\Authors.txt" ".\freeamp.exe"
+ALL : "id3v2 - Win32 Debug" "download - Win32 Debug" "rmp - Win32 Debug"\
+ "theme - Win32 Debug" "pmp300 - Win32 Debug" "m3u - Win32 Debug"\
+ "id3v1 - Win32 Debug" "gdbm - Win32 Debug" "dsoundcard - Win32 Debug"\
+ "simple - Win32 Debug" "obsinput - Win32 Debug" "httpinput - Win32 Debug"\
+ "freeampui - Win32 Debug" "xing - Win32 Debug" "soundcard - Win32 Debug"\
+ "fileinput - Win32 Debug" ".\portio.sys" "..\..\..\ReadMe.txt"\
+ "..\..\..\Copying.txt" "..\..\..\Changes.txt" "..\..\..\Authors.txt"\
+ ".\freeamp.exe"
 
 !ENDIF 
 
@@ -218,7 +220,7 @@ CLEAN :"fileinput - Win32 DebugCLEAN" "soundcard - Win32 DebugCLEAN"\
  "simple - Win32 DebugCLEAN" "dsoundcard - Win32 DebugCLEAN"\
  "gdbm - Win32 DebugCLEAN" "id3v1 - Win32 DebugCLEAN" "m3u - Win32 DebugCLEAN"\
  "pmp300 - Win32 DebugCLEAN" "theme - Win32 DebugCLEAN" "rmp - Win32 DebugCLEAN"\
- "download - Win32 DebugCLEAN" 
+ "download - Win32 DebugCLEAN" "id3v2 - Win32 DebugCLEAN" 
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -338,6 +340,7 @@ LINK32_OBJS= \
 	"..\..\..\lib\gdbm\gdbm.lib" \
 	"..\..\..\lmc\xingmp3\win32\prj\Debug\xing.lib" \
 	"..\..\..\plm\metadata\id3v1\prj\Debug\id3v1.lib" \
+	"..\..\..\plm\metadata\id3v2\prj\Debug\id3v2.lib" \
 	"..\..\..\plm\playlist\m3u\prj\Debug\m3u.lib" \
 	"..\..\..\plm\portable\pmp300\prj\Debug\pmp300.lib" \
 	"..\..\..\ui\download\win32\prj\Debug\download.lib" \
@@ -362,16 +365,16 @@ ALL : ".\portio.sys" "..\..\..\ReadMe.txt" "..\..\..\Copying.txt"\
 
 !ELSE 
 
-ALL : "download - Win32 NASM Release" "rmp - Win32 NASM Release"\
- "theme - Win32 NASM Release" "pmp300 - Win32 NASM Release"\
- "m3u - Win32 NASM Release" "id3v1 - Win32 NASM Release"\
- "gdbm - Win32 NASM Release" "dsoundcard - Win32 NASM Release"\
- "simple - Win32 NASM Release" "obsinput - Win32 NASM Release"\
- "httpinput - Win32 NASM Release" "freeampui - Win32 NASM Release"\
- "xing - Win32 NASM Release" "soundcard - Win32 NASM Release"\
- "fileinput - Win32 NASM Release" ".\portio.sys" "..\..\..\ReadMe.txt"\
- "..\..\..\Copying.txt" "..\..\..\Changes.txt" "..\..\..\Authors.txt"\
- ".\freeamp.exe"
+ALL : "id3v2 - Win32 NASM Release" "download - Win32 NASM Release"\
+ "rmp - Win32 NASM Release" "theme - Win32 NASM Release"\
+ "pmp300 - Win32 NASM Release" "m3u - Win32 NASM Release"\
+ "id3v1 - Win32 NASM Release" "gdbm - Win32 NASM Release"\
+ "dsoundcard - Win32 NASM Release" "simple - Win32 NASM Release"\
+ "obsinput - Win32 NASM Release" "httpinput - Win32 NASM Release"\
+ "freeampui - Win32 NASM Release" "xing - Win32 NASM Release"\
+ "soundcard - Win32 NASM Release" "fileinput - Win32 NASM Release"\
+ ".\portio.sys" "..\..\..\ReadMe.txt" "..\..\..\Copying.txt"\
+ "..\..\..\Changes.txt" "..\..\..\Authors.txt" ".\freeamp.exe"
 
 !ENDIF 
 
@@ -383,7 +386,8 @@ CLEAN :"fileinput - Win32 NASM ReleaseCLEAN"\
  "dsoundcard - Win32 NASM ReleaseCLEAN" "gdbm - Win32 NASM ReleaseCLEAN"\
  "id3v1 - Win32 NASM ReleaseCLEAN" "m3u - Win32 NASM ReleaseCLEAN"\
  "pmp300 - Win32 NASM ReleaseCLEAN" "theme - Win32 NASM ReleaseCLEAN"\
- "rmp - Win32 NASM ReleaseCLEAN" "download - Win32 NASM ReleaseCLEAN" 
+ "rmp - Win32 NASM ReleaseCLEAN" "download - Win32 NASM ReleaseCLEAN"\
+ "id3v2 - Win32 NASM ReleaseCLEAN" 
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -500,6 +504,7 @@ LINK32_OBJS= \
 	"..\..\..\lib\gdbm\gdbm.lib" \
 	"..\..\..\lmc\xingmp3\win32\prj\Release\xing.lib" \
 	"..\..\..\plm\metadata\id3v1\prj\Release\id3v1.lib" \
+	"..\..\..\plm\metadata\id3v2\prj\Release\id3v2.lib" \
 	"..\..\..\plm\playlist\m3u\prj\Release\m3u.lib" \
 	"..\..\..\plm\portable\pmp300\prj\Release\pmp300.lib" \
 	"..\..\..\ui\download\win32\prj\Release\download.lib" \
@@ -524,9 +529,9 @@ ALL : ".\portio.sys" "..\..\..\ReadMe.txt" "..\..\..\Copying.txt"\
 
 !ELSE 
 
-ALL : "download - Win32 NASM Debug" "rmp - Win32 NASM Debug"\
- "theme - Win32 NASM Debug" "pmp300 - Win32 NASM Debug" "m3u - Win32 NASM Debug"\
- "id3v1 - Win32 NASM Debug" "gdbm - Win32 NASM Debug"\
+ALL : "id3v2 - Win32 NASM Debug" "download - Win32 NASM Debug"\
+ "rmp - Win32 NASM Debug" "theme - Win32 NASM Debug" "pmp300 - Win32 NASM Debug"\
+ "m3u - Win32 NASM Debug" "id3v1 - Win32 NASM Debug" "gdbm - Win32 NASM Debug"\
  "dsoundcard - Win32 NASM Debug" "simple - Win32 NASM Debug"\
  "obsinput - Win32 NASM Debug" "httpinput - Win32 NASM Debug"\
  "freeampui - Win32 NASM Debug" "xing - Win32 NASM Debug"\
@@ -544,7 +549,7 @@ CLEAN :"fileinput - Win32 NASM DebugCLEAN" "soundcard - Win32 NASM DebugCLEAN"\
  "gdbm - Win32 NASM DebugCLEAN" "id3v1 - Win32 NASM DebugCLEAN"\
  "m3u - Win32 NASM DebugCLEAN" "pmp300 - Win32 NASM DebugCLEAN"\
  "theme - Win32 NASM DebugCLEAN" "rmp - Win32 NASM DebugCLEAN"\
- "download - Win32 NASM DebugCLEAN" 
+ "download - Win32 NASM DebugCLEAN" "id3v2 - Win32 NASM DebugCLEAN" 
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -664,6 +669,7 @@ LINK32_OBJS= \
 	"..\..\..\lib\gdbm\gdbm.lib" \
 	"..\..\..\lmc\xingmp3\win32\prj\Debug\xing.lib" \
 	"..\..\..\plm\metadata\id3v1\prj\Debug\id3v1.lib" \
+	"..\..\..\plm\metadata\id3v2\prj\Debug\id3v2.lib" \
 	"..\..\..\plm\playlist\m3u\prj\Debug\m3u.lib" \
 	"..\..\..\plm\portable\pmp300\prj\Debug\pmp300.lib" \
 	"..\..\..\ui\download\win32\prj\Debug\download.lib" \
@@ -690,7 +696,6 @@ DEP_CPP_DATAB=\
 	"..\..\..\config\config.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\include\database.h"\
-	"..\..\include\debug.h"\
 	"..\..\include\errors.h"\
 	"..\include\mutex.h"\
 	{$(INCLUDE)}"sys\stat.h"\
@@ -723,7 +728,6 @@ DEP_CPP_DATAB=\
 	"..\..\..\config\config.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\include\database.h"\
-	"..\..\include\debug.h"\
 	"..\..\include\errors.h"\
 	"..\include\mutex.h"\
 	{$(INCLUDE)}"sys\stat.h"\
@@ -926,7 +930,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -972,7 +976,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1015,7 +1019,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1061,7 +1065,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1108,7 +1112,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1152,7 +1156,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1193,7 +1197,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1237,7 +1241,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1284,7 +1288,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\debug.h"\
 	"..\..\include\downloadformat.h"\
@@ -1312,6 +1316,8 @@ DEP_CPP_PLAYE=\
 	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_PLAYE=\
 	"..\..\include\win32impl.h"\
@@ -1332,7 +1338,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\debug.h"\
 	"..\..\include\downloadformat.h"\
@@ -1377,7 +1383,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\debug.h"\
 	"..\..\include\downloadformat.h"\
@@ -1405,6 +1411,8 @@ DEP_CPP_PLAYE=\
 	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_PLAYE=\
 	"..\..\include\win32impl.h"\
@@ -1425,7 +1433,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\UI\include\ui.h"\
+	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\debug.h"\
 	"..\..\include\downloadformat.h"\
@@ -1469,6 +1477,8 @@ SOURCE=..\..\src\playlist.cpp
 DEP_CPP_PLAYL=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
+	"..\..\include\event.h"\
+	"..\..\include\eventdata.h"\
 	"..\..\include\facontext.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
@@ -1480,6 +1490,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	
 NODEP_CPP_PLAYL=\
@@ -1496,6 +1507,8 @@ NODEP_CPP_PLAYL=\
 DEP_CPP_PLAYL=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
+	"..\..\include\event.h"\
+	"..\..\include\eventdata.h"\
 	"..\..\include\facontext.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
@@ -1507,6 +1520,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	
 
@@ -1520,6 +1534,8 @@ DEP_CPP_PLAYL=\
 DEP_CPP_PLAYL=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
+	"..\..\include\event.h"\
+	"..\..\include\eventdata.h"\
 	"..\..\include\facontext.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
@@ -1531,6 +1547,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	
 NODEP_CPP_PLAYL=\
@@ -1547,6 +1564,8 @@ NODEP_CPP_PLAYL=\
 DEP_CPP_PLAYL=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
+	"..\..\include\event.h"\
+	"..\..\include\eventdata.h"\
 	"..\..\include\facontext.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
@@ -1558,6 +1577,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	
 
@@ -2059,9 +2079,6 @@ DEP_CPP_REGIS=\
 !ENDIF 
 
 SOURCE=..\..\src\registry.cpp
-
-!IF  "$(CFG)" == "freeamp - Win32 Release"
-
 DEP_CPP_REGIST=\
 	"..\..\..\config\config.h"\
 	"..\..\include\registry.h"\
@@ -2071,44 +2088,6 @@ DEP_CPP_REGIST=\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
-
-DEP_CPP_REGIST=\
-	"..\..\..\config\config.h"\
-	"..\..\include\registry.h"\
-	
-
-"$(INTDIR)\registry.obj" : $(SOURCE) $(DEP_CPP_REGIST) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
-
-DEP_CPP_REGIST=\
-	"..\..\..\config\config.h"\
-	"..\..\include\registry.h"\
-	
-
-"$(INTDIR)\registry.obj" : $(SOURCE) $(DEP_CPP_REGIST) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
-
-DEP_CPP_REGIST=\
-	"..\..\..\config\config.h"\
-	"..\..\include\registry.h"\
-	
-
-"$(INTDIR)\registry.obj" : $(SOURCE) $(DEP_CPP_REGIST) "$(INTDIR)"\
- "..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\AUTHORS
 
@@ -3129,6 +3108,60 @@ InputPath=..\..\..\lib\portio\i386\free\portio.sys
    cd "\FreeAmp\freeamp\ui\download\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\download.mak\
  CFG="download - Win32 NASM Debug" RECURSE=1 
+   cd "..\..\..\..\base\win32\prj"
+
+!ENDIF 
+
+!IF  "$(CFG)" == "freeamp - Win32 Release"
+
+"id3v2 - Win32 Release" : 
+   cd "\FreeAmp\freeamp\plm\metadata\id3v2\prj"
+   $(MAKE) /$(MAKEFLAGS) /F .\id3v2.mak CFG="id3v2 - Win32 Release" 
+   cd "..\..\..\..\base\win32\prj"
+
+"id3v2 - Win32 ReleaseCLEAN" : 
+   cd "\FreeAmp\freeamp\plm\metadata\id3v2\prj"
+   $(MAKE) /$(MAKEFLAGS) CLEAN /F .\id3v2.mak CFG="id3v2 - Win32 Release"\
+ RECURSE=1 
+   cd "..\..\..\..\base\win32\prj"
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
+
+"id3v2 - Win32 Debug" : 
+   cd "\FreeAmp\freeamp\plm\metadata\id3v2\prj"
+   $(MAKE) /$(MAKEFLAGS) /F .\id3v2.mak CFG="id3v2 - Win32 Debug" 
+   cd "..\..\..\..\base\win32\prj"
+
+"id3v2 - Win32 DebugCLEAN" : 
+   cd "\FreeAmp\freeamp\plm\metadata\id3v2\prj"
+   $(MAKE) /$(MAKEFLAGS) CLEAN /F .\id3v2.mak CFG="id3v2 - Win32 Debug"\
+ RECURSE=1 
+   cd "..\..\..\..\base\win32\prj"
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
+
+"id3v2 - Win32 NASM Release" : 
+   cd "\FreeAmp\freeamp\plm\metadata\id3v2\prj"
+   $(MAKE) /$(MAKEFLAGS) /F .\id3v2.mak CFG="id3v2 - Win32 NASM Release" 
+   cd "..\..\..\..\base\win32\prj"
+
+"id3v2 - Win32 NASM ReleaseCLEAN" : 
+   cd "\FreeAmp\freeamp\plm\metadata\id3v2\prj"
+   $(MAKE) /$(MAKEFLAGS) CLEAN /F .\id3v2.mak CFG="id3v2 - Win32 NASM Release"\
+ RECURSE=1 
+   cd "..\..\..\..\base\win32\prj"
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
+
+"id3v2 - Win32 NASM Debug" : 
+   cd "\FreeAmp\freeamp\plm\metadata\id3v2\prj"
+   $(MAKE) /$(MAKEFLAGS) /F .\id3v2.mak CFG="id3v2 - Win32 NASM Debug" 
+   cd "..\..\..\..\base\win32\prj"
+
+"id3v2 - Win32 NASM DebugCLEAN" : 
+   cd "\FreeAmp\freeamp\plm\metadata\id3v2\prj"
+   $(MAKE) /$(MAKEFLAGS) CLEAN /F .\id3v2.mak CFG="id3v2 - Win32 NASM Debug"\
+ RECURSE=1 
    cd "..\..\..\..\base\win32\prj"
 
 !ENDIF 

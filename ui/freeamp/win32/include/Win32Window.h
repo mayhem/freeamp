@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.1.2.5 1999/10/01 20:56:06 robert Exp $
+   $Id: Win32Window.h,v 1.1.2.6 1999/10/04 00:29:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -61,13 +61,9 @@ class Win32Window : public Window
 
 	 virtual HWND  GetWindowHandle(void);
              void  SaveWindowPos(Pos &oPos);
-             void  TrayNotify(int32 notifyMessage);
 
     protected:
     
-             void  AddTrayIcon(void);
-             void  RemoveTrayIcon(void);
-
      HWND     m_hWnd;
      Pos      m_oWindowPos;
 };

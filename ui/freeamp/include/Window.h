@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.13 1999/10/01 20:55:59 robert Exp $
+   $Id: Window.h,v 1.1.2.14 1999/10/04 00:28:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -62,6 +62,7 @@ class Window
       void    SetLiveInToolbar(bool bLive);
       void    AddControl(Control *pControl);
       void    ClearControls(void);
+      void    Keystroke(unsigned char cKey);
 
       // The following functions are designed to give access to the 
       // controls via the control's name. 
@@ -85,7 +86,7 @@ class Window
       virtual Error StartMouseCapture(Control *);
       virtual Error EndMouseCapture(void);
      
-     // This init call is made after the window is created
+      // This init call is made after the window is created
       virtual void  Init(void);
       virtual void  TimerEvent(void);
 

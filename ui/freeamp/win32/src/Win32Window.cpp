@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.9 1999/10/01 20:56:13 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.10 1999/10/04 00:29:05 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -33,7 +33,6 @@ const static char szAppName[] = "FreeAmp";
 HINSTANCE g_hinst = NULL;
 
 #define IDI_EXE_ICON 101
-#define UWM_TRAY  WM_USER + 666
 
 
 INT WINAPI DllMain (HINSTANCE hInstance,
@@ -187,9 +186,9 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
             break;
         }
 
-        case UWM_TRAY:
+        case WM_KEYDOWN:
         {
-            ui->TrayNotify(lParam);
+            ui->Keystroke((unsigned char)wParam);
             break;
         }
 
@@ -285,9 +284,6 @@ Error Win32Window::Run(Pos &oPos)
         if (hRgn)
             SetWindowRgn(m_hWnd, hRgn, false);
 
-        if (m_bLiveInToolbar)
-	        AddTrayIcon();
-
         ShowWindow( m_hWnd, SW_NORMAL);
         if (m_bStayOnTop)
             SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
@@ -301,6 +297,7 @@ Error Win32Window::Run(Pos &oPos)
         }
     }
 	DestroyWindow(m_hWnd);
+    m_hWnd = NULL;
 
 	oPos = m_oWindowPos;
 
@@ -319,9 +316,6 @@ void Win32Window::SaveWindowPos(Pos &oPos)
 
 Error Win32Window::Close(void)
 {
-	if (m_bLiveInToolbar)       
-        RemoveTrayIcon();
-
 	SendMessage(m_hWnd, WM_CLOSE, 0, 0);
 
     return kError_NoErr;
@@ -349,6 +343,9 @@ Error Win32Window::Hide(void)
 
 Error Win32Window::SetTitle(string &oTitle)
 {
+	if (!m_hWnd)
+       return kError_YouScrewedUp;
+       
 	return SetWindowText(m_hWnd, oTitle.c_str()) ? kError_NoErr : kError_InvalidParam;
 }
 
@@ -425,47 +422,3 @@ Error Win32Window::Restore(void)
     return kError_NoErr;
 }
 
-void Win32Window::AddTrayIcon()
-{
-	NOTIFYICONDATA nid;
-	int rc;
-
-	// Fill out NOTIFYICONDATA structure
-	nid.cbSize = sizeof(NOTIFYICONDATA);	// sanitycheck
-	nid.hWnd = m_hWnd;					    // window to receive notifications
-	nid.uID = 1;							// application defined identifier for icon
-	nid.uFlags = NIF_MESSAGE |				// uCallbackMessage is valid, use it
-				 NIF_ICON |					// hIcon is valid, use it
-				 NIF_TIP;					// there is tooltip specified
-	nid.uCallbackMessage = UWM_TRAY;        // that's what we will receive in wndProc
-	nid.hIcon = LoadIcon( g_hinst, MAKEINTRESOURCE(IDI_EXE_ICON) );
-
-	strcpy(nid.szTip, szAppName);
-
-	rc = Shell_NotifyIcon(NIM_ADD, &nid);	// this adds the icon
-}
-
-void Win32Window::RemoveTrayIcon()
-{
-	NOTIFYICONDATA nid;
-	nid.cbSize = sizeof(NOTIFYICONDATA);
-	nid.hWnd = m_hWnd;
-	nid.uID = 1;
-	nid.uFlags = NIF_ICON;
-	nid.hIcon = NULL;
-
-	Shell_NotifyIcon(NIM_DELETE, &nid);
-}
-
-void Win32Window::TrayNotify(int32 notifyMessage)
-{
-    switch(notifyMessage)
-    {
-        case WM_LBUTTONUP:
-        {
-            ShowWindow( m_hWnd, SW_NORMAL);
-			SetForegroundWindow(m_hWnd);
-			break;
-        }
-	}
-}    

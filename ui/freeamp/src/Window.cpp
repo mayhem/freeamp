@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.1.2.12 1999/10/01 20:56:03 robert Exp $
+   $Id: Window.cpp,v 1.1.2.13 1999/10/04 00:29:01 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -352,4 +352,9 @@ void Window::SetStayOnTop(bool bStay)
 void Window::SetLiveInToolbar(bool bLive)
 {
     m_bLiveInToolbar = bLive;
+}
+
+void Window::Keystroke(unsigned char cKey)
+{
+	m_pTheme->HandleKeystroke(cKey);
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.17 1999/10/02 18:09:09 ijr Exp $
+   $Id: Theme.cpp,v 1.1.2.18 1999/10/04 00:29:00 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -203,7 +203,7 @@ Error Theme::Run(Pos &oWindowPos)
     	if (m_pWindow == NULL)
            return kError_UnknownErr;
            
-        if (m_oReloadWindow == string(""))   
+        if (m_oReloadWindow.size() > 0 && m_oReloadWindow == string(""))   
             m_pWindow->GetName(m_oReloadWindow);   
 
 	InitWindow();

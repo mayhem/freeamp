@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.30 1999/10/03 04:49:25 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.31 1999/10/04 00:28:59 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -63,6 +63,7 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
    m_iVolume = -1;
    m_iSeekPos = -1;
    m_bPlayShown = true;
+   m_oTitle = string("");
 
 #ifndef WIN32
     // This needs to be done before _any_ gdk/gtk calls, so really needs
@@ -707,3 +708,48 @@ void FreeAmpTheme::SetVolume(int iVolume)
     m_pWindow->ControlStringValue(string("Info"), true, oVol);
 }    
 
+void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
+{
+    switch(cKey)
+    {
+     case 'O':
+     case 'o':
+        m_pContext->target->AcceptEvent(new Event(CMD_TogglePlaylistUI));
+        break;
+        
+     case 'p':
+     case 'P':
+        m_pContext->target->AcceptEvent(new Event(CMD_Play));
+        break;
+
+     case 'S':
+     case 's':
+        m_pContext->target->AcceptEvent(new Event(CMD_Stop));
+        break;
+
+     case 'u':
+     case 'U':
+        m_pContext->target->AcceptEvent(new Event(CMD_Pause));
+        break;
+
+     case 'b':
+     case 'B':
+        m_pContext->target->AcceptEvent(new Event(CMD_ToggleMusicBrowserUI));
+        break;
+
+     case 'n':
+     case 'N':
+        m_pContext->target->AcceptEvent(new Event(CMD_NextMediaPiece));
+        break;
+
+     case 'r':
+     case 'R':
+        m_pContext->target->AcceptEvent(new Event(CMD_PrevMediaPiece));
+        break;
+
+     case 'd':
+     case 'D':
+        m_pContext->target->AcceptEvent(new Event(CMD_ToggleDownloadUI));
+        break;
+    }
+}

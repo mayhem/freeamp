@@ -300,6 +300,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "toolbar"=..\..\..\ui\toolbar\win32\prj\toolbar.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "xing"=..\..\..\lmc\xingmp3\win32\prj\xing.dsp - Package Owner=<4>
 
 Package=<5>

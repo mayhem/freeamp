@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.8 1999/03/04 07:23:46 robert Exp $
+   $Id: pullbuffer.h,v 1.9 1999/03/06 03:56:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PULLBUFFER_H_
@@ -76,8 +76,8 @@ class PullBuffer
 
     protected:
 
-      int      GetWriteIndex();
-      int      GetReadIndex();
+      int32      GetWriteIndex();
+      int32      GetReadIndex();
 
       Semaphore *m_pWriteSem, *m_pReadSem;
       Mutex     *m_pMutex;
@@ -85,7 +85,7 @@ class PullBuffer
 
     private:
 
-      int            m_iReadIndex, m_iWriteIndex;
+      int32          m_iReadIndex, m_iWriteIndex;
       bool           m_bEOS, m_bReadOpPending, m_bWriteOpPending;
       unsigned char *m_pPullBuffer;
       size_t         m_iBytesInBuffer, m_iOverflowSize, m_iBufferSize;

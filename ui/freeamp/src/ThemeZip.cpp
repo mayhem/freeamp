@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.3 1999/11/03 21:11:33 robert Exp $
+   $Id: ThemeZip.cpp,v 1.4 1999/11/04 01:48:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <time.h>
@@ -29,6 +29,8 @@ ____________________________________________________________________________*/
 #include <winsock.h>
 #define unlink(a) _unlink(a)
 #else
+#define TRUE 1
+#define FALSE 0
 #include <unistd.h>
 #undef socklen_t
 #include <netinet/in.h>
@@ -40,6 +42,7 @@ ____________________________________________________________________________*/
 #include "debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
+
 
 const int iMajorVersion = 1;
 const int iMinorVersion = 0;
@@ -62,7 +65,11 @@ ThemeZip::~ThemeZip(void)
 #define  TUNMLEN      32
 #define  TGNMLEN      32
 
+#if WIN32
 #pragma pack(push,1)
+#else
+#pragma pack(1)
+#endif
 union tar_record {
     char   charptr[RECORDSIZE];
     struct _header {
@@ -82,7 +89,11 @@ union tar_record {
         char    devminor[8];
     } header;
 };
+#if WIN32
 #pragma pack(pop)
+#else
+#pragma pack()
+#endif
 
 // The checksum field is filled with this while the checksum is computed.
 #define    CHKBLANKS    "        "        // 8 blanks, no null 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.5.2.1 2000/02/25 00:17:38 elrod Exp $
+	$Id: main.cpp,v 1.5.2.1.4.1 2000/03/23 18:13:19 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -112,14 +112,16 @@ void MoveFiles(const char* src, const char* dest)
             strcpy(sp, findData.cFileName);
             strcpy(dp, findData.cFileName);
 
-            // skip these two special entries
+            // skip these two special entries & the _system_ directory
             if( strcmp(findData.cFileName, ".") && 
-                strcmp(findData.cFileName, ".."))
+                strcmp(findData.cFileName, "..") &&
+                strcmp(findData.cFileName, "_system_"))
             {
                 if(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) 
                 {
                     // call ourselves on that directory
-                    MoveFiles(srcPath, destPath);      
+                    MoveFiles(srcPath, destPath);  
+                    RemoveDirectory(srcPath);
                 }
                 else 
                 {

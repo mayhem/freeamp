@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.74 2000/09/20 10:17:54 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.75 2000/09/20 11:10:35 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -113,7 +113,7 @@ pBase = 0;
    else
       m_hWnd = (HWND)pProp->GetInt32();
    
-   m_volume = new Win32Volume(Win32Volume::eWaveOut, hWnd);
+   m_volume = new Win32Volume(Win32Volume::eWaveOut, m_hWnd);
 } 
 
 SoundCardPMO::~SoundCardPMO()

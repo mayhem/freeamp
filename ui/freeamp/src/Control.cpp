@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.20 2000/08/08 21:04:40 robert Exp $
+   $Id: Control.cpp,v 1.21 2000/09/20 11:10:35 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -231,7 +231,10 @@ void Control::SetStateBitmap(Bitmap *pBitmap, Rect &oBitmapRect,
     m_pBitmap = pBitmap;
 
     if (m_oStateBitmapRect.size() < (unsigned int)(iState + 1)) 
+		// IJR: Boundschecker complains that this line leaks memory.
+		//      Is this our problem or something with the STL?
         m_oStateBitmapRect.resize(iState + 1);
+
     m_oStateBitmapRect[iState][eClickState] = oBitmapRect;
 
     if (m_oStateBitmaps.size() < (unsigned int)(iState + 1))

@@ -18,7 +18,7 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-     $Id: mb_c.h,v 1.8 2000/10/06 13:30:43 sward Exp $
+     $Id: mb_c.h,v 1.10 2000/10/13 15:48:10 sward Exp $
 
 ----------------------------------------------------------------------------*/
 #ifndef _MB_C_H_
@@ -53,6 +53,7 @@ int       mb_GetResultData     (musicbrainz_t o, char *resultName,
 int       mb_GetResultInt      (musicbrainz_t o, char *resultName);
 int       mb_GetResultRDF      (musicbrainz_t o, char *xml, int maxXMLLen);
 int       mb_GetResultRDFLen   (musicbrainz_t o);
+int       mb_SetResultRDF      (musicbrainz_t o, char *xml);
 int       mb_GetNumItems       (musicbrainz_t o);
 
 void      mb_SetPCMDataInfo    (musicbrainz_t o, int samplesPerSecond, 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.49 2000/02/18 10:14:49 elrod Exp $
+	$Id: main.cpp,v 1.50 2000/02/19 20:18:49 robert Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -57,6 +57,9 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 					 int cmdShow)
 {
     HANDLE runOnceMutex;
+
+    Debug_v("cmd [%s]", lpszCmdLine);
+
     
     g_hinst = hInstance;
 
@@ -77,8 +80,11 @@ int APIENTRY WinMain(HINSTANCE hInstance,
         return 0;
     }
 
-    if (IsWinNT() && IsMultiProcessor())
-        SetProcessAffinityMask(GetCurrentProcess(), 0);
+    // This causes a dynamic link error on some non NT systems, and
+    // it didn't seem to help on multiprocessor NT systems, so I'm
+    // uncommenting it.
+    //if (IsWinNT() && IsMultiProcessor())
+    //    SetProcessAffinityMask(GetCurrentProcess(), 0);
 
     WSADATA sGawdIHateMicrosoft;
     WSAStartup(0x0002,  &sGawdIHateMicrosoft);

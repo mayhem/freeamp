@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.19 1999/12/08 22:57:19 robert Exp $
+   $Id: Win32Window.cpp,v 1.20 1999/12/13 12:49:54 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -785,4 +785,10 @@ Error Win32Window::GetDesktopSize(int32 &iX, int32 &iY)
     iY = sRect.bottom;
 
     return kError_NoErr;
+}
+
+void Win32Window::BringWindowToFront(void)
+{
+    ShowWindow(m_hWnd, SW_RESTORE);
+    SetForegroundWindow(m_hWnd);
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.10 1999/12/10 07:16:43 elrod Exp $
+   $Id: Window.h,v 1.11 1999/12/13 12:49:45 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -84,7 +84,7 @@ class Window
       virtual void  HandleMouseMove(Pos &oPos);
       virtual void  HandleMouseLButtonDown(Pos &oPos);
       virtual void  HandleMouseLButtonUp(Pos &oPos);
-	   virtual void  MouseHasLeftWindow(void);
+	  virtual void  MouseHasLeftWindow(void);
 
       virtual Error StartMouseCapture(Control *);
       virtual Error EndMouseCapture(void);
@@ -113,6 +113,7 @@ class Window
       virtual Error Restore(void) = 0;
 	  virtual bool  LButtonDown(void) = 0;
 	  virtual Error GetDesktopSize(int32 &iX, int32 &iY) = 0;
+      virtual void  BringWindowToFront(void) = 0;
       
       // Mouse position is in screen coordinates
       virtual Error SetMousePos(Pos &oMousePos) = 0;

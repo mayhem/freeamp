@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.13 1999/12/09 16:14:52 ijr Exp $
+   $Id: FreeAmpTheme.h,v 1.14 1999/12/13 12:49:44 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -45,6 +45,7 @@ enum TimeDisplayState
     kTimeRemaining
 };
 
+
 class FreeAmpTheme : public UserInterface, public Theme
 {
     public:
@@ -69,6 +70,7 @@ class FreeAmpTheme : public UserInterface, public Theme
         void  WorkerThread(void);
 
         static void update_thread(void*);
+        static void options_thread(void*);
 
     protected:
 
@@ -78,18 +80,19 @@ class FreeAmpTheme : public UserInterface, public Theme
         void             UpdateMetaData(const PlaylistItem *pItem);
         void             ShowHelp(void);
         void             UpdateThread();
+        void             OptionsThread(uint32 defaultPage);
 
         FAContext       *m_pContext;
         int              m_iCurrentSeconds, m_iTotalSeconds, m_iSeekSeconds;
         float			 m_fSecondsPerFrame;
         int              m_iStartupType, m_iVolume, m_iSeekPos;
-        Thread          *m_uiThread;
+        Thread          *m_uiThread, *m_pUpdateThread;
+        Thread          *m_pOptionsThread;
         Pos              m_oWindowPos;
-        bool             m_bSeekInProgress, m_bPlayShown;
+        bool             m_bSeekInProgress, m_bPlayShown, m_bInOptions;
         string           m_oCurrentWindow, m_oTitle, m_oStreamInfo;
         TimeDisplayState m_eTimeDisplayState;
         UpdateManager   *m_pUpdateMan;
-        Thread          *m_pUpdateThread;
 
 };
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.24 1999/11/10 03:16:43 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.25 1999/11/10 13:38:00 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -433,7 +433,9 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
       }
       case CMD_ShowPreferences:
       {
-      	 ShowOptions();
+         ShowPreferencesEvent* prefsEvent = (ShowPreferencesEvent*)e;
+
+      	 ShowOptions(prefsEvent->GetDefaultPage());
       	 break;
       }
       
@@ -887,12 +889,12 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
     }
 }
 
-void FreeAmpTheme::ShowOptions(void)
+void FreeAmpTheme::ShowOptions(uint32 defaultPage)
 {
     PreferenceWindow *pWindow;
        
 #ifdef WIN32
-    pWindow = new Win32PreferenceWindow(m_pContext, m_pThemeMan);
+    pWindow = new Win32PreferenceWindow(m_pContext, m_pThemeMan, defaultPage);
 #elif defined(__BEOS__)
     pWindow = new BeOSPreferenceWindow(m_pContext, m_pThemeMan);
 #else

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.7 1999/11/02 20:25:04 robert Exp $
+   $Id: Win32PreferenceWindow.h,v 1.8 1999/11/10 13:38:00 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -140,7 +140,8 @@ class Win32PreferenceWindow : public PreferenceWindow
     public:
 
                Win32PreferenceWindow(FAContext *context,
-                                     ThemeManager *pThemeMan);
+                                     ThemeManager *pThemeMan, 
+                                     uint32 defaultPage = 0);
       virtual ~Win32PreferenceWindow(void); 
       
 
@@ -196,6 +197,7 @@ class Win32PreferenceWindow : public PreferenceWindow
       PrefsStruct  m_originalValues;
       PrefsStruct  m_currentValues;
       PrefsStruct  m_proposedValues;
+      uint32       m_defaultPage;
     
       map<string, string> m_oThemeList;
 };

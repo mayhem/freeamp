@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.35 1999/11/09 01:39:05 elrod Exp $
+        $Id: eventdata.h,v 1.36 1999/11/10 13:37:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -705,6 +705,17 @@ public:
 	DownloadItem* Item() { return m_item; }
 private:
     DownloadItem* m_item;
+};
+
+class ShowPreferencesEvent:public Event
+{
+ private:
+   int32 m_page;
+ public:
+   ShowPreferencesEvent(int32 page = 0)
+   { m_type = CMD_ShowPreferences; m_page = page; }
+   int32 GetDefaultPage() const{ return m_page; }
+   virtual ~ ShowPreferencesEvent(){ }
 };
 
 #endif /* _EVENTDATA_H_ */

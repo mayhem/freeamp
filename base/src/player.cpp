@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.146 1999/11/10 06:57:06 elrod Exp $
+        $Id: player.cpp,v 1.147 1999/11/10 13:37:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1758,6 +1758,7 @@ ServiceEvent(Event * pC)
         case INFO_DownloadItemNewState:
         case INFO_DownloadItemProgress:
         case CMD_AddFiles:
+        case CMD_ShowPreferences:
             SendEventToUI(pC);
             break;
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.23 1999/11/10 11:21:46 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.24 1999/11/10 13:38:00 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -158,6 +158,7 @@ class MusicBrowserUI : public UserInterface
     void   BeginDrag(HWND hwnd, NM_TREEVIEW* nmtv);
     uint32 CalcStringEllipsis(HDC hdc, string& displayString, 
                                  int32 columnWidth);
+    void   ShowHelp(uint32 topic);
 
 
     // Functions in OpenSavePlaylist.cpp

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.1 1999/01/19 05:10:19 jdw Exp $
+   $Id: pullbuffer.cpp,v 1.2 1999/01/25 23:00:33 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -240,8 +240,6 @@ Error PullBuffer::EndRead(size_t iBytesUsed)
 {
    int32 iBlock;
    Error eError;
-   //debug
-   static int iCount = 0;
 
    assert(m_pPullBuffer != NULL);
 
@@ -255,13 +253,6 @@ Error PullBuffer::EndRead(size_t iBytesUsed)
    if (m_iBufferSize - m_iBytesInBuffer >= m_iWriteTriggerSize && !m_bEOS)
        m_pWriteSem->Signal();
 
-   if (((iCount++) % 20) == 0)
-   {
-       printf("Buffer: %3d%%\r", 
-              (100 * m_iBytesInBuffer) / m_iBufferSize);
-       fflush(stdout);
-   }
-
    m_bReadOpPending = false;
 
    m_pMutex->Release();
@@ -269,4 +260,12 @@ Error PullBuffer::EndRead(size_t iBytesUsed)
    return kError_NoErr;
 }
 
+void PullBuffer::DiscardBytes()
+{
+   m_pMutex->Acquire();
 
+   m_iReadIndex = (m_iReadIndex + m_iWriteTriggerSize) % m_iBufferSize;
+	m_iBytesInBuffer -= m_iWriteTriggerSize;
+
+   m_pMutex->Release();
+}

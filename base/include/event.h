@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.21 1999/01/23 23:14:35 jdw Exp $
+	$Id: event.h,v 1.22 1999/01/25 23:00:08 robert Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -98,6 +98,10 @@ class EventQueue {
 
 #define CMD_VolumeUp           39
 #define CMD_VolumeDown         40
+
+#define INFO_BufferingBegin       41 // Network rebuffering just started
+#define INFO_BufferingEnd         42 // Network rebuffering just stopped
+#define INFO_BufferStatus         43 // Buffer percent full information
 
 #endif // _EVENT_H_
 

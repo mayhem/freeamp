@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: filebuffer.cpp,v 1.2 1999/01/20 02:44:45 jdw Exp $
+   $Id: filebuffer.cpp,v 1.3 1999/01/25 23:00:26 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -147,15 +147,16 @@ Error FileBuffer::Open(void)
     return kError_NoErr;
 }
 
-bool FileBuffer::GetID3v1Tag(unsigned char *pTag)
+Error FileBuffer::GetID3v1Tag(unsigned char *pTag)
 {
     if (m_pID3Tag)
     { 
         memcpy(pTag, m_pID3Tag, iID3TagSize);
-        return true;
+        return kError_NoErr;
     }
 
-    return false;
+    printf("no tag!\n");
+    return kError_NoDataAvail;
 }
 
 Error FileBuffer::Run(void)

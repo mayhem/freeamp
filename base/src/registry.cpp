@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.cpp,v 1.4 1998/10/17 20:58:10 jdw Exp $
+	$Id: registry.cpp,v 1.5 1999/01/25 23:00:17 robert Exp $
 ____________________________________________________________________________*/
 
 #include "registry.h"
@@ -57,6 +57,12 @@ GetItem(int32 index)
     return m_elements->ElementAt(index);
 }
 
+int32 
+Registry::
+GetNumItems()
+{
+    return m_elements->NumElements();
+}
 
 RegistryItem::
 RegistryItem()

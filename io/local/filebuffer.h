@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: filebuffer.h,v 1.1 1999/01/19 05:54:16 jdw Exp $
+   $Id: filebuffer.h,v 1.2 1999/01/25 23:00:27 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FILEBUFFER_H_
@@ -55,7 +55,7 @@ class FileBuffer : public PullBuffer
                };
       void     Clear(void);
 
-      bool     GetID3v1Tag(unsigned char *pTag);
+      Error    GetID3v1Tag(unsigned char *pTag);
 
       static   void     StartWorkerThread(void *);
 

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupl3.c,v 1.3 1998/10/26 18:26:37 jdw Exp $
+	$Id: cupl3.c,v 1.4 1999/01/25 23:00:36 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cupL3.c  ***************************************************
@@ -423,8 +423,10 @@ static int unpack_side_MPEG1()
    }
 
    if (br_index > 0)		/* framebytes fixed for free format */
+	{
       framebytes =
 	 2880 * mp_br_tableL3[id][br_index] / mp_sr20_table[id][sr_index];
+   }
 
    side_info.main_data_begin = bitget(9);
    if (side_info.mode == 3)
@@ -791,7 +793,6 @@ IN_OUT L3audio_decode_MPEG1(unsigned char *bs, unsigned char *pcm)
    padframebytes = framebytes + pad;
    in_out.in_bytes = padframebytes;
 
-
 /*-- load main data and update buf pointer --*/
 /*------------------------------------------- 
    if start point < 0, must just cycle decoder 
@@ -805,6 +806,14 @@ w---------------------------------------------*/
       buf_ptr1 = side_info.main_data_begin;
    }
    nbytes = padframebytes - side_bytes - crcbytes;
+
+   // RAK: This is no bueno. :-(
+	if (nbytes < 0 || nbytes > NBUF)
+	{
+	    in_out.in_bytes = 0;
+		 return in_out;
+   }
+
    memmove(buf + buf_ptr1, bs + side_bytes + crcbytes, nbytes);
    buf_ptr1 += nbytes;
 /*-----------------------*/

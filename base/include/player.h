@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.26 1999/01/23 23:14:36 jdw Exp $
+	$Id: player.h,v 1.27 1999/01/25 23:00:10 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -71,6 +71,7 @@ class Player : public EventQueue, Properties, PropertyWatcher  {
     static void EventServiceThreadFunc(void *);
 //    static int32 AcceptEventStub(EventQueueRef ref, Event* e);
     virtual int32 AcceptEvent(Event *);
+	 virtual RegistryItem *ChoosePMI(char *szUrl);
 
     // Properties
     virtual Error GetProperty(const char *, PropValue **);

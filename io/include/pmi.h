@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.11 1999/01/22 06:02:50 jdw Exp $
+	$Id: pmi.h,v 1.12 1999/01/25 23:00:24 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -60,8 +60,22 @@ public:
 	               {return kError_GotDefaultMethod;}
     virtual Error GetLength(size_t &iSize)
 	               {return kError_GotDefaultMethod;}
-	 virtual Error  GetID3v1Tag(unsigned char *pTag)
+	 virtual Error GetID3v1Tag(unsigned char *pTag)
 	               {return kError_GotDefaultMethod;}
+    
+	 virtual bool  CanHandle(char *szUrl)
+	               {return false;}
+
+	 virtual bool  IsStreaming(void)
+	               {return false;}
+    virtual int32 GetBufferPercentage()
+	               {return 0;};
+	 virtual void  Pause()
+	               { };
+	 virtual void  Resume()
+	               { };
+	 virtual bool  CachePMI()
+	               { return false; };
 
 	 virtual Error SetPropManager(Properties *) = 0;
 		 

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.18 1999/01/17 22:20:39 jdw Exp $
+	$Id: eventdata.h,v 1.19 1999/01/25 23:00:09 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -236,6 +236,30 @@ public:
 #endif  //_VISUAL_ENABLE_
 #undef  _VISUAL_ENABLE_
 
+class StreamBufferEvent : public Event
+{
+private:
+        bool  m_bBufferingUp;
+		  int32 m_iBufferPercent;
+public:
+
+        StreamBufferEvent(bool bBufferingUp, int32 iPercent)
+		  {
+		     m_bBufferingUp = bBufferingUp;
+			  m_iBufferPercent = iPercent;
+		  };
+		  virtual ~StreamBufferEvent() {};
+
+        bool IsBufferingUp()
+		  {
+		     return m_bBufferingUp;
+		  };
+
+		  int32 GetBufferPercent()
+		  {
+		     return m_iBufferPercent;
+		  };
+};
 
 #endif /* _EVENTDATA_H_ */
 

@@ -20,7 +20,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
-# $Id: gas2intel,v 1.5 1999/03/04 03:12:52 mhw Exp $
+# $Id: gas2intel,v 1.6 1999/03/04 09:02:14 mhw Exp $
 #
 
 $re_sym = "[A-Za-z_.][A-Za-z0-9_.]*";
@@ -80,7 +80,7 @@ while (<>) {
 	$leader = "";
     }
 
-    if (!$header_done && $_ ne "") {
+    if (!$header_done && ($_ ne "" || $trailer =~ /^\s*;%% \w+/)) {
     	$leader = ".386\n" .
 		  ";FLAT\tgroup _TEXT\n" .
 		  ";\tassume cs:FLAT, ds:FLAT, ss:FLAT\n" .

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.67 2000/06/22 15:13:36 elrod Exp $
+        $Id: MusicTree.cpp,v 1.68 2000/06/22 19:32:53 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -2491,6 +2491,39 @@ void MusicBrowserUI::UpdateArtistName(ArtistList* artist,
     }
 }
 
+void MusicBrowserUI::CheckForCD()
+{
+    Registry *pmoRegistry = m_context->player->GetPMORegistry();
+    RegistryItem *pmo_item = NULL;
+    int32 i = 0;
+
+    if(!pmoRegistry)
+        return;
+
+    while(NULL != (pmo_item = pmoRegistry->GetItem(i++))) 
+    {
+        if(!strcmp("cd.pmo", pmo_item->Name())) 
+        {
+            break;
+        }
+    }
+
+    if(!pmo_item)
+        return;
+
+    PhysicalMediaOutput *pmo;
+    pmo = (PhysicalMediaOutput *)pmo_item->InitFunction()(m_context);
+    pmo->SetPropManager(m_context->props);
+
+    if(IsError(pmo->Init(NULL))) 
+    {
+        CDInfoEvent *cie = new CDInfoEvent(0, 0, "");
+        AcceptEvent(cie);
+    }
+
+    delete pmo;
+}
+
 void MusicBrowserUI::DeviceChanged(uint32 event, PDEV_BROADCAST_HDR data)
 {
     switch(event)
@@ -2505,35 +2538,7 @@ void MusicBrowserUI::DeviceChanged(uint32 event, PDEV_BROADCAST_HDR data)
 
                 if(lpdbv->dbcv_flags & DBTF_MEDIA)
                 {
-                    Registry *pmoRegistry = m_context->player->GetPMORegistry();
-                    RegistryItem *pmo_item = NULL;
-                    int32 i = 0;
-
-                    if(!pmoRegistry)
-                        return;
-
-                    while(NULL != (pmo_item = pmoRegistry->GetItem(i++))) 
-                    {
-                        if(!strcmp("cd.pmo", pmo_item->Name())) 
-                        {
-                            break;
-                        }
-                    }
-
-                    if(!pmo_item)
-                        return;
-
-                    PhysicalMediaOutput *pmo;
-                    pmo = (PhysicalMediaOutput *)pmo_item->InitFunction()(m_context);
-                    pmo->SetPropManager(m_context->props);
-
-                    if(IsError(pmo->Init(NULL))) 
-                    {
-                        CDInfoEvent *cie = new CDInfoEvent(0, 0, "");
-                        AcceptEvent(cie);
-                    }
-
-                    delete pmo;
+                    CheckForCD();
                 }                  
             }
             break;

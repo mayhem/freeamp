@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.88 2000/06/22 15:27:18 elrod Exp $
+        $Id: Dialog.cpp,v 1.89 2000/06/22 19:32:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -1184,6 +1184,8 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
             ExpandCollapseEvent();  
         }
     }
+
+    CheckForCD();
 
     m_initialized = true;
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.80 2000/06/21 13:28:25 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.81 2000/06/22 19:32:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -338,6 +338,7 @@ class MusicBrowserUI : public UserInterface
 
     void RefreshCDList(vector<PlaylistItem*>* tracks);
     void DeviceChanged(uint32 event, PDEV_BROADCAST_HDR data);
+    void CheckForCD();
 
     // Functions in EditTrackInfoDialog.cpp
     void CreateEditInfoLists(set<string>& artists,

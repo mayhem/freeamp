@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.5 1998/11/03 09:40:37 elrod Exp $
+	$Id: freeampui.cpp,v 1.6 1998/11/03 10:10:22 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -145,6 +145,10 @@ AcceptEvent(Event* event)
 				EnableWindow(m_hwndSlider, TRUE);
 				m_state = STATE_Playing;
                 g_buttonStateArray[kPlayControl].state = Activated;
+
+                if(g_displayInfo.state == TotalTime)
+                    g_displayInfo.state = CurrentTime;
+
 	            break; 
             }
 

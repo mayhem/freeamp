@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: drawplayer.cpp,v 1.2 1998/11/03 09:13:28 elrod Exp $
+	$Id: drawplayer.cpp,v 1.3 1998/11/03 10:10:22 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1333,8 +1333,8 @@ LRESULT WINAPI MainWndProc( HWND hwnd,
 			        OutputDebugString("play clicked\n");
 			        if (g_ui->m_state == STATE_Stopped) {
 				        g_ui->m_target->AcceptEvent(new Event(CMD_Play));
-                        if(g_displayInfo.state == TotalTime)
-                            g_displayInfo.state = CurrentTime;
+                        //if(g_displayInfo.state == TotalTime)
+                            //g_displayInfo.state = CurrentTime;
                         
 			        } else if (g_ui->m_state == STATE_Paused) {
 				        g_ui->m_target->AcceptEvent(new Event(CMD_TogglePause));

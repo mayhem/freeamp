@@ -18,8 +18,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.4 1998/11/03 09:13:28 elrod Exp $
+	$Id: preferences.cpp,v 1.5 1998/11/03 22:29:08 jdw Exp $
 ____________________________________________________________________________*/
+
+#include <stdio.h>
 
 #include "preferences.h"
 
@@ -77,16 +79,26 @@ Initialize()
 
         error = GetInstallDirectory(path, &length);
 
-        if(IsError(error) || strcmp(cwd, path))
-        {
-            result = RegSetValueEx( m_prefsKey,
-                                    kInstallDirPref, 
-                                    NULL, 
-                                    REG_SZ, 
-                                    (LPBYTE)cwd, 
-                                    strlen(cwd) + 1);
-        }
+		char foo[MAX_PATH+1] = {0x00};
+		sprintf(foo,"%s\\plugins",cwd);
+		WIN32_FIND_DATA win32fd;
 
+		HANDLE h = FindFirstFile(foo,&win32fd);
+		// check for plugins directory in cwd
+
+		if (h != INVALID_HANDLE_VALUE) {
+			if (win32fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+				if(IsError(error) || strcmp(cwd, path))
+				{
+					result = RegSetValueEx( m_prefsKey,
+											kInstallDirPref, 
+											NULL, 
+											REG_SZ, 
+											(LPBYTE)cwd, 
+											strlen(cwd) + 1);
+				}
+			}
+		}
         error = kError_NoErr;
     }
     else // keys need to be created for the first time

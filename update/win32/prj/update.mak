@@ -50,7 +50,9 @@ ALL : ".\update.exe"
 
 CLEAN :
 	-@erase "$(INTDIR)\main.obj"
+	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\vc50.idb"
+	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase ".\update.exe"
 
 "$(OUTDIR)" :
@@ -74,7 +76,9 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  odbccp32.lib /nologo /subsystem:windows /incremental:no\
  /pdb:"$(OUTDIR)\update.pdb" /machine:I386 /out:"update.exe" 
 LINK32_OBJS= \
-	"$(INTDIR)\main.obj"
+	"$(INTDIR)\main.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\win32prefs.obj"
 
 ".\update.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -107,8 +111,10 @@ ALL : ".\update.exe"
 
 CLEAN :
 	-@erase "$(INTDIR)\main.obj"
+	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
+	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(OUTDIR)\update.pdb"
 	-@erase ".\update.exe"
 	-@erase ".\update.ilk"
@@ -135,7 +141,9 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  /pdb:"$(OUTDIR)\update.pdb" /debug /machine:I386 /out:"update.exe"\
  /pdbtype:sept 
 LINK32_OBJS= \
-	"$(INTDIR)\main.obj"
+	"$(INTDIR)\main.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\win32prefs.obj"
 
 ".\update.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -155,21 +163,30 @@ $(DS_POSTBUILD_DEP) : ".\update.exe"
 
 OUTDIR=.\Debug
 INTDIR=.\Debug
+# Begin Custom Macros
+OutDir=.\Debug
+# End Custom Macros
 
 !IF "$(RECURSE)" == "0" 
 
-ALL : ".\update.exe"
+ALL : ".\update.exe" "$(OUTDIR)\update.bsc"
 
 !ELSE 
 
-ALL : ".\update.exe"
+ALL : ".\update.exe" "$(OUTDIR)\update.bsc"
 
 !ENDIF 
 
 CLEAN :
 	-@erase "$(INTDIR)\main.obj"
+	-@erase "$(INTDIR)\main.sbr"
+	-@erase "$(INTDIR)\preferences.obj"
+	-@erase "$(INTDIR)\preferences.sbr"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
+	-@erase "$(INTDIR)\win32prefs.obj"
+	-@erase "$(INTDIR)\win32prefs.sbr"
+	-@erase "$(OUTDIR)\update.bsc"
 	-@erase "$(OUTDIR)\update.pdb"
 	-@erase ".\update.exe"
 	-@erase ".\update.ilk"
@@ -181,14 +198,23 @@ CPP_PROJ=/nologo /MLd /W3 /Gm /GX /Zi /Od /I "..\\" /I "..\..\include" /I\
  "..\include" /I "..\..\..\io\include" /I "..\..\..\base\include" /I\
  "..\..\..\base\win32\include" /I "..\..\..\config" /I "..\..\..\ui\include" /I\
  "..\..\..\lib\xml\include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS"\
- /Fp"$(INTDIR)\update.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+ /FR"$(INTDIR)\\" /Fp"$(INTDIR)\update.pch" /YX /Fo"$(INTDIR)\\"\
+ /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Debug/
-CPP_SBRS=.
+CPP_SBRS=.\Debug/
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\update.bsc" 
 BSC32_SBRS= \
-	
+	"$(INTDIR)\main.sbr" \
+	"$(INTDIR)\preferences.sbr" \
+	"$(INTDIR)\win32prefs.sbr"
+
+"$(OUTDIR)\update.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
+    $(BSC32) @<<
+  $(BSC32_FLAGS) $(BSC32_SBRS)
+<<
+
 LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
@@ -196,7 +222,9 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  /pdb:"$(OUTDIR)\update.pdb" /debug /machine:I386 /out:"update.exe"\
  /pdbtype:sept 
 LINK32_OBJS= \
-	"$(INTDIR)\main.obj"
+	"$(INTDIR)\main.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\win32prefs.obj"
 
 ".\update.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -208,7 +236,11 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 
 ALL : $(DS_POSTBUILD_DEP)
 
-$(DS_POSTBUILD_DEP) : ".\update.exe"
+# Begin Custom Macros
+OutDir=.\Debug
+# End Custom Macros
+
+$(DS_POSTBUILD_DEP) : ".\update.exe" "$(OUTDIR)\update.bsc"
    copy update.exe  ..\..\..\base\win32\prj
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -229,7 +261,9 @@ ALL : ".\update.exe"
 
 CLEAN :
 	-@erase "$(INTDIR)\main.obj"
+	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\vc50.idb"
+	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase ".\update.exe"
 
 "$(OUTDIR)" :
@@ -253,7 +287,9 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  odbccp32.lib /nologo /subsystem:windows /incremental:no\
  /pdb:"$(OUTDIR)\update.pdb" /machine:I386 /out:"update.exe" 
 LINK32_OBJS= \
-	"$(INTDIR)\main.obj"
+	"$(INTDIR)\main.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\win32prefs.obj"
 
 ".\update.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -359,13 +395,12 @@ DEP_CPP_MAIN_=\
 	"..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\config\config.h"\
 	"..\..\..\lib\xml\include\parse.h"\
 	
-NODEP_CPP_MAIN_=\
-	"..\..\..\config\config.h"\
-	
 
-"$(INTDIR)\main.obj" : $(SOURCE) $(DEP_CPP_MAIN_) "$(INTDIR)"
+"$(INTDIR)\main.obj"	"$(INTDIR)\main.sbr" : $(SOURCE) $(DEP_CPP_MAIN_)\
+ "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -386,6 +421,101 @@ DEP_CPP_MAIN_=\
 	
 
 "$(INTDIR)\main.obj" : $(SOURCE) $(DEP_CPP_MAIN_) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\..\base\src\preferences.cpp
+DEP_CPP_PREFE=\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\config\config.h"\
+	
+
+!IF  "$(CFG)" == "update - Win32 Release"
+
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "update - Win32 Debug"
+
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "update - Win32 NASM Debug"
+
+
+"$(INTDIR)\preferences.obj"	"$(INTDIR)\preferences.sbr" : $(SOURCE)\
+ $(DEP_CPP_PREFE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "update - Win32 NASM Release"
+
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\..\base\win32\src\win32prefs.cpp
+
+!IF  "$(CFG)" == "update - Win32 Release"
+
+DEP_CPP_WIN32=\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "update - Win32 Debug"
+
+DEP_CPP_WIN32=\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "update - Win32 NASM Debug"
+
+DEP_CPP_WIN32=\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj"	"$(INTDIR)\win32prefs.sbr" : $(SOURCE)\
+ $(DEP_CPP_WIN32) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "update - Win32 NASM Release"
+
+DEP_CPP_WIN32=\
+	"..\..\..\base\include\errors.h"\
+	"..\..\..\base\include\preferences.h"\
+	"..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

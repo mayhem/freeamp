@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.1.2.2 1999/10/07 07:15:48 elrod Exp $
+	$Id: updatemanager.cpp,v 1.1.2.3 1999/10/10 09:50:21 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -28,8 +28,10 @@ ____________________________________________________________________________*/
 #pragma warning(disable:4786)
 #endif
 
+
 #include <assert.h>
 #ifdef WIN32
+#include <windows.h>
 #include <io.h>
 #include <direct.h>
 #else
@@ -66,6 +68,8 @@ typedef ostrstream ostringstream;
 #include "utility.h"
 #include "event.h"
 #include "eventdata.h"
+#include "zlib.h"
+
 
 const char* kUpdateServer = "fatman.freeamp.org";
 const char* kUpdatePath = "/update/freeamp/";
@@ -464,10 +468,12 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
         SOCKET s = -1;
         char* file = NULL;
         char* destPath = NULL;
+        char* srcPath = NULL;
         bool useProxy;
              
         // make sure there is a place to put it on this machine
         destPath = new char[_MAX_PATH];
+        srcPath = new char[_MAX_PATH];
         uint32 length = _MAX_PATH;
 
         m_context->prefs->GetPrefString(kInstallDirPref, destPath, &length);
@@ -771,7 +777,44 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
 
                             }while(count > 0 && IsntError(result));
 
-                            close(fd);                           
+                            close(fd);  
+                            
+                            if(IsntError(result))
+                            {
+
+                                // now that we have it we need to uncompress it
+                                // old dest is new src...
+                                strcpy(srcPath, destPath); 
+                                char* cp = strrchr(destPath, '.');
+
+                                if(cp)
+                                    *cp = 0x00;
+                                                          
+                                gzFile gzfd = gzopen(srcPath, "rb");
+
+                                if (gzfd == NULL)
+                                    result = kError_FileNotFound;
+                                else if((fd = open(destPath, openFlags)) >=0)
+                                {
+                                    do
+                                    {
+                                        count = gzread(gzfd, buffer, bufferSize);
+
+                                        if(count > 0)
+                                        {
+                                            write(fd, buffer, count);
+                                        }
+
+                                    }while(count > 0);
+
+                                    close(fd);
+                                }
+
+                                if(gzfd != NULL)
+                                    gzclose(gzfd);
+
+                                remove(srcPath);
+                            }
                         }
                         else
                         {
@@ -899,6 +942,9 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
 
         if(destPath)
             delete [] destPath;
+
+        if(srcPath)
+            delete [] srcPath;
     }
 
     return result;

@@ -38,11 +38,11 @@ INTDIR=.\Release
 
 !IF "$(RECURSE)" == "0" 
 
-ALL : ".\zlib.lib"
+ALL : "..\zlib.lib"
 
 !ELSE 
 
-ALL : ".\zlib.lib"
+ALL : "..\zlib.lib"
 
 !ENDIF 
 
@@ -62,7 +62,7 @@ CLEAN :
 	-@erase "$(INTDIR)\uncompr.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\zutil.obj"
-	-@erase ".\zlib.lib"
+	-@erase "..\zlib.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -76,7 +76,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\zlib.bsc"
 BSC32_SBRS= \
 	
 LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"zlib.lib" 
+LIB32_FLAGS=/nologo /out:"..\zlib.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\adler32.obj" \
 	"$(INTDIR)\compress.obj" \
@@ -93,7 +93,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\uncompr.obj" \
 	"$(INTDIR)\zutil.obj"
 
-".\zlib.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+"..\zlib.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
   $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
 <<
@@ -105,11 +105,11 @@ INTDIR=.\Debug
 
 !IF "$(RECURSE)" == "0" 
 
-ALL : ".\zlib.lib"
+ALL : "..\zlib.lib"
 
 !ELSE 
 
-ALL : ".\zlib.lib"
+ALL : "..\zlib.lib"
 
 !ENDIF 
 
@@ -129,7 +129,7 @@ CLEAN :
 	-@erase "$(INTDIR)\uncompr.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\zutil.obj"
-	-@erase ".\zlib.lib"
+	-@erase "..\zlib.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -144,7 +144,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\zlib.bsc"
 BSC32_SBRS= \
 	
 LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"zlib.lib" 
+LIB32_FLAGS=/nologo /out:"..\zlib.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\adler32.obj" \
 	"$(INTDIR)\compress.obj" \
@@ -161,7 +161,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\uncompr.obj" \
 	"$(INTDIR)\zutil.obj"
 
-".\zlib.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+"..\zlib.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
   $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
 <<
@@ -173,11 +173,11 @@ INTDIR=.\Debug
 
 !IF "$(RECURSE)" == "0" 
 
-ALL : ".\zlib.lib"
+ALL : "..\zlib.lib"
 
 !ELSE 
 
-ALL : ".\zlib.lib"
+ALL : "..\zlib.lib"
 
 !ENDIF 
 
@@ -197,7 +197,7 @@ CLEAN :
 	-@erase "$(INTDIR)\uncompr.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\zutil.obj"
-	-@erase ".\zlib.lib"
+	-@erase "..\zlib.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -212,7 +212,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\zlib.bsc"
 BSC32_SBRS= \
 	
 LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"zlib.lib" 
+LIB32_FLAGS=/nologo /out:"..\zlib.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\adler32.obj" \
 	"$(INTDIR)\compress.obj" \
@@ -229,7 +229,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\uncompr.obj" \
 	"$(INTDIR)\zutil.obj"
 
-".\zlib.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+"..\zlib.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
   $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
 <<
@@ -241,11 +241,11 @@ INTDIR=.\Release
 
 !IF "$(RECURSE)" == "0" 
 
-ALL : ".\zlib.lib"
+ALL : "..\zlib.lib"
 
 !ELSE 
 
-ALL : ".\zlib.lib"
+ALL : "..\zlib.lib"
 
 !ENDIF 
 
@@ -265,7 +265,7 @@ CLEAN :
 	-@erase "$(INTDIR)\uncompr.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\zutil.obj"
-	-@erase ".\zlib.lib"
+	-@erase "..\zlib.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -279,7 +279,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\zlib.bsc"
 BSC32_SBRS= \
 	
 LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"zlib.lib" 
+LIB32_FLAGS=/nologo /out:"..\zlib.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\adler32.obj" \
 	"$(INTDIR)\compress.obj" \
@@ -296,7 +296,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\uncompr.obj" \
 	"$(INTDIR)\zutil.obj"
 
-".\zlib.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+"..\zlib.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
   $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
 <<

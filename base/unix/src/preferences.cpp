@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.7 1998/11/06 21:05:10 jdw Exp $
+	$Id: preferences.cpp,v 1.8 1999/03/07 07:30:40 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <unistd.h>
@@ -78,7 +78,7 @@ HANDLE Preferences::GetFirstLibDir(char *path, uint32 *len) {
     }
     pEnv = pPath;
     LibDirFindHandle *pldfh = new LibDirFindHandle();
-    pldfh->m_pLibDirs = new Vector<char *>();
+    pldfh->m_pLibDirs = new List<char *>();
     pldfh->m_current = 0;
 
     char *pCol = (char *)1;

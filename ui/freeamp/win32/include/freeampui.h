@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.15 1999/03/06 03:45:00 elrod Exp $
+	$Id: freeampui.h,v 1.16 1999/03/07 07:30:40 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -81,6 +81,8 @@ class FreeAmpUI : public UserInterface {
 
     HCURSOR Cursor(void) const { return m_cursor;}
 
+    PlayListManager* GetPlayListManager() const { return m_plm; }
+
     /* handle window messages */
     void Create();
     void Destroy();
@@ -109,16 +111,15 @@ class FreeAmpUI : public UserInterface {
     void UpdatePlayList();
 
  public:
-    Semaphore*          m_uiSemaphore;
-
-    bool                m_scrolling;
-
-    EventQueue*         m_target;
-	int32			    m_state;
+    
 	
-    float			    m_secondsPerFrame;
-
  private:
+    Semaphore*          m_uiSemaphore;
+    float			    m_secondsPerFrame;
+    int32			    m_state;
+    EventQueue*         m_target;
+
+
     PlayListManager*    m_plm;
     Properties*         m_propManager;
     Thread*             m_uiThread;

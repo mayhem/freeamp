@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.cpp,v 1.5 1999/01/25 23:00:17 robert Exp $
+	$Id: registry.cpp,v 1.6 1999/03/07 07:30:40 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "registry.h"
@@ -27,7 +27,7 @@ ____________________________________________________________________________*/
 Registry::
 Registry()
 {
-    m_elements = new Vector<RegistryItem*>();
+    m_elements = new List<RegistryItem*>();
     m_count = 0;
 }
 

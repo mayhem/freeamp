@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.3 1998/11/06 21:05:10 jdw Exp $
+	$Id: preferences.h,v 1.4 1999/03/07 07:30:40 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -28,12 +28,12 @@ ____________________________________________________________________________*/
 
 #include "config.h"
 #include "errors.h"
-#include "vector.h"
+#include "list.h"
 #include "win32impl.h"
 
 class LibDirFindHandle {
  public:
-    Vector <char *> *m_pLibDirs;
+    List <char *> *m_pLibDirs;
     int32 m_current;
 };
 

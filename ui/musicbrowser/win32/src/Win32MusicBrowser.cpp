@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.35 1999/12/07 23:29:53 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.36 1999/12/09 07:01:22 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -324,6 +324,32 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             m_uiThread->Join();
             
             m_playerEQ->AcceptEvent(new Event(INFO_ReadyToDieUI));
+            break; 
+        }
+
+        case INFO_MusicCatalogTrackChanged:
+        {
+            MusicCatalogTrackChangedEvent* pie = (MusicCatalogTrackChangedEvent*)event;
+
+            vector<MusicBrowserUI *>::iterator i;
+
+            for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+            {
+                (*i)->MusicCatalogTrackChanged(pie->OldArtist(), 
+                                               pie->NewArtist(), 
+                                               pie->OldAlbum(), 
+                                               pie->NewAlbum(), 
+                                               pie->OldItem(),
+                                               pie->NewItem());
+            }
+
+            MusicCatalogTrackChanged(pie->OldArtist(), 
+                                     pie->NewArtist(), 
+                                     pie->OldAlbum(), 
+                                     pie->NewAlbum(), 
+                                     pie->OldItem(),
+                                     pie->NewItem());
+            
             break; 
         }
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.48 1999/12/06 13:29:50 ijr Exp $
+        $Id: Win32MusicBrowser.h,v 1.49 1999/12/09 07:01:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -266,6 +266,12 @@ class MusicBrowserUI : public UserInterface
     void    AddUncatagorizedTrackItems(vector<PlaylistItem*>* items);
     void    GetSelectedPlaylistItems(vector<string>* urls);
     void    TVBeginDrag(HWND hwnd, NM_TREEVIEW* nmtv);
+    void    MusicCatalogTrackChanged(const ArtistList *oldArtist,
+                                     const ArtistList *newArtist,
+                                     const AlbumList *oldAlbum,
+                                     const AlbumList *newAlbum,
+                                     const PlaylistItem *oldItem,
+                                     const PlaylistItem *newItem);
     void    MusicCatalogTrackAdded(const ArtistList* artist,
                                    const AlbumList* album,
                                    const PlaylistItem* item);
@@ -292,8 +298,8 @@ class MusicBrowserUI : public UserInterface
     bool IsItemSelected(HTREEITEM item);
 
     // Functions in EditTrackInfoDialog.cpp
-    void CreateEditInfoLists(vector<string>& artists,
-                             vector<string>& albums,
+    void CreateEditInfoLists(set<string>& artists,
+                             set<string>& albums,
                              set<string>& genres);
     
 

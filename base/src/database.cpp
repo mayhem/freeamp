@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.8 2000/06/02 13:17:33 ijr Exp $
+        $Id: database.cpp,v 1.9 2000/08/24 17:40:38 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -83,9 +83,9 @@ int Database::Insert(const char *key, const char *content)
     int returnValue;
 
     gdbmKey.dptr = (char *)key;
-    gdbmKey.dsize = strlen(key) + 1;
+    gdbmKey.dsize = strlen(key) * sizeof(char) + 1;
     gdbmContent.dptr = (char *)content;
-    gdbmContent.dsize = strlen(content) + 1;
+    gdbmContent.dsize = strlen(content) * sizeof(char) + 1;
 
     m_lock->Acquire();
     returnValue = gdbm_store(m_dbase, gdbmKey, gdbmContent, GDBM_REPLACE);
@@ -123,7 +123,7 @@ char *Database::Value(const char *key)
     if (returnData.dptr == NULL)
        return NULL; // deal with not found error..
 
-    char *returninfo = new char[returnData.dsize];
+    char *returninfo = new char[returnData.dsize + 1];
     strcpy(returninfo, returnData.dptr);
     free(returnData.dptr);
 
@@ -169,7 +169,7 @@ char *Database::NextKey(char *key)
     if (!returnKey.dptr) 
         return NULL;
  
-    nextKey = new char[returnKey.dsize]; 
+    nextKey = new char[returnKey.dsize + 1]; 
     strcpy(nextKey, returnKey.dptr);
 
     free(returnKey.dptr);

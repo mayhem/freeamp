@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: IntroductionWizard.cpp,v 1.14 2000/08/21 13:45:13 ijr Exp $
+        $Id: IntroductionWizard.cpp,v 1.15 2000/08/24 17:40:38 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -678,8 +678,9 @@ static BOOL CALLBACK IntroWizardRelatable(HWND hwnd,
                                 "we're continually adding safeguards to protect our users. To\n"
                                 "enjoy these features and help us test the system, just opt-in.\n"
                                 "You will never be contacted by Relatable or anyone else (unless\n"
-                                "you ask, of course!). That's Relatable's privacy promise. Please\n"
-                                "feel free to ask any questions at info@relatable.com.";
+                                "you ask, of course!). That's Relatable's privacy promise. If you\n"
+                                "have any questions, please contact us at info@relatable.com";
+				
             switch(ctrlId)
             {
                 case IDC_RELATABLE_TEXT1:
@@ -711,7 +712,7 @@ static BOOL CALLBACK IntroWizardRelatable(HWND hwnd,
                     DeleteObject(font);
                     break;
                 }
-                case IDC_RELATABLE_CAPTION1:
+                //case IDC_RELATABLE_CAPTION1:
                 case IDC_RELATABLE_CAPTION2:
                 {
                     HFONT font, oldFont;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.23 2000/08/15 20:53:07 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.24 2000/08/24 17:40:38 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -252,7 +252,6 @@ class GTKPreferenceWindow : public PreferenceWindow
       GtkWidget *mainWindow;
       GtkWidget *pmoOptionMenu;
 
-      int32 numPMOs;
       bool  done;
 
       void UpdateProfileList(void);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.3 1998/10/19 21:59:22 jdw Exp $
+	$Id: preferences.cpp,v 1.4 1998/10/22 04:29:14 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <unistd.h>
@@ -159,4 +159,20 @@ Error Preferences::SetPrefString(const char* pref, char* buf) {
     
     return error;
 #endif
+}
+
+HANDLE Preferences::GetFirstLibDir(char *path, uint32 *len) {
+    getcwd(path,*len);
+    return (HANDLE)1;
+}
+
+
+Error Preferences::GetNextLibDir(HANDLE hLibDirFind,char *path, uint32 *len) {
+
+    return kError_NoMoreLibDirs;
+}
+
+Error Preferences::GetLibDirClose(HANDLE hLibDirFind) {
+
+    return kError_NoErr;
 }

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.6 1998/10/17 21:44:51 elrod Exp $
+	$Id: registrar.cpp,v 1.7 1998/10/22 04:29:09 jdw Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -51,13 +51,23 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
     if(m_subdir == NULL)
         error = kError_InvalidParam;
 
+    uint32 len = sizeof(dir);
+    uint32 totalFilesFound = 0;
+    HANDLE libDirHandle = (HANDLE)NULL;
     if(IsntError(error))
     {
-        uint32 len = sizeof(dir);
+#ifdef WIN32
         prefs->GetInstallDirectory(dir, &len);
+#else
+	libDirHandle = prefs->GetFirstLibDir(dir, &len);
+#endif
     }
 
+#ifdef WIN32
     if(IsntError(error))
+#else
+    while(libDirHandle && (error != kError_NoMoreLibDirs))
+#endif
     {
         WIN32_FIND_DATA find;
         HANDLE handle;
@@ -109,6 +119,7 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
                     {
                         error = kError_NoErr;
                         item->SetInitFunction(init);
+			totalFilesFound++;
                     }
                 }
                 
@@ -128,13 +139,16 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
 
             FindClose(handle);
         }
-        else
-        {
-            error = kError_NoFiles;
-        }
+#ifndef WIN32
+	error = prefs->GetNextLibDir(libDirHandle,dir,&len);
+#endif
     }
-
-    return error;
+#ifndef WIN32
+    if (libDirHandle) prefs->GetLibDirClose(libDirHandle);
+#endif
+    if (totalFilesFound == 0) {
+	return kError_NoFiles;
+    }
 }
 
 Error 

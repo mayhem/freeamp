@@ -1,6 +1,6 @@
 /*____________________________________________________________________________
 	
-	FreeAMP - The Free MP3 Player
+	FreeAmp - The Free MP3 Player
 	Portions copyright (C) 1998 GoodNoise
 
 	This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.3 1998/10/20 08:49:46 elrod Exp $
+	$Id: errors.h,v 1.4 1998/10/22 04:28:26 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -41,8 +41,8 @@ typedef enum Error
     kError_FileExists       = 10,
     kError_FileInvalidArg   = 11,
     kError_FileNotFound     = 12,
-    kError_FileNoHandles    = 13
-
+    kError_FileNoHandles    = 13,
+    kError_NoMoreLibDirs    = 14
 }Error;
 
 

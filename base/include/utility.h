@@ -18,13 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.6 1999/11/12 21:29:41 elrod Exp $
+	$Id: utility.h,v 1.7 1999/11/16 00:50:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
 #define INCLUDED_UTILITY_H
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -47,6 +48,9 @@ void LaunchBrowser(char* url);
 #endif
 
 #ifdef WIN32
+void FindMusicFiles(const char* rootPath, 
+                    vector<string>& urls, 
+                    vector<string>& queries); 
 bool ResolveLink(string& path);
 #endif
 

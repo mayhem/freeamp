@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.32 1999/11/12 21:13:32 robert Exp $
+	$Id: main.cpp,v 1.33 1999/11/16 00:50:50 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -53,7 +53,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 					 int cmdShow)
 {
     HANDLE runOnceMutex;
-
+    
     g_hinst = hInstance;
 
     runOnceMutex = CreateMutex(	NULL,
@@ -305,13 +305,10 @@ static LRESULT WINAPI HiddenWndProc(HWND hwnd,
 
                 if(giveToDLM)
                     dlm->ReadDownloadFile(url);
-                else
-                if(giveToTheme)
+                else if(giveToTheme)
                     context->target->AcceptEvent(new LoadThemeEvent(url, ""));
                 else
-                {
                     plm->AddItem(url);
-                }    
             }
             
             break;

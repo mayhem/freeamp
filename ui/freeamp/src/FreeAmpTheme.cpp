@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.82 2000/02/14 22:03:38 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.83 2000/02/15 18:42:37 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1237,7 +1237,7 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
               oTheme = aThemes[i];
               m_pThemeMan->UseTheme(oTheme);
               AcceptEvent(new Event(INFO_PrefsChanged));
-              Sleep(3000);
+              m_pWindow->ProcessWaitingMessages();
            }   
         }   
         break;

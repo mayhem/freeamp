@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.19 2000/02/14 22:39:02 robert Exp $
+   $Id: Window.h,v 1.20 2000/02/15 18:42:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -123,18 +123,22 @@ class Window
       virtual Error GetMousePos(Pos &oMousePos) = 0;
       virtual Error SetWindowPosition(Rect &oWindowRect) = 0;
       virtual Error GetWindowPosition(Rect &oWindowRect) = 0;
-	  
+
+      // Call this function whenever the are pending GUI messages
+	  // that might cause a deadlock
+      virtual void  ProcessWaitingMessages(void) { ; };
+
     protected:
 
       Control *ControlFromPos(Pos &oPos);
       void     GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight, 
                                   Rect &oNewRect);
 
-              void  IncUsageRef(void);
-              void  DecUsageRef(void);
-              void  LockUsageRef(void);
-              void  UnlockUsageRef(void);
-      virtual void  ProcessWaitingMessages(void) { ; };
+      // For locking the window in preparatiom for a VMM
+      virtual void  IncUsageRef(void);
+      virtual void  DecUsageRef(void);
+      virtual void  LockUsageRef(void);
+      virtual void  UnlockUsageRef(void);
      
       string                    m_oName;
       vector<Control *>         m_oControls;

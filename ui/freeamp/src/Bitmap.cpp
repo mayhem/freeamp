@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.cpp,v 1.3 1999/12/10 07:16:43 elrod Exp $
+   $Id: Bitmap.cpp,v 1.4 2000/05/14 21:20:46 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -49,4 +49,10 @@ void Bitmap::SetTransColor(Color &oColor)
 {
     m_bHasTransColor = true;
     m_oTransColor = oColor;
+}
+
+bool Bitmap::GetTransColor(Color &oColor)
+{
+    oColor = m_oTransColor;
+    return m_bHasTransColor;
 }

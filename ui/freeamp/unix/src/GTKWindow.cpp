@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.31 2000/04/08 05:35:59 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.32 2000/05/14 21:20:46 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -29,6 +29,8 @@ ____________________________________________________________________________*/
 #include "GTKWindow.h"
 #include "GTKCanvas.h"
 #include "GTKUtility.h" 
+
+#define DB printf("%s:%d\n", __FILE__, __LINE__);
 
 static GtkTargetEntry main_drop[] =
 {
@@ -274,6 +276,24 @@ Error GTKWindow::VulcanMindMeld(Window *pOther)
     m_pMindMeldMutex->Release();
 
     return kError_NoErr;
+}
+
+void GTKWindow::PanelStateChanged(void)
+{
+    Rect       oRect;
+    GdkBitmap *mask;
+
+    Window::PanelStateChanged();
+
+    GetCanvas()->GetBackgroundRect(oRect);
+    mask = ((GTKCanvas *)m_pCanvas)->GetMask();
+
+    gdk_threads_enter();
+    if (mask)
+        gdk_window_shape_combine_mask(mainWindow->window, mask, 0, 0);
+    gdk_threads_leave();
+
+    ((GTKCanvas *)GetCanvas())->Paint(oRect);
 }
 
 void GTKWindow::SaveWindowPos(Pos &oPos)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.h,v 1.2 1999/10/19 07:13:19 elrod Exp $
+   $Id: GTKBitmap.h,v 1.3 2000/05/14 21:20:46 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKBITMAP_H__
@@ -50,8 +50,12 @@ class GTKBitmap : public Bitmap
      virtual bool  IsPosVisible(Pos &oPos);
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
                             Rect &oDestRect);
+     virtual Error BlitRectMaskBitmap(Bitmap *pSrcBitmap, Rect &oSrcRect, 
+                                      Rect &oDestRect);
      virtual Error MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect,
 		                Rect &oDestRect);
+     virtual Bitmap *Clone(void);
+     virtual Error MakeTransparent(Rect &oRect);
 
      GdkPixmap *GetBitmap() { return m_Bitmap; }
      GdkPixmap *GetMask() { return m_MaskBitmap; }
@@ -66,6 +70,7 @@ class GTKBitmap : public Bitmap
 
      GdkGC *m_GC;
      bool shape_set;
+     int  m_width, m_height;
 };
 
 #endif

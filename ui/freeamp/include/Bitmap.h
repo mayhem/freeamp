@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.h,v 1.3 1999/12/10 07:16:43 elrod Exp $
+   $Id: Bitmap.h,v 1.4 2000/05/14 21:20:46 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BITMAP_H__
@@ -45,15 +45,20 @@ class Bitmap
               Bitmap(const string &oName);
      virtual ~Bitmap(void);
 
-     virtual void  GetName(string &oName);
-     virtual void  GetErrorString(string &oName);
-     virtual void  SetTransColor(Color &oColor);
-     virtual bool  IsPosVisible(Pos &oPos) = 0;
-     virtual Error LoadBitmapFromDisk(string &oFile) = 0;
-     virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
-                            Rect &oDestRect) = 0;
-     virtual Error MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
-                                Rect &oDestRect) = 0;
+     virtual void    GetName(string &oName);
+     virtual void    GetErrorString(string &oName);
+     virtual void    SetTransColor(Color &oColor);
+     virtual bool    GetTransColor(Color &oColor);
+     virtual bool    IsPosVisible(Pos &oPos) = 0;
+     virtual Error   LoadBitmapFromDisk(string &oFile) = 0;
+     virtual Error   BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
+                              Rect &oDestRect) = 0;
+     virtual Error   MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
+                                  Rect &oDestRect) = 0;
+     virtual Error   BlitRectMaskBitmap(Bitmap *pSrcBitmap, Rect &oSrcRect, 
+                                        Rect &oDestRect) = 0;
+     virtual Bitmap *Clone(void) = 0;
+     virtual Error   MakeTransparent(Rect &oRect) = 0; 
 
     protected:
 

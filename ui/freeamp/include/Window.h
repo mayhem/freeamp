@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.23 2000/03/17 21:47:10 ijr Exp $
+   $Id: Window.h,v 1.24 2000/05/14 21:20:46 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -51,6 +51,23 @@ typedef multimap<string, Control *>::iterator ControlMapIterator;
 
 class Theme;
 
+struct Panel
+{
+    Panel::Panel() 
+    { 
+        memset(&m_oOpenRect, 0, sizeof(Rect));
+        memset(&m_oClosedRect, 0, sizeof(Rect));
+        memset(&m_oOffset, 0, sizeof(Pos));
+        m_pOpenBitmap = m_pClosedBitmap = NULL;
+        m_bIsOpen = false;
+    };
+    string  m_oName;
+    Rect    m_oOpenRect, m_oClosedRect;
+    Pos     m_oOffset;
+    Bitmap *m_pOpenBitmap, *m_pClosedBitmap;
+    bool    m_bIsOpen;
+};
+
 class Window
 {
     public:
@@ -65,7 +82,10 @@ class Window
       void    Keystroke(unsigned char cKey);
       bool    MenuCommand(uint32 uCommand);
       void    VolumeChanged(void);
-	  void    EnableTimer(bool bEnable);
+      void    EnableTimer(bool bEnable);
+ 
+      // Panel related functions
+      void    AddPanel(Panel *pPanel);
 
       virtual void SetStayOnTop(bool bStay);
       virtual void SetLiveInToolbar(bool bLive);
@@ -101,7 +121,7 @@ class Window
       
       // VulcanMinkMeld is called when this window should 'become' the
       // other window. 
-	  virtual Error VulcanMindMeld(Window *pOther);
+      virtual Error VulcanMindMeld(Window *pOther);
               void  VulcanMindMeldHost(bool bIsHost);
 
       // Run handles OS dependent messages and calls the functions below
@@ -117,9 +137,10 @@ class Window
       virtual Error HideMouse(bool bHide) = 0;
       virtual Error Minimize(void) = 0;
       virtual Error Restore(void) = 0;
-	  virtual bool  LButtonDown(void) = 0;
-	  virtual Error GetDesktopSize(int32 &iX, int32 &iY) = 0;
+      virtual bool  LButtonDown(void) = 0;
+      virtual Error GetDesktopSize(int32 &iX, int32 &iY) = 0;
       virtual void  BringWindowToFront(void) = 0;
+      virtual void  PanelStateChanged(void);
       
       // Mouse position is in screen coordinates
       virtual Error SetMousePos(Pos &oMousePos) = 0;
@@ -128,7 +149,7 @@ class Window
       virtual Error GetWindowPosition(Rect &oWindowRect) = 0;
 
       // Call this function whenever the are pending GUI messages
-	  // that might cause a deadlock
+      // that might cause a deadlock
       virtual void  ProcessWaitingMessages(void) { ; };
 
       // For deadlock avaoidance
@@ -146,6 +167,7 @@ class Window
       virtual void  UnlockUsageRef(void);
      
       string                    m_oName;
+      vector<Panel *>           m_oPanels;
       vector<Control *>         m_oControls;
       ControlMap                m_oControlMap;
       Canvas                   *m_pCanvas;
@@ -157,11 +179,11 @@ class Window
       bool                      m_bStayOnTop, m_bLiveInToolbar;
       bool                      m_bIsVulcanMindMeldHost;
       Rect                      m_oMoveStart;
-	  int32                     m_iDesktopWidth, m_iDesktopHeight;
-	  bool                      m_bMindMeldInProgress, m_bTimerEnabled;
-	  Mutex                    *m_pUsageMutex;
-	  Semaphore                *m_pUsageSem;
-	  int32                     m_iUsageCount;
+      int32                     m_iDesktopWidth, m_iDesktopHeight;
+      bool                      m_bMindMeldInProgress, m_bTimerEnabled;
+      Mutex                    *m_pUsageMutex;
+      Semaphore                *m_pUsageSem;
+      int32                     m_iUsageCount;
 };
 
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.19 1999/09/24 18:23:39 ijr Exp $
+        $Id: player.cpp,v 1.133.2.20 1999/09/26 01:47:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -43,6 +43,7 @@ ____________________________________________________________________________*/
 #include "log.h"
 #include "pmo.h"
 #include "utility.h"
+#include "downloadmanager.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
@@ -125,6 +126,9 @@ EventQueue()
    freeampdir += "metadatabase";
    m_musicBrowser->SetDatabase(freeampdir.c_str());
    delete tempstr;
+
+   m_downloadManager = new DownloadManager(m_context);
+   m_context->downloadManager = m_downloadManager;
 }
 
 #define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }
@@ -178,6 +182,7 @@ Player::
    TYPICAL_DELETE(m_uiRegistry);
    TYPICAL_DELETE(m_lmcExtensions);
    TYPICAL_DELETE(m_musicBrowser);
+   TYPICAL_DELETE(m_downloadManager);
 }
 
 void      

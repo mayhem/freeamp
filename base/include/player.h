@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.42.4.9 1999/09/24 00:14:31 elrod Exp $
+        $Id: player.h,v 1.42.4.10 1999/09/26 01:47:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -42,6 +42,7 @@ using namespace std;
 #include "propimpl.h"
 #include "musicbrowser.h"
 #include "hashtable.h"
+#include "downloadmanager.h"
 
 #include "lmc.h"
 
@@ -182,6 +183,8 @@ class Player : public EventQueue, Properties, PropertyWatcher
 
     HashTable<RegistryItem *> *m_lmcExtensions;
     MusicBrowser *m_musicBrowser;
+
+    DownloadManager* m_downloadManager;
 };
 
 #endif // _PLAYER_H_

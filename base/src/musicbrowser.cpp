@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.11 1999/09/24 02:05:46 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.12 1999/09/26 01:47:59 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -320,6 +320,7 @@ void MusicBrowser::WriteMetaDataToDatabase(char *path, MetaData information)
     data = "M";
     if (information.Artist() != "")
         data += information.Artist();
+    else
         data += " ";
     data += DBASEDELIM;
     if (information.Album() != "")

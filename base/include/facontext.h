@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.3.8.5 1999/09/24 18:23:39 ijr Exp $
+	$Id: facontext.h,v 1.3.8.6 1999/09/26 01:47:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FACONTEXT_H_
@@ -39,6 +39,7 @@ class PlaylistManager;
 class Properties;
 class EventQueue;
 class MusicBrowser;
+class DownloadManager;
 
 class FAContext
 {
@@ -76,6 +77,7 @@ class FAContext
     PlaylistManager *plm;
     EventQueue *target;
     MusicBrowser *browser;
+    DownloadManager *downloadManager;
 #ifndef WIN32
     Mutex gtkLock;
     bool gtkInitialized;

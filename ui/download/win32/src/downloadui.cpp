@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.9 1999/11/21 01:23:15 elrod Exp $
+	$Id: downloadui.cpp,v 1.10 1999/11/29 22:45:22 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1146,6 +1146,12 @@ BOOL DownloadUI::Command(int32 command, HWND src)
 {
     switch(command)
 	{
+        case IDC_SHOWHELP:
+        {
+            ShowHelp(Download_Manager);
+            break;
+        }
+
         case IDC_RESUME:
 		case IDC_PAUSE:
         case IDC_CANCEL:
@@ -1163,7 +1169,7 @@ BOOL DownloadUI::Command(int32 command, HWND src)
 
                     for(uint32 i = 0; i < itemCount; i++)
                     {
-                        if(ListView_GetItemState(m_hwndList, i, LVIS_FOCUSED) & LVIS_FOCUSED)
+                        if(ListView_GetItemState(m_hwndList, i, LVIS_SELECTED) & LVIS_SELECTED)
                         {
                             item.mask = LVIF_PARAM;
                             item.iItem = i;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.h,v 1.10 1999/04/22 00:17:20 mhw Exp $
+	$Id: cmdlineUI.h,v 1.11 1999/04/22 18:07:58 mhw Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -59,6 +59,7 @@ class cmdlineUI : public UserInterface {
    Thread *keyboardListenThread;
    PlayListManager *m_plm;
    int32 m_lastIndexPlayed;
+   bool m_id3InfoPrinted;
 };
 
 

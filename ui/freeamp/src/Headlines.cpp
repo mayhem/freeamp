@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Headlines.cpp,v 1.4 2000/03/13 21:26:00 ijr Exp $
+   $Id: Headlines.cpp,v 1.5 2000/03/19 11:32:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -144,7 +144,7 @@ void Headlines::WorkerThread(void)
             m_iIndex = m_iIndex % m_oHeadlines.size();
             m_pContext->target->AcceptEvent(new HeadlineMessageEvent(
                     m_oHeadlines[m_iIndex].c_str(),
-                    (m_iIndex >= m_oHeadlineURLs.size()) ? "" : 
+                    (m_iIndex >= (int)m_oHeadlineURLs.size()) ? "" : 
                      m_oHeadlineURLs[m_iIndex].c_str()));
                                        
             m_iIndex++;

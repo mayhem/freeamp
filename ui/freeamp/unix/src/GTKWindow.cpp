@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.26 2000/03/19 07:08:34 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.27 2000/03/19 11:32:31 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -44,7 +44,6 @@ void mouse_move(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     oPos.y = (int)e->motion.y_root;
     gdk_threads_leave();
     ui->m_pMindMeldMutex->Acquire();
-    ui->SetMouseIn();
     ui->HandleMouseMove(oPos);
     ui->m_pMindMeldMutex->Release();
     gdk_threads_enter();
@@ -58,7 +57,6 @@ void button_down(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     oPos.y = (int)e->button.y_root;
     gdk_threads_leave();
     ui->m_pMindMeldMutex->Acquire();
-    ui->SetMouseIn();
     if (e->button.button == 1) 
         ui->HandleMouseLButtonDown(oPos);
     else if (e->button.button == 3)
@@ -85,7 +83,6 @@ void key_press(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     char *str = e->key.string;
     gdk_threads_leave();
     ui->m_pMindMeldMutex->Acquire();
-    ui->SetMouseIn();
     ui->Keystroke(str[0]);
     ui->m_pMindMeldMutex->Release();
     gdk_threads_enter();
@@ -124,7 +121,6 @@ void drop_file(GtkWidget *w, GdkDragContext *context, gint x, gint y,
 static gint do_timeout(GTKWindow *ui)
 {
     ui->m_pMindMeldMutex->Acquire();
-//    ui->MouseLeaveCheck();
     ui->TimerEvent();
     ui->m_pMindMeldMutex->Release();
     
@@ -145,8 +141,7 @@ GTKWindow::GTKWindow(Theme *pTheme, string &oName)
     gtk_widget_set_events(mainWindow, GDK_SUBSTRUCTURE_MASK | GDK_STRUCTURE_MASK
                           | GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK |
                           GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
-                          GDK_KEY_PRESS_MASK | GDK_ENTER_NOTIFY | 
-                          GDK_LEAVE_NOTIFY);
+                          GDK_KEY_PRESS_MASK); 
     gtk_widget_realize(mainWindow);
     gdk_window_set_decorations(mainWindow->window, (GdkWMDecoration)0);
     gdk_threads_leave();

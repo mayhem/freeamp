@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.42 2000/03/04 04:59:06 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.43 2000/03/19 11:32:31 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1045,6 +1045,7 @@ Error MusicCatalog::AcceptEvent(Event *e)
             }
             break; }
         case INFO_SearchMusicDone: {
+            m_context->target->AcceptEvent(new Event(INFO_MusicCatalogRegenerating));
             m_database->Sync();
             string info = "Pruning the Music Catalog Database...";
             m_context->target->AcceptEvent(new BrowserMessageEvent(info.c_str()));
@@ -1056,6 +1057,7 @@ Error MusicCatalog::AcceptEvent(Event *e)
             m_context->target->AcceptEvent(new BrowserMessageEvent(info.c_str()));
             Sort();
             m_context->target->AcceptEvent(new Event(INFO_SearchMusicDone));
+            m_context->target->AcceptEvent(new Event(INFO_MusicCatalogDoneRegenerating));
             delete e;
             break;
         } 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.230 2000/08/24 20:37:57 ijr Exp $
+        $Id: player.cpp,v 1.231 2000/08/24 23:41:27 sward Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1815,8 +1815,14 @@ Player::
 Play(Event *pEvent)
 {
     const PlaylistItem               *pItem;
-
-    if (m_playerState == PlayerState_Playing)
+	
+	if ((m_playerState == PlayerState_Playing) && (pEvent->Type() == PlayerState_Playing)) 
+	{	// ignore double Playing event
+		delete pEvent;
+		return;
+	}
+    
+	if (m_playerState == PlayerState_Playing)
     {
        delete m_pmo;
        m_pmo = NULL;

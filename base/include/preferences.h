@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.35 2000/04/25 14:30:19 robert Exp $
+	$Id: preferences.h,v 1.36 2000/05/08 10:49:05 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -92,6 +92,7 @@ extern const char* kWatchThisDirTimeoutPref;
 extern const char* kWriteID3v1Pref;
 extern const char* kWriteID3v2Pref;
 extern const char* kEqualizerSettingsPref;
+extern const char* kSavedPlaylistPositionPref;
 
 extern const int32 kDefaultWatchThisDirTimeout;
 
@@ -298,6 +299,9 @@ class Preferences {
 
     Error GetEqualizerSettings(char* settings, uint32* len);
     Error SetEqualizerSettings(const char* settings);
+
+    Error GetSavedPlaylistPosition(uint32* value);
+    Error SetSavedPlaylistPosition(uint32  value);
 };
 
 #endif /* _PREFERENCES_H */

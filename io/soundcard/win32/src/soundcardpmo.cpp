@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.71 2000/08/03 20:09:34 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.72 2000/08/08 18:37:34 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -188,10 +188,6 @@ Error SoundCardPMO::Init(OutputInfo * info)
    m_samples_per_second = info->samples_per_second;
    m_samples_per_frame = info->samples_per_frame;
    m_data_size = info->max_buffer_size;
-
-   Debug_v("Init event: ch: %d sr: %d spf: %d ds: %d", 
-	     m_channels, m_samples_per_second, m_samples_per_frame, m_data_size);
-
 
    m_iBytesPerSample = info->number_of_channels * (info->bits_per_sample / 8);
 
@@ -375,8 +371,8 @@ Error SoundCardPMO::Write(void *pBuffer, uint32 uSize)
       
    if ((((char *)pBuffer) + uSize)- pBase > m_pInputBuffer->GetBufferSize())
    {
-      Debug_v("Diff: %d Size: %u", 
-          ((((char *)pBuffer) + uSize) - pBase), m_pInputBuffer->GetBufferSize());
+      //Debug_v("Diff: %d Size: %u", 
+      //    ((((char *)pBuffer) + uSize) - pBase), m_pInputBuffer->GetBufferSize());
       assert(0);
    }   
          
@@ -421,6 +417,7 @@ Error SoundCardPMO::AllocHeader(void *&pBuffer, uint32 &uSize)
        else
           break;    
     }       
+
     if (iNumBlocks == 0)
        return kError_NoDataAvail;
 
@@ -583,10 +580,8 @@ void SoundCardPMO::WorkerThread(void)
               // cleans up the pending headers so the bytes in use
               // value is correct.
               NextHeader(true);
-              if (m_iHead == m_iTail)
-                 Debug_v("Underflow!");
-    
-              WasteTime();
+              HandleTimeInfoEvent(NULL);
+			  WasteTime();
               continue;
           }
 
@@ -615,7 +610,6 @@ void SoundCardPMO::WorkerThread(void)
 
               if (pEvent->Type() == PMO_Init)
 			  {
-				  Debug_v("Got init event");
                   Init(((PMOInitEvent *)pEvent)->GetInfo());
 			  }
     

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.16 2000/08/21 14:09:49 sward Exp $
+   $Id: tstream.cpp,v 1.17 2000/09/28 14:17:23 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -49,6 +49,13 @@ ____________________________________________________________________________*/
 #include "facontext.h"
 #include "log.h" 
 #include "eventdata.h" 
+
+#ifdef irix
+#ifdef socklen_t
+#undef socklen_t
+#endif
+#define socklen_t int
+#endif
 
 #if !defined(WIN32) && !defined(__BEOS__)
 #define closesocket(s) close(s)

@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.h,v 1.1 2000/03/20 20:50:13 ijr Exp $
+        $Id: cdpmo.h,v 1.2 2000/03/30 22:40:44 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDPMO_H_
@@ -64,9 +64,9 @@ class CDPMO:public PhysicalMediaOutput
    virtual Error ChangePosition(int32);
    virtual Error SetTo(const char *url); 
 
-   struct disc_info GetDiscInfo();
-   uint32  GetCDDBDiscID();
-   char   *GetcdindexDiscID();
+   virtual struct disc_info GetDiscInfo();
+   virtual uint32  GetCDDBDiscID();
+   virtual char   *GetcdindexDiscID();
 
  private:
    void          WorkerThread(void); 

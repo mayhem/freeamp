@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb.cpp,v 1.2 2000/03/04 04:59:06 ijr Exp $
+	$Id: cddb.cpp,v 1.3 2000/03/30 22:40:44 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -86,12 +86,13 @@ bool CDDB::ReadMetaData(const char* url, MetaData* metadata)
         if (!pmo_item)
             return retvalue;
 
-        PhysicalMediaOutput *pmo;
-        pmo = (PhysicalMediaOutput *)pmo_item->InitFunction()(m_context);
-        pmo->SetPropManager((Properties *)(m_context->player));
+        CDPMO* pmo;
+
+        pmo = (CDPMO*)pmo_item->InitFunction()(m_context);
+        pmo->SetPropManager(m_context->props);
         pmo->Init(NULL);
 
-        m_discinfo = ((CDPMO*)pmo)->GetDiscInfo();
+        m_discinfo = (pmo)->GetDiscInfo();
 
         if (!m_discinfo.disc_present) {
             delete pmo;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.4 1999/10/14 00:35:16 robert Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.5 1999/10/14 22:57:53 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -160,6 +160,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             }
 #else
             SetWindowText(GetDlgItem(m_hWnd, IDC_STATUS), "Music search completed.");
+            InitTree();
 #endif                
             break; }
         case INFO_BrowserMessage: {

@@ -36,8 +36,6 @@ BEGIN
     CONTROL         "Tree1",IDC_MUSICTREE,"SysTreeView32",TVS_HASBUTTONS | 
                     TVS_HASLINES | WS_BORDER | WS_TABSTOP,7,20,122,144
     LTEXT           "My Music Catalog:",IDC_MUSICCATALOGTEXT,7,7,118,8
-    LISTBOX         IDC_PLAYLISTBOX,138,39,122,126,LBS_SORT | 
-                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Playlist:",IDC_PLAYLISTTEXT,140,7,24,8
     COMBOBOX        IDC_PLAYLISTCOMBO,139,20,122,30,CBS_DROPDOWN | CBS_SORT | 
                     WS_VSCROLL | WS_TABSTOP
@@ -50,6 +48,8 @@ BEGIN
     PUSHBUTTON      "&New List",IDC_NEWLIST,265,133,50,14
     PUSHBUTTON      "Clear List",IDC_CLEARLIST,265,152,50,14
     LTEXT           "",IDC_STATUS,7,191,308,10,SS_SUNKEN
+    CONTROL         "List1",IDC_PLAYLISTBOX,"SysListView32",LVS_LIST | 
+                    LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,139,39,121,125
 END
 
 
@@ -136,14 +136,6 @@ BEGIN
     END
 END
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

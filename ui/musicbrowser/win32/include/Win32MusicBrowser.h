@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.1.2.4 1999/10/14 00:35:17 robert Exp $
+        $Id: Win32MusicBrowser.h,v 1.1.2.5 1999/10/14 22:57:54 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -43,6 +43,26 @@ class FAContext;
 #define STATE_COLLAPSED 0
 #define STATE_EXPANDED  1
 
+struct TreeCrossRef
+{
+    int32         iLevel;
+    ArtistList   *pArtist;
+    AlbumList    *pAlbum;
+    PlaylistItem *pTrack;
+    
+    TreeCrossRef(void)
+    {
+       iLevel = -1;
+       pArtist = NULL;
+       pAlbum = NULL;
+       pTrack = NULL;
+    };
+};
+
+
+bool operator<(const TreeCrossRef &A, const TreeCrossRef &b);
+bool operator==(const TreeCrossRef &A, const TreeCrossRef &b);
+
 class MusicBrowserUI : public UserInterface 
 {
  public:
@@ -52,7 +72,7 @@ class MusicBrowserUI : public UserInterface
 
     virtual int32 AcceptEvent(Event *);
     virtual Error Init(int32);
-
+						 
     static void UIThreadFunc(void* arg);
            void InitDialog(void);
     void  ShowBrowser(bool bShowExpanded);
@@ -91,27 +111,33 @@ class MusicBrowserUI : public UserInterface
     void ReadPlaylist(char *filename, vector<PlaylistItem *> *plist);
 
     void ToggleVisEvent(void);
+
+    void InitList(void);
+
+    void InitTree(void);
     void FillArtists(void);
     void FillAlbums(TV_ITEM *pItem);
     void FillPlaylists(void);
+    void FillTracks(TV_ITEM *pItem);
 
     void  MoveControls(int iPixelsToMove);
     Error CreateMainDialog(void);
     Error CloseMainDialog(void);
 
-    EventQueue      *m_playerEQ;
-    int32            m_state, m_startupType;
-    uint32           m_currentindex;
-  	HWND             m_hWnd;		
-    PlaylistManager *m_plm;
-    bool             m_initialized, isVisible;
-    string           m_currentListName;
-    Thread          *m_uiThread;
-    POINT            m_sMinSize;
-    int              m_iXMargin, m_iYMargin;
-    int              m_iXListMargin, m_iYListMargin;
-    int              m_iLeftListMargin, m_iCenterListMargin;
-    HTREEITEM	     m_hPlaylistItem, m_hCatalogItem;
+    EventQueue          *m_playerEQ;
+    int32                m_state, m_startupType;
+    uint32               m_currentindex;
+  	HWND                 m_hWnd;		
+    PlaylistManager     *m_plm;
+    bool                 m_initialized, isVisible;
+    string               m_currentListName;
+    Thread              *m_uiThread;
+    POINT                m_sMinSize;
+    int                  m_iXMargin, m_iYMargin;
+    int                  m_iXListMargin, m_iYListMargin;
+    int                  m_iLeftListMargin, m_iCenterListMargin;
+    HTREEITEM	         m_hPlaylistItem, m_hCatalogItem;
+    vector<TreeCrossRef> m_oMusicCrossRefs;
 };
 
 #endif

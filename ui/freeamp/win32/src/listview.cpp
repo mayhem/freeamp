@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.cpp,v 1.1 1999/03/03 09:06:20 elrod Exp $
+	$Id: listview.cpp,v 1.2 1999/03/03 11:20:56 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -95,9 +95,67 @@ ListView::
 
 void 
 ListView::
-Pulse()
+KeyPressed(int32 keyCode)
 {
-    
+    switch(keyCode) 
+    { 
+        case VK_UP: 
+        {
+            if(m_firstVisible > 0)
+            {
+                ScrollTo(--m_firstVisible);
+
+                if(m_scroller)
+                    m_scroller->SetPosition(m_firstVisible);
+            }
+
+            break; 
+        }
+
+        case VK_DOWN: 
+        {
+            if(m_firstVisible < CountItems() - 8)
+            {
+                ScrollTo(++m_firstVisible); 
+
+                if(m_scroller)
+                    m_scroller->SetPosition(m_firstVisible);
+            }
+
+            break; 
+        }
+
+        case VK_HOME: 
+        {
+            m_firstVisible = 0;
+
+            ScrollTo(m_firstVisible); 
+
+            if(m_scroller)
+                m_scroller->SetPosition(m_firstVisible);
+
+            break; 
+        }
+
+        case VK_END: 
+        {
+            if(CountItems() > 8)
+            {
+                m_firstVisible = CountItems() - 8;
+
+                ScrollTo(m_firstVisible); 
+
+                if(m_scroller)
+                    m_scroller->SetPosition(m_firstVisible);
+            }
+
+            break; 
+        }
+
+        case VK_DELETE: 
+           
+            break; 
+    } 
 }
 
 void 

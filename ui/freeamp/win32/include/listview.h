@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.h,v 1.1 1999/03/03 09:03:40 elrod Exp $
+	$Id: listview.h,v 1.2 1999/03/03 11:20:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LIST_VIEW_H_
@@ -62,7 +62,7 @@ class ListView : public View {
     virtual void Draw(DIB* canvas, RECT* invalidRect);
 
     // Allow the view to get timer messages
-    virtual	void Pulse();
+    virtual	void KeyPressed(int32 keyCode);
 
     virtual	void TargetedByScrollView(ScrollView *scroller);
 	virtual	void ScrollTo(int32 index);

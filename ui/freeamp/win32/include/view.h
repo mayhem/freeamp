@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: view.h,v 1.1 1999/03/03 09:03:41 elrod Exp $
+	$Id: view.h,v 1.2 1999/03/03 11:20:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _VIEW_H_
@@ -54,7 +54,7 @@ class View {
     virtual void Draw(DIB* canvas, RECT* invalidRect){}
 
     // Allow the view to deal with key presses
-    virtual	void KeyPressed(char byte){}
+    virtual	void KeyPressed(int32 keyCode){}
 
     // Allow the view to get timer messages
     virtual	void Pulse(){}

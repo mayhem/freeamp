@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.12 1999/03/03 09:49:08 elrod Exp $
+	$Id: freeampui.h,v 1.13 1999/03/03 11:20:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -86,6 +86,7 @@ class FreeAmpUI : public UserInterface {
     bool LeftButtonUp(int32 xPos, int32 yPos, int32 modifiers);
     void Command(int32 command, View* source);
     void Notify(int32 command, LPNMHDR notifyMsgHdr);
+    void KeyDown(int32 keyCode);
 
 
  protected:

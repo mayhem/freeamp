@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.49.2.7 1999/10/04 17:57:58 ijr Exp $
+dnl $Id: configure.in,v 1.49.2.8 1999/10/06 00:53:04 dogcow Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -203,7 +203,7 @@ cmdline="true"
 isunix="true"
 OSLINK=""
 FPIC="-fpic"
-LINKMOD="gcc -shared"
+LINKMOD="$CC -shared"
 LIBMOD="ar -r"
 OSTYPE="UNIX";
 

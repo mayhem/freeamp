@@ -2804,7 +2804,7 @@ cmdline="true"
 isunix="true"
 OSLINK=""
 FPIC="-fpic"
-LINKMOD="gcc -shared"
+LINKMOD="$CC -shared"
 LIBMOD="ar -r"
 OSTYPE="UNIX";
 

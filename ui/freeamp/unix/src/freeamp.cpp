@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.27 1999/04/21 04:20:58 elrod Exp $
+	$Id: freeamp.cpp,v 1.28 1999/04/21 07:21:42 dogcow Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -32,6 +32,8 @@ ____________________________________________________________________________*/
 
 #ifdef linux
 #include <linux/soundcard.h>
+#elif defined(solaris)
+#include <sys/audioio.h>
 #endif
 
 #include <sys/ioctl.h>
@@ -781,14 +783,21 @@ void FreeAmpUI::openFunction(void *p) {
     //cerr << "open" << endl;
 }
 
-
+#ifdef linux
 #define VOL_MAX 100
+#elif defined(solaris)
+#define VOL_MAX 256
+#endif
+
 // 0 = off
 // 1 = on
 // 2 = up
 // 3 = down
 // 5 = no change
 void FreeAmpUI::VolumeDialFunction(void *p, int32 c,int32 x, int32 y) {
+#ifdef solaris
+ struct audio_info ainfo;
+#endif
     //cout << "volume y: " << c << endl;
     switch (c) {
 	case 0:
@@ -799,8 +808,16 @@ void FreeAmpUI::VolumeDialFunction(void *p, int32 c,int32 x, int32 y) {
 	case 1:
 	    ((FreeAmpUI *)p)->m_oldLcdState = ((FreeAmpUI *)p)->m_lcdWindow->GetDisplayState();
 
+#ifdef linux
 	    ((FreeAmpUI *)p)->m_mixerFd = open("/dev/mixer",O_RDWR);
 	    ioctl( ((FreeAmpUI *)p)->m_mixerFd, SOUND_MIXER_READ_VOLUME, &( ((FreeAmpUI *)p)->m_volume ));
+#elif defined(solaris)
+	    ((FreeAmpUI *)p)->m_mixerFd = open("/dev/audioctl", O_RDWR);
+	    /* bork */
+	    ioctl(((FreeAmpUI *)p)->m_mixerFd, AUDIO_GETINFO, &ainfo);
+	    /* bork */
+            ((FreeAmpUI *)p)->m_volume = ainfo.play.gain;
+#endif
 	    ((FreeAmpUI *)p)->m_volume &= 0xFF;
 	    ((FreeAmpUI *)p)->m_lcdWindow->SetVolume( ((FreeAmpUI *)p)->m_volume );
     
@@ -817,9 +834,14 @@ void FreeAmpUI::VolumeDialFunction(void *p, int32 c,int32 x, int32 y) {
 	    ((FreeAmpUI *)p)->m_lcdWindow->Draw(FALcdWindow::TimeOnly);
 	    ((FreeAmpUI *)p)->m_volume = foo;
 	    
+#ifdef linux
 	    foo |= (foo << 8);
-
 	    ioctl( ((FreeAmpUI *)p)->m_mixerFd, SOUND_MIXER_WRITE_VOLUME, &foo);
+#elif defined(solaris)
+	    ioctl(((FreeAmpUI *)p)->m_mixerFd, AUDIO_GETINFO, &ainfo);
+            ainfo.play.gain = foo;
+	    ioctl(((FreeAmpUI *)p)->m_mixerFd, AUDIO_SETINFO, &ainfo);
+#endif
 
 	    break; }
 	case 3: {
@@ -832,9 +854,15 @@ void FreeAmpUI::VolumeDialFunction(void *p, int32 c,int32 x, int32 y) {
 	    ((FreeAmpUI *)p)->m_lcdWindow->Draw(FALcdWindow::TimeOnly);
 	    ((FreeAmpUI *)p)->m_volume = foo;
 
+#ifdef linux
 	    foo |= (foo << 8);
 
 	    ioctl( ((FreeAmpUI *)p)->m_mixerFd, SOUND_MIXER_WRITE_VOLUME, &foo);
+#elif defined(solaris)
+	    ioctl(((FreeAmpUI *)p)->m_mixerFd, AUDIO_GETINFO, &ainfo);
+            ainfo.play.gain = foo;
+	    ioctl(((FreeAmpUI *)p)->m_mixerFd, AUDIO_SETINFO, &ainfo);
+#endif
 	    
 	    break; }
     }

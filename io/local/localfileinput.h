@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.h,v 1.18 1999/11/12 02:36:20 robert Exp $
+        $Id: localfileinput.h,v 1.19 1999/11/15 19:36:04 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_LOCALFILEINPUT_H_
@@ -65,6 +65,7 @@ class LocalFileInput:public PhysicalMediaInput
 
    virtual Error Open(void);
    static  void  StartWorkerThread(void *pVoidBuffer);
+           void  SkipID3v2Tag(void);
 
    FILE           *m_fpFile;
    bool            m_bLoop;

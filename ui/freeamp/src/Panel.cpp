@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Panel.cpp,v 1.6 2000/08/08 21:04:40 robert Exp $
+   $Id: Panel.cpp,v 1.7 2000/08/08 22:34:43 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -259,6 +259,9 @@ Control *Panel::ControlFromPos(Pos &oPos)
     vector<Control *>::iterator i;
     bool                        bShown;
     Control                    *pControl;
+
+    if (m_bIsHidden)
+       return NULL;
 
     for(i = m_oControls.begin(); i != m_oControls.end(); i++)
     {

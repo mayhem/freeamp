@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.42 2000/06/02 13:17:33 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.43 2000/06/05 17:47:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -99,7 +99,7 @@ class GTKMusicBrowser {
     int m_playlistLastSort;
     string m_currentListName;
 
-    TreeData *mbSelection;
+    vector<TreeData *> *mbSelections;
     GtkCTree *musicBrowserTree;
  
     FAContext *GetContext(void) { return m_context; }
@@ -275,6 +275,8 @@ class GTKMusicBrowser {
     void AddFileCMD();
     void DeleteListEvent();
     void DeleteEvent();
+    bool AskToDelete(string url);
+    void DeletePlaylistItem(uint32 loc);
     void MoveUpEvent();
     void MoveDownEvent();
     void MoveItemEvent(int source, int dest);

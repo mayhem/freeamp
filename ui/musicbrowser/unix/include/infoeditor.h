@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.h,v 1.2 1999/10/19 07:13:28 elrod Exp $
+        $Id: infoeditor.h,v 1.3 2000/06/05 17:47:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_INFOEDITOR_H_
@@ -33,7 +33,8 @@ ____________________________________________________________________________*/
 
 class infoeditorUI {
  public:
-    infoeditorUI(FAContext *, PlaylistItem *);
+    infoeditorUI(FAContext *, PlaylistManager *plm,
+                 vector<PlaylistItem *> *itemlist);
    ~infoeditorUI();
   
     void DisplayInfo();
@@ -42,6 +43,7 @@ class infoeditorUI {
     GtkWidget *m_applyButton;
   
     void DoApplyInfoEdit();
+    void CheckWidget(GtkWidget *widget);
 
     bool changed;
  protected:
@@ -57,8 +59,23 @@ class infoeditorUI {
      GtkWidget *m_genreEntry;
      GtkWidget *m_trackEntry;
 
-     PlaylistItem *m_playlistItem;
+     vector<PlaylistItem *> *m_itemlist;
+
+     bool   m_artists;
+     bool   m_albums;
+     bool   m_years;
+     bool   m_genres;
+     uint32 m_listsize;
+
+     bool title_change;
+     bool artist_change;
+     bool album_change;
+     bool genre_change;
+     bool year_change;
+     bool comment_change;
+     bool track_change;
+
+     PlaylistManager *m_plm;
 };
-   
 
 #endif

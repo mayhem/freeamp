@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.14 2000/02/09 21:21:27 elrod Exp $
+	$Id: Mpg123UI.h,v 1.15 2000/06/05 17:47:01 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -66,6 +66,8 @@ class Mpg123UI : public UserInterface {
     int32 skipFirst;
     char fileName[512];
     float lastSeconds;
+
+    bool m_displaystuff;
 };
 
 

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.1.2.3 1999/05/21 03:35:52 dogcow Exp $
+# $Id: Makefile-plugins.in,v 1.1.2.4 1999/05/24 21:13:46 dogcow Exp $
 
 RELOC = @FPIC@
 
@@ -85,7 +85,7 @@ plugins/soundcard-$(HOST_OS).pmo: $(SCPMOOBJ)
 	$(LINKMOD) -o $@ $(SCPMOOBJ)
 
 # esound
-ESNDOBJ = io/esound/src/esdvolume.cpp io/esound/src/esoundpmo.cpp
+ESNDOBJ = io/esound/src/esdvolume.0 io/esound/src/esoundpmo.o
 
 plugins/esound.pmo: $(ESNDOBJ)
 	$(LINKMOD) -o $@ $(ESNDOBJ)

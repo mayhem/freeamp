@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.33 2000/04/18 02:04:01 robert Exp $
+	$Id: preferences.h,v 1.34 2000/04/24 23:04:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -91,6 +91,8 @@ extern const char* kWatchThisDirectoryPref;
 extern const char* kWatchThisDirTimeoutPref;
 extern const char* kWriteID3v1Pref;
 extern const char* kWriteID3v2Pref;
+
+extern const int32 kDefaultWatchThisDirTimeout;
 
 class LibDirFindHandle;
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.29 1999/04/08 07:25:34 elrod Exp $
+	$Id: freeampui.h,v 1.29.4.1 1999/04/16 08:14:49 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -65,10 +65,11 @@ enum {	UIState_Stopped = 0,
 		UIState_Playing, 
 		UIState_Paused };
 
+class FAContext;
 
 class FreeAmpUI : public UserInterface {
  public:
-    FreeAmpUI();
+    FreeAmpUI(FAContext *context);
     ~FreeAmpUI();
 
     virtual Error Init(int32 startup_type) { return kError_NoErr;}

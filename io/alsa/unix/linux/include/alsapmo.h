@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: alsapmo.h,v 1.4 1999/04/15 21:50:55 robert Exp $
+	$Id: alsapmo.h,v 1.4.2.1 1999/04/16 08:14:44 mhw Exp $
 ____________________________________________________________________________*/
 
 
@@ -100,7 +100,7 @@ enum {
 class AlsaPMO : public PhysicalMediaOutput, public EventBuffer
 {
 public:
-	    AlsaPMO();
+    AlsaPMO(FAContext *context);
     virtual ~AlsaPMO();
     
     virtual Error Init(OutputInfo* info);

@@ -13,10 +13,12 @@
 #include "RainplayDlg.h"
 #include "player.h"
 
+class FAContext;
+
 class CRainplayUI: public UserInterface
 {
 public:
-    CRainplayUI();
+    CRainplayUI(FAContext *context);
     ~CRainplayUI();
 
 	virtual Error Init(int32 startup_type) { return kError_NoErr; }

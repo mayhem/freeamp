@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 GoodNoise
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,19 +18,19 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.12 1999/04/09 09:50:04 elrod Exp $
+	$Id: preferences.h,v 1.1.2.1 1999/04/16 08:14:43 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PREFERENCES_H
 #define _PREFERENCES_H
 
-#include <windows.h>
 #include "config.h"
 #include "errors.h"
 
 // preferences
 extern const char* kInstallDirPref;
 extern const char* kUIPref;
+extern const char* kTextUIPref;
 extern const char* kPMOPref;
 extern const char* kOpenSaveDirPref;
 extern const char* kStayOnTopPref;
@@ -46,25 +46,37 @@ extern const char* kLogInputPref;
 extern const char* kLogOutputPref;
 extern const char* kLogPerformancePref;
 
+class LibDirFindHandle;
 
 class Preferences {
+  public:
+    virtual ~Preferences() { }
 
- public:
-	Preferences();
-    Preferences(const char* componentName);
-	~Preferences();
+    virtual Error SetDefaults();
+    virtual Error Save() = 0;
 
-    Error Initialize();
+    virtual Preferences *ComponentPrefs(const char *componentName) = 0;
 
     // foundation preference functions
-    Error GetPrefString(const char* pref, char* buf, uint32* len);
-    Error SetPrefString(const char* pref, const char* buf);
+    virtual Error GetPrefString(const char* pref, char* buf, uint32* len) = 0;
+    virtual Error SetPrefString(const char* pref, const char* buf) = 0;
 
-    Error GetPrefBoolean(const char* pref, bool* value);
-    Error SetPrefBoolean(const char* pref, bool value);
+    virtual Error GetPrefBoolean(const char* pref, bool* value);
+    virtual Error SetPrefBoolean(const char* pref, bool value);
 
-    Error GetPrefInt32(const char* pref, int32* value);
-    Error SetPrefInt32(const char* pref, int32 value);
+    virtual Error GetPrefInt32(const char* pref, int32* value);
+    virtual Error SetPrefInt32(const char* pref, int32 value);
+
+    // Iterators for the freeamp library path
+    virtual LibDirFindHandle *GetFirstLibDir(char *path, uint32 *len);
+    virtual Error GetNextLibDir(LibDirFindHandle *hLibDirFind,
+				char *path, uint32 *len);
+    virtual Error GetLibDirClose(LibDirFindHandle *hLibDirFind);
+
+    // XXX: This is a non-portable hack, and should only be used for user
+    //      messages.  Normally, you should use the iterators above instead.
+    virtual const char *GetLibDirs() = 0;
+
 
     // convenience functions
     Error GetInstallDirectory(char* path, uint32* len);
@@ -72,6 +84,9 @@ class Preferences {
 
     Error GetDefaultUI(char* name, uint32* len);
     Error SetDefaultUI(char* name);
+
+    Error GetDefaultTextUI(char* name, uint32* len);
+    Error SetDefaultTextUI(char* name);
 
     Error GetDefaultPMO(char* name, uint32* len);
     Error SetDefaultPMO(char* name);
@@ -124,13 +139,6 @@ class Preferences {
                             int32 top,
                             int32 width,
                             int32 height);
-
- protected:
-    
-
- private:
-     HKEY   m_prefsKey;
-	
 };
 
 #endif /* _PREFERENCES_H */

@@ -1,9 +1,8 @@
-
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 GoodNoise
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -19,42 +18,31 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.2 1999/03/07 07:30:39 elrod Exp $
+	$Id: beosprefs.h,v 1.1.2.1 1999/04/16 08:14:42 mhw Exp $
 ____________________________________________________________________________*/
 
 
-#ifndef _PREFERENCES_H
-#define _PREFERENCES_H
+#ifndef _BEOSPREFS_H
+#define _BEOSPREFS_H
 
 #include "config.h"
 #include "errors.h"
 #include "list.h"
 #include "win32impl.h"
 
-class LibDirFindHandle {
- public:
-    List <char *> *m_pLibDirs;
-    int32 m_current;
-};
 
-
-class Preferences {
+class BeOSPrefs : public Preferences {
 
  public:
-	Preferences();
-	~Preferences();
+    BeOSPrefs();
+    ~BeOSPrefs();
 
-    Error GetInstallDirectory(char* path, uint32* len);
-    Error SetInstallDirectory(char* path);
+    virtual LibDirFindHandle *GetFirstLibDir(char *path, uint32 *len);
+    virtual Error GetNextLibDir(LibDirFindHandle *hLibDirFind,
+				char *path, uint32 *len);
+    virtual Error GetLibDirClose(LibDirFindHandle *hLibDirFind);
 
-    Error GetDefaultUI(char* name, uint32* len);
-    Error SetDefaultUI(char* path);
-
-    HANDLE GetFirstLibDir(char *path, uint32 *len);
-    Error GetNextLibDir(HANDLE hLibDirFind,char *path, uint32 *len);
-    Error GetLibDirClose(HANDLE hLibDirFind);
-
-    static const char *GetLibDirs();
+    virtual const char *GetLibDirs();
 
  protected:
     Error GetPrefString(const char* pref, char* buf, uint32* len);
@@ -65,9 +53,4 @@ class Preferences {
     static char *m_libDirs;
 };
 
-#endif /* _PREFERENCES_H */
-
-
-
-
-
+#endif /* _BEOSPREFS_H */

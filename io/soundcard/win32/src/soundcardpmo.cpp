@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.32 1999/04/16 03:27:00 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.32.2.1 1999/04/16 08:14:47 mhw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -30,10 +30,9 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "SoundCardPMO.h"
 #include "eventdata.h"
+#include "facontext.h"
 #include "preferences.h"
 #include "log.h"
-
-LogFile  *g_Log;
 
 #define DB Debug_v("%s:%d", __FILE__, __LINE__);
 
@@ -46,10 +45,9 @@ Mutex *g_pHeaderMutex;
 
 extern    "C"
 {
-   PhysicalMediaOutput *Initialize(LogFile * pLog)
+   PhysicalMediaOutput *Initialize(FAContext *context)
    {
-      g_Log = pLog;
-      return new SoundCardPMO();
+      return new SoundCardPMO(context);
    }
 }
 
@@ -72,9 +70,9 @@ MCICallBack(HWAVEOUT hwo, UINT msg, DWORD dwInstance,
    }
 }
 
-SoundCardPMO::SoundCardPMO() :
+SoundCardPMO::SoundCardPMO(FAContext *context) :
               EventBuffer(iOrigBufferSize, iOverflowSize, 
-                          iWriteTriggerSize)
+                          iWriteTriggerSize, context)
 {
    m_wfex = NULL;
    m_wavehdr_array = NULL;
@@ -175,7 +173,7 @@ Error SoundCardPMO::Init(OutputInfo * info)
    if (IsError(result))
    {
        ReportError("Internal buffer sizing error occurred.");
-       g_Log->Error("Resize output buffer failed.");
+       m_context->log->Error("Resize output buffer failed.");
 
        return result;
    }
@@ -590,13 +588,13 @@ void SoundCardPMO::WorkerThread(void)
       if (IsError(eErr))
       {
           ReportError("Internal error occured.");
-          g_Log->Error("Cannot read from buffer in PMO worker tread: %d\n",
+          m_context->log->Error("Cannot read from buffer in PMO worker tread: %d\n",
               eErr);
           break;
       }
 
       Write(pBuffer);
    }
-   g_Log->Log(LogDecode, "PMO: Soundcard thread exiting\n");
+   m_context->log->Log(LogDecode, "PMO: Soundcard thread exiting\n");
 }    
 

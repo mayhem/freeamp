@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.54 1999/04/09 09:50:07 elrod Exp $
+	$Id: freeampui.cpp,v 1.54.4.1 1999/04/16 08:14:49 mhw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -81,9 +81,9 @@ const char* kSavePlaylistFileTitle = "Save Playlist File";
 
 HINSTANCE g_hinst = NULL;
 
-extern "C" FreeAmpUI *Initialize() 
+extern "C" FreeAmpUI *Initialize(FAContext *context)
 {
-    return new FreeAmpUI();
+    return new FreeAmpUI(context);
 }
 
 
@@ -342,9 +342,10 @@ MainWndProc(HWND hwnd,
 }
 
 FreeAmpUI::
-FreeAmpUI():
+FreeAmpUI(FAContext *context):
 UserInterface()
 {
+    m_context = context;
     m_hwnd          = NULL;
     m_palette       = NULL;
     m_windowRegion  = NULL;

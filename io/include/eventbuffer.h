@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: eventbuffer.h,v 1.1 1999/03/04 07:23:44 robert Exp $
+   $Id: eventbuffer.h,v 1.1.4.1 1999/04/16 08:14:45 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTBUFFER_H_
@@ -43,7 +43,8 @@ class EventBuffer : public PullBuffer
 
                EventBuffer(size_t iBufferSize, 
                            size_t iOverflowSize,
-                           size_t iWriteTriggerSize);
+                           size_t iWriteTriggerSize,
+			   FAContext *context);
       virtual ~EventBuffer(void);
 
       virtual  Error      AcceptEvent(Event *);

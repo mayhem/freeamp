@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.h,v 1.1 1999/01/23 10:23:50 jdw Exp $
+	$Id: irmanui.h,v 1.1.4.1 1999/04/16 08:14:50 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _IRManUI_H_
@@ -32,9 +32,11 @@ ____________________________________________________________________________*/
 
 #define DEFAULT_DEVICE "/dev/irman"
 
+class FAContext;
+
 class IRManUI : public UserInterface {
  public:
-    IRManUI();
+    IRManUI(FAContext *context);
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
@@ -43,6 +45,10 @@ class IRManUI : public UserInterface {
     static void irServiceFunction(void *);
     virtual ~IRManUI();
     virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
+
+ protected:
+    FAContext *m_context;
+
  private:
     HashTable<int32 *> m_commands;
     bool m_quitIRListen;

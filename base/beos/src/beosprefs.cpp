@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 GoodNoise
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,72 +18,49 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.11 1999/03/18 03:44:35 elrod Exp $
+	$Id: beosprefs.cpp,v 1.1.2.1 1999/04/16 08:14:42 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <unistd.h>
 #include <stdlib.h>
 
-#include "preferences.h"
+#include "beosprefs.h"
+
+class LibDirFindHandle {
+ public:
+    List <char *> *m_pLibDirs;
+    int32 m_current;
+};
 
 
 
-Preferences::Preferences() {
+BeOSPrefs::BeOSPrefs() {
 
 }
 
-Preferences::~Preferences() {
+BeOSPrefs::~BeOSPrefs() {
 
 }
 
 
-Error Preferences::GetInstallDirectory(char* path, uint32* len) {
-//    getcwd(path,*len);
+Error BeOSPrefs::GetPrefString(const char* pref, char* buf, uint32* len) {
+
+    // XXX: Implement me!
+
+    buf[0] = '\0';
+    *len = 1;
+
     return kError_NoErr;
 }
 
+Error BeOSPrefs::SetPrefString(const char* pref, char* buf) {
 
-Error Preferences::SetInstallDirectory(char* path) {
+    // XXX: Implement me!
+
     return kError_NoErr;
 }
 
-
-Error Preferences::GetDefaultUI(char* name, uint32* len) {
-    return kError_NoErr;
-}
-
-Error Preferences::SetDefaultUI(char* name) {
-    return kError_NoErr;
-}
-
-Error Preferences::GetDefaultPMO(char* name, uint32* len) {
-    strcpy(name, "");
-    return kError_NoErr;
-}
-
-Error Preferences::SetDefaultPMO(char* name) {
-    return kError_NoErr;
-}
-
-Error Preferences::GetOpenSaveDirectory(char* path, uint32* len)
-{
-    return kError_NoErr;
-}
-
-Error Preferences::SetOpenSaveDirectory(char* path)
-{
-    return kError_NoErr;
-}
-
-Error Preferences::GetPrefString(const char* pref, char* buf, uint32* len) {
-    return kError_NoErr;
-}
-
-Error Preferences::SetPrefString(const char* pref, char* buf) {
-    return kError_NoErr;
-}
-
-HANDLE Preferences::GetFirstLibDir(char *path, uint32 *len) {
+HANDLE BeOSPrefs::GetFirstLibDir(char *path, uint32 *len) {
     // if no FREEAMP_PATH, libdirs = ~/.freeamp : @lib_installdir@/freeamp : .
     // if FREEAMP_PATH, then its FREEAMP_PATH
     char *pEnv = getenv("FREEAMP_PATH");
@@ -105,11 +82,11 @@ HANDLE Preferences::GetFirstLibDir(char *path, uint32 *len) {
 	pCol = strchr(pPart,':');
 	if (pCol) *pCol = '\0';
 	char *pFoo = strdup(pPart);
-	pldfh->m_pLibDirs->AddItem(pFoo);
+	pldfh->m_pLibDirs->Insert(pFoo);
 	pPart = pCol + sizeof(char);
     }
 
-    pPath = pldfh->m_pLibDirs->ItemAt(0);
+    pPath = pldfh->m_pLibDirs->ElementAt(0);
     if (pPath) {
 	strncpy(path,pPath,*len);
 	*len = strlen(pPath);
@@ -126,9 +103,9 @@ HANDLE Preferences::GetFirstLibDir(char *path, uint32 *len) {
     return (HANDLE)pldfh;
 }
 
-char *Preferences::m_libDirs = NULL;
+char *BeOSPrefs::m_libDirs = NULL;
 
-const char *Preferences::GetLibDirs() {
+const char *BeOSPrefs::GetLibDirs() {
     if (!m_libDirs) {
 	m_libDirs = new char[1024];
 	strcpy(m_libDirs,".:~/.freeamp:");
@@ -138,11 +115,11 @@ const char *Preferences::GetLibDirs() {
     return m_libDirs;
 }
 
-Error Preferences::GetNextLibDir(HANDLE hLibDirFind,char *path, uint32 *len) {
+Error BeOSPrefs::GetNextLibDir(HANDLE hLibDirFind,char *path, uint32 *len) {
     if (hLibDirFind) {
 	LibDirFindHandle *pldfh = (LibDirFindHandle *)hLibDirFind;
 	pldfh->m_current++;
-	char *pPath = pldfh->m_pLibDirs->ItemAt(pldfh->m_current);
+	char *pPath = pldfh->m_pLibDirs->ElementAt(pldfh->m_current);
 	if (pPath) {
 	    strncpy(path,pPath,*len);
 	    *len = strlen(pPath);
@@ -158,7 +135,7 @@ Error Preferences::GetNextLibDir(HANDLE hLibDirFind,char *path, uint32 *len) {
     return kError_NoMoreLibDirs;
 }
 
-Error Preferences::GetLibDirClose(HANDLE hLibDirFind) {
+Error BeOSPrefs::GetLibDirClose(HANDLE hLibDirFind) {
     if (hLibDirFind) {
 	LibDirFindHandle *p = (LibDirFindHandle *)hLibDirFind;
 	p->m_pLibDirs->DeleteAll();

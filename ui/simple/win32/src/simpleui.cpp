@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.18 1999/03/18 07:55:27 elrod Exp $
+	$Id: simpleui.cpp,v 1.18.4.1 1999/04/16 08:14:51 mhw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -48,9 +48,9 @@ BOOL CALLBACK MainProc(	HWND hwnd,
 						WPARAM wParam, 
 						LPARAM lParam ); 
 
-extern "C" SimpleUI *Initialize() 
+extern "C" SimpleUI *Initialize(FAContext *context)
 {
-    return new SimpleUI();
+    return new SimpleUI(context);
 }
 
 
@@ -84,9 +84,10 @@ SetPlayListManager(PlayListManager *plm) {
 }
 
 SimpleUI::
-SimpleUI():
-UserInterface()
+SimpleUI(FAContext *context):
+     UserInterface()
 {
+    m_context = context;
     m_scrolling = false;
 
     m_uiSemaphore = new Semaphore();

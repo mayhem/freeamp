@@ -20,7 +20,7 @@ dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
 AC_CONFIG_AUX_DIR(config)
 AC_CANONICAL_HOST
-AM_INIT_AUTOMAKE(freeamp, 1.1.0)
+AM_INIT_AUTOMAKE(freeamp, 1.2.1)
 AM_CONFIG_HEADER(config/config.h)
 
 AC_PROG_MAKE_SET
@@ -35,7 +35,7 @@ dnl Checks for libraries.
 
 dnl Checks for header files.
 AC_STDC_HEADERS
-AC_HAVE_HEADERS(unistd.h io.h pthread.h)
+AC_HAVE_HEADERS(unistd.h io.h pthread.h errno.h)
 
 x11="true"
 
@@ -328,6 +328,10 @@ AM_CONDITIONAL(AM_MP3_PROF, test "$mp3prof" = "true")
 AM_CONDITIONAL(AM_HAVE_WIN32, test "$host_os" = "windowsnt")
 AM_CONDITIONAL(AM_HAVE_LINUX, test "$host_os" = "linux")
 AM_CONDITIONAL(AM_HAVE_X86, expr "$host_cpu" : "i.86$" > /dev/null)
+
+AC_DEFINE_UNQUOTED(AC_HOST_OS, "${host_os}")
+AC_DEFINE_UNQUOTED(AC_HOST_CPU, "${host_cpu}")
+
 AC_OUTPUT(Makefile base/Makefile base/src/Makefile io/Makefile
           base/unix/Makefile ui/freeamp/Makefile ui/freeamp/unix/Makefile ui/freeamp/unix/src/Makefile
 	  ui/Makefile base/unix/linux/Makefile base/unix/linux/src/Makefile

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.h,v 1.13 1999/03/24 18:11:51 robert Exp $
+        $Id: localfileinput.h,v 1.13.4.1 1999/04/16 08:14:46 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LOCALFILEINPUT_H_
@@ -32,11 +32,13 @@ ____________________________________________________________________________*/
 #include "pmi.h"
 #include "filebuffer.h"
 
+class FAContext;
+
 class     LocalFileInput:public PhysicalMediaInput
 {
    public:
 
-   LocalFileInput();
+   LocalFileInput(FAContext *context);
    LocalFileInput(char *path);
    virtual ~ LocalFileInput(void);
 
@@ -68,6 +70,9 @@ class     LocalFileInput:public PhysicalMediaInput
 		else 
 		   return kError_UnknownErr; 
 	};
+
+ protected:
+   FAContext  *m_context;
 
  private:
    Properties *m_propManager;

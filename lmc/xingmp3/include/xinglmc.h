@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.26 1999/04/02 22:48:38 robert Exp $
+   $Id: xinglmc.h,v 1.26.4.1 1999/04/16 08:14:48 mhw Exp $
 
 ____________________________________________________________________________*/
 
@@ -71,12 +71,14 @@ enum
    lmcError_MaximumError
 };
 
+class FAContext;
+
 class     XingLMC:public LogicalMediaConverter
 {
 
    public:
 //      XingLMC(PhysicalMediaInput* input, PhysicalMediaOutput* output,EventCallback callback, void* cookie);
-   XingLMC();
+   XingLMC(FAContext *context);
 
    virtual ~ XingLMC();
 
@@ -104,6 +106,10 @@ class     XingLMC:public LogicalMediaConverter
    virtual int32 GetVolume(void);
 
    virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
+
+ protected:
+   FAContext  *m_context;
+
  private:
    Properties *m_propManager;
 

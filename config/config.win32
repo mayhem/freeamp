@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.6 1999/04/08 07:39:04 elrod Exp $
+	$Id: config.win32,v 1.6.4.1 1999/04/16 08:14:44 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 
 #define HAVE_UNISTD_H 0
 #define HAVE_IO_H 1
+#define HAVE_ERRNO_H 1
 
 
 #if HAVE_UNISTD_H

@@ -12,17 +12,18 @@ CRainplayUI *g_ui;
 
 extern BOOL ReadPlaylistFromFile(CString szFile, PlayListManager *plm);
 
-extern "C" CRainplayUI *Initialize()
+extern "C" CRainplayUI *Initialize(FAContext *context)
 {
 	//AFX_MANAGE_STATE(AfxGetStaticModuleState());
 	// normal function body here
-	return new CRainplayUI();
+	return new CRainplayUI(context);
 }
 
 CRainplayUI::
-CRainplayUI():
+CRainplayUI(FAContext *context):
 UserInterface()
 {
+	m_context = context;
 	m_uiSemaphore = new Semaphore();
 
 	g_ui = this;

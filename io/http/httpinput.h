@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.11 1999/03/24 18:11:48 robert Exp $
+        $Id: httpinput.h,v 1.11.4.1 1999/04/16 08:14:45 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPINPUT_H_
@@ -32,11 +32,13 @@ ____________________________________________________________________________*/
 #include "pmi.h"
 #include "httpbuffer.h"
 
+class FAContext;
+
 class HttpInput:public PhysicalMediaInput
 {
    public:
 
-   HttpInput();
+   HttpInput(FAContext *context);
    HttpInput(char *path);
    virtual ~ HttpInput(void);
 
@@ -75,6 +77,10 @@ class HttpInput:public PhysicalMediaInput
 	   else 
 		    return kError_UnknownErr; 
 	};
+
+ protected:
+   FAContext  *m_context;
+
  private:
    Properties *m_propManager;
 

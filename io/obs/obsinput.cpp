@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.13 1999/03/24 18:11:52 robert Exp $
+        $Id: obsinput.cpp,v 1.13.4.1 1999/04/16 08:14:46 mhw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -42,9 +42,6 @@ ____________________________________________________________________________*/
 
 /* project headers */
 #include "obsinput.h"
-#include "log.h"
-
-LogFile *g_Log;
 
 const int iBufferSize = 8192;
 const int iOverflowSize = 1536;
@@ -53,17 +50,18 @@ const char *szDefaultStreamTitle = "RTP Stream";
 
 extern    "C"
 {
-   PhysicalMediaInput *Initialize(LogFile *pLog)
+   PhysicalMediaInput *Initialize(FAContext *context)
    {
-      g_Log = pLog;
-      return new ObsInput();
+      return new ObsInput(context);
    }
 }
-ObsInput::ObsInput(): 
+
+ObsInput::ObsInput(FAContext *context): 
           PhysicalMediaInput()
 {
-   m_path = NULL;
-   m_pPullBuffer = NULL;
+    m_context = context;
+    m_path = NULL;
+    m_pPullBuffer = NULL;
 }
 
 ObsInput::ObsInput(char *path):
@@ -139,7 +137,7 @@ Error ObsInput::SetTo(char *url, bool bStartThread)
       if (IsntError(result))
       {
          m_pPullBuffer = new ObsBuffer(iBufferSize, iOverflowSize, 
-                                       iTriggerSize, url, this);
+                                       iTriggerSize, url, this, m_context);
          assert(m_pPullBuffer);
 
          result = m_pPullBuffer->Open();

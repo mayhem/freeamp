@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Copyright (C) 1999 Mark H. Weaver <mhw@netris.org>
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,42 +18,43 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-gtk.h,v 1.3.4.1 1999/04/16 08:14:50 mhw Exp $
+	$Id: facontext.h,v 1.1.2.1 1999/04/16 08:14:42 mhw Exp $
 ____________________________________________________________________________*/
-// CommandLineCIO.h
+
+#ifndef _FACONTEXT_H_
+#define _FACONTEXT_H_
+
+#include "config.h"
+#include "preferences.h"
+#include "log.h"
 
 
-#ifndef _COMMANDLINECIO_H_
-#define _COMMANDLINECIO_H_
 
-#include "ui.h"
-#include "event.h"
-#include "thread.h"
-#include "playlist.h"
+class FAContext
+{
+    static const int32 c_majorVersion = 1;
+    static const int32 c_minorVersion = 0;
 
-class FAContext;
-
-class GtkUI : public UserInterface {
  public:
-    GtkUI(FAContext *context);
-    virtual int32 AcceptEvent(Event *);
-    virtual void SetArgs(int argc, char **argv);
-    virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
-    virtual Error Init();
-    virtual void SetPlayListManager(PlayListManager *);
-    static void gtkServiceFunction(void *);
-    virtual ~GtkUI();
+    FAContext()
+	: majorVersion(c_majorVersion),
+	  minorVersion(c_minorVersion),
+	  prefs(0),
+	  log(0) { }
+    
+    ~FAContext()
+    {
+	if (log)
+	    delete log;
+	if (prefs)
+	    delete prefs;
+    }
 
-    EventQueue *m_playerEQ;
+    bool CompatibleVersion() { return majorVersion == c_majorVersion; }
 
- protected:
-    FAContext *m_context;
-
- private:
-    void processSwitch(char *);
-    Thread *gtkListenThread;
-    PlayListManager *m_plm;
+    int32 majorVersion, minorVersion;
+    Preferences *prefs;
+    LogFile *log;
 };
 
-
-#endif // _COMMANDLINECIO_H_
+#endif // _FACONTEXT_H_

@@ -33,9 +33,11 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "dsoundcardpmo.h"
 #include "eventdata.h"
+#include "facontext.h"
 #include "log.h"
 
-LogFile  *g_Log;
+// XXX: This can and should be gotten rid of
+static FAContext *g_Context = 0;
 
 const int iDefaultBufferSize  = 512 * 1024;
 const int iOrigBufferSize     = 64 * 1024;
@@ -46,10 +48,10 @@ const int iWriteTriggerSize   = 4192;
 
 extern "C"
 {
-  PhysicalMediaOutput* Initialize(LogFile * pLog)
+  PhysicalMediaOutput* Initialize(FAContext *context)
   {
-    g_Log = pLog;
-    return new DSoundCardPMO();
+      g_Context = context;
+      return new DSoundCardPMO(context);
   }
 }
 
@@ -97,7 +99,7 @@ DSEnumCallback( LPGUID  lpGuid,
 
   if (pDSDevice == NULL)
   {
-    g_Log->Log(LogOutput, "error reallocating DSDevices memory...\n");
+    g_Context->log->Log(LogOutput, "error reallocating DSDevices memory...\n");
     return false;
   }
 
@@ -118,7 +120,7 @@ DSEnumCallback( LPGUID  lpGuid,
   hResult = DirectSoundCreate(pDSDevice->pGuid, &pDSDevice->pDSObject, NULL);
   if (FAILED(hResult))
   {
-    g_Log->Log(LogOutput, "error creating DirectSound Object...\n");
+    g_Context->log->Log(LogOutput, "error creating DirectSound Object...\n");
     if (lpGuid)
       free((void *) pDSDevice->pGuid);
 
@@ -141,8 +143,8 @@ DSEnumCallback( LPGUID  lpGuid,
 }
 
 DSoundCardPMO::
-DSoundCardPMO():
-EventBuffer(iOrigBufferSize, iOverflowSize, iWriteTriggerSize)
+DSoundCardPMO(FAContext *context):
+     EventBuffer(iOrigBufferSize, iOverflowSize, iWriteTriggerSize, context)
 {
   HRESULT hResult;
 
@@ -280,7 +282,7 @@ Init(OutputInfo* info)
   if (IsError(result))
   {
     ReportError("Internal buffer sizing error occurred.");
-    g_Log->Error("Resize output buffer failed.\n");
+    m_context->log->Error("Resize output buffer failed.\n");
     return result;
   }
 
@@ -305,7 +307,7 @@ Init(OutputInfo* info)
 																																						DSSCL_PRIORITY);
     if (FAILED(hResult))
     {
-      g_Log->Log(LogOutput, "error cannot set DirectSound DSSCL_PRIORITY Cooperative Level...\n");
+      m_context->log->Log(LogOutput, "error cannot set DirectSound DSSCL_PRIORITY Cooperative Level...\n");
       return result;
     }
 
@@ -319,7 +321,7 @@ Init(OutputInfo* info)
                                               NULL);
     if (FAILED(hResult))
     {
-      g_Log->Log(LogOutput, "error Creating DirectSound Primary Buffer...\n");
+      m_context->log->Log(LogOutput, "error Creating DirectSound Primary Buffer...\n");
       return result;
     }
 
@@ -339,7 +341,7 @@ Init(OutputInfo* info)
       hResult = m_DSBufferManager.pDSPrimaryBuffer->SetFormat(&format);
       if (FAILED(hResult))
       {
-        g_Log->Log(LogOutput, "Cannot Set DirectSound Primary Buffer Format...\n");
+        m_context->log->Log(LogOutput, "Cannot Set DirectSound Primary Buffer Format...\n");
         return result;
       }
     }
@@ -380,7 +382,7 @@ Init(OutputInfo* info)
                                             NULL);
   if (FAILED(hResult))
   {
-    g_Log->Log(LogOutput, "error Creating DirectSound Secondary Buffer...\n");
+    m_context->log->Log(LogOutput, "error Creating DirectSound Secondary Buffer...\n");
     m_DSBufferManager.pDSSecondaryBuffer = NULL;
     return result;
   }
@@ -640,7 +642,7 @@ DSWriteToSecBuffer(int32& wrote, void *pBuffer, int32 length)
     {
       wrote = 0;
       m_pDSWriteSem->Signal();
-      g_Log->Log(LogOutput, "Exiting DSWriteToSecBuffer with DSound error\n");
+      m_context->log->Log(LogOutput, "Exiting DSWriteToSecBuffer with DSound error\n");
       return result;
     }
     hResult = m_DSBufferManager.pDSSecondaryBuffer->Lock(	m_DSBufferManager.dwWritePtr,
@@ -656,7 +658,7 @@ DSWriteToSecBuffer(int32& wrote, void *pBuffer, int32 length)
   {
     wrote = 0;
     m_pDSWriteSem->Signal();
-    g_Log->Log(LogOutput, "Exiting DSWriteToSecBuffer with DSound error\n");
+    m_context->log->Log(LogOutput, "Exiting DSWriteToSecBuffer with DSound error\n");
     return result;
   }
 
@@ -689,7 +691,7 @@ DSWriteToSecBuffer(int32& wrote, void *pBuffer, int32 length)
   {
     wrote = 0;
     m_pDSWriteSem->Signal();
-    g_Log->Log(LogOutput, "Exiting DSWriteToSecBuffer with DSound error\n");
+    m_context->log->Log(LogOutput, "Exiting DSWriteToSecBuffer with DSound error\n");
     return result;
   }
 
@@ -746,7 +748,7 @@ DSMonitorBufferState()
   switch(m_DSBufferManager.state)
   {
     case UNDERFLOW:
-//      g_Log->Log(LogOutput, "UNDERFLOW    : %d\n", dwBuffered*100/m_DSBufferManager.dwBufferSize);
+//      m_context->log->Log(LogOutput, "UNDERFLOW    : %d\n", dwBuffered*100/m_DSBufferManager.dwBufferSize);
       if (dwBuffered > m_DSBufferManager.dwTrigger)
       {
         if (dwBuffered >= m_DSBufferManager.dwBufferSize)
@@ -769,7 +771,7 @@ DSMonitorBufferState()
       break;
 
     case NORMAL:
-//      g_Log->Log(LogOutput, "NORMAL       : %d\n", dwBuffered*100/m_DSBufferManager.dwBufferSize);
+//      m_context->log->Log(LogOutput, "NORMAL       : %d\n", dwBuffered*100/m_DSBufferManager.dwBufferSize);
       if (dwBuffered < m_DSBufferManager.dwUnderflow)
       {
         new_state = STOPPING;
@@ -788,7 +790,7 @@ DSMonitorBufferState()
     break;
 
     case OVERFLOW:
-//      g_Log->Log(LogOutput, "OVERFLOW     : %d\n", dwBuffered*100/m_DSBufferManager.dwBufferSize);
+//      m_context->log->Log(LogOutput, "OVERFLOW     : %d\n", dwBuffered*100/m_DSBufferManager.dwBufferSize);
       if (dwBuffered < m_DSBufferManager.dwUnderflow)
       {
         new_state = STOPPING;
@@ -801,7 +803,7 @@ DSMonitorBufferState()
       break;
 
     case STOPPING:
-//      g_Log->Log(LogOutput, "STOPPING     : %d\n", dwBuffered*100/m_DSBufferManager.dwBufferSize);
+//      m_context->log->Log(LogOutput, "STOPPING     : %d\n", dwBuffered*100/m_DSBufferManager.dwBufferSize);
       if (dwBuffered < m_DSBufferManager.dwZerofill)
       {
         Reset(true);
@@ -950,12 +952,13 @@ WorkerThread(void)
     if (IsError(eErr))
     {
       ReportError("Internal error occured.");
-      g_Log->Error("Cannot read from buffer in PMO worker tread: %d\n",
+      m_context->log->Error("Cannot read from buffer in PMO worker tread: %d\n",
       eErr);
       break;
     }
 
     Write(pBuffer);
   }
-  g_Log->Log(LogOutput, "PMO: Soundcard thread exiting\n");
+  m_context->log->Log(LogOutput, "PMO: Soundcard thread exiting\n");
 }
+

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.8 1999/03/17 03:30:59 robert Exp $
+	$Id: lcdui.cpp,v 1.8.4.1 1999/04/16 08:14:50 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -57,8 +57,8 @@ extern "C" {
 
 extern "C" {
 
-UserInterface *Initialize() {
-    return new LcdUI();
+UserInterface *Initialize(FAContext *context) {
+    return new LcdUI(context);
 }
 
 	   }
@@ -81,7 +81,8 @@ void LcdUI::SetPlayListManager(PlayListManager *plm) {
     m_plm = plm;
 }
 
-LcdUI::LcdUI() {
+LcdUI::LcdUI(FAContext *context) {
+    m_context = context;
     m_timeType = TIME_CURR;
     m_plm = NULL;
     m_playerEQ = NULL;

@@ -23,7 +23,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.7 1999/04/16 00:18:06 robert Exp $
+        $Id: alsapmo.cpp,v 1.7.2.1 1999/04/16 08:14:45 mhw Exp $
 
  *  You can use -a <soundcard #>:<device #>...
  *  For example: mpg123 -a 1:0 aaa.mpg
@@ -45,8 +45,6 @@ ____________________________________________________________________________*/
 #include "alsapmo.h"
 #include "log.h"
 
-LogFile  *g_Log;
-
 #define DB printf("%s:%d\n", __FILE__, __LINE__);
 
 const int iDefaultBufferSize = 512 * 1024;
@@ -56,9 +54,8 @@ const int iWriteTriggerSize = 8 * 1024;
 
 extern "C"
 {
-   PhysicalMediaOutput *Initialize(LogFile * pLog) {
-      g_Log = pLog;
-      return new AlsaPMO();
+   PhysicalMediaOutput *Initialize(FAContext *context) {
+      return new AlsaPMO(context);
    }
 }
 
@@ -88,8 +85,9 @@ const char *AlsaPMO::GetErrorString(int32 error) {
 }
 */
 
-AlsaPMO::AlsaPMO() :
-        EventBuffer(iOrigBufferSize, iOverflowSize, iWriteTriggerSize)
+AlsaPMO::AlsaPMO(FAContext *context) :
+        EventBuffer(iOrigBufferSize, iOverflowSize,
+		    iWriteTriggerSize, context)
 {
    m_properlyInitialized = false;
    myInfo = new OutputInfo();
@@ -305,7 +303,7 @@ Error AlsaPMO::Init(OutputInfo* info) {
         if (IsError(result))
         {
            ReportError("Internal buffer sizing error occurred.");
-           g_Log->Error("Resize output buffer failed.");
+           m_context->log->Error("Resize output buffer failed.");
            return result;
         }
 
@@ -551,7 +549,7 @@ void AlsaPMO::WorkerThread(void)
           m_pPauseMutex->Release();
 
           ReportError("Internal error occured.");
-          g_Log->Error("Cannot read from buffer in PMO worker tread: %d\n",
+          m_context->log->Error("Cannot read from buffer in PMO worker tread: %d\n",
               eErr);
           break;
       }
@@ -598,7 +596,7 @@ void AlsaPMO::WorkerThread(void)
          EndRead(0);
          m_pPauseMutex->Release();
          ReportError("Could not write sound data to the soundcard.");
-         g_Log->Error("Failed to write to the soundcard\n");
+         m_context->log->Error("Failed to write to the soundcard\n");
          break;
       }
 

@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.14 1999/03/01 10:40:56 mhw Exp $
+##      $Id: Makefile.am,v 1.14.4.1 1999/04/16 08:14:41 mhw Exp $
 ##
 ############################################################################
 
@@ -66,7 +66,7 @@ freeamp_DEPENDENCIES = $(MYDEPS)
 ## decspeed_DEPENDENCIES = $(MYDEPS)
 
 INCLUDES = -I@top_srcdir@/base/include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@top_srcdir@/lmc/include
-CXXFLAGS = $(EXTRA_CXXFLAGS) -D__@host_os@__ -Wl,-export-dynamic
+CXXFLAGS = $(EXTRA_CXXFLAGS) -D__@host_os@__ -Wl,--export-dynamic
 
 install-exec-local: install_plugins
 

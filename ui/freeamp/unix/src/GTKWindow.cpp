@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.27 2000/03/19 11:32:31 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.28 2000/03/28 01:34:54 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -445,12 +445,20 @@ bool GTKWindow::LButtonDown(void)
 
 void GTKWindow::MouseLeaveCheck(void)
 {
+<<<<<<< GTKWindow.cpp
 /*
     if (gdk_window_at_pointer(NULL, NULL) != mainWindow->window) {
         if (m_bMouseInWindow) 
+=======
+/*
+    if (m_bMouseInWindow) {
+        if (gdk_window_at_pointer(NULL, NULL) != mainWindow->window) {
+            m_bMouseInWindow = false;
+>>>>>>> 1.23.8.1
             MouseHasLeftWindow();
         m_bMouseInWindow = false;
     }
+<<<<<<< GTKWindow.cpp
     else {
         if (!m_bMouseInWindow) 
             MouseHasEnteredWindow();
@@ -473,6 +481,23 @@ void GTKWindow::SetMouseOut(void)
             MouseHasLeftWindow();
         m_bMouseInWindow = false;
     }
+=======
+*/
+}
+
+void GTKWindow::SetMouseIn(void)
+{
+    m_bMouseInWindow = true;
+}
+
+void GTKWindow::SetMouseOut(void)
+{
+    if (!m_bWindowMove) {
+        if (m_bMouseInWindow)
+            MouseHasLeftWindow();
+        m_bMouseInWindow = false;
+    }
+>>>>>>> 1.23.8.1
 }
 
 Error GTKWindow::GetDesktopSize(int32 &iX, int32 &iY)

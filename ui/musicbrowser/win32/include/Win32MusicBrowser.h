@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.63 2000/03/01 03:49:30 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.64 2000/03/28 01:34:55 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -255,6 +255,7 @@ class MusicBrowserUI : public UserInterface
     void  RemoveMusicBrowserWindow(MusicBrowserUI *pWindow);
     void  MusicSearchDone();
     void  DisplayBrowserMessage(const char* msg);
+    void  SaveCurrentPlaylist();
 
     // Functions is MusicTree.cpp
     void    InitTree();

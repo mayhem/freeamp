@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.h,v 1.4 1999/12/12 18:30:32 elrod Exp $
+	$Id: win32updatemanager.h,v 1.5 2000/03/28 01:34:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32_UPDATE_MANAGER_H_
@@ -59,6 +59,7 @@ class Win32UpdateManager : public UpdateManager {
  protected:
   
     Error GetFileVersions(const char* path);
+    Error GetSystemFileVersions();
 
  private:
 

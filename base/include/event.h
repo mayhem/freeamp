@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.46 2000/03/19 11:32:31 ijr Exp $
+	$Id: event.h,v 1.47 2000/03/28 01:34:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_

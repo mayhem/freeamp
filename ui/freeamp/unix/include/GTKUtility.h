@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.h,v 1.2 1999/10/19 07:13:19 elrod Exp $
+   $Id: GTKUtility.h,v 1.3 2000/03/28 01:34:54 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKUTILITY__H_
@@ -32,5 +32,7 @@ void WarpPointer(GdkWindow *win, int x, int y);
 void InitializeGTK(FAContext *context);
 void ShutdownGTK(void);
 
-bool ListFonts(char *);
+bool ListFonts(char *mask);
+
+void ReclaimFileTypes(FAContext *context, bool askBeforeReclaiming);
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.71 2000/03/22 19:14:30 elrod Exp $
+        $Id: Dialog.cpp,v 1.72 2000/03/28 01:34:55 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -95,7 +95,13 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
         {
 			Close();
             return 1;
-        }    
+        }
+
+        case WM_ENDSESSION:
+        {
+            SaveCurrentPlaylist();
+            break;
+        }
 
         case UWM_DROPURLS:
             filesAreURLs = true;
@@ -1878,7 +1884,7 @@ void MusicBrowserUI::ShowHelp(uint32 topic)
 
     m_context->prefs->GetInstallDirectory(dir, &len);
     oHelpFile = string(dir);
-    oHelpFile += string("\\freeamp.hlp");    
+    oHelpFile += string("\\"BRANDING_HELP_FILE);    
 
     WinHelp(m_hWnd, oHelpFile.c_str(), HELP_CONTEXT, topic);
 }        

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.183 2000/03/23 01:51:03 ijr Exp $
+        $Id: player.cpp,v 1.184 2000/03/28 01:34:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>

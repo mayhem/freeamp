@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.h,v 1.4 1999/12/02 22:06:50 elrod Exp $
+	$Id: updatemanager.h,v 1.5 2000/03/28 01:34:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UPDATE_MANAGER_H_
@@ -91,6 +91,9 @@ class UpdateItem {
     void SetLocalFileVersion(const string& version) { m_localVersion = version; }
     const string& GetLocalFileVersion() const { return m_localVersion; }
 
+    void SetLocalFileTime(const string& time) { m_localTime = time; }
+    const string& GetLocalFileTime() const { return m_localTime; }
+
     void SetCurrentFileLocation(const string& location) { m_currentFileLocation = location; }
     const string& GetCurrentFileLocation() const { return m_currentFileLocation; }
 
@@ -99,6 +102,9 @@ class UpdateItem {
 
     void SetCurrentFileVersion(const string& version) { m_currentVersion = version; }
     const string& GetCurrentFileVersion() const { return m_currentVersion; }
+
+    void SetCurrentFileTime(const string& time) { m_currentTime = time; }
+    const string& GetCurrentFileTime() const { return m_currentTime; }
 
     void SetFileDescription(const string& desc) { m_description = desc; }
     const string& GetFileDescription() const { return m_description; }
@@ -109,8 +115,10 @@ class UpdateItem {
     string m_localFileName;
     string m_localFilePath;
     string m_localVersion;
+    string m_localTime;
 
     string m_currentVersion;
+    string m_currentTime;
     string m_currentFileLocation;
     string m_currentFileURL;
     string m_description;

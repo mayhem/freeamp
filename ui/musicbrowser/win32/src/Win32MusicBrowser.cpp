@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.50 2000/03/22 19:14:30 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.51 2000/03/28 01:34:55 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -321,6 +321,29 @@ void MusicBrowserUI::DisplayBrowserMessage(const char* msg)
     SendMessage(m_hStatus, SB_SETTEXT, 0, (LPARAM)msg);
 }
 
+void MusicBrowserUI::SaveCurrentPlaylist()
+{
+    bool savePlaylist = true;
+
+    m_context->prefs->GetSaveCurrentPlaylistOnExit(&savePlaylist);
+
+    if(savePlaylist)
+    {
+        char path[MAX_PATH];
+        char url[MAX_PATH + 7];
+        uint32 length = sizeof(path);
+
+        m_context->prefs->GetInstallDirectory(path, &length);
+
+        strcat(path, "\\freeamp.m3u");
+
+        length = sizeof(url);
+        FilePathToURL(path, url, &length);
+
+        m_plm->WritePlaylist(url);
+    }
+}
+
 Error MusicBrowserUI::AcceptEvent(Event *event)
 {
     switch (event->Type()) 
@@ -351,25 +374,7 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
 
         case CMD_Cleanup: 
         {
-            bool savePlaylist = true;
-
-            m_context->prefs->GetSaveCurrentPlaylistOnExit(&savePlaylist);
-
-            if(savePlaylist)
-            {
-                char path[MAX_PATH];
-                char url[MAX_PATH + 7];
-                uint32 length = sizeof(path);
-
-                m_context->prefs->GetInstallDirectory(path, &length);
-
-                strcat(path, "\\freeamp.m3u");
-
-                length = sizeof(url);
-                FilePathToURL(path, url, &length);
-
-                m_plm->WritePlaylist(url);
-            }
+            SaveCurrentPlaylist();
 
             CloseMainDialog();
             m_uiThread->Join();
@@ -685,20 +690,17 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 {
 					ShowBrowser(true);
                 }
-                else 
-                {
-                    m_initialized = true;
-                }
             }
 
-            if(m_state == STATE_EXPANDED)
+            if (m_state == STATE_EXPANDED)
                 ExpandCollapseEvent();
+
             break; 
         }
 
         case CMD_ToggleMusicBrowserUI: 
         {
-            ShowBrowser(true);           
+            ShowBrowser(true);
             break; 
         }
 

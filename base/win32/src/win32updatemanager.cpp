@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.7 2000/02/29 10:01:57 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.8 2000/03/28 01:34:53 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -81,9 +81,13 @@ Error Win32UpdateManager::DetermineLocalVersions()
         strcpy(m_updatePath, appPath);
         strcat(m_updatePath, "\\update");
 
-        // Analyze all these files
+        // analyze all the files in our install dir
         result = GetFileVersions(appPath);
 
+        // what about the system files this version depends on?
+        if(IsntError(result))
+            result = GetSystemFileVersions();
+        
         m_mutex.Release();
     }
 
@@ -193,6 +197,7 @@ Error Win32UpdateManager::UpdateComponents(UMCallBackFunction function,
     
     return result;
 }
+
 Error Win32UpdateManager::GetFileVersions(const char* path)
 {
     Error result = kError_NoErr;
@@ -234,16 +239,13 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
                     void* data;
 
                     versionSize = GetFileVersionInfoSize(filePath, &dummyHandle);
-                    //RAK: Something is not kosher here!
-                    //     Boundschecker says that versionSize is 0
-                    //     I added the code to gracefully handle that case
-                    //     (fix the symptom, not the cause!)
+                    
                     if (versionSize > 0)
                        data = malloc(versionSize);
                     else
                        data = NULL;   
 
-                    // actually get the verionsinfo for the file
+                    // actually get the versioninfo for the file
                     if(data)
                     {
                         if(GetFileVersionInfo(filePath, dummyHandle, 
@@ -293,12 +295,141 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
 
                         free(data);
                     }
+                    else // no version info, is it one of our special files?
+                    {
+                        const char* kHelpDescription = The_BRANDING" help file provides detailed instructions for all the "
+                                                        "features in the player.";
+                        const char* kThemeDescription = "This is the default theme that determines how "the_BRANDING" looks. "
+                                                        "Updating the default theme will not change your theme preference if "
+                                                        "you have chosen to use another theme.";
+                        const char* kThemeHowToDescription = "The Theme HowTo describes how to create new themes which can be used to change "
+                                                             "the default look of "the_BRANDING".";
+
+                        if(!strcasecmp(findData.cFileName, BRANDING_HELP_FILE) ||
+                           !strcasecmp(findData.cFileName, BRANDING_DEFAULT_THEME) ||
+                           !strcasecmp(findData.cFileName, "ThemeHowTo.txt"))
+                        {
+                            UpdateItem* item = new UpdateItem;
+
+                            item->SetLocalFileName(string(findData.cFileName));
+                            item->SetLocalFilePath(string(filePath));
+
+                            SYSTEMTIME sysTime;
+
+                            FileTimeToSystemTime(&findData.ftLastWriteTime, 
+                                                 &sysTime);
+
+                            ostringstream ost;
+
+                            ost << sysTime.wMonth << "/" << sysTime.wDay << "/" << sysTime.wYear;
+
+                            item->SetLocalFileTime(ost.str());
+
+                            if(!strcasecmp(findData.cFileName, BRANDING_HELP_FILE))
+                            {
+                                item->SetFileDescription(string(kHelpDescription));
+                            }
+                            else if(!strcasecmp(findData.cFileName, BRANDING_DEFAULT_THEME))
+                            {
+                                item->SetFileDescription(string(kThemeDescription));
+                            }
+                            else if(!strcasecmp(findData.cFileName, "ThemeHowTo.txt"))
+                            {
+                                item->SetFileDescription(string(kThemeHowToDescription));
+                            }
+
+                            AddItem(item);
+                        }
+                    }
                 }
             }
 
         }while(FindNextFile(findFileHandle, &findData));
 
         FindClose(findFileHandle);
+    }
+
+    return result;
+}
+
+Error Win32UpdateManager::GetSystemFileVersions()
+{
+    Error result = kError_NoErr;
+    
+    char filePath[MAX_PATH];
+    char* fp;
+    char* systemFiles[] = { "msvcrt.dll",
+                            "msvcp60.dll",
+                            NULL};
+    uint32 index = 0;
+
+    GetSystemDirectory(filePath, sizeof(filePath));
+
+    strcat(filePath, "\\");
+    fp = strrchr(filePath, '\\') + 1;
+
+    while(systemFiles[index])
+    {
+        strcpy(fp, systemFiles[index]);
+
+        DWORD versionSize;
+        DWORD dummyHandle;
+        void* data;
+
+        versionSize = GetFileVersionInfoSize(filePath, &dummyHandle);
+    
+        if (versionSize > 0)
+           data = malloc(versionSize);
+        else
+           data = NULL;   
+
+        // actually get the versioninfo for the file
+        if(data)
+        {
+            if(GetFileVersionInfo(filePath, dummyHandle, versionSize, data))
+            {
+                VS_FIXEDFILEINFO* fileInfo;
+                char* fileDescription;
+                uint32 size;
+                UpdateItem* item = new UpdateItem;
+
+                item->SetLocalFileName(string(systemFiles[index]));
+                item->SetLocalFilePath(string(filePath));
+
+                if(VerQueryValue(data, "\\", (void**)&fileInfo, &size))
+                {        
+                    ostringstream ost;
+
+                    uint32 major = HIWORD(fileInfo->dwFileVersionMS);
+                    uint32 minor = LOWORD(fileInfo->dwFileVersionMS);
+                    uint32 rev = HIWORD(fileInfo->dwFileVersionLS);
+                    uint32 file = LOWORD(fileInfo->dwFileVersionLS);
+
+                    ost << major << "." << minor << "." << rev << "." << file;
+                
+                    item->SetLocalFileVersion(ost.str());
+
+                }
+
+                // I need to learn how to correctly grab the proper language
+                // but for now we just hardcode English (US) Unicode
+                if(VerQueryValue(data, "\\StringFileInfo\\040904B0\\FileDescription", (void**)&fileDescription, &size))
+                {     
+                    item->SetFileDescription(string(fileDescription));
+                }
+
+                // for the system files we set the currentFileLocation to _system_
+                // to keep it from being listed in the UI... kinda kludgy...
+
+                item->SetCurrentFileLocation(string("_system_"));
+
+                AddItem(item);
+            }
+
+            free(data);
+        }
+
+        index++;
     }
 
     return result;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.h,v 1.2 1999/10/19 07:13:06 elrod Exp $
+   $Id: Parse.h,v 1.3 2000/03/28 01:34:54 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_PARSE_H__
@@ -62,6 +62,7 @@ class Parse
       virtual Error EndElement(string &oElement) = 0;
       virtual Error PCData(string &oData) = 0;
               int   CountNewlines(char *szElement);
+              void  UnXMLize(string &oData);
 
       string        m_oLastError;
       int           m_iErrorLine; 

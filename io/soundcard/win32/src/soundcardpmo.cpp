@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.61 2000/03/13 21:26:00 ijr Exp $
+   $Id: soundcardpmo.cpp,v 1.62 2000/03/28 01:34:54 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -232,12 +232,15 @@ void SoundCardPMO::SetVolume(int32 volume)
     
     dwVal = (volume * (m_dwMaximum - m_dwMinimum) / 100);
 
-	MIXERCONTROLDETAILS_UNSIGNED mxcdVolume = { dwVal };
+	MIXERCONTROLDETAILS_UNSIGNED mxcdVolume[2];
 	MIXERCONTROLDETAILS mxcd;
+    
+    memcpy(&mxcdVolume[0], &dwVal, sizeof(MIXERCONTROLDETAILS_UNSIGNED));
+    memcpy(&mxcdVolume[1], &dwVal, sizeof(MIXERCONTROLDETAILS_UNSIGNED));
     
 	mxcd.cbStruct = sizeof(MIXERCONTROLDETAILS);
 	mxcd.dwControlID = m_dwVolumeControlID;
-	mxcd.cChannels = 1;
+	mxcd.cChannels = 2;
 	mxcd.cMultipleItems = 0;
 	mxcd.cbDetails = sizeof(MIXERCONTROLDETAILS_UNSIGNED);
 	mxcd.paDetails = &mxcdVolume;

@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.108 2000/09/14 11:00:22 ijr Exp $
+dnl $Id: configure.in,v 1.109 2000/09/18 14:21:01 ijr Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -211,14 +211,7 @@ OSDEP="unix/$host_os"
 if test "$isunix" = "false"  ; then
   OSINC="-I$srcdir/base/$host_os/include -I$srcdir/ui/freeamp/$host_os"
   OSDEP="$host_os"
-dnl else
-dnl  OSDEPSRC=`find base/unix/src \( -name '*.c' -o -name '*.cpp' \) -print`
 fi
-
-dnl oSDEPSRC="$OSDEPSRC `find base/$OSDEP/src \( -name '*.c' -o		\dnl 					     -name '*.cpp' \) -print`"
-dnl OSDEPOBJ=`echo $OSDEPSRC | sed -e 's,\.cp*,.o,g' | xargs echo`
-dnl I know. This is an abominable way to generate a dependency list.
-dnl it's either here or hardcoded in a Makefile, though.
 
 dnl AC_SUBST(OSDEPSRC)
 AC_SUBST(OSDEPOBJ)
@@ -497,6 +490,9 @@ else
 fi
 
 dnl *****
+
+AC_CHECK_LIB(musicbrainz, mb_GenerateSignature, ,
+  AC_MSG_ERROR([FreeAmp requires that the MusicBrainz client library be installed.]))
 
 #AM_CONDITIONAL(AM_HAVE_LINUXTHREADS, test "$hblt" = "true")
 

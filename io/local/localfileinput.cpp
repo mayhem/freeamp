@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.31 2000/05/08 13:56:54 robert Exp $
+        $Id: localfileinput.cpp,v 1.32 2000/05/08 16:39:00 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -135,12 +135,8 @@ Error LocalFileInput::Prepare(PullBuffer *&pBuffer)
     }
     else
     {
-       if (result == kError_FileNotFound)
-       {
-           m_pContext->target->AcceptEvent(new MissingFileEvent(m_url));
-           return result;
-       }
-       ReportError("Cannot open file %s.", m_path);
+       if (result != kError_FileNotFound)
+           ReportError("Cannot open file %s.", m_path);
        return result;
     }
 
@@ -175,7 +171,6 @@ Error LocalFileInput::SetTo(const char *url)
     m_path = new char[len];
     if (m_path)
     {
-        m_url = string(url);
         if (strncmp(url, "file://", 7) == 0)
         {
             URLToFilePath(url, m_path, &len);

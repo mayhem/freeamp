@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: missingfile.h,v 1.1 2000/05/08 13:56:54 robert Exp $
+        $Id: missingfile.h,v 1.2 2000/05/08 16:39:00 robert Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MISSINGFILE_H_
@@ -37,8 +37,10 @@ class MissingFile
     MissingFile(FAContext *context);
     virtual ~MissingFile();
 
-    Error FindMissingFile(const string &url, const string &searchPath, 
+    Error FindMissingFile(PlaylistItem *item, const string &searchPath, 
                           string &newUrl);
+    Error AcceptLocation(PlaylistItem *item,
+                         const string &newUrl);
 
  protected:
 

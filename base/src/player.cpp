@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.195 2000/05/08 13:56:54 robert Exp $
+        $Id: player.cpp,v 1.196 2000/05/08 16:39:00 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1365,6 +1365,8 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
    // that will notify the user
    if (error == kError_FileNotFound)
    {
+      AcceptEvent(new MissingFileEvent((PlaylistItem *)
+                                       m_plm->GetCurrentItem()));
       m_plm->GotoNextItem();
       AcceptEvent(new Event(CMD_Play));
       goto epilogue;

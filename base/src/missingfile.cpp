@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: missingfile.cpp,v 1.1 2000/05/08 13:56:54 robert Exp $
+        $Id: missingfile.cpp,v 1.2 2000/05/08 16:39:00 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -62,12 +62,13 @@ MissingFile::~MissingFile()
 {
 }
 
-Error MissingFile::FindMissingFile(const string &url, 
+Error MissingFile::FindMissingFile(PlaylistItem *item, 
                                    const string &searchPath, 
                                    string &newUrl)
 {
     string::size_type pos;
     string  file;
+    string  url = item->URL();
 
     pos = url.rfind(DIR_MARKER, url.length() - 1);
     if (pos != string::npos)
@@ -76,6 +77,16 @@ Error MissingFile::FindMissingFile(const string &url,
         return kError_FileNotFound;
 
     return RecurseFindMissingFile(file, searchPath, newUrl);
+}
+
+Error MissingFile::AcceptLocation(PlaylistItem *item,
+                                  const string &newUrl)
+{
+    item->SetURL(newUrl.c_str());
+
+    // Elrod: finish this function
+
+    return kError_UnknownErr;
 }
 
 Error MissingFile::RecurseFindMissingFile(const string &file, 
@@ -154,7 +165,8 @@ Error MissingFile::RecurseFindMissingFile(const string &file,
                 if (strcmp(find.cFileName, file.c_str()) == 0)
 #endif
                 {
-                    newUrl = searchPath + string(DIR_MARKER_STR) + string(file);
+                    newUrl = string("file://") + searchPath + 
+                             string(DIR_MARKER_STR) + string(file);
                     FindClose(handle);
 
                     return kError_NoErr;

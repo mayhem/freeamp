@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.3 1998/10/16 22:25:30 jdw Exp $
+	$Id: registrar.cpp,v 1.4 1998/10/17 20:18:27 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -34,7 +34,7 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "registrar.h"
 #include "utility.h"
-#include "error.h"
+#include "errors.h"
 
 Error 
 Registrar::

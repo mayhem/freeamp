@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.4 1998/10/16 00:29:52 elrod Exp $
+	$Id: utility.cpp,v 1.5 1998/10/17 20:18:27 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -30,7 +30,7 @@ ____________________________________________________________________________*/
 
 /* Project Includes */
 #include "utility.h"
-#include "error.h"
+#include "errors.h"
 
 #define MAIN_KEY    HKEY_CURRENT_USER
 #define SUB_KEY     "SOFTWARE\\FreeAmp\\FreeAmp v1.0"

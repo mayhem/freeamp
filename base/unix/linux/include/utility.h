@@ -17,14 +17,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.1 1998/10/16 22:25:30 jdw Exp $
+	$Id: utility.h,v 1.2 1998/10/17 20:18:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UTILITY_H_
 #define _UTILITY_H_
 
 #include "config.h"
-#include "error.h"
+#include "errors.h"
 
 Error GetInstallDirectory(char* path, int32 len);
 

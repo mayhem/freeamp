@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: soundcardpmo.cpp,v 1.2 1998/10/09 14:54:23 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -262,7 +262,7 @@ WriteThis(void *pBuffer,int32 length)
 
 	wavhdr = NextHeader();
 
-	if(length > m_data_size)
+	if(length > (int32)m_data_size)
 		length = m_data_size;
 
 	wavhdr->dwBufferLength = length;

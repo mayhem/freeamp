@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: soundcardpmo.h,v 1.2 1998/10/09 14:54:22 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -58,17 +58,21 @@ public:
  private:
 	void wave_swap();
 
+	WAVEHDR* NextHeader();
+
 private:
 	WAVEFORMATEX*	m_wfex;
 	LPWAVEHDR*		m_wavehdr_array;
 	HWAVEOUT		m_hwo;
 
+	uint32			m_index;
 	uint32			m_buffer[MAXCHANNELS];
 	uint32			m_channels;
 	uint32			m_buffer_count;
 	uint32			m_hdr_size;
 	uint32			m_fillup;
 	uint32			m_data_size;
+	uint32			m_num_headers;
 	bool			m_user_stop;
 	bool			m_initialized;
 

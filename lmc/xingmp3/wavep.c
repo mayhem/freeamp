@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: wavep.c,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: wavep.c,v 1.2 1998/10/09 14:54:23 elrod Exp $
 ____________________________________________________________________________*/
 
 /*---- wavep.c --------------------------------------------
@@ -35,7 +35,9 @@ portable version
 #include <stdio.h>
 #include <float.h>
 #include <math.h>
-//#include <io.h>
+#ifdef WIN32
+#include <io.h>
+#endif
 #include "port.h"
 
 typedef struct

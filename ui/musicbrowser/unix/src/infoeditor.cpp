@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.8 2000/02/02 23:13:51 ijr Exp $
+        $Id: infoeditor.cpp,v 1.9 2000/03/23 03:34:22 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "utility.h"
@@ -37,17 +37,17 @@ void infoeditorUI::DoApplyInfoEdit(void)
     gtk_widget_set_sensitive(m_okButton, FALSE);
     gtk_widget_set_sensitive(m_applyButton, FALSE);
     text = gtk_entry_get_text(GTK_ENTRY(m_titleEntry));
-    newmeta.SetTitle(strdup_new(text));
+    newmeta.SetTitle(text);
     text = gtk_entry_get_text(GTK_ENTRY(m_artistEntry));
-    newmeta.SetArtist(strdup_new(text));
+    newmeta.SetArtist(text);
     text = gtk_entry_get_text(GTK_ENTRY(m_albumEntry));
-    newmeta.SetAlbum(strdup_new(text));
+    newmeta.SetAlbum(text);
     text = gtk_entry_get_text(GTK_ENTRY(m_yearEntry));
     newmeta.SetYear(atoi(text));
     text = gtk_entry_get_text(GTK_ENTRY(m_commentEntry));
-    newmeta.SetComment(strdup_new(text));
+    newmeta.SetComment(text);
     text = gtk_entry_get_text(GTK_ENTRY(m_genreEntry));
-    newmeta.SetGenre(strdup_new(text));
+    newmeta.SetGenre(text);
     text = gtk_entry_get_text(GTK_ENTRY(m_trackEntry));
     newmeta.SetTrack(atoi(text));
 

@@ -17,7 +17,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: YPClient.cpp,v 1.1 2000/07/31 19:51:38 ijr Exp $
+        $Id: YPClient.cpp,v 1.2 2000/08/04 15:19:44 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -158,6 +158,7 @@ int YPClient::GeneratePlayList(APSPlaylist& ResultList, APSPlaylist& SeedList,
                  nOffset += nBytes;
             }
             nBytes = nOffset;
+            nOffset = 0;
             
             FromBuffer(ResultList, &pBuffer[nOffset], nTemp);
             nOffset += nTemp;
@@ -263,6 +264,7 @@ int YPClient::GetGUID(string& strGUID, int nSeed)
                 nOffset += nBytes;
             }
             nBytes = nOffset;
+            nOffset = 0;
 
             strGUID = &pBuffer[nOffset];
             nOffset += strGUID.size() + sizeof(char);
@@ -328,6 +330,7 @@ int YPClient::GetStreams(StreamList& ResultList, string& strUID)
                 nOffset += nBytes;
             }
             nBytes = nOffset;
+            nOffset = 0;
 
             FromBuffer(ResultList, &pBuffer[nOffset], nTemp);
             nOffset += nTemp;

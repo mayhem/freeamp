@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.67 2000/08/03 20:09:34 robert Exp $
+        $Id: musiccatalog.cpp,v 1.68 2000/08/04 15:19:44 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -423,8 +423,8 @@ bool MusicCatalog::CaseCompare(string s1, string s2)
 
 void MusicCatalog::GenerateSignature(PlaylistItem *track)
 {
-	// RAK: This line causes a crash every time!
-    //m_sigs->insert(track);
+    if (m_context->aps->GetCurrentProfileName() != "")
+        m_sigs->insert(track);
 }
 
 Error MusicCatalog::AddSong(const char *url)
@@ -1252,6 +1252,12 @@ Error MusicCatalog::AcceptEvent(Event *e)
                     }
                 }
                 data->SetGUID(GUID.c_str());
+
+                FAMetaUnit faTemp(data, url.c_str());
+                int nRes = m_context->aps->APSFillMetaData(&faTemp);
+                if (nRes == 0) 
+                    faTemp.GetMetaData(data);
+
                 WriteMetaDataToDatabase(url.c_str(), (*data));
                 m_database->Sync();
                 delete data;

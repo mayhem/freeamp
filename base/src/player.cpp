@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.215 2000/08/03 20:09:34 robert Exp $
+        $Id: player.cpp,v 1.216 2000/08/04 15:19:44 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1293,6 +1293,7 @@ void
 Player::
 GenerateSigsWork(set<PlaylistItem *> *items)
 {
+    cout << "Generating signatures for " << items->size() << " tracks.\n";
     set<PlaylistItem *>::iterator i = items->begin();
     for (; i != items->end(); i++) 
     {
@@ -2325,5 +2326,6 @@ void Player::synclog_timer(void* arg)
 
 void Player::SyncLog()
 {
+cout << "sync!\n";
     m_context->aps->SyncLog();
 }

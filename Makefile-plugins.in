@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.61 2000/05/08 20:29:58 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.62 2000/05/15 19:29:22 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -239,10 +239,11 @@ plugins/freeamp.ui: $(FREEAMPUIOBJ)
 # MakeTheme, only built if we're building freeamp.ui
 
 MAKETHEMEOBJ  = ui/freeamp/tools/src/MakeTheme.o ui/freeamp/src/ThemeZip.o
+MAKETHEMEOBJ += base/unix/src/win32impl.o
 MAKETHEMEOBJ += lib/zlib/lib/libzlib.a lib/unzip/lib/libunzip.la
 
 MakeTheme: $(MAKETHEMEOBJ)
-	$(CXXLINK) $(MAKETHEMEOBJ)
+	$(CXXLINK) $(MAKETHEMEOBJ) -ldl
 
 # cmdline
 CMDUIOBJ = ui/cmdline/cmdlineUI.o 

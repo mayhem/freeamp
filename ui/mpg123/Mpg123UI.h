@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.4 1998/10/28 02:27:24 jdw Exp $
+	$Id: Mpg123UI.h,v 1.5 1998/11/01 23:05:31 jdw Exp $
 ____________________________________________________________________________*/
 
 // Mpg123UI.h
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 
 #include "ui.h"
 #include "event.h"
+#include "eventdata.h"
 
 class Mpg123UI : public UserInterface {
  public:
@@ -42,6 +43,12 @@ class Mpg123UI : public UserInterface {
 
     static EventQueue *m_playerEQ;
  private:
+    void DisplayStuff();
+    MediaInfoEvent m_mediaInfo;
+    bool m_mediaInfo_set;
+    MpegInfoEvent m_mpegInfo;
+    bool m_mpegInfo_set;
+    Id3TagInfo m_id3Tag;
     bool verboseMode;
     int32 totalFrames;
     float totalTime;

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.5 1998/10/13 10:07:03 elrod Exp $
+	$Id: player.cpp,v 1.6 1998/10/13 21:22:11 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -264,7 +264,6 @@ int32 Player::serviceEvent(Event *pC) {
 	                //cout << "New PMI..." << endl;
 	                SoundCardPMO *scPMO = new SoundCardPMO();
 	                //cout << "New scPMO..." << endl;
-	                myLMC = new MAPlayLMC(lfPMI,scPMO);
 	                myLMC = new XingLMC(pmi,scPMO);
 	                //cout << "Created xing..." << endl;
 	                if (setState(STATE_Playing)) {

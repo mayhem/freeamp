@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: utils.h,v 1.1 2001/01/12 00:41:08 robert Exp $
+// $Id: utils.h,v 1.2 2001/01/16 21:08:01 robert Exp $
 
 // id3lib: a C++ library for creating and manipulating id3v1/v2 tags
 // Copyright 1999, 2000  Scott Thomas Haug
@@ -47,7 +47,7 @@ namespace dami
 #endif  /* !MAXPATHLEN && !PATH_MAX */
 
 #ifndef min
-  template<typename T>
+  template <class T>
   const T& min(const T& a, const T& b)
   {
     return (a < b) ? a : b;
@@ -55,7 +55,7 @@ namespace dami
 #endif
 
 #ifndef max
-  template<typename T>
+  template<class T>
   const T& max(const T& a, const T& b)
   {
     return (b < a) ? a : b;
@@ -63,7 +63,7 @@ namespace dami
 #endif
 
 #ifndef mid
-  template<typename T>
+  template<class T>
   const T& mid(const T& lo, const T& mid, const T& hi)
   {
     return max(lo, min(mid, hi));
@@ -71,7 +71,7 @@ namespace dami
 #endif
 
 #ifndef abs
-  template<typename T>
+  template<class T>
   T abs(const T& a)
   {
     return (a < T(0)) ? -a : a;

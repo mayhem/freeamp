@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.17 1999/03/05 23:17:38 robert Exp $
+	$Id: lmc.h,v 1.18 1999/03/07 20:59:34 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
@@ -56,6 +56,9 @@ class LogicalMediaConverter {
 
     virtual Error SetEQData(float *) = 0;
     virtual Error SetEQData(bool) = 0;
+
+    virtual void  SetVolume(int32) = 0;
+    virtual int32 GetVolume(void) = 0;
 
     virtual void  ReportError(const char *szError)
                   {

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.20 1999/03/07 06:21:41 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.21 1999/03/07 20:59:32 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -277,6 +277,21 @@ Error SoundCardPMO::SetPropManager(Properties * p)
    }
 
    return kError_NoErr;
+}
+
+int32 SoundCardPMO::GetVolume(void)
+{
+    int32 volume = 0;
+
+    waveOutGetVolume((HWAVEOUT)WAVE_MAPPER, (DWORD*)&volume);
+    volume = (int32)(100 * ((float)LOWORD(volume)/(float)0xffff));
+
+    return volume;    
+}
+
+void SoundCardPMO::SetVolume(int32 v)
+{
+    waveOutSetVolume((HWAVEOUT)WAVE_MAPPER , MAKELPARAM(0xFFFF*v, 0xFFFF*v));
 }
 
 Error SoundCardPMO::Reset(bool user_stop)

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.14 1999/03/06 06:00:14 robert Exp $
+	$Id: pmo.h,v 1.15 1999/03/07 20:59:27 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -82,6 +82,8 @@ public:
     virtual void  WaitToQuit(){ };
     virtual const char *GetErrorString(int32) { return NULL; }
     virtual Error SetPropManager(Properties *) = 0;
+    virtual void  SetVolume(int32) { ; };
+    virtual int32 GetVolume(void) { return 0; };
     virtual void  ReportError(const char *szError)
                   {
                      assert(m_target);

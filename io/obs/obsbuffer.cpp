@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: obsbuffer.cpp,v 1.12 1999/03/07 00:16:01 robert Exp $
+   $Id: obsbuffer.cpp,v 1.13 1999/03/07 20:59:28 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -255,6 +255,12 @@ void ObsBuffer::WorkerThread(void)
               m_pWriteSem->Wait();
               continue;
           }
+          if (eError == kError_NoErr && iToCopy < iRead)
+          {
+              EndWrite(0);
+              m_pWriteSem->Wait();
+              continue;
+          }
           break;
       }
       if (eError != kError_NoErr)
@@ -277,7 +283,7 @@ void ObsBuffer::WorkerThread(void)
       if (IsError(eError))
       {
          g_Log->Error("Obs: EndWrite returned: %d\n", eError);
-         break;
+         EndWrite(0);
       }
    }
 

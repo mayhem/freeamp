@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.86 1999/03/07 08:37:51 elrod Exp $
+        $Id: player.cpp,v 1.87 1999/03/07 20:59:21 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -105,12 +105,7 @@ EventQueue()
    m_didUsage = false;
    // m_autoplay = false;
 
-   int32     vol = VolumeManager::GetVolume();
-   Int32PropValue *ipv = new Int32PropValue(vol);
-
-   m_props.SetProperty("pcm_volume", ipv);
    m_props.RegisterPropertyWatcher("pcm_volume", (PropertyWatcher *) this);
-
 }
 
 #define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }
@@ -689,6 +684,7 @@ void Player::CreateLMC(PlayListItem * pc, Event * pC)
    RegistryItem *pmi_item = pc->GetPMIRegistryItem();
    RegistryItem *lmc_item = pc->GetLMCRegistryItem();
    RegistryItem *item;
+   int32           iVolume;
 
    if (!pc)
    {
@@ -788,6 +784,9 @@ void Player::CreateLMC(PlayListItem * pc, Event * pC)
    {
       goto epilogue;
    }
+
+   iVolume = lmc->GetVolume();
+   m_props.SetProperty("pcm_volume", new Int32PropValue(iVolume));
 
    m_lmc = lmc;
    lmc = NULL;
@@ -1265,7 +1264,9 @@ PropertyChange(const char *pProp, PropValue * ppv)
    {
       int32     newVol = ((Int32PropValue *) ppv)->GetInt32();
 
-    VolumeManager::SetVolume(newVol);
+      if (m_lmc)
+         m_lmc->SetVolume(newVol);
+
       rtn = kError_NoErr;
    }
    return rtn;

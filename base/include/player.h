@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.30 1999/03/07 07:29:45 elrod Exp $
+        $Id: player.h,v 1.31 1999/03/07 20:59:19 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -40,7 +40,6 @@ ____________________________________________________________________________*/
 #include "preferences.h"
 #include "properties.h"
 #include "propimpl.h"
-#include "volume.h"
 
 #include "lmc.h"
 

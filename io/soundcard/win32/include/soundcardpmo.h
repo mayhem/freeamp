@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.12 1999/03/07 06:21:39 robert Exp $
+	$Id: soundcardpmo.h,v 1.13 1999/03/07 20:59:31 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -59,6 +59,8 @@ public:
     virtual Error Clear();
 
     virtual Error SetPropManager(Properties *p);
+    virtual void  SetVolume(int32);
+    virtual int32 GetVolume(void);
 
     static void   StartWorkerThread(void *);
     virtual Error BeginWrite(void *&pBuffer, size_t &iBytesToWrite);

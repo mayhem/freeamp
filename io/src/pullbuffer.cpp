@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.11 1999/03/07 06:21:44 robert Exp $
+   $Id: pullbuffer.cpp,v 1.12 1999/03/07 20:59:33 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -251,7 +251,6 @@ Error PullBuffer::BeginWrite(void *&pBuffer, size_t &iBytesToWrite)
 
    if (m_bExit)
    {
-       printf("bailing out!\n");
        m_pMutex->Release();
        return kError_Interrupt;
    }

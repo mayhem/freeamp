@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.15 1999/03/06 23:12:44 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.16 1999/03/07 20:59:30 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -137,6 +137,33 @@ Error SoundCardPMO::SetPropManager(Properties * p)
    }
 
    return kError_NoErr;
+}
+
+int SoundCardPMO::GetVolume()
+{
+   int mixFd = open("/dev/mixer",O_RDWR);
+   int volume = 0;
+
+   if (mixFd != -1) 
+   {
+      ioctl(mixFd, SOUND_MIXER_READ_VOLUME, &volume);
+      volume &= 0xFF;
+      close(mixFd);
+   }
+   return volume;   
+}
+
+void SoundCardPMO::SetVolume(int32 iVolume)
+{
+   int mixFd;
+
+   mixFd = open("/dev/mixer",O_RDWR);
+   if (mixFd >= 0) 
+   {
+      iVolume |= (iVolume << 8);
+      ioctl(mixFd, SOUND_MIXER_WRITE_VOLUME, &iVolume);
+      close(mixFd);
+   }    
 }
 
 int SoundCardPMO::GetBufferPercentage()
@@ -335,8 +362,8 @@ void SoundCardPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
                 (m_iBytesPerSample * myInfo->samples_per_second);
 
    hours = iTotalTime / 3600;
-   minutes = (iTotalTime - hours) / 60;
-   seconds = iTotalTime - hours * 3600 - minutes * 60;
+   minutes = (iTotalTime / 60) % 60;
+   seconds = iTotalTime % 60;
 
    if (minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59)
       return;

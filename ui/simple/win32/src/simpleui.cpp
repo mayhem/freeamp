@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.1 1998/10/20 02:55:03 elrod Exp $
+	$Id: simpleui.cpp,v 1.2 1998/10/20 05:20:22 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -37,6 +37,7 @@ ____________________________________________________________________________*/
 #include "simpleui.h"
 #include "event.h"
 #include "eventdata.h"
+#include "playlist.h"
 #include "about.h"
 #include "resource.h"
 
@@ -317,9 +318,59 @@ AcceptEvent(Event* event)
 
 void  
 SimpleUI::
-SetArgs(int32,char **)
+SetArgs(int32 argc, char** argv)
 {
+    PlayList* playlist = new PlayList;
+    char *arg = NULL;
+    bool shuffle = false;
+    bool autoplay = false;
+    int32 count = 0;
 
+    for(int32 i = 1;i < argc; i++) 
+    {
+	    arg = argv[i];
+
+	    if (arg[0] == '-') 
+        {
+	        switch (arg[1]) 
+            {
+		        case 's':
+                {
+                    shuffle = true;
+		            break;
+	            } 
+
+                case 'p':
+                {
+                    autoplay = true;
+		            break;
+	            } 
+            }
+        }
+        else 
+        {
+            playlist->Add(arg,0);
+            count++;
+	    }
+    }
+
+    playlist->SetFirst();
+
+    if(shuffle) 
+	    playlist->Shuffle();
+    
+    m_target->AcceptEvent(m_target, new Event(CMD_SetPlaylist,playlist));
+
+
+    if(count)
+    {
+        EnableWindow(m_hwndPlay, TRUE);
+
+        if(count > 1)
+			EnableWindow(m_hwndNext, TRUE);
+    }
+    //if(autoplay)
+       //m_target->AcceptEvent(m_target, new Event(CMD_Play));
 }
 
 void

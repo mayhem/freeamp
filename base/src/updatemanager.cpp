@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.6 1999/11/21 04:34:11 elrod Exp $
+	$Id: updatemanager.cpp,v 1.7 1999/12/02 22:06:51 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -195,6 +195,70 @@ Error UpdateManager::InternalRetrieveLatestVersionInfo(
         result = ParseString(info);
     }
     
+    return result;
+}
+
+bool UpdateManager::IsUpdateAvailable()
+{
+    bool result = false;
+    
+    if(m_mutex.Acquire(0))
+    {
+        uint32 updateCount = 0;
+
+        UpdateItem* item;
+
+        vector<UpdateItem*>::iterator i = m_itemList.begin();
+
+        for (; i != m_itemList.end(); i++)
+        {
+            uint32 localMajorVersion, currentMajorVersion;
+            uint32 localMinorVersion, currentMinorVersion;
+            uint32 localRevisionVersion, currentRevisionVersion;
+            int32 numFields;
+
+            item = *i;
+            
+            numFields = sscanf(item->GetLocalFileVersion().c_str(),
+                   "%lu.%lu.%lu", 
+                   &localMajorVersion,&localMinorVersion,&localRevisionVersion);
+
+            if(numFields < 3)
+                localRevisionVersion = 0;
+
+            if(numFields < 2)
+                localMinorVersion = 0;
+
+            if(numFields < 1)
+                localMajorVersion = 0;
+            
+            numFields = sscanf(item->GetCurrentFileVersion().c_str(),
+                   "%d.%d.%d", 
+                   &currentMajorVersion,&currentMinorVersion,&currentRevisionVersion);
+
+            if(numFields < 3)
+                currentRevisionVersion = 0;
+
+            if(numFields < 2)
+                currentMinorVersion = 0;
+
+            if(numFields < 1)
+                currentMajorVersion = 0;
+
+            // is the version on the server more recent?
+            if( (currentMajorVersion > localMajorVersion) ||
+                (currentMajorVersion == localMajorVersion && 
+                 currentMinorVersion > localMinorVersion) ||
+                (currentMajorVersion == localMajorVersion && 
+                 currentMinorVersion == localMinorVersion &&
+                 currentRevisionVersion > localRevisionVersion))
+            {
+                result = true;
+                break;
+            }
+        }
+    }
+
     return result;
 }
 
@@ -1195,44 +1259,33 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
 
 }
 
-/*Error UpdateManager::ParseInfo(string& info)
-{
-    Error result = kError_NoErr;
-
-    //cout << info << endl;
-
-    
-
-    return result;
-}*/
-
 // Utility Functions
 bool UpdateManager::IsEmpty()
 {
     bool result;
-    m_mutex.Acquire();
+    //m_mutex.Acquire();
 
     result = m_itemList.empty();
 
-    m_mutex.Release();
+    //m_mutex.Release();
     return result;
 }
 
 uint32 UpdateManager::CountItems()
 {
     uint32 result;
-    m_mutex.Acquire();
+    //m_mutex.Acquire();
 
     result = m_itemList.size();
 
-    m_mutex.Release();
+    //m_mutex.Release();
     return result;
 }
 
 UpdateItem* UpdateManager::ItemAt(uint32 index)
 {
     UpdateItem* result = NULL;
-    m_mutex.Acquire();
+    //m_mutex.Acquire();
     
     index = CheckIndex(index);
 
@@ -1241,7 +1294,7 @@ UpdateItem* UpdateManager::ItemAt(uint32 index)
         result = m_itemList[index];
     }
     
-    m_mutex.Release();
+    //m_mutex.Release();
     return result;
 }
 

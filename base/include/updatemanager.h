@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.h,v 1.3 1999/11/11 07:46:53 elrod Exp $
+	$Id: updatemanager.h,v 1.4 1999/12/02 22:06:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UPDATE_MANAGER_H_
@@ -131,6 +131,9 @@ class UpdateManager : public Parse {
                                     void* cookie = NULL);
     Error UpdateComponents(UMCallBackFunction function = NULL,
                            void* cookie = NULL);
+
+    bool IsUpdateAvailable(void);
+
 
     // Utility Functions
     bool            IsEmpty();

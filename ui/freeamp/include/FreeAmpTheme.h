@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.11 1999/11/29 08:23:20 ijr Exp $
+   $Id: FreeAmpTheme.h,v 1.12 1999/12/02 22:06:52 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -69,6 +69,8 @@ class FreeAmpTheme : public UserInterface, public Theme
 
         void  WorkerThread(void);
 
+        static void update_thread(void*);
+
     protected:
 
         void             ReloadTheme(void);
@@ -76,6 +78,7 @@ class FreeAmpTheme : public UserInterface, public Theme
         void             UpdateTimeDisplay(int iCurrentTime);
         void             UpdateMetaData(const PlaylistItem *pItem);
         void             ShowHelp(void);
+        void             UpdateThread();
 
         FAContext       *m_pContext;
         int              m_iCurrentSeconds, m_iTotalSeconds, m_iSeekSeconds;
@@ -86,6 +89,9 @@ class FreeAmpTheme : public UserInterface, public Theme
         bool             m_bSeekInProgress, m_bPlayShown;
         string           m_oCurrentWindow, m_oTitle, m_oStreamInfo;
         TimeDisplayState m_eTimeDisplayState;
+        UpdateManager   *m_pUpdateMan;
+        Thread          *m_pUpdateThread;
+
 };
 
 #endif

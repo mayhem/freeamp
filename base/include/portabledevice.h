@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portabledevice.h,v 1.2 1999/10/19 07:12:45 elrod Exp $
+	$Id: portabledevice.h,v 1.3 1999/12/02 22:06:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PORTABLE_DEVICE_H_
@@ -65,6 +65,10 @@ class DeviceInfo {
     { m_device = device; return kError_NoErr; }
     const char* GetDevice() { return m_device.c_str(); }
 
+    Error SetPluginName(const char* name) 
+    { m_pluginName = name; return kError_NoErr; }
+    const char* GetPluginName() { return m_pluginName.c_str(); }
+
     Error SetCapacity(uint32 bytesTotal, uint32 bytesUsed) 
     { m_bytesTotal = bytesTotal; m_bytesUsed = bytesUsed; return kError_NoErr; }
     void GetCapacity(uint32* bytesTotal, uint32* bytesUsed) 
@@ -92,6 +96,7 @@ class DeviceInfo {
     uint32 m_bytesUsed;
     uint32 m_port;
     uint32 m_numEntries;
+    string m_pluginName;
 };
 
 class PortableDevice {

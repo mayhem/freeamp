@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DataIndex.cpp,v 1.3 1999/11/27 16:47:21 elrod Exp $
+        $Id: DataIndex.cpp,v 1.4 1999/12/02 22:06:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -65,8 +65,7 @@ bool TreeDataIndex::IsArtist(int32 lParam)
     result = m_oTreeData[lParam].m_pArtist != NULL &&
              m_oTreeData[lParam].m_pAlbum == NULL &&
              m_oTreeData[lParam].m_pTrack == NULL;
-
-    
+   
     return result;
 }
 
@@ -81,7 +80,6 @@ bool TreeDataIndex::IsAlbum(int32 lParam)
              m_oTreeData[lParam].m_pArtist != NULL &&
              m_oTreeData[lParam].m_pTrack == NULL;
 
-    
     return result;
 }
 
@@ -95,7 +93,6 @@ bool TreeDataIndex::IsTrack(int32 lParam)
     result = m_oTreeData[lParam].m_pAlbum != NULL &&
              m_oTreeData[lParam].m_pArtist != NULL &&
              m_oTreeData[lParam].m_pTrack != NULL;
-
     
     return result;
 }
@@ -111,7 +108,18 @@ bool TreeDataIndex::IsUncatagorized(int32 lParam)
              m_oTreeData[lParam].m_pArtist == NULL &&
              m_oTreeData[lParam].m_pTrack != NULL;
 
-    
+    return result;
+}
+
+bool TreeDataIndex::IsPortable(int32 lParam)
+{
+   bool result = false;
+
+    if (!IsValidParam(lParam))
+       return false;
+
+    result = m_oTreeData[lParam].m_pPortable != NULL;
+
     return result;
 }
 

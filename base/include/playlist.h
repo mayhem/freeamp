@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.48 1999/11/19 09:11:06 elrod Exp $
+	$Id: playlist.h,v 1.49 1999/12/02 22:06:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -307,6 +307,7 @@ class PlaylistManager {
                            void* cookie = NULL);
 
     Error ReadPortablePlaylist(DeviceInfo* device, 
+                               vector<PlaylistItem*>* items = NULL,
                                PLMCallBackFunction function = NULL,
                                void* cookie = NULL);
     Error SyncPortablePlaylist(DeviceInfo* device, 

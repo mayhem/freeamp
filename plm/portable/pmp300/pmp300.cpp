@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.2 1999/10/19 07:13:13 elrod Exp $
+	$Id: pmp300.cpp,v 1.3 1999/12/02 22:06:52 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -1404,7 +1404,6 @@ StartDriver(SC_HANDLE scManager,
             if(GetLastError() == ERROR_SERVICE_ALREADY_RUNNING)
                 result = true;
         }
-            
 
         CloseServiceHandle(service);    
     }

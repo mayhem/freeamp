@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.2 1999/10/19 07:12:57 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.3 1999/12/02 22:06:52 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -195,6 +195,45 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
         }while(FindNextFile(findFileHandle, &findData));
 
         FindClose(findFileHandle);
+    }
+
+    return result;
+}
+
+
+BOOL CALLBACK 
+UpdateAvailableDlgProc(HWND hwnd, 
+                       UINT msg, 
+                       WPARAM wParam, 
+                       LPARAM lParam)
+{
+    BOOL result = FALSE;
+
+    switch (msg)
+    {
+        case WM_INITDIALOG:
+        {
+            
+            break;
+        }      
+
+        case WM_COMMAND:
+        {
+            switch(LOWORD(wParam))
+            {
+                case IDCANCEL:
+                    EndDialog(hwnd, FALSE);
+                    break;
+
+                case IDOK:
+                {
+                    EndDialog(hwnd, TRUE);
+                    break;
+                }
+            }
+  
+            break;
+        }
     }
 
     return result;

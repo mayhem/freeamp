@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.157 1999/11/26 22:30:02 ijr Exp $
+        $Id: player.cpp,v 1.158 1999/12/02 22:06:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1894,6 +1894,7 @@ RemovePropertyWatcher(const char *pProp, PropertyWatcher * pPropWatch)
 {
    return m_props.RemovePropertyWatcher(pProp, pPropWatch);
 }
+
 /*
    void Player::testQueue() {
    Event *pC;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.4 1999/11/27 16:47:21 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.5 1999/12/02 22:06:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -669,7 +669,9 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
                                item != m_hPlaylistItem &&
                                item != m_hAllItem &&
                                item != m_hUncatItem &&
-                               item != m_hNewPlaylistItem)
+                               item != m_hNewPlaylistItem&& 
+                               item != m_hPortableItem &&
+                               TreeView_GetParent(m_hMusicCatalog, item) != m_hPortableItem)
                             {
                                 // pause a half sec so this does not
                                 // look so jarring

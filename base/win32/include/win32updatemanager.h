@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.h,v 1.2 1999/10/19 07:12:48 elrod Exp $
+	$Id: win32updatemanager.h,v 1.3 1999/12/02 22:06:51 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32_UPDATE_MANAGER_H_
@@ -37,6 +37,12 @@ using namespace std;
 
 #include "errors.h"
 #include "updatemanager.h"
+
+BOOL CALLBACK 
+UpdateAvailableDlgProc(HWND hwnd, 
+                       UINT msg, 
+                       WPARAM wParam, 
+                       LPARAM lParam);
 
 
 class Win32UpdateManager : public UpdateManager {

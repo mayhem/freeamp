@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.45 1999/11/10 06:57:06 elrod Exp $
+        $Id: player.h,v 1.46 1999/12/02 22:06:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -93,6 +93,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     virtual Error RemovePropertyWatcher(const char *, PropertyWatcher *);
 
     virtual Error PropertyChange(const char *, PropValue *);
+
  protected:
               Player(FAContext *context);
     void      GetUIManipLock();

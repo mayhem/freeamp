@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.7 1999/09/27 19:59:46 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.8 1999/09/27 22:54:42 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -394,7 +394,7 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                 SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
                 SetBkColor(dis->hDC, GetSysColor(COLOR_WINDOW));
             }
-      
+
             rcClip = dis->rcItem;            
 
             //LV_ITEM* item = (LV_ITEM*)dis->itemData;
@@ -696,23 +696,15 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
                 for(uint32 i = 0; i < itemCount; i++)
                 {
-                    item.mask = LVIF_PARAM | LVIF_STATE;
-                    item.state = 0;
-                    item.stateMask = LVIS_FOCUSED|LVIS_SELECTED;
-                    item.iItem = i;
-                    item.lParam = 0;
-
-                    if(ListView_GetItem(m_hwndList, &item))
+                    if(ListView_GetItemState(m_hwndList, i, LVIS_FOCUSED) & LVIS_FOCUSED)
                     {
-                        debug << "Item " << i << " state: " <<  item.state << endl;
-                        OutputDebugString(debug.str().c_str());
+                        item.mask = LVIF_PARAM;
+                        item.iItem = i;
+                        item.lParam = 0;
 
-                        if(item.state & LVIS_SELECTED)
+                        if(ListView_GetItem(m_hwndList, &item))
                         {
                             dli = (DownloadItem*)item.lParam;
-
-                            debug << "FoundItem: " << i << endl;
-                            OutputDebugString(debug.str().c_str());
                             break;
                         }
                     }
@@ -869,9 +861,8 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
                     displayString = "";
 
-                    //if(dli)
-                        //displayString = dli->GetMetaData().Playlist();
-
+                    if(dli)
+                        displayString = dli->PlaylistName();
 
                     SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 
@@ -928,7 +919,30 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
                     rcClip.left = dis->rcItem.left + dataOffset;
 
-                    displayString = "5.34 MB";
+                    ostringstream ost;
+                    float total;
+                    
+                    ost.precision(2);
+                    ost.flags(ios_base::fixed);
+
+                    total = dli->GetTotalBytes();
+
+                    if(total >= 1048576)
+                    {
+                        total /= 1048576;
+                        ost <<  total << " MB";
+                    }
+                    else if(total >= 1024)
+                    {
+                        total /= 1024;
+                        ost  << total << " KB";
+                    }
+                    else
+                    {
+                        ost <<  dli->GetTotalBytes() << " Bytes";
+                    }
+                   
+                    displayString = ost.str();
 
                     SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 

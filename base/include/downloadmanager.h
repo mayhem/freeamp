@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.13 1999/09/27 18:56:00 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.14 1999/09/27 22:54:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -160,12 +160,16 @@ class DownloadItem {
     const string& SourceURL() const { return m_src; }
 
     Error SetSourceCookie(const char* cookie) { m_cookie = cookie; return kError_NoErr;}
-    Error GetSourceCookie(char* buf, uint32* len) { return SetBuffer(buf, m_src.c_str(), len); }
+    Error GetSourceCookie(char* buf, uint32* len) { return SetBuffer(buf, m_cookie.c_str(), len); }
     const string& SourceCookie() const { return m_cookie; }
 
     Error SetDestinationFile(const char* file) { m_dest = file; return kError_NoErr;}
     Error GetDestinationFile(char* buf, uint32* len) { return SetBuffer(buf, m_dest.c_str(), len); }
     const string& DestinationFile() const { return m_dest; }
+
+    Error SetPlaylistName(const char* file) { m_playlist = file; return kError_NoErr;}
+    Error GetPlaylistName(char* buf, uint32* len) { return SetBuffer(buf, m_playlist.c_str(), len); }
+    const string& PlaylistName() const { return m_playlist; }
 
     DownloadItemState GetState() const { return m_state; }
     void SetState(DownloadItemState state) { m_state = state; }
@@ -213,6 +217,7 @@ class DownloadItem {
     string m_src;
     string m_dest;
     string m_cookie;
+    string m_playlist;
     DownloadItemState m_state;
     bool m_allowResume;
     Error m_error;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.6 1999/11/01 07:02:51 elrod Exp $
+        $Id: Dialog.cpp,v 1.7 1999/11/01 07:39:32 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -779,7 +779,7 @@ BOOL MusicBrowserUI::SetCursor(int hitTest, int mouseMsg)
 {
     BOOL result = FALSE;
 
-    if(m_overSplitter || m_trackSplitter && hitTest == HTCLIENT)
+    if((m_overSplitter || m_trackSplitter) && hitTest == HTCLIENT)
     {
         ::SetCursor(m_hSplitterCursor);
         result = TRUE;

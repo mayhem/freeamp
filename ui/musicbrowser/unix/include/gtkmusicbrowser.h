@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.20 1999/12/16 04:11:03 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.21 1999/12/16 04:28:13 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -43,6 +43,7 @@ typedef enum {
 } MusicBrowserView;
 
 typedef enum {
+    kContextNone,
     kContextPlaylist,
     kContextBrowser
 } ClickState;
@@ -148,6 +149,7 @@ class GTKMusicBrowser {
     GtkWidget *playlistMenu;
     GtkWidget *addTrack;
     GtkWidget *addFile;
+    GtkWidget *toolRemove;
     GtkWidget *toolUp;
     GtkWidget *toolDown;
     GtkWidget *toolbar;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.36 2000/01/27 18:28:52 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.37 2000/02/06 01:52:19 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -412,6 +412,21 @@ void SoundCardPMO::WorkerThread(void)
           // before we play this block of samples?
           if (eErr == kError_EventPending)
           {
+              pEvent = ((EventBuffer *)m_pInputBuffer)->PeekEvent();
+              if (pEvent == NULL)
+                  continue;
+
+              if (pEvent->Type() == PMO_Quit &&
+                  ((EventBuffer *)m_pInputBuffer)->GetNumBytesInBuffer() > 0)
+              {
+                  if (WaitForDrain())
+                  {
+                     m_pTarget->AcceptEvent(new Event(INFO_DoneOutputting));
+                     return;
+                  }
+                  continue;
+              }  
+
               pEvent = ((EventBuffer *)m_pInputBuffer)->GetEvent();
 
               if (pEvent->Type() == PMO_Init)
@@ -426,9 +441,7 @@ void SoundCardPMO::WorkerThread(void)
               if (pEvent->Type() == PMO_Quit) 
               {
                   delete pEvent;
-                  if (WaitForDrain())
-                     m_pTarget->AcceptEvent(new Event(INFO_DoneOutputting));
-
+                  m_pTarget->AcceptEvent(new Event(INFO_DoneOutputting));
                   return;
               }
  

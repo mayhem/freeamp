@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.56 2000/02/06 01:03:39 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.57 2000/02/06 01:52:19 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -629,23 +629,23 @@ void SoundCardPMO::WorkerThread(void)
           if (eErr == kError_EventPending)
           {
               pEvent = ((EventBuffer *)m_pInputBuffer)->PeekEvent();
-			  if (pEvent == NULL)
-				  continue;
+              if (pEvent == NULL)
+                  continue;
                   
               if (pEvent->Type() == PMO_Quit && 
                   ((EventBuffer *)m_pInputBuffer)->GetBytesInUse() > 0) 
               {
                   if (WaitForDrain())
-				  {
+                  {
                      m_pTarget->AcceptEvent(new Event(INFO_DoneOutputting));
                      return;
-				  }
+                  }
                   continue;
               }
 
               pEvent = ((EventBuffer *)m_pInputBuffer)->GetEvent();
-			  if (pEvent == NULL)
-				  continue;
+              if (pEvent == NULL)
+                  continue;
 
               if (pEvent->Type() == PMO_Init)
                   Init(((PMOInitEvent *)pEvent)->GetInfo());

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: drawplayer.cpp,v 1.12 1998/11/08 22:41:44 elrod Exp $
+	$Id: drawplayer.cpp,v 1.13 1998/11/09 00:48:35 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -358,7 +358,7 @@ void DrawDisplay(HDC hdc, DisplayInfo* state)
 {
     HDC memdc, bufferdc;
     HBITMAP oldMemBitmap, bufferBitmap, oldBufferBitmap;
-    int width, height;
+    int width;
     BITMAP bmp;
     int32 i;
 
@@ -374,72 +374,18 @@ void DrawDisplay(HDC hdc, DisplayInfo* state)
 
     memdc = CreateCompatibleDC(hdc);
     bufferdc = CreateCompatibleDC(hdc);
-    oldMemBitmap = (HBITMAP)SelectObject(memdc, leftBitmap);
+    oldMemBitmap = (HBITMAP)SelectObject(memdc, middleBitmap);
     oldBufferBitmap = (HBITMAP)SelectObject(bufferdc, bufferBitmap);
-
-    GetObject(leftBitmap, sizeof(BITMAP), (LPSTR)&bmp);
-
-    BitBlt( bufferdc, 
-            0, 0, bmp.bmWidth, bmp.bmHeight,
-            memdc, 
-            0,0,
-            SRCCOPY);
-
-    width = bmp.bmWidth; 
-    height = bmp.bmHeight;
-
-    SelectObject(memdc, dialBitmap);
-
-    GetObject(dialBitmap, sizeof(BITMAP), (LPSTR)&bmp);
-
-    BitBlt( bufferdc, 
-            width, 0, DIAL_SECTION, bmp.bmHeight,
-            memdc, 
-            0,0,
-            SRCCOPY);
-
-    width += DIAL_SECTION; 
-    height = bmp.bmHeight;
-
-    SelectObject(memdc, middleBitmap);
 
     GetObject(middleBitmap, sizeof(BITMAP), (LPSTR)&bmp);
 
-    BitBlt( bufferdc, 
-            width, 0, bmp.bmWidth, bmp.bmHeight,
-            memdc, 
-            0,0,
-            SRCCOPY);
-
-    width += bmp.bmWidth; 
-    height = bmp.bmHeight;
-
-    SelectObject(memdc, dialBitmap);
-
-    GetObject(dialBitmap, sizeof(BITMAP), (LPSTR)&bmp);
-
-    BitBlt( bufferdc, 
-            width, 0, DIAL_SECTION, bmp.bmHeight,
-            memdc, 
-            0,0,
-            SRCCOPY);
-
-    width += DIAL_SECTION; 
-    height = bmp.bmHeight;
-
-    SelectObject(memdc,rightBitmap);
-
-    GetObject(rightBitmap, sizeof(BITMAP), (LPSTR)&bmp);
+    width = LEFT_SECTION + DIAL_SECTION; 
 
     BitBlt( bufferdc, 
             width, 0, bmp.bmWidth, bmp.bmHeight,
             memdc, 
             0,0,
             SRCCOPY);
-
-    width += bmp.bmWidth; 
-    height = bmp.bmHeight;
-
 
     // Render Display
 #define LogoHeight  18
@@ -1382,7 +1328,6 @@ LRESULT WINAPI MainWndProc( HWND hwnd,
         case WM_TIMER:
         {
             
-
             switch (wParam)
             {
                 case 0:

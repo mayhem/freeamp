@@ -20,7 +20,7 @@
 #	along with this program; if not, write to the Free Software
 #	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #	
-#	$Id: x86gas.s,v 1.2 1999/03/02 14:53:03 mhw Exp $
+#	$Id: x86gas.s,v 1.3 1999/03/03 23:58:01 mhw Exp $
 #
 
 .extern wincoef
@@ -29,7 +29,7 @@
 .globl window_dual
 
 	.align 16
-window_dual:
+window_dual:	#%% proc
 	pushl %ebp
 	pushl %edi
 	pushl %esi
@@ -192,12 +192,12 @@ window_dual:
 	popl %edi
 	popl %ebp
 	ret
-
+#%% endp
 
 .globl fdct32
 
 	.align 16
-fdct32:
+fdct32:		#%% proc
 	pushl %ebp
 	pushl %edi
 	pushl %esi
@@ -323,3 +323,5 @@ fdct32:
 	popl %edi
 	popl %ebp
 	ret
+#%% endp
+

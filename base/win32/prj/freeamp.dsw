@@ -24,6 +24,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "download"=..\..\..\ui\download\win32\prj\download.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "dsoundcard"=..\..\..\io\dsound\win32\prj\dsoundcard.dsp - Package Owner=<4>
 
 Package=<5>
@@ -100,6 +112,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name rmp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name download
     End Project Dependency
 }}}
 

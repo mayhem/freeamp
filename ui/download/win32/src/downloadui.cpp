@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.1 1999/09/26 03:07:59 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.2 1999/09/26 03:38:08 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -34,15 +34,11 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "config.h"
 #include "thread.h"
-#include "simpleui.h"
+#include "downloadui.h"
 #include "event.h"
 #include "eventdata.h"
-#include "Playlist.h"
-#include "about.h"
-#include "prefdialog.h"
+#include "playlist.h"
 #include "resource.h"
-
-#define UWM_TRAY  WM_USER + 666
 
 HINSTANCE g_hInstance = NULL;
 
@@ -91,8 +87,6 @@ SimpleUI(FAContext *context):
     m_target = m_context->target;
     m_propManager = m_context->props;
 
-    m_scrolling = false;
-
     m_uiSemaphore = new Semaphore();
 
     m_uiThread = Thread::CreateThread();
@@ -130,237 +124,11 @@ AcceptEvent(Event* event)
 {
     int32 result = 255;
 
-    if (event) 
+    if(event) 
     {
         
-        switch (event->Type()) 
+        switch(event->Type()) 
         {
-            case INFO_Playing: 
-            {   
-                EnableWindow(m_hwndPlay, FALSE);
-				EnableWindow(m_hwndNext, TRUE);
-				EnableWindow(m_hwndLast, TRUE);
-
-				EnableWindow(m_hwndStop, TRUE);
-				EnableWindow(m_hwndPause, TRUE);
-				EnableWindow(m_hwndSlider, TRUE);
-
-                m_state = UIState_Playing;
-	            break; 
-            }
-
-            case INFO_Paused: 
-            {
-                EnableWindow(m_hwndPlay, TRUE);
-				EnableWindow(m_hwndNext, FALSE);
-				EnableWindow(m_hwndLast, FALSE);  
-
-				EnableWindow(m_hwndStop, TRUE);
-				EnableWindow(m_hwndPause, FALSE);
-				EnableWindow(m_hwndSlider, TRUE);
-
-                m_state = UIState_Paused;
-	            break; 
-            }
-
-            case INFO_Stopped: 
-            {
-                EnableWindow(m_hwndPlay, TRUE);
-				EnableWindow(m_hwndNext, TRUE);
-				EnableWindow(m_hwndLast, TRUE);
-
-				EnableWindow(m_hwndStop, FALSE);
-				EnableWindow(m_hwndPause, FALSE);
-				
-                SendMessage(m_hwndSlider,
-						    TBM_SETPOS,
-						    (WPARAM)TRUE,
-						    (LPARAM)0);
-
-                EnableWindow(m_hwndSlider, FALSE);
-
-                char timeString[256] = "00:00:00";
-
-                SetWindowText(m_hwndCurrent, timeString);
-
-                m_state = UIState_Stopped;
-
-	            break; 
-            }
-
-			case INFO_MPEGInfo: 
-            {
-				MpegInfoEvent *info = (MpegInfoEvent *)event;
-				char szTemp[256];
-				m_secondsPerFrame = info->GetSecondsPerFrame();
-                sprintf(szTemp, "%d kbps",  info->GetBitRate()/1000);
-                SendMessage(m_hwndStatus, 
-						    SB_SETTEXT, 
-						    0, 
-						    (LPARAM)szTemp);
-
-                sprintf(szTemp, "%.1f kHz",  ((float)info->GetSampleRate())/1000);
-			    SendMessage(m_hwndStatus, 
-						    SB_SETTEXT, 
-						    1, 
-						    (LPARAM) szTemp);
-
-                SendMessage(m_hwndSlider,
-						    TBM_SETRANGE,
-						    (WPARAM)TRUE,
-						    MAKELPARAM(0, info->GetTotalFrames()));
-				
-				break;
-            }
-
-            case INFO_MediaInfo: 
-            {
-                MediaInfoEvent *info = (MediaInfoEvent*)event; 
-
-                
-                char timeString[256] = "00:00:00";
-			    char szTemp[256];
-
-                SetWindowText(m_hwndCurrent, timeString);
-
-
-                int32 seconds = (int32)ceil(info->m_totalSeconds);
-				m_totalSeconds = seconds;
-			    int32 hours = seconds / 3600;
-			    int32 minutes = seconds / 60 - hours * 60;
-			    seconds = seconds - minutes * 60 - hours * 3600;
-
-				
-                sprintf(timeString,"%02d:%02d:%02d",hours,
-				                                    minutes,
-				                                    seconds);
-
-			    SetWindowText(m_hwndTotal, timeString);
-
-
-
-                sprintf(szTemp, "%d of %d", info->m_indexOfSong,info->m_totalSongs);
-			    SendMessage(m_hwndStatus, 
-						    SB_SETTEXT, 
-						    2, 
-						    (LPARAM) szTemp);
-
-		
-			    SendMessage(m_hwndSlider,
-						    TBM_SETPOS,
-						    (WPARAM)TRUE,
-						    (LPARAM)0);
-
-                SetWindowText(m_hwnd, info->m_filename);
-                SetTrayTooltip(info->m_filename);
-
-		        /*totalFrames = info->totalFrames;
-		        totalTime = info->totalTime;
-		        char *path = info->filename;
-		        char *pLastSlash = strrchr(path,'/');
-		        char *dir = NULL;
-		        char *fname = NULL;
-		        if (pLastSlash) {
-			    *pLastSlash = '\0';
-			    fname = (char *)((int)pLastSlash + 1);
-			    dir = path;
-		        } else {
-			    fname = path;
-		        }
-		        strncpy(fileName,fname,511);
-
-		        fileName[511] = '\0';
-
-		        if (info->tagInfo.contains_info) 
-                {
-			        fprintf(stderr,"Title  : %30s  Artist: %s\n",info->tagInfo.songname,info->tagInfo.artist);
-			        fprintf(stderr,"Album  : %30s  Year: %4s, Genre: %d\n",info->tagInfo.album,info->tagInfo.year,(int)info->tagInfo.genre);
-			        fprintf(stderr,"Comment: %30s \n",info->tagInfo.comment);
-		        }
-
-		        if (verboseMode == false) 
-                {
-                cerr << "Playing MPEG stream from " << fileName << " ..." << endl;
-			    cerr << "MPEG 1.0, Layer: III, Freq: " << info->freq << ", mode: Joint-Stereo, modext: 3, BPF : " << info->bytesPerFrame  << endl;
-			    cerr << "Channels: 2, copyright: No, original: Yes, CRC: No, emphasis: 0." << endl;
-			    cerr << "Bitrate: " << info->bps/1000 << " KBits/s, Extension value: 0" << endl;
-			    cerr << "Audio: 1:1 conversion, rate: " << info->freq << ", encoding: signed 16 bit, channels: 2" << endl;
-		        }*/
-
-	            break; 
-            }
-
-            case INFO_MediaTimeInfo: 
-            {
-                MediaTimeInfoEvent* info = (MediaTimeInfoEvent*)event;
-                char timeString[256] = "00:00:00";
-                static int32 lastSeconds = 0, lastMinutes = 0, lastHours = 0;
-	            
-                if(lastSeconds != info->m_seconds ||
-                    lastMinutes != info->m_minutes ||
-                    lastHours != info->m_hours)
-                {
-                    lastSeconds = info->m_seconds;
-                    lastMinutes = info->m_minutes;
-                    lastHours = info->m_hours;
-
-                    sprintf(timeString,"%02d:%02d:%02d",info->m_hours,
-				                                    info->m_minutes,
-				                                    info->m_seconds);
-
-			        SetWindowText(m_hwndCurrent, timeString);
-                }
-
-                if(!m_scrolling)
-                {
-
-                    int32 frame = (int32)((float)info->m_totalSeconds/m_secondsPerFrame);
-
-                    SendMessage(m_hwndSlider, 
-						        TBM_SETPOS,
-						        (WPARAM)TRUE,
-						        (LPARAM)frame);
-
-                }
-
-	            break; 
-            }
-
-            
-            case INFO_DoneOutputting: 
-            {
-	            break; 
-            }
-
-            case INFO_PlaylistDonePlay:
-            {
-                char timeString[256] = "00:00:00";
-                char szTemp[256] = {0x00};
-
-                SetWindowText(m_hwndCurrent, timeString);
-			    SetWindowText(m_hwndTotal, timeString);
-
-
-                SendMessage(m_hwndStatus, 
-						    SB_SETTEXT, 
-						    0, 
-						    (LPARAM)szTemp);
-
-			    SendMessage(m_hwndStatus, 
-						    SB_SETTEXT, 
-						    1, 
-						    (LPARAM) szTemp);
-
-			    SendMessage(m_hwndStatus, 
-						    SB_SETTEXT, 
-						    2, 
-						    (LPARAM) szTemp);
-
-             
-                SetWindowText(m_hwnd, "FreeAmp");
-                break;
-            }
-
 	        case CMD_Cleanup: 
             {
 	            m_target->AcceptEvent(new Event(INFO_ReadyToDieUI));
@@ -454,105 +222,6 @@ UIThreadFunc(void* arg)
     ui->CreateUI();
 }
 
-void 
-SimpleUI::
-ReadPreferences()
-{
-    m_prefs->GetStayOnTop(&m_onTop);
-    m_prefs->GetLiveInTray(&m_liveInTray);
-
-    SetWindowPos(   m_hwnd, 
-                    (m_onTop ? HWND_TOPMOST: HWND_NOTOPMOST), 
-                    0, 0, 0, 0, 
-                    SWP_NOMOVE|SWP_NOSIZE);
-
-    // what follows is a sad hack that actually makes windows 
-    // refresh the toolbar correctly...
-    ShowWindow(m_hwnd, FALSE);
-
-    LONG styles, extendedStyles;
-
-    styles = GetWindowLong(m_hwnd, GWL_STYLE);
-    extendedStyles = GetWindowLong(m_hwnd, GWL_EXSTYLE);
-
-    if(extendedStyles & WS_EX_TOOLWINDOW)
-    {
-        if(!m_liveInTray)       
-        {
-            extendedStyles ^= WS_EX_TOOLWINDOW;
-            RemoveTrayIcon();
-        }
-    }
-    else 
-    {
-        if(m_liveInTray)
-        {
-            extendedStyles |= WS_EX_TOOLWINDOW;
-            AddTrayIcon();
-        }
-
-    }
-
-    SetWindowLong(m_hwnd, GWL_STYLE, WS_VISIBLE);
-    SetWindowLong(m_hwnd, GWL_STYLE, styles);
-    SetWindowLong(m_hwnd, GWL_EXSTYLE, extendedStyles);
-
-    ShowWindow(m_hwnd, TRUE);
-
-}
-
-void 
-SimpleUI::
-AddTrayIcon()
-{
-	NOTIFYICONDATA nid;
-	int rc;
-
-	// Fill out NOTIFYICONDATA structure
-	nid.cbSize = sizeof(NOTIFYICONDATA);	// sanitycheck
-	nid.hWnd = m_hwnd;					    // window to receive notifications
-	nid.uID = 1;							// application defined identifier for icon
-	nid.uFlags = NIF_MESSAGE |				// uCallbackMessage is valid, use it
-				 NIF_ICON |					// hIcon is valid, use it
-				 NIF_TIP;					// there is tooltip specified
-	nid.uCallbackMessage = UWM_TRAY;        // that's what we will receive in wndProc
-	nid.hIcon = m_trayIcon;
-
-	strcpy(nid.szTip, m_trayTooltip);
-
-	rc = Shell_NotifyIcon(NIM_ADD, &nid);	// this adds the icon
-}
-
-void
-SimpleUI::
-RemoveTrayIcon()
-{
-	NOTIFYICONDATA nid;
-	nid.cbSize = sizeof(NOTIFYICONDATA);
-	nid.hWnd = m_hwnd;
-	nid.uID = 1;
-	nid.uFlags = NIF_ICON;
-	nid.hIcon = m_trayIcon;
-
-	Shell_NotifyIcon(NIM_DELETE, &nid);
-}
-
-void
-SimpleUI::
-SetTrayTooltip(char *str)
-{
-	NOTIFYICONDATA nid;
-
-    strncpy(m_trayTooltip, str, sizeof(m_trayTooltip));
-
-	nid.cbSize = sizeof(NOTIFYICONDATA);
-	nid.hWnd = m_hwnd;
-	nid.uID = 1;
-	nid.uFlags = NIF_TIP;				// just change tip
-	strcpy(nid.szTip, m_trayTooltip);
-	Shell_NotifyIcon(NIM_MODIFY, &nid); // now, modify our tooltip
-}
-
 Error 
 SimpleUI::
 Init(int32 startup_type) 
@@ -602,12 +271,6 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
             m_ui = (SimpleUI*)lParam;
 
             m_ui->SetHwnd(hwnd);
-
-            m_ui->m_trayIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_EXE_ICON));
-
-            m_ui->ReadPreferences();
-
-            m_ui->SetTrayTooltip("Welcome to FreeAmp");
 
 			result = TRUE;
 
@@ -662,101 +325,6 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
 					break;
 				}
 
-				case IDC_OPEN:
-				{
-					OPENFILENAME ofn;
-					char szTitle[] = "Open Audio File";
-					char szFilter[] =
-					"MPEG Audio Streams (.mp1, .mp2, .mp3, .mpp)\0"
-					"*.mp1;*.mp2;*.mp3;*.mpp\0"
-					//"Playlists (.txt, .lst, .m3u)\0"
-					//"*.lst;*.m3u;*.txt\0"
-					"All Files (*.*)\0"
-					"*.*\0";
-					const int32 kBufferSize = MAX_PATH * 128;
-					char* filelist = new char[kBufferSize];
-					
-					*filelist = 0x00;
-
-					// Setup open file dialog box structure
-					ofn.lStructSize       = sizeof(OPENFILENAME);
-					ofn.hwndOwner         = hwnd;
-					ofn.hInstance         = (HINSTANCE)GetWindowLong(hwnd, 
-															GWL_HINSTANCE);
-					ofn.lpstrFilter       = szFilter;
-					ofn.lpstrCustomFilter = NULL;
-					ofn.nMaxCustFilter    = 0;
-					ofn.nFilterIndex      = 1;
-					ofn.lpstrFile         = filelist;
-					ofn.nMaxFile          = kBufferSize;
-					ofn.lpstrFileTitle    = NULL;
-					ofn.nMaxFileTitle     = 0;
-					ofn.lpstrInitialDir   = "";
-					ofn.lpstrTitle        = szTitle;
-					ofn.Flags             = OFN_FILEMUSTEXIST | 
-											OFN_PATHMUSTEXIST |
-  	     				   					OFN_HIDEREADONLY | 
-											OFN_ALLOWMULTISELECT |
-											OFN_EXPLORER;
-					ofn.nFileOffset       = 0;
-					ofn.nFileExtension    = 0;
-					ofn.lpstrDefExt       = "MP*";
-					ofn.lCustData         = 0;
-					ofn.lpfnHook          = NULL;
-					ofn.lpTemplateName    = NULL;
-
-					if(GetOpenFileName(&ofn))
-					{
-						char file[MAX_PATH + 1];
-						char* cp = NULL;
-						PlaylistManager* Playlist = m_ui->m_plm;
-
-
-                        Playlist->RemoveAll();
-
-						strcpy(file, filelist);
-						strcat(file, "\\");
-
-						cp = filelist + ofn.nFileOffset;
-
-						while(*cp)
-						{
-							strcpy(file + ofn.nFileOffset, cp);
-
-							Playlist->AddItem(file,0);
-
-							cp += strlen(cp) + 1;
-						}
-
-                        EnableWindow(m_ui->m_hwndPlay, TRUE);
-					}
-
-					delete [] filelist;
-
-					break;
-				}
-
-				case IDC_ABOUT:
-				{
-					HINSTANCE hinst = (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE);
-					
-					DialogBox(	hinst, 
-								MAKEINTRESOURCE(IDD_ABOUT),
-								NULL,
-								AboutProc);
-					break;
-				}
-
-                case IDC_EDIT_PREFS:
-				{
-					HINSTANCE hinst = (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE);
-					
-                    if(DisplayPreferences(hwnd, m_ui->m_prefs))
-                        m_ui->ReadPreferences();
-				
-					break;
-				}
-
 				case IDC_EXIT:
 				{
 					PostQuitMessage(0);
@@ -768,173 +336,6 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
 			break;
 		}
 
-        case UWM_TRAY:
-        {
-            switch(lParam)
-            {
-                case WM_LBUTTONUP:
-                {
-                    ShowWindow( hwnd, SW_NORMAL);
-			        SetForegroundWindow(hwnd);
-			        break;
-                }
-
-                case WM_RBUTTONUP:
-                {
-                    HMENU menuHandle, popupHandle;
-                    HINSTANCE hinst = (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE);
-                    POINT pt;
-
-                    // need mouse coordinates relative to screen
-                    GetCursorPos(&pt);
-          
-                    // load the menu and retrieve its popup
-                    menuHandle = LoadMenu(hinst, MAKEINTRESOURCE(IDM_TRAY));
-                    popupHandle = GetSubMenu(menuHandle, 0);
-
-                    if(m_ui->m_state != UIState_Stopped)
-                    {
-                        MENUITEMINFO mii;
-
-                        memset(&mii, 0x00, sizeof(MENUITEMINFO));
-
-                        mii.cbSize = sizeof(MENUITEMINFO);
-                        mii.fMask = MIIM_TYPE|MIIM_ID ;
-                        mii.fType = MFT_STRING;
-                        mii.dwTypeData = "Stop";
-                        mii.cch = strlen("Stop");
-                        mii.wID = IDC_STOP;
-
-                        SetMenuItemInfo(popupHandle, 
-                                        4,
-                                        TRUE,
-                                        &mii);
-                    }
-
-                    if(m_ui->m_state == UIState_Paused)
-                    {
-                        MENUITEMINFO mii;
-
-                        memset(&mii, 0x00, sizeof(MENUITEMINFO));
-
-                        mii.cbSize = sizeof(MENUITEMINFO);
-                        mii.fMask = MIIM_STATE;
-                        mii.fState = MFS_CHECKED;
-
-                        SetMenuItemInfo(popupHandle, 
-                                        5,
-                                        TRUE,
-                                        &mii);
-                    }
-
-                    // display the popup
-                    TrackPopupMenu( popupHandle,			
-					                TPM_RIGHTBUTTON,
-					                pt.x, 
-                                    pt.y,       
-					                0,  
-					                hwnd,
-					                NULL);
-
-			        break;
-                }
-
-            }
-            break;
-        }
-
-		case WM_DROPFILES:
-		{
-			HDROP hDrop = (HDROP) wParam;
-			int32 count;
-			char szFile[MAX_PATH + 1];
-
-			count = DragQueryFile(	hDrop,
-									-1L,
-									szFile,
-									sizeof(szFile));
-
-			for(int32 i = 0; i < count; i++)
-			{
-				DragQueryFile(	hDrop,
-								i,
-								szFile,
-								sizeof(szFile));
-
-				m_ui->m_plm->AddItem(szFile,0);
-			}
-
-            EnableWindow(m_ui->m_hwndPlay, TRUE);
-
-			break;
-		}
-
-		case WM_HSCROLL:
-		{
-			HWND hwndSlider = GetDlgItem(hwnd, IDC_SLIDER);
-			LRESULT position;
-
-			switch (LOWORD(wParam)) 
-			{
-				case TB_LINEUP:
-				case TB_LINEDOWN:
-				case TB_PAGEDOWN:
-				case TB_PAGEUP:
-				case TB_THUMBPOSITION:
-				{
-		  			position = SendMessage(	hwndSlider, 
-											TBM_GETPOS, 
-											0, 
-											0);
-                    
-
-	                char timeString[256] = "00:00:00";
-
-					int32 seconds = m_ui->m_totalSeconds;
-					int32 hours = seconds / 3600;
-					int32 minutes = seconds / 60 - hours * 60;
-					seconds = seconds - minutes * 60 - hours * 3600;
-
-
-					sprintf(timeString,"%02d:%02d:%02d",hours,
-														minutes,
-														seconds);
-
-					SetWindowText(m_ui->m_hwndTotal, timeString);
-                   
-					m_ui->m_target->AcceptEvent(new ChangePositionEvent(position));
-		  	
-					m_ui->m_scrolling = false;
-					break;
-				}
-
-				case TB_THUMBTRACK:
-				{
-					position = SendMessage( hwndSlider, TBM_GETPOS,0,0);
-
-	                char timeString[256] = "00:00:00";
-
-					int32 seconds = (int32)ceil(m_ui->m_secondsPerFrame * position);
-					int32 hours = seconds / 3600;
-					int32 minutes = seconds / 60 - hours * 60;
-					seconds = seconds - minutes * 60 - hours * 3600;
-
-
-					sprintf(timeString,"%02d:%02d:%02d",hours,
-														minutes,
-														seconds);
-
-					SetWindowText(m_ui->m_hwndTotal, timeString);
- 					
-					
-					m_ui->m_scrolling = true;
-					break;
-				}
-			}
-
-			break;
-        }
-
 		case WM_CLOSE:
 		{
 			PostQuitMessage(0);
@@ -944,7 +345,6 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
 
         case WM_DESTROY:
         {
-            m_ui->RemoveTrayIcon();
             break;
         }
 	

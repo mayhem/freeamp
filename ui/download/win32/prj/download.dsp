@@ -17,7 +17,8 @@ CFG=download - Win32 NASM Debug
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "download - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "download - Win32 Release" (based on\
+ "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "download - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "download - Win32 NASM Debug" (based on\
  "Win32 (x86) Dynamic-Link Library")
@@ -60,8 +61,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                           ..\..\..\..\base\win32\prj\plugins	copy download.ui\
-             ..\..\..\..\base\win32\prj\plugins
+                            ..\..\..\..\base\win32\prj\plugins	copy download.ui\
+              ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "download - Win32 Debug"
@@ -93,8 +94,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                           ..\..\..\..\base\win32\prj\plugins	copy download.ui\
-             ..\..\..\..\base\win32\prj\plugins
+                            ..\..\..\..\base\win32\prj\plugins	copy download.ui\
+              ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "download - Win32 NASM Debug"
@@ -128,8 +129,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                           ..\..\..\..\base\win32\prj\plugins	copy download.ui\
-             ..\..\..\..\base\win32\prj\plugins
+                            ..\..\..\..\base\win32\prj\plugins	copy download.ui\
+              ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "download - Win32 NASM Release"
@@ -161,8 +162,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                           ..\..\..\..\base\win32\prj\plugins	copy download.ui\
-             ..\..\..\..\base\win32\prj\plugins
+                            ..\..\..\..\base\win32\prj\plugins	copy download.ui\
+              ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ENDIF 
@@ -176,10 +177,6 @@ PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
 # Begin Group "source"
 
 # PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\src\about.cpp
-# End Source File
 # Begin Source File
 
 SOURCE=..\..\..\..\config\config.win32
@@ -232,15 +229,19 @@ InputPath=..\..\..\..\config\config.win32
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\downloadui.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\downloadui.def
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\..\base\win32\src\mutex.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\..\base\src\playlist.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\prefdialog.cpp
 # End Source File
 # Begin Source File
 
@@ -257,14 +258,6 @@ SOURCE=..\..\..\..\base\src\registry.cpp
 # Begin Source File
 
 SOURCE=..\..\..\..\base\win32\src\semaphore.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\downloadui.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\downloadui.def
 # End Source File
 # Begin Source File
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.10 1999/10/01 00:05:40 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.11 1999/10/01 07:30:38 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -173,11 +173,22 @@ void DownloadUI::CreateUI()
 {
     InitCommonControls();
 
-	DialogBoxParam( g_hInstance, 
+    HWND hwnd;
+    MSG msg;
+
+	hwnd = CreateDialogParam( g_hInstance, 
                     MAKEINTRESOURCE(IDD_DIALOG),
                     NULL,
                     MainProc, 
                     (LPARAM)this);
+
+    while(GetMessage(&msg,NULL,0,0))
+    {
+        if(hwnd)
+        {
+            IsDialogMessage(hwnd, &msg);
+        }
+    }
 
     m_target->AcceptEvent(new Event(CMD_QuitPlayer));
 }
@@ -195,7 +206,7 @@ Error DownloadUI::Init(int32 startup_type)
 
     if(startup_type == PRIMARY_UI)
     {
-        //ShowWindow(m_hwnd, SW_SHOWNORMAL);
+        ShowWindow(m_hwnd, SW_SHOWNORMAL);
     }
 
     return kError_NoErr;
@@ -203,8 +214,6 @@ Error DownloadUI::Init(int32 startup_type)
 
 BOOL DownloadUI::InitDialog()
 {
-    ShowWindow(m_hwnd, SW_HIDE);
-
     // get hwnds for all my controls
     m_hwndList = GetDlgItem(m_hwnd, IDC_LIST);
     m_hwndInfo = GetDlgItem(m_hwnd, IDC_INFO);
@@ -288,107 +297,6 @@ BOOL DownloadUI::InitDialog()
 
         ListView_InsertItem(m_hwndList, &item);
     }
-    
-    // Add a few test items to the list view
-    /*MetaData md;
-
-    md.SetArtist("The Crystal Method");
-    md.SetAlbum("Vegas");
-    md.SetGenre("Electronica");
-    md.SetTitle("Trip Like I Do");
-
-    DownloadItem* dli = new DownloadItem("http://www.blah.com","a.mp3", &md);
-    dli->SetState(kDownloadItemState_Queued);
-    dli->SetTotalBytes(2221568);
-    dli->SetBytesReceived(54432);
-
-    item.mask = LVIF_PARAM | LVIF_STATE;
-    item.state = 0;
-    item.stateMask = 0;
-    item.iItem = ListView_GetItemCount(m_hwndList);
-    item.iSubItem = 0;
-    item.lParam = (LPARAM)dli;
-
-    ListView_InsertItem(m_hwndList, &item);
-
-    md.SetArtist("The Oneders");
-    md.SetAlbum("One Hit Wonders...");
-    md.SetGenre("Classic Rock");
-    md.SetTitle("That Thing You Do");
-    dli = new DownloadItem("http://www.blah.com","b.mp3", &md);
-    dli->SetState(kDownloadItemState_Downloading);
-    dli->SetTotalBytes(61952);
-    dli->SetBytesReceived(32567);
-
-    item.iItem = ListView_GetItemCount(m_hwndList);
-    item.lParam = (LPARAM)dli;
-    
-    ListView_InsertItem(m_hwndList, &item);
-
-    md.SetArtist("The Glimmers");
-    md.SetAlbum("Where are you now?");
-    md.SetGenre("Classic Rock");
-    md.SetTitle("Rhyme and Reason By the Bank of the River");
-    dli = new DownloadItem("http://www.blah.com","c.mp3", &md);
-    dli->SetState(kDownloadItemState_Paused);
-    dli->SetTotalBytes(1000);
-    dli->SetBytesReceived(800);
-    item.iItem = ListView_GetItemCount(m_hwndList);
-    item.lParam = (LPARAM)dli;
-    
-    ListView_InsertItem(m_hwndList, &item);
-
-    md.SetArtist("Various Artist");
-    md.SetAlbum("The Commitments");
-    md.SetGenre("Sound Track");
-    md.SetTitle("Mustang Sally");
-    dli = new DownloadItem("http://www.blah.com","d.mp3",  &md);
-    dli->SetState(kDownloadItemState_Queued);
-    dli->SetTotalBytes(6345634);
-    dli->SetBytesReceived(0);
-    item.iItem = ListView_GetItemCount(m_hwndList);
-    item.lParam = (LPARAM)dli;
-    
-    ListView_InsertItem(m_hwndList, &item);
-
-    md.SetArtist("Pink Floyd");
-    md.SetAlbum("The Wall");
-    md.SetGenre("Classic Rock");
-    md.SetTitle("Another Brick in the Wall");
-    dli = new DownloadItem("http://www.blah.com","e.mp3", &md);
-    dli->SetState(kDownloadItemState_Done);
-    dli->SetTotalBytes(245352343);
-    dli->SetBytesReceived(245352343);
-    item.iItem = ListView_GetItemCount(m_hwndList);
-    item.lParam = (LPARAM)dli;
-    
-    ListView_InsertItem(m_hwndList, &item);
-
-    md.SetArtist("Guns & Roses");
-    md.SetAlbum("Lose Your Illusion, Disc 1");
-    md.SetGenre("Hard Rock");
-    md.SetTitle("Welcome to the Jungle");
-    dli = new DownloadItem("http://www.blah.com", "f.mp3", &md);
-    dli->SetState(kDownloadItemState_Cancelled);
-    dli->SetTotalBytes(34534343);
-    dli->SetBytesReceived(45345);
-    item.iItem = ListView_GetItemCount(m_hwndList);
-    item.lParam = (LPARAM)dli;
-    
-    ListView_InsertItem(m_hwndList, &item);
-
-    md.SetArtist("The gang");
-    md.SetAlbum("Songs that make your smile");
-    md.SetGenre("Classics");
-    md.SetTitle("Happy Birthday To You...");
-    dli = new DownloadItem("http://www.blah.com", "g.mp3",  &md);
-    dli->SetState(kDownloadItemState_Error);
-    dli->SetTotalBytes(34534343);
-    dli->SetBytesReceived(45345);
-    item.iItem = ListView_GetItemCount(m_hwndList);
-    item.lParam = (LPARAM)dli;
-    
-    ListView_InsertItem(m_hwndList, &item);*/
 
     m_uiSemaphore->Signal();
     return TRUE;
@@ -1080,11 +988,9 @@ BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd,
 
             result = m_ui->InitDialog();
 
-            ShowWindow(hwnd, SW_HIDE);
-
             result = FALSE;
 			break;
-		}
+		}     
 
         case WM_INITMENUPOPUP:
         {
@@ -1161,7 +1067,13 @@ BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd,
 		{
             result = m_ui->Command(wParam, (HWND)lParam);
             break;
-        }       
+        }     
+        
+        case WM_SHOWWINDOW:
+        {
+            OutputDebugString("here!\r\n");
+            break;
+        }
 
         case WM_NOTIFY:
         {

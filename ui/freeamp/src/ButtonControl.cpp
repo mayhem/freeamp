@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.10 2000/05/14 21:20:46 robert Exp $
+   $Id: ButtonControl.cpp,v 1.11 2000/05/15 13:41:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -43,9 +43,11 @@ static TransitionInfo pTransitions[] =
     { CS_MouseOver,  CT_MouseLButtonDown, CS_Pressed    },
     { CS_MouseOver,  CT_Disable,          CS_Disabled   },
     { CS_MouseOver,  CT_Hide,             CS_Hidden     },
+    { CS_MouseOver,  CT_Show,             CS_MouseOver  },
     { CS_Pressed,    CT_MouseLButtonUp,   CS_MouseOver  },
     { CS_Pressed,    CT_Disable,          CS_Disabled   },
     { CS_Pressed,    CT_MouseLeave,       CS_Normal     },
+    { CS_Pressed,    CT_Show,             CS_Pressed    },
     { CS_Disabled,   CT_Enable,           CS_Normal     },
     { CS_Disabled ,  CT_MouseEnter,       CS_DisabledMO },
     { CS_DisabledMO, CT_MouseLeave,       CS_Disabled   },

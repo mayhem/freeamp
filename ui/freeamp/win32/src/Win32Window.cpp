@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.37 2000/05/14 23:12:26 robert Exp $
+   $Id: Win32Window.cpp,v 1.38 2000/05/15 13:41:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -97,7 +97,7 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
             assert(ui != NULL);
           
             result = SetWindowLong(hwnd, GWL_USERDATA, (LONG)ui);
-            ui->Init();
+            //ui->Init();
             
             SetTimer(hwnd, 0, 250, NULL);
             // We want people to be able to drop files on the player

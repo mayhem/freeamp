@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.15 2000/05/15 09:34:41 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.16 2000/05/15 13:41:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <assert.h>
@@ -532,7 +532,7 @@ void Win32Bitmap::BlitIt(int x, int y)
    hDestDC = GetDC(NULL);
    hSrcDC = CreateCompatibleDC(hDestDC);
    
-   SelectObject(hSrcDC, m_hBitmap);
+   SelectObject(hSrcDC, m_hMaskBitmap);
 
    BitBlt(hDestDC, x, y, 
           m_iWidth, m_iHeight,

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.4 1999/10/22 16:22:16 ijr Exp $
+	$Id: m3u.cpp,v 1.5 1999/10/23 04:54:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -160,20 +160,36 @@ Error M3U::ReadPlaylist(const char* url,
                 // is there anything left?
                 if(strlen(entry))
                 {
-                    // is the path relative?
-                    if( !strncmp(entry, "..", 2) ||
-                        (strncmp(entry + 1, ":\\", 2) &&
-                         strncmp(entry, DIR_MARKER_STR, 1)) &&
-                        (strncmp(entry, "http://", 7) &&
-                         strncmp(entry, "rtp://", 6) &&
-                         strncmp(entry, "file://", 7)) )
-                    {
-                        strcpy(path, root);
-                        strcat(path, entry);
-                    }
-                    else
+                    // is it a url already?
+                    if (!strncmp(entry, "http://", 7) ||
+                        !strncmp(entry, "rtp://", 6) ||
+                        !strncmp(entry, "file://", 7))
                     {
                         strcpy(path, entry);
+                    }
+                    else 
+                    {
+                        // is the path relative?
+                        if( !strncmp(entry, "..", 2) ||
+                            (strncmp(entry + 1, ":\\", 2) &&
+                             strncmp(entry, DIR_MARKER_STR, 1)))
+                        {
+                            strcpy(path, root);
+                            strcat(path, entry);
+                        }
+                        else
+                        {
+                            strcpy(path, entry);
+                        }
+                        
+                        // make it a url so we can add it to the playlist right
+                        uint32 urlLength = strlen(path) + 15;
+                        char *itemurl = new char[urlLength];
+
+                        if (IsntError(FilePathToURL(path, itemurl, &length)))
+                            strcpy(path, itemurl);
+ 
+                        delete [] itemurl;
                     }
 
                     item = new PlaylistItem(path);

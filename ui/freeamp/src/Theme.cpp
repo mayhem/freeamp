@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.5 1999/10/22 23:30:38 robert Exp $
+   $Id: Theme.cpp,v 1.6 1999/10/23 04:54:43 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -114,6 +114,10 @@ Theme::~Theme(void)
     ClearWindows();
     ClearBitmaps();
     ClearFonts();
+
+#ifdef HAVE_GTK
+    ShutdownGTK();
+#endif
 }
 
 void Theme::ClearWindows(void)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.2 1999/10/19 07:13:20 elrod Exp $
+   $Id: GTKUtility.cpp,v 1.3 1999/10/23 04:54:43 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <string>
@@ -50,6 +50,7 @@ void WarpPointer(GdkWindow *win, int x, int y)
 static void runGTK(void *c)
 {
     gtk_main();
+    gdk_threads_leave();
 }
 
 void InitializeGTK(FAContext *context)
@@ -75,13 +76,13 @@ void InitializeGTK(FAContext *context)
 
 void ShutdownGTK(void)
 {
-    if (weAreGTK) {
+    if (weAreGTK && gtkThread) {
         gdk_threads_enter();
         gtk_main_quit();
         gdk_threads_leave();
         weAreGTK = false;
 //        gtkThread->Join();
-// gtk_main() NEVER QUITS... stupid, what am I missing?
+        gtkThread = NULL;
     }
 }
 

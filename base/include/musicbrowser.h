@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.3 1999/10/19 16:46:57 ijr Exp $
+        $Id: musicbrowser.h,v 1.4 1999/10/23 04:54:42 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -70,16 +70,27 @@ class MusicCatalog
     MusicCatalog(FAContext *context);
     ~MusicCatalog();
 
-    void AddPlaylist(const char *path);
-    void AddSong(const char *path);
-    void AddOneFromDatabase(char *key);    
-    void PopulateFromDatabase();
-    
+    Error AddPlaylist(const char *url);
+    Error AddSong(const char *url);
+    Error Add(const char *url);    
+
+    Error RePopulateFromDatabase();
+
+    Error RemovePlaylist(const char *url);
+    Error RemoveSong(const char *url);
+    Error Remove(const char *url);
+
+    void  ClearCatalog(void);
+
+    const vector<ArtistList *> *GetMusicList(void) { return m_artistList; }
+    const vector<PlaylistItem *> *GetUnsortedMusic(void) { return m_unsorted; }
+    const vector<string> *GetPlaylists(void) { return m_playlists; }
+
+private:
     vector<ArtistList *> *m_artistList;
     vector<PlaylistItem *> *m_unsorted;
     vector<string> *m_playlists;
-
-private:
+   
     FAContext *m_context;
 };
 
@@ -93,8 +104,9 @@ class MusicBrowser : public EventQueue
     void SearchMusic(vector<string> &pathList);
     void StopSearchMusic(void);
     
-    void WriteMetaDataToDatabase(char *path, MetaData  information);
-    MetaData *ReadMetaDataFromDatabase(char *path);
+    void WriteMetaDataToDatabase(const char *url, const MetaData information);
+    MetaData *ReadMetaDataFromDatabase(const char *url);
+
     virtual int32 AcceptEvent(Event *e);
     
     MusicCatalog *m_catalog;

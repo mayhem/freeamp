@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.3 1999/10/20 02:13:57 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.4 1999/10/23 04:54:42 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1074,10 +1074,17 @@ Error DownloadManager::SubmitToDatabase(DownloadItem* item)
 
         m_context->prefs->GetPrefString(kSaveMusicDirPref, path, &length);
 
-        strcat(path, "\\");
+        strcat(path, DIR_MARKER_STR);
         strcat(path, item->DestinationFile().c_str());
 
-        m_context->browser->WriteMetaDataToDatabase(path, item->GetMetaData());
+        uint32 urlLength = strlen(path) + 10;
+        char *url = new char[urlLength];
+        
+        if (IsntError(FilePathToURL(path, url, &urlLength)))
+            m_context->browser->WriteMetaDataToDatabase(path, 
+                                                        item->GetMetaData());
+
+        delete [] url;
     }
 
     return result;

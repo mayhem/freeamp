@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.2 1999/10/19 07:13:15 elrod Exp $
+        $Id: downloadui.cpp,v 1.3 1999/10/23 04:54:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -86,8 +86,10 @@ void DownloadUI::GTKEventService(void)
     }
     m_context->gtkLock.Release();
 
-    if (weAreGTK)
+    if (weAreGTK) {
         gtk_main();
+        gdk_threads_leave();
+    }
 }
 
 int32 DownloadUI::AcceptEvent(Event *event)

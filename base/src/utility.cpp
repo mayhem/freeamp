@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.7 1999/10/22 23:30:17 robert Exp $
+	$Id: utility.cpp,v 1.8 1999/10/23 04:54:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -431,13 +431,15 @@ void ToLower(char *s)
 #ifndef WIN32
 void LaunchBrowser(char* url)
 {
-   char         url2[URL_SIZE];
+   char        *url2;
    char         lockfile[255];
    int          lockfile_fd;
    struct stat  sb;
    char        *home, *browser;
 
    browser = "netscape";
+
+   url2 = new char[strlen(url) + 10];
    sprintf(url2, "openURL(%s)", url);
 
    if (strcmp(browser, "netscape") == 0)
@@ -461,10 +463,14 @@ void LaunchBrowser(char* url)
    }
    else
    {
-      char command[256];
+      char *command = new char[strlen(browser) + strlen(url) + 10];
       sprintf(command, "%s \"%s\"", browser, url);
 
       system(command);
+
+      delete [] command;
    }
+
+   delete [] url2;
 }
 #endif

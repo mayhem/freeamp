@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.8 1999/10/22 23:30:37 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.9 1999/10/23 04:54:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -159,9 +159,7 @@ Error FreeAmpTheme::Close(void)
     Theme::Close();
     
     m_uiThread->Join();
-#ifdef HAVE_GTK 
-    ShutdownGTK();
-#endif
+
     return kError_NoErr;
 }
 

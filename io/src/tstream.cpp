@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.9.2.2 1999/08/18 04:18:07 ijr Exp $
+   $Id: tstream.cpp,v 1.9.2.3 1999/08/18 23:00:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -44,7 +44,7 @@ ____________________________________________________________________________*/
 #endif  
 
 /* project headers */
-#include <config.h>
+#include "config.h"
 #include "tstream.h"
 #include "facontext.h"
 #include "log.h" 

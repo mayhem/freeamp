@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.h,v 1.1.2.1 1999/08/18 04:18:07 ijr Exp $
+        $Id: database.h,v 1.1.2.2 1999/08/18 23:00:23 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -29,6 +29,10 @@ ____________________________________________________________________________*/
 #include "gdbm.h"
 #include "mutex.h"
 #include "errors.h"
+
+#ifdef WIN32
+#define S_IRWXU _S_IREAD|_S_IWRITE
+#endif
 
 template<class T> class Database
 {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicsearch.h,v 1.1.2.1 1999/08/18 04:18:07 ijr Exp $
+        $Id: musicsearch.h,v 1.1.2.2 1999/08/18 23:00:23 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -51,9 +51,7 @@ class MusicSearch
  private:
     void DoSearchMusic(char *path);
     Database<SearchMetaData> *m_database;
-#ifndef WIN32    
     int m_numSymLinks;
-#endif    
 };
 
 #endif

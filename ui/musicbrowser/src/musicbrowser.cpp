@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.4 1999/10/20 16:16:35 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.5 1999/10/20 23:39:30 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -125,13 +125,13 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             break; }
 
 #ifdef WIN32
+        case INFO_PlaylistItemUpdated:
         case INFO_PlaylistCurrentItemInfo:
         {
             m_currentplaying = m_context->plm->GetCurrentIndex();
             UpdatePlaylistList();
             break; 
         }
-
 #endif
 
         case INFO_SearchMusicDone: {

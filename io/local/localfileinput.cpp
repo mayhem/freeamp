@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.22 1999/10/19 07:13:00 elrod Exp $
+        $Id: localfileinput.cpp,v 1.23 1999/10/20 23:39:22 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -46,6 +46,7 @@ ____________________________________________________________________________*/
 #include "facontext.h"
 #include "log.h"
 #include "utility.h"
+#include "debug.h"
 
 const uint32 iReadBlock = 8192;
 
@@ -146,7 +147,7 @@ Error LocalFileInput::SetTo(const char *url)
 {
     Error  result = kError_NoErr;
     uint32  len = strlen(url) + 1;
-    
+
     if (m_path)
     {
        delete m_path;

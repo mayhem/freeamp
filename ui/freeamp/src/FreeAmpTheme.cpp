@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.3 1999/10/20 18:23:03 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.4 1999/10/20 23:39:29 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -171,6 +171,24 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
 {
    switch (e->Type())
    {
+      case INFO_ErrorMessage:
+      {
+         MessageDialog      oBox;
+         ErrorMessageEvent *pEvent = (ErrorMessageEvent *)e;
+         
+         string oDesc(pEvent->GetErrorMessage());
+  
+         oBox.Show(oDesc.c_str(), string(BRANDING), kMessageOk);
+         break;
+      }
+      case INFO_StatusMessage:
+      {
+         StatusMessageEvent *pEvent = (StatusMessageEvent *)e;
+         
+         string oDesc(pEvent->GetStatusMessage());
+         m_pWindow->ControlStringValue("Info", true, oDesc);
+         break;
+      }
       case CMD_Cleanup:
       {
          string oName("MainWindow");
@@ -237,10 +255,16 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
  
       case INFO_PlaylistItemUpdated :
       {
+         int                       i;
          PlaylistItemUpdatedEvent *pInfo = 
             (PlaylistItemUpdatedEvent *)e;
 
-         UpdateMetaData(pInfo->Item());
+         i = m_pContext->plm->GetCurrentIndex();
+         if (i >= 0)
+         {
+             if (m_pContext->plm->ItemAt(i) == pInfo->Item())
+                UpdateMetaData(pInfo->Item());
+         }       
          break;
       }
       case INFO_PlaylistCurrentItemInfo:
@@ -890,7 +914,11 @@ void FreeAmpTheme::DropFiles(vector<string> *pFileList)
             else   
                if (m_pContext->player->IsSupportedExtension(ext))
                {
-                   m_pContext->plm->AddItem((*i).c_str(),0);
+                   string url;
+                   
+                   url = string("file://") + (*i);
+                   m_pContext->plm->AddItem(url.c_str(),
+                        m_pContext->plm->CountItems());
                }    
         }
     }

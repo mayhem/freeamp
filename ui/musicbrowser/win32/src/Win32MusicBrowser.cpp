@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.2 1999/10/19 07:13:30 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.3 1999/10/20 23:39:31 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -1411,9 +1411,10 @@ FileOpenDialog(HWND hwnd,
             {
 	            strcpy(file + ofn.nFileOffset, cp);
 
-                char* foo = new char[strlen(file) + 1];
+                char* foo = new char[strlen(file) + 8];
 
-                strcpy(foo, file);
+                strcpy(foo, "file://");
+                strcat(foo, file);
 
                 fileList->push_back(foo);
 

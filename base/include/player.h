@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.43 1999/10/19 07:12:45 elrod Exp $
+        $Id: player.h,v 1.44 1999/10/20 23:39:17 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -125,11 +125,9 @@ class Player : public EventQueue, Properties, PropertyWatcher
     void TogglePause(Event *pEvent);
     int  Quit(Event *pEvent);
     int  ReadyToDieUI(Event *pEvent);
-    void UserMessage(Event *pEvent);
     void HandleMediaInfo(Event *pEvent);
     void HandleMediaTimeInfo(Event *pEvent);
     void SendEventToUI(Event *pEvent);
-    void LMCError(Event *pEvent);
     void GetMediaTitle(Event *pEvent);
     void ToggleUI(Event *pEvent);
     

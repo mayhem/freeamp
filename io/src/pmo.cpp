@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.8 1999/10/19 07:13:05 elrod Exp $
+        $Id: pmo.cpp,v 1.9 1999/10/20 23:39:28 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -40,6 +40,7 @@ ____________________________________________________________________________*/
 #include "eventdata.h"
 #include "facontext.h"
 #include "log.h"
+#include "debug.h"
 
 #define DB printf("%s:%d\n", __FILE__, __LINE__);  
 
@@ -83,7 +84,9 @@ Error PhysicalMediaOutput::SetTo(const char *url)
     m_pPmi->SetTo(url);
     eRet = m_pPmi->Prepare(pBuffer);
     if (!IsError(eRet))
+    {
          eRet = m_pLmc->Prepare(pBuffer, m_pInputBuffer);
+    }     
 
     m_pMutex->Release();
 

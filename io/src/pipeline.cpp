@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pipeline.cpp,v 1.5 1999/10/19 07:13:05 elrod Exp $
+        $Id: pipeline.cpp,v 1.6 1999/10/20 23:39:27 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -102,7 +102,15 @@ void PipelineUnit::ReportError(const char *szError)
 {
     assert(m_pTarget);
 
-    m_pTarget->AcceptEvent(new LMCErrorEvent(szError));
+    m_pTarget->AcceptEvent(new ErrorMessageEvent(szError));
+    m_pTarget->AcceptEvent(new Event(INFO_DoneOutputting));
+}   
+
+void PipelineUnit::ReportStatus(const char *szError)
+{
+    assert(m_pTarget);
+
+    m_pTarget->AcceptEvent(new StatusMessageEvent(szError));
 }   
 
 void PipelineUnit::Pause(void)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: eventbuffer.cpp,v 1.1 1999/03/04 07:23:56 robert Exp $
+   $Id: eventbuffer.cpp,v 1.2 1999/03/06 02:01:10 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -26,9 +26,6 @@ ____________________________________________________________________________*/
 #include <assert.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
 
 #include "eventbuffer.h"
 
@@ -49,8 +46,6 @@ EventBuffer::~EventBuffer(void)
 Error EventBuffer::BeginRead(void *&pBuffer, size_t &iBytesWanted)
 {
    BufferEvent *pEvent;
-   Event       *pPMOEvent;
-   Error        eRet;
    int          iReadIndex, iMaxBytes;
 
    pEvent = m_pQueue->Peek();
@@ -105,7 +100,6 @@ Error EventBuffer::BeginWrite(void *&pBuffer, size_t &iBytesWanted)
 
 Error EventBuffer::AcceptEvent(Event *pPMOEvent)
 {
-   Error        eRet;
    BufferEvent *pEvent;
 
    pEvent = new BufferEvent;

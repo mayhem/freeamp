@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.12 1999/03/05 23:17:27 robert Exp $
+	$Id: pmo.h,v 1.13 1999/03/06 02:01:06 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -74,7 +74,7 @@ public:
 	               {return 0;};
                  
     virtual Error SetTarget(EventQueue *target)
-                  {m_target = target; }
+                  {m_target = target; return kError_NoErr; }
     virtual Error Pause(){ return kError_GotDefaultMethod;}
     virtual Error Resume(){ return kError_GotDefaultMethod; }
     virtual Error Clear(){ return kError_GotDefaultMethod; }

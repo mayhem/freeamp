@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.56 1999/03/05 23:17:40 robert Exp $
+   $Id: xinglmc.cpp,v 1.57 1999/03/06 02:01:12 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -47,6 +47,7 @@ ____________________________________________________________________________*/
 #include "semaphore.h"
 #include "lmc.h"
 #include "log.h"
+//#include "debug.hpp"
 
 #if MP3_PROF
 extern LogFile *g_Log;
@@ -888,6 +889,7 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded)
   	if (iNow != m_iBufferUpdate)
   	{
   	    printf("Input: %3d%% Output: %3d%%\r", iInPercent, iOutPercent);
+  	    //Debug_v("Input: %3d%% Output: %3d%%", iInPercent, iOutPercent);
   	    fflush(stdout);
        m_iBufferUpdate = iNow;
   	}

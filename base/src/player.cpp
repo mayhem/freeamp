@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.83 1999/03/05 23:42:20 elrod Exp $
+        $Id: player.cpp,v 1.84 1999/03/06 02:01:02 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -788,27 +788,6 @@ void Player::CreateLMC(PlayListItem * pc, Event * pC)
    {
       goto epilogue;
    }
-
-#if 0
-   if ((m_playerState == STATE_Paused) || (pC->Type() == CMD_PlayPaused))
-   {
-      if ((error = lmc->Pause()) != kError_NoErr)
-      {
-         goto epilogue;
-      }
-      if (SetState(STATE_Paused))
-      {
-         SEND_NORMAL_EVENT(INFO_Paused);
-      }
-   }
-   else
-   {
-      if (SetState(STATE_Playing))
-      {
-         SEND_NORMAL_EVENT(INFO_Playing);
-      }
-   }
-#endif
 
    m_lmc = lmc;
    lmc = NULL;

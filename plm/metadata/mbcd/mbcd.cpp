@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: mbcd.cpp,v 1.8 2000/10/26 20:40:44 robert Exp $
+    $Id: mbcd.cpp,v 1.9 2000/10/26 22:18:12 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -82,6 +82,13 @@ bool MusicBrainzCD::ReadMetaData(const char* url, MetaData* metadata)
     m_mutex.Acquire();
 
     track = atoi(ptr + 1);
+
+    if (track == m_nextTrack && o == NULL)
+    {
+       m_nextTrack++;
+       m_mutex.Release();
+       return false;
+    }
     if (track != m_nextTrack)
     {
         if (o)
@@ -93,6 +100,7 @@ bool MusicBrainzCD::ReadMetaData(const char* url, MetaData* metadata)
         {
            mb_Delete(o);
            o = NULL; 
+           m_nextTrack = 2;
            m_mutex.Release();
            return false;
         }
@@ -172,8 +180,7 @@ bool MusicBrainzCD::LookupCD(void)
     m_context->prefs->GetPrefString(kCDDevicePathPref, tempDir, &length);
     mb_SetDevice(o, tempDir);
 
-    //mb_SetServer(o, MUSICBRAINZ_SERVER, MUSICBRAINZ_PORT);
-    mb_SetServer(o, "musicbrainz.eorbit.net", MUSICBRAINZ_PORT);
+    mb_SetServer(o, MUSICBRAINZ_SERVER, MUSICBRAINZ_PORT);
     if (GetProxySettings(m_context, proxyServer, proxyPort))
        mb_SetProxy(o, (char *)proxyServer.c_str(), proxyPort);
 

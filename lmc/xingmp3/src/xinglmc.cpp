@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.10 1998/10/20 23:01:04 elrod Exp $
+	$Id: xinglmc.cpp,v 1.11 1998/10/21 05:38:03 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -229,6 +229,7 @@ void XingLMC::Stop() {
 	m_decoderThread->Join(); // wait for thread to exit
 	delete m_decoderThread;
 	m_decoderThread = NULL;
+    m_output->Reset(m_output, true);
 	//cout << "XingLMC deleted decoder thread.." << endl;
     }
 }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: consoleCIO.cpp,v 1.1 1998/10/15 14:49:28 elrod Exp $
+	$Id: consoleCIO.cpp,v 1.2 1998/10/15 16:00:58 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -27,8 +27,6 @@ ____________________________________________________________________________*/
 
 #include "ConsoleCIO.h"
 #include "event.h"
-#include "player.h"
-#include "playlist.h"
 #include "thread.h"
 
 #define stdinfd 0
@@ -56,7 +54,7 @@ ConsoleCIO::~ConsoleCIO()
     }
 }
 
-THREAD_RETURN THREAD_LINKAGE ConsoleCIO::keyboardServiceFunction(void *pclcio) {
+void ConsoleCIO::keyboardServiceFunction(void *pclcio) {
     ConsoleCIO *pMe = (ConsoleCIO *)pclcio;
     char *pkey = new char[1];
     char chr;

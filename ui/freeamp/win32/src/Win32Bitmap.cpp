@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.8 1999/12/08 22:57:17 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.9 1999/12/10 07:49:34 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -26,7 +26,7 @@ ____________________________________________________________________________*/
 #include "debug.h"
 
 
-Win32Bitmap::Win32Bitmap(string &oName)
+Win32Bitmap::Win32Bitmap(const string &oName)
           :Bitmap(oName)
 {
    m_oBitmapName = oName;
@@ -35,7 +35,7 @@ Win32Bitmap::Win32Bitmap(string &oName)
    m_pBitmapData = NULL;
 }
 
-Win32Bitmap::Win32Bitmap(int iWidth, int iHeight, string &oName)
+Win32Bitmap::Win32Bitmap(int iWidth, int iHeight, const string &oName)
            :Bitmap(oName)
 {
    HDC hDc;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.34 1999/07/16 19:48:58 robert Exp $
+	$Id: freeamp.cpp,v 1.35 1999/07/19 18:11:19 robert Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -103,6 +103,8 @@ void FreeAmpUI::SetPlayListManager(PlayListManager *plm) {
 
 Error FreeAmpUI::Init(int32 startup_type)
 {
+    assert(this);
+
     m_startupType = startup_type;
     if (m_noStartUp) {
 	return kError_InitFailedSafely;
@@ -498,6 +500,7 @@ void FreeAmpUI::ParseArgs() {
 
 
 void FreeAmpUI::x11ServiceFunction(void *p) {
+    assert(p);
     ((FreeAmpUI *)p)->X11EventService();
 }
 

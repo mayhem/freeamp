@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: l3dq.c,v 1.4 1999/07/15 20:20:02 robert Exp $
+	$Id: l3dq.c,v 1.5 1999/07/29 21:29:16 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  quant.c  ***************************************************
@@ -110,6 +110,11 @@ float *quant_init_subblock_addr()
    return look_subblock;
 }
 /*=============================================================*/
+
+#ifdef _MSC_VER
+#pragma warning(disable: 4056)
+#endif
+
 void dequant(SAMPLE Sample[], int *nsamp,
 	     SCALEFACT * sf,
 	     GR * gr,
@@ -249,4 +254,9 @@ block type = 2  short blocks
 
    return;
 }
+
+#ifdef _MSC_VER
+#pragma warning(default: 4056)
+#endif
+
 /*-------------------------------------------------------------*/

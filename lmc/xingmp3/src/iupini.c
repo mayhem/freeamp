@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: iupini.c,v 1.2 1999/07/13 18:42:19 robert Exp $
+	$Id: iupini.c,v 1.3 1999/07/29 21:29:16 elrod Exp $
 ____________________________________________________________________________*/
 
 /*=========================================================
@@ -171,6 +171,11 @@ static int out_chans[5] =
 {1, 2, 1, 1, 1};
 
 /*---------------------------------------------------------*/
+
+#ifdef _MSC_VER
+#pragma warning(disable: 4056)
+#endif
+
 static void table_init()
 {
    int i, j;
@@ -228,6 +233,11 @@ static void table_init()
 
 
 }
+
+#ifdef _MSC_VER
+#pragma warning(default: 4056)
+#endif
+
 /*---------------------------------------------------------*/
 int i_audio_decode_initL1(MPEG_HEAD * h, int framebytes_arg,
 		   int reduction_code, int transform_code, int convert_code,

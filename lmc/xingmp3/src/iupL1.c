@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: iupL1.c,v 1.2 1999/07/13 18:42:18 robert Exp $
+	$Id: iupL1.c,v 1.3 1999/07/29 21:29:16 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  iupL1.c  ***************************************************
@@ -215,6 +215,11 @@ static void unpackL1()
 
 }
 /*-------------------------------------------------------------------------*/
+
+#ifdef _MSC_VER
+#pragma warning(disable: 4056)
+#endif
+
 int i_audio_decode_initL1(MPEG_HEAD * h, int framebytes_arg,
 		   int reduction_code, int transform_code, int convert_code,
 			  int freq_limit)
@@ -323,4 +328,9 @@ int i_audio_decode_initL1(MPEG_HEAD * h, int framebytes_arg,
 
    return 1;
 }
+
+#ifdef _MSC_VER
+#pragma warning(default: 4056)
+#endif
+
 /*---------------------------------------------------------*/

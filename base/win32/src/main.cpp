@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.45 2000/01/21 01:55:53 elrod Exp $
+	$Id: main.cpp,v 1.46 2000/02/09 21:21:25 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -536,12 +536,8 @@ void CreateHiddenWindow(void* arg)
 
     memset(&wc, 0x00, sizeof(WNDCLASS));
 
-    wc.style = CS_OWNDC|CS_DBLCLKS;
     wc.lpfnWndProc = HiddenWndProc;
     wc.hInstance = g_hinst;
-    wc.hCursor = NULL;
-    wc.hIcon = NULL;
-    wc.hbrBackground = NULL;
     wc.lpszClassName = kHiddenWindow;
 
     RegisterClass(&wc);

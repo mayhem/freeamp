@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.6 1999/12/28 02:53:28 elrod Exp $
+	$Id: downloadui.h,v 1.7 2000/02/09 21:21:26 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -46,7 +46,7 @@ class DownloadUI : public UserInterface {
     ~DownloadUI();
 
     virtual Error Init(int32 startup_type);
-    virtual int32 AcceptEvent(Event*);
+    virtual Error AcceptEvent(Event*);
     void CreateUI();
 
     static BOOL CALLBACK MainProc(	HWND hwnd, 

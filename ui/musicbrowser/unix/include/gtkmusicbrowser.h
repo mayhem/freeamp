@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.23 2000/02/02 23:13:51 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.24 2000/02/09 21:21:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -86,7 +86,7 @@ class GTKMusicBrowser {
     void Close(bool inMain = true);
  
     bool Visible(void) { return isVisible; }
-    int32 AcceptEvent(Event *e);
+    Error AcceptEvent(Event *e);
 
     uint32 m_currentindex;
     

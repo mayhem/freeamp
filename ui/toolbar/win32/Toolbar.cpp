@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Toolbar.cpp,v 1.7 1999/12/08 01:23:26 robert Exp $
+	$Id: Toolbar.cpp,v 1.8 2000/02/09 21:21:28 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -202,15 +202,15 @@ UIThreadFunction()
 }
 
 
-int32 
+Error 
 ToolbarUI::
 AcceptEvent(Event* event)
 {
-    int32 result = 255;
+    Error result = kError_UnknownErr;
 
     if (event) 
     {
-        result = 0;
+        result = kError_NoErr;
 
         switch (event->Type()) 
         {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.38 2000/02/04 16:13:42 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.39 2000/02/09 21:21:25 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -948,7 +948,7 @@ MetaData *MusicCatalog::ReadMetaDataFromDatabase(const char *url)
     return metadata;
 }
 
-int32 MusicCatalog::AcceptEvent(Event *e)
+Error MusicCatalog::AcceptEvent(Event *e)
 {
     switch (e->Type()) {
         case INFO_MusicCatalogTrackRemoved: {
@@ -1003,5 +1003,5 @@ int32 MusicCatalog::AcceptEvent(Event *e)
             break;
         } 
     }
-    return 0; 
+    return kError_NoErr; 
 }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.h,v 1.3 1999/10/19 07:13:27 elrod Exp $
+	$Id: irmanui.h,v 1.4 2000/02/09 21:21:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_IRManUI_H_
@@ -37,7 +37,7 @@ class FAContext;
 class IRManUI : public UserInterface {
  public:
     IRManUI(FAContext *context);
-    virtual int32 AcceptEvent(Event *);
+    virtual Error AcceptEvent(Event *);
     virtual Error Init(int32);
     static void irServiceFunction(void *);
     virtual ~IRManUI();

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.59 2000/02/07 04:44:01 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.60 2000/02/09 21:21:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -120,7 +120,7 @@ class MusicBrowserUI : public UserInterface
 
     virtual ~MusicBrowserUI();
 
-    virtual int32 AcceptEvent(Event *);
+    virtual Error AcceptEvent(Event *);
     virtual Error Init(int32);
 						 
     static void UIThreadFunc(void* arg);

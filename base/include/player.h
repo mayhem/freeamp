@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.48 1999/12/06 15:06:41 ijr Exp $
+        $Id: player.h,v 1.49 2000/02/09 21:21:25 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -79,7 +79,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     void      SetTerminationSemaphore(Semaphore *);
     void      testQueue();
     static void EventServiceThreadFunc(void *);
-    virtual int32 AcceptEvent(Event *);
+    virtual Error AcceptEvent(Event *);
     virtual RegistryItem *ChooseLMC(const char *szUrl, char *szTitle = NULL);
     virtual RegistryItem *ChoosePMI(const char *szUrl, char *szTitle = NULL);
 

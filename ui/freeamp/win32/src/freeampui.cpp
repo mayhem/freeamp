@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.68 1999/08/14 06:54:48 elrod Exp $
+	$Id: freeampui.cpp,v 1.69 2000/02/09 21:21:26 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2728,15 +2728,15 @@ DeleteRegions()
     }
 }
 
-int32 
+Error 
 FreeAmpUI::
 AcceptEvent(Event* event)
 {
-    int32 result = 255;
+    Error result = kError_UnknownErr;
 
     if (event) 
     {
-        result = 0;
+        result = kError_NoErr;
 
         switch (event->Type()) 
         {

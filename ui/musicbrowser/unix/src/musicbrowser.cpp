@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.22 2000/02/04 16:13:43 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.23 2000/02/09 21:21:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -112,7 +112,7 @@ void MusicBrowserUI::GTKEventService(void)
     }
 }
 
-int32 MusicBrowserUI::AcceptEvent(Event *event)
+Error MusicBrowserUI::AcceptEvent(Event *event)
 {
     switch (event->Type()) {
         case CMD_Cleanup: {
@@ -196,7 +196,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
         default:
             break;
     }
-    return 0;
+    return kError_NoErr;
 }
 
 void MusicBrowserUI::CreateNewEditor(string & newPlaylist)

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.cpp,v 1.10 1999/12/16 02:37:56 ijr Exp $
+	$Id: irmanui.cpp,v 1.11 2000/02/09 21:21:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -207,7 +207,7 @@ void IRManUI::irServiceFunction(void *pclcio) {
     ir_finish();
 }
 
-int32 IRManUI::AcceptEvent(Event *e) {
+Error IRManUI::AcceptEvent(Event *e) {
     if (e) {
 	//cout << "IRManUI: processing event " << e->Type() << endl;
 	switch (e->Type()) {
@@ -226,7 +226,7 @@ int32 IRManUI::AcceptEvent(Event *e) {
 		break;
 	}
     }
-    return 0;
+    return kError_NoErr;
 }
 
 void IRManUI::ProcessArgs() {

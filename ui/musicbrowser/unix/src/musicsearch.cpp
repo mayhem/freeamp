@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicsearch.cpp,v 1.6 2000/01/23 05:16:51 ijr Exp $
+        $Id: musicsearch.cpp,v 1.7 2000/02/09 21:21:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -319,7 +319,7 @@ void musicsearchUI::EndSearch(void)
     searchInProgress = false;    
 }
 
-int32 musicsearchUI::AcceptEvent(Event *e)
+Error musicsearchUI::AcceptEvent(Event *e)
 {
     switch (e->Type()) {
         case INFO_SearchMusicDone: {
@@ -340,4 +340,6 @@ int32 musicsearchUI::AcceptEvent(Event *e)
             break;
         }
     }
+
+    return kError_NoErr;
 }

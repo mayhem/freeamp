@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ui.h,v 1.9 1999/10/19 07:13:27 elrod Exp $
+	$Id: ui.h,v 1.10 2000/02/09 21:21:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UI_H_
@@ -38,7 +38,7 @@ enum {
 
 class UserInterface : public EventQueue {
  public:
-    virtual int32 AcceptEvent(Event *) = 0;
+    virtual Error AcceptEvent(Event *) = 0;
     virtual Error Init(int32) = 0;
     virtual ~UserInterface() {}
 };

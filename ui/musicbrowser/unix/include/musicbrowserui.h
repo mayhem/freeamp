@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowserui.h,v 1.9 2000/01/23 05:16:51 ijr Exp $
+        $Id: musicbrowserui.h,v 1.10 2000/02/09 21:21:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSERUI_H_
@@ -40,7 +40,7 @@ class FAContext;
 class MusicBrowserUI : public UserInterface {
  public:
     MusicBrowserUI(FAContext *);
-    virtual int32 AcceptEvent(Event *);
+    virtual Error AcceptEvent(Event *);
     virtual Error Init(int32);
     static void gtkServiceFunction(void *);
     virtual ~MusicBrowserUI();

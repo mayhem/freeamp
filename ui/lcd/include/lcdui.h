@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.h,v 1.7 1999/10/19 07:13:27 elrod Exp $
+	$Id: lcdui.h,v 1.8 2000/02/09 21:21:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_LcdUI_H_
@@ -39,7 +39,7 @@ enum {
 class LcdUI : public UserInterface {
  public:
     LcdUI(FAContext *context);
-    virtual int32 AcceptEvent(Event *);
+    virtual Error AcceptEvent(Event *);
     virtual Error Init(int32);
     static void keyboardServiceFunction(void *);
     virtual ~LcdUI();

@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cmdlineUI.h,v 1.14 1999/11/18 02:43:41 robert Exp $
+        $Id: cmdlineUI.h,v 1.15 2000/02/09 21:21:25 elrod Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -37,7 +37,7 @@ class     cmdlineUI:public UserInterface
 {
    public:
    cmdlineUI(FAContext * context);
-   virtual int32 AcceptEvent(Event *);
+   virtual Error AcceptEvent(Event *);
    virtual Error Init(int32);
    static void keyboardServiceFunction(void *);
              virtual ~ cmdlineUI();

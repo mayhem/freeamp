@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: Mpg123UI.cpp,v 1.21 2000/02/02 22:20:10 ijr Exp $
+    $Id: Mpg123UI.cpp,v 1.22 2000/02/09 21:21:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -118,7 +118,7 @@ Mpg123UI::~Mpg123UI()
    }
 }
 
-int32     Mpg123UI::
+Error     Mpg123UI::
 AcceptEvent(Event * e)
 {
    if (e)
@@ -203,7 +203,7 @@ AcceptEvent(Event * e)
       }
    }
 //cerr << "Done cmdlinecoo: accpet event" << endl;
-   return 0;
+   return kError_NoErr;
 }
 
 void      Mpg123UI::

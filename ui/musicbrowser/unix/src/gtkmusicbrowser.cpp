@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.57 2000/02/04 16:13:43 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.58 2000/02/09 21:21:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -2582,7 +2582,7 @@ void GTKMusicBrowser::Close(bool inMain)
     gdk_threads_leave();
 }
 
-int32 GTKMusicBrowser::AcceptEvent(Event *e)
+Error GTKMusicBrowser::AcceptEvent(Event *e)
 {
     switch (e->Type()) {
         case INFO_PrefsChanged: {
@@ -2731,7 +2731,7 @@ int32 GTKMusicBrowser::AcceptEvent(Event *e)
         default:
             break;
     }
-    return 0;
+    return kError_NoErr;
 }
 
 void GTKMusicBrowser::CreateNewEditor(char *playlisturl)

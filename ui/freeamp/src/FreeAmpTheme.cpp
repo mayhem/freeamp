@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.77 2000/02/09 16:00:37 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.78 2000/02/09 21:21:26 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -262,7 +262,7 @@ Error FreeAmpTheme::Close(void)
     return kError_NoErr;
 }
 
-int32 FreeAmpTheme::AcceptEvent(Event * e)
+Error FreeAmpTheme::AcceptEvent(Event * e)
 {
    switch (e->Type())
    {
@@ -619,7 +619,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
       default:
          break;
    }
-   return 0;
+   return kError_NoErr;
 }
 
 Error FreeAmpTheme::HandleControlMessage(string &oControlName, 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Toolbar.cpp,v 1.2 1999/10/19 07:13:33 elrod Exp $
+	$Id: Toolbar.cpp,v 1.3 2000/02/09 21:21:29 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -317,15 +317,15 @@ TrayNotify(int32 notifyMessage)
     }
 }
 
-int32 
+Error 
 ToolbarUI::
 AcceptEvent(Event* event)
 {
-    int32 result = 255;
+    Error result = kError_UnknownErr;
 
     if (event) 
     {
-        result = 0;
+        result = kError_NoErr;
 
         switch (event->Type()) 
         {

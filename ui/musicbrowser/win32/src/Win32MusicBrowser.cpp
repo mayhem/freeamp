@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.43 2000/02/07 04:44:02 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.44 2000/02/09 21:21:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -316,7 +316,7 @@ void MusicBrowserUI::DisplayBrowserMessage(const char* msg)
     SendMessage(m_hStatus, SB_SETTEXT, 0, (LPARAM)msg);
 }
 
-int32 MusicBrowserUI::AcceptEvent(Event *event)
+Error MusicBrowserUI::AcceptEvent(Event *event)
 {
     switch (event->Type()) 
     {
@@ -780,7 +780,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
         default:
             break;
     }
-    return 0;
+    return kError_NoErr;
 }
 
 

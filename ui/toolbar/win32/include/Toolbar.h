@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Toolbar.h,v 1.2 1999/10/19 07:13:33 elrod Exp $
+	$Id: Toolbar.h,v 1.3 2000/02/09 21:21:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_TOOLBAR_UI_H_
@@ -52,7 +52,7 @@ class ToolbarUI : public UserInterface
     ~ToolbarUI();
 
     virtual Error Init(int32 startup_type) { return kError_NoErr;}
-    virtual int32 AcceptEvent(Event*);
+    virtual Error AcceptEvent(Event*);
 
     void InitMenuPopup(HMENU menuHandle, uint32 position, bool systemMenu);
     void TrayNotify(int32 notifyMessage);

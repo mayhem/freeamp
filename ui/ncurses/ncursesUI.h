@@ -22,7 +22,7 @@
 
     this is a hacked up version of cmdlineUI.h
 	
-	$Id: ncursesUI.h,v 1.2 1999/10/19 07:13:30 elrod Exp $
+	$Id: ncursesUI.h,v 1.3 2000/02/09 21:21:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_NCURSESUI_H_
@@ -45,7 +45,7 @@ class FAContext;
 class ncursesUI : public UserInterface {
  public:
     ncursesUI(FAContext *context);
-    virtual int32 AcceptEvent(Event *);
+    virtual Error AcceptEvent(Event *);
     virtual Error Init(int32);
     static void keyboardServiceFunction(void *);
     virtual ~ncursesUI();

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.23 2000/01/10 19:38:53 elrod Exp $
+	$Id: simpleui.cpp,v 1.24 2000/02/09 21:21:28 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -124,11 +124,11 @@ SetHwnd(HWND hwnd)
 	m_hwndStatus	= GetDlgItem(m_hwnd, IDC_STATUS);
 }
 
-int32 
+Error 
 SimpleUI::
 AcceptEvent(Event* event)
 {
-    int32 result = 255;
+    Error result = kError_UnknownErr;
 
     if (event) 
     {
@@ -371,7 +371,7 @@ AcceptEvent(Event* event)
 	            break;
 	    }
 
-	    result = 0;
+	    result = kError_NoErr;
 
     } 
 

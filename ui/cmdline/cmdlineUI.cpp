@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cmdlineUI.cpp,v 1.23 2000/02/02 23:13:51 ijr Exp $
+        $Id: cmdlineUI.cpp,v 1.24 2000/02/09 21:21:25 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -242,7 +242,7 @@ keyboardServiceFunction(void *pclcio)
 
 }
 
-int32     cmdlineUI::
+Error     cmdlineUI::
 AcceptEvent(Event * e)
 {
    if (e)
@@ -321,7 +321,7 @@ AcceptEvent(Event * e)
          break;
       }
    }
-   return 0;
+   return kError_NoErr;
 }
 
 void      cmdlineUI::

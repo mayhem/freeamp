@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.h,v 1.10 1999/10/19 07:13:31 elrod Exp $
+	$Id: simpleui.h,v 1.11 2000/02/09 21:21:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_SIMPLE_UI_H_
@@ -49,7 +49,7 @@ class SimpleUI : public UserInterface {
     ~SimpleUI();
 
     virtual Error Init(int32 startup_type);
-    virtual int32 AcceptEvent(Event*);
+    virtual Error AcceptEvent(Event*);
     void CreateUI();
 
     static BOOL CALLBACK MainProc(	HWND hwnd, 

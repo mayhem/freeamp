@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: introwizard.h,v 1.2 2000/01/23 05:16:51 ijr Exp $
+        $Id: introwizard.h,v 1.3 2000/02/09 21:21:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_INTROWIZARD_H_
@@ -39,7 +39,7 @@ class IntroWizardUI {
   
     void Show(bool runMain = true);
 
-    int32 AcceptEvent(Event *);
+    Error AcceptEvent(Event *);
  
     void SetSearchPath(string &newpath) { searchPath = newpath; }
     void SetSearchPath(char *newpath) { searchPath = newpath; }

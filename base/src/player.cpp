@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.173 2000/02/04 08:13:03 robert Exp $
+        $Id: player.cpp,v 1.174 2000/02/09 21:21:25 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1015,13 +1015,13 @@ ReleaseUIManipLock()
    m_uiManipLock->Release();
 }
 
-int32 
+Error 
 Player::
 AcceptEvent(Event * e)
 {
    m_eventQueue->Write(e);
    m_eventSem->Signal();
-   return 0;
+   return kError_NoErr;
 }
 
 bool 

@@ -18,13 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.43 2000/02/04 08:13:03 robert Exp $
+	$Id: event.h,v 1.44 2000/02/09 21:21:25 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
 #define INCLUDED_EVENT_H_
 
 #include "config.h"
+#include "errors.h"
 
 class Event {
 
@@ -42,7 +43,7 @@ class Event {
 
 class EventQueue {
  public:
-    virtual int32 AcceptEvent(Event *) = 0;
+    virtual Error AcceptEvent(Event *) = 0;
 };
 
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.h,v 1.5 1999/12/22 17:23:14 ijr Exp $
+        $Id: musiccatalog.h,v 1.6 2000/02/09 21:21:25 elrod Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -114,7 +114,7 @@ class MusicCatalog : public EventQueue
     void  GetCatalogLock(void) { m_catMutex->Acquire(); }
     void  ReleaseCatalogLock(void) { m_catMutex->Release(); }
 
-    virtual int32 AcceptEvent(Event *e);
+    virtual Error AcceptEvent(Event *e);
 
  protected:
     static void musicsearch_thread_function(void *arg);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.14 2000/02/08 21:27:29 ijr Exp $
+	$Id: lcdui.cpp,v 1.15 2000/02/09 21:21:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -271,7 +271,7 @@ void LcdUI::keyboardServiceFunction(void *pclcio) {
     }
 }
 
-int32 LcdUI::AcceptEvent(Event *e) {
+Error LcdUI::AcceptEvent(Event *e) {
     if (e) {
 	//cout << "LcdUI: processing event " << e->Type() << endl;
 	switch (e->Type()) {
@@ -410,7 +410,7 @@ int32 LcdUI::AcceptEvent(Event *e) {
 		break;
 	}
     }
-    return 0;
+    return kError_NoErr;
 }
 
 void LcdUI::BlitTimeLine() {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.62 1999/06/07 07:01:33 elrod Exp $
+	$Id: freeampui.cpp,v 1.63 1999/06/24 17:46:45 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -720,6 +720,78 @@ KeyDown(int32 keyCode)
             if(m_playlistView->Visible() && m_playlistView->Enabled())
                 m_playlistView->KeyPressed(keyCode);
             break;
+
+        case 'O':
+        {
+            short state = GetKeyState(VK_CONTROL);
+
+            if(state>>4)
+            {
+                SendMessage(m_hwnd, WM_COMMAND, kOpenControl, 0);
+            }
+
+            break;
+        }
+
+        case 'P':
+        {
+            short state = GetKeyState(VK_CONTROL);
+
+            if(state>>4)
+            {
+                SendMessage(m_hwnd, WM_COMMAND, kPlayControl, 0);
+            }
+
+            break;
+        }
+
+        case 'U':
+        {
+            short state = GetKeyState(VK_CONTROL);
+
+            if(state>>4)
+            {
+                SendMessage(m_hwnd, WM_COMMAND, kPauseControl, 0);
+            }
+
+            break;
+        }
+
+        case 'S':
+        {
+            short state = GetKeyState(VK_CONTROL);
+
+            if(state>>4)
+            {
+                SendMessage(m_hwnd, WM_COMMAND, kStopControl, 0);
+            }
+
+            break;
+        }
+
+        case 'N':
+        {
+            short state = GetKeyState(VK_CONTROL);
+
+            if(state>>4)
+            {
+                SendMessage(m_hwnd, WM_COMMAND, kNextControl, 0);
+            }
+
+            break;
+        }
+
+        case 'L':
+        {
+            short state = GetKeyState(VK_CONTROL);
+
+            if(state>>4)
+            {
+                SendMessage(m_hwnd, WM_COMMAND, kLastControl, 0);
+            }
+
+            break;
+        }
     }
 
 }

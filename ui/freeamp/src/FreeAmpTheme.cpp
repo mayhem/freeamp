@@ -1,5 +1,4 @@
 /*____________________________________________________________________________
-#define MAXINT32 0x7FFFFFFF
         
    FreeAmp - The Free MP3 Player
 
@@ -20,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.74 2000/02/07 04:44:01 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.75 2000/02/07 22:44:25 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -32,6 +31,7 @@ ____________________________________________________________________________*/
 #define _S_IFDIR S_IFDIR
 #endif
 #include "config.h"
+#include "downloadmanager.h"
 
 #ifdef HAVE_GTK
 #include "GTKUtility.h"
@@ -1436,45 +1436,6 @@ void FreeAmpTheme::update_thread(void* arg)
     _this->UpdateThread();
 }
 
-static
-BOOL CALLBACK 
-UpdateAvailableDlgProc(HWND hwnd, 
-                       UINT msg, 
-                       WPARAM wParam, 
-                       LPARAM lParam)
-{
-    BOOL result = FALSE;
-
-    switch (msg)
-    {
-        case WM_INITDIALOG:
-        {
-            
-            break;
-        }      
-
-        case WM_COMMAND:
-        {
-            switch(LOWORD(wParam))
-            {
-                case IDCANCEL:
-                    EndDialog(hwnd, FALSE);
-                    break;
-
-                case IDOK:
-                {
-                    EndDialog(hwnd, TRUE);
-                    break;
-                }
-            }
-  
-            break;
-        }
-    }
-
-    return result;
-}
-
 void FreeAmpTheme::UpdateThread()
 {
 #ifdef WIN32
@@ -1486,7 +1447,7 @@ void FreeAmpTheme::UpdateThread()
         if(0 < DialogBoxParam(g_hinst, 
                               MAKEINTRESOURCE(IDD_UPDATEAVAILABLE),
                               NULL, 
-                              UpdateAvailableDlgProc, 
+                              (int (__stdcall *)(void))::UpdateAvailableDlgProc, 
                               (LPARAM) 0))
         {
             ShowOptions(4);

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.49.2.1 2000/02/24 00:26:56 robert Exp $
+	$Id: main.cpp,v 1.49.2.2 2000/02/28 03:19:14 robert Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -509,7 +509,7 @@ static LRESULT WINAPI HiddenWndProc(HWND hwnd,
                 if(giveToDLM)
                     dlm->ReadDownloadFile(url);
                 else if(giveToTheme)
-                    context->target->AcceptEvent(new LoadThemeEvent(url, ""));
+                    context->player->AddTheme(url);
                 else
                     plm->AddItem(url);
 

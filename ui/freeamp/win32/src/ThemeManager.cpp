@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.14.2.2 2000/02/28 02:10:02 elrod Exp $
+   $Id: ThemeManager.cpp,v 1.14.2.3 2000/02/28 03:19:14 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -174,29 +174,29 @@ Error ThemeManager::AddTheme(string &oThemeFile, bool bRename)
         ThemeZip oZip;
         string   oName;
 
-        if (IsntError(oZip.GetDescriptiveName(oThemeFile, oName)))
+        if (IsntError(oZip.GetDescriptiveName(oThemeFile, oName)) && 
+            oName.length() > 0)
         {
             int i;
 
-            printf("Was: '%s'\n", oName.c_str());
             for(i = oName.length() - 1; i >= 0; i--)
                 if (!isalnum(oName[i]) && oName[i] != ' ')
                     oName.erase(i, 1);
-            printf("Now: '%s'\n", oName.c_str());
                 
             oThemeDest += string("\\themes\\") + oName + string(".fat");
         }
         else
         {
             _splitpath(oThemeFile.c_str(), NULL, NULL, dir, ext);
-            oThemeDest += string("\\themes\\") + string(dir) + string(ext);
+            oThemeDest += string("\\themes\\") + string(dir) + string(".fat");
         }
     }
     else
     {
         _splitpath(oThemeFile.c_str(), NULL, NULL, dir, ext);
         oThemeDest += string("\\themes\\") + string(dir) + string(ext);
-    }
+    }              
+    
     eErr = CopyFile(oThemeFile.c_str(), oThemeDest.c_str(), false) ? 
            kError_NoErr : kError_CopyFailed;
 

@@ -41,7 +41,7 @@ CPP=cl.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\config" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -62,7 +62,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\config" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -83,7 +83,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\config" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -104,7 +104,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MDd /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I "..\config" /I ".\\" /I "..\\" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -133,8 +133,8 @@ SOURCE=..\config.win32
 # Begin Custom Build
 InputPath=..\config.win32
 
-"config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\config.win32 config.h
+"..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\config\config.win32 ..\config\config.h
 
 # End Custom Build
 
@@ -143,8 +143,8 @@ InputPath=..\config.win32
 # Begin Custom Build
 InputPath=..\config.win32
 
-"config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\config.win32 config.h
+"..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\config\config.win32 ..\config\config.h
 
 # End Custom Build
 
@@ -153,8 +153,8 @@ InputPath=..\config.win32
 # Begin Custom Build
 InputPath=..\config.win32
 
-"config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\config.win32 config.h
+"..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\config\config.win32 ..\config\config.h
 
 # End Custom Build
 
@@ -163,8 +163,8 @@ InputPath=..\config.win32
 # Begin Custom Build
 InputPath=..\config.win32
 
-"config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\config.win32 config.h
+"..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\config\config.win32 ..\config\config.h
 
 # End Custom Build
 

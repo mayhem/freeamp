@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.cpp,v 1.13 1998/12/14 19:58:30 jdw Exp $
+	$Id: fawindow.cpp,v 1.14 1999/02/08 00:03:12 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -99,7 +99,7 @@ FAMainWindow::FAMainWindow(Display *display, int32 screen_num,GC gc, Window pare
     mwmhints = XInternAtom(m_display, "_MOTIF_WM_HINTS", false);
     hints.decorations = 0;
     hints.flags |= MWM_HINTS_DECORATIONS;
-    XChangeProperty(m_display, m_me, mwmhints, mwmhints, 32, PropModeReplace, (unsigned char *)&hints, 4);
+    XChangeProperty(m_display, m_me, mwmhints, mwmhints, 32, PropModeReplace, (unsigned char *)&hints, 5);
 
 }
 

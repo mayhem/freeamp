@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.62 2001/01/05 09:54:37 robert Exp $
+    $Id: gtkmusicbrowser.h,v 1.63 2001/01/24 20:47:25 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -51,7 +51,8 @@ typedef enum {
     kLocationColumn,
     kPositionColumn,
     kTitleColumn,
-    kTimeColumn
+    kTimeColumn,
+    kYearColumn
 } PlaylistColumns;
 
 typedef enum {
@@ -269,7 +270,7 @@ class GTKMusicBrowser {
     GtkWidget *artistSubTree;
     GtkWidget *playlistSubTree;
  
-    PlaylistColumns playlistCols[8];
+    PlaylistColumns playlistCols[9];
     bool playlistColsChanged;
     void ParsePlaylistCols();
     void UpdateColumnHeaders();

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.115 2000/09/25 08:41:43 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.116 2000/09/26 08:54:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1730,6 +1730,7 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
             if (m_initialized && isVisible) {
                 gdk_threads_enter();
                 SetToolbarType();
+                UpdatePlaylistList();
                 gdk_threads_leave();
             }
             break; } 

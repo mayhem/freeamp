@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.27 2000/09/25 12:52:16 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.28 2000/09/26 08:54:00 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -261,6 +261,9 @@ class GTKPreferenceWindow : public PreferenceWindow
       vector<string> *m_PMOnames;
       set<uint32>     m_profileSelection;
 
+      GtkWidget *plAvailableList;
+      GtkWidget *plShownList;
+
   public:
       void SetPane(OptionsPane *pane);
       void SetPane(uint32 panenum);
@@ -318,7 +321,11 @@ class GTKPreferenceWindow : public PreferenceWindow
       void PollCDToggle(int active);
       void CDPathSet(char *newpath, bool set);
       void CDDBServerSet(char *newpath, bool set);
-      
+
+      void UpdatePLHeaders(void);     
+      void AddPLSelection(void);
+      void RemovePLSelection(void);
+
       FAContext *GetContext(void) { return m_pContext; }
 };
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.103 2001/01/05 20:12:24 robert Exp $
+        $Id: Dialog.cpp,v 1.104 2001/01/06 00:08:58 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -1257,7 +1257,10 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
         }
     }
 
-    CheckForCD();
+	bool check;
+	m_context->prefs->GetPrefBoolean(kCheckCDAutomaticallyPref, &check);
+	if (check)
+       CheckForCD();
 
     m_initialized = true;
 	

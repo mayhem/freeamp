@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.21 2000/09/24 19:26:24 ijr Exp $
+   $Id: Win32PreferenceWindow.h,v 1.22 2001/01/06 00:08:57 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -94,6 +94,10 @@ typedef struct PrefsStruct
     // page 7
     bool checkForUpdates;
 
+	// page 8
+	bool updateCDAutomatically;
+    string MBServerURL;
+
     // Browser page
     string playlistHeaderColumns;
     
@@ -142,6 +146,9 @@ typedef struct PrefsStruct
 
             watchForNewMusic == pref.watchForNewMusic &&
             watchDirectories == pref.watchDirectories &&
+
+			updateCDAutomatically == pref.updateCDAutomatically &&
+            MBServerURL == pref.MBServerURL &&
 
             true
         );
@@ -203,7 +210,7 @@ class Win32PreferenceWindow : public PreferenceWindow
                                   UINT msg, 
                                   WPARAM wParam, 
                                   LPARAM lParam);
-	       bool PrefBrowserProc(HWND hwnd,
+               bool PrefBrowserProc(HWND hwnd,
                                   UINT msg,
                                   WPARAM wParam,
                                   LPARAM lParam);
@@ -231,6 +238,11 @@ class Win32PreferenceWindow : public PreferenceWindow
                                   UINT msg,
                                   WPARAM wParam,
                                   LPARAM lParam);
+               bool PrefCDAudioProc(HWND hwnd,
+                                  UINT msg,
+                                  WPARAM wParam,
+                                  LPARAM lParam);
+
 
 	protected:
     

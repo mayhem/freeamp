@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.51 2000/05/06 17:53:56 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.52 2000/05/06 18:23:35 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -883,6 +883,7 @@ void MusicCatalog::DoSearchMusic(char *path, bool bSendMessages)
                     if (m_addImmediately)
                         AddSong(tempurl);
 
+                    delete plist;
                     delete [] tempurl;
                 }
                 delete fileExt;

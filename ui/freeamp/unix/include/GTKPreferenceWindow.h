@@ -18,11 +18,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.1.2.3 1999/10/11 04:20:00 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.1.2.4 1999/10/16 20:48:40 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
 #define INCLUDED_GTKPREFERENCEWINDOW_H__
+
+#include <map>
+
+using namespace std;
 
 #include "config.h"
 #include "PreferenceWindow.h"
@@ -41,9 +45,6 @@ typedef struct PrefsStruct
     int32 inputBufferSize;
     int32 outputBufferSize;
     int32 preBufferLength;
-    int32 decoderThreadPriority;
-    bool stayOnTop;
-    bool liveInTray;
 
     // page 2
     int32 streamInterval;
@@ -66,6 +67,7 @@ typedef struct PrefsStruct
     char   defaultFont[256];
     bool   fontChanged;
     string currentTheme;
+    int    listboxIndex;
     
     PrefsStruct()
     {
@@ -80,7 +82,7 @@ typedef struct PrefsStruct
 
 class GTKPreferenceWindow : public PreferenceWindow
 {
-    public:
+  public:
 
                GTKPreferenceWindow(FAContext *context,
                                    ThemeManager *pThemeMan);
@@ -94,13 +96,72 @@ class GTKPreferenceWindow : public PreferenceWindow
                void SavePrefsValues(Preferences* prefs, 
                                     PrefsStruct* values);
 
-	protected:
+  protected:
     
       FAContext   *m_pContext;
       PrefsStruct  originalValues;
       PrefsStruct  currentValues;
 
-      vector<string *> m_oThemeList;
+      mapr<string, string> m_oThemeList;
+
+  private:
+      GtkWidget *CreatePage1(void);
+      GtkWidget *CreatePage2(void);
+      GtkWidget *CreatePage3(void);
+      GtkWidget *CreateAbout(void);
+      GtkWidget *CreatePage5(void);
+
+      GtkWidget *mainWindow;
+      GtkWidget *applyButton;
+
+      GtkWidget *saveStreamLabel;
+      GtkWidget *saveStreamBox;
+      GtkWidget *saveBrowseBox;
+
+      GtkWidget *proxyAddyLabel;
+      GtkWidget *proxyAddyBox;
+      GtkWidget *proxyColon;
+      GtkWidget *proxyPortLabel;
+      GtkWidget *proxyPortBox;
+
+      GtkWidget *ipLabel;
+      GtkWidget *ipOneBox;
+      GtkWidget *ipPeriod1;
+      GtkWidget *ipTwoBox;
+      gtkWidget *ipPeriod2;
+      GtkWidget *ipThreeBox;
+      GtkWidget *ipPeriod3;
+      GtkWidget *ipFourBox;
+
+      GtkWidget *logGeneral;
+      GtkWidget *logPMI;
+      GtkWidget *logPMO;
+      GtkWidget *logLMC;
+      GtkWidget *logPerf;
+
+  public:
+      void ApplyInfo(void);
+      void DefaultInfo(void);
+      
+      void SetInputBufferSize(int newvalue);
+      void SetOutputBufferSize(int newvalue);
+      void SetPreBufferLength(int newvalue);
+
+      void SetStreamInterval(int newvalue);
+      void SaveLocalToggle(int active);
+      void SaveLocalSet(char *newpath);
+      void ProxyAddySet(void);
+      void ProxyToggle(int active);
+      void AltIPToggle(int active);
+
+      void LogToggle(int active);
+      void GeneralToggle(int active);
+      void PMIToggle(int active);
+      void PMOToggle(int active);
+      void LMCToggle(int active);
+      void PerfToggle(int active);
+
+      void SelectTheme(int number);
 };
 
 #endif

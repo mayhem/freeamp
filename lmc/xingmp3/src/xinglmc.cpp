@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.123.4.1.2.1 2000/03/15 20:32:35 robert Exp $
+   $Id: xinglmc.cpp,v 1.123.4.1.2.2 2000/03/15 20:47:05 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -202,7 +202,6 @@ Error XingLMC::AdvanceBufferToNextFrame()
            pBuffer++, iCount++)
                ; // <=== Empty body!
 
-       Debug_v("Skipped %d bytes in advance frame.\n", iCount + 1);
        m_pContext->log->Log(LogDecode, "Skipped %d bytes in advance frame.\n", 
                            iCount + 1);
        EndRead(iCount + 1);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-gtk.cpp,v 1.3 1998/11/01 23:05:31 jdw Exp $
+	$Id: freeamp-gtk.cpp,v 1.4 1998/11/06 00:07:23 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -223,17 +223,17 @@ int32 GtkUI::AcceptEvent(Event *e) {
 		    gtk_label_set(GTK_LABEL(p_titleField), pmvi->m_songTitle);
 		    //cout << "set label..." << endl;
 		    //g_print("set label...\n");
-		    //while (gtk_events_pending())
-		    //gtk_main_iteration(); // redraw
+		    while (gtk_events_pending())
+			gtk_main_iteration(); // redraw
 		    //cout << "tried to redraw" << endl;
 		    //g_print("tried to redraw\n");
-		    if (pmvi->m_tagInfo.m_containsInfo) {
-			cout << "Title  : " << pmvi->m_tagInfo.m_songName << endl;
-			cout << "Artist : " << pmvi->m_tagInfo.m_artist << endl;
-			cout << "Album  : " << pmvi->m_tagInfo.m_album << endl;
-			cout << "Year   : " << pmvi->m_tagInfo.m_year << endl;
-			cout << "Comment: " << pmvi->m_tagInfo.m_comment << endl;
-		    }
+		    //if (pmvi->m_tagInfo.m_containsInfo) {
+		    //cout << "Title  : " << pmvi->m_tagInfo.m_songName << endl;
+		    //cout << "Artist : " << pmvi->m_tagInfo.m_artist << endl;
+		    //cout << "Album  : " << pmvi->m_tagInfo.m_album << endl;
+		    //cout << "Year   : " << pmvi->m_tagInfo.m_year << endl;
+		    //cout << "Comment: " << pmvi->m_tagInfo.m_comment << endl;
+		    //}
 		}
 		break; }
 	    default:

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.30.4.5 1999/08/30 22:35:20 ijr Exp $
+        $Id: eventdata.h,v 1.30.4.6 1999/08/31 04:47:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -111,13 +111,13 @@ class     MediaInfoEvent:public Event
 
    virtual ~ MediaInfoEvent()
    {
-      if (m_childEvents)
+      if (m_childEvents && (m_childEvents->size() != 0))
       {
             vector<Event *>::iterator i = m_childEvents->begin();
 
-            for (; i != m_childEvents->end(); i++)
+            for (; i != m_childEvents->end(); i++) 
                 delete *i;
-            delete    m_childEvents;
+            delete m_childEvents;
             m_childEvents = NULL;
       }
    }
@@ -127,7 +127,7 @@ class     MediaInfoEvent:public Event
       m_type = INFO_MediaInfo;
       m_filled = false;
       m_filename[0] = '\0';
-      m_childEvents = new vector < Event * >;
+      m_childEvents = new vector<Event *>;
    }
 
    MediaInfoEvent(MediaInfoEvent &other)
@@ -145,18 +145,13 @@ class     MediaInfoEvent:public Event
                             other.m_childEvents->begin(),
                             other.m_childEvents->end());
 
-      vector<Event *>::iterator i = other.m_childEvents->begin();
-      
-      for (; i != other.m_childEvents->end(); i++)
-          delete *i;
-
       other.m_childEvents->clear();
    }
 
    MediaInfoEvent(const char *fn,
                   float ts)
    {
-      m_childEvents = new vector < Event * >;
+      m_childEvents = new vector<Event *>;
       m_filled = true;
       m_type = INFO_MediaInfo;
       m_totalSeconds = ts;
@@ -372,7 +367,7 @@ class     MpegInfoEvent:public Event
    {
       return m_crc;
    }
-   virtual ~ MpegInfoEvent()
+   virtual ~MpegInfoEvent()
    {
    }
 

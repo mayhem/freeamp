@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.8 1999/08/30 22:35:20 ijr Exp $
+        $Id: player.cpp,v 1.133.2.9 1999/08/31 04:47:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -832,9 +832,6 @@ ChooseLMC(const char *szUrl, char *szTitle)
    lmc_item = m_lmcExtensions->Value(iExt);
 
    delete iExt;
-
-   if (lmc_item)
-      fprintf(stderr, "found plugin..\n");
 
    return lmc_item;
 }

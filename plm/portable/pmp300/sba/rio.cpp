@@ -326,7 +326,7 @@ UINT CRio::CalculateChecksum1( void )
 {
 	USHORT usChecksum = m_cDirBlock.m_cDirHeader.m_usChecksum1;
 	USHORT* paus = (USHORT*)&m_cDirBlock.m_cDirHeader;
-	for( int iA=0; iA<(sizeof(CDirHeader)/sizeof(short)); ++iA )
+	for( unsigned int iA=0; iA<(sizeof(CDirHeader)/sizeof(short)); ++iA )
 		usChecksum -= *paus++;
 	return usChecksum;
 }
@@ -444,7 +444,7 @@ BOOL CRio::Tx32KBlockRetry( void* pv, UINT uiPos32KBlock, UINT uiPos32KBlockPrev
 	ULONG ulPosHi;
 	ULONG ulPosMid;
 	ULONG ulPosLo;
-	int iA, iB;
+	unsigned int iA, iB;
 
 	// io intro
 	if ( !IOIntro() )

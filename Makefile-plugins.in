@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.2 1999/08/30 22:35:20 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.3 1999/08/31 04:47:16 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -27,7 +27,7 @@ uninstall_plugins uninstall-plugins:
 OSDEPPLUGINS = @OSDEPPLUGINS@
 
 clean-plugins plugins-clean:
-	-rm -f $(LFIOBJ) $(HTTPOBJ) $(SCPMOOBJ) $(CMDUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(FREEAMPUIOBJ) $(XINGLMCOBJ) plugins/*.*
+	-rm -f $(LFIOBJ) $(HTTPOBJ) $(OBSPMI) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(THEMEUIOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(FREEAMPUIOBJ) $(ID3V1OBJ) $(ID3V2OBJ) $(M3UOBJ) $(PMP300OBJ) $(XINGLMCOBJ) plugins/*.*
 
 PLUGINS =  plugins/localfileinput.pmi
 PLUGINS += plugins/httpinput.pmi
@@ -48,6 +48,8 @@ PLUGINS += plugins/id3v1.mdf
 PLUGINS += plugins/id3v2.mdf
 
 PLUGINS += plugins/m3u.plf
+
+PLUGINS += plugins/pmp300.ppp
 
 plugins plugins-cc: $(PLUGINS) $(OSDEPPLUGINS)
 
@@ -150,11 +152,6 @@ IRMANUIOBJ += ui/irman/src/irfunc.o ui/irman/src/irio.o
 plugins/irman.ui: $(IRMANUIOBJ)
 	$(LINKMOD) -o $@ $(IRMANUIOBJ)
 
-GTKUIOBJ = ui/gtk/freeamp-gtk.o
-
-plugins/gtk.ui: $(GTKUIOBJ)
-	$(LINKMOD) -o $@ $(GTKUIOBJ)
-
 # The studly X11 freeamp interface
 FREEAMPUIOBJ = ui/freeamp/unix/src/freeamp.o ui/freeamp/unix/src/windowhash.o
 FREEAMPUIOBJ += ui/freeamp/unix/src/res.o ui/freeamp/unix/src/fawindow.o
@@ -213,10 +210,18 @@ plugins/m3u.plf: $(M3UOBJ)
 	$(LINKMOD) -o $@ $(M3UOBJ)
 
 
+# PPP section
+
+#pmp300
+PMP300OBJ = plm/portable/pmp300/pmp300.o plm/portable/pmp300/sba/rio.o
+
+plugins/pmp300.ppp: $(PMP300OBJ)
+	$(LINKMOD) -o $@ $(PMP300OBJ)
+
 
 
 depend:
-	makedepend -fMakefile-plugins -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(LFIOBJ) $(HTTPOBJ) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(GTKUIOBJ) $(FREEAMPUIOBJ) $(XINGLMCOBJ) | sed -e 's,\.o,.cpp,g'`
+	makedepend -fMakefile-plugins -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(LFIOBJ) $(THEMEUIOBJ) $(HTTPOBJ) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(GTKUIOBJ) $(FREEAMPUIOBJ) $(XINGLMCOBJ) $(PMP300OBJ) $(M3UOBJ) $(ID3V1OBJ) $(ID3V2OBJ) | sed -e 's,\.o,.cpp,g'`
  
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 

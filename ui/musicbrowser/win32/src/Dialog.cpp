@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.40 1999/11/26 06:00:40 elrod Exp $
+        $Id: Dialog.cpp,v 1.41 1999/11/29 23:09:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -935,8 +935,11 @@ void MusicBrowserUI::AddToolbarButtons(bool textLabels, bool images)
 
         // this hack insures that the text labels are added.
         // if buttons are small then they won't be added...
-        SendMessage(m_hImageToolbar, TB_SETBUTTONSIZE, 0, 
-                    MAKELPARAM(100, 50));
+        if(images && !textLabels)
+        {
+            SendMessage(m_hImageToolbar, TB_SETBUTTONSIZE, 0, 
+                        MAKELPARAM(24, 20));
+        }
     }
 
     SendMessage(m_hImageToolbar, TB_ADDBUTTONS, (WPARAM) 11, (LPARAM) &tbButtons);

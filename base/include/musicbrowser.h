@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.2 1999/10/19 07:12:45 elrod Exp $
+        $Id: musicbrowser.h,v 1.3 1999/10/19 16:46:57 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -106,7 +106,6 @@ class MusicBrowser : public EventQueue
     void DoSearchPaths(vector<string> &pathList);
     void PruneDatabase(void);
     
-    int m_numSymLinks;
     bool m_exit;
     Mutex *m_mutex;
     

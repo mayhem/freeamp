@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.2 1999/10/19 07:13:28 elrod Exp $
+        $Id: musicbrowser.cpp,v 1.3 1999/10/19 16:46:58 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -463,9 +463,7 @@ void MusicBrowserUI::ImportPlaylist(char *path)
         return;
     m_context->browser->m_catalog->AddPlaylist(path);
     UpdateCatalog();
-    UpdateCombo();
-    string Path = path;
-    LoadPlaylist(Path);
+//    UpdateCombo();
 }
 #endif
 

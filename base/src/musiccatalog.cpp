@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.2 1999/10/19 07:12:46 elrod Exp $
+        $Id: musiccatalog.cpp,v 1.3 1999/10/19 16:46:58 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -83,7 +83,7 @@ void MusicCatalog::AddPlaylist(const char *path)
     if (!found) {
         string tempstr = path;
         if (tempstr.find("currentlist.m3u") < tempstr.length()) 
-            m_playlists->insert(0, path);
+            m_playlists->insert(m_playlists->begin(), path);
         else
             m_playlists->push_back(path);
     }
@@ -165,7 +165,7 @@ void MusicCatalog::AddOneFromDatabase(char *key)
     if (!strncmp("P", data, 1)) {
         string tempstr = key;
         if (tempstr.find("currentlist.m3u") < tempstr.length())
-            m_playlists->insert(m_playlists->begin(), key); 
+            m_playlists->insert(m_playlists->begin(), key);
         else  
             m_playlists->push_back(key);
     }
@@ -284,7 +284,6 @@ void MusicBrowser::musicsearch_thread_function(void *arg)
 
     mst->mb->m_mutex->Acquire();
 
-    mst->mb->m_numSymLinks = 0;
     mst->mb->m_exit = false;
     mst->mb->DoSearchPaths(mst->pathList);
 
@@ -332,35 +331,20 @@ void MusicBrowser::DoSearchMusic(char *path)
         do
         {
             char *fileExt;
-            if ((find.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
 #ifndef WIN32
-                || (find.dwFileAttributes == FILE_ATTRIBUTE_SYMLINK)
+            if (find.dwFileAttributes == FILE_ATTRIBUTE_SYMLINK)
+                continue;
 #endif
-               )
+            if (find.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
             {
                 if (!(!strcmp("." , find.cFileName) || !strcmp("..", find.cFileName)))
                 {
-#ifndef WIN32
-                    if (find.dwFileAttributes == FILE_ATTRIBUTE_SYMLINK)
-                    {
-                        m_numSymLinks++;
-                        if (m_numSymLinks > 4) {
-                            m_numSymLinks = 0;
-                            return;
-                        }
-                    }
-#endif
-
                     string newDir = path; 
                     if (path[strlen(path) - 1] != DIR_MARKER)
                         newDir.append(DIR_MARKER_STR);
                     newDir.append(find.cFileName);
 
                     DoSearchMusic((char *)newDir.c_str());
-#ifndef WIN32
-                    if (find.dwFileAttributes == FILE_ATTRIBUTE_SYMLINK)
-                        m_numSymLinks--;
-#endif
                 }
             }
             else if ((fileExt = m_context->player->GetExtension(find.cFileName)))

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.8 1999/11/01 00:29:58 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.9 1999/11/01 03:20:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -87,8 +87,10 @@ class MusicBrowserUI : public UserInterface
 	void   ExpandCollapseEvent(void);
     void   GetMinMaxInfo(MINMAXINFO *pInfo);
     void   SizeWindow(int type, int iWidth, int iHeight);
+    BOOL   SetCursor(int hitTest, int mouseMsg);
     void   MouseMove(uint32 uFlags, POINT &sPoint);
-    void   MouseButtonUp(void);
+    void   MouseButtonDown(int keys, int x, int y);
+    void   MouseButtonUp(int keys, int x, int y);
     BOOL   DrawItem(int32 controlId, DRAWITEMSTRUCT* dis);
     void   SetStatusText(const char *text);
     void   CreateToolbar(void);
@@ -164,8 +166,13 @@ class MusicBrowserUI : public UserInterface
     TreeDataIndex        m_oTreeIndex;
     int                  m_iCollapseMoveAmount;
     HCURSOR              m_hSavedCursor, m_hDragCursor, m_hNoDropCursor;
+    HCURSOR              m_hSplitterCursor;
     MusicBrowserUI      *m_pParent;
     vector<MusicBrowserUI *> m_oWindowList;
+    bool                 m_overSplitter;
+    bool                 m_trackSplitter;
+    RECT                 m_splitterRect;
+    HBRUSH               m_splitterBrush;
 };
 
 #endif

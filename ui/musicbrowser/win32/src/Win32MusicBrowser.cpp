@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.9 1999/10/28 00:42:05 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.10 1999/11/01 03:20:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -109,10 +109,26 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
        m_oPlm = new PlaylistManager(context);   
        m_currentListName = oPlaylistName;
     }   
+
+    m_overSplitter = false;
+    m_trackSplitter = false;
+
+    short pattern[8];
+    HBITMAP bmp;
+
+	for (int32 i = 0; i < 8; i++)
+		pattern[i] = (WORD)(0x5555 << (i & 1));
+
+	bmp = CreateBitmap(8, 8, 1, 1, &pattern);
+
+    m_splitterBrush = CreatePatternBrush(bmp);
+    DeleteObject(bmp);
 }
 
 MusicBrowserUI::~MusicBrowserUI()
 {
+    DeleteObject(m_splitterBrush);
+
     if (m_pParent)
     {
        delete m_oPlm;

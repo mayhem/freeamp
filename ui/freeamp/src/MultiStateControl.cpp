@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MultiStateControl.cpp,v 1.10 2000/06/10 18:47:28 robert Exp $
+   $Id: MultiStateControl.cpp,v 1.11 2000/06/12 12:11:32 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -219,15 +219,22 @@ void MultiStateControl::Transition(ControlTransitionEnum  eTrans,
        case CT_Hide:
        {
        	  Rect oRect = m_oRect;
-          pCanvas = m_pParent->GetCanvas();
-          pCanvas->Erase(oRect);
-          pCanvas->Invalidate(oRect);
+
+           if (m_pPanel->IsHidden())
+               return;
+
+           pCanvas = m_pParent->GetCanvas();
+           pCanvas->Erase(oRect);
+           pCanvas->Invalidate(oRect);
        	  break;
        }   
 
        default:
           break;
     }
+
+    if (m_pPanel->IsHidden())
+        return;
 
     if (m_eCurrentState == CS_MouseOver && 
         eTrans == CT_MouseLButtonUp)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.15 2000/05/15 12:17:12 robert Exp $
+   $Id: SliderControl.cpp,v 1.16 2000/06/12 12:11:32 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -192,7 +192,8 @@ void SliderControl::Transition(ControlTransitionEnum  eTrans,
            m_bInUpdate = false;
            m_oMutex.Release();
 
-           MoveThumb(iOldPos, iNewPos);
+           if (!m_pPanel->IsHidden())
+               MoveThumb(iOldPos, iNewPos);
            
            return;
        }   
@@ -200,6 +201,9 @@ void SliderControl::Transition(ControlTransitionEnum  eTrans,
        default:
           break;
     }  
+
+    if (m_pPanel->IsHidden())
+       return;
 
     oRect.x1 = m_oRect.x1 + m_iCurrentPos;
     oRect.x2 = oRect.x1 + m_iThumbWidth;

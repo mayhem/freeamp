@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.17 2000/06/10 18:47:28 robert Exp $
+   $Id: Control.cpp,v 1.18 2000/06/12 12:11:32 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -161,7 +161,7 @@ void Control::AcceptTransition(ControlTransitionEnum eTrans, Pos *pPos)
     vector<TransitionInfo>::iterator i;
 
     m_oMutex.Acquire();
-   
+
     for(i = m_oTransitions.begin(); i != m_oTransitions.end(); i++)
     {
         if (((*i).eState == m_eCurrentState || (*i).eState == CS_Any) && 

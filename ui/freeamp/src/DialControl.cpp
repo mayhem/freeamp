@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: DialControl.cpp,v 1.8 2000/06/02 22:03:52 robert Exp $
+   $Id: DialControl.cpp,v 1.9 2000/06/12 12:11:32 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -69,6 +69,9 @@ void DialControl::Transition(ControlTransitionEnum  eTrans,
 
 {
     int iFrames, iValue;
+
+    if (m_pPanel->IsHidden())
+       return;
     
     switch(eTrans)
     {

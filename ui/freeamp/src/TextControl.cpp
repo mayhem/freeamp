@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.14 2000/06/10 18:47:28 robert Exp $
+   $Id: TextControl.cpp,v 1.15 2000/06/12 12:11:32 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -142,6 +142,9 @@ void TextControl::TextChanged(void)
 {
     Canvas *pCanvas;
     int    iRet;
+
+    if (m_pPanel->IsHidden())
+        return;
 
     m_oMutex.Acquire();
     

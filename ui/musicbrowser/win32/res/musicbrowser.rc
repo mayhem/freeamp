@@ -51,6 +51,16 @@ BEGIN
                     LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,139,39,166,125
 END
 
+IDD_OPENURL DIALOG FIXED IMPURE  0, 0, 280, 21
+STYLE DS_3DLOOK | DS_CONTROL | WS_CHILD | WS_CLIPSIBLINGS
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "",IDS_URL,"Static",SS_ETCHEDHORZ,-2,0,282,1
+    LTEXT           "URL:",IDS_URL,6,6,17,8
+    EDITTEXT        IDC_URL,29,4,188,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Open URL",IDC_OPEN_URL,222,3,50,13
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -3,8 +3,10 @@
 // Used by musicbrowser.rc
 //
 #define IDD_MUSICBROWSER                101
+#define IDC_URL                         101
 #define IDR_MENU1                       102
 #define IDI_CLOSED                      104
+#define IDD_OPENURL                     219
 #define IDC_MUSICTREE                   1000
 #define IDC_PLAYLISTBOX                 1002
 #define IDC_PLAYLISTCOMBO               1003
@@ -19,6 +21,7 @@
 #define IDC_MUSICCATALOGTEXT            1012
 #define IDC_PLAYLISTTEXT                1013
 #define IDC_STATUS                      1014
+#define IDC_OPEN_URL                    1029
 #define ID_FILE_NEWPLAYLIST             40001
 #define ID_FILE_OPENPLAYLIST            40002
 #define ID_FILE_SAVEPLAYLIST            40004
@@ -34,6 +37,7 @@
 #define ID_SORT_LENGTH                  40015
 #define ID_SORT_LOCATION                40016
 #define ID_SORT_RANDOMIZE               40017
+#define IDS_URL                         65535
 
 // Next default values for new objects
 // 

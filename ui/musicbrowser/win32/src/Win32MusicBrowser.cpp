@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.9 1999/10/15 18:42:04 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.10 1999/10/15 19:50:48 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include "utility.h"
 #include "resource.h"
 #include "Win32MusicBrowser.h"
+#include "FileDialog.h"
 #include "debug.h"
 
 static HINSTANCE g_hinst = NULL;
@@ -70,6 +71,18 @@ static int pSideControls[] =
    IDC_CLEARLIST,
    -1     
 };   
+
+const char* kAudioFileFilter =
+            "MPEG Audio Streams (.mpg, .mp1, .mp2, .mp3, .mpp)\0"
+            "*.mpg;*.mp1;*.mp2;*.mp3;*.mpp\0"
+            "All Files (*.*)\0"
+            "*.*\0";
+
+bool  FileOpenDialog(HWND hwnd, 
+                     const char* title,
+                     const char* filter,
+                     vector<char*>* fileList,
+                     Preferences* prefs);
 
 bool operator<(const TreeCrossRef &A, const TreeCrossRef &b)
 {
@@ -162,6 +175,14 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
                 return 1;
                 case IDC_DELETE:
                    g_ui->DeleteEvent();
+                return 1;
+                case IDC_ADD:
+                   g_ui->AddEvent();
+                return 1;
+                case IDC_NEWLIST:
+                return 1;
+                case IDC_CLEARLIST:
+                   g_ui->DeleteListEvent();
                 return 1;
             }    
         }        
@@ -526,28 +547,39 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
             pTreeView->itemNew.hItem == m_hPlaylistItem &&
             TreeView_GetChild(
             GetDlgItem(m_hWnd, IDC_MUSICTREE), m_hPlaylistItem) == NULL)
+        {    
             FillPlaylists();
+            return 0;
+        }
         
 	    if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
             pTreeView->itemNew.hItem == m_hCatalogItem &&
             TreeView_GetChild(
             GetDlgItem(m_hWnd, IDC_MUSICTREE), m_hCatalogItem) == NULL)
+        {    
             FillArtists();
+            return 0;
+        }
         
 	    if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
             pTreeView->itemNew.lParam > 0 &&
             m_oMusicCrossRefs[pTreeView->itemNew.lParam].iLevel == 1 &&
             TreeView_GetChild(
             GetDlgItem(m_hWnd, IDC_MUSICTREE), pTreeView->itemNew.hItem) == NULL)
+        {    
             FillAlbums(&pTreeView->itemNew);
+            return 0;
+        }
         
 	    if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
             pTreeView->itemNew.lParam > 0 &&
             m_oMusicCrossRefs[pTreeView->itemNew.lParam].iLevel == 2 &&
             TreeView_GetChild(
             GetDlgItem(m_hWnd, IDC_MUSICTREE), pTreeView->itemNew.hItem) == NULL)
+        {    
             FillTracks(&pTreeView->itemNew);
-        
+            return 0;
+        }
 	    if (pTreeView->hdr.code == NM_DBLCLK)
         {
             TV_ITEM sItem;
@@ -564,10 +596,14 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
                     vector<string> *p;
                     p = m_context->browser->m_catalog->m_playlists;
                     LoadPlaylist((*p)[(-sItem.lParam) - 1]);
+                    SetFocus(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX));
                 }    
                 else    
                     if (m_oMusicCrossRefs[sItem.lParam].iLevel == 3)
-                        Debug_v("Add track to playlist");
+                    {
+                        m_context->plm->AddItem(m_oMusicCrossRefs[sItem.lParam].pTrack);
+                        UpdatePlaylistList();
+                    }    
             }            
         }
         return 0;
@@ -576,15 +612,12 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
     pListView = (NM_LISTVIEW *)pHdr;
     if (pListView->hdr.idFrom == IDC_PLAYLISTBOX)
     {
-	    if (pListView->hdr.code == LVN_ITEMCHANGING)
+	    if (pListView->hdr.code == LVN_ITEMCHANGED)
         {
             m_currentindex = pListView->lParam;
-            Debug_v("Item changed: %d", m_currentindex);
+            UpdateButtonStates();
         }
             
-//	    if (pListView->hdr.code == NM_KILLFOCUS)
-//            m_currentindex = -1;
-        UpdateButtonStates();
         return 0;
     }
     
@@ -751,9 +784,8 @@ void MusicBrowserUI::LoadPlaylist(string &oPlaylist)
 {
     m_context->plm->RemoveAll();
     m_context->plm->ReadPlaylist((char *)oPlaylist.c_str());
-    m_currentindex = -1;
+    m_currentindex = 0;
     UpdatePlaylistList();
-    UpdateButtonStates();
 }
 
 void MusicBrowserUI::UpdatePlaylistList(void)
@@ -792,21 +824,25 @@ void MusicBrowserUI::UpdatePlaylistList(void)
         sItem.iSubItem = 2;
         ListView_SetItem(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), &sItem);
     }
+
+    if (m_currentindex >= i)
+       m_currentindex = i - 1;
         
     ListView_SetItemState(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), 
                     m_currentindex, 
                     LVIS_FOCUSED|LVIS_SELECTED,
                     LVIS_FOCUSED|LVIS_SELECTED);
+    SetFocus(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX));
+    UpdateButtonStates();
 }
 
 void MusicBrowserUI::UpdateButtonStates()
 {
     EnableWindow(GetDlgItem(m_hWnd, IDC_DELETE), m_currentindex != -1);
-    EnableWindow(GetDlgItem(m_hWnd, IDC_ADD), m_currentindex != -1);
+    //EnableWindow(GetDlgItem(m_hWnd, IDC_ADD), m_currentindex != -1);
     EnableWindow(GetDlgItem(m_hWnd, IDC_UP), m_currentindex > 0);
     EnableWindow(GetDlgItem(m_hWnd, IDC_DOWN), 
                  m_currentindex < m_context->plm->CountItems() - 1);
-
 }
 
 void MusicBrowserUI::UpdateCatalog(void)
@@ -842,3 +878,201 @@ void MusicBrowserUI::CreatePlaylist(void)
 {
 }
 
+
+void MusicBrowserUI::AddEvent(void)
+{
+    vector<char*>           oFileList;
+    vector<char*>::iterator i;
+    Error                   eRet;
+
+    if (FileOpenDialog(m_hWnd, "Add playlist item",
+                       kAudioFileFilter, 
+                       &oFileList,
+                       m_context->prefs))
+    {
+        for(i = oFileList.begin(); i != oFileList.end(); i++)
+           eRet = m_context->plm->AddItem(*i);
+        UpdatePlaylistList();
+    }
+}
+
+static
+UINT 
+APIENTRY 
+OpenFileHookProc(   HWND hwnd, 
+                    UINT msg, 
+                    WPARAM wParam, 
+                    LPARAM lParam)
+{
+    UINT result = 0;
+    static OPENFILENAME* ofn = NULL;
+
+    switch(msg)
+    {
+        case WM_INITDIALOG:
+        {
+            ofn = (OPENFILENAME*)lParam;
+
+            break;
+        }
+
+        case WM_COMMAND:
+        {
+            switch(wParam)
+            {
+                case IDC_OPEN_URL:
+                {
+                    char* url = new char[ofn->nMaxFile + 1];
+
+                    if(GetDlgItemText(  hwnd,
+                                        IDC_URL,
+                                        url,
+                                        ofn->nMaxFile))
+                    {
+                        *ofn->lpstrFile = 0x00;
+
+                        if(!strstr(url, "://"))
+                        {
+                            strcpy(ofn->lpstrFile, "http://");
+                        }
+
+                        strcat(ofn->lpstrFile, url);
+
+                        PostMessage(GetParent(hwnd), 
+                                    WM_COMMAND, 
+                                    IDCANCEL,
+                                    0);
+
+                        ofn->lCustData = 1;
+                    }
+
+                    delete url;
+                    
+                    result = 1;
+                    break;
+                }
+            }
+
+            break;
+        }
+
+        case WM_NOTIFY:
+        {
+            OFNOTIFY* notify = (OFNOTIFY*)lParam;
+
+            switch(notify->hdr.code)
+            {
+                case CDN_FILEOK:
+                {
+                    
+                    break;
+                }
+            }
+
+            break;
+        }
+    }
+
+    return result;
+}
+
+bool 
+FileOpenDialog(HWND hwnd, 
+               const char* title,
+               const char* filter,
+               vector<char*>* fileList,
+               Preferences* prefs)
+{
+    bool result = false;
+    OPENFILENAME ofn;
+    char szInitialDir[MAX_PATH + 1] = {0x00};
+    uint32 initialDirSize = sizeof(szInitialDir);
+    const int32 kBufferSize = MAX_PATH * 128;
+    char* fileBuffer = new char[kBufferSize];
+
+    *fileBuffer = 0x00;
+
+    if(prefs)
+    {
+        prefs->GetOpenSaveDirectory( szInitialDir, &initialDirSize);
+    }
+
+    // Setup open file dialog box structure
+    ofn.lStructSize       = sizeof(OPENFILENAME);
+    ofn.hwndOwner         = hwnd;
+    ofn.hInstance         = (HINSTANCE)GetWindowLong(hwnd, 
+                                                     GWL_HINSTANCE);
+    ofn.lpstrFilter       = filter;
+    ofn.lpstrCustomFilter = NULL;
+    ofn.nMaxCustFilter    = 0;
+    ofn.nFilterIndex      = 1;
+    ofn.lpstrFile         = fileBuffer;
+    ofn.nMaxFile          = kBufferSize;
+    ofn.lpstrFileTitle    = NULL;
+    ofn.nMaxFileTitle     = 0;
+    ofn.lpstrInitialDir   = szInitialDir;
+    ofn.lpstrTitle        = title;
+    ofn.Flags             = OFN_FILEMUSTEXIST | 
+					        OFN_PATHMUSTEXIST |
+  	     			        OFN_HIDEREADONLY | 
+					        OFN_ALLOWMULTISELECT |
+					        OFN_EXPLORER |
+                            OFN_ENABLEHOOK |
+                            OFN_ENABLETEMPLATE;
+    ofn.nFileOffset       = 0;
+    ofn.nFileExtension    = 0;
+    ofn.lpstrDefExt       = "MP3";
+    ofn.lCustData         = 0;
+    ofn.lpfnHook          = OpenFileHookProc;
+    ofn.lpTemplateName    = MAKEINTRESOURCE(IDD_OPENURL);
+
+    if(GetOpenFileName(&ofn) || ofn.lCustData)
+    {
+        char file[MAX_PATH + 1];
+        char* cp = NULL;
+
+        if(ofn.lCustData) // URL
+        {
+            char* foo = new char[strlen(fileBuffer) + 1];
+
+            strcpy(foo, fileBuffer);
+
+            fileList->push_back(foo);
+        }
+        else // potential list of files
+        {
+            strncpy(file, fileBuffer, ofn.nFileOffset);
+
+            if(*(fileBuffer + ofn.nFileOffset - 1) != DIR_MARKER)
+                strcat(file, DIR_MARKER_STR);
+
+            cp = fileBuffer + ofn.nFileOffset;
+
+            while(*cp)
+            {
+	            strcpy(file + ofn.nFileOffset, cp);
+
+                char* foo = new char[strlen(file) + 1];
+
+                strcpy(foo, file);
+
+                fileList->push_back(foo);
+
+	            cp += strlen(cp) + 1;
+            }
+
+            *(fileBuffer + ofn.nFileOffset - 1) = 0x00;
+
+            if(prefs)
+            {
+                prefs->SetOpenSaveDirectory(fileBuffer);
+            }
+        }
+
+        result = true;
+    }
+
+    delete [] fileBuffer;
+
+    return result;
+}

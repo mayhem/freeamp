@@ -26,7 +26,7 @@
 ;	along with this program; if not, write to the Free Software
 ;	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ;
-;	$Id: x86intel.asm,v 1.10 1999/03/04 20:14:41 mhw Exp $
+;	$Id: x86intel.asm,v 1.11 1999/03/04 21:27:34 mhw Exp $
 ;	Generated from Id: x86gas.s,v 1.7 1999/03/04 07:28:16 mhw Exp $
 ;
 
@@ -412,7 +412,7 @@ BackInnerLoop:
 	mov ecx,DWORD PTR [ebx+eax]
 	mov DWORD PTR [esi+edx],ecx	; f[p] = x2[q]
 	fld DWORD PTR [edi+eax]	; push x[q]
-	fadd 
+	fadd st(1),st
 	fxch 
 	fstp DWORD PTR [esi+edx+4]	; f[p + 4] = x[q] + x[q + 4]
 	sub eax,4		; q -= 4

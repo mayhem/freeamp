@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.cpp,v 1.9 1998/11/28 06:03:09 jdw Exp $
+	$Id: fawindow.cpp,v 1.10 1998/12/01 19:24:11 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -785,11 +785,11 @@ void FADialWindow::DoEvent(XEvent e) {
 		    m_currentDial = tmpInt * -1;
 		}
 		if (m_prevY < e.xmotion.y_root) {
-		    m_func(m_cookie,3,e.xmotion.x_root,e.xmotion.y_root);
+		    m_func(m_cookie,3,e.xmotion.x_root - m_buttonClickSpotX,e.xmotion.y_root - m_buttonClickSpotY);
 		} else if (m_prevY == e.xmotion.y_root) {
-		    m_func(m_cookie,5,e.xmotion.x_root,e.xmotion.y_root);
+		    m_func(m_cookie,5,e.xmotion.x_root - m_buttonClickSpotX,e.xmotion.y_root - m_buttonClickSpotY);
 		} else {
-		    m_func(m_cookie,2,e.xmotion.x_root,e.xmotion.y_root);
+		    m_func(m_cookie,2,e.xmotion.x_root - m_buttonClickSpotX,e.xmotion.y_root - m_buttonClickSpotY);
 		}
 		m_prevY = e.xmotion.y_root;
 		Draw();
@@ -824,6 +824,5 @@ void FADialWindow::SetMotionFunction(dial_motion_function f, void *c) {
     m_func = f;
     m_cookie = c;
 }
-
 
 

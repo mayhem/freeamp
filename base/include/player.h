@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.20 1998/11/07 02:39:04 jdw Exp $
+	$Id: player.h,v 1.21 1998/12/01 19:24:09 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -61,7 +61,7 @@ class Player : public EventQueue {
     int32 RegisterUIs(UIRegistry* registry);
 
     void Run();
-    void SetArgs(int32 argc, char** argv);
+    bool SetArgs(int32 argc, char** argv);
     void SetPreferences(Preferences *);
     void SetTerminationSemaphore(Semaphore *);
     void testQueue();
@@ -75,12 +75,13 @@ class Player : public EventQueue {
     void ReleaseUIManipLock();
     int32 CompareNames(const char *,const char *);
     void SendToUI(Event *);
-
+    void Usage(const char *);
     bool SetState(PlayerState);
     int32 ServiceEvent(Event *);
 
 
  private:
+    bool                    m_didUsage;
     Preferences*            m_prefs;
     Semaphore*              m_pTermSem;
     static Player*          m_thePlayer;

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.8 1998/10/27 22:25:59 jdw Exp $
+	$Id: errors.h,v 1.9 1998/12/01 19:24:09 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -28,8 +28,8 @@ ____________________________________________________________________________*/
 
 typedef enum Error
 {
-	kError_NoErr		    = 0,
-	kError_UnknownErr	    = 1,
+    kError_NoErr		    = 0,
+    kError_UnknownErr	    = 1,
     kError_InvalidParam     = 2,
     kError_LoadLibFailed    = 3,
     kError_FindFuncFailed   = 4,
@@ -49,7 +49,9 @@ typedef enum Error
     kError_GotDefaultMethod = 18,
     kError_InputUnsuccessful = 19,
     kError_FileSeekNotSupported = 20,
-    kError_OutputUnsuccessful = 21
+    kError_OutputUnsuccessful = 21,
+    kError_InitFailed = 22,
+    kError_InitFailedSafely
 }Error;
 
 

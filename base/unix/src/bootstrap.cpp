@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.9 1998/11/06 21:05:10 jdw Exp $
+	$Id: bootstrap.cpp,v 1.10 1998/12/01 19:24:09 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -101,12 +101,13 @@ int main(int argc, char **argv) {
 
 
 
-    pP->SetArgs(argc,argv);
-    pP->SetPreferences(prefs);
-    pP->SetTerminationSemaphore(termSemaphore);
-    pP->Run();
-
-    termSemaphore->Wait();
+    if (pP->SetArgs(argc,argv)) {
+	pP->SetPreferences(prefs);
+	pP->SetTerminationSemaphore(termSemaphore);
+	pP->Run();
+	
+	termSemaphore->Wait();
+    }
     delete pP;
     return 0;
 }

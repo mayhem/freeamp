@@ -18,13 +18,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ui.h,v 1.5 1998/11/07 02:39:04 jdw Exp $
+	$Id: ui.h,v 1.6 1998/12/01 19:24:11 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UI_H_
 #define _UI_H_
 
 #include "event.h"
+#include "errors.h"
+
 #include "playlist.h"
 
 class UserInterface : public EventQueue {
@@ -32,8 +34,8 @@ class UserInterface : public EventQueue {
     virtual int32 AcceptEvent(Event *) = 0;
     virtual void SetArgs(int32,char **) = 0;
     virtual void SetTarget(EventQueue *) = 0;
-	virtual void SetPlayListManager(PlayListManager *) = 0;
-    virtual void Init() = 0;
+    virtual void SetPlayListManager(PlayListManager *) = 0;
+    virtual Error Init() = 0;
     virtual ~UserInterface() {}
 };
 

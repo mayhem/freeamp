@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-x11.h,v 1.9 1998/11/28 06:03:09 jdw Exp $
+	$Id: freeamp-x11.h,v 1.10 1998/12/01 19:24:09 jdw Exp $
 ____________________________________________________________________________*/
 // FreeAmpUI.h
 
@@ -48,7 +48,7 @@ class FreeAmpUI : public UserInterface {
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
-    virtual void Init();
+    virtual Error Init();
     virtual void SetPlayListManager(PlayListManager *);
     static void x11ServiceFunction(void *);
     static void TimerEventFunction(void *);
@@ -56,6 +56,9 @@ class FreeAmpUI : public UserInterface {
 
     EventQueue *m_playerEQ;
  private:
+    void Usage();
+    bool m_noStartUp;
+
     bool m_initialized;
     int32 m_oldLcdState;
     int32 m_volume;
@@ -74,7 +77,9 @@ class FreeAmpUI : public UserInterface {
     static void VolumeDialFunction(void *,int32,int32,int32);
     FADialWindow *m_seekWindow;
     static void SeekDialFunction(void *,int32,int32,int32);
-    void SeekAction(); // called by timer thread
+    void SeekJogAction(); // called by timer thread
+    int32 m_seekSlice;
+    int32 m_seekDelta;
     FADumbWindow *m_lcdUpperWindow;
     FALcdWindow *m_lcdWindow;
     FADumbWindow *m_playListDrawerWindow;

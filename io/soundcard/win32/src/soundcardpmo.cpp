@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.8 1998/10/22 00:59:09 elrod Exp $
+	$Id: soundcardpmo.cpp,v 1.9 1998/10/22 06:07:39 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -89,27 +89,22 @@ SoundCardPMO::
 
         delete [] buf;
 
+        while(waveOutClose(m_hwo) == WAVERR_STILLPLAYING)
+		{
+			Sleep(SLEEPTIME);
+		}
+
+		CloseHandle(MCISemaphore);
+
 		// Unprepare and free the header memory.
 		for (uint32 j = 0; j < m_num_headers; j++) 
 		{
-			while(m_wavehdr_array[j]->dwUser)
-			{
-				//WaitForSingleObject(MCISemaphore, 10000);
-			}
-
 			delete [] m_wavehdr_array[j]->lpData;
 			delete m_wavehdr_array[j];
 		}
 
 		delete [] m_wavehdr_array;
 		delete m_wfex;
-
-		while(waveOutClose(m_hwo) == WAVERR_STILLPLAYING)
-		{
-			Sleep(SLEEPTIME);
-		}
-
-		CloseHandle(MCISemaphore);
 	}
 }
 

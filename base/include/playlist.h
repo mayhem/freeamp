@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.8 1998/10/20 18:57:25 jdw Exp $
+	$Id: playlist.h,v 1.9 1998/10/22 06:07:38 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -70,6 +70,9 @@ public:
     void SetFirst();
     void SetNext();
     void SetPrev();
+
+    int32 Current() const {return m_current;}
+    int32 Total() const {return m_pOrderList->NumElements();}
 
     void SetOrder(OrderOfPlay oop);
     void SetRepeat(RepeatPlay rp);

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.16 2000/08/25 11:19:29 sward Exp $
+        $Id: apsinterface.cpp,v 1.17 2000/08/29 13:10:55 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -559,6 +559,7 @@ int APSInterface::LoadProfileMap(const char *pczFile)
 	}
 	
 	// having successfully read in the entire profile log file, apply it
+    fclose(pfIn);
 
     if (strCollectionID == "NULL")
         m_strCollectionID = "";
@@ -588,11 +589,11 @@ int APSInterface::WriteProfileMap(const char *pczFile)
         return APS_PARAMERROR;
 
     int nNumProfiles = m_pProfileMap->size();
-	int nStrLen = 0;
-	FILE* pfOut = fopen(pczFile, "w+b");
+    int nStrLen = 0;
+    FILE* pfOut = fopen(pczFile, "w+b");
 	
-	if (pfOut == NULL)
-		return APS_PARAMERROR;
+    if (pfOut == NULL)
+	return APS_PARAMERROR;
 
     map<string, string>::iterator i;
     string strCurrentProfile = m_strCurrentProfile;
@@ -603,15 +604,15 @@ int APSInterface::WriteProfileMap(const char *pczFile)
     if (strCollectionID.empty())
         strCollectionID = "NULL";
 	
-	// file format is : numprofiles, isenabled flag, current profile name len, current profile name, 
-	//	current collection id len, current collection id, 
-	// for each profile entry, name len, name, guid len, guid
-	int nRes = fwrite(&nNumProfiles, sizeof(int), 1, pfOut);
-	if (nRes == 0) 
-	{
-		fclose(pfOut);
-		return APS_PARAMERROR;
-	}
+    // file format is : numprofiles, isenabled flag, current profile name len, current profile name, 
+    //	current collection id len, current collection id, 
+    // for each profile entry, name len, name, guid len, guid
+    int nRes = fwrite(&nNumProfiles, sizeof(int), 1, pfOut);
+    if (nRes == 0) 
+    {
+	fclose(pfOut);
+	return APS_PARAMERROR;
+    }
 	
 	nRes = fwrite(&m_bRelatableOn, sizeof(bool), 1, pfOut);
 	if (nRes == 0) 
@@ -683,6 +684,7 @@ int APSInterface::WriteProfileMap(const char *pczFile)
 		}
     }
 
+    fclose(pfOut);
     return APS_NOERROR;
 }
 

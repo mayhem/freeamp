@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: introwizard.cpp,v 1.7 2000/08/24 18:19:55 ijr Exp $
+        $Id: introwizard.cpp,v 1.8 2000/08/29 13:10:55 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -334,7 +334,7 @@ GtkWidget *IntroWizardUI::RelatablePage(void)
    button = gtk_radio_button_new_with_label(gtk_radio_button_group(
                                             GTK_RADIO_BUTTON(button)),
                                             "Cool! But I'll pass");
-   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
+   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 2);
    gtk_signal_connect(GTK_OBJECT(button), "clicked",
                       GTK_SIGNAL_FUNC(opt_out_selected), this);
    gtk_widget_show(button);

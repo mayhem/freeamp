@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.231 2000/08/24 23:41:27 sward Exp $
+        $Id: player.cpp,v 1.232 2000/08/29 13:10:55 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -91,7 +91,7 @@ Player(FAContext *context) : EventQueue()
 
     char *m_faDir = FreeampDir(m_context->prefs);
 
-    m_APSInterface = new APSInterface(m_faDir); 
+    m_APSInterface = new APSInterface(m_faDir);
     m_context->aps = m_APSInterface;
 
     delete [] m_faDir;

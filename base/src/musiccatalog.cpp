@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.77 2000/08/21 12:41:35 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.78 2000/08/29 13:10:55 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1311,7 +1311,7 @@ Error MusicCatalog::AcceptEvent(Event *e)
             string url = curl;
             delete [] curl;
        
-			m_sigs->erase(url);
+            m_sigs->erase(url);
 
             MetaData *data = ReadMetaDataFromDatabase(url.c_str());
             if (!data)
@@ -1344,7 +1344,7 @@ Error MusicCatalog::AcceptEvent(Event *e)
             m_context->aps->APSLookupSignature(sig, GUID);
 
             if (GUID != "") {
-				m_sigs->erase(asge->Url());
+                m_sigs->erase(asge->Url());
 
                 uint32 length = asge->Url().size() + 20;
                 char *curl = new char[length];
@@ -1353,7 +1353,8 @@ Error MusicCatalog::AcceptEvent(Event *e)
                 string url = curl;
                 delete [] curl;
 
-				m_sigs->erase(url);
+                m_sigs->erase(url);
+
                 MetaData *data = ReadMetaDataFromDatabase(url.c_str());
 
                 if (!data) 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.24 1999/10/01 00:05:35 elrod Exp $
+        $Id: player.cpp,v 1.133.2.25 1999/10/01 01:56:51 dogcow Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -29,6 +29,9 @@ ____________________________________________________________________________*/
 #include <sys/stat.h>
 #ifdef WIN32
 #include <direct.h>
+#define MKDIR(z) mkdir(z)
+#else
+#define MKDIR(z) mkdir(z, 0755)
 #endif
 
 #include "config.h"
@@ -137,7 +140,7 @@ EventQueue()
 
     if(-1 == stat(tempDir, &st))
     {
-        mkdir(tempDir);
+        MKDIR(tempDir);
     }
 
     delete [] tempDir;

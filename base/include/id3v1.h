@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.h,v 1.2 1998/10/19 00:09:04 elrod Exp $
+	$Id: id3v1.h,v 1.3 1999/01/26 02:14:09 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _ID3V1_H_
@@ -48,10 +48,15 @@ class Id3TagInfo {
 	        memset(this,0,sizeof(Id3TagInfo));
 	        m_containsInfo = true;
 	        strncpy(m_songName, buffer + 3, 30);
+		KillTrailingWhiteSpace(m_songName);
 	        strncpy(m_artist, buffer + 33, 30);
+		KillTrailingWhiteSpace(m_artist);
 	        strncpy(m_album, buffer + 63, 30);
+		KillTrailingWhiteSpace(m_album);
 	        strncpy(m_year, buffer + 93, 4);
+		KillTrailingWhiteSpace(m_year);
 	        strncpy(m_comment, buffer + 97, 30);
+		KillTrailingWhiteSpace(m_comment);
 	        m_genre = buffer[127];
 	    } else {
 	        m_containsInfo = false;
@@ -60,6 +65,13 @@ class Id3TagInfo {
     }
 
  private:
+    void KillTrailingWhiteSpace(char *pStr) {
+	char *pChar = &(pStr[strlen(pStr)]);
+	do {
+	    *pChar = '\0';
+	    pChar--;
+	} while ((*pChar == ' ') && (pChar != pStr));
+    }
     void nullinit() {
 	    *m_songName = '\0';
 	    *m_artist = '\0';

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.6 1999/01/25 00:08:28 jdw Exp $
+	$Id: lcdui.cpp,v 1.7 1999/01/26 02:14:11 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -306,7 +306,7 @@ int32 LcdUI::AcceptEvent(Event *e) {
 		    char bar[128];
 		    sprintf(bar,"widget_set FA songname 1 1 20 3 h 2 {%s}\n",foo);
 		    sock_send_string(m_sock,bar);
-		    sock_send_string(m_sock,"widget_set FA artist 1 3 1 1 h 1 {}\n");
+		    sock_send_string(m_sock,"widget_set FA artist 1 3 2 1 h 1 { }\n");
 #else
 		    lcd.string(1,1,foo);
 #endif

@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cmdlineUI.cpp,v 1.20 1999/11/18 02:43:40 robert Exp $
+        $Id: cmdlineUI.cpp,v 1.21 1999/11/26 22:30:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -250,6 +250,14 @@ AcceptEvent(Event * e)
       // cout << "cmdlineUI: processing event " << e->getEvent() << endl;
       switch (e->Type())
       {
+      case INFO_ErrorMessage:
+         {
+           ErrorMessageEvent *eme = (ErrorMessageEvent *)e;
+           string ErrMessage(eme->GetErrorMessage());
+
+           cout << ErrMessage << endl;
+           break;
+         }
       case INFO_PlaylistDonePlay:
          {
             Event    *e = new Event(CMD_QuitPlayer);

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: Mpg123UI.cpp,v 1.17 1999/11/23 19:35:46 robert Exp $
+    $Id: Mpg123UI.cpp,v 1.18 1999/11/26 22:30:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -55,6 +55,7 @@ Mpg123UI::Mpg123UI(FAContext * context)
 
    verboseMode = false;
    totalFrames = 0;
+   lastSeconds = 0;
 
    m_plm = NULL;
 
@@ -124,11 +125,19 @@ AcceptEvent(Event * e)
       // cerr << "Mpg123COO: processing event " << e->Type() << endl;
       switch (e->Type())
       {
+      case INFO_ErrorMessage:
+         {
+           ErrorMessageEvent *eme = (ErrorMessageEvent *)e;
+           string ErrMessage(eme->GetErrorMessage());
+ 
+           cout << ErrMessage << endl;
+           break;
+         }
       case INFO_PlaylistDonePlay:
          {
-            Event    *e = new Event(CMD_QuitPlayer);
+            Event    *ev = new Event(CMD_QuitPlayer);
 
-            m_playerEQ->AcceptEvent(e);
+            m_playerEQ->AcceptEvent(ev);
             break;
          }
       case INFO_MPEGInfo:

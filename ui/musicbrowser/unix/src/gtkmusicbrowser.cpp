@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.89 2000/06/06 11:01:02 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.90 2000/06/06 16:00:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -339,11 +339,6 @@ void GTKMusicBrowser::CreateExpanded(void)
     GtkWidget *browservbox;
     GtkWidget *hbox;
 
-    if (m_browserCreated)
-        return;
-
-    m_browserCreated = true;
-
     masterBrowserBox = gtk_vbox_new(FALSE, 0);
     gtk_paned_pack1(GTK_PANED(masterBox), masterBrowserBox, TRUE, TRUE);
 
@@ -394,7 +389,6 @@ void GTKMusicBrowser::ExpandCollapseEvent(void)
     string title = string(BRANDING);
 
     if (m_state == kStateCollapsed) {
-        CreateExpanded();
         m_state = kStateExpanded;
         if (lastPanedPosition != -1) {
             gtk_paned_set_position(GTK_PANED(masterBox), lastPanedPosition);
@@ -596,10 +590,12 @@ void GTKMusicBrowser::CreatePlaylist(void)
 
     CreatePlaylistList(playlistwindow);
 
+    CreateExpanded();
+
     SetClickState(kContextNone);
     gtk_widget_show(musicBrowser);
 
-    m_state = kStateCollapsed;
+    m_state = kStateExpanded;
 }
 
 void GTKMusicBrowser::DeleteListEvent(void)
@@ -1194,7 +1190,6 @@ GTKMusicBrowser::GTKMusicBrowser(FAContext *context, MusicBrowserUI *masterUI,
     statusContext = 0;
     playlistList = NULL;
     m_musicCatalog = NULL;
-    m_browserCreated = false;
     lastPanedPosition = -1;
     lastPanedHandle = -1;
     pauseState = 0;
@@ -1254,24 +1249,6 @@ GTKMusicBrowser::~GTKMusicBrowser(void)
     }
 }
 
-void GTKMusicBrowser::ShowPlaylist(void)
-{
-    gdk_threads_enter();
-    isVisible = true;
-    if (m_initialized) 
-        gtk_widget_show(musicBrowser);
-    else {
-        CreatePlaylist();
-        m_initialized = true;
-    }
-
-    if (m_state == kStateExpanded)
-        ExpandCollapseEvent();
-    UpdatePlaylistList();
-
-    gdk_threads_leave();
-}
-
 void GTKMusicBrowser::ShowMusicBrowser(void)
 {
     bool first_time = false;
@@ -1285,23 +1262,15 @@ void GTKMusicBrowser::ShowMusicBrowser(void)
         CreatePlaylist();
         m_initialized = true;
     }
-    if (!master) {
-        if (m_state == kStateCollapsed)
-            ExpandCollapseEvent();
-    }
-    else {  
+    if (master) {  
          bool viewMusicBrowser = true;
 
          m_context->prefs->GetViewMusicBrowser(&viewMusicBrowser);
          
-         if (viewMusicBrowser && m_state == kStateCollapsed)
+         if ((viewMusicBrowser == true) && (m_state == kStateCollapsed))
 	     ExpandCollapseEvent();
-         else if (!viewMusicBrowser && m_state == kStateExpanded) 
+         else if ((viewMusicBrowser == false) && (m_state == kStateExpanded)) 
              ExpandCollapseEvent();
-	 else if (m_state == kStateCollapsed && first_time) {
-	     m_state = kStateExpanded;
-	     ExpandCollapseEvent();
-         }
     }
 
     SetToolbarType();

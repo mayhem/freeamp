@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.44 2000/06/06 11:01:02 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.45 2000/06/06 16:00:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -89,7 +89,6 @@ class GTKMusicBrowser {
                     bool cdCreationMode = false);
     virtual ~GTKMusicBrowser();
 
-    void ShowPlaylist(void);
     void ShowMusicBrowser(void);
     void Close(bool inMain = true);
  
@@ -149,7 +148,6 @@ class GTKMusicBrowser {
     Properties *m_propManager;
 
     bool m_initialized;
-    bool m_browserCreated;
 
     bool master;
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.84 2000/08/16 18:55:19 ijr Exp $
+        $Id: Win32MusicBrowser.h,v 1.85 2000/08/21 09:21:23 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -347,6 +347,7 @@ class MusicBrowserUI : public UserInterface
 
     void AskSignatureDialog();
     void AskOptIn();
+    void StillNeedSignature();
     void HandleSignature();
 
     // Functions in EditTrackInfoDialog.cpp

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.118 1999/04/26 00:51:33 robert Exp $
+        $Id: player.cpp,v 1.119 1999/04/26 02:50:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -808,7 +808,6 @@ CreateLMC(PlayListItem * pc, Event * pC)
    RegistryItem *pmi_item = pc->GetPMIRegistryItem();
    RegistryItem *lmc_item = pc->GetLMCRegistryItem();
    RegistryItem *item;
-   int32           iVolume;
 
    if (!pc)
    {

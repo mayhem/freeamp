@@ -18,15 +18,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32volume.cpp,v 1.1 1999/04/26 00:51:55 robert Exp $
+	$Id: win32volume.cpp,v 1.2 1999/04/26 02:50:24 elrod Exp $
 ____________________________________________________________________________*/
 
+#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <linux/soundcard.h>
-#include <sys/ioctl.h>
-#include <fcntl.h>
 
 #include "win32volume.h"
 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.38 2000/10/27 23:23:04 robert Exp $
+        $Id: apsinterface.cpp,v 1.39 2000/10/27 23:24:54 robert Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -200,8 +200,6 @@ int APSInterface::APSFillMetaData(APSMetaData* pmetaData)
     if (mb_GetResultData(o, MB_GetAlbumName, temp, 255))
         pmetaData->SetAlbum(temp);
 
-    printf("Album: %s\n", temp);
-
     // Select the main context of the exchanged data
     mb_Select(o, MB_SelectExchangedData);
 
@@ -209,7 +207,6 @@ int APSInterface::APSFillMetaData(APSMetaData* pmetaData)
         pmetaData->SetArtist(temp);
     if (mb_GetResultData(o, MB_GetTrackName, temp, 255))
         pmetaData->SetTitle(temp);
-    printf("Track: %s\n", temp);
     if (mb_GetResultData(o, MB_GetGenre, temp, 255))
         pmetaData->SetGenre(temp);
     if (mb_GetResultData(o, MB_GetDescription, temp, 255))

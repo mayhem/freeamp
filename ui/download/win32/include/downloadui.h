@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.7 2000/02/09 21:21:26 elrod Exp $
+	$Id: downloadui.h,v 1.8 2000/02/29 10:01:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -68,6 +68,10 @@ class DownloadUI : public UserInterface {
                               UINT msg, 
                               WPARAM wParam, 
                               LPARAM lParam);
+    LRESULT ListWndProc(HWND hwnd, 
+                        UINT msg, 
+                        WPARAM wParam, 
+                        LPARAM lParam);
    
  protected:
 
@@ -108,7 +112,7 @@ class DownloadUI : public UserInterface {
 
     RECT m_urlRect;
     HCURSOR m_handCursor;
-    bool m_overURL;
+    bool m_overURL, m_duringUpdate;
 };
 
 

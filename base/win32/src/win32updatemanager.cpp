@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.6 2000/01/10 19:38:52 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.7 2000/02/29 10:01:57 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -95,7 +95,7 @@ Error Win32UpdateManager::UpdateComponents(UMCallBackFunction function,
 {
     Error result;
     
-    result = UpdateManager::UpdateComponents();
+    result = UpdateManager::UpdateComponents(function, cookie);
 
     if(IsntError(result))
     {
@@ -129,9 +129,61 @@ Error Win32UpdateManager::UpdateComponents(UMCallBackFunction function,
 
             if(findFileHandle != INVALID_HANDLE_VALUE)
             {
-                MoveFileEx(updatePath, appPath, MOVEFILE_REPLACE_EXISTING);
+                int32 failureCount;
+                BOOL success;
+
+                failureCount = 0;
+                success = TRUE;
+
+                do
+                {
+                    // remove old file
+                    success = DeleteFile(appPath);
+
+                    if(!success)
+                        Sleep(1000);
+
+                }while(!success && failureCount++ < 3);
+
+                
+                if(success)
+                {
+                    failureCount = 0;
+
+                    do
+                    {
+                       // actually move the file
+                        success = MoveFile(updatePath, appPath);
+
+                        if(!success)
+                            Sleep(1000);
+
+                    }while(!success && failureCount++ < 3);
+                }
+                
+                if(!success)
+                {
+                    LPVOID lpMessageBuffer;
+
+		            FormatMessage(
+		              FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		              FORMAT_MESSAGE_FROM_SYSTEM,
+		              NULL,
+		              GetLastError(),
+		              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		              (LPTSTR) &lpMessageBuffer,
+		              0,
+		              NULL );
+
+		            // now display this string
+ 		            MessageBox(NULL, (char*)lpMessageBuffer, appPath, MB_OK);
+
+		            // Free the buffer allocated by the system
+		            LocalFree( lpMessageBuffer );
+                }
+
                 FindClose(findFileHandle);
-            }            
+            }
 
             m_context->target->AcceptEvent(new Event(CMD_QuitPlayer));
 

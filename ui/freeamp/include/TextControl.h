@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.h,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: TextControl.h,v 1.3 2000/02/29 10:01:59 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TEXTCONTROL_H__
@@ -43,6 +43,7 @@ class TextControl : public Control
 
       void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
       virtual void Init(void);
+      virtual bool UseToDragWindow(void);
 
     private:
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.14 2000/02/15 21:33:45 robert Exp $
+   $Id: ThemeManager.cpp,v 1.15 2000/02/29 10:02:01 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -159,7 +159,7 @@ Error ThemeManager::UseTheme(string &oThemeFile)
     return kError_NoErr;
 }
 
-Error ThemeManager::AddTheme(string &oThemeFile)
+Error ThemeManager::AddTheme(string &oThemeFile, bool bRename)
 {
     char            dir[MAX_PATH], ext[MAX_PATH];
     uint32          len = sizeof(dir);
@@ -169,8 +169,34 @@ Error ThemeManager::AddTheme(string &oThemeFile)
     m_pContext->prefs->GetInstallDirectory(dir, &len);
     oThemeDest = string(dir);
     
-    _splitpath(oThemeFile.c_str(), NULL, NULL, dir, ext);
-    oThemeDest += string("\\themes\\") + string(dir) + string(ext);
+    if (bRename)
+    {
+        ThemeZip oZip;
+        string   oName;
+
+        if (IsntError(oZip.GetDescriptiveName(oThemeFile, oName)) && 
+            oName.length() > 0)
+        {
+            int i;
+
+            for(i = oName.length() - 1; i >= 0; i--)
+                if (!isalnum(oName[i]) && oName[i] != ' ')
+                    oName.erase(i, 1);
+                
+            oThemeDest += string("\\themes\\") + oName + string(".fat");
+        }
+        else
+        {
+            _splitpath(oThemeFile.c_str(), NULL, NULL, dir, ext);
+            oThemeDest += string("\\themes\\") + string(dir) + string(".fat");
+        }
+    }
+    else
+    {
+        _splitpath(oThemeFile.c_str(), NULL, NULL, dir, ext);
+        oThemeDest += string("\\themes\\") + string(dir) + string(ext);
+    }              
+    
     eErr = CopyFile(oThemeFile.c_str(), oThemeDest.c_str(), false) ? 
            kError_NoErr : kError_CopyFailed;
 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.51 2000/02/19 20:22:43 robert Exp $
+	$Id: main.cpp,v 1.52 2000/02/29 10:01:57 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -79,8 +79,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
     // This causes a dynamic link error on some non NT systems, and
     // it didn't seem to help on multiprocessor NT systems, so I'm
-    // uncommenting it.
-    //if (IsWinNT() && IsMultiProcessor())
+    // commenting it.
+    //if(IsWinNT() && IsMultiProcessor())
     //    SetProcessAffinityMask(GetCurrentProcess(), 0);
 
     WSADATA sGawdIHateMicrosoft;
@@ -512,7 +512,7 @@ static LRESULT WINAPI HiddenWndProc(HWND hwnd,
                 if(giveToDLM)
                     dlm->ReadDownloadFile(url);
                 else if(giveToTheme)
-                    context->target->AcceptEvent(new LoadThemeEvent(url, ""));
+                    context->player->AddTheme(url);
                 else
                     plm->AddItem(url);
 

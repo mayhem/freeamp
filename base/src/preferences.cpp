@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.35 2000/02/20 04:16:16 ijr Exp $
+        $Id: preferences.cpp,v 1.36 2000/02/29 10:01:57 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -76,6 +76,8 @@ const char* kPlayImmediatelyPref = "PlayImmediately";
 const char* kNumberOfURLsToRememberPref = "NumberOfURLsToRemember";
 const char* kCDDevicePathPref = "CDDevice";
 const char* kCDDBServerPref = "CDDBServer";
+const char* kConvertUnderscoresToSpacesPref = "ConvertUnderscoresToSpaces";
+const char* kAllowMultipleInstancesPref = "AllowMultipleInstances";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -129,6 +131,8 @@ const bool kDefaultWelcome = true;
 const bool kDefaultPlayImmediately = true;
 const int32 kDefaultNumberOfURLsToRemember = 10;
 const char* kDefaultCDDBServer = "http://www2.freedb.org/cgi-bin/cddb.cgi";
+const bool kDefaultConvertUnderscoresToSpaces = true;
+const bool kDefaultAllowMultipleInstances = false;
 
 Error
 Preferences::
@@ -297,6 +301,12 @@ SetDefaults()
 
     if (GetPrefInt32(kNumberOfURLsToRememberPref, &dummyInt) == kError_NoPrefValue)
         SetPrefInt32(kNumberOfURLsToRememberPref, kDefaultNumberOfURLsToRemember);
+
+    if (GetPrefBoolean(kConvertUnderscoresToSpacesPref, &dummyBool) == kError_NoPrefValue)
+        SetPrefBoolean(kConvertUnderscoresToSpacesPref, kDefaultConvertUnderscoresToSpaces);
+
+    if (GetPrefBoolean(kAllowMultipleInstancesPref, &dummyBool) == kError_NoPrefValue)
+        SetPrefBoolean(kAllowMultipleInstancesPref, kDefaultAllowMultipleInstances);
 
     return kError_NoErr;
 }
@@ -1003,6 +1013,34 @@ Preferences::
 SetNumberOfURLsToRemember(int32 value)
 {
     return SetPrefInt32(kNumberOfURLsToRememberPref, value);
+}
+
+Error
+Preferences::
+GetConvertUnderscoresToSpaces(bool* value)
+{
+    return GetPrefBoolean(kConvertUnderscoresToSpacesPref, value);
+}
+
+Error
+Preferences::
+SetConvertUnderscoresToSpaces(bool value)
+{
+    return SetPrefBoolean(kConvertUnderscoresToSpacesPref, value);
+}
+
+Error
+Preferences::
+GetAllowMultipleInstances(bool* value)
+{
+    return GetPrefBoolean(kAllowMultipleInstancesPref, value);
+}
+
+Error
+Preferences::
+SetAllowMultipleInstances(bool value)
+{
+    return SetPrefBoolean(kAllowMultipleInstancesPref, value);
 }
 
 LibDirFindHandle *

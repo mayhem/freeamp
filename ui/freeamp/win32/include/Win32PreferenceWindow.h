@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.13 2000/02/15 21:33:44 robert Exp $
+   $Id: Win32PreferenceWindow.h,v 1.14 2000/02/29 10:02:01 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -60,6 +60,10 @@ typedef struct PrefsStruct
     bool useImages;
     bool savePlaylistOnExit;
     bool playImmediately;
+    bool reclaimFiletypes;
+    bool askReclaimFiletypes;
+    string saveMusicDirectory;
+    bool convertUnderscores;
 
     // page 2
     int32 streamInterval;
@@ -78,6 +82,9 @@ typedef struct PrefsStruct
     bool logDecoder;
     bool logPerformance;
 
+    //page 4
+    PortableSet portablePlayers;
+
 	// page 5
     string defaultFont;
     string currentTheme;
@@ -85,11 +92,6 @@ typedef struct PrefsStruct
     // page 6
     bool checkForUpdates;
 
-    bool reclaimFiletypes;
-    bool askReclaimFiletypes;
-    string saveMusicDirectory;
-
-    PortableSet portablePlayers;
 
     
     bool operator == (const struct PrefsStruct& pref)
@@ -133,6 +135,7 @@ typedef struct PrefsStruct
 
             savePlaylistOnExit == pref.savePlaylistOnExit &&
             playImmediately == pref.playImmediately &&
+            convertUnderscores == pref.convertUnderscores &&
 
             true
         );

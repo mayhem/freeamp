@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.27 2000/02/20 04:16:16 ijr Exp $
+	$Id: preferences.h,v 1.28 2000/02/29 10:01:57 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -83,6 +83,8 @@ extern const char* kPlayImmediatelyPref;
 extern const char* kNumberOfURLsToRememberPref;
 extern const char* kCDDevicePathPref;
 extern const char* kCDDBServerPref;
+extern const char* kConvertUnderscoresToSpacesPref;
+extern const char* kAllowMultipleInstancesPref;
 
 class LibDirFindHandle;
 
@@ -257,6 +259,12 @@ class Preferences {
 
     Error GetCDDevicePath(char* path, uint32* len);
     Error SetCDDevicePath(const char* path);
+
+    Error GetConvertUnderscoresToSpaces(bool* value);
+    Error SetConvertUnderscoresToSpaces(bool value);
+
+    Error GetAllowMultipleInstances(bool* value);
+    Error SetAllowMultipleInstances(bool  value);  
 };
 
 #endif /* _PREFERENCES_H */

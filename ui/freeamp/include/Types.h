@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Types.h,v 1.3 2000/02/20 05:36:40 ijr Exp $
+   $Id: Types.h,v 1.4 2000/02/29 10:01:59 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TYPES_H__
@@ -51,6 +51,13 @@ struct Rect
     int Height(void)
     {
          return y2 - y1;
+    }
+	void Union(Rect &oOther)
+	{
+	     x1 = (oOther.x1 < x1) ? oOther.x1 : x1;
+	     y1 = (oOther.y1 < y1) ? oOther.y1 : y1;
+	     x2 = (oOther.x2 > x2) ? oOther.x2 : x2;
+	     y2 = (oOther.y2 > y2) ? oOther.y2 : y2;
     }
     bool IsPosInRect(Pos &oPos)
     {

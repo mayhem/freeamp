@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.30 2000/02/20 05:36:40 ijr Exp $
+   $Id: Window.cpp,v 1.31 2000/02/29 10:02:01 elrod Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -585,6 +585,9 @@ void Window::HandleMouseLButtonDown(Pos &oScreenPos)
     }
 
     pControl = ControlFromPos(oPos);
+    if (pControl && pControl->UseToDragWindow())
+       pControl = NULL;
+
     if (pControl)
     {
        m_bLButtonDown = true;

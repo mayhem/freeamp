@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DataIndex.cpp,v 1.7 2000/01/13 01:04:13 elrod Exp $
+        $Id: DataIndex.cpp,v 1.8 2000/02/29 10:02:02 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -101,9 +101,7 @@ bool TreeData::IsTrack()
 {
    bool result = false;
 
-    result = m_pAlbum != NULL &&
-             m_pArtist != NULL &&
-             m_pTrack != NULL;
+    result = m_pTrack != NULL;
     
     return result;
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.11 2000/02/16 00:21:19 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.12 2000/02/29 10:02:01 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -266,8 +266,9 @@ void Win32Canvas::Paint(HDC hDC, Rect &oRect)
       SelectPalette(hDC, m_hPal, false);
       RealizePalette(hDC);
    }
+
    BitBlt(hDC, oRect.x1, oRect.y1, oRect.Width(), oRect.Height(),
-          hMemDC, oRect.x1, oRect.y1, SRCCOPY);
+                 hMemDC, oRect.x1, oRect.y1, SRCCOPY);
 
    DeleteDC(hMemDC);  
 }

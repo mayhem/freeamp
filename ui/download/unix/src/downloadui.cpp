@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.15 2000/05/20 12:32:00 ijr Exp $
+        $Id: downloadui.cpp,v 1.16 2000/06/06 12:45:06 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -81,6 +81,9 @@ Error DownloadUI::AcceptEvent(Event *e)
         case CMD_ToggleDownloadUI: {
             gdk_threads_enter();
             if (m_initialized && isVisible) {
+                bool close = gtk_toggle_button_get_active(
+                                     GTK_TOGGLE_BUTTON(m_closeComplete));
+                m_prefs->SetCloseDLMOnComplete(close);
                 gtk_widget_hide(m_downloadUI);
                 isVisible = false;
             }
@@ -88,8 +91,8 @@ Error DownloadUI::AcceptEvent(Event *e)
                 if (m_initialized)
                     gtk_widget_show(m_downloadUI);
                 else {
-                    CreateDownloadUI();
                     m_initialized = true;
+                    CreateDownloadUI();
                 }
                 isVisible = true;
                 UpdateDownloadList();
@@ -101,7 +104,7 @@ Error DownloadUI::AcceptEvent(Event *e)
             DownloadItemAddedEvent *dliae = (DownloadItemAddedEvent *)e;
             downloadList.push_back(dliae->Item());
 
-            if (isVisible) {
+            if (isVisible && m_initialized) {
                 gdk_threads_enter();
                 AddItem(dliae->Item());
                 UpdateOverallProgress();
@@ -112,8 +115,8 @@ Error DownloadUI::AcceptEvent(Event *e)
                 if (m_initialized)
                     gtk_widget_show(m_downloadUI); 
                 else {
-                    CreateDownloadUI();
                     m_initialized = true;
+                    CreateDownloadUI();
                 }
                 isVisible = true;
                 UpdateDownloadList();
@@ -171,7 +174,7 @@ Error DownloadUI::AcceptEvent(Event *e)
 
 void DownloadUI::UpdateOverallProgress(void)
 {
-/*
+
     uint32 itemCount = downloadList.size();
     uint32 totalBytes = 0, doneBytes = 0;
     uint32 totalItems = 0, doneItems = 0;
@@ -196,7 +199,15 @@ void DownloadUI::UpdateOverallProgress(void)
              }
         }
     }
-*/
+    if (doneItems == totalItems && totalItems != 0) {
+        bool set = gtk_toggle_button_get_active(
+                                          GTK_TOGGLE_BUTTON(m_closeComplete));
+        if (set) {
+            m_prefs->SetCloseDLMOnComplete(set);
+            gtk_widget_hide(m_downloadUI);
+            isVisible = false;
+        }
+    }
 }
 
 void DownloadUI::CancelEvent(void)

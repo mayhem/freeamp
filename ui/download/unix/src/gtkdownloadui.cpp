@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.12 2000/05/24 17:08:34 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.13 2000/06/06 12:45:06 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -62,6 +62,8 @@ void toggle_vis_internal(GtkWidget *widget, DownloadUI *p)
 
 void DownloadUI::CloseWindow(void)
 {
+    bool close = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(m_closeComplete));
+    m_prefs->SetCloseDLMOnComplete(close);
     gtk_widget_destroy(m_downloadUI);
 }
 
@@ -497,6 +499,18 @@ void DownloadUI::CreateDownloadUI(void)
     CreateDownloadList(listwindow);
 
     GtkWidget *sep = gtk_hseparator_new();
+    gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, TRUE, 2);
+    gtk_widget_show(sep);
+
+    m_closeComplete = gtk_check_button_new_with_label("Close the Download Manager  when all downloads finish");
+    gtk_box_pack_start(GTK_BOX(vbox), m_closeComplete, FALSE, FALSE, 1);
+    bool set = false;
+    m_prefs->GetCloseDLMOnComplete(&set);
+    if (set)
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(m_closeComplete), TRUE);
+    gtk_widget_show(m_closeComplete);
+
+    sep = gtk_hseparator_new();
     gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, TRUE, 5);
     gtk_widget_show(sep);
 

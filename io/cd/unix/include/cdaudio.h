@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-        $Id: cdaudio.h,v 1.1 1999/12/29 01:11:54 ijr Exp $
+        $Id: cdaudio.h,v 1.1.2.1 2000/01/02 00:59:35 ijr Exp $
  ____________________________________________________________________________*/
 
 
@@ -114,7 +114,7 @@ void cd_frames_to_msf(struct disc_timeval *time, int frames);
 void cd_lba_to_msf(struct disc_timeval *time, int frames);
 int cd_init_device(char *device_name);
 int cd_finish(int cd_desc);
-int cd_stat(int cd_desc, struct disc_info *disc);
+int cd_stat(int cd_desc, struct disc_info *disc, bool read_toc = true);
 int cd_poll(int cd_desc, struct disc_status *status);
 int cd_update(struct disc_info *disc, struct disc_status status);
 int cd_play_frames(int cd_desc, int startframe, int endframe);
@@ -132,5 +132,8 @@ int cd_eject(int cd_desc);
 int cd_close(int cd_desc);
 int cd_set_volume(int cd_desc, struct disc_volume vol);
 int cd_get_volume(int cd_desc, struct disc_volume *vol);
-
+long unsigned cddb_direct_discid(struct disc_info disc);
+long cddb_discid(int cd_desc);
+int cdindex_direct_discid(struct disc_info disc, char *discid, int len);
+int cdindex_discid(int cd_desc, char *discid, int len);
 #endif

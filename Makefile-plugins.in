@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.34 1999/12/29 01:11:54 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.34.2.1 2000/01/02 00:59:34 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -117,8 +117,9 @@ plugins/esound.pmo: $(ESNDOBJ)
 #	$(LINKMOD) -o $@ $(ESNDOBJ) $(STATICLD) /usr/lib/libesd.a /usr/lib/libaudiofile.a
 
 # cd
-CDPMOOBJ  = io/cd/unix/src/cdpmo.o io/cd/unix/src/cdaudio.o io/src/pipeline.o 
-CDPMOOBJ += io/src/pmo.o
+CDPMOOBJ  = io/cd/unix/src/cdpmo.o io/cd/unix/src/cdaudio.o 
+CDPMOOBJ += io/cd/unix/src/discids.o
+CDPMOOBJ += io/src/pipeline.o io/src/pmo.o
 
 plugins/cd.pmo: $(CDPMOOBJ)
 	$(LINKMOD) -o $@ $(CDPMOOBJ) $(STATICLD)
@@ -213,8 +214,8 @@ plugins/irman.ui: $(IRMANUIOBJ)
 
 # dummy lmc for cd audio
 
-CDLMCOBJ = lmc/cd/src/cdlmc.o
-
+CDLMCOBJ = lmc/cd/src/cdlmc.o io/src/pipeline.o
+ 
 plugins/cd.lmc: $(CDLMCOBJ)
 	$(LINKMOD) -o $@ $(CDLMCOBJ) $(STATICLD)
 

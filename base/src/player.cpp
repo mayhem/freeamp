@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.167 1999/12/29 13:07:18 ijr Exp $
+        $Id: player.cpp,v 1.167.2.1 2000/01/02 00:59:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1854,6 +1854,7 @@ ServiceEvent(Event * pC)
         case CMD_AddFiles:
         case CMD_LoadTheme:
         case CMD_ShowPreferences:
+        case INFO_CDDiscStatus:
             SendEventToUI(pC);
             break;
 

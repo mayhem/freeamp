@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.21 1999/12/29 01:11:54 ijr Exp $
+	$Id: config.h.in,v 1.21.2.1 2000/01/02 00:59:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -50,6 +50,7 @@ ____________________________________________________________________________*/
 #undef STDC_HEADERS
 #undef IRIX_CDAUDIO
 #undef HAVE_GETMNTINFO
+#undef HAVE_SNPRINTF
 #undef HAVE_LINUX_CDROM_H
 #undef HAVE_IO_CAM_CDROM_H
 #undef HAVE_LINUX_UCDROM_H
@@ -58,6 +59,9 @@ ____________________________________________________________________________*/
 #undef HAVE_SYS_MOUNT_H
 #undef HAVE_SYS_MNTENT_H
 #undef HAVE_SYS_UCRED_H
+#undef HAVE_STDARG_H
+#undef WORDS_BIGENDIAN
+#undef SIZEOF_LONG
 
 /* gdbm stuff */
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.48 1999/12/29 13:07:18 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.48.2.1 2000/01/02 00:59:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1041,9 +1041,68 @@ void GTKMusicBrowser::CreateMainTreeItems(void)
                        "This tree item contains all of your playlists");
     gtk_ctree_node_set_row_data(musicBrowserTree, playlistTree, data);
 
+    pixmap = gdk_pixmap_create_from_xpm_d(musicBrowserWindow->window, &mask,
+                                          &style->bg[GTK_STATE_NORMAL],
+                                          uncatagorized_pix);
+    name[0] = "CD Audio";
+    CDTree = gtk_ctree_insert_node(musicBrowserTree, NULL, NULL, name, 5, 
+                                   pixmap, mask, pixmap, mask, false, false);
+    data = NewTreeData(kTreeCDHead, NULL, NULL, NULL, NULL, NULL, 
+                       "This tree item contains information on the CD that is currently in your CD-ROM");
+    gtk_ctree_node_set_row_data(musicBrowserTree, CDTree, data);
+
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
 }
-    
+
+void GTKMusicBrowser::RegenerateCDTree(void)
+{
+    GtkCTreeRow *row = GTK_CTREE_ROW(CDTree);
+
+    gtk_clist_freeze(GTK_CLIST(musicBrowserTree));
+
+    if (row->children) {
+        GtkCTreeNode *child = row->children;
+        while (row->children) {
+            GtkCTreeNode *todelete = row->children;
+            gtk_ctree_remove_node(musicBrowserTree, todelete);
+        }
+    }
+
+    while (CDTracks->size() > 0) {
+        CDTracks->erase(CDTracks->begin());
+    }
+
+    char url[40];
+    GdkPixmap *pixmap;
+    GdkBitmap *mask;
+    GtkStyle  *style = gtk_widget_get_style(musicBrowserWindow);
+    char *name[1];
+    GtkCTreeNode *cdItem;
+    TreeData *data;
+    MetaData *empty = new MetaData;
+    PlaylistItem *newitem;
+
+    for (uint32 tracknum = 1; tracknum <= CD_numtracks; tracknum++) {
+        sprintf(url, "/%d.cda", tracknum);
+        newitem = new PlaylistItem(url, empty);
+
+        name[0] = (char *)newitem->URL().c_str();
+        pixmap = gdk_pixmap_create_from_xpm_d(musicBrowserWindow->window, &mask,
+                                          &style->bg[GTK_STATE_NORMAL],
+                                          track_pix);
+        cdItem = gtk_ctree_insert_node(musicBrowserTree, CDTree, NULL, name,
+                                       5, pixmap, mask, pixmap, mask, true,
+                                       false);
+        data = NewTreeData(kTreeTrack, NULL, NULL, NULL, newitem);
+        gtk_ctree_node_set_row_data(musicBrowserTree, cdItem, data);
+
+        CDTracks->push_back(newitem);
+    }
+    m_plm->RetrieveMetaData(CDTracks);
+
+    gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
+}
+
 void GTKMusicBrowser::UpdateCatalog(void)
 
 {
@@ -1192,7 +1251,10 @@ void GTKMusicBrowser::UpdateCatalog(void)
         gtk_ctree_node_set_row_data(musicBrowserTree, allItem, data);
 
         delete [] fullname;
-    } 
+    }
+
+    RegenerateCDTree();
+ 
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
 
     m_musicCatalog->ReleaseCatalogLock();
@@ -2430,6 +2492,9 @@ GTKMusicBrowser::GTKMusicBrowser(FAContext *context, MusicBrowserUI *masterUI,
     m_playingindex = kInvalidIndex;
     iSetRepeatMode = false;
     iSetShuffleMode = false;
+    CD_DiscID = 0;
+    CD_numtracks = 0;
+    CDTracks = new vector<PlaylistItem *>;
 
     parentUI = masterUI;
  
@@ -2493,6 +2558,9 @@ void GTKMusicBrowser::ShowMusicBrowser(void)
     }
 
     SetToolbarType();
+    if (scheduleCDredraw)
+        RegenerateCDTree();
+
     gdk_threads_leave();
 }
 
@@ -2681,6 +2749,26 @@ int32 GTKMusicBrowser::AcceptEvent(Event *e)
             break; }
         case INFO_PlaylistCurrentItemInfo: {
             m_playingindex = m_plm->GetCurrentIndex();
+            break; }
+        case INFO_CDDiscStatus: {
+            CDInfoEvent *cie = (CDInfoEvent *)e;
+
+            if (cie->GetCDDB() != CD_DiscID) {
+                CD_DiscID = cie->GetCDDB();
+                CD_numtracks = cie->GetNumTracks();
+                if (isVisible) {
+                    gdk_threads_enter();
+                    RegenerateCDTree();
+                    gdk_threads_leave();
+                }
+                else if (!m_initialized)
+                    scheduleCDredraw = true;
+            }
+            break; }
+        case INFO_PlaylistItemUpdated: {
+//            PlaylistItemUpdatedEvent *piu = (PlaylistItemUpdatedEvent *)e;
+           
+//cout << "updated " << piu->Item()->URL() << endl; 
             break; } 
         default:
             break;

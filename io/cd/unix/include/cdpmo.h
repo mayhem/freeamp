@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.h,v 1.1 1999/12/29 01:11:54 ijr Exp $
+        $Id: cdpmo.h,v 1.1.2.1 2000/01/02 00:59:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDPMO_H_
@@ -61,6 +61,10 @@ class CDPMO:public PhysicalMediaOutput
    virtual Error ChangePosition(int32);
    virtual Error SetTo(const char *url); 
 
+   uint32  GetNumTracks();
+   uint32  GetCDDBDiscID();
+   char   *GetcdindexDiscID();
+
  private:
    void          WorkerThread(void); 
    virtual Error Reset(bool user_stop);
@@ -73,6 +77,8 @@ class CDPMO:public PhysicalMediaOutput
    int           m_track;
    bool          sentData;
    bool          trackDone;
+   Mutex        *m_lock;
+   bool          stop;
 };
 
 #endif /* _SOUNDCARDPMO_H_ */

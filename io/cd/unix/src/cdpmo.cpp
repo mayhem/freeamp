@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.1 1999/12/29 01:11:54 ijr Exp $
+        $Id: cdpmo.cpp,v 1.1.2.1 2000/01/02 00:59:35 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -59,6 +59,8 @@ CDPMO::CDPMO(FAContext *context) :
    sentData = false;
    trackDone = false;
 
+   m_lock = new Mutex();
+   
    if (!m_pBufferThread)
    {
       m_pBufferThread = Thread::CreateThread();
@@ -77,7 +79,10 @@ CDPMO::~CDPMO()
       delete m_pBufferThread;
    }
 
-   Reset(true);
+   delete m_lock;
+
+   if (m_properlyInitialized)
+       Reset(true);
    cd_finish(m_cdDesc);
 }
 
@@ -112,7 +117,9 @@ int32 CDPMO::GetVolume()
 
 Error CDPMO::SetTo(const char *url)
 {
+   m_lock->Acquire();
    if (IsError(Init(NULL))) {
+       m_lock->Release();
        return kError_CDInitFailed;
    }
 
@@ -135,12 +142,120 @@ Error CDPMO::SetTo(const char *url)
 
 Error CDPMO::Init(OutputInfo * info)
 {
-   m_cdDesc = cd_init_device("/dev/cdrom");
+   char device[256];
+   uint32 len = 256;
+   if (IsError(m_pContext->prefs->GetCDDevicePath(device, &len)))
+       return (Error)pmoError_DeviceOpenFailed;
+
+   m_cdDesc = cd_init_device(device);
 
    if (m_cdDesc < 0)
        return (Error)pmoError_DeviceOpenFailed;
 
+   struct disc_info disc;
+   if (cd_stat(m_cdDesc, &disc, false) < 0)
+       return kError_NoDiscInDrive;
+   
+   if (!disc.disc_present)
+       return kError_NoDiscInDrive;
+
+   cd_stat(m_cdDesc, &disc);
+
+   uint32 tracks = disc.disc_total_tracks;
+   uint32 cddb = cddb_direct_discid(disc);
+   char *cdindex = new char[256];
+   cdindex_direct_discid(disc, cdindex, 256);
+
+   CDInfoEvent *cie = new CDInfoEvent(tracks, cddb, cdindex);
+
+   m_pTarget->AcceptEvent(cie);
+
+   delete cdindex;
+
    return kError_NoErr;
+}
+
+uint32 CDPMO::GetCDDBDiscID(void)
+{
+   bool closeWhenDone = false;
+   uint32 retvalue = 0;
+   if (m_cdDesc < 0) {
+       m_lock->Acquire();
+       if (IsError(Init(NULL))) {
+           m_lock->Release();
+           return 0;
+       }
+
+       closeWhenDone = true;
+   }
+
+   retvalue = cddb_discid(m_cdDesc);
+
+   if (closeWhenDone) {
+       cd_finish(m_cdDesc);
+       m_lock->Release();
+   }
+
+   return retvalue;
+}
+
+char *CDPMO::GetcdindexDiscID(void)
+{
+   bool closeWhenDone = false;
+   char *retvalue = NULL;
+   if (m_cdDesc < 0) {
+       m_lock->Acquire();
+       if (IsError(Init(NULL))) {
+           m_lock->Release();
+           return NULL;
+       }
+
+       closeWhenDone = true;
+   }
+
+   retvalue = new char[256];
+
+   if (cdindex_discid(m_cdDesc, retvalue, 256) == -1) {
+       delete retvalue;
+       retvalue = NULL;
+   }
+
+   if (closeWhenDone) {
+       cd_finish(m_cdDesc);
+       m_lock->Release();
+   }
+
+   return retvalue;
+}
+
+uint32 CDPMO::GetNumTracks(void)
+{
+   bool closeWhenDone = false;
+   uint32 retvalue = 0;
+   if (m_cdDesc < 0) {
+       m_lock->Acquire();
+       if (IsError(Init(NULL))) {
+           m_lock->Release();
+           return 0;
+       }
+ 
+       closeWhenDone = true;
+   }
+
+   struct disc_info disc;
+
+   if (cd_stat(m_cdDesc, &disc) >= 0) {
+       if (disc.disc_present) {
+           retvalue = disc.disc_total_tracks;
+       }
+   }
+       
+   if (closeWhenDone) {
+       cd_finish(m_cdDesc);
+       m_lock->Release();
+   }
+
+   return retvalue;
 }
 
 Error CDPMO::Reset(bool user_stop)
@@ -193,6 +308,16 @@ void CDPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
 
    struct disc_info disc;
    struct disc_timeval val;
+
+   if (cd_stat(m_cdDesc, &disc, false) < 0) {
+       trackDone = true;
+       return;
+   }
+ 
+   if (!disc.disc_present) {
+       trackDone = true;
+       return;
+   }
 
    cd_stat(m_cdDesc, &disc);
 

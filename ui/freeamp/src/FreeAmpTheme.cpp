@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.61 1999/12/28 02:53:28 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.61.2.1 2000/01/02 00:59:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -475,7 +475,9 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          char           text[100];
 
          m_fSecondsPerFrame = info->GetSecondsPerFrame();
-         if (info->GetBitRate() == 0)
+         if (info->GetBitRate() == 1411200)
+              sprintf(text, "CD Audio");
+         else if (info->GetBitRate() == 0)
               sprintf(text, "VBR %ldkhz %s", 
                    info->GetSampleRate() / 1000, 
                    info->GetChannels() ? "Stereo" : "Mono");

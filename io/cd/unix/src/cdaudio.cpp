@@ -20,7 +20,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-        $Id: cdaudio.cpp,v 1.1 1999/12/29 01:11:54 ijr Exp $
+        $Id: cdaudio.cpp,v 1.1.2.1 2000/01/02 00:59:35 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -87,7 +87,6 @@ ____________________________________________________________________________*/
 Because of Irix's different interface, most of this program is
 completely ignored when compiling under Irix.
 */
-#include <iostream.h>
 
 /* Return the version of libcdaudio */
 long cdaudio_getversion(void)
@@ -97,12 +96,7 @@ long cdaudio_getversion(void)
 
 /* Initialize the CD-ROM for playing audio CDs */
 int
-#if __STDC__
 cd_init_device(char *device_name)
-#else
-cd_init_device(device_name)
-   char *device_name
-#endif
 {
    int cd_desc;
 
@@ -166,12 +160,7 @@ cd_init_device(device_name)
 
 /* Close a device handle and free its resources. */
 int
-#if __STDC__
 cd_finish(int cd_desc)
-#else
-cd_finish(cd_desc)
-   int cd_desc;
-#endif
 {
    close(cd_desc);
    return 0;
@@ -180,13 +169,7 @@ cd_finish(cd_desc)
 /* Update a CD status structure... because operating system interfaces vary
    so does this function. */
 int
-#if __STDC__
-cd_stat(int cd_desc, struct disc_info *disc)
-#else
-cd_stat(cd_desc, disc)
-   int cd_desc;
-   struct disc_info *disc;
-#endif
+cd_stat(int cd_desc, struct disc_info *disc, bool read_toc)
 {
    /* Since every platform does this a little bit differently this gets pretty
       complicated... */
@@ -208,6 +191,11 @@ cd_stat(cd_desc, disc)
       return 0;
    }
    
+   if(!read_toc) {
+      cd_update(disc, status);
+      return 0;
+   }
+
    /* Read the Table Of Contents header */
    if(ioctl(cd_desc, CDAUDIO_READTOCHEADER, &cdth) < 0)
      return -1;
@@ -267,13 +255,7 @@ cd_stat(cd_desc, disc)
 }
 
 int
-#if __STDC__
 cd_poll(int cd_desc, struct disc_status *status)
-#else
-cd_poll(cd_desc, status)
-   int cd_desc;
-   struct disc_status *status
-#endif
 {
    struct CDAUDIO_SUBCHANNEL cdsc;
 #ifdef CDAUDIO_SUBCHANNEL_DATA
@@ -335,14 +317,7 @@ cd_poll(cd_desc, status)
 
 /* Play frames from CD */
 int
-#if __STDC__
 cd_play_frames(int cd_desc, int startframe, int endframe)
-#else
-cd_play_frames(cd_desc, startframe, endframe)
-   int cd_desc;
-   int startframe;
-   int endframe;
-#endif
 {
    struct CDAUDIO_MSF cdmsf;
 
@@ -366,15 +341,7 @@ cd_play_frames(cd_desc, startframe, endframe)
 
 /* Play starttrack at position pos to endtrack */
 int
-#if __STDC__
 cd_play_track_pos(int cd_desc, int starttrack, int endtrack, int startpos)
-#else
-cd_play_track_pos(cd_desc, starttrack, endtrack, startpos)
-   int cd_desc;
-   int starttrack;
-   int endtrack;
-   int startpos;
-#endif
 {
    struct disc_timeval time;
    
@@ -387,28 +354,14 @@ cd_play_track_pos(cd_desc, starttrack, endtrack, startpos)
 
 /* Play starttrack to endtrack */
 int
-#if __STDC__
 cd_play_track(int cd_desc, int starttrack, int endtrack)
-#else
-cd_play_track(cd_desc, starttrack, endtrack)
-   int cd_desc;
-   int starttrack;
-   int endtrack;
-#endif
 {
    return cd_playctl(cd_desc, PLAY_END_TRACK, starttrack, endtrack);
 }
 
 /* Play starttrack at position pos to end of CD */
 int
-#if __STDC__
 cd_play_pos(int cd_desc, int track, int startpos)
-#else
-cd_play_pos(cd_desc, track, startpos)
-   int cd_desc;
-   int track;
-   int startpos;
-#endif
 {
    struct disc_timeval time;
    
@@ -421,25 +374,14 @@ cd_play_pos(cd_desc, track, startpos)
 
 /* Play starttrack to end of CD */
 int
-#if __STDC__
 cd_play(int cd_desc, int track)
-#else
-cd_play(cd_desc, track)
-   int cd_desc;
-   int track;
-#endif
 {
    return cd_playctl(cd_desc, PLAY_START_TRACK, track);
 }
 
 /* Stop the CD, if it is playing */
 int
-#if __STDC__
 cd_stop(int cd_desc)
-#else
-cd_stop(cd_desc)
-   int cd_desc;
-#endif
 {
    if(ioctl(cd_desc, CDAUDIO_STOP) < 0)
      return -1;
@@ -449,12 +391,7 @@ cd_stop(cd_desc)
 
 /* Pause the CD */
 int
-#if __STDC__
 cd_pause(int cd_desc)
-#else
-cd_pause(cd_desc)
-   int cd_desc;
-#endif
 {
    if(ioctl(cd_desc, CDAUDIO_PAUSE) < 0)
      return -1;
@@ -464,12 +401,7 @@ cd_pause(cd_desc)
 
 /* Resume playing */
 int
-#if __STDC__
 cd_resume(int cd_desc)
-#else
-cd_resume(cd_desc)
-   int cd_desc;
-#endif
 {
    if(ioctl(cd_desc, CDAUDIO_RESUME) < 0)
      return -1;
@@ -479,12 +411,7 @@ cd_resume(cd_desc)
 
 /* Eject the tray */
 int
-#if __STDC__
 cd_eject(int cd_desc)
-#else
-cd_eject(cd_desc)
-   int cd_desc;
-#endif
 {  
    if(ioctl(cd_desc, CDAUDIO_EJECT) < 0)
      return -1;
@@ -494,12 +421,7 @@ cd_eject(cd_desc)
 
 /* Close the tray */
 int
-#if __STDC__
 cd_close(int cd_desc)
-#else
-cd_close(cd_desc)
-   int cd_desc;
-#endif
 {
    if(ioctl(cd_desc, CDAUDIO_CLOSE) < 0)
      return -1;
@@ -509,13 +431,7 @@ cd_close(cd_desc)
 
 /* Return the current volume setting */
 int
-#if __STDC__
 cd_get_volume(int cd_desc, struct disc_volume *vol)
-#else
-cd_get_volume(cd_desc, vol)
-   int cd_desc;
-   struct disc_volume *vol;
-#endif
 {
    struct CDAUDIO_VOLSTAT cdvol;
 #ifdef CDAUDIO_VOLSTAT_DATA
@@ -544,13 +460,7 @@ cd_get_volume(cd_desc, vol)
 
 /* Set the volume */
 int
-#if __STDC__
 cd_set_volume(int cd_desc, struct disc_volume vol)
-#else
-cd_set_volume(cd_desc, vol)
-   int cd_desc;
-   struct disc_volume vol;
-#endif
 {
    struct CDAUDIO_VOLCTRL cdvol;
 #ifdef CDAUDIO_VOLCTRL_DATA
@@ -639,15 +549,7 @@ cd_lba_to_msf(struct disc_timeval *time, int lba)
 
 /* Internal advance function */
 int
-#if __STDC__
 __internal_cd_track_advance(int cd_desc, struct disc_info disc, int endtrack, struct disc_timeval time)
-#else
-__internal_cd_track_advance(int cd_desc, struct disc_info disc, endtrack, time)
-   int cd_desc;
-   struct disc_info disc;
-   int endtrack;
-   struct disc_timeval time;
-#endif
 { 
    disc.disc_track_time.minutes += time.minutes;
    disc.disc_track_time.seconds += time.seconds;
@@ -693,14 +595,7 @@ __internal_cd_track_advance(int cd_desc, struct disc_info disc, endtrack, time)
 
 /* Advance the position within a track */
 int
-#if __STDC__
 cd_track_advance(int cd_desc, int endtrack, struct disc_timeval time)
-#else
-cd_track_advance(cd_desc, endtrack, time)
-   int cd_desc;
-   int endtrack;
-   struct disc_timeval time;
-#endif
 {
    struct disc_info disc;
    
@@ -718,13 +613,7 @@ cd_track_advance(cd_desc, endtrack, time)
 
 /* Advance the position within the track without preserving an endtrack */
 int
-#if __STDC__
 cd_advance(int cd_desc, struct disc_timeval time)
-#else
-cd_advance(cd_desc, time)
-    int cd_desc;
-    struct disc_timeval time;
-#endif
 {
    struct disc_info disc;
 
@@ -739,13 +628,7 @@ cd_advance(cd_desc, time)
 
 /* Update information in a disc_info structure using a disc_status structure */
 int
-#if __STDC__
 cd_update(struct disc_info *disc, struct disc_status status)
-#else
-cd_update(disc, status)
-   struct disc_info *disc;
-   struct disc_status status;
-#endif
 {
    if(!(disc->disc_present = status.status_present))
      return -1;
@@ -764,13 +647,7 @@ cd_update(disc, status)
 
 /* Universal play control function */
 int
-#if __STDC__
 cd_playctl(int cd_desc, int options, int start_track, ...)
-#else
-cd_playctl(cd_desc, options, ...)
-   int cd_desc;
-   int options;
-#endif
 {
    int end_track;
    struct disc_info disc;

@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.70 1999/12/29 01:19:11 ijr Exp $
+dnl $Id: configure.in,v 1.70.2.1 2000/01/02 00:59:34 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-1999 EMusic.com
 dnl
@@ -37,11 +37,19 @@ AC_CHECK_PROGS(NASM, nasm)
 
 dnl libcdaudio stuff
 AC_HEADER_STDC
-AC_CHECK_HEADERS(linux/cdrom.h linux/ucdrom.h sys/cdio.h io/cam/cdrom.h mntent.h sys/mntent.h sys/ucred.h sys/mount.h)
-AC_CHECK_FUNCS(getmntinfo)
+AC_CHECK_HEADERS(stdarg.h linux/cdrom.h linux/ucdrom.h sys/cdio.h io/cam/cdrom.h mntent.h sys/mntent.h sys/ucred.h sys/mount.h)
+AC_CHECK_FUNCS(getmntinfo snprintf)
 AC_FUNC_GETMNTENT
 
 AC_C_CONST
+case "$cross_compiling" in
+  yes)
+    ;;
+  no)
+    AC_C_BIGENDIAN
+    AC_CHECK_SIZEOF(long)
+    ;;
+esac
 
 dnl Checks for libraries.
 

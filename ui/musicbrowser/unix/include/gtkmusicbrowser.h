@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.21 1999/12/16 04:28:13 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.21.2.1 2000/01/02 00:59:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -62,7 +62,8 @@ typedef enum {
    kTreeAlbum,
    kTreeTrack,
    kTreePlaylistHead,
-   kTreePlaylist
+   kTreePlaylist,
+   kTreeCDHead
 } TreeNodeType;
 
 typedef struct {
@@ -103,11 +104,18 @@ class GTKMusicBrowser {
     int pauseState;
     int stopState;
 
+    vector<PlaylistItem *> *CDTracks;
+
  protected:
     FAContext *m_context;
 
  private:
     MusicBrowserUI *parentUI;
+
+    uint32 CD_DiscID;
+    uint32 CD_numtracks;
+    bool   scheduleCDredraw;
+    void   RegenerateCDTree(void);
 
     bool isVisible;
     void UpdatePlaylistList(void);
@@ -159,6 +167,10 @@ class GTKMusicBrowser {
     GtkCTreeNode *allTree;
     GtkCTreeNode *uncatTree;
     GtkCTreeNode *playlistTree;
+    GtkCTreeNode *CDTree;
+    GtkCTreeNode *icecastTree;
+    GtkCTreeNode *wiredPlanetTree;
+    GtkCTreeNode *shoutcastTree;
 
     GtkWidget *NewPixmap(char **data);
 

@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigmain.cpp,v 1.2 2000/09/29 12:44:05 robert Exp $
+        $Id: sigmain.cpp,v 1.3 2000/09/29 14:13:41 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -37,7 +37,6 @@ ____________________________________________________________________________*/
 #include "metadata.h"
 
 #include "plm/metadata/id3v2/id3v2.h"
-#include "id3.h"
 #include "musicbrainz/mb_c.h"
 
 extern "C"
@@ -190,7 +189,7 @@ int main(int argc, char *argv[])
        {
            m.SetGUID(sig);
            printf("Signature: %s\n", sig);
-           //submit_metadata(&m);
+           submit_metadata(&m);
        }
        else
        {

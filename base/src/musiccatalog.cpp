@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.17 1999/11/13 22:57:58 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.18 1999/11/16 00:02:57 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -280,6 +280,7 @@ Error MusicCatalog::AddSong(const char *url)
 
     if ((meta->Artist().size() == 0) || (meta->Artist() == " ")) {
         m_unsorted->push_back(newtrack);
+        m_context->target->AcceptEvent(new MusicCatalogTrackAddedEvent(newtrack, NULL, NULL));
     }
     else {
         bool found_artist = false;
@@ -303,6 +304,8 @@ Error MusicCatalog::AddSong(const char *url)
                             }
                         }
                         (*j)->m_trackList->push_back(newtrack);
+                        m_context->target->AcceptEvent(new MusicCatalogTrackAddedEvent(newtrack, *i, *j));
+                        break;
                      }
                 }
                 if (!found_album) {
@@ -310,6 +313,8 @@ Error MusicCatalog::AddSong(const char *url)
                     newalbum->name = meta->Album();
                     newalbum->m_trackList->push_back(newtrack);
                     alList->push_back(newalbum);
+                    m_context->target->AcceptEvent(new MusicCatalogTrackAddedEvent(newtrack, (*i), newalbum));
+                    break;
                 }
             }
         }
@@ -321,9 +326,10 @@ Error MusicCatalog::AddSong(const char *url)
             newalbum->m_trackList->push_back(newtrack);
             newartist->m_albumList->push_back(newalbum);
             m_artistList->push_back(newartist);
+            m_context->target->AcceptEvent(new MusicCatalogTrackAddedEvent(newtrack, newartist, newalbum));
+
         }
     }
-    m_context->target->AcceptEvent(new MusicCatalogTrackAddedEvent(newtrack));
     return kError_NoErr;
 }
 

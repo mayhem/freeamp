@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.80 2000/02/18 20:56:43 ijr Exp $
+dnl $Id: configure.in,v 1.81 2000/02/18 20:57:56 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-2000 EMusic.com
 dnl
@@ -439,7 +439,7 @@ fi
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
 
-AC_ARG_ENABLE(rio, [  --enable-rio            Don't compile the rio pmp300 support plugin], enable_rio=yes, enable_rio=no)
+AC_ARG_ENABLE(rio, [  --enable-rio            Compile the rio pmp300 support plugin], enable_rio=yes, enable_rio=no)
 
 if test "x$enable_rio" = "xyes"; then
    OSDEPPLUGINS="$OSDEPPLUGINS plugins/pmp300.ppp"

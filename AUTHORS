@@ -19,7 +19,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.48 2000/10/05 11:47:33 ijr Exp $
+        $Id: AUTHORS,v 1.49 2000/10/10 17:25:31 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -67,7 +67,7 @@ Other major contributors and their contributions:
 * Changed FreeAmp theme format to more flexible and standard tar.gz 
 * Numerous feature requests on FreeAmp themes <grin>
 
-"Jean-Michel HERVE" <tuo_stg@hotmail.com>
+"Jean-Michel Herve" <tuo@skytech.org>
 * x86 assembly optimized MP3 decoder
 
 "Tom Spindler" <dogcow@globalcenter.net>

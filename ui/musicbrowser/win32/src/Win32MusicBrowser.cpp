@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.61 2000/05/30 12:28:20 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.61.4.1 2000/06/05 13:42:56 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -441,6 +441,35 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 (*i)->AddToolbarButtons(useTextLabels, useImages);
                 (*i)->UpdateButtonStates();
             }
+
+			//
+			//  Remove all the columns in the playlist.
+			RemoveAllColumns( );
+			// First column is always inserted.
+			InsertColumn( "#", 0 );
+
+			//
+			//  Insert the columns that are specified by the user.
+			unsigned int size = 100;
+			char *buffer = (char *)malloc( size );
+			if(kError_BufferTooSmall == m_context->prefs->GetPlaylistHeaderColumns( buffer, &size ) )
+			{
+				int bufferSize = size;
+				buffer = (char*)realloc(buffer, bufferSize);
+				m_context->prefs->GetPlaylistHeaderColumns(buffer, &size);
+			} 
+
+			int columnN = 1;
+			char *token = strtok( buffer, "|" );
+			while( token != NULL )
+			{
+				InsertColumn( token , columnN );
+				token = strtok( NULL, "|" );
+				columnN += 1;
+			}
+
+			free( buffer );
+
 
             AddToolbarButtons(useTextLabels, useImages);
             UpdateButtonStates();

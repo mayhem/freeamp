@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.11 1998/10/19 11:01:05 elrod Exp $
+	$Id: player.h,v 1.12 1998/10/19 21:59:22 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -91,7 +91,6 @@ class Player {
                                              // their "Ready To Die" infos.
     int32                   m_imQuitting;
     Vector<UIRef>*          m_uiVector;
-    Vector<UIRef>*          m_uiDeathVector;
     
     Mutex*                  m_uiManipLock;
     Mutex*                  m_lmcMutex;

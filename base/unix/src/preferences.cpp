@@ -18,8 +18,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.2 1998/10/19 21:13:08 jdw Exp $
+	$Id: preferences.cpp,v 1.3 1998/10/19 21:59:22 jdw Exp $
 ____________________________________________________________________________*/
+
+#include <unistd.h>
 
 #include "preferences.h"
 

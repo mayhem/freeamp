@@ -18,27 +18,37 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: CommandLineCOO.h,v 1.1 1998/10/15 16:00:58 elrod Exp $
+	$Id: Mpg123UI.h,v 1.1 1998/10/19 21:59:23 jdw Exp $
 ____________________________________________________________________________*/
 
-// CommandLineCOO.h
+// Mpg123UI.h
 
 
-#ifndef _COMMANDLINECOO_H_
-#define _COMMANDLINECOO_H_
+#ifndef _Mpg123UI_H_
+#define _Mpg123UI_H_
 
 #include "ctrlobj.h"
 #include "event.h"
 
-class CommandLineCOO : public COO {
+class Mpg123UI : public UserInterface {
  public:
-    CommandLineCOO();
-    virtual int32 acceptCOOEvent(Event *);
-    virtual void setArgs(int, char **);
-    ~CommandLineCOO();
- private:
+    Mpg123UI();
 
+    virtual int32 AcceptEvent(Event *);
+    virtual void SetArgs(int argc, char **argv);
+    virtual void SetTarget(struct EventQueue *);
+    virtual void SetRef(struct UI *);
+    ~Mpg123UI();
+
+    static EventQueue *m_playerEQ;
+ private:
+    bool verboseMode;
+    int32 totalFrames;
+    float totalTime;
+    int32 skipFirst;
+    char fileName[512];
+    float lastSeconds;
 };
 
 
-#endif // _COMMANDLINECOO_H_
+#endif // _Mpg123UI_H_

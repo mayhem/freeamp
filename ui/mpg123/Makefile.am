@@ -18,9 +18,38 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.4 1998/10/19 21:59:22 jdw Exp $
+##      $Id: Makefile.am,v 1.1 1998/10/19 21:59:23 jdw Exp $
 ##
 ############################################################################
 
-SUBDIRS = cmdline dummy src mpg123
+include @top_srcdir@/config/Makefile.header
 
+if AM_HAVE_WIN32
+FILES = 
+MYLIBS = 
+TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
+else
+FILES = Mpg123UI.cpp
+MYLIBS = libfauicmdline.a
+TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
+endif
+
+if AM_HAVE_LINUXTHREADS
+REENT = -D_REENTRANT
+endif
+
+
+noinst_LIBRARIES = $(MYLIBS)
+libfauicmdline_a_SOURCES = $(FILES)
+
+INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/lmc/include -I@top_srcdir@/io/include
+CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT) -D__@target_os@__
+
+
+all-local: mpg123-local
+##	gcc -shared -Wl,-soname,xingmp3-@target_os@.lmc -o xingmp3-@target_os@.lmc Mpg123UI.o
+##	cp xingmp3-@target_os@.lmc @top_srcdir@/lmc
+
+mpg123-local: Mpg123UI.o
+	gcc -shared -Wl,-soname,mpg123-@target_os@.ui -o mpg123-@target_os@.ui Mpg123UI.o
+	cp mpg123-@target_os@.ui @top_srcdir@/ui

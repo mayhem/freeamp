@@ -18,37 +18,34 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.4 1998/10/19 21:13:08 jdw Exp $
+	$Id: cmdlineUI.h,v 1.1 1998/10/19 21:59:23 jdw Exp $
 ____________________________________________________________________________*/
+// CommandLineCIO.h
 
-// Mpg123UI.h
 
-
-#ifndef _Mpg123UI_H_
-#define _Mpg123UI_H_
+#ifndef _COMMANDLINECIO_H_
+#define _COMMANDLINECIO_H_
 
 #include "ctrlobj.h"
 #include "event.h"
+#include "thread.h"
+#include "playlist.h"
 
-class Mpg123UI : public UserInterface {
+class cmdlineUI : public UserInterface {
  public:
-    Mpg123UI();
-
+    cmdlineUI();
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int argc, char **argv);
-    virtual void SetTarget(struct EventQueue *);
-    virtual void SetRef(struct UI *);
-    ~Mpg123UI();
-
-    static EventQueue *m_playerEQ;
+    virtual void SetRef(UIRef uir) { return; }
+    virtual void SetTarget(EventQueueRef eqr) { m_playerEQ = eqr; }
+    static void keyboardServiceFunction(void *);
+    virtual ~cmdlineUI();
  private:
-    bool verboseMode;
-    int32 totalFrames;
-    float totalTime;
-    int32 skipFirst;
-    char fileName[512];
-    float lastSeconds;
+    EventQueueRef m_playerEQ;
+    void processSwitch(char *);
+    Thread *keyboardListenThread;
+    PlayList *mypl;
 };
 
 
-#endif // _Mpg123UI_H_
+#endif // _COMMANDLINECIO_H_

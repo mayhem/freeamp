@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.11 1998/10/19 21:13:08 jdw Exp $
+	$Id: Mpg123UI.cpp,v 1.1 1998/10/19 21:59:23 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>

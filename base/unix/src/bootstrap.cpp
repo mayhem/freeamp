@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.2 1998/10/19 21:13:08 jdw Exp $
+	$Id: bootstrap.cpp,v 1.3 1998/10/19 21:59:22 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -38,7 +38,7 @@ void testVector();
 void testHashTable();
 
 bool CompareName(const char *p1, const char *p2) {
-    cout << "Comparing " << p1 << " to " << p2 << endl;
+    //cout << "Comparing " << p1 << " to " << p2 << endl;
     int32 i=0; int32 j=0;
     if(!p1 ||!p2) return false;
     while ((p1[i] == p2[j]) && p1[i] && p2[j]) {

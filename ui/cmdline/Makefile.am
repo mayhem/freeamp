@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.5 1998/10/16 22:58:29 jdw Exp $
+##      $Id: Makefile.am,v 1.6 1998/10/19 21:59:23 jdw Exp $
 ##
 ############################################################################
 
@@ -29,7 +29,7 @@ FILES =
 MYLIBS = 
 TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 else
-FILES = Mpg123UI.cpp
+FILES = cmdlineUI.cpp
 MYLIBS = libfauicmdline.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 endif
@@ -46,10 +46,10 @@ INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/conf
 CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT) -D__@target_os@__
 
 
-all-local: mpg123-local
+all-local: cmdline-local
 ##	gcc -shared -Wl,-soname,xingmp3-@target_os@.lmc -o xingmp3-@target_os@.lmc Mpg123UI.o
 ##	cp xingmp3-@target_os@.lmc @top_srcdir@/lmc
 
-mpg123-local: Mpg123UI.o
-	gcc -shared -Wl,-soname,mpg123-@target_os@.ui -o mpg123-@target_os@.ui Mpg123UI.o
-	cp mpg123-@target_os@.ui @top_srcdir@/ui
+cmdline-local: cmdlineUI.o
+	gcc -shared -Wl,-soname,freeamp-@target_os@.ui -o freeamp-@target_os@.ui cmdlineUI.o
+	cp freeamp-@target_os@.ui @top_srcdir@/ui

@@ -18,15 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.h,v 1.1.2.2 1999/09/08 22:46:20 robert Exp $
+   $Id: SliderControl.h,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __SLIDERCONTROL_H__
 #define __SLIDERCONTROL_H__
 
 #include "Control.h"
-
-using namespace std;
 
 class SliderControl : public Control
 {

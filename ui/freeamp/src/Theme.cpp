@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.2 1999/09/08 22:46:34 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -31,7 +31,6 @@ ____________________________________________________________________________*/
 #include "TextControl.h"
 
 #ifdef WIN32
-#pragma warning(disable:4786)
 #include "Win32Window.h"
 #include "Win32Bitmap.h"
 #else

@@ -18,16 +18,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.1.2.2 1999/09/08 22:46:25 robert Exp $
+   $Id: ButtonControl.cpp,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "ButtonControl.h"
 #include "Window.h"
-
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
 
 // Bitmap info:
 // Frame 0: Normal

@@ -18,16 +18,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.1.2.2 1999/09/08 22:46:27 robert Exp $
+   $Id: Control.cpp,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
 #include "Control.h"
 #include "Window.h"
-
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
 
 Control::Control(Window *pWindow, string &oName, const TransitionInfo *pInfo)
 {

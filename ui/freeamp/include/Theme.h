@@ -18,21 +18,28 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.1.2.2 1999/09/08 22:46:22 robert Exp $
+   $Id: Theme.h,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __THEME_H__
 #define __THEME_H__
 
-#include "string"
-#include "vector"
-#include "map"
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
+
+#include <string>
+#include <vector>
+#include <map>
+
+using namespace std;
 
 #include "Parse.h"
 #include "Window.h"
 #include "Bitmap.h"
-
-using namespace std;
 
 typedef map<string, string, less<string> > AttrMap;
 

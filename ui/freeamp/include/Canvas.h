@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.h,v 1.1.2.2 1999/09/08 22:46:15 robert Exp $
+   $Id: Canvas.h,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __CANVAS_H__
@@ -26,8 +26,6 @@ ____________________________________________________________________________*/
 
 #include "Types.h"
 #include "Bitmap.h"
-
-using namespace std;
 
 // This class must keep an internal bitmap of the current display image
 // and then paint from that image in response to paint events.

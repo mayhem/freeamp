@@ -18,17 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.1 1999/09/08 22:46:46 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.2 1999/09/08 23:26:40 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
 #include "Theme.h"
 #include "Win32Window.h"
 #include "Win32Canvas.h"
-
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
 
 Win32Window::Win32Window(Theme *pTheme, string &oName)
             :Window(pTheme, oName)

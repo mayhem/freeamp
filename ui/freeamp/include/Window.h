@@ -18,16 +18,25 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.3 1999/09/08 22:46:23 robert Exp $
+   $Id: Window.h,v 1.1.2.4 1999/09/08 23:26:40 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __WINDOW__H_
 #define __WINDOW__H_
 
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
+
 #include <string>
 #include <vector>
 #include <map>
 #include <deque>
+
+using namespace std;
 
 #include "Bitmap.h"
 #include "Control.h"
@@ -35,8 +44,6 @@ ____________________________________________________________________________*/
 #include "thread.h"
 #include "semaphore.h"
 #include "mutex.h"
-
-using namespace std;
 
 typedef map<string, Control *> ControlMap;
 typedef map<string, Control *>::iterator ControlMapIterator;

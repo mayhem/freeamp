@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.13 2000/01/16 20:07:42 ijr Exp $
+	$Id: lcdui.cpp,v 1.14 2000/02/08 21:27:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -216,6 +216,41 @@ void LcdUI::keyboardServiceFunction(void *pclcio) {
 			    //cout << "lcd: Ignore " << argv[1] << endl;
 			} else if(0 == strcmp(argv[0], "key")) {
 			    cout << "lcd: Key " << argv[1] << endl;
+                            switch (argv[1][0])
+                            {
+                                case 'E': {
+                                    cout << "Toggle Pause" << endl;
+                                    Event    *e = new Event(CMD_TogglePause);
+                                    pMe->m_playerEQ->AcceptEvent(e);
+                                    break; 
+                                }
+                                case 'F': {
+                                    cout << "Next Piece" << endl;
+                                    Event   *e = new Event(CMD_NextMediaPiece);
+                                    pMe->m_playerEQ->AcceptEvent(e);
+                                    break;
+                                }
+                                case 'G': { 
+                                    cout << "Prev Piece" << endl;
+                                    Event   *e = new Event(CMD_PrevMediaPiece);
+                                    pMe->m_playerEQ->AcceptEvent(e);
+                                    break;
+                                }
+                                case 'H': {
+                                    cout << "Shuffle" << endl;
+                                    if (pMe->m_plm) {
+                                        pMe->m_plm->SetShuffleMode(true);
+                                        pMe->m_plm->SetCurrentIndex(0);
+                                    }
+                                    Event   *e = new Event(CMD_Stop);
+                                    pMe->m_playerEQ->AcceptEvent(e);
+                                    e = new Event(CMD_Play);
+                                    pMe->m_playerEQ->AcceptEvent(e);
+                                    break;
+                                }
+                                default:
+                                    break;
+                            }
 			} else if(0 == strcmp(argv[0], "menu")) {
 			} else if(0 == strcmp(argv[0], "connect")) {
 			} else {

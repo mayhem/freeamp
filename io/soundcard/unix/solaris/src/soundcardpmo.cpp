@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.12 1999/07/21 19:27:21 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.13 1999/07/21 19:31:01 dogcow Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -253,7 +253,7 @@ bool SoundCardPMO::WaitForDrain(void)
    for(; !m_bExit && !m_bPause; )
    {
        ioctl(audio_fd, AUDIO_GETINFO, &info);
-       if (info.play.error == 1)
+       if (info.play.error)
        {
            return true;
        }
@@ -459,6 +459,7 @@ void SoundCardPMO::WorkerThread(void)
       }
 
       iRet = write(audio_fd, pBuffer, m_iDataSize);
+      // write(audio_fd, pBuffer, 0); // for WaitForDrain(), maybe?
       if (iRet < 0)
       {
          m_pInputBuffer->EndRead(0);

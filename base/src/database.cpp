@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.1.2.5 1999/09/24 02:05:45 ijr Exp $
+        $Id: database.cpp,v 1.1.2.6 1999/09/27 23:41:50 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -42,11 +42,8 @@ Database::Database(const char *name)
     assert(name);
 
     m_lock = new Mutex();
-    m_dbase = gdbm_open((char *)name, 0, GDBM_WRCREAT, S_IRWXU, NULL);
+    m_dbase = gdbm_open((char *)name, 0, GDBM_WRCREAT|GDBM_NOLOCK, S_IRWXU, NULL);
     
-    //OutputDebugString(gdbm_strerror(gdbm_errno));
-    //OutputDebugString("\r\n");
-
     assert(m_dbase);
 }
 

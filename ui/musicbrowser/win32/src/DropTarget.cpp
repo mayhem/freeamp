@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DropTarget.cpp,v 1.8 2000/05/22 13:50:19 elrod Exp $
+        $Id: DropTarget.cpp,v 1.9 2000/09/11 08:04:10 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -679,5 +679,6 @@ STDMETHODIMP DropTarget::Drop(LPDATAOBJECT pDataObj,
             return NOERROR;
         }
     }
+	MessageBox(NULL, "Drop failed.", "Drop failed", MB_OK);
 	return hr;      
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.85 2000/08/21 09:21:23 ijr Exp $
+        $Id: Win32MusicBrowser.h,v 1.86 2000/09/11 08:04:10 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -232,6 +232,8 @@ class MusicBrowserUI : public UserInterface
     void  ClearPlaylistEvent();
     void  GenPlaylistEvent(vector<PlaylistItem *> *pSeed);
     void  GenPlaylistEvent(void);
+	void  GenSLPlaylistEvent(vector<PlaylistItem *> *pSeed, float fMax);
+	void  GenSLPlaylistEvent(float fMax);
     void  SubmitPlaylistEvent(void);
     void  SortEvent(int id);
     void  EmptyDBCheck();

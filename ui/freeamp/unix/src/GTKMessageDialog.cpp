@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKMessageDialog.cpp,v 1.1.2.2 1999/09/21 03:32:29 ijr Exp $
+   $Id: GTKMessageDialog.cpp,v 1.1.2.3 1999/09/21 16:34:55 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "MessageDialog.h"
@@ -48,5 +48,6 @@ MessageDialogReturnEnum MessageDialog::
                              const string      &oTitle, 
                              MessageDialogEnum  eType)
 {
+    return kMessageReturnMonicaDoesSuck;
 }
 

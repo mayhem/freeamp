@@ -18,17 +18,18 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.cpp,v 1.2 1999/10/19 07:13:10 elrod Exp $
+	$Id: id3v1.cpp,v 1.3 1999/10/19 22:06:23 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
 #include <string>
+#include <errno.h>
 
 using namespace std;
 
 #include "config.h"
 #include "errors.h"
-#include "errno.h"
+#include "utility.h"
 
 #include "id3v1.h"
 
@@ -248,8 +249,12 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
     if(url && metadata)
     {
         FILE* fp;
+        char path[_MAX_PATH];
+        uint32 length = sizeof(path);
 
-        fp = fopen(url, "rb");
+        URLToFilePath(url, path, &length);
+
+        fp = fopen(path, "rb");
 
         if(fp)
         {

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.134 1999/10/19 07:12:47 elrod Exp $
+        $Id: player.cpp,v 1.135 1999/10/19 22:06:23 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -406,7 +406,7 @@ SetArgs(int32 argc, char **argv)
                 }
                 else // is this a URL we know how to handle ?
                 {
-                    m_plm->AddItem(arg);
+                    // file not found? don't add it...
                     continue;
                 }
 #else

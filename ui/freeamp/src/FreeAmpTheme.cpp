@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.57 1999/12/18 02:23:52 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.58 1999/12/18 05:00:43 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1339,7 +1339,7 @@ void FreeAmpTheme::UpdateThread()
 
 void FreeAmpTheme::ShowOptions(uint32 defaultPage)
 {
-    OptionsArgs oArgs;
+    OptionsArgs *oArgs = new OptionsArgs;
     
     if (m_bInOptions)
        return;
@@ -1350,18 +1350,20 @@ void FreeAmpTheme::ShowOptions(uint32 defaultPage)
         m_pOptionsThread = NULL;
     }
 
-    oArgs.pThis = this;
-    oArgs.uDefaultPage = defaultPage;
+    oArgs->pThis = this;
+    oArgs->uDefaultPage = defaultPage;
 
     m_pOptionsThread = Thread::CreateThread();
-    m_pOptionsThread->Create(options_thread, &oArgs);
+    m_pOptionsThread->Create(options_thread, oArgs);
 }
 
 void FreeAmpTheme::options_thread(void* arg)
 {
     OptionsArgs *pArgs = (OptionsArgs *)arg;
-    
+  
     pArgs->pThis->OptionsThread(pArgs->uDefaultPage);
+
+    delete pArgs;
 }
 
 void FreeAmpTheme::OptionsThread(uint32 defaultPage)
@@ -1369,7 +1371,7 @@ void FreeAmpTheme::OptionsThread(uint32 defaultPage)
     PreferenceWindow *pWindow;
 
     m_bInOptions = true;
-       
+
 #ifdef WIN32
     pWindow = new Win32PreferenceWindow(m_pContext, m_pThemeMan, m_pUpdateMan, defaultPage);
 #elif defined(__BEOS__)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.15 1999/12/17 01:59:36 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.16 1999/12/18 05:00:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -94,7 +94,6 @@ class FreeAmpTheme : public UserInterface, public Theme
         string           m_oCurrentWindow, m_oTitle, m_oStreamInfo;
         TimeDisplayState m_eTimeDisplayState;
         UpdateManager   *m_pUpdateMan;
-
 };
 
 #endif

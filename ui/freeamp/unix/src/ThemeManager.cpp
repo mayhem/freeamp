@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.14 2000/02/29 10:02:01 elrod Exp $
+   $Id: ThemeManager.cpp,v 1.15 2000/03/16 03:47:40 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -98,17 +98,22 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
 
     m_pContext->prefs->GetInstallDirectory(dir, &len);
     oThemeBasePath = string(dir) + "/" + BRANDING_SHARE_PATH + "/themes";
-    oThemePath = oThemeBasePath + string("/*.fat");    
+    oThemePath = oThemeBasePath + string("/*.*");    
 
     handle = FindFirstFile((char *)oThemePath.c_str(), &find);
     if(handle != INVALID_HANDLE_VALUE) {
         do {
    	    oThemeFile = oThemeBasePath + string("/") + string(find.cFileName);
     	    ptr = strrchr(find.cFileName, '.');
-            if (ptr)
+            if (ptr) {
                *ptr = 0;
-
-            oThemeFileMap[find.cFileName] = oThemeFile;
+               ptr++;
+            }
+            if (ptr && *ptr) {
+                if (!strcasecmp("fat", ptr) || !strcasecmp("zip", ptr) ||
+                    !strcasecmp("wsz", ptr))
+                    oThemeFileMap[find.cFileName] = oThemeFile;
+            }
         }
         while(FindNextFile(handle, &find));
         FindClose(handle);
@@ -119,30 +124,42 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
     struct stat st;
     if (-1 == stat(oThemeBasePath.c_str(), &st))
         mkdir(oThemeBasePath.c_str(), 0755);
-    oThemePath = oThemeBasePath + string("/*.fat");
+    oThemePath = oThemeBasePath + string("/*.*");
     handle = FindFirstFile((char *)oThemePath.c_str(), &find);
     if (handle != INVALID_HANDLE_VALUE) {
         do {
             oThemeFile = oThemeBasePath + string("/") + string(find.cFileName);
             ptr = strrchr(find.cFileName, '.');
-            if (ptr)
+            if (ptr) {
                *ptr = 0;
-            oThemeFileMap[find.cFileName] = oThemeFile;
+               ptr++;
+            }
+            if (ptr && *ptr) {
+                if (!strcasecmp("fat", ptr) || !strcasecmp("zip", ptr) ||
+                    !strcasecmp("wsz", ptr))
+                    oThemeFileMap[find.cFileName] = oThemeFile;
+            }
         }
         while(FindNextFile(handle, &find));
         FindClose(handle);
     }
 
     oThemeBasePath = "./themes";
-    oThemePath = oThemeBasePath + string("/*.fat");
+    oThemePath = oThemeBasePath + string("/*.*");
     handle = FindFirstFile((char *)oThemePath.c_str(), &find);
     if (handle != INVALID_HANDLE_VALUE) {
         do {
             oThemeFile = oThemeBasePath + string("/") + string(find.cFileName);
             ptr = strrchr(find.cFileName, '.');
-            if (ptr)
+            if (ptr) {
                *ptr = 0;
-            oThemeFileMap[find.cFileName] = oThemeFile;
+               ptr++;
+            }
+            if (ptr && *ptr) {
+                if (!strcasecmp("fat", ptr) || !strcasecmp("zip", ptr) ||
+                    !strcasecmp("wsz", ptr))
+                    oThemeFileMap[find.cFileName] = oThemeFile;
+            }
         }
         while(FindNextFile(handle, &find));
         FindClose(handle);

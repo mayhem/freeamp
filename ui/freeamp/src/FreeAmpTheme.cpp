@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.39 1999/12/02 22:06:52 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.40 1999/12/06 14:16:06 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -355,8 +355,9 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
       {
          PlaylistCurrentItemInfoEvent *pInfo = 
             (PlaylistCurrentItemInfoEvent *)e;
-
-         UpdateMetaData(pInfo->Item());
+ 
+         if (pInfo->Item())
+             UpdateMetaData(pInfo->Item());
          break;
       }
       

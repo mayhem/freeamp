@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.30 1999/08/07 18:31:00 dogcow Exp $
+# $Id: Makefile.in,v 1.30.4.1 1999/08/19 21:52:50 dogcow Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = @FPIC@ for plugins.
@@ -40,14 +40,14 @@ FREEAMPOBJ += $(FREEAMP$(HOST_OS)OBJ)
 all: freeamp plugins
 
 #CYGWINFREEAMPLIBS =
-UNIXFREEAMPLIBS = -ldl -lpthread $(X_LIBS) $(X_EXTRA_LIBS) $(EXTRALIBS)
+UNIXFREEAMPLIBS = -ldl -lpthread $(EXTRALIBS)
 BEOSFREEAMPLIBS = -lbe -lroot
 
 FREEAMPLIBS = $($(OSTYPE)FREEAMPLIBS)
 
 freeamp: $(FREEAMPOBJ) $(freeamp_DEPENDENCIES)
 	@rm -f freeamp
-	$(CXXLINK) $(FREEAMPOBJ) $(LDFLAGS) -ldl -lpthread $(X_LIBS) $(X_EXTRA_LIBS) $(EXTRALIBS)
+	$(CXXLINK) $(FREEAMPOBJ) $(LDFLAGS) $(FREEAMPLIBS)
 
 clean: freeamp-clean plugins-clean
 
@@ -60,7 +60,8 @@ plugins-cc install-plugins clean-plugins plugins-install plugins-clean:
 	+$(PIMAKE) $@
 
 distclean: clean
-	-rm -f config.status Makefile config.cache
+	-rm -f config.status Makefile config.cache config/config.h
+	-rm -f Makefile Makefile-plugins config/Makefile.header
 
 install: install-freeamp install-plugins
 
@@ -74,7 +75,7 @@ depend:
 
 Makefile: Makefile.in Makefile-plugins.in
 	./config.status
-	echo 'Makefile has been rebuilt; please run `make` again.'
+	@echo 'Makefile has been rebuilt; please run `make` again.'
 
 
 #Makefile: configure.in configure

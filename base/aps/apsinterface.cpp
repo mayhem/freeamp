@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.39 2000/10/27 23:24:54 robert Exp $
+        $Id: apsinterface.cpp,v 1.39.2.1 2000/12/21 00:21:39 robert Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -149,12 +149,19 @@ int APSInterface::APSFillMetaData(APSMetaData* pmetaData)
     m_pSema->Wait();
 
     musicbrainz_t o;
-    int    ret;
-    char   *args[11];
-    char    temp[255], guid[40];
-    int     i;
+    int           ret;
+    char         *args[12];
+    char          temp[255], guid[40], sha1[33], file[MAX_PATH];
+    int           i;
+    unsigned int  len;
 
     o = mb_New();
+
+    // Calculate a SHA1 signature for this file.
+    len = MAX_PATH;
+    URLToFilePath((char *)pmetaData->Filename().c_str(), file, &len); 
+    mb_CalculateSHA1(o, file, sha1);
+
     mb_UseUTF8(o, 0);
     mb_SetServer(o, MUSICBRAINZ_SERVER, MUSICBRAINZ_PORT);
     if (m_strProxyAddr.size() > 7)
@@ -175,10 +182,11 @@ int APSInterface::APSFillMetaData(APSMetaData* pmetaData)
     args[7] = strdup(temp);
     args[8] = strdup(pmetaData->Genre().c_str());
     args[9] = strdup(pmetaData->Comment().c_str());
-    args[10] = NULL;
+    args[10] = strdup(sha1);
+    args[11] = NULL;
 
     ret = mb_QueryWithArgs(o, MB_ExchangeMetadata, args);
-    for(i = 0; i < 10; i++)
+    for(i = 0; i < 11; i++)
        free(args[i]);
 
     if (!ret)

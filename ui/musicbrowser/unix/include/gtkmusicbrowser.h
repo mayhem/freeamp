@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.9 1999/11/23 09:14:08 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.10 1999/11/23 19:13:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -78,6 +78,9 @@ class GTKMusicBrowser {
     FAContext *GetContext(void) { return m_context; }
     void UpdateCatalog(void);
 
+    int pauseState;
+    int playState;
+
  protected:
     FAContext *m_context;
 
@@ -133,6 +136,7 @@ class GTKMusicBrowser {
     GtkWidget *artistSubTree;
     GtkWidget *playlistSubTree;
   
+    void UpdatePlayPause();
   public:
     ClickState GetClickState() { return m_clickState; }
     void SetClickState(ClickState newState);
@@ -165,6 +169,13 @@ class GTKMusicBrowser {
     void ImportPlaylist(char *path);
 
     void CreateNewEditor(char *playlisturl);
+
+    void ShowOptions(void);
+    void PauseMenu(void);
+    void PlayMenu(void);
+    void NextMenu(void);
+    void PrevMenu(void);
+    void SetRepeat(int numrepeat);
 };
 
 #endif

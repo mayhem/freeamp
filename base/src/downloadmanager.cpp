@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.22 1999/09/25 19:33:15 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.23 1999/09/25 19:53:51 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -527,12 +527,14 @@ Error DownloadManager::Download(DownloadItem* item)
 
         char hostname[kMaxHostNameLen + 1];
         char localname[kMaxHostNameLen + 1];
+        char proxyname[kMaxHostNameLen + 1];
         uint8  port;
         struct sockaddr_in  addr;
         struct hostent      host;
         SOCKET s = -1;
         char* file;
         char* destPath = NULL;
+        bool useProxy;
 
         destPath = new char[_MAX_PATH];
 
@@ -546,11 +548,30 @@ Error DownloadManager::Download(DownloadItem* item)
         if(!strncasecmp(item->SourceURL().c_str(), "http://", 7))
         {
             int32 numFields;
+            uint32 length;
 
             result = kError_NoErr;  
 
-            numFields = sscanf(item->SourceURL().c_str(), 
+            m_context->prefs->GetUseProxyServer(&useProxy);
+
+            length = sizeof(proxyname);
+            m_context->prefs->GetProxyServerAddress(proxyname, &length);
+
+            if(useProxy)
+            {
+                numFields = sscanf(proxyname, 
+                                   "http://%[^:/]:%d", hostname, &port);
+
+                strcpy(proxyname, item->SourceURL().c_str());
+                file = proxyname;
+            }
+            else
+            {
+                numFields = sscanf(item->SourceURL().c_str(), 
                                "http://%[^:/]:%d", hostname, &port);
+
+                file = strchr(item->SourceURL().c_str() + 7, '/');
+            }
 
             if(numFields < 1)
             {
@@ -560,9 +581,7 @@ Error DownloadManager::Download(DownloadItem* item)
             if(numFields < 2)
             {
                 port = kHttpPort;
-            }
-
-            file = strchr(item->SourceURL().c_str() + 7, '/');
+            }            
         }
 
         if(item->GetState() == kDownloadItemState_Cancelled ||

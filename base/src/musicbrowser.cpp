@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.8 1999/09/22 18:58:21 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.9 1999/09/23 02:09:55 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -186,6 +186,7 @@ void MusicBrowser::musicsearch_thread_function(void *arg)
     mst->mb->m_mutex->Acquire();
 
     mst->mb->m_numSymLinks = 0;
+    mst->mb->m_player = Player::GetPlayer(0);
     mst->mb->DoSearchMusic(mst->path);
 
     mst->mb->AcceptEvent(new Event(INFO_SearchMusicDone));
@@ -203,8 +204,11 @@ void MusicBrowser::DoSearchMusic(char *path)
     HANDLE handle;
     string search = path;
 
-    Player *m_player = Player::GetPlayer(0);
-
+#ifndef WIN32
+    if (!strcmp(path, "/dev") || !strcmp(path, "/proc"))
+        return;
+#endif
+ 
     string *info = new string("Searching: ");
     (*info) += path;
     m_player->AcceptEvent(new BrowserMessageEvent(info->c_str()));
@@ -222,7 +226,6 @@ void MusicBrowser::DoSearchMusic(char *path)
         do
         {
             char *fileExt;
-
             if ((find.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
 #ifndef WIN32
                 || (find.dwFileAttributes == FILE_ATTRIBUTE_SYMLINK)
@@ -235,8 +238,10 @@ void MusicBrowser::DoSearchMusic(char *path)
                     if (find.dwFileAttributes == FILE_ATTRIBUTE_SYMLINK)
                     {
                         m_numSymLinks++;
-                        if (m_numSymLinks > 4)
+                        if (m_numSymLinks > 4) {
+                            m_numSymLinks = 0;
                             return;
+                        }
                     }
 #endif
 
@@ -244,9 +249,6 @@ void MusicBrowser::DoSearchMusic(char *path)
                     if (path[strlen(path) - 1] != DIR_MARKER)
                         newDir.append(DIR_MARKER_STR);
                     newDir.append(find.cFileName);
-
-                    if (newDir == path)
-                        continue;
 
                     DoSearchMusic((char *)newDir.c_str());
 #ifndef WIN32
@@ -285,7 +287,6 @@ void MusicBrowser::DoSearchMusic(char *path)
             }
         }
         while (FindNextFile(handle, &find));
-
         FindClose(handle);
     }
 }

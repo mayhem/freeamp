@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.1.2.5 1999/09/22 15:55:26 ijr Exp $
+        $Id: musicbrowser.h,v 1.1.2.6 1999/09/23 02:09:55 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -34,6 +34,7 @@ using namespace std;
 #include "playlist.h"
 
 class FAContext;
+class Player;
 
 class AlbumList {
  public:
@@ -99,6 +100,7 @@ class MusicBrowser : public EventQueue
     Mutex *m_mutex;
     
     FAContext *m_context;
+    Player *m_player;
 
  private:   
     Database *m_database;

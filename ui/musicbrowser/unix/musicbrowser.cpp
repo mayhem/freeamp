@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.5 1999/09/22 18:58:21 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.6 1999/09/23 02:09:55 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h" 
@@ -117,6 +117,7 @@ int32 musicbrowserUI::AcceptEvent(Event *event)
         case INFO_SearchMusicDone: {
             gdk_threads_enter();
             UpdateCatalog();
+            SetStatusText("");
             gdk_threads_leave();
             break; }
         case INFO_BrowserMessage: {

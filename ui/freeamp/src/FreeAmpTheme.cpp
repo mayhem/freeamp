@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.1 2000/02/23 18:16:20 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.2 2000/02/23 18:29:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1420,7 +1420,7 @@ void FreeAmpTheme::DropFiles(vector<string> *pFileList)
             else   
                 if (m_pContext->player->IsSupportedExtension(ext))
                 {
-                    length = sizeof(url);
+                    length = _MAX_PATH + 7;
                     FilePathToURL((*i).c_str(), url, &length);
                 
                     m_pContext->plm->AddItem(url);

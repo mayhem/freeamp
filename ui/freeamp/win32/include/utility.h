@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.4 1999/03/20 10:33:19 elrod Exp $
+	$Id: utility.h,v 1.5 1999/04/01 17:02:58 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UTILITY_H_
@@ -46,13 +46,13 @@ DetermineControlRegions(DIB* bitmap,
                         int32 numControls);
 
 bool FileOpenDialog(HWND hwnd, 
-                    const char* filter,
                     const char* title,
+                    const char* filter,
                     List<char*>* fileList);
 
 bool FileSaveDialog(HWND hwnd, 
-                    const char* filter,
                     const char* title,
+                    const char* filter,
                     char* path,
                     uint32* pathLength);
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: timeview.cpp,v 1.5 1999/03/19 23:23:23 robert Exp $
+	$Id: timeview.cpp,v 1.6 1999/04/01 17:02:59 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -174,7 +174,7 @@ SetLabel(char* label)
         delete [] m_label;
     }
 
-    /*LEAK*/m_label = new char[strlen(label) + 1];
+    m_label = new char[strlen(label) + 1];
     strcpy(m_label, label);
 
     Invalidate();

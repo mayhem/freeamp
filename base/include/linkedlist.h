@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: linkedlist.h,v 1.1 1999/03/03 09:23:06 elrod Exp $
+	$Id: linkedlist.h,v 1.2 1999/04/01 17:02:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LINKED_LIST_H_
@@ -39,6 +39,11 @@ class Item {
         m_member = i; 
         m_next = n; 
         m_last = l;
+    } 
+
+    ~Item() 
+    { 
+        delete m_member;
     } 
 
     Item* Next() const { return m_next;}

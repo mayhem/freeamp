@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: controlinfo.cpp,v 1.3 1999/03/18 03:44:37 elrod Exp $
+	$Id: controlinfo.cpp,v 1.4 1999/04/01 17:02:58 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -49,6 +49,7 @@ Color g_controlColors[] = {
         {255, 255, 85,  0}, // kRepeatStatusControl
         {0,   191, 255, 0}, // kRepeatAllStatusControl
         {255, 95,  170, 0}, // kShuffleStatusControl
+        {127, 63,   0,  0}, // kResizeControl
         {42,  191, 255, 0}, // kPlaylistDisplayControl
         {212, 0,   85,  0}, // kPanelBackingControl
         {0,   191, 85,  0}, // kScrollbarControl

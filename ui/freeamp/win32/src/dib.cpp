@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dib.cpp,v 1.5 1999/03/19 23:23:18 robert Exp $
+	$Id: dib.cpp,v 1.6 1999/04/01 17:02:58 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -83,9 +83,9 @@ Create( uint32 width,
 
     m_bytesPerLine = imageSize / m_height;
 
-    /*LEAK*/m_bits = (BYTE*)malloc(imageSize);
+    m_bits = (BYTE*)malloc(imageSize);
 
-    /*LEAK*/m_bitmapInfo = (BITMAPINFO*)malloc( sizeof BITMAPINFO + 
+    m_bitmapInfo = (BITMAPINFO*)malloc( sizeof BITMAPINFO + 
                                         sizeof RGBQUAD *
                                         NumberOfPaletteEntries());
 
@@ -181,10 +181,8 @@ Load(HANDLE module, LPCTSTR resource)
 
                 m_bytesPerLine = imageSize / m_height;
 
-				//LEAK
                 m_bits = (BYTE*)malloc(imageSize);
 
-				// LEAK
                 m_bitmapInfo = (BITMAPINFO*)malloc( sizeof BITMAPINFO + 
                                                     sizeof RGBQUAD *
                                                     numEntries);

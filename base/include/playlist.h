@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.37 1999/03/20 18:51:57 robert Exp $
+	$Id: playlist.h,v 1.38 1999/04/01 17:02:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -35,6 +35,7 @@ ____________________________________________________________________________*/
 #include "eventdata.h"
 #include "mutex.h"
 #include "pmi.h"
+#include "thread.h"
 
 const int iMaxFileNameLen = 1024;
 
@@ -359,6 +360,7 @@ class PlayListManager {
     ShuffleMode             m_order;
     RepeatMode              m_repeat;
 
+    Thread*                 m_rioThread;
     char*                   m_txSong;
 
     

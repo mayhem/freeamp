@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: textview.cpp,v 1.7 1999/03/20 10:33:19 elrod Exp $
+	$Id: textview.cpp,v 1.8 1999/04/01 17:02:59 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -60,7 +60,7 @@ View(hwnd, parent, viewRegion)
     m_viewDying = false;
     m_pressed   = false;
 
-    /*LEAK*/InitializeCriticalSection(&m_criticalSection);
+    InitializeCriticalSection(&m_criticalSection);
 
     // create the text bitmap
     m_textBitmap = new DIB;
@@ -76,7 +76,7 @@ View(hwnd, parent, viewRegion)
     SetText("");
 
     m_thread = NULL;
-    /*LEAK*/m_semaphore = new Semaphore(1);
+    m_semaphore = new Semaphore(1);
 
     if(flags & TextType_Wiggle)
     {
@@ -142,10 +142,12 @@ TextView::
 ~TextView()
 {
     m_viewDying = true;
-    m_semaphore->Wait();
 
     if(m_semaphore)
+    {
+        m_semaphore->Wait();
         delete m_semaphore;
+    }
 
     if(m_textBitmap)
         delete m_textBitmap;
@@ -153,7 +155,7 @@ TextView::
     if(m_text)
         delete [] m_text;
 
-    
+    DeleteCriticalSection(&m_criticalSection);
 }
 
 void 
@@ -241,7 +243,7 @@ SetText(const char* text)
         delete [] m_text;
     }
 
-    /*LEAK*/m_text = new char[strlen(text) + 1];
+    m_text = new char[strlen(text) + 1];
     strcpy(m_text, text);
 
     int32 textLength = 0;
@@ -282,7 +284,7 @@ SetText(const char* text)
         }
 
         // create new bitmap
-        /*LEAK*/m_textBitmap = new DIB;
+        m_textBitmap = new DIB;
         m_textBitmap->Create(   m_bitmapLength, 
                                 m_fontHeight, 
                                 m_fontBitmap->BitsPerPixel());

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: controlinfo.h,v 1.2 1999/03/18 03:44:36 elrod Exp $
+	$Id: controlinfo.h,v 1.3 1999/04/01 17:02:58 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _CONTROL_INFO_H_
@@ -48,17 +48,23 @@ extern Color g_controlColors[];
 #define kRepeatStatusControl    16
 #define kRepeatAllStatusControl 17
 #define kShuffleStatusControl   18
-#define kPlaylistDisplayControl 19
-#define kPanelBackingControl    20
-#define kScrollbarControl       21
-#define kAddControl             22
-#define kDeleteControl          23
-#define kSaveControl            24
-#define kLoadControl            25
+#define kResizeControl          19
+#define kPlaylistDisplayControl 20
+#define kPanelBackingControl    21
+#define kScrollbarControl       22
+#define kAddControl             23
+#define kDeleteControl          24
+#define kSaveControl            25
+#define kLoadControl            26
 
-#define kFinalControl           26
+#define kFinalControl           27
+
 
 #define kNumControls            kFinalControl
+
+// "virtual controls"...
+#define kAboutControl           kFinalControl + 1
+#define kPrefControl            kFinalControl + 2
 
 
 #endif /* _CONTROL_INFO_H_ */

@@ -18,8 +18,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.cpp,v 1.8 1999/03/17 20:30:25 elrod Exp $
+	$Id: registry.cpp,v 1.9 1999/04/01 17:02:57 elrod Exp $
 ____________________________________________________________________________*/
+
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 #include "registry.h"
 
@@ -85,6 +89,12 @@ RegistryItem::
 
     if(m_description)
         delete [] m_description;
+
+#ifdef WIN32
+    if(m_module)
+        FreeLibrary((HMODULE)m_module);
+#endif
+
 }
 
 void 

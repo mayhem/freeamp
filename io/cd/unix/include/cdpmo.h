@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.h,v 1.4 2000/02/20 04:16:16 ijr Exp $
+        $Id: cdpmo.h,v 1.5 2000/03/22 23:02:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDPMO_H_
@@ -33,8 +33,6 @@ ____________________________________________________________________________*/
 #include "pmo.h"
 #include "pmoevent.h"
 #include "eventbuffer.h"
-
-static const uint32 OBUFFERSIZE = 2 * 1152;
 
 enum
 {
@@ -64,6 +62,8 @@ class CDPMO:public PhysicalMediaOutput
    struct disc_info GetDiscInfo();
    uint32  GetCDDBDiscID();
    char   *GetcdindexDiscID();
+
+   void    Eject(void);
 
  private:
    void          WorkerThread(void); 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.4 2000/02/20 04:16:16 ijr Exp $
+        $Id: cdpmo.cpp,v 1.5 2000/03/22 23:02:35 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -201,6 +201,14 @@ char *CDPMO::GetcdindexDiscID(void)
 struct disc_info CDPMO::GetDiscInfo(void)
 {
     return dinfo;
+}
+
+void CDPMO::Eject(void)
+{
+    if (m_cdDesc < 0)
+        return;
+
+    cd_eject(m_cdDesc);
 }
 
 Error CDPMO::Reset(bool user_stop)

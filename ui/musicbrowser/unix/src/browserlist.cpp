@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browserlist.cpp,v 1.2 2000/03/22 21:14:13 ijr Exp $
+        $Id: browserlist.cpp,v 1.3 2000/03/22 23:02:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h"
@@ -490,27 +490,27 @@ static gint list_drag_motion_internal(GtkWidget *widget,
 
 static void play_now_pop(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
-
+    p->PlayEvent();
 }
 
 static void move_up_pop(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
-
+    p->MoveUpEvent();
 }
 
 static void move_down_pop(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
-
+    p->MoveDownEvent();
 }
 
 static void delete_pop(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
-
+    p->DeleteEvent();
 }
 
 static void edit_pop(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
-
+    p->PopUpInfoEditor();
 }
 
 void GTKMusicBrowser::PlaylistRightClick(int x, int y, uint32 time)
@@ -524,8 +524,6 @@ static void list_clicked(GtkWidget *w, GdkEventButton *event,
     if (!event)
         return;
 
-cout << "list click\n";
-
     g_return_if_fail(w != NULL);
     g_return_if_fail(GTK_IS_CLIST(w));
     g_return_if_fail(event != NULL);
@@ -535,11 +533,19 @@ cout << "list click\n";
     if (event->window != clist->clist_window)
         return;
 
-cout << "button press " << event->button << endl;
-    if (event->button == 3)
+    p->SetClickState(kContextPlaylist);
+
+    if (event->button == 3) {
+        int row;
+
+        gtk_clist_get_selection_info(clist, (int)event->x, 
+                                     (int)event->y, &row, NULL);
+        p->m_currentindex = row;
+        gtk_clist_select_row(clist, row, 0);
         p->PlaylistRightClick((int)event->x_root, 
                               (int)event->y_root,
                               event->time);
+    }
 }
 
 void GTKMusicBrowser::CreatePlaylistList(GtkWidget *box)

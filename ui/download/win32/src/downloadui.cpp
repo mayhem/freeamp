@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.18.2.1 2000/02/25 23:09:19 robert Exp $
+	$Id: downloadui.cpp,v 1.18.2.2 2000/02/25 23:50:12 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -632,7 +632,6 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
             DeleteObject(pen);
             break;
         }
-
         case IDC_OVERALL_PROGRESS:
         {
             HFONT font = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
@@ -647,7 +646,7 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                 uint32 percent;
                 RECT clientRect;
                 HDC hDc;
-                HBITMAP hBitmap;
+                HBITMAP hBitmap, hSavedBitmap;
 
                 GetClientRect(m_hwndProgress, &clientRect);
 
@@ -655,7 +654,7 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                 hBitmap = CreateCompatibleBitmap(dis->hDC, 
                            clientRect.right - clientRect.left,
                            clientRect.bottom - clientRect.top);
-                SelectObject(hDc, hBitmap);           
+                hSavedBitmap = (HBITMAP)SelectObject(hDc, hBitmap);           
                 oldFont = (HFONT)SelectObject(hDc, font);
             
                 // Set the text background and foreground colors to the
@@ -774,9 +773,10 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                                  dis->rcItem.bottom - dis->rcItem.top, 
                        hDc, 0, 0, SRCCOPY);          
 
+				SelectObject(hDc, hSavedBitmap);
                 DeleteObject(hBitmap);
+				SelectObject(hDc, oldFont);
                 DeleteDC(hDc);
-                SelectObject(hDc, oldFont);
             }
 
             DeleteObject(font);
@@ -791,14 +791,15 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
             HIMAGELIST himl;
             int32 cxImage = 0, cyImage = 0;
             HDC hDc;
-            HBITMAP hBitmap;
+            HBITMAP hBitmap, hSavedBitmap;
+			HFONT   hSavedFont;
             
             hDc = CreateCompatibleDC(dis->hDC);
             hBitmap = CreateCompatibleBitmap(dis->hDC, 
                        dis->rcItem.right - dis->rcItem.left,
                        dis->rcItem.bottom - dis->rcItem.top);
-            SelectObject(hDc, hBitmap);           
-            SelectObject(hDc, (HFONT)GetStockObject(DEFAULT_GUI_FONT));
+            hSavedBitmap = (HBITMAP)SelectObject(hDc, hBitmap);           
+            hSavedFont = (HFONT)SelectObject(hDc, (HFONT)GetStockObject(DEFAULT_GUI_FONT));
             
             rcClip.left = 0;
             rcClip.top = 0;
@@ -1120,12 +1121,14 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                              dis->rcItem.bottom - dis->rcItem.top, 
                    hDc, 0, 0, SRCCOPY);          
 
+			SelectObject(hDc, hSavedBitmap);
             DeleteObject(hBitmap);
+			SelectObject(hDc, hSavedFont);
             DeleteDC(hDc);
 
             break;
         }
-
+ 
         case IDC_INFO:
         {
             SetTextColor(dis->hDC, RGB(0, 0, 128));

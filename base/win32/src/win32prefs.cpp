@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32prefs.cpp,v 1.4 1999/04/21 17:07:04 mhw Exp $
+	$Id: win32prefs.cpp,v 1.5 1999/04/22 03:37:38 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -273,8 +273,6 @@ Win32Prefs::
 SetDefaults()
 {
     char cwd[MAX_PATH]= {0x00};
-    int32 dummyInt;
-    bool dummyBool;
     char buf[1024];
     uint32 size;
 

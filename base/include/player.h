@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.15 1998/10/20 08:49:46 elrod Exp $
+	$Id: player.h,v 1.16 1998/10/23 00:41:04 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -71,7 +71,7 @@ class Player {
     Player();
     void GetUIManipLock();
     void ReleaseUIManipLock();
-
+    int32 CompareNames(const char *,const char *);
     void SendToUI(Event *);
 
     bool SetState(PlayerState);

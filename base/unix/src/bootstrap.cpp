@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.6 1998/10/20 17:33:47 jdw Exp $
+	$Id: bootstrap.cpp,v 1.7 1998/10/23 00:41:04 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -115,6 +115,7 @@ int main(int argc, char **argv) {
 
 
     //cout << "Looking to start up a UI..." << endl;
+#if 0
     char *calledName = strrchr(argv[0],'/');
     if (!calledName) calledName = argv[0]; else calledName++;
     int32 index = 0;
@@ -138,6 +139,7 @@ int main(int argc, char **argv) {
 	cout << "Error initializing UI!" << endl;
 	return 1;
     }
+#endif
 
     pP->SetArgs(argc,argv);
     pP->Run();

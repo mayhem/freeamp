@@ -17,13 +17,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.8 1998/10/22 23:58:35 elrod Exp $
+	$Id: registrar.cpp,v 1.9 1998/10/23 00:41:04 jdw Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
 #define STRICT
 #ifdef WIN32
 #include <windows.h>
+#else
+#include <stdlib.h>
 #endif // WIN32
 
 #include <stdio.h>
@@ -69,6 +71,18 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
     while(libDirHandle && (error != kError_NoMoreLibDirs))
 #endif
     {
+#ifndef WIN32
+        if (dir[0] == '~') {
+	    char newdir[MAX_PATH];
+	    strcpy(newdir,getenv("HOME"));
+	    char *pSlash = strchr(dir,'/');
+	    if (pSlash) {
+		strcat(newdir,pSlash);
+	    }
+	    memcpy(dir,newdir,MAX_PATH);
+	}
+#endif
+	len = sizeof(dir);
         WIN32_FIND_DATA find;
         HANDLE handle;
         char search[MAX_PATH];

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.6 1999/10/15 16:53:05 robert Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.7 1999/10/15 23:03:04 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -58,6 +58,7 @@ MusicBrowserUI::MusicBrowserUI(FAContext *context)
     m_state = STATE_EXPANDED;
     m_hWnd = NULL;    
     m_sMinSize.x = -1;
+    m_bListChanged = false;
 #endif
 }
 
@@ -139,6 +140,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
 
             gtkThread->Join();
 #else            
+            WritePlaylist();
             CloseMainDialog();
 #endif            
             
@@ -149,6 +151,13 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             m_playerEQ->AcceptEvent(new Event(INFO_ReadyToDieUI));
 
             break; }
+
+#ifdef WIN32
+        case INFO_PlaylistItemUpdated: {
+            UpdatePlaylistList();
+            break; }
+
+#endif
 
         case INFO_SearchMusicDone: {
 #if HAVE_GTK
@@ -246,12 +255,18 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
 
 void MusicBrowserUI::DeleteListEvent(void)
 {
+#if WIN32
+    m_bListChanged = true;
+#endif    
     m_plm->RemoveAll();
     UpdatePlaylistList();
 }
 
 void MusicBrowserUI::DeleteEvent(void)
 {
+#if WIN32
+    m_bListChanged = true;
+#endif    
     m_plm->RemoveItem(m_currentindex);
     UpdatePlaylistList();
 }
@@ -260,6 +275,10 @@ void MusicBrowserUI::MoveUpEvent(void)
 {
     if (m_currentindex == 0)
         return;
+
+#if WIN32
+    m_bListChanged = true;
+#endif    
 
     m_plm->SwapItems(m_currentindex, m_currentindex - 1);
     m_currentindex--;
@@ -270,6 +289,10 @@ void MusicBrowserUI::MoveDownEvent(void)
 {
     if (m_currentindex == m_plm->CountItems() - 1)
         return;
+
+#if WIN32
+    m_bListChanged = true;
+#endif    
 
     m_plm->SwapItems(m_currentindex, m_currentindex + 1);
     m_currentindex++;

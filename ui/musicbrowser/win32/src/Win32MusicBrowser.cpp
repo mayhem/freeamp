@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.10 1999/10/15 19:50:48 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.11 1999/10/15 23:03:06 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -28,7 +28,6 @@ ____________________________________________________________________________*/
 #include "utility.h"
 #include "resource.h"
 #include "Win32MusicBrowser.h"
-#include "FileDialog.h"
 #include "debug.h"
 
 static HINSTANCE g_hinst = NULL;
@@ -184,6 +183,9 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
                 case IDC_CLEARLIST:
                    g_ui->DeleteListEvent();
                 return 1;
+                case IDC_PLAYLISTCOMBO:
+                   if (HIWORD(wParam) == CBN_SELCHANGE)
+                       g_ui->PlaylistComboChanged();
             }    
         }        
     }
@@ -582,7 +584,7 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
         }
 	    if (pTreeView->hdr.code == NM_DBLCLK)
         {
-            TV_ITEM sItem;
+            TV_ITEM        sItem;
             
             sItem.hItem = TreeView_GetSelection(GetDlgItem(m_hWnd, IDC_MUSICTREE)); 
             sItem.mask = TVIF_PARAM | TVIF_HANDLE;
@@ -601,7 +603,10 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
                 else    
                     if (m_oMusicCrossRefs[sItem.lParam].iLevel == 3)
                     {
-                        m_context->plm->AddItem(m_oMusicCrossRefs[sItem.lParam].pTrack);
+                        m_bListChanged = true;
+                        m_context->plm->AddItem(
+                           m_oMusicCrossRefs[sItem.lParam].
+                           pTrack->URL().c_str());
                         UpdatePlaylistList();
                     }    
             }            
@@ -762,18 +767,38 @@ void MusicBrowserUI::FillPlaylists(void)
     }    
 }
 
+void MusicBrowserUI::PlaylistComboChanged(void)
+{
+    int sel;
+    
+    HWND hwndCombo = GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO); 
+    sel = ComboBox_GetCurSel(hwndCombo);
+    if (sel == 0)
+        LoadPlaylist(string(""));
+    else
+    {
+        vector<string> *p;
+        p = m_context->browser->m_catalog->m_playlists;
+        
+        LoadPlaylist((*p)[sel]);
+    }
+}
+
 void MusicBrowserUI::FillPlaylistCombo(void)
 {
     vector<string>::iterator i;
+    int                      iIndex;
 
     HWND hwndCombo = GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO); 
-
     ComboBox_AddString(hwndCombo, "Master Playlist");
 
-    for(i = m_context->browser->m_catalog->m_playlists->begin(); 
+    for(i = m_context->browser->m_catalog->m_playlists->begin(), iIndex = 0; 
         i != m_context->browser->m_catalog->m_playlists->end(); 
-        i++)
+        i++, iIndex++)
     {
+        if (!iIndex)
+           continue;
+        
         ComboBox_AddString(hwndCombo, (*i).c_str());
     } 
         
@@ -782,10 +807,56 @@ void MusicBrowserUI::FillPlaylistCombo(void)
 
 void MusicBrowserUI::LoadPlaylist(string &oPlaylist)
 {
-    m_context->plm->RemoveAll();
-    m_context->plm->ReadPlaylist((char *)oPlaylist.c_str());
+    if (oPlaylist == m_currentListName)
+       return;
+
+    WritePlaylist();
+
+    if (oPlaylist.length() == 0)
+    {
+        m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
+        ComboBox_SetCurSel(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), 0);
+    }
+    else
+    {   
+        int sel;
+
+        m_context->plm->RemoveAll();
+        m_context->plm->ReadPlaylist((char *)oPlaylist.c_str());
+        sel = ComboBox_FindString(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), 0, 
+                                  (char *)oPlaylist.c_str());
+        ComboBox_SetCurSel(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), sel);
+    }
+        
+    m_currentListName = oPlaylist;
     m_currentindex = 0;
     UpdatePlaylistList();
+}
+
+void MusicBrowserUI::WritePlaylist(void)
+{
+    PlaylistFormatInfo oInfo;              
+    char               ext[MAX_PATH];
+    int                i;
+    Error              eRet = kError_NoErr;
+
+    if (!m_bListChanged || m_currentListName.length() == 0)
+       return;
+    
+    _splitpath(m_currentListName.c_str(), NULL, NULL, NULL, ext);
+    for(i = 0; ; i++)
+    {
+       eRet = m_context->plm->GetSupportedPlaylistFormats(&oInfo, i);
+       if (IsError(eRet))
+          break;
+
+       if (strcasecmp(oInfo.GetExtension(), ext + 1) == 0)
+          break;   
+    }
+    if (!IsError(eRet))
+        m_context->plm->WritePlaylist((char *)m_currentListName.c_str(),
+                                      &oInfo);   
+    m_bListChanged = false;
 }
 
 void MusicBrowserUI::UpdatePlaylistList(void)
@@ -839,7 +910,6 @@ void MusicBrowserUI::UpdatePlaylistList(void)
 void MusicBrowserUI::UpdateButtonStates()
 {
     EnableWindow(GetDlgItem(m_hWnd, IDC_DELETE), m_currentindex != -1);
-    //EnableWindow(GetDlgItem(m_hWnd, IDC_ADD), m_currentindex != -1);
     EnableWindow(GetDlgItem(m_hWnd, IDC_UP), m_currentindex > 0);
     EnableWindow(GetDlgItem(m_hWnd, IDC_DOWN), 
                  m_currentindex < m_context->plm->CountItems() - 1);
@@ -892,6 +962,7 @@ void MusicBrowserUI::AddEvent(void)
     {
         for(i = oFileList.begin(); i != oFileList.end(); i++)
            eRet = m_context->plm->AddItem(*i);
+        m_bListChanged = true;
         UpdatePlaylistList();
     }
 }

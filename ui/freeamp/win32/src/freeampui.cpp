@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.49 1999/04/02 22:48:41 robert Exp $
+	$Id: freeampui.cpp,v 1.50 1999/04/03 22:22:19 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -449,7 +449,7 @@ UserInterface()
 
     m_uiSemaphore = new Semaphore();
 
-    /*LEAK-2*/m_uiThread = Thread::CreateThread();
+    m_uiThread = Thread::CreateThread();
     m_uiThread->Create(ui_thread_function, this);
 
     m_uiSemaphore->Wait();
@@ -471,6 +471,9 @@ FreeAmpUI::
 
     if(m_prevSongInfoText)
         delete [] m_prevSongInfoText;
+
+    if(m_uiThread)
+        delete m_uiThread;
 }
 
 void 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.19 1999/12/18 01:53:56 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.20 1999/12/18 02:54:26 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -218,6 +218,13 @@ Error GTKWindow::VulcanMindMeld(Window *pOther)
 
     m_pMindMeldMutex->Acquire();
 
+    gdk_threads_enter();
+    gdk_flush();
+    gdk_threads_leave();
+
+    oRect.x1 = oRect.x2 = oRect.y1 = oRect.y2 = 0;
+    GetWindowPosition(oRect);
+
     eRet = Window::VulcanMindMeld(pOther);
 
     if (IsError(eRet)) {
@@ -225,15 +232,8 @@ Error GTKWindow::VulcanMindMeld(Window *pOther)
         return eRet;
     }
 
-    gdk_threads_enter();
-    gdk_flush();
-    gdk_threads_leave();
-
     Rect oNewRect, oSize;
     
-    oRect.x1 = oRect.x2 = oRect.y1 = oRect.y2 = 0;
-    GetWindowPosition(oRect);
-
     m_pCanvas->GetBackgroundRect(oSize);
     GdkBitmap *mask = ((GTKCanvas *)m_pCanvas)->GetMask();
 
@@ -379,9 +379,16 @@ Error GTKWindow::GetWindowPosition(Rect &oWindowRect)
 
     Rect oRect;
 
-    GetCanvas()->GetBackgroundRect(oRect);
-    oWindowRect.x2 = oWindowRect.x1 + oRect.Width();
-    oWindowRect.y2 = oWindowRect.y1 + oRect.Height();
+    if (GetCanvas()) {
+        GetCanvas()->GetBackgroundRect(oRect);
+   
+        oWindowRect.x2 = oWindowRect.x1 + oRect.Width();
+        oWindowRect.y2 = oWindowRect.y1 + oRect.Height();
+    }
+    else {
+        oWindowRect.x2 = oWindowRect.x1;
+        oWindowRect.y2 = oWindowRect.y1;
+    }
 
     return kError_NoErr;
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.40 1999/11/24 07:33:07 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.41 1999/11/24 07:48:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -59,8 +59,6 @@ bool operator<(const TreeData &A, const TreeData &b);
 bool operator==(const TreeData &A, const TreeData &b);
 void ClientToWindow(HWND hWnd, POINT *Pt); 
 extern HINSTANCE g_hinst;
-
-void EditItemLabel(HWND hwnd, HTREEITEM item);
 
 bool FileOpenDialog(HWND hwnd, 
                     const char* title,
@@ -120,6 +118,8 @@ class MusicBrowserUI : public UserInterface
     static void UIThreadFunc(void* arg);
     void   InitDialog(HWND hwnd);
     void   SetMinMaxInfo(void);
+    void   EditItemLabel(HWND hwnd, HTREEITEM item);
+
 
     BOOL   DialogProc(HWND hwnd, UINT msg, 
                       WPARAM wParam, LPARAM lParam);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: introwizard.h,v 1.1 2000/01/23 00:49:26 ijr Exp $
+        $Id: introwizard.h,v 1.2 2000/01/23 05:16:51 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_INTROWIZARD_H_
@@ -30,9 +30,11 @@ ____________________________________________________________________________*/
 
 #include "facontext.h"
 
+class MusicBrowserUI;
+
 class IntroWizardUI {
  public:
-    IntroWizardUI(FAContext *);
+    IntroWizardUI(FAContext *, MusicBrowserUI *parent);
    ~IntroWizardUI();
   
     void Show(bool runMain = true);
@@ -48,13 +50,14 @@ class IntroWizardUI {
     void EndSearch();
     void GoToPage1();
     void GoToPage2();
+    void DeleteEvent();
+    void Close();
     
     unsigned int page;
     
     bool custom;
     bool searchInProgress;
     bool searchDone;
-    bool m_main;
     bool done;
 
     GtkWidget *m_window;
@@ -63,6 +66,8 @@ class IntroWizardUI {
     FAContext *m_context;
 
  private:
+    bool m_main;
+ 
     GtkWidget *m_backButton;
     GtkWidget *m_searchButton;
     GtkWidget *textEntry;
@@ -76,6 +81,8 @@ class IntroWizardUI {
 
     GtkWidget *IntroPage(void);
     GtkWidget *SearchPage(void);
+
+    MusicBrowserUI *m_parent;
 };
    
 #endif

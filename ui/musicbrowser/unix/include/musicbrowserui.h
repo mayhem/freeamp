@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowserui.h,v 1.8 2000/01/23 00:49:26 ijr Exp $
+        $Id: musicbrowserui.h,v 1.9 2000/01/23 05:16:51 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSERUI_H_
@@ -52,6 +52,9 @@ class MusicBrowserUI : public UserInterface {
 
     void StartSearch(bool runMain = true, bool intro = false);
     void SetRunning(void);
+  
+    void SearchClose(void);
+    void WizardClose(void);
 
     bool doQuitNow;
 

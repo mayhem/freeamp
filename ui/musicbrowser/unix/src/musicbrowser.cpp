@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.19 2000/01/23 00:49:27 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.20 2000/01/23 05:16:51 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -40,6 +40,7 @@ MusicBrowserUI::MusicBrowserUI(FAContext *context)
 {
     m_context = context;
     searching = NULL;
+    wiz = NULL;
 }
 
 MusicBrowserUI::~MusicBrowserUI()
@@ -126,10 +127,10 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             if (weAreGTK) 
                 doQuitNow = true;
 
-            //if (searching)
-            //    delete searching;
-            //if (wiz)
-            //    delete wiz;
+            if (searching)
+                searching->Close();
+            if (wiz)
+                wiz->Close();
 
             gtkThread->Join();
             m_playerEQ->AcceptEvent(new Event(INFO_ReadyToDieUI));
@@ -146,12 +147,10 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
 	        wiz->AcceptEvent(event);
             if (event->Type() == INFO_SearchMusicDone) {
 	        if (searching) {
-                    delete searching;
-                    searching = NULL;
+                    searching->Close();
 		}
 		if (wiz) {
-		    delete wiz;
-		    wiz = NULL;
+		    wiz->Close();
 		}
             }
             break; }
@@ -223,11 +222,29 @@ void MusicBrowserUI::StartSearch(bool runMain, bool intro)
         return;
 
     if (intro) {
-        wiz = new IntroWizardUI(m_context);
+        wiz = new IntroWizardUI(m_context, this);
 	wiz->Show(runMain);
     }
     else {
-        searching = new musicsearchUI(m_context);
+        searching = new musicsearchUI(m_context, this);
         searching->Show(runMain);
     }    
+}
+
+void MusicBrowserUI::SearchClose(void)
+{
+    if (!searching)
+        return;
+
+    delete searching;
+    searching = NULL;
+}
+
+void MusicBrowserUI::WizardClose(void)
+{
+    if (!wiz)
+        return;
+
+    delete wiz;
+    wiz = NULL;
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicsearchui.h,v 1.3 1999/11/29 08:56:12 ijr Exp $
+        $Id: musicsearchui.h,v 1.4 2000/01/23 05:16:51 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICSEARCHUI_H_
@@ -30,9 +30,11 @@ ____________________________________________________________________________*/
 
 #include "facontext.h"
 
+class MusicBrowserUI;
+
 class musicsearchUI {
  public:
-    musicsearchUI(FAContext *);
+    musicsearchUI(FAContext *, MusicBrowserUI *parent);
    ~musicsearchUI();
   
     void Show(bool runMain = true);
@@ -46,11 +48,12 @@ class musicsearchUI {
 
     void StartSearch();
     void EndSearch();
+    void DeleteEvent();
+    void Close();
 
     bool custom;
     bool searchInProgress;
     bool searchDone;
-    bool m_main;
     bool done;
 
     GtkWidget *m_window;
@@ -64,6 +67,9 @@ class musicsearchUI {
     GtkWidget *buttonLabel;
 
     string searchPath;
+
+    bool m_main;
+    MusicBrowserUI *m_parent;
 };
    
 

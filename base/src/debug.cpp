@@ -71,7 +71,7 @@ void Debug_v(char * format, ...)
     va_end(argptr);
 
     szBuffer[254] = 0;
-    printf("%s", szBuffer);
+    printf("%s\n", szBuffer);
 }
 
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.8 1999/09/24 18:23:40 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.9 1999/09/27 19:20:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h" 
@@ -77,6 +77,7 @@ void musicbrowserUI::GTKEventService(void)
     if (!m_context->gtkInitialized) {
         g_thread_init(NULL);
         gtk_init(&m_argc, &m_argv);
+        gdk_rgb_init();
         m_context->gtkInitialized = true;
     }
     m_context->gtkLock.Release();

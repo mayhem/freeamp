@@ -18,12 +18,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.11 1999/09/27 02:02:32 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.12 1999/09/27 19:20:35 ijr Exp $
 ____________________________________________________________________________*/ 
 
-#include "stdio.h"
-#include "map"
-#include "assert.h"
+#include <stdio.h>
+#include <map>
+#include <assert.h>
 #include "Theme.h"
 #include "ButtonControl.h"
 #include "DialControl.h"
@@ -617,7 +617,7 @@ Error Theme::EndElement(string &oElement)
     if (oElement == string("ButtonControl") ||
         oElement == string("DialControl") ||
         oElement == string("SliderControl") ||
-        oElement == string("TextControl"))
+        oElement == string("TextControl")) 
     {
        m_pCurrentWindow->AddControl(m_pCurrentControl);
        m_pCurrentControl = NULL;

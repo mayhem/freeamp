@@ -18,62 +18,96 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.1.2.5 1999/09/24 01:49:27 ijr Exp $
+   $Id: GTKCanvas.cpp,v 1.1.2.6 1999/09/27 19:20:36 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
 
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
-
-
-GTKCanvas::GTKCanvas(void)
+GTKCanvas::GTKCanvas(GTKWindow *pParent)
 {
-
+    m_pParent = pParent;
+    m_pBufferBitmap = NULL;
+    shape_set = false;
 }
 
 GTKCanvas::~GTKCanvas(void)
 {
-
+    delete m_pBufferBitmap;
 }
 
 void GTKCanvas::Init(void)
 {
+    Rect oDestRect;
+    string oName("DoubleBuffer");
+
+    assert(m_pBGBitmap);
+
+    if (m_pBufferBitmap)
+        delete m_pBufferBitmap;
+
+    m_pBufferBitmap = new GTKBitmap(m_oBGRect.Width(), 
+                                    m_oBGRect.Height(),
+                                    oName);
+
+    oDestRect.x1 = oDestRect.y1 = 0;
+    oDestRect.x2 = m_oBGRect.Width();
+    oDestRect.y2 = m_oBGRect.Height();
+    m_pBufferBitmap->MaskBlitRect(m_pBGBitmap, m_oBGRect, oDestRect);
 }
 
 Error GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect,
                             string &oText, AlignEnum eAlign, 
-                            const Color &oColor)
+                            string &oFont, const Color &oColor)
 {
    return kError_NoErr;
 }
 
 Error GTKCanvas::Invalidate(Rect &oRect)
 {
+//   Paint(oRect);
+
    return kError_NoErr;
 }
 
 Error GTKCanvas::Update(void)
 {
+   Rect foo;  
+   Paint(foo);
+
    return kError_NoErr;
 }
 
 Error GTKCanvas::BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec)
 {
-   return kError_NoErr;
+   if (!m_pBufferBitmap)
+       return kError_NoErr;
+
+   return m_pBufferBitmap->BlitRect(pSrcBitmap, oSrcRect, oDestRec);
 }
 
 Error GTKCanvas::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec)
 {
-   return kError_NoErr;
+   if (!m_pBufferBitmap)
+       return kError_NoErr;
+
+   return m_pBufferBitmap->MaskBlitRect(pSrcBitmap, oSrcRect, oDestRec);
 }
 
 void GTKCanvas::Paint(Rect &oRect)
 {
+    GtkWidget *w = m_pParent->GetWindow();
+    if (!shape_set) {
+        shape_set = true;
+        GdkBitmap *mask = ((GTKBitmap *)m_pBGBitmap)->GetMask();
+        if (mask)
+            gdk_window_shape_combine_mask(w->window, mask, 0, 0);
+    }
+    gdk_window_set_back_pixmap(w->window, m_pBufferBitmap->GetBitmap(), 0);
+    gdk_window_clear(w->window);
 }
 
 void GTKCanvas::Erase(Rect &oRect)
 {
+    if (m_pBufferBitmap)
+        m_pBufferBitmap->MaskBlitRect(m_pBGBitmap, oRect, oRect);
 }
-

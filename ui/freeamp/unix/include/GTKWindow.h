@@ -18,18 +18,16 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.1.2.3 1999/09/20 17:45:39 robert Exp $
+   $Id: GTKWindow.h,v 1.1.2.4 1999/09/27 19:20:36 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKWINDOW__H_
 #define INCLUDED_GTKWINDOW__H_
 
-#include <string>
-#include <vector>
-#include <map>
-#include <deque>
-
+#include <gtk/gtk.h>
+#include "facontext.h"
 #include "Window.h"
+#include "thread.h"
 
 class GTKWindow : public Window
 {
@@ -40,8 +38,6 @@ class GTKWindow : public Window
 
      virtual Error Run(Pos &oWindowPos);
      virtual Error Close(void); 
-     virtual Error Create(void);
-     virtual Error Destroy(void);
      virtual Error Show(void);
      virtual Error Hide(void);
      virtual Error Enable(void);
@@ -53,9 +49,18 @@ class GTKWindow : public Window
      virtual Error GetMousePos(Pos &oPos);
      virtual Error SetWindowPosition(Rect &oWindowRect);
      virtual Error GetWindowPosition(Rect &oWindowRect); 
-
-    protected:
+     virtual Error Minimize(void);
+     virtual Error Restore(void);
      
+     GtkWidget *GetWindow(void) { return mainWindow; }
+     
+    protected:
+      Pos m_oWindowPos;
+      
+    private:
+      void GTKEventService(void);
+
+      GtkWidget *mainWindow;
 };
 
 #endif

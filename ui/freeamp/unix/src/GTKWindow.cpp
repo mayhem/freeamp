@@ -18,22 +18,48 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.4 1999/09/20 18:05:44 robert Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.5 1999/09/27 19:20:36 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
+#include "facontext.h"
 #include "Theme.h"
 #include "GTKWindow.h"
 #include "GTKCanvas.h"
+#include "GTKUtility.h" 
 
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
+void mouse_move(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
+{
+    Pos oPos;
+
+    oPos.x = (int)e->motion.x;
+    oPos.y = (int)e->motion.y;
+    ui->HandleMouseMove(oPos);
+}
+
+void button_down(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
+{
+    Pos oPos;
+
+    oPos.x = (int)e->button.x;
+    oPos.y = (int)e->button.y;
+    if (e->button.button == 1) 
+        ui->HandleMouseLButtonDown(oPos);
+}
+
+void button_up(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
+{
+    Pos oPos;
+    oPos.x = (int)e->button.x;
+    oPos.y = (int)e->button.y;
+    if (e->button.button == 1)
+        ui->HandleMouseLButtonUp(oPos);
+}
 
 GTKWindow::GTKWindow(Theme *pTheme, string &oName)
           :Window(pTheme, oName)
 {
-    m_pCanvas = new GTKCanvas();
+    m_pCanvas = new GTKCanvas(this);
 }
 
 GTKWindow::~GTKWindow(void)
@@ -44,21 +70,57 @@ GTKWindow::~GTKWindow(void)
 
 Error GTKWindow::Run(Pos &oPos)
 {
+    Rect oRect;
+    int iMaxX, iMaxY;
+
+    m_oWindowPos = oPos;
+    m_pCanvas->Init();
+
+    iMaxX = gdk_screen_width();
+    iMaxY = gdk_screen_height();
+ 
+    GetCanvas()->GetBackgroundRect(oRect);
+
+    if (m_oWindowPos.x > iMaxX || m_oWindowPos.x + oRect.Width() < 0)
+       m_oWindowPos.x = 0;
+    if (m_oWindowPos.y > iMaxY || m_oWindowPos.y + oRect.Height() < 0)
+       m_oWindowPos.y = 0;
+
+    mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_widget_set_app_paintable(mainWindow, TRUE);
+    gtk_window_set_title(GTK_WINDOW(mainWindow), "FreeAmp");
+    gtk_window_set_policy(GTK_WINDOW(mainWindow), TRUE, TRUE, TRUE);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "destroy",
+                       GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
+    gtk_widget_set_uposition(mainWindow, m_oWindowPos.x, m_oWindowPos.y);
+    gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
+
+    gtk_widget_set_events(mainWindow, GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
+    gtk_widget_realize(mainWindow);
+
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "motion_notify_event",
+                       GTK_SIGNAL_FUNC(mouse_move), this);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "button_press_event",
+                       GTK_SIGNAL_FUNC(button_down), this);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "button_release_event",
+                       GTK_SIGNAL_FUNC(button_up), this);
+   
+    gdk_window_set_decorations(mainWindow->window, (GdkWMDecoration)0);
+
+    Init();
+    ((GTKCanvas *)GetCanvas())->Paint(oRect);
+
+    gtk_widget_show(mainWindow);
+    gdk_flush(); 
+ 
+    gtk_main();  
+
     return kError_NoErr;
 }
 
 Error GTKWindow::Close(void)
 {
-    return kError_NoErr;
-}
-
-Error GTKWindow::Create(void)
-{
-    return kError_NoErr;
-}
-
-Error GTKWindow::Destroy(void)
-{
+    gtk_main_quit();
     return kError_NoErr;
 }
 
@@ -74,21 +136,30 @@ Error GTKWindow::Disable(void)
 
 Error GTKWindow::Show(void)
 {
+    gtk_widget_show(mainWindow);
     return kError_NoErr;
 }
 
 Error GTKWindow::Hide(void)
 {
+    gtk_widget_hide(mainWindow);
     return kError_NoErr;
 }
 
 Error GTKWindow::SetTitle(string &oTitle)
 {
+    gtk_window_set_title(GTK_WINDOW(mainWindow), oTitle.c_str());
     return kError_NoErr;
 }
 
 Error GTKWindow::CaptureMouse(bool bCapture)
 {
+    if (bCapture) {
+        gdk_pointer_grab(mainWindow->window, FALSE, (GdkEventMask)(GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK), mainWindow->window, NULL, 0);
+    }
+    else {
+        gdk_pointer_ungrab(0);
+    }
     return kError_NoErr;
 }
 
@@ -99,21 +170,36 @@ Error GTKWindow::HideMouse(bool bHide)
 
 Error GTKWindow::SetMousePos(Pos &oPos)
 {
+    WarpPointer(mainWindow->window, oPos.x, oPos.y);
     return kError_NoErr;
 }
 
 Error GTKWindow::GetMousePos(Pos &oPos)
 {
+    gtk_widget_get_pointer(mainWindow, &oPos.x, &oPos.y);
     return kError_NoErr;
 }
 
 Error GTKWindow::SetWindowPosition(Rect &oWindowRect)
 {
+    gdk_window_move(mainWindow->window, oWindowRect.x1, oWindowRect.y1);
+    gdk_flush();
     return kError_NoErr;
 }
 
 Error GTKWindow::GetWindowPosition(Rect &oWindowRect) 
 {
+    gdk_window_get_position(mainWindow->window, &oWindowRect.x1, &oWindowRect.y1);
     return kError_NoErr;
 }
 
+Error GTKWindow::Minimize(void)
+{
+    IconifyWindow(mainWindow->window);
+    return kError_NoErr;
+}
+
+Error GTKWindow::Restore(void)
+{
+    return kError_NoErr;
+}

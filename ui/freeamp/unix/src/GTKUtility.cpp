@@ -18,35 +18,23 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.cpp,v 1.1.2.7 1999/09/27 19:20:35 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.1.2.1 1999/09/27 19:20:36 ijr Exp $
 ____________________________________________________________________________*/ 
 
-#include "string"
-#include "Bitmap.h"
-#include "debug.h"
+#include "GTKUtility.h"
+#include <gdk/gdk.h>
+#include <gdk/gdkx.h>
 
-Bitmap::Bitmap(string &oName)
+void IconifyWindow(GdkWindow *win)
 {
-   m_oBitmapName = oName;
-   m_bHasTransColor = false;
+    Window window = GDK_WINDOW_XWINDOW(win);
+    XIconifyWindow(GDK_DISPLAY(), window, DefaultScreen(GDK_DISPLAY()));
+ 
 }
 
-Bitmap::~Bitmap(void)
+void WarpPointer(GdkWindow *win, int x, int y)
 {
+    Window window = GDK_WINDOW_XWINDOW(win);
+    XWarpPointer(GDK_DISPLAY(), None, window, 0, 0, 0, 0, x, y);
 }
 
-void Bitmap::GetName(string &oName)
-{
-    oName = m_oBitmapName;
-}
-
-void Bitmap::GetErrorString(string &oError)
-{
-    oError = m_oLastError;
-}
-
-void Bitmap::SetTransColor(Color &oColor)
-{
-    m_bHasTransColor = true;
-    m_oTransColor = oColor;
-}

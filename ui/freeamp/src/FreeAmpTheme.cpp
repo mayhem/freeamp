@@ -18,10 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.14 1999/09/27 17:47:32 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.15 1999/09/27 19:20:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
+#ifndef WIN32
+#include <gtk/gtk.h>
+#endif
 
 #include "FreeAmpTheme.h"
 #include "MessageDialog.h"
@@ -59,6 +62,20 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
    m_iVolume = -1;
    m_iSeekPos = -1;
    m_bPlayShown = true;
+
+#ifndef WIN32
+    // This needs to be done before _any_ gdk/gtk calls, so really needs
+    // go here...
+    m_pContext->gtkLock.Acquire();
+    if (!m_pContext->gtkInitialized) {
+        g_thread_init(NULL);
+        gtk_init(&(m_pContext->argc), &(m_pContext->argv));
+        gdk_rgb_init();
+        m_pContext->gtkInitialized = true;
+    }
+    m_pContext->gtkLock.Release();
+#endif
+
 
    LoadFreeAmpTheme();
    SelectWindow(m_oCurrentWindow);

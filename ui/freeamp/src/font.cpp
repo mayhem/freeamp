@@ -18,10 +18,10 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: font.cpp,v 1.1.2.1 1999/09/26 03:23:42 robert Exp $
+   $Id: font.cpp,v 1.1.2.2 1999/09/27 19:20:36 ijr Exp $
 ____________________________________________________________________________*/ 
 
-#include "Font.h"
+#include "font.h"
 
 Font::Font(string &oName, string &oFace)
 {

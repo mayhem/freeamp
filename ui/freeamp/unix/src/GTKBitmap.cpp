@@ -18,14 +18,16 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.1.2.7 1999/09/24 01:49:27 ijr Exp $
+   $Id: GTKBitmap.cpp,v 1.1.2.8 1999/09/27 19:20:36 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
 #include "GTKBitmap.h"
 
 #include <gdk/gdk.h>
-#include <gdk/gdkprivate.h>
+extern "C" {
+#include <gdk/gdkx.h>
+}
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -51,7 +53,20 @@ GTKBitmap::GTKBitmap(string &oName)
 {
     m_oBitmapName = oName;
     m_Bitmap = NULL;
-    m_GC = NULL;
+    m_MaskBitmap = NULL;
+    shape_set = false;
+    m_GC = gdk_gc_new(gdk_window_foreign_new(GDK_ROOT_WINDOW()));
+}
+
+GTKBitmap::GTKBitmap(int iWidth, int iHeight, string &oName) 
+          :Bitmap(oName)
+{
+    m_oBitmapName = oName;
+    m_Bitmap = gdk_pixmap_new(NULL, iWidth, iHeight, 
+                              gdk_visual_get_best_depth());
+    m_MaskBitmap = NULL;
+    shape_set = true;
+    m_GC = gdk_gc_new(gdk_window_foreign_new(GDK_ROOT_WINDOW()));
 }
 
 GTKBitmap::~GTKBitmap(void)
@@ -59,6 +74,10 @@ GTKBitmap::~GTKBitmap(void)
     if (m_Bitmap)
         gdk_pixmap_unref(m_Bitmap);
     m_Bitmap = NULL;
+
+    if (m_MaskBitmap)
+        gdk_pixmap_unref(m_MaskBitmap);
+    m_MaskBitmap = NULL;
 
     if (m_GC)
         gdk_gc_unref(m_GC);
@@ -203,11 +222,10 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
  */
     data_end = data + (w * 3 * h);
     if (!data) {
-        fclose(file);
         return kError_LoadBitmapFailed;
     }
-        
     ptr = data + ((h - 1) * w * 3);
+
     if (bitcount == 4) {
         if (comp == BI_RLE4) {
             x = 0;
@@ -441,18 +459,41 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
         }
     }
 
+    if (m_bHasTransColor) {
+        ptr = data;
+        m_MaskBitmap = gdk_pixmap_new(NULL, w, h, 1);
+        GdkGC *gc = gdk_gc_new(m_MaskBitmap);
+        GdkColor color;
+        color.pixel = 1;
+        gdk_gc_set_foreground(gc, &color);
+        gdk_draw_rectangle(m_MaskBitmap, gc, TRUE, 0, 0, w, h);
+        color.pixel = 0;
+        gdk_gc_set_foreground(gc, &color);
+        for (y = 0; y < h; y++)
+            for (x = 0; x < w; x++) {
+                guchar r = *ptr++;
+                guchar g = *ptr++;
+                guchar b = *ptr++;
+                if (r == m_oTransColor.red && g == m_oTransColor.green &&
+                    b == m_oTransColor.blue)
+                    gdk_draw_point(m_MaskBitmap, gc, x, y);
+            }
+        gdk_gc_destroy(gc);
+    }
 
     m_Bitmap = gdk_pixmap_new(NULL, w, h, gdk_visual_get_best_depth());
-
-    if (!m_GC) 
-        m_GC = gdk_gc_new((GdkWindow *)&gdk_root_parent); // naughty naughty
-
-    gdk_draw_rgb_image(m_Bitmap, m_GC, 0, 0, w, h, GDK_RGB_DITHER_MAX, data, w * 3);
+    gdk_draw_rgb_image(m_Bitmap, m_GC, 0, 0, w, h, GDK_RGB_DITHER_MAX, data, 
+                       w * 3);
 
     g_free(data);
     g_free(buffer);
 
     return kError_NoErr;
+}
+
+bool GTKBitmap::IsPosVisible(Pos &oPos)
+{
+    return true;
 }
 
 Error GTKBitmap::BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
@@ -471,5 +512,19 @@ Error GTKBitmap::BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect,
 Error GTKBitmap::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect,
                               Rect &oDestRect)
 {
+    GTKBitmap *src = (GTKBitmap *)pSrcBitmap;
+    GdkWindow *dest = (GdkWindow *)m_Bitmap;
+    int w = oDestRect.Width();
+    int h = oDestRect.Height();
+
+    if (!src->GetMask())
+        return BlitRect(pSrcBitmap, oSrcRect, oDestRect);
+
+    gdk_gc_set_clip_mask(m_GC, src->GetMask());
+    gdk_gc_set_clip_origin(m_GC, oDestRect.x1 - oSrcRect.x1, oDestRect.y1 - 
+                           oSrcRect.y1);
+    gdk_draw_pixmap(dest, m_GC, src->GetBitmap(), oSrcRect.x1, oSrcRect.y1, 
+                    oDestRect.x1, oDestRect.y1, w, h);
+    
     return kError_NoErr;
 }

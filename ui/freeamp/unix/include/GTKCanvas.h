@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.h,v 1.1.2.5 1999/09/24 01:49:27 ijr Exp $
+   $Id: GTKCanvas.h,v 1.1.2.6 1999/09/27 19:20:36 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKCANVAS_H__
@@ -27,18 +27,20 @@ ____________________________________________________________________________*/
 #include "Types.h"
 #include "Bitmap.h"
 #include "Canvas.h"
+#include "GTKWindow.h"
+#include "GTKBitmap.h"
 
 class GTKCanvas : public Canvas
 {
     public:
 
-              GTKCanvas(void);
+              GTKCanvas(GTKWindow *pParent);
      virtual ~GTKCanvas(void);
 
      virtual void  Init(void);
      virtual Error RenderText(int iFontHeight, Rect &oClipRect,
                               string &oText, AlignEnum eAlign,
-			      const Color &oColor);
+			      string &oFont, const Color &oColor);
      virtual Error Invalidate(Rect &oRect);
      virtual Error Update(void);
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec);
@@ -47,6 +49,10 @@ class GTKCanvas : public Canvas
      virtual void  Erase(Rect &oRect);
 
     protected:
+     GTKBitmap *m_pBufferBitmap;
+     GTKWindow *m_pParent;
+
+     bool shape_set;
 };
 
 #endif

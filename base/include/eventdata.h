@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.57 2000/05/24 17:08:33 ijr Exp $
+        $Id: eventdata.h,v 1.58 2000/05/25 10:48:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -953,8 +953,8 @@ public:
 
 private:
 
-   const char *m_url;
-   const char *m_saved;
+   char *m_url;
+   char *m_saved;
 };
 
 class ShowPreferencesEvent:public Event

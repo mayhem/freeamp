@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.99 2000/04/08 05:35:59 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.100 2000/04/17 20:48:43 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -721,12 +721,6 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
 Error FreeAmpTheme::HandleControlMessage(string &oControlName, 
                                          ControlMessageEnum eMesg)
 {
-   if (m_bInOptions)
-   {
-       m_pWindow->BringWindowToFront();
-       return kError_NoErr;
-   }    
-
    if (oControlName == string("WindowStatus")) 
    {
        bool bEnable;
@@ -769,7 +763,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        m_pWindow->ControlStringValue(oName, true, oEmpty);
                                 
        return kError_NoErr;
-   } 
+   }
    if (oControlName == string("Minimize") && eMesg == CM_Pressed)
    {
        m_pWindow->Minimize();

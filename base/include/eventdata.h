@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.44 1999/12/08 03:18:31 ijr Exp $
+        $Id: eventdata.h,v 1.45 1999/12/22 17:23:14 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -548,6 +548,28 @@ public:
       strncpy(szTitle, m_streamTitle, iSize - 1);
       szTitle[iSize - 1] = 0;
    }
+};
+
+class MusicCatalogStreamAddedEvent : public Event {
+private:
+    const PlaylistItem *m_item;
+public:
+    MusicCatalogStreamAddedEvent(const PlaylistItem *item)
+    { m_type = INFO_MusicCatalogStreamAdded; m_item = item; }
+    virtual ~MusicCatalogStreamAddedEvent() {}
+
+    const PlaylistItem *Item() const { return m_item; }
+};
+
+class MusicCatalogStreamRemovedEvent : public Event {
+private:
+    const PlaylistItem* m_item;
+public:
+    MusicCatalogStreamRemovedEvent(const PlaylistItem *item)
+    { m_type = INFO_MusicCatalogStreamRemoved; m_item = item; }
+    virtual ~MusicCatalogStreamRemovedEvent() {}
+
+    const PlaylistItem *Item() const { return m_item; }
 };
 
 class ArtistList;

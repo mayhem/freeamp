@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.39 1999/12/13 17:03:18 ijr Exp $
+	$Id: event.h,v 1.40 1999/12/22 17:23:14 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -136,6 +136,7 @@ class EventQueue {
 #define INFO_MusicCatalogPlaylistRemoved 71 // sent by the MC to the player after a playlist removal
 #define INFO_MusicCatalogTrackChanged 72 // sent by the MC to the player after a track was changed
 #define INFO_MusicCatalogCleared    73 // sent by the MC whenever it clears its tree
-
+#define INFO_MusicCatalogStreamAdded  74 // sent by the MC when a stream is added
+#define INFO_MusicCatalogStreamRemoved 75 // sent by the MC when a stream is removed
 #endif // _EVENT_H_
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.9 1999/12/16 02:37:56 ijr Exp $
+   $Id: ThemeManager.cpp,v 1.10 1999/12/22 17:23:14 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -68,7 +68,14 @@ Error ThemeManager::GetDefaultTheme(string &oThemePath)
     map<string, string> oThemeList;
 
     GetThemeList(oThemeList);
-    oThemePath = oThemeList["FreeAmp"];
+
+    string themeName = BRANDING_DEFAULT_THEME;
+    char *dot;
+
+    if ((dot = strchr(themeName.c_str(), '.')))
+        *dot = '\0';
+
+    oThemePath = oThemeList[themeName];
 
     return kError_NoErr;
 }

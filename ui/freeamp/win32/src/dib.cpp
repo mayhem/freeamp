@@ -19,11 +19,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dib.cpp,v 1.6 1999/04/01 17:02:58 elrod Exp $
+	$Id: dib.cpp,v 1.7 1999/04/28 05:16:20 elrod Exp $
 ____________________________________________________________________________*/
 
+/* system headers */
 #include <assert.h>
+#include <malloc.h>
+#include <math.h>
 
+/* project headers */
 #include "dib.h"
 
 
@@ -143,7 +147,7 @@ Create( uint32 width,
 
 bool 
 DIB::
-Load(HANDLE module, LPCTSTR resource) 
+Load(HMODULE module, LPCTSTR resource) 
 {
     bool result = false;
     HRSRC rsrcHandle = NULL;

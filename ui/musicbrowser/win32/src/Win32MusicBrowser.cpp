@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.19 1999/10/18 01:35:17 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.20 1999/10/18 01:56:35 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -600,6 +600,12 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
             m_currentindex = pListView->lParam;
             UpdateButtonStates();
         }
+	    if (pListView->hdr.code == NM_DBLCLK)
+        {
+            m_playerEQ->AcceptEvent(new Event(CMD_Stop));
+            m_context->plm->SetCurrentIndex(pListView->iItem);
+            m_playerEQ->AcceptEvent(new Event(CMD_Play));
+        }    
             
         return 0;
     }

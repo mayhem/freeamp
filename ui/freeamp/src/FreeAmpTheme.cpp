@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.46 1999/10/18 01:35:13 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.47 1999/10/18 01:56:33 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -198,11 +198,14 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          char  *pFoo = strrchr(info->m_filename, '/');
          bool   bSet = true;
 
-         pFoo = (pFoo ? ++pFoo : info->m_filename);
-         m_oTitle = string(pFoo);
-         m_pWindow->ControlStringValue(oName, true, m_oTitle);
-         oText = string(BRANDING": ") + string(pFoo);
-         m_pWindow->SetTitle(oText);
+         if (m_oTitle.length() == 0)
+         {
+             pFoo = (pFoo ? ++pFoo : info->m_filename);
+             m_oTitle = string(pFoo);
+             m_pWindow->ControlStringValue(oName, true, m_oTitle);
+             oText = string(BRANDING": ") + string(pFoo);
+             m_pWindow->SetTitle(oText);
+         }
 
 		 // Enable/disable the seek slider
          m_iTotalSeconds = (int32) info->m_totalSeconds;
@@ -227,15 +230,23 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          PlaylistCurrentItemInfoEvent *pInfo = 
             (PlaylistCurrentItemInfoEvent *)e;
          pItem = pInfo->Item();
-         
-         Debug_v("Artist: %s", pItem->GetMetaData().Artist().c_str());
-         Debug_v("Album: %s", pItem->GetMetaData().Album().c_str());
+    
+         if (pItem->GetMetaData().Title().length() > 0 || 
+             pItem->GetMetaData().Artist().length() > 0)
+         {
+             string oText;
+             
+             m_oTitle = pItem->GetMetaData().Title();
+             if (pItem->GetMetaData().Artist().length() > 0)
+                m_oTitle += string(" -- ") + pItem->GetMetaData().Artist();
 
-         m_oTitle = pItem->GetMetaData().Title() + string(" -- ") +
-                    pItem->GetMetaData().Artist();
+             m_pWindow->ControlStringValue(string("Title"), true, m_oTitle);
+             oText = string(BRANDING": ") + m_oTitle;
+             m_pWindow->SetTitle(oText);
+         }    
+         else
+             m_oTitle = "";
                     
-         m_pWindow->ControlStringValue(string("Title"), true, m_oTitle);
-         
          break;
       }
       

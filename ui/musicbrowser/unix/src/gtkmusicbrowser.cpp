@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.67 2000/03/13 21:26:00 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.68 2000/03/13 21:55:56 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1345,7 +1345,6 @@ void GTKMusicBrowser::UpdateCatalog(void)
 
     RegenerateCDTree();
  
-    } 
     gtk_ctree_sort_recursive(musicBrowserTree, playlistTree);
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
 

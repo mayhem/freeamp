@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: eventbuffer.cpp,v 1.12 1999/07/09 03:59:35 elrod Exp $
+   $Id: eventbuffer.cpp,v 1.13 1999/07/13 18:37:15 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -71,8 +71,6 @@ Error EventBuffer::BeginRead(void *&pBuffer, size_t iBytesWanted)
       iMaxBytes = (GetBufferSize() - iReadIndex) + pEvent->iIndex;
    }
 
-   //Debug_v("Mb: %d wn: %d (event at: %d, ri: %d, wi: %d bi: %d bs: %d)",  iMaxBytes, iBytesWanted,
-   //    pEvent->iIndex, iReadIndex, GetWriteIndex(), GetNumBytesInBuffer(), GetBufferSize());
    if (iBytesWanted >= iMaxBytes)
       return kError_EventPending;
    else

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.1.2.2 1999/09/26 06:33:17 elrod Exp $
+	$Id: downloadui.h,v 1.1.2.3 1999/09/27 01:51:24 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -58,6 +58,8 @@ class DownloadUI : public UserInterface {
 
     BOOL InitDialog();
     BOOL Command(int32 command, HWND src);
+    BOOL DrawItem(int32 controlId, DRAWITEMSTRUCT* dis);
+    BOOL MeasureItem(HWND hwnd, MEASUREITEMSTRUCT* mis);
 
    
  protected:
@@ -65,6 +67,8 @@ class DownloadUI : public UserInterface {
     void ParseArgs(int32 argc, char** argv);
 
     static void UIThreadFunc(void *);
+
+    void CalcStringEllipsis(HDC hdc, string& displayString, uint32 columnWidth);
 
     FAContext*		m_context;
 
@@ -77,7 +81,15 @@ class DownloadUI : public UserInterface {
     EventQueue*         m_target;
     DownloadManager*    m_dlm;
 
-    HWND m_hwnd;
+    HWND    m_hwnd;
+    HWND    m_hwndList;
+    HWND    m_hwndInfo;
+    HWND    m_hwndPause;
+    HWND    m_hwndCancel;
+    HWND    m_hwndResume;
+    HWND    m_hwndClose;
+
+    HIMAGELIST  m_imageList;
 };
 
 

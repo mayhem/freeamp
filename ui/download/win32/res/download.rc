@@ -52,23 +52,24 @@ END
 // Dialog
 //
 
-IDD_DIALOG DIALOGEX 0, 0, 152, 47
-STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_ACCEPTFILES
-CAPTION "FreeAmp"
+IDD_DIALOG DIALOGEX 0, 0, 274, 199
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | WS_MINIMIZEBOX | 
+    WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "FreeAmp - Download Manager"
 FONT 8, "MS Sans Serif"
 BEGIN
-    PUSHBUTTON      "Play",IDC_PLAY,32,4,29,13
-    PUSHBUTTON      "Stop",IDC_STOP,91,4,29,13
-    PUSHBUTTON      ">>",IDC_NEXTSONG,121,4,29,13
-    PUSHBUTTON      "<<",IDC_LASTSONG,2,4,29,13
-    PUSHBUTTON      "Pause",IDC_PAUSE,61,4,29,13
-    CONTROL         "Slider1",IDC_SLIDER,"msctls_trackbar32",TBS_BOTH | 
-                    TBS_NOTICKS | WS_TABSTOP,34,20,81,11
-    LTEXT           "00:00:00",IDC_TOTAL_TIME,119,22,31,8
-    LTEXT           "00:00:00",IDC_CURRENT_TIME,2,22,31,8
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,0,152,1
+    CONTROL         "List2",IDC_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SHOWSELALWAYS | LVS_OWNERDRAWFIXED | 
+                    LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,2,2,270,83,
+                    WS_EX_CLIENTEDGE
+    CONTROL         "List3",IDC_INFO,"SysListView32",LVS_REPORT | 
+                    LVS_OWNERDRAWFIXED | LVS_NOCOLUMNHEADER | WS_BORDER | 
+                    WS_TABSTOP,2,97,270,80,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Cancel Download",IDC_CANCEL,2,182,70,14
+    PUSHBUTTON      "Resume Download",IDC_RESUME,142,182,70,14
+    PUSHBUTTON      "Pause Download",IDC_PAUSE,72,182,70,14
+    PUSHBUTTON      "Close",IDC_CLOSE,222,182,50,14
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDVERT,216,181,1,17
 END
 
 
@@ -82,42 +83,13 @@ GUIDELINES DESIGNINFO DISCARDABLE
 BEGIN
     IDD_DIALOG, DIALOG
     BEGIN
-        BOTTOMMARGIN, 45
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 272
+        TOPMARGIN, 2
+        BOTTOMMARGIN, 198
     END
 END
 #endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Accelerator
-//
-
-IDA_PLAYLISTEDITOR ACCELERATORS FIXED IMPURE 
-BEGIN
-    "A",            IDC_SELECTALL,          VIRTKEY, CONTROL, NOINVERT
-    "C",            IDC_COPY,               VIRTKEY, CONTROL, NOINVERT
-    "F",            IDC_FIND,               VIRTKEY, CONTROL, NOINVERT
-    "N",            IDC_NEW,                VIRTKEY, CONTROL, NOINVERT
-    "O",            IDC_OPEN,               VIRTKEY, CONTROL, NOINVERT
-    "S",            IDC_SAVE,               VIRTKEY, CONTROL, NOINVERT
-    "V",            IDC_PASTE,              VIRTKEY, CONTROL, NOINVERT
-    VK_DELETE,      IDC_DELETE,             VIRTKEY, NOINVERT
-    "X",            IDC_CUT,                VIRTKEY, CONTROL, NOINVERT
-    "Y",            IDC_REDO,               VIRTKEY, CONTROL, NOINVERT
-    "Z",            IDC_UNDO,               VIRTKEY, CONTROL, NOINVERT
-END
-
-IDA_PLAYER ACCELERATORS FIXED IMPURE 
-BEGIN
-    "A",            IDC_PAUSE,              VIRTKEY, CONTROL, NOINVERT
-    "L",            IDC_EDIT_CURRENTPLAYLIST, VIRTKEY, CONTROL, NOINVERT
-    "O",            IDC_OPEN,               VIRTKEY, CONTROL, NOINVERT
-    "P",            IDC_PLAY,               VIRTKEY, CONTROL, NOINVERT
-    "S",            IDC_STOP,               VIRTKEY, CONTROL, NOINVERT
-    VK_NEXT,        IDC_NEXTSONG,           VIRTKEY, NOINVERT
-    VK_PRIOR,       IDC_LASTSONG,           VIRTKEY, NOINVERT
-END
 
 
 #ifndef _MAC
@@ -162,6 +134,14 @@ BEGIN
 END
 
 #endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_NOTE                BITMAP  FIXED IMPURE    "note.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

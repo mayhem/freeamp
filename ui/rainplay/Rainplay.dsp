@@ -145,7 +145,7 @@ PostBuild_Cmds=IF NOT EXIST ..\..\base\win32\prj\plugins mkdir\
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /G6 /MT /W3 /GX /O2 /Op /Ob2 /I "." /I ".\Equalizer" /I ".\PlayList" /I ".\VisualView" /I ".\VisualView\Fft" /I ".\Preferences" /I "..\..\base\win32\include" /I "..\..\lmc\include" /I "..\..\io\include" /I "..\..\config" /I "..\include" /I "..\..\base\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_WINDLL" /YX /FD /c
-# ADD CPP /nologo /G6 /MT /W3 /GX /O2 /Op /Ob2 /I "." /I ".\Equalizer" /I ".\PlayList" /I ".\VisualView" /I ".\VisualView\Fft" /I ".\Preferences" /I "..\..\base\win32\include" /I "..\..\lmc\include" /I "..\..\io\include" /I "..\..\config" /I "..\include" /I "..\..\base\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_WINDLL" /YX /FD /c
+# ADD CPP /nologo /G6 /MD /W3 /GX /O2 /Op /Ob2 /I "." /I ".\Equalizer" /I ".\PlayList" /I ".\VisualView" /I ".\VisualView\Fft" /I ".\Preferences" /I "..\..\base\win32\include" /I "..\..\lmc\include" /I "..\..\io\include" /I "..\..\config" /I "..\include" /I "..\..\base\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_WINDLL" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"

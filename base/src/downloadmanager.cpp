@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.26 1999/09/26 01:47:59 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.27 1999/09/27 01:51:17 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -57,6 +57,8 @@ ____________________________________________________________________________*/
 #include "utility.h"
 #include "event.h"
 #include "eventdata.h"
+#include "musicbrowser.h"
+
 
 DownloadManager::DownloadManager(FAContext* context)
 {
@@ -108,8 +110,6 @@ DownloadManager::~DownloadManager()
     uint32 size = 0;
     DownloadItem* item = NULL;
     //uint32 count = 0;
-
-    m_queueMutex.Acquire();
 
     m_runDownloadThread = false;
     m_queueSemaphore.Signal();
@@ -989,6 +989,14 @@ Error DownloadManager::SubmitToDatabase(DownloadItem* item)
     if(item)
     {
         cout << "Submitting item: " << item->SourceURL() << endl;
+
+        char path[MAX_PATH];
+        uint32 length = sizeof(path);
+
+        URLToFilePath(item->DestinationURL().c_str(), path, &length);
+
+
+        m_context->browser->WriteMetaDataToDatabase(path, item->GetMetaData());
     }
 
     return result;
@@ -1000,8 +1008,6 @@ void DownloadManager::DownloadThreadFunction()
 
     while(m_runDownloadThread)
     {
-        m_queueSemaphore.Wait();
-
         DownloadItem* item = GetNextQueuedItem();
         Error result;
 
@@ -1036,6 +1042,8 @@ void DownloadManager::DownloadThreadFunction()
 
             SendStateChangedMessage(item);
         }
+
+        m_queueSemaphore.Wait();
     }
 
     cout << "Exiting download thread..." << endl;

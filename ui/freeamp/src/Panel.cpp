@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Panel.cpp,v 1.1 2000/06/02 22:04:26 robert Exp $
+   $Id: Panel.cpp,v 1.1.6.1 2000/06/06 22:47:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -36,23 +36,18 @@ ____________________________________________________________________________*/
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
-Panel::Panel(string &oName, Bitmap *pPanelBitmap, int iZOrder,
-             Rect &oRect, Pos &oPos, Window *pWindow)
+Panel::Panel(const string &oName)
 {
     m_oName = oName;
-    m_pWindow = pWindow;
-    m_pPanelBitmap = pPanelBitmap;
-    m_oRect = oRect;
-    m_oPos = oPos;
-    m_iZOrder = iZOrder;
+    m_pWindow = NULL;
+    m_pPanelBitmap = NULL;
+    m_iZOrder = -1;
+    m_oPos.x = m_oPos.y = -1;
+    m_oTogglePos.x = m_oTogglePos.y = -1;
+    m_pOnOpenHide = m_pOnOpenShow = m_pOnCloseHide = m_pOnCloseShow = NULL;
     m_bIsOpen = false;
+    m_bIsHidden = false;
 }
-
-Panel::Panel(Window *pWindow)
-{
-    m_pWindow = pWindow;
-}
-
 
 Panel::~Panel(void)
 {
@@ -63,6 +58,11 @@ Panel::~Panel(void)
 void Panel::Init(void)
 {
     vector<Control *>::iterator i;
+
+    if (m_pOnCloseShow)
+       m_pOnCloseShow->Hide(false);
+    if (m_pOnCloseHide)
+       m_pOnCloseHide->Hide(true);
 
     for(i = m_oControls.begin(); i != m_oControls.end(); i++)
     {
@@ -211,9 +211,6 @@ Control *Panel::ControlFromPos(Pos &oPos)
     bool                        bShown;
     Control                    *pControl;
 
-    if (!m_bIsOpen)
-       return NULL;
-
     for(i = m_oControls.begin(); i != m_oControls.end(); i++)
     {
         (*i)->Show(false, bShown);
@@ -255,4 +252,40 @@ bool Panel::operator<(const Panel *&a)
     if (a->m_iZOrder < m_iZOrder)
        return -1;
     return 1;
+}
+
+void Panel::TogglePanelPos(void)
+{
+    Pos oTemp;
+
+    if (m_bIsOpen)
+    {
+        if (m_pOnCloseShow)
+            m_pOnCloseShow->Hide(false);
+        if (m_pOnCloseHide)
+            m_pOnCloseHide->Hide(true);
+    } 
+    else
+    {
+        if (m_pOnOpenShow)
+            m_pOnOpenShow->Hide(false);
+        if (m_pOnOpenHide)
+            m_pOnOpenHide->Hide(true);
+    } 
+
+    m_bIsOpen = !m_bIsOpen;
+    oTemp = m_oPos;
+    m_oPos = m_oTogglePos;
+    m_oTogglePos = oTemp;
+}
+
+void Panel::ShowAllControls(void)
+{
+    ControlMapIterator i;
+
+    for (i = m_oControlMap.begin(); i != m_oControlMap.end(); i++)
+    {
+         i->second->Init();
+         i->second->AcceptTransition(CT_Show);
+    }        
 }

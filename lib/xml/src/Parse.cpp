@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.7 2000/05/24 17:08:33 ijr Exp $
+   $Id: Parse.cpp,v 1.7.6.1 2000/06/06 22:47:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -244,8 +244,8 @@ Error Parse::DoParse(void)
             }
 
             iOffset += iTemp;
-            oAttr = szAttr;
-            oValue = szValue;
+            oAttr = string(szAttr);
+            oValue = string(szValue);
             oAttrMap[szAttr] = szValue;
         }
 

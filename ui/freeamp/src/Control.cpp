@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.15 2000/06/02 22:03:52 robert Exp $
+   $Id: Control.cpp,v 1.15.4.1 2000/06/06 22:47:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -55,6 +55,7 @@ Control::Control(Window *pWindow, string &oName, TransitionInfo *pInfo)
     m_oValue = string("");
     m_pBitmap = NULL;
     m_bWantsTimingMessages = false;
+    m_oOrigRect.x1 = m_oOrigRect.y1 = m_oOrigRect.x2 = m_oOrigRect.y2 = -1;
     
     for(iLoop = 0; ; iLoop++, pInfo++)
     {
@@ -191,7 +192,7 @@ void Control::SetParent(Window *pParent)
 void Control::SetRect(Rect &oRect)
 {
     m_oMutex.Acquire();
-    m_oRect = oRect;
+    m_oOrigRect = m_oRect = oRect;
     m_oMutex.Release();
 }
 
@@ -209,6 +210,7 @@ void Control::SetPos(Pos &oPos)
     m_oRect.y1 = oPos.y;
     m_oRect.x2 = -1;
     m_oRect.y2 = -1;
+    m_oOrigRect = m_oRect;
     m_oMutex.Release();
 }
 
@@ -415,8 +417,16 @@ bool Control::WantsTimingMessages(void)
 
 void Control::Move(Pos &oPos)
 {
-    m_oRect.x1 += oPos.x;
-    m_oRect.y1 += oPos.y;
-    m_oRect.x2 += oPos.x;
-    m_oRect.y2 += oPos.y;
+    m_oRect.x1 = m_oOrigRect.x1 + oPos.x;
+    m_oRect.y1 = m_oOrigRect.y1 + oPos.y;
+    if (m_oOrigRect.x2 != -1 && m_oOrigRect.y2 != -1)
+    {
+        m_oRect.x2 = m_oOrigRect.x2 + oPos.x;
+        m_oRect.y2 = m_oOrigRect.y2 + oPos.y;
+    }
+    else
+    {
+        m_oRect.x2 = m_oOrigRect.x2;
+        m_oRect.y2 = m_oOrigRect.y2;
+    }
 }

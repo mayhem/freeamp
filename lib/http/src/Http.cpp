@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.6 2000/05/25 18:21:24 ijr Exp $
+   $Id: Http.cpp,v 1.6.6.1 2000/06/06 22:47:31 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -215,6 +215,7 @@ Error Http::Download(const string &url, bool fileDownload)
         struct hostent* hostByName;
         struct hostent  hostByIP;
 
+        printf("%s\n", hostname);
         //*m_debug << "gethostbyname: " << hostname << endl;
         hostByName = gethostbyname(hostname);
 
@@ -224,6 +225,7 @@ Error Http::Download(const string &url, bool fileDownload)
         // numeric address before giving up.
         if(!hostByName)
         {
+DB
             static unsigned long ip;
             static char *addr_ptr[2] = {(char*)&ip, NULL};
 
@@ -240,6 +242,7 @@ Error Http::Download(const string &url, bool fileDownload)
 
         if(IsntError(result))
         {
+DB
             memcpy(&host, hostByName, sizeof(struct hostent));
         }
     }
@@ -254,7 +257,9 @@ Error Http::Download(const string &url, bool fileDownload)
 
         //*m_debug << "socket" << endl;
 
+DB
         s = socket(host.h_addrtype, SOCK_STREAM, 0);
+DB
 
         if(s < 0)
             result = kError_CantCreateSocket;
@@ -266,16 +271,22 @@ Error Http::Download(const string &url, bool fileDownload)
         Error err;
         int   ret;
         
+DB
         err = Connect(s, (struct sockaddr*)&addr, ret);
+DB
         if (IsError(err))
             result = kError_UserCancel;
+DB
             
         if (ret < 0)    
             result = kError_ConnectFailed;
+DB
 
         if(IsntError(result))
         {
+DB
             gethostname(localname, kMaxHostNameLen);    
+DB
 
             const char* kHTTPQuery = "GET %s HTTP/1.1\r\n"
                                      "Host: %s\r\n"
@@ -295,6 +306,7 @@ Error Http::Download(const string &url, bool fileDownload)
 
             int count;
 
+DB
             err = Send(s, query, strlen(query), 0, count);
             if (IsError(err))
                 result = kError_UserCancel; 
@@ -307,6 +319,7 @@ Error Http::Download(const string &url, bool fileDownload)
             delete [] query;
         }
     }
+DB
 
     // receive response
     if(IsntError(result))
@@ -320,6 +333,7 @@ Error Http::Download(const string &url, bool fileDownload)
 
         result = kError_OutOfMemory;
 
+DB
         if(buffer)
         {
             Error err;
@@ -340,6 +354,7 @@ Error Http::Download(const string &url, bool fileDownload)
                     }
                 }
 
+DB
                 err = Recv(s, buffer + total, bufferSize - total - 1, 0, count);
                 if (IsError(err))
                     result = kError_UserCancel;
@@ -354,6 +369,7 @@ Error Http::Download(const string &url, bool fileDownload)
             }while(IsntError(result) && !IsHTTPHeaderComplete(buffer, total));
         }
 
+DB
         // parse header
         if(IsntError(result))
         {
@@ -368,6 +384,7 @@ Error Http::Download(const string &url, bool fileDownload)
                 // 1xx: Informational - Request received, continuing process
                 case '1':
                 {
+DB
                     // not sure what to do here... continue receiving???
                 }    
 
@@ -380,6 +397,7 @@ Error Http::Download(const string &url, bool fileDownload)
 
                     int32 fileSize = GetContentLengthFromHeader(buffer);
 
+DB
 
                     result = kError_NoErr;
                     int wcount = 0;
@@ -403,11 +421,13 @@ Error Http::Download(const string &url, bool fileDownload)
                         }
                     }
 
+DB
                     do
                     {
                         err = Recv(s, buffer,
                                    min(bufferSize, fileSize - bytesReceived),
                                    0, count);
+DB
                         if (IsError(err))
                             result = kError_UserCancel;
                         else
@@ -429,10 +449,12 @@ Error Http::Download(const string &url, bool fileDownload)
 
                         if(wcount < 0)
                             result = kError_WriteFile;
+DB
 
                     }while(count > 0 && IsntError(result) &&
                            !m_exit && wcount >= 0 &&
                            (int)bytesReceived != fileSize);
+DB
 
                 break;   
                 }
@@ -441,6 +463,7 @@ Error Http::Download(const string &url, bool fileDownload)
                 // complete the request
                 case '3':
                 {
+DB
                     char* cp = strstr(buffer, "Location:");
                     //int32 length;
 
@@ -480,6 +503,7 @@ Error Http::Download(const string &url, bool fileDownload)
                 // be fulfilled
                 case '4':
                 {
+DB
                     switch(returnCode)
                     {
                         case 400:
@@ -521,6 +545,7 @@ Error Http::Download(const string &url, bool fileDownload)
         if(buffer)
             free(buffer);            
     }
+    DB
 
     // cleanup
     if(s > 0)

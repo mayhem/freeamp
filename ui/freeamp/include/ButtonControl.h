@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.h,v 1.5.6.1 2000/06/06 10:40:43 robert Exp $
+   $Id: ButtonControl.h,v 1.5.6.2 2000/06/06 22:47:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BUTTONCONTROL_H__
@@ -58,6 +58,7 @@ class ButtonControl : public Control
 
 	  string  m_oTargetWindow;
      Panel  *m_pPanelToToggle;
+     Pos     m_oPos;
 };
 
 #endif

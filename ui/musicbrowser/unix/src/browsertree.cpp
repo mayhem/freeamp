@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.14 2000/06/02 15:47:35 ijr Exp $
+        $Id: browsertree.cpp,v 1.14.4.1 2000/06/06 22:47:31 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -60,7 +60,7 @@ ____________________________________________________________________________*/
 #include "../res/streams_pix.xpm"
 #include "../res/favorites_pix.xpm"
 
-const string streamURL = "http://mizar/streams.xml";
+const string streamURL = "http://www.freeamp.org/streams.xml";
 
 void kill_treedata(TreeData *dead)
 {

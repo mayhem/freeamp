@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.10.4.1 2000/06/06 10:40:43 robert Exp $
+   $Id: Canvas.cpp,v 1.10.4.2 2000/06/06 22:47:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -63,7 +63,6 @@ Canvas::~Canvas(void)
 
 void Canvas::SetBackgroundRect(Rect &oRect)
 {
-	Debug_v("background set %d %d %d %d", oRect.x1, oRect.y1, oRect.x2, oRect.y2);
     m_oBGRect = oRect;
 }
 
@@ -89,36 +88,51 @@ Bitmap *Canvas::GetBackgroundBitmap(void)
     return m_pBGBitmap;
 }
 
+class PanelCompare
+{
+    public:
+
+      bool operator()(Panel *a, Panel *b)
+      {
+          if (a->GetZOrder() > b->GetZOrder())
+             return true;
+          return false;
+      }
+}; 
+
 void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
 {
     vector<Panel *>::iterator i;
     Rect                      oDestRect, oSrcRect, oUnion, oTemp;
-    Pos                       oOffset, oBitmapPos;
+    Pos                       oOffset, oBitmapPos, oTempPos;
     int                       iLoop;
     Color                     oColor;
 
-    // if we have a complete background bitmap, then this is an old
-    // theme that uses an implied panel, which means there is nothing
-    // to do here.
-    if (m_pBGBitmap)
-    {
-        Debug_v("Have complete bitmap -- do I want this?\n");
-        return;
-    }
+    //printf("init backgrounds\n");
 	 if (m_pBGBitmap)
 	   delete m_pBGBitmap;
 
     // Calculate the bounding rectangle of all the panels
     for(i = pPanels->begin(), iLoop = 0; i != pPanels->end(); i++, iLoop++)
     {
+        if ((*i)->IsHidden())
+        {
+            iLoop--;
+            continue;
+        }
+
         (*i)->GetRect(oTemp);
+        (*i)->GetPos(oOffset);
+        oTemp.x1 += oOffset.x;
+        oTemp.y1 += oOffset.y;
+        oTemp.x2 += oOffset.x;
+        oTemp.y2 += oOffset.y;
         if (iLoop == 0)
            oUnion = oTemp;
         else
            oUnion.Union(oTemp);
 
     }
-    //Debug_v("union: %d %d %d %d", oUnion.x1, oUnion.y1, oUnion.x2, oUnion.y2);
      
     oOffset.x = oUnion.x1;
     oOffset.y = oUnion.y1;
@@ -150,14 +164,25 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
     SetBackgroundRect(oUnion);
 
     // Sort the panels in ascending Zorder
-    sort(pPanels->begin(), pPanels->end());
+    sort(pPanels->begin(), pPanels->end(), PanelCompare());
 
     // And now blit the panel bitmaps to the background bitmap
-    for(i = pPanels->begin(); i != pPanels->end(); i++)
+    for(i = pPanels->end() - 1; i >= pPanels->begin(); i--)
     {
-        (*i)->MoveControls(oOffset);
+        if ((*i)->IsHidden())
+            continue;
+
         (*i)->GetRect(oSrcRect);
         (*i)->GetPos(oBitmapPos);
+
+        //printf("src: %d %d %d %d\n", 
+        //    oSrcRect.x1, oSrcRect.y1, oSrcRect.x2, oSrcRect.y2);
+        //printf("pos: %d %d\n\n", 
+        //    oBitmapPos.x, oBitmapPos.y);
+        oTempPos.x = oOffset.x + oBitmapPos.x;
+        oTempPos.y = oOffset.y + oBitmapPos.y;
+        (*i)->MoveControls(oTempPos);
+
         oDestRect.x1 = oBitmapPos.x - oOffset.x; 
         oDestRect.y1 = oBitmapPos.y - oOffset.y; 
         oDestRect.x2 = oDestRect.x1 + oSrcRect.Width();

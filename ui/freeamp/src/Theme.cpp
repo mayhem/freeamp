@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.44 2000/06/02 22:03:52 robert Exp $
+   $Id: Theme.cpp,v 1.44.4.1 2000/06/06 22:47:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -631,9 +631,13 @@ DB
     if (oElement == string("Panel"))
     {
        Rect    oRect;
-       Pos     oPos;
+       Pos     oPos, oTogglePos;
        Bitmap *pBitmap;
        Canvas *pCanvas;
+
+       oTogglePos.x = -1;
+       oTogglePos.y = -1;
+
 
        pCanvas = m_pCurrentWindow->GetCanvas();
        if (pCanvas->GetBackgroundBitmap())
@@ -699,9 +703,34 @@ DB
            return kError_InvalidParam;
        }
 
-       m_pCurrentPanel = new Panel(oAttrMap["Name"], pBitmap, 
-                                   atoi(oAttrMap["ZOrder"].c_str()), oRect, oPos, 
-                                   m_pCurrentWindow);
+       m_pCurrentPanel = FindPanel(oAttrMap["Name"]);
+       m_pCurrentPanel->SetPanelBitmap(pBitmap); 
+       m_pCurrentPanel->SetZOrder(atoi(oAttrMap["ZOrder"].c_str())); 
+       m_pCurrentPanel->SetRect(oRect);
+       m_pCurrentPanel->SetPos(oPos);
+       m_pCurrentPanel->SetParentWindow(m_pCurrentWindow);
+
+       if (oAttrMap.find("TogglePos") != oAttrMap.end())
+       {
+           eRet = ParsePos(oAttrMap["TogglePos"], oTogglePos);
+           if (eRet != kError_NoErr)
+           {
+               m_oLastError = string("Improperly formatted Pos coordinates: ") +
+                              oAttrMap["Pos"];
+               return kError_InvalidParam;
+           }
+           m_pCurrentPanel->SetTogglePos(oTogglePos);
+       }
+
+       if (oAttrMap.find("OnCloseHide") != oAttrMap.end())
+           m_pCurrentPanel->SetOnCloseHide(FindPanel(oAttrMap["OnCloseHide"]));
+       if (oAttrMap.find("OnCloseShow") != oAttrMap.end())
+           m_pCurrentPanel->SetOnCloseShow(FindPanel(oAttrMap["OnCloseShow"]));
+       if (oAttrMap.find("OnOpenHide") != oAttrMap.end())
+           m_pCurrentPanel->SetOnOpenHide(FindPanel(oAttrMap["OnOpenHide"]));
+       if (oAttrMap.find("OnOpenShow") != oAttrMap.end())
+           m_pCurrentPanel->SetOnOpenShow(FindPanel(oAttrMap["OnOpenShow"]));
+
        return kError_NoErr;
     }
     if (oElement == string("Controls"))
@@ -715,7 +744,8 @@ DB
 
        if (m_pCurrentPanel == NULL)
        {
-           m_pCurrentPanel = new Panel(m_pCurrentWindow);
+           m_pCurrentPanel = new Panel("DummyPanel");
+           m_pCurrentPanel->SetParentWindow(m_pCurrentWindow);
        }
 
        return kError_NoErr;
@@ -1101,7 +1131,7 @@ DB
        }
        if (oAttrMap.find("Panel") == oAttrMap.end())
        {
-           m_oLastError = string("the <ChangeWindow> tag needs a Panel attribute");
+           m_oLastError = string("the <TogglePanel> tag needs a Panel attribute");
            return kError_ParseError;
        }        
 
@@ -1566,6 +1596,8 @@ Error Theme::EndElement(string &oElement)
 
     if (oElement == string("Window"))
     {
+       vector<Panel *>::iterator i;
+
        if (!m_pParsedWindows)
            m_pParsedWindows = new vector<Window *>;
 
@@ -1581,6 +1613,17 @@ Error Theme::EndElement(string &oElement)
            
        m_pCurrentWindow = NULL;
 
+       for(i = m_oPanels.begin(); i != m_oPanels.end(); i++)
+       {
+           if ((*i)->GetParentWindow() == NULL)
+           {
+               string oName;
+               (*i)->GetName(oName);
+               m_oLastError = string("Panel ") + oName + 
+                              string(" was referenced but never defined");
+               return kError_InvalidParam;
+           }
+       }
        return kError_NoErr;
     }
 
@@ -1634,6 +1677,14 @@ Panel *Theme::FindPanel(string &oName)
 {
     vector<Panel *>::iterator i;
     string                     oTemp;
+    Panel                     *pTemp;
+
+    if (m_pCurrentPanel)
+    {
+        m_pCurrentPanel->GetName(oTemp);
+        if (oTemp == oName)
+           return m_pCurrentPanel;
+    }
 
     for(i = m_oPanels.begin(); i != m_oPanels.end(); i++)
     {
@@ -1642,7 +1693,11 @@ Panel *Theme::FindPanel(string &oName)
           return *i;
     }
 
-    return NULL;
+    // No panels found. Lets assume that this is a forward reference.
+    pTemp = new Panel(oName);
+    m_oPanels.push_back(pTemp);
+
+    return pTemp;
 }
 
 Font *Theme::FindFont(string &oName)
@@ -1722,9 +1777,7 @@ Error Theme::ParsePos(string &oPosstring, Pos &oPos)
 {
     int iRet;
 
-    iRet = sscanf(oPosstring.c_str(), " %d , %d",
-            &oPos.x, &oPos.y);
-
+    iRet = sscanf(oPosstring.c_str(), " %d , %d", &oPos.x, &oPos.y);
     return (iRet == 2) ? kError_NoErr : kError_InvalidParam;
 }
 

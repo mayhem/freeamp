@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.15 2000/06/02 22:03:52 robert Exp $
+   $Id: Control.h,v 1.15.4.1 2000/06/06 22:47:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -176,7 +176,7 @@ class Control
                                  bool bUpdate = true);
 
       string                 m_oName, m_oDesc, m_oToolTip;
-      Rect                   m_oRect, m_oBitmapRect;
+      Rect                   m_oRect, m_oBitmapRect, m_oOrigRect;
       Bitmap                *m_pBitmap;
       ControlStateEnum       m_eCurrentState, m_eLastState;
       vector<TransitionInfo> m_oTransitions;

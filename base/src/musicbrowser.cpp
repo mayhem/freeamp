@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.5 1999/09/16 00:03:58 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.6 1999/09/17 18:20:18 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -56,6 +56,14 @@ void MusicCatalog::PopulateFromDatabase(MusicBrowser *mb, Database *dbase)
     assert(mb);
     assert(dbase);
 
+    delete m_artistList;
+    delete m_unsorted;
+    delete m_playlists;
+
+    m_artistList = new vector<ArtistList *>;
+    m_unsorted = new vector<PlaylistItem *>;
+    m_playlists = new vector<char *>;
+ 
     char *key = dbase->NextKey(NULL);
     while (key) {
         char *data = dbase->Value(key);
@@ -150,13 +158,19 @@ void MusicBrowser::SearchMusic(char *path)
 {
     m_numSymLinks = 0;
     DoSearchMusic(path);
+
+    m_database->Sync();
+    m_catalog->PopulateFromDatabase(this, m_database);
 }
 
 void MusicBrowser::DoSearchMusic(char *path)
 {
     WIN32_FIND_DATA find;
     HANDLE handle;
-    char search[MAX_PATH];
+    char *search;
+
+    search = new char[strlen(path) + strlen(DIR_MARKER_STR) + 3];
+
   
     Player *m_player = Player::GetPlayer(0);
     strcpy(search, path);
@@ -168,11 +182,13 @@ void MusicBrowser::DoSearchMusic(char *path)
 
     handle = FindFirstFile(search, &find);
 
+    delete search;
+
     if (handle != INVALID_HANDLE_VALUE)
     {
         do
         {
-            char *fileExt = m_player->GetExtension(find.cFileName);
+            char *fileExt;
 
             if ((find.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
 #ifndef WIN32
@@ -191,13 +207,19 @@ void MusicBrowser::DoSearchMusic(char *path)
                     }
 #endif
 
-                    char *newDir = new char[MAX_PATH];
+                    char *newDir = new char[strlen(path) + strlen(find.cFileName) 
+                                            + strlen(DIR_MARKER_STR) + 1];
 
                     if (path[strlen(path) - 1] != DIR_MARKER)
                         sprintf(newDir, "%s%s%s", path, DIR_MARKER_STR, find.cFileName);
                     else
                         sprintf(newDir, "%s%s", path, find.cFileName);
-                    
+
+                    if (!strcmp(newDir, path)) {
+                        delete newDir;
+                        continue;
+                    } 
+
                     DoSearchMusic(newDir);
 #ifndef WIN32
                     if (find.dwFileAttributes == FILE_ATTRIBUTE_SYMLINK)
@@ -206,7 +228,7 @@ void MusicBrowser::DoSearchMusic(char *path)
                     delete newDir;
                 }
             }
-            else if (fileExt)
+            else if ((fileExt = m_player->GetExtension(find.cFileName)))
             {
                 if (!strncmp("m3u", fileExt, 3))
                 {
@@ -242,8 +264,6 @@ void MusicBrowser::DoSearchMusic(char *path)
 
         FindClose(handle);
     }
-    m_database->Sync();
-    m_catalog->PopulateFromDatabase(this, m_database);
 }
 
 char *MusicBrowser::Stradd(char *dest, char *src, bool delim)

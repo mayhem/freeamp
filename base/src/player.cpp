@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.13 1999/09/16 00:03:58 ijr Exp $
+        $Id: player.cpp,v 1.133.2.14 1999/09/17 18:20:18 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -119,7 +119,7 @@ EventQueue()
    m_musicBrowser = new MusicBrowser(m_context);
    m_context->browser = m_musicBrowser;
 
-   char *freeampdir = FreeampDir();
+   char *freeampdir = FreeampDir(m_context->prefs);
    char *tempstr = new char[strlen(freeampdir) + strlen(DIR_MARKER_STR) + 14];
    sprintf(tempstr, "%s%s%s", freeampdir, DIR_MARKER_STR, "metadatabase");
    m_musicBrowser->SetDatabase(tempstr);

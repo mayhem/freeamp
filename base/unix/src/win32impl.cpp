@@ -159,7 +159,7 @@ void FillWin32FindData(char *pDir, char *pF,WIN32_FIND_DATA *wfd) {
     strcpy(wfd->cFileName,pF);
 
     struct stat st;
-    char name[NAME_MAX];
+    char *name = new char[strlen(pDir) + strlen(DIR_MARKER_STR) + strlen(pF) + 1];
 
     if (pDir)
     {
@@ -171,14 +171,18 @@ void FillWin32FindData(char *pDir, char *pF,WIN32_FIND_DATA *wfd) {
     else
        strcpy(name, pF);
 
-    if (lstat(name, &st) == -1)
+    if (lstat(name, &st) == -1) {
+        delete name;
         return;
+    }
     if (S_ISLNK(st.st_mode)) 
         wfd->dwFileAttributes = FILE_ATTRIBUTE_SYMLINK;
     else if (S_ISDIR(st.st_mode))
         wfd->dwFileAttributes = FILE_ATTRIBUTE_DIRECTORY;
     else
         wfd->dwFileAttributes = FILE_ATTRIBUTE_NORMAL;
+
+    delete name;
 }
 
 
@@ -207,6 +211,8 @@ bool FindClose(HANDLE hFindFile) {
     if (!hFindFile) return false;
     FindData *pFD = (FindData *)hFindFile;
     closedir(pFD->pDir);
+    delete pFD;
+
     return true;
 }
 

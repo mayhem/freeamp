@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.1.2.2 1999/09/16 00:03:58 ijr Exp $
+        $Id: database.cpp,v 1.1.2.3 1999/09/17 18:20:17 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -124,7 +124,7 @@ int Database::Exists(const char *key)
     return found;
 }
 
-char *Database::NextKey(const char *key)
+char *Database::NextKey(char *key)
 {
     datum returnKey;
     char *nextKey;
@@ -137,6 +137,8 @@ char *Database::NextKey(const char *key)
         gdbmKey.dsize = strlen(key) + 1;
 
         returnKey = gdbm_nextkey(m_dbase, gdbmKey);
+
+        delete key;
     }
     else
         returnKey = gdbm_firstkey(m_dbase);

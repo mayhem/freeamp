@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.cpp,v 1.1.2.1 1999/08/29 20:24:37 elrod Exp $
+	$Id: id3v1.cpp,v 1.1.2.2 1999/08/29 20:45:26 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -108,7 +108,7 @@ const char* genre_strings[] = {
     "Sound Clip",
     "Gospel",
     "Noise",
-    "AlternRock",
+    "Alternative Rock",
     "Bass",
     "Soul",
     "Punk",
@@ -142,7 +142,7 @@ const char* genre_strings[] = {
     "Lo-Fi",
     "Tribal",
     "Acid Punk",
-    "Acid Jazz" // what is this genre anyway?
+    "Acid Jazz",
     "Polka",
     "Retro",
     "Musical",
@@ -193,7 +193,29 @@ const char* genre_strings[] = {
     "Drum Solo",
     "Acapella",
     "Euro-House",
-    "Dance Hall"
+    "Dance Hall",
+    "Goa", 
+    "Drum & Bass", 
+    "Club-House", 
+    "Hardcore", 
+    "Terror", 
+    "Indie", 
+    "BritPop", 
+    "Negerpunk", 
+    "Polsk Punk", 
+    "Beat", 
+    "Christian Gangsta Rap", 
+    "Heavy Metal", 
+    "Black Metal", 
+    "Crossover", 
+    "Contemporary Christian", 
+    "Christian Rock",
+    "Merengue", 
+    "Salsa", 
+    "Thrash Metal", 
+    "Anime", 
+    "Jpop", 
+    "Synthpop" 
 };
 
 #define kNumGenres sizeof(genre_strings)/sizeof(char*)

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.h,v 1.1.2.3 1999/10/05 00:39:12 elrod Exp $
+	$Id: updatemanager.h,v 1.1.2.4 1999/10/07 07:15:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UPDATE_MANAGER_H_
@@ -39,6 +39,7 @@ using namespace std;
 #include "mutex.h"
 #include "semaphore.h"
 #include "thread.h"
+#include "Parse.h"
 
 #define kInvalidIndex 0xFFFFFFFF
 
@@ -81,37 +82,53 @@ class UpdateItem {
  public:
     virtual ~UpdateItem() { }
     
-    void SetLocalFile(const string& path) { m_localFile = path; }
-    const string& GetLocalFile() const { return m_localFile; }
+    void SetLocalFileName(const string& name) { m_localFileName = name; }
+    const string& GetLocalFileName() const { return m_localFileName; }
 
-    void SetCurrentFile(const string& url) { m_currentFile = url; }
-    const string& GetCurrentFile() const { return m_currentFile; }
+    void SetLocalFilePath(const string& path) { m_localFilePath = path; }
+    const string& GetLocalFilePath() const { return m_localFilePath; }
 
     void SetLocalFileVersion(const string& version) { m_localVersion = version; }
     const string& GetLocalFileVersion() const { return m_localVersion; }
 
+    void SetCurrentFileLocation(const string& location) { m_currentFileLocation = location; }
+    const string& GetCurrentFileLocation() const { return m_currentFileLocation; }
+
+    void SetCurrentFileURL(const string& url) { m_currentFileURL = url; }
+    const string& GetCurrentFileURL() const { return m_currentFileURL; }
+
     void SetCurrentFileVersion(const string& version) { m_currentVersion = version; }
     const string& GetCurrentFileVersion() const { return m_currentVersion; }
+
+    void SetFileDescription(const string& desc) { m_description = desc; }
+    const string& GetFileDescription() const { return m_description; }
 
  protected:
 
  private:
+    string m_localFileName;
+    string m_localFilePath;
     string m_localVersion;
-    string m_localFile;
+
     string m_currentVersion;
-    string m_currentFile;
+    string m_currentFileLocation;
+    string m_currentFileURL;
+    string m_description;
 };
 
-class UpdateManager {
+class UpdateManager : public Parse {
 
  public:
+    UpdateManager(FAContext* context);
     virtual ~UpdateManager();
     
+    void SetPlatform(const string& platform) { m_currentPlatform = platform; }
+    const string&  GetPlatform() { return m_currentPlatform; }
     virtual Error DetermineLocalVersions() { return kError_FeatureNotSupported; }
-    virtual Error RetrieveLatestVersionInfo(UMCallBackFunction function,
-                                            void* cookie);
-    virtual Error UpdateComponents(UMCallBackFunction function,
-                                   void* cookie);
+    Error RetrieveLatestVersionInfo(UMCallBackFunction function = NULL,
+                                    void* cookie = NULL);
+    Error UpdateComponents(UMCallBackFunction function = NULL,
+                           void* cookie = NULL);
 
     // Utility Functions
     bool            IsEmpty();
@@ -121,6 +138,26 @@ class UpdateManager {
     bool            HasItem(UpdateItem* item);
 
  protected:
+    Error AddItem(UpdateItem* item);
+    inline uint32 CheckIndex(uint32 index);
+
+    Error DownloadInfo( string& info, 
+                        UMCallBackFunction function,
+                        void* cookie);
+
+    Error DownloadItem( UpdateItem* item, 
+                        UMCallBackFunction function,
+                        void* cookie);
+    
+    Error ParseInfo(string& info);
+
+    Error BeginElement(string &element, AttrMap &attrMap);
+    Error EndElement(string &element);
+    Error PCData(string &data);
+
+    Error InternalRetrieveLatestVersionInfo(
+                                    UMCallBackFunction function = NULL,
+                                    void* cookie = NULL);
 
  private:
 
@@ -132,6 +169,10 @@ class UpdateManager {
    
     volatile bool m_runUpdateThread;
     Mutex m_quitMutex;
+
+    string m_path;
+    string m_versionPlatform;
+    string m_currentPlatform;
 
 };
 

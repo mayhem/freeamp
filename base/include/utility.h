@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.2.2.6 1999/10/04 02:42:34 elrod Exp $
+	$Id: utility.h,v 1.2.2.7 1999/10/07 07:15:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include "errors.h"
 #include "preferences.h"
 
+void CreateDirectoryPath(const char* path);
 void ResolvePath(char** path);
 void RFC822GMTTimeString(struct tm* time, char buf[32]);
 char *strdup_new(const char *str);

@@ -18,11 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.37 1999/10/06 18:47:02 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.38 1999/10/07 07:15:55 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 #include "config.h"
 #include "downloadmanager.h"
 

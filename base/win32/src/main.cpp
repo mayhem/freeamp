@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.26.6.1 1999/08/27 07:16:46 elrod Exp $
+	$Id: main.cpp,v 1.26.6.2 1999/10/07 07:15:54 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -37,6 +37,7 @@ ____________________________________________________________________________*/
 #include "log.h"
 #include "facontext.h"
 #include "win32prefs.h"
+#include "updatemanager.h"
 
 static
 BOOL
@@ -125,7 +126,11 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     context->prefs = prefs;
     context->log = new LogFile("freeamp.log");
 
-    
+    //UpdateManager um(context);
+
+    //um.RetrieveLatestVersionInfo();
+
+    //return 0;
 
     // find all the plug-ins we use
     Registrar* registrar;

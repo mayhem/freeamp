@@ -119,6 +119,12 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name id3v2
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name toolbar
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name update
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -301,6 +307,18 @@ Package=<4>
 ###############################################################################
 
 Project: "toolbar"=..\..\..\ui\toolbar\win32\prj\toolbar.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "update"=..\..\..\update\win32\prj\update.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

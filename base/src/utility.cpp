@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.2.2.12 1999/10/04 18:59:45 elrod Exp $
+	$Id: utility.cpp,v 1.2.2.13 1999/10/07 07:15:48 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -28,12 +28,43 @@ ____________________________________________________________________________*/
 
 #ifdef WIN32
 #include <direct.h>
+#define MKDIR(z) mkdir(z)
 #else
-#include <unistd.h>
+#define MKDIR(z) mkdir(z, 0755)
 #endif
 
 #include "config.h"
 #include "utility.h"
+
+void CreateDirectoryPath(const char* path)
+{
+    char* temp = new char[strlen(path) + 1];
+
+    // make a copy we can destroy
+    strcpy(temp, path);
+
+    char* cp = temp;
+    char* end;
+
+    do
+    {
+        end = strchr(cp, DIR_MARKER);
+
+        if(end)
+            *end = 0x00;
+
+        MKDIR(temp);
+
+        if(end)
+        {
+            *end = DIR_MARKER;
+            cp = end + 1;
+        }
+
+    }while(end);
+
+    delete [] temp;
+}
 
 static bool IsRelative(const char* path)
 {

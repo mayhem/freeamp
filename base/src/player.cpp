@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.33 1999/10/06 18:31:13 robert Exp $
+        $Id: player.cpp,v 1.133.2.34 1999/10/07 07:15:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -134,10 +134,19 @@ EventQueue()
 
     char* tempDir = new char[_MAX_PATH];
     uint32 length = _MAX_PATH;
+    struct stat st;
 
     m_context->prefs->GetPrefString(kDatabaseDirPref, tempDir, &length);
 
-    struct stat st;
+    if(-1 == stat(tempDir, &st))
+    {
+        MKDIR(tempDir);
+    }
+
+    // make sure the music dir exists so we have a place to store our 
+    // stuff
+
+    m_context->prefs->GetPrefString(kSaveMusicDirPref, tempDir, &length);
 
     if(-1 == stat(tempDir, &st))
     {

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: towave.c,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: towave.c,v 1.2 1998/10/13 22:59:49 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -120,7 +120,9 @@ decode (standard decoder) reduction_code:
 #include <float.h>
 #include <math.h>
 #include <string.h>
-//#include <io.h>
+#ifdef WIN32
+#include <io.h>
+#endif
 #include <fcntl.h>		/* file open flags */
 #include <sys/types.h>		/* someone wants for port */
 #include <sys/stat.h>		/* forward slash for portability */
@@ -128,10 +130,12 @@ decode (standard decoder) reduction_code:
 #include "port.h"
 
 // JDW
+#ifdef __linux__
 #include <sys/ioctl.h>
 #include <sys/soundcard.h>
 #include <fcntl.h>
 #include <errno.h>
+#endif
 // JDW
 
 

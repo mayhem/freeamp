@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.1 1998/10/28 02:27:24 jdw Exp $
+##      $Id: Makefile.am,v 1.2 1998/10/28 21:05:06 jdw Exp $
 ##
 ############################################################################
 
@@ -39,6 +39,8 @@ else
 FILES = 
 MYLIBS = 
 TRGT_SYS_HEADS =
+all-local:
+	@true
 endif
 
 if AM_HAVE_LINUXTHREADS

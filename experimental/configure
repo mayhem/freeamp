@@ -2577,7 +2577,7 @@ SCPMOLIB=""
 case "$host_os" in
   beos)
     SCPMOOBJ="$(echo io/soundcard/beos/src/*.cpp | sed -e 's,\.cpp,.o,g')"
-    SCPMOLIB="-lmedia"
+    SCPMOLIB="-lbe -lmedia"
     ;;
   *)
     SCPMOOBJ='io/soundcard/$(OSDEP)/src/soundcardpmo.o io/soundcard/$(OSDEP)/src/volume.o'
@@ -2930,7 +2930,7 @@ fi
 
 
 
-if ! test "$host_os" = "beos"; then
+#if ! test "$host_os" = "beos"; then
 if expr "$host_cpu" : "i.86$" > /dev/null; then
   if test -n "$NASM"; then
     echo "$ac_t""Using x86 optimizations" 1>&6
@@ -2948,7 +2948,7 @@ EOF
 
   fi
 fi
-fi
+#fi
 
 
 

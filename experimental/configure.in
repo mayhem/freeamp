@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.9.2.1 1999/06/29 03:48:48 hiro Exp $
+dnl $Id: configure.in,v 1.9.2.2 1999/07/01 05:02:58 hiro Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -234,7 +234,7 @@ SCPMOLIB=""
 case "$host_os" in
   beos)
     SCPMOOBJ="$(echo io/soundcard/beos/src/*.cpp | sed -e 's,\.cpp,.o,g')"
-    SCPMOLIB="-lmedia"
+    SCPMOLIB="-lbe -lmedia"
     ;;
   *)
     SCPMOOBJ='io/soundcard/$(OSDEP)/src/soundcardpmo.o io/soundcard/$(OSDEP)/src/volume.o'
@@ -447,7 +447,7 @@ fi
 
 AC_SUBST(OSDEPPLUGINS)
 
-if ! test "$host_os" = "beos"; then
+#if ! test "$host_os" = "beos"; then
 if expr "$host_cpu" : "i.86$" > /dev/null; then
   if test -n "$NASM"; then
     AC_MSG_RESULT([Using x86 optimizations])
@@ -459,7 +459,7 @@ if expr "$host_cpu" : "i.86$" > /dev/null; then
     AC_DEFINE(ASM_X86_OLD)
   fi
 fi
-fi
+#fi
 
 AC_SUBST(XINGASM)
 

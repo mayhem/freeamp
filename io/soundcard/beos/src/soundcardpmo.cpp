@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.2.2.1 1999/06/29 03:48:49 hiro Exp $
+	$Id: soundcardpmo.cpp,v 1.2.2.2 1999/07/01 05:02:58 hiro Exp $
 ____________________________________________________________________________*/
 
 #define DEBUG 0
@@ -38,7 +38,6 @@ ____________________________________________________________________________*/
 #include "soundcardpmo.h"
 #include "beosvolume.h"
 #include "soundutils.h"
-#include "ringbuffer.h"
 #include "thread.h"
 #include "mutex.h"
 #include "facontext.h"
@@ -67,7 +66,8 @@ SoundCardPMO::SoundCardPMO( FAContext* context )
 	m_initThread( NULL ),
 	m_player( NULL ),
 	m_dataSize( 0 ),
-	m_eventSem( "EventSem" )
+	m_eventSem( "EventSem" ),
+	m_pauseLock( "pause lock" )
 {
 	PRINT(( "SoundCardPMO::ctor\n" ));
 	m_properlyInitialized = false;
@@ -89,7 +89,8 @@ SoundCardPMO::~SoundCardPMO()
 	m_bExit = true;
 	m_pWriteSem->Signal();
 	m_pReadSem->Signal();
-	m_pauseMutex.Release();
+//	m_pauseMutex.Release();
+	m_pauseLock.Unlock();
 
 	PRINT(( "SoundCardPMO::~SoundCardPMO\n" ));
 	if ( m_player )
@@ -149,10 +150,11 @@ SoundCardPMO::Pause( void )
 {
 	Error	err;
 	PRINT(( "SoundCardPMO::Pause\n" ));
-	m_pauseMutex.Acquire();
+//	m_pauseMutex.Acquire();
+	m_pauseLock.Lock();
 	PRINT(( "SoundCardPMO::Pause:pause mutex acquired\n" ));
 
-	if ( m_properlyInitialized )
+	if ( false && m_properlyInitialized )
 	{
 		err = Reset( true );
 	}
@@ -160,12 +162,13 @@ SoundCardPMO::Pause( void )
 	{
 		err = kError_NoErr;
 	}
-	m_pauseMutex.Release();
 }
 
 Error
 SoundCardPMO::Resume( void )
 {
+//	m_pauseMutex.Release();
+	m_pauseLock.Unlock();
 	PRINT(( "SoundCardPMO::Resume\n" ));
 	return kError_NoErr;
 }
@@ -456,16 +459,16 @@ SoundCardPMO::EventBufferThread( void )
 		m_eventSem.Wait();
 		PRINT(( "SoundCardPMO::EventBufferThread:event is waiting to be dispatched\n" ));
 
-		m_pauseMutex.Acquire();
+//		m_pauseMutex.Acquire();
 		PRINT(( "SoundCardPMO::EventBufferThread:pause mutex acquired\n" ));
 		Event*	event = GetEvent();
 		if ( event == NULL )
 		{
-			m_pauseMutex.Release();
+//			m_pauseMutex.Release();
 		}
 		else
 		{
-			m_pauseMutex.Release();
+//			m_pauseMutex.Release();
 			if ( event->Type() == PMO_Init )
 			{
 				PRINT(( "SoundCardPMO::EventBufferThread:PMO_Init recv'd\n" ));
@@ -556,6 +559,11 @@ SoundCardPMO::Player(
 
 	bytesToCopy = size;
 
+	if ( m_pauseLock.LockWithTimeout( 0.1e6 ) != B_OK )
+	{
+		return;
+	}
+
 	PRINT(( "SoundCardPMO::Player:trying to read from the buffer\n" ));
 	err = BeginRead( bufferIn, bytesToCopy );
 	while ( err == kError_EventPending )
@@ -603,6 +611,7 @@ SoundCardPMO::Player(
 		bytesCopied = bytesToCopy;
 	}
 	EndRead( bytesCopied );
+	m_pauseLock.Unlock();
 	PRINT(( "SoundCardPMO::Player: %d bytes copied\n", bytesCopied ));
 
 	return;
@@ -638,3 +647,4 @@ SoundCardPMO::Notifier( BSoundPlayer::sound_player_notification what )
 		break;
 	}
 }
+// vi: set ts=4:

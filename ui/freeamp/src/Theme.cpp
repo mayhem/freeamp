@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.16 1999/12/09 19:36:37 ijr Exp $
+   $Id: Theme.cpp,v 1.17 1999/12/13 19:58:09 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -603,9 +603,23 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_ParseError;
        }        
 
+	   if (oAttrMap.find("NumFrames") == oAttrMap.end())
+       {
+           m_oLastError = string("the <MultiStateControl> tag needs a NumFrames attribute");
+           return kError_ParseError;
+       }        
+
+	   if (oAttrMap.find("PixelsPerFrame") == oAttrMap.end())
+       {
+           m_oLastError = string("the <MultiStateControl> tag needs a PixelsPerFrame attribute");
+           return kError_ParseError;
+       }        
+
        m_eCurrentControl = eDialControl;
        m_pCurrentControl = new DialControl(m_pCurrentWindow, 
-                                           oAttrMap["Name"]);
+                                           oAttrMap["Name"],
+                                           atoi(oAttrMap["NumFrames"].c_str()),
+                                           atoi(oAttrMap["PixelsPerFrame"].c_str()));
        return kError_NoErr;
     }
 

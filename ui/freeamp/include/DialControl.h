@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: DialControl.h,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: DialControl.h,v 1.3 1999/12/13 19:58:06 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_DIALCONTROL_H__
@@ -30,7 +30,8 @@ class DialControl : public Control
 {
     public:
 
-               DialControl(Window *pParent, string &oName);
+               DialControl(Window *pParent, string &oName,
+			               int iNumFrames, int iNumPixelsPerFrame);
       virtual ~DialControl(void);
 
       void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
@@ -38,6 +39,9 @@ class DialControl : public Control
 
     private:
 
+      int32    m_iCurrentFrame, m_iNumFrames, m_iNumPixelsPerFrame;
+	  int32    m_iLastPos;
+	  Pos      m_oOrigin;
 };
 
 #endif

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.45 1999/12/13 12:49:46 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.46 1999/12/13 19:58:08 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -270,7 +270,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          bEnable = true;
          m_pWindow->ControlEnable(string("Pause"), true, bEnable);
          
-         m_bPlayShown = true;
+         m_bPlayShown = false;
          break;
       }   
       case INFO_Paused:
@@ -284,7 +284,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          m_pWindow->ControlEnable(string("Play"), true, bEnable);
          bEnable = false;
          m_pWindow->ControlEnable(string("Pause"), true, bEnable);
-         m_bPlayShown = false;
+         m_bPlayShown = true;
          m_pWindow->ControlStringValue("BufferInfo", true, oEmpty);
          m_oStreamInfo = "";
          m_pWindow->ControlStringValue("StreamInfo", true, oEmpty);

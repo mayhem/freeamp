@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.78 2000/06/12 23:38:46 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.79 2000/06/19 20:40:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -107,6 +107,12 @@ RemoveTracksDlgProc(HWND hwnd,
                     UINT msg, 
                     WPARAM wParam, 
                     LPARAM lParam);
+
+BOOL CALLBACK 
+PerformDBCheckDlgProc(HWND hwnd, 
+                      UINT msg, 
+                      WPARAM wParam, 
+                      LPARAM lParam );
 
 class MusicBrowserUI : public UserInterface 
 {

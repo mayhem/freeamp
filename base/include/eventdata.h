@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.32 1999/10/20 23:39:16 robert Exp $
+        $Id: eventdata.h,v 1.33 1999/11/08 12:41:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -557,6 +557,23 @@ public:
 	virtual ~PlaylistItemAddedEvent() {}
 
 	const PlaylistItem* Item() { return m_item; }
+};
+
+class PlaylistItemMovedEvent : public Event {
+private:
+	const PlaylistItem* m_item;
+    uint32 m_oldIndex, m_newIndex;
+public:
+	PlaylistItemMovedEvent(uint32 oldIndex, 
+                           uint32 newIndex, 
+                           const PlaylistItem* item) 
+    { m_type = INFO_PlaylistItemMoved; m_item = item; 
+      m_oldIndex = oldIndex; m_newIndex = newIndex;}
+	virtual ~PlaylistItemMovedEvent() {}
+
+	const PlaylistItem* Item() { return m_item; }
+    uint32 OldIndex() { return m_oldIndex; }
+    uint32 NewIndex() { return m_newIndex; }
 };
 
 class PlaylistItemRemovedEvent : public Event {

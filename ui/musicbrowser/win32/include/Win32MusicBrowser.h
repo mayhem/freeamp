@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.15 1999/11/08 09:22:55 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.16 1999/11/08 12:41:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -164,6 +164,8 @@ class MusicBrowserUI : public UserInterface
     void  UpdatePlaylistList(void);
     void  AddPlaylistListItem(const PlaylistItem* item);
     void  UpdatePlaylistListItem(const PlaylistItem* item);
+    void  PlaylistListItemMoved(const PlaylistItem* item, 
+                                uint32 oldIndex, uint32 newIndex);
     void  InitList(void);
     void  AddPlaylist(const string &oName);
     void  LoadPlaylist(const string &oPlaylist);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.14 1999/11/07 23:08:42 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.15 1999/11/08 12:41:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -219,6 +219,18 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                (*i)->UpdatePlaylistListItem(piue->Item());
                
             UpdatePlaylistListItem(piue->Item());
+            break; 
+        }
+
+        case INFO_PlaylistItemMoved:
+        {
+            PlaylistItemMovedEvent* pime = (PlaylistItemMovedEvent*)event;
+            vector<MusicBrowserUI *>::iterator i;
+            
+            for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+               (*i)->PlaylistListItemMoved(pime->Item(), pime->OldIndex(), pime->NewIndex());
+               
+            PlaylistListItemMoved(pime->Item(), pime->OldIndex(), pime->NewIndex());
             break; 
         }
 

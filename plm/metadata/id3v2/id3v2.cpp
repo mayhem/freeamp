@@ -18,12 +18,18 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.1.2.2 1999/08/30 22:35:21 ijr Exp $
+	$Id: id3v2.cpp,v 1.1.2.3 1999/10/02 08:47:43 robert Exp $
 ____________________________________________________________________________*/
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <assert.h>
-#include <iostream>
-#include <string>
+#ifdef WIN32
+#include <winsock.h>
+#else
+#include <netinet/in.h>
+#endif
 
 using namespace std;
 
@@ -33,318 +39,150 @@ using namespace std;
 
 #include "id3v2.h"
 
-typedef struct id3v1_0 {
-    char id[3];
-    char title[30];
-    char artist[30];
-    char album[30];
-    char year[4];
-    char comment[30];
-    char genre;
+const int supportedVersion = 3;
 
-} id3v1_0;
-
-typedef struct id3v1_1 {
-    char id[3];
-    char title[30];
-    char artist[30];
-    char album[30];
-    char year[4];
-    char comment[28];
-    char zero;
-    char track;
-    char genre;
-
-} id3v1_1;
-
-typedef struct id3v1 {
-    union {
-        struct id3v1_0 v1_0;
-        struct id3v1_1 v1_1;
-    } id3;
-} id3v1;
-
-#define v1_0 id3.v1_0
-#define v1_1 id3.v1_1
-
-const char* genre_strings[] = {
-    "Blues",
-    "Classic Rock",
-    "Country",
-    "Dance",
-    "Disco",
-    "Funk",
-    "Grunge",
-    "Hip-Hop",
-    "Jazz",
-    "Metal",
-    "New Age",
-    "Oldies",
-    "Other",
-    "Pop",
-    "R&B",
-    "Rap",
-    "Reggae",
-    "Rock",
-    "Techno",
-    "Industrial",
-    "Alternative",
-    "Ska",
-    "Death Metal",
-    "Pranks",
-    "Soundtrack",
-    "Euro-Techno",
-    "Ambient",
-    "Trip-Hop",
-    "Vocal",
-    "Jazz+Funk",
-    "Fusion",
-    "Trance",
-    "Classical",
-    "Instrumental",
-    "Acid",
-    "House",
-    "Game",
-    "Sound Clip",
-    "Gospel",
-    "Noise",
-    "AlternRock",
-    "Bass",
-    "Soul",
-    "Punk",
-    "Space",
-    "Meditative",
-    "Instrumental Pop",
-    "Instrumental Rock",
-    "Ethnic",
-    "Gothic",
-    "Darkwave",
-    "Techno-Industrial",
-    "Electronic",
-    "Pop-Folk",
-    "Eurodance",
-    "Dream",
-    "Southern Rock",
-    "Comedy",
-    "Cult",
-    "Gangsta",
-    "Top 40",
-    "Christian Rap",
-    "Pop/Funk",
-    "Jungle",
-    "Native American",
-    "Cabaret",
-    "New Wave",
-    "Psychadelic",
-    "Rave",
-    "Showtunes",
-    "Trailer",
-    "Lo-Fi",
-    "Tribal",
-    "Acid Punk",
-    "Acid Jazz" // what is this genre anyway?
-    "Polka",
-    "Retro",
-    "Musical",
-    "Rock & Roll",
-    "Hard Rock",
-    "Folk",
-    "Folk-Rock",
-    "National Folk",
-    "Swing",
-    "Fast Fusion",
-    "Bebob",
-    "Latin",
-    "Revival",
-    "Celtic",
-    "Bluegrass",
-    "Avantgarde",
-    "Gothic Rock",
-    "Progressive Rock",
-    "Psychedelic Rock",
-    "Symphonic Rock",
-    "Slow Rock",
-    "Big Band",
-    "Chorus",
-    "Easy Listening",
-    "Acoustic",
-    "Humour",
-    "Speech",
-    "Chanson",
-    "Opera",
-    "Chamber Music",
-    "Sonata",
-    "Symphony",
-    "Booty Bass",
-    "Primus",
-    "Porn Groove",
-    "Satire",
-    "Slow Jam",
-    "Club",
-    "Tango",
-    "Samba",
-    "Folklore",
-    "Ballad",
-    "Power Ballad",
-    "Rhythmic Soul",
-    "Freestyle",
-    "Duet",
-    "Punk Rock",
-    "Drum Solo",
-    "Acapella",
-    "Euro-House",
-    "Dance Hall"
+struct ID3Header
+{
+   char          tag[3];
+   unsigned char versionMajor;
+   unsigned char versionRevision;
+   unsigned char flags;
+   unsigned char size[4];
 };
-
-#define kNumGenres sizeof(genre_strings)/sizeof(char*)
+struct FrameHeader
+{
+   char           tag[4];
+   unsigned int   size;
+   unsigned short flags;
+};
+const unsigned frameHeaderSize = 10;
 
 extern "C"
 {
    MetaDataFormat *Initialize(FAContext* context)
    {
-      return new ID3v1(context);
+      return new ID3v2(context);
    }
 }
 
-ID3v1::ID3v1(FAContext* context):MetaDataFormat(context)
+ID3v2::ID3v2(FAContext* context):MetaDataFormat(context)
 {
     m_context = context;
 }
 
-ID3v1::~ID3v1()
+ID3v2::~ID3v2()
 {
 
 }
 
-bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
+void ID3v2::HandleFrame(char *tag, char *frameData, MetaData *metadata)
 {
-    bool result = false;
-    id3v1 id3;
+    char tagName[5];
+
+    strncpy(tagName, tag, 4);
+    tagName[4] = 0;
+
+    if (strcmp(tagName, "TIT2") == 0)
+        metadata->SetTitle(frameData);
+
+    if (strcmp(tagName, "TALB") == 0)
+        metadata->SetAlbum(frameData);
+
+    if (strcmp(tagName, "TPE1") == 0)
+        metadata->SetArtist(frameData);
+
+    if (strcmp(tagName, "TLEN") == 0)
+        metadata->SetTime(atoi(frameData) / 1000);
+
+    if (strcmp(tagName, "TYER") == 0)
+        metadata->SetYear(atoi(frameData));
+
+    if (strcmp(tagName, "TSIZ") == 0)
+        metadata->SetSize(atoi(frameData));
+}
+
+bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
+{
+    bool        result = false;
+    FILE       *inFile;
+    char        buffer[1024], *frameData;
+    ID3Header   sHead;
+    FrameHeader sFrame;
+    int         ret;
+    int         size;
 
     assert(url);
     assert(metadata);
 
-    if(url && metadata)
+    inFile = fopen(url, "rb");
+    if (inFile == NULL)
+        return result;
+
+    ret = fread(&sHead, 1, sizeof(ID3Header), inFile);
+    if (ret != sizeof(ID3Header))
     {
-        FILE* fp;
-
-        fp = fopen(url, "rb");
-
-        if(fp)
-        {
-            if(!fseek(fp, -128, SEEK_END))
-            {
-                if(fread(&id3, 128, 1, fp))
-                {
-                    if(!strncmp(id3.v1_0.id, "TAG", 3))
-                    {
-                        char buffer[31];
-         
-                        strncpy(buffer, id3.v1_0.artist, 30);
-                        buffer[30] = 0;
-                        KillTrailingSpaces(buffer);
-                        // simple test to see if we have "more" data
-                        // would be nice if we can test for "better" data
-                        if(strlen(buffer) > metadata->Artist().size())
-                            metadata->SetArtist(buffer);
-
-                        cout << "artist: " << buffer << endl;
-
-                        strncpy(buffer, id3.v1_0.album, 30);
-                        buffer[30] = 0;
-                        KillTrailingSpaces(buffer);
-                        // simple test to see if we have "more" data
-                        // would be nice if we can test for "better" data
-                        if(strlen(buffer) > metadata->Album().size())
-                            metadata->SetAlbum(buffer);
-                        cout << "album: " << buffer << endl;
-
-                        strncpy(buffer, id3.v1_0.title, 30);
-                        buffer[30] = 0;
-                        KillTrailingSpaces(buffer);
-                        // simple test to see if we have "more" data
-                        // would be nice if we can test for "better" data
-                        if(strlen(buffer) > metadata->Title().size())
-                            metadata->SetTitle(buffer);
-                        cout << "title: " << buffer << endl;
-
-                        strncpy(buffer, id3.v1_0.year,4);
-                        buffer[4] = 0;
-                        KillTrailingSpaces(buffer);
-                        metadata->SetYear(atoi(buffer));
-                        cout << "year: " << buffer << endl;
-
-                        strncpy(buffer, id3.v1_0.comment, 
-                            (id3.v1_1.zero ? 30 : 28));
-                        buffer[(id3.v1_1.zero ? 30 : 28)] = 0;
-                        KillTrailingSpaces(buffer);
-                        // simple test to see if we have "more" data
-                        // would be nice if we can test for "better" data
-                        if(strlen(buffer) > metadata->Comment().size())
-                            metadata->SetComment(buffer);
-                        cout << "comment: " << buffer << endl;
-
-                        if( id3.v1_1.zero == 0x00 &&
-                            id3.v1_1.track != 0x00)
-                        {
-                            uint32 track = id3.v1_1.track;
-
-                            metadata->SetTrack(track);
-                            cout << "track: " << track << endl;
-                        }
-
-                        if(id3.v1_0.genre >=0 && id3.v1_0.genre < kNumGenres)
-                        {
-                            // simple test to see if we have "more" data
-                            // would be nice if we can test for "better" data
-                            if(strlen(buffer) > metadata->Genre().size())
-                                metadata->SetGenre(genre_strings[id3.v1_0.genre]);
-                            cout << "genre: " << genre_strings[id3.v1_0.genre] << endl;
-                        }
-                        else
-                        {
-                            // simple test to see if we have "more" data
-                            // would be nice if we can test for "better" data
-                            if(!metadata->Genre().size())
-                                metadata->SetGenre("{unknown}");
-
-                            cout << "genre: " << "{unknown}" << endl;
-                        }
-                    }
-
-                    cout << endl;
-
-                    /*cout << id3.v1_0.title << endl;
-                    cout << id3.v1_0.artist << endl;
-                    cout << id3.v1_0.album << endl;
-                    cout << id3.v1_0.year << endl;
-                    cout << id3.v1_0.comment << endl;
-                    cout << id3.v1_0.genre << endl;*/
-                }
-            }
-
-            fclose(fp);
-        }
+        fclose(inFile);
+        return result;
     }
 
+    if (strncmp(sHead.tag, "ID3", 3))
+    {
+        fclose(inFile);
+        return result;
+    }
+
+    if (sHead.versionMajor != supportedVersion)
+    {
+        fclose(inFile);
+        return result;
+    }
+    size = ( sHead.size[3] & 0x7F       ) |
+           ((sHead.size[2] & 0x7F) << 7 ) |
+           ((sHead.size[1] & 0x7F) << 14) |
+           ((sHead.size[0] & 0x7F) << 21);
+    if (sHead.flags & (1 << 6))
+    {
+        unsigned extHeaderSize;
+
+        if (fread(&extHeaderSize, 1, sizeof(int), inFile) != sizeof(int))
+        {
+            fclose(inFile);
+            return result;
+        }
+        if (fread(buffer, 1, extHeaderSize, inFile) != extHeaderSize)
+        {
+            fclose(inFile);
+            return result;
+        }
+    }
+    for(; size > 0;)
+    {
+        if (fread(&sFrame, 1, frameHeaderSize, inFile) != frameHeaderSize)
+        {
+            fclose(inFile);
+            return result;
+        }
+        sFrame.size = ntohl(sFrame.size);
+        frameData = new char[sFrame.size + 1];
+        if (fread(frameData, 1, sFrame.size, inFile) != sFrame.size)
+        {
+            fclose(inFile);
+            return result;
+        }
+        frameData[sFrame.size] = 0;
+        HandleFrame(sFrame.tag, &frameData[1], metadata);
+
+        delete frameData;
+        size -= sizeof(FrameHeader) + sFrame.size;
+    }
+
+    fclose(inFile);
     return result;
 }
 
-bool ID3v1::WriteMetaData(const char* url, const MetaData& metadata)
+bool ID3v2::WriteMetaData(const char* url, const MetaData& metadata)
 {
     bool result = false;
-
-
     return result;
 }
 
-void ID3v1::KillTrailingSpaces(char* string)
-{
-	char* cp = &(string[strlen(string)]);
-
-	do 
-    {
-	    *cp = '\0';
-	    cp--;
-	}while ((*cp == ' ') && (cp != string));
-}

@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.42 2000/06/22 18:53:10 elrod Exp $
+   $Id: Win32Window.cpp,v 1.43 2000/09/20 12:00:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -54,6 +54,10 @@ HINSTANCE g_hinst = NULL;
 
 #define IDI_EXE_ICON 101
 
+#ifndef WM_MOUSEWHEEL
+   #define WM_MOUSEWHEEL                   0x020A
+   #define WHEEL_DELTA                     120
+#endif
 
 INT WINAPI DllMain (HINSTANCE hInstance,
                     ULONG ul_reason_being_called,
@@ -185,6 +189,18 @@ LRESULT Win32Window::WindowProc(HWND hwnd, UINT msg,
             oPos.y = (int16)HIWORD(lParam);  
             m_pMindMeldMutex->Acquire();
             HandleMouseMove(oPos);
+            m_pMindMeldMutex->Release();
+
+            break;
+        }       
+
+        case WM_MOUSEWHEEL:
+        {
+            short iDelta;
+			
+			iDelta = (int)(((short)HIWORD(wParam)) / WHEEL_DELTA);
+            m_pMindMeldMutex->Acquire();
+            HandleMouseWheelChange(iDelta);
             m_pMindMeldMutex->Release();
 
             break;
@@ -373,6 +389,10 @@ Error Win32Window::Run(Pos &oPos)
             m_oWindowPos.y = (iMaxY - oRect.Height())/2;
         }
     }
+
+//	if (SystemParametersInfo(SPI_GETWHEELSCROLLINGLLINES,
+//		                     0, &m_lScrollLines, 0) == 0)
+//		 m_lScrollLines = 0;
 
     if (m_bLiveInToolbar)
         m_hWnd = CreateWindowEx(WS_EX_TOOLWINDOW,

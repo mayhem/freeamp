@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.47 2000/08/08 21:04:40 robert Exp $
+   $Id: Window.cpp,v 1.48 2000/09/20 12:00:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -416,6 +416,11 @@ Error Window::EndMouseCapture(void)
     DecUsageRef();
     
     return CaptureMouse(false);
+}
+
+void Window::HandleMouseWheelChange(int iSteps)
+{
+    m_pTheme->HandleMouseWheelChange(iSteps);
 }
 
 void Window::HandleMouseMove(Pos &oScreenPos)

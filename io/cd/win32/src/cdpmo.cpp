@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.10 2000/09/20 11:10:35 robert Exp $
+        $Id: cdpmo.cpp,v 1.11 2000/09/20 12:00:58 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -34,7 +34,6 @@ ____________________________________________________________________________*/
 #include "eventdata.h"
 #include "facontext.h"
 #include "log.h"
-#include "debug.h"
 
 #include <windows.h>
 

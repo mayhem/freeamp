@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.5 1999/04/01 17:02:58 elrod Exp $
+	$Id: utility.h,v 1.6 1999/04/09 01:42:02 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UTILITY_H_
@@ -55,6 +55,11 @@ bool FileSaveDialog(HWND hwnd,
                     const char* filter,
                     char* path,
                     uint32* pathLength);
+
+bool LoadDriver(const char* driverName, 
+                const char* driverPath);
+
+bool UnloadDriver(const char* driverName);
 
 
 #endif /* _UTILITY_H_ */

@@ -18,11 +18,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portio.c,v 1.1 1999/04/08 13:53:53 elrod Exp $
+	$Id: portio.c,v 1.2 1999/04/09 01:42:02 elrod Exp $
 ____________________________________________________________________________*/
 /* system headers */
 #include <ntddk.h>
-//#include <windows.h>
 #include <stdlib.h>
 
 typedef unsigned char BYTE;
@@ -82,6 +81,8 @@ NTSTATUS DriverCreateDispatch(
     IN  PDEVICE_OBJECT  deviceObject,
     IN  PIRP            irp)
 {
+    NTSTATUS result = STATUS_SUCCESS;
+
 	Ke386IoSetAccessProcess(PsGetCurrentProcess(), 1);
 	Ke386SetIoAccessMap(1, ioMap);
 
@@ -89,7 +90,7 @@ NTSTATUS DriverCreateDispatch(
     irp->IoStatus.Status = STATUS_SUCCESS;
     IoCompleteRequest(irp, IO_NO_INCREMENT);
 
-    return STATUS_SUCCESS;
+    return result;
 }
 
 // Standard entry point for the device driver. Initialize ourselves

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.52 1999/04/08 07:25:34 elrod Exp $
+	$Id: freeampui.cpp,v 1.53 1999/04/09 01:42:03 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -555,12 +555,82 @@ Create()
     m_trayIcon = LoadIcon(g_hinst, MAKEINTRESOURCE(IDI_EXE_ICON));
 
     ReadPreferences();
+
+    // platform specific initialization
+    OSVERSIONINFO osid;
+
+	osid.dwOSVersionInfoSize = sizeof (osid);
+	GetVersionEx (&osid);
+
+	switch (osid.dwPlatformId) 
+    {
+        // Window 3.x
+	    case VER_PLATFORM_WIN32s:
+		    break;
+
+	    // Windows 95
+	    case VER_PLATFORM_WIN32_WINDOWS:
+ 		    break;
+
+	    // Windows NT
+	    case VER_PLATFORM_WIN32_NT:
+        {
+		    if(osid.dwMajorVersion >= 4)
+            {
+                // this will allow us port access thru
+                // inp and outp so the rio stuff will
+                // work.
+
+                const char* driver = "portio";
+                char path[MAX_PATH];
+                uint32 size = sizeof(path);
+
+                m_prefs->GetInstallDirectory(path, &size);
+
+                strcat(path, "\\");
+                strcat(path, driver);
+                strcat(path, ".sys");
+
+                LoadDriver(driver, path);
+            }
+
+            break;
+        }
+    }
 }
 
 void 
 FreeAmpUI::
 Destroy()
 {
+    // platform specific uninitialization
+    OSVERSIONINFO osid;
+
+	osid.dwOSVersionInfoSize = sizeof (osid);
+	GetVersionEx (&osid);
+
+	switch (osid.dwPlatformId) 
+    {
+        // Window 3.x
+	    case VER_PLATFORM_WIN32s:
+		    break;
+
+	    // Windows 95
+	    case VER_PLATFORM_WIN32_WINDOWS:
+ 		    break;
+
+	    // Windows NT
+	    case VER_PLATFORM_WIN32_NT:
+        {
+		    if(osid.dwMajorVersion >= 4)
+            {
+                UnloadDriver("portio");
+            }
+
+            break;
+        }
+    }
+
     // Tell windows msg loop we wanna die
     PostQuitMessage(0);
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.11 1999/07/19 21:13:34 dogcow Exp $
+        $Id: soundcardpmo.cpp,v 1.12 1999/07/21 19:27:21 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -322,6 +322,9 @@ void SoundCardPMO::WorkerThread(void)
 
    // Don't do anything until resume is called.
    m_pPauseSem->Wait();
+
+   // Wait a specified prebuffer time... 
+   PreBuffer();
 
    // The following should be abstracted out into the general thread
    // classes:

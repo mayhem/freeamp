@@ -14,9 +14,13 @@
  ********************************************************************
 
  function: #ifdef jail to whip a few platforms into the UNIX ideal.
- last mod: $Id: os_types.h,v 1.1 2000/09/21 21:18:07 robert Exp $
+ last mod: $Id: os_types.h,v 1.2 2000/09/21 21:23:13 robert Exp $
 
  ********************************************************************/
+
+#ifndef vorbis_size32_t
+#define vorbis_size32_t int
+#endif
 
 #if defined (_WIN32) 
 #if !defined(__GNUC__)

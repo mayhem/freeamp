@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.4 2000/02/16 02:20:46 ijr Exp $
+        $Id: database.cpp,v 1.5 2000/02/20 04:16:16 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -61,8 +61,10 @@ Database::Database(const char *name, int version)
 Database::~Database()
 {
     m_lock->Acquire();
-    if (m_dbase)
+    if (m_dbase) {
+        gdbm_sync(m_dbase);
         gdbm_close(m_dbase);
+    }
     delete m_lock;
 }
 

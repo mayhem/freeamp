@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.26 1999/12/14 17:01:05 robert Exp $
+	$Id: pmo.h,v 1.27 2000/02/20 04:16:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMO_H_
@@ -55,11 +55,12 @@ ____________________________________________________________________________*/
 
 typedef struct OutputInfo
 {
-	uint32 bits_per_sample;
-	uint32 number_of_channels;
-	uint32 samples_per_second;
-	uint32 max_buffer_size;
+    uint32 bits_per_sample;
+    uint32 number_of_channels;
+    uint32 samples_per_second;
+    uint32 max_buffer_size;
     uint32 samples_per_frame;
+    string devicename;
 }OutputInfo;
 
 class EventBuffer;
@@ -95,8 +96,8 @@ protected:
     PhysicalMediaInput    *m_pPmi;
     LogicalMediaConverter *m_pLmc;
     int32                  m_iPreBuffer;
-	int                    m_iBufferUpdate;
-	PullBuffer            *m_pPmiBuffer;
+    int                    m_iBufferUpdate;
+    PullBuffer            *m_pPmiBuffer;
 };
 
 #endif /* _PMO_H_ */

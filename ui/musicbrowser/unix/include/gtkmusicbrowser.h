@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.25 2000/02/19 06:04:58 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.26 2000/02/20 04:16:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -116,6 +116,7 @@ class GTKMusicBrowser {
     uint32 CD_DiscID;
     uint32 CD_numtracks;
     bool   scheduleCDredraw;
+    void   UpdateCDTree(PlaylistItem *update);
     void   RegenerateCDTree(void);
 
     bool isVisible;

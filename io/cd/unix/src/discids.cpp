@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: discids.cpp,v 1.3 2000/02/19 06:04:56 ijr Exp $
+        $Id: discids.cpp,v 1.4 2000/02/20 04:16:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -57,7 +57,7 @@ cddb_direct_discid(struct disc_info disc)
 
    discid = (disc.disc_length.minutes * 60 + disc.disc_length.seconds) - (disc.disc_track[0].track_pos.minutes * 60 + disc.disc_track[0].track_pos.seconds);
 
-   return ((tracksum % 0xFF) << 24 | discid << 8 | disc.disc_total_tracks) & 0xFFFFFFFF;
+   return ((tracksum % 0xFF) << 24 | discid << 8 | disc.disc_total_tracks);
 }
 
 long

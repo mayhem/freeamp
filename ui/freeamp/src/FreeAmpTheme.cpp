@@ -18,13 +18,17 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.1 1999/09/08 18:48:35 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.2 1999/09/08 22:46:30 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 
 #include "FreeAmpTheme.h"
 #include "eventdata.h"
+
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 extern    "C"
 {

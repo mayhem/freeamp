@@ -2,7 +2,7 @@
 
    FreeAmp - The Free MP3 Player
 
-   Portions Copyright (C) 1999 EMusic
+   Copyright (C) 1999 EMusic
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,29 +18,43 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.h,v 1.1.2.2 1999/09/08 22:46:14 robert Exp $
+   $Id: Win32Window.h,v 1.1.2.1 1999/09/08 22:46:41 robert Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef __BUTTONCONTROL_H__
-#define __BUTTONCONTROL_H__
+#ifndef __WIN32WINDOW__H_
+#define __WIN32WINDOW__H_
 
 #include <string>
+#include <vector>
+#include <map>
+#include <deque>
 
-#include "Control.h"
+#include "Window.h"
 
 using namespace std;
 
-class ButtonControl : public Control
+class Win32Window : public Window
 {
     public:
 
-               ButtonControl(Window *pParent, string &oName);
-      virtual ~ButtonControl(void);
+              Win32Window(Theme *pTheme, string &oName);
+     virtual ~Win32Window(void);
 
-      void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
+     virtual Error Run(void);
+     virtual Error Create(void);
+     virtual Error Destroy(void);
+     virtual Error Show(void);
+     virtual Error Hide(void);
+     virtual Error Enable(void);
+     virtual Error Disable(void);
+     virtual Error SetTitle(string &oTitle);
+     virtual Error CaptureMouse(bool bCapture);
+     virtual Error HideMouse(bool bHide);
+     virtual Error SetMousePos(Pos &oPos);
+     virtual Error GetMousePos(Pos &oPos);
 
-    private:
-
+    protected:
+     
 };
 
 #endif

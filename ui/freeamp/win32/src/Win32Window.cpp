@@ -18,86 +18,86 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.2 1999/09/08 22:46:38 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.1 1999/09/08 22:46:46 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
 #include "Theme.h"
-#include "GTKWindow.h"
-#include "GTKCanvas.h"
+#include "Win32Window.h"
+#include "Win32Canvas.h"
 
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
 
-GTKWindow::GTKWindow(Theme *pTheme, string &oName)
-          :Window(pTheme, oName)
+Win32Window::Win32Window(Theme *pTheme, string &oName)
+            :Window(pTheme, oName)
 {
-    m_pCanvas = new GTKCanvas();
+    m_pCanvas = new Win32Canvas();
 }
 
-GTKWindow::~GTKWindow(void)
+Win32Window::~Win32Window(void)
 {
     delete m_pCanvas;
     m_pCanvas = NULL;
 }
 
-Error GTKWindow::Run(void)
+Error Win32Window::Run(void)
 {
     return kError_NoErr;
 }
 
-Error GTKWindow::Create(void)
+Error Win32Window::Create(void)
 {
     return kError_NoErr;
 }
 
-Error GTKWindow::Destroy(void)
+Error Win32Window::Destroy(void)
 {
     return kError_NoErr;
 }
 
-Error GTKWindow::Enable(void)
+Error Win32Window::Enable(void)
 {
     return kError_NoErr;
 }
 
-Error GTKWindow::Disable(void)
+Error Win32Window::Disable(void)
 {
     return kError_NoErr;
 }
 
-Error GTKWindow::Show(void)
+Error Win32Window::Show(void)
 {
     return kError_NoErr;
 }
 
-Error GTKWindow::Hide(void)
+Error Win32Window::Hide(void)
 {
     return kError_NoErr;
 }
 
-Error GTKWindow::SetTitle(string &oTitle)
+Error Win32Window::SetTitle(string &oTitle)
 {
     return kError_NoErr;
 }
 
-Error GTKWindow::CaptureMouse(bool bCapture)
+Error Win32Window::CaptureMouse(bool bCapture)
 {
     return kError_NoErr;
 }
 
-Error GTKWindow::HideMouse(bool bHide)
+Error Win32Window::HideMouse(bool bHide)
 {
     return kError_NoErr;
 }
 
-Error GTKWindow::SetMousePos(Pos &oPos)
+Error Win32Window::SetMousePos(Pos &oPos)
 {
     return kError_NoErr;
 }
 
-Error GTKWindow::GetMousePos(Pos &oPos)
+Error Win32Window::GetMousePos(Pos &oPos)
 {
     return kError_NoErr;
 }

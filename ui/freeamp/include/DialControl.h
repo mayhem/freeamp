@@ -18,13 +18,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: DialControl.h,v 1.1.2.1 1999/08/25 23:01:46 robert Exp $
+   $Id: DialControl.h,v 1.1.2.2 1999/09/08 22:46:17 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __DIALCONTROL_H__
 #define __DIALCONTROL_H__
 
 #include "Control.h"
+
+using namespace std;
 
 class DialControl : public Control
 {

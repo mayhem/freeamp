@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.1.2.1 1999/08/25 23:01:45 robert Exp $
+   $Id: Control.h,v 1.1.2.2 1999/09/08 22:46:16 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __CONTROL_H__
@@ -31,6 +31,8 @@ ____________________________________________________________________________*/
 #include "Types.h"
 #include "Bitmap.h"
 #include "Canvas.h"
+
+using namespace std;
 
 enum ControlMessageEnum
 {

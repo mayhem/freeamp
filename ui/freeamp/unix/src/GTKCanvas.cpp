@@ -18,10 +18,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.1.2.1 1999/08/25 23:02:08 robert Exp $
+   $Id: GTKCanvas.cpp,v 1.1.2.2 1999/09/08 22:46:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
+
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
+
 
 GTKCanvas::GTKCanvas(void)
 {

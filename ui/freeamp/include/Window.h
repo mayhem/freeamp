@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.2 1999/08/25 23:08:31 robert Exp $
+   $Id: Window.h,v 1.1.2.3 1999/09/08 22:46:23 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __WINDOW__H_
@@ -35,6 +35,8 @@ ____________________________________________________________________________*/
 #include "thread.h"
 #include "semaphore.h"
 #include "mutex.h"
+
+using namespace std;
 
 typedef map<string, Control *> ControlMap;
 typedef map<string, Control *>::iterator ControlMapIterator;

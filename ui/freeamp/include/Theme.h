@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.1.2.1 1999/08/25 23:01:51 robert Exp $
+   $Id: Theme.h,v 1.1.2.2 1999/09/08 22:46:22 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __THEME_H__
@@ -31,6 +31,8 @@ ____________________________________________________________________________*/
 #include "Parse.h"
 #include "Window.h"
 #include "Bitmap.h"
+
+using namespace std;
 
 typedef map<string, string, less<string> > AttrMap;
 

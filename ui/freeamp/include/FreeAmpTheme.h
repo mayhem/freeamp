@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.1.2.1 1999/09/08 18:48:34 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.1.2.2 1999/09/08 22:46:18 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_THEME_H
@@ -29,6 +29,8 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "playlist.h"
 #include "Theme.h"
+
+using namespace std;
 
 class FreeAmpTheme : public UserInterface, public Theme
 {

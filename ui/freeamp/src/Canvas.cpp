@@ -18,10 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.1.2.1 1999/08/25 23:01:56 robert Exp $
+   $Id: Canvas.cpp,v 1.1.2.2 1999/09/08 22:46:26 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "Canvas.h"
+
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 Canvas::Canvas(void)
 {

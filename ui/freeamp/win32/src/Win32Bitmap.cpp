@@ -2,7 +2,7 @@
 
    FreeAmp - The Free MP3 Player
 
-   Portions Copyright (C) 1999 EMusic
+   Copyright (C) 1999 EMusic
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,29 +18,34 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.h,v 1.1.2.2 1999/09/08 22:46:14 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.1.2.1 1999/09/08 22:46:44 robert Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef __BUTTONCONTROL_H__
-#define __BUTTONCONTROL_H__
+#include "string"
+#include "Win32Bitmap.h"
 
-#include <string>
-
-#include "Control.h"
-
-using namespace std;
-
-class ButtonControl : public Control
-{
-    public:
-
-               ButtonControl(Window *pParent, string &oName);
-      virtual ~ButtonControl(void);
-
-      void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
-
-    private:
-
-};
-
+#ifdef WIN32
+#pragma warning(disable:4786)
 #endif
+
+Win32Bitmap::Win32Bitmap(string &oName)
+          :Bitmap(oName)
+{
+   m_oBitmapName = oName;
+}
+
+Win32Bitmap::~Win32Bitmap(void)
+{
+}
+
+Error Win32Bitmap::LoadBitmap(string &oFile)
+{
+   return kError_NoErr;
+}
+
+Error Win32Bitmap::BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
+                          Rect &oDestRect)
+{
+   return kError_NoErr;
+}
+

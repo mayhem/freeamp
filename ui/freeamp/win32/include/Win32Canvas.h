@@ -2,7 +2,7 @@
 
    FreeAmp - The Free MP3 Player
 
-   Portions Copyright (C) 1999 EMusic
+   Copyright (C) 1999 EMusic
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,28 +18,31 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.h,v 1.1.2.2 1999/09/08 22:46:14 robert Exp $
+   $Id: Win32Canvas.h,v 1.1.2.1 1999/09/08 22:46:40 robert Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef __BUTTONCONTROL_H__
-#define __BUTTONCONTROL_H__
+#ifndef __WIN32CANVAS_H__
+#define __WIN32CANVAS_H__
 
-#include <string>
+#include "Types.h"
+#include "Bitmap.h"
+#include "Canvas.h"
 
-#include "Control.h"
-
-using namespace std;
-
-class ButtonControl : public Control
+class Win32Canvas : public Canvas
 {
     public:
 
-               ButtonControl(Window *pParent, string &oName);
-      virtual ~ButtonControl(void);
+              Win32Canvas(void);
+     virtual ~Win32Canvas(void);
 
-      void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
+     virtual Error DrawText(int iFontHeight, Rect &oClipRect, string &oText);
+     virtual Error Invalidate(Rect &oRect);
+     virtual Error Update(void);
+     virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec);
+     virtual void  Paint(Rect &oRect);
+     virtual void  Erase(Rect &oRect);
 
-    private:
+    protected:
 
 };
 

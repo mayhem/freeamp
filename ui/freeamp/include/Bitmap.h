@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.h,v 1.1.2.1 1999/08/25 23:01:42 robert Exp $
+   $Id: Bitmap.h,v 1.1.2.2 1999/09/08 22:46:13 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __BITMAP_H__
@@ -29,6 +29,8 @@ ____________________________________________________________________________*/
 #include "Types.h"
 #include "errors.h"
 
+using namespace std;
+
 class Bitmap
 {
     public:
@@ -38,7 +40,7 @@ class Bitmap
 
      virtual void  GetName(string &oName);
      virtual void  GetErrorString(string &oName);
-     virtual Error LoadBitmap(string &oFile) = 0;
+     virtual Error LoadBitmapFromDisk(string &oFile) = 0;
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
                             Rect &oDestRect) = 0;
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.5 1999/11/03 03:53:01 ijr Exp $
+   $Id: ThemeManager.cpp,v 1.6 1999/11/08 23:31:50 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -143,7 +143,7 @@ Error ThemeManager::UseTheme(string &oThemeFile)
     if (temp_dir) {
         temp_dir = temp_dir + 1;
 	strcpy(dir, temp_dir);
-        if (!strcmp(dir, m_oCurrentTheme.c_str()))
+        if (oThemeFile == m_oCurrentTheme)
         {
             return kError_NoErr;
         }

@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.16 1999/10/19 07:12:48 elrod Exp $
+        $Id: unixprefs.cpp,v 1.17 1999/11/08 23:31:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -668,6 +668,7 @@ GetPrefString(const char* pref, char* buf, uint32* len)
 
     if (value_len > *len)
     {
+        *len = value_len;
         m_mutex.Release();
         return kError_BufferTooSmall;
     }

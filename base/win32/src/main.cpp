@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.9 1998/10/17 02:09:44 elrod Exp $
+	$Id: main.cpp,v 1.10 1998/10/17 18:33:04 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -114,7 +114,7 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 
     PlayList* playlist = new PlayList();
 
-	playlist->Add("..\\..\\..\\test\\crown.mp3",0);
+	playlist->Add("..\\..\\..\\test\\jules.mp3",0);
 	
     playlist->SetFirst();
     Player::GetPlayer()->AcceptEvent(new Event(CMD_SetPlaylist,playlist));

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.4 1998/10/27 02:28:44 jdw Exp $
+	$Id: soundcardpmo.cpp,v 1.5 1998/10/27 03:06:18 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -73,6 +73,14 @@ SoundCardPMO::~SoundCardPMO() {
 
 int SoundCardPMO::audio_fd = -1;
 
+
+void SoundCardPMO::Pause() {
+    Reset(true);
+}
+
+void SoundCardPMO::Resume() {
+
+}
 
 bool SoundCardPMO::Init(OutputInfo* info) {
     //cout << "initialize..." << endl;

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.4 1998/10/17 20:58:10 jdw Exp $
+	$Id: soundcardpmo.h,v 1.5 1998/10/27 03:06:18 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -48,7 +48,8 @@ public:
     virtual bool Reset(bool user_stop);
     virtual int32 Write(void *,int32);
     virtual void Clear();
-    
+    virtual void Pause();
+    virtual void Resume();
     
  private:
     int16 buffer[OBUFFERSIZE];

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.51 1999/12/14 19:47:43 elrod Exp $
+        $Id: Dialog.cpp,v 1.52 1999/12/14 19:56:42 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -1672,7 +1672,8 @@ FileOpenDialog(HWND hwnd,
                const char* title,
                const char* filter,
                vector<string>* fileList,
-               Preferences* prefs)
+               Preferences* prefs, 
+               bool allowURL)
 {
     bool result = false;
     OPENFILENAME ofn;
@@ -1687,6 +1688,11 @@ FileOpenDialog(HWND hwnd,
     {
         prefs->GetOpenSaveDirectory( szInitialDir, &initialDirSize);
     }
+
+    int hookFlags = 0;
+
+    if(allowURL)
+        hookFlags = OFN_ENABLEHOOK | OFN_ENABLETEMPLATE;
 
     // Setup open file dialog box structure
     ofn.lStructSize       = sizeof(OPENFILENAME);
@@ -1707,14 +1713,13 @@ FileOpenDialog(HWND hwnd,
   	     			        OFN_HIDEREADONLY | 
 					        OFN_ALLOWMULTISELECT |
 					        OFN_EXPLORER | 
-                            OFN_ENABLEHOOK |
-                            OFN_ENABLETEMPLATE;
+                            hookFlags;
     ofn.nFileOffset       = 0;
     ofn.nFileExtension    = 0;
     ofn.lpstrDefExt       = "MP3";
     ofn.lCustData         = 0;
     ofn.lpfnHook          = OpenFileHookProc;
-    ofn.lpTemplateName    = MAKEINTRESOURCE(IDD_OPENURL);
+    ofn.lpTemplateName    = (allowURL ? MAKEINTRESOURCE(IDD_OPENURL) : NULL);
 
     if(GetOpenFileName(&ofn) || ofn.lCustData)
     {

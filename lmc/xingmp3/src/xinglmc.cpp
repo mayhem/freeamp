@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.60 1999/03/07 01:29:54 robert Exp $
+   $Id: xinglmc.cpp,v 1.61 1999/03/07 06:21:45 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -47,7 +47,6 @@ ____________________________________________________________________________*/
 #include "semaphore.h"
 #include "lmc.h"
 #include "log.h"
-#include "debug.hpp"
 
 #if MP3_PROF
 extern LogFile *g_Log;
@@ -150,7 +149,6 @@ XingLMC::XingLMC()
 
 XingLMC::~XingLMC()
 {
-   Debug_v("LMC dtor");
    Stop();
    if (m_xcqueue)
    {
@@ -166,7 +164,6 @@ XingLMC::~XingLMC()
    }
    if (m_input)
    {
-      Debug_v("LMC delete pmi");
       delete    m_input;
 
       m_input = NULL;
@@ -596,7 +593,7 @@ Error XingLMC::InitDecoder()
          info->bits_per_sample = decinfo.bits;
          info->number_of_channels = decinfo.channels;
          info->samples_per_second = decinfo.samprate;
-         m_iMaxWriteSize = (info->number_of_channels * 2 * 1152) << 2;
+         m_iMaxWriteSize = (info->number_of_channels * 2 * 1152);
          info->max_buffer_size = m_iMaxWriteSize;
 
          pEvent = new PMOInitEvent(info);

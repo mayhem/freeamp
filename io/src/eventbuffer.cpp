@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: eventbuffer.cpp,v 1.2 1999/03/06 02:01:10 robert Exp $
+   $Id: eventbuffer.cpp,v 1.3 1999/03/07 06:21:43 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -118,6 +118,9 @@ Event *EventBuffer::GetEvent()
    Event       *pPMOEvent;
 
    pEvent = m_pQueue->Read();
+   if (pEvent == NULL)
+	  return NULL;
+
    pPMOEvent = pEvent->pEvent;
    delete pEvent;
 

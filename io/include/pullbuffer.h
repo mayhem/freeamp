@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.10 1999/03/06 06:00:16 robert Exp $
+   $Id: pullbuffer.h,v 1.11 1999/03/07 06:21:36 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PULLBUFFER_H_
@@ -73,6 +73,7 @@ class PullBuffer
 		         {
 					    return (100 * m_iBytesInBuffer) / m_iBufferSize;
 					};
+      void     WrapPointer(void *&pBuffer);
 
     protected:
 

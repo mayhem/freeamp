@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.10 1999/03/06 23:12:45 robert Exp $
+   $Id: pullbuffer.cpp,v 1.11 1999/03/07 06:21:44 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -159,6 +159,19 @@ int PullBuffer::GetWriteIndex(void)
  
    return iRet;
 }
+
+void PullBuffer::WrapPointer(void *&pBuffer)
+{
+   char *pPtr;
+
+   pPtr = (char *)pBuffer;
+
+   if (pPtr > (char *)((int)m_pPullBuffer + m_iBufferSize))
+	   pPtr -= m_iBufferSize;
+
+   pBuffer = (void *)pPtr;
+}
+
 
 Error PullBuffer::Resize(size_t iNewSize, 
                          size_t iNewOverflowSize, 

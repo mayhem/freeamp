@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.11 1999/03/06 06:00:22 robert Exp $
+	$Id: soundcardpmo.h,v 1.12 1999/03/07 06:21:39 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -52,7 +52,6 @@ public:
     virtual ~SoundCardPMO();
     
     virtual Error Init(OutputInfo* info);
-    virtual Error Write(int32&,void*,int32);
     virtual Error Pause();
     virtual Error Resume();
     virtual Error Break();
@@ -69,11 +68,14 @@ public:
 
     
  private:
-	WAVEHDR* NextHeader();
 
 	void          WorkerThread(void); 
     virtual Error Reset(bool user_stop);
     void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
+    WAVEHDR      *NextHeader();
+    Error         FreeHeader();
+    Error         AllocHeader(void *&pBuffer);
+    Error         Write(void *pBuffer);
 
  private:
 	Properties *    m_propManager;
@@ -98,6 +100,7 @@ public:
     bool            m_bPause;
     int             m_iOutputBufferSize, m_iTotalBytesWritten, m_iBytesPerSample;
     int             m_iLastFrame;
+	int             m_iHead, m_iTail, m_iOffset;
 };
 
 #endif /* _SOUNDCARDPMO_H_ */

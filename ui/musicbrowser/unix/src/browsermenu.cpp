@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.cpp,v 1.7 2000/06/05 17:47:01 ijr Exp $
+        $Id: browsermenu.cpp,v 1.8 2000/06/05 21:55:23 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -65,13 +65,18 @@ static void add_tool(GtkWidget *widget, GTKMusicBrowser *p)
                     char *first= strtok(filereturn, "\n");
 
                     while ((temp = strtok(NULL, "\n"))) {
+                        if (ext)
+                            delete [] ext;
                         ext = p->GetContext()->player->GetExtension(temp);
                         if (ext &&
-                           p->GetContext()->player->IsSupportedExtension(ext)) {
+                            p->GetContext()->player->IsSupportedExtension(ext)) 
+                        {
                             p->AddTrackPlaylistEvent(temp);
                             p->m_currentindex++;
                         }
                     }
+                    if (ext)
+                        delete [] ext;
                     ext = p->GetContext()->player->GetExtension(first);
                     if (ext &&
                         p->GetContext()->player->IsSupportedExtension(ext))
@@ -79,8 +84,9 @@ static void add_tool(GtkWidget *widget, GTKMusicBrowser *p)
                 }
                 delete [] filereturn;
             }
-       }
-       delete [] tempurl;
+        }
+        delete [] tempurl;
+        delete [] ext;
     }
     delete filesel;
 }

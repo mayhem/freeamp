@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.86 2000/06/05 17:47:01 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.87 2000/06/05 21:55:23 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -321,7 +321,7 @@ void GTKMusicBrowser::AddFileCMD()
                     delete [] filereturn;
                 }
             }
-            delete ext;
+            delete [] ext;
             delete [] tempurl;
         }
 

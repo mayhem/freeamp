@@ -18,11 +18,15 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: fileselector.cpp,v 1.6 2000/05/24 17:08:34 ijr Exp $
+    $Id: fileselector.cpp,v 1.7 2000/06/05 21:55:23 ijr Exp $
 ____________________________________________________________________________*/
 
-#include "fileselector.h"
+#include "config.h"
+
 #include <unistd.h>
+
+#include "fileselector.h"
+#include "utility.h"
 
 FileSelector::FileSelector(const char *windowtitle)
 {
@@ -65,6 +69,18 @@ void FileSelector::AddEvent()
     GList *row = GTK_CLIST(gfile->file_list)->row_list;
     gint rownum = 0;
     char *temp, *path_temp;
+
+    char *rawtext = gtk_entry_get_text(GTK_ENTRY(gfile->selection_entry));
+    if (!strncasecmp("http://", rawtext, 7) ||
+        !strncasecmp("rtp://", rawtext, 6)) {
+        returnpath = strdup_new(rawtext);
+        gtk_widget_destroy(GTK_WIDGET(gfile));
+
+        ok = true;
+        done = true;
+
+        return;
+    }
 
     returnpath = gtk_file_selection_get_filename(gfile);
     path_temp = strdup(returnpath.c_str());

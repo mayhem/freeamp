@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.4 1999/12/08 22:57:13 robert Exp $
+   $Id: ButtonControl.cpp,v 1.5 1999/12/18 02:23:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -71,6 +71,7 @@ ButtonControl::~ButtonControl(void)
 
 void ButtonControl::Init(void)
 {
+    m_eCurrentState = CS_Normal;
     if (m_oRect.x2 == -1 && m_oRect.y2 == -1)
     {
         m_oRect.x2 = m_oRect.x1 + 
@@ -86,7 +87,7 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
                                Pos                   *pMousePos)
 {
 	Canvas *pCanvas;
-    
+
     switch(eTrans)
     {
        case CT_MouseEnter:

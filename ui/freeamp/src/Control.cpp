@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.6 1999/12/08 22:57:14 robert Exp $
+   $Id: Control.cpp,v 1.7 1999/12/18 02:23:51 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -130,7 +130,7 @@ Error Control::StringValue(bool bSet, string &oValue)
 void Control::AcceptTransition(ControlTransitionEnum eTrans, Pos *pPos)
 {
     vector<TransitionInfo>::iterator i;
-    
+   
     for(i = m_oTransitions.begin(); i != m_oTransitions.end(); i++)
     {
         if (((*i).eState == m_eCurrentState || (*i).eState == CS_Any) && 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.56 1999/12/18 00:41:34 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.57 1999/12/18 02:23:52 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -612,7 +612,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    if (eMesg == CM_MouseLeave)
    {
        string oName("Info"), oEmpty("");
-       
+      
        m_pWindow->ControlStringValue(oName, true, oEmpty);
                                 
        return kError_NoErr;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.17 1999/12/18 01:53:56 ijr Exp $
+   $Id: Window.cpp,v 1.18 1999/12/18 02:23:54 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -84,11 +84,6 @@ Error Window::VulcanMindMeld(Window *pOther)
     m_bWindowMove = pOther->m_bWindowMove;
     m_bStayOnTop = pOther->m_bLiveInToolbar;
 
-#ifdef WIN32
-    if (m_pMouseInControl)
-       m_pMouseInControl->AcceptTransition(CT_MouseLeave);
-#endif
-    
     m_pMouseInControl = NULL;
     m_pCaptureControl = NULL;
     m_pMouseDownControl = NULL;
@@ -231,7 +226,7 @@ Error Window::SendControlMessage(Control *pControl,
                                  ControlMessageEnum eMesg)
 {
     string oControlName;
-    
+   
     pControl->GetName(oControlName);
 
     return m_pTheme->HandleControlMessage(oControlName, eMesg);
@@ -278,7 +273,7 @@ void Window::HandleMouseMove(Pos &oScreenPos)
     if (m_bWindowMove)
     {
        Rect oActualPos;
-       
+
        m_oMoveStart.x1 += (oScreenPos.x - m_oMovePos.x);
        m_oMoveStart.x2 += (oScreenPos.x - m_oMovePos.x);
        m_oMoveStart.y1 += (oScreenPos.y - m_oMovePos.y);

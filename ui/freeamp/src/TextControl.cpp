@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.5 1999/12/14 13:26:17 ijr Exp $
+   $Id: TextControl.cpp,v 1.6 1999/12/18 02:23:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -95,6 +95,7 @@ void TextControl::Init(void)
 void TextControl::Transition(ControlTransitionEnum  eTrans,
                              Pos                   *pMousePos)
 {
+
     if (m_eCurrentState == CS_MouseOver && 
         eTrans == CT_MouseLButtonUp)
        m_pParent->SendControlMessage(this, CM_Pressed);

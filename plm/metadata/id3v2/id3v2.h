@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.h,v 1.3 1999/10/25 00:15:29 elrod Exp $
+	$Id: id3v2.h,v 1.4 2000/06/06 10:30:11 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_ID3V2_H
@@ -49,6 +49,7 @@ class ID3v2 : public MetaDataFormat
  private:
 
      void HandleFrame(char *tag, char *frameData, MetaData *metadata);
+     void LookupGenre(int genreId, char* genre);
      FAContext* m_context;
 };
 

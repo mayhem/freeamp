@@ -2,7 +2,7 @@
 
   FreeAmp - The Free MP3 Player
 
-  Copyright (C) 2000 Micheal Rich
+  Copyright (C) 2000 Michael Rich
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: wav.cpp,v 1.2 2000/03/17 04:15:59 robert Exp $
+  $Id: wav.cpp,v 1.3 2000/03/17 04:22:41 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */

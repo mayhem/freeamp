@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Headlines.cpp,v 1.3.4.1 2000/03/07 22:49:05 robert Exp $
+   $Id: Headlines.cpp,v 1.3.4.1.4.1 2000/04/10 23:10:09 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -168,7 +168,8 @@ Error Headlines::Download(void)
 
     m_pContext->target->AcceptEvent(new StatusMessageEvent(""));
     m_oHeadlines.clear(); 
-    
+
+    printf("Page: '%s'\n", oPage.c_str());
     eRet = ParseString(oPage);
     if (IsntError(eRet))
     {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.7.4.1.2.1 2000/03/04 18:32:38 ijr Exp $
+	$Id: utility.h,v 1.7.4.1.2.1.4.1 2000/04/10 23:10:08 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
@@ -50,10 +50,10 @@ bool CopyFile(const char *pExistingFileName,
               bool bFailIfExists);     // operation if file exists
 #endif
 
-#ifdef WIN32
 void FindMusicFiles(const char* rootPath, 
                     vector<string>& urls, 
                     vector<string>& queries); 
+#ifdef WIN32
 bool ResolveLink(string& path);
 #endif
 

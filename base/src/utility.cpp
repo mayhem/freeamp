@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.18.2.1.2.1 2000/03/04 18:32:38 ijr Exp $
+	$Id: utility.cpp,v 1.18.2.1.2.1.4.1 2000/04/10 23:10:09 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -47,6 +47,8 @@ using namespace std;
 #include "win32impl.h"
 #include <unistd.h>
 #define MKDIR(z) mkdir(z, 0755)
+#define _stat stat
+#define _S_IFDIR S_IFDIR 
 #endif
 
 #include "config.h"
@@ -535,7 +537,6 @@ void LaunchBrowser(char* url)
 }
 #endif
 
-#ifdef WIN32
 
 void FindMusicFiles(const char* rootPath, 
                     vector<string>& urls, 
@@ -544,7 +545,7 @@ void FindMusicFiles(const char* rootPath,
     HANDLE findFileHandle = NULL;
     WIN32_FIND_DATA findData;
     string findPath;
-    string::size_type pos;
+    string::size_type pos = string::npos;
 
     vector<string>::iterator query = queries.begin();
 
@@ -556,7 +557,7 @@ void FindMusicFiles(const char* rootPath,
         pos = findPath.size();
         findPath += *query;
 
-        findFileHandle = FindFirstFile(findPath.c_str(), &findData);
+        findFileHandle = FindFirstFile((char *)findPath.c_str(), &findData);
 
         if(findFileHandle != INVALID_HANDLE_VALUE)
         {
@@ -585,7 +586,7 @@ void FindMusicFiles(const char* rootPath,
                      findPath.size() - pos, 
                      "*.*");
 
-    findFileHandle = FindFirstFile(findPath.c_str(), &findData);
+    findFileHandle = FindFirstFile((char *)findPath.c_str(), &findData);
 
     if(findFileHandle != INVALID_HANDLE_VALUE)
     {
@@ -615,6 +616,7 @@ void FindMusicFiles(const char* rootPath,
     }
 }
 
+#ifdef WIN32
 bool ResolveLink(string& path)
 {
     bool result = false;

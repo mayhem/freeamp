@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.10 1999/07/19 21:07:58 dogcow Exp $
+        $Id: soundcardpmo.cpp,v 1.11 1999/07/19 21:13:34 dogcow Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -317,7 +317,7 @@ void SoundCardPMO::WorkerThread(void)
    Error       eErr;
    size_t      iRet;
    Event      *pEvent;
-   audio_info info;
+   //   audio_info info;
    bool        bPerfWarn = false;
 
    // Don't do anything until resume is called.

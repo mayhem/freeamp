@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.39 2000/02/09 21:21:25 elrod Exp $
+        $Id: musiccatalog.cpp,v 1.40 2000/02/16 06:18:29 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -77,12 +77,13 @@ MusicCatalog::MusicCatalog(FAContext *context, char *databasepath)
 
 MusicCatalog::~MusicCatalog()
 {
-    vector<ArtistList *>::iterator a;
-    vector<PlaylistItem *>::iterator p;
+//    vector<ArtistList *>::iterator a;
+//    vector<PlaylistItem *>::iterator p;
 
     if (m_database)
         delete m_database;
 
+/*
     for(a = m_artistList->begin(); a != m_artistList->end(); a++)
        delete (*a);
     delete m_artistList;
@@ -94,6 +95,7 @@ MusicCatalog::~MusicCatalog()
     for(p = m_streams->begin(); p != m_streams->end(); p++)
        delete (*p);
     delete m_streams;
+*/
 
     delete m_playlists;
     delete m_mutex;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.1 1999/08/25 23:01:53 robert Exp $
+   $Id: Window.h,v 1.1.2.2 1999/08/25 23:08:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __WINDOW__H_
@@ -32,7 +32,6 @@ ____________________________________________________________________________*/
 #include "Bitmap.h"
 #include "Control.h"
 #include "Canvas.h"
-#include "ControlEvent.h"
 #include "thread.h"
 #include "semaphore.h"
 #include "mutex.h"

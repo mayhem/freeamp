@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.18.4.1 1999/08/18 04:18:07 ijr Exp $
+	$Id: errors.h,v 1.18.4.2 1999/08/25 23:08:29 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -67,6 +67,8 @@ typedef enum Error
     kError_CannotSetSocketOpts  = 36,
     kError_CannotBind           = 37,
     kError_DbaseItemNotStored   = 38,
+    kError_ParseError           = 39,
+    kError_NotFound             = 40,
 
 
     kError_LastError            = 9999

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16 1999/08/06 08:42:14 dogcow Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.1 1999/08/25 23:08:28 robert Exp $
 
 RELOC = @FPIC@
 
@@ -38,6 +38,7 @@ PLUGINS += plugins/mpg123.ui
 #PLUGINS += plugins/ncurses.ui
 PLUGINS += plugins/lcd.ui
 PLUGINS += plugins/irman.ui
+PLUGINS += plugins/theme.ui
 PLUGINS += plugins/xingmp3.lmc
 
 plugins plugins-cc: $(PLUGINS) $(OSDEPPLUGINS)
@@ -97,6 +98,18 @@ plugins/esound.pmo: $(ESNDOBJ)
 
 #
 # UI section
+
+# theme ui
+THEMEUIOBJ = ui/theme/src/Theme.o ui/theme/src/Bitmap.o \
+             ui/theme/src/Canvas.o ui/theme/src/SliderControl.o \
+             ui/theme/src/Window.o ui/theme/src/ButtonControl.o \
+             ui/theme/src/Control.o ui/theme/src/TextControl.o \
+             ui/theme/src/DialControl.o ui/theme/src/Parse.o \
+             ui/theme/unix/src/GTKWindow.o ui/theme/unix/src/GTKBitmap.o \
+             ui/theme/unix/src/GTKCanvas.o 
+
+plugins/theme.ui: $(THEMEUIOBJ)
+	$(LINKMOD) -o $@ $(THEMEUIOBJ)
 
 # cmdline
 CMDUIOBJ = ui/cmdline/cmdlineUI.o

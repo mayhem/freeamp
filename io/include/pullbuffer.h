@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.18 1999/11/17 01:54:05 robert Exp $
+   $Id: pullbuffer.h,v 1.19 2000/02/11 04:31:25 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PULLBUFFER_H_
@@ -68,12 +68,14 @@ class PullBuffer
 		       {
 			       return (100 * m_iBytesInBuffer) / m_iBufferSize;
 			   };
-      void     WrapPointer(void *&pBuffer);
 
-    protected:
-
+      // These function really should not be public, but
+	  // the stupid windows PMO needs them. Grrr.
+      void       WrapPointer(void *&pBuffer);
       int32      GetWriteIndex();
       int32      GetReadIndex();
+
+    protected:
 
       FAContext *m_context;
       Mutex     *m_pMutex;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.24 2000/02/01 23:32:11 robert Exp $
+	$Id: soundcardpmo.h,v 1.25 2000/02/11 04:31:25 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -60,9 +60,9 @@ public:
     virtual Error Reset(bool user_stop);
     void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
     WAVEHDR      *NextHeader(bool bFreeHeadersOnly = false);
-    Error         FreeHeader();
-    Error         AllocHeader(void *&pBuffer);
-    Error         Write(void *pBuffer);
+    Error         FreeHeader(uint32 uSize);
+    Error         AllocHeader(void *&pBuffer, uint32 &uSize);
+    Error         Write(void *pBuffer, uint32 uSize);
 	void          Pause(void);
 	void          Resume(void);
 	void          Clear(void);
@@ -89,6 +89,7 @@ public:
 	
 	string          m_oDstLineName, m_oVolumeControlName;
 	DWORD           m_dwMinimum, m_dwMaximum, m_dwVolumeControlID;
+	char           *pBase;
 };
 
 #endif /* _SOUNDCARDPMO_H_ */

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.80 2000/02/10 21:32:30 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.81 2000/02/11 04:31:25 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -470,7 +470,6 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          if (m_bShowBuffers)
              oName = string("StreamInfo");
 
-         Debug_v("%s into %s", oText.c_str(), oName.c_str());    
          m_pWindow->ControlStringValue(oName, true, oText);
 
          break;

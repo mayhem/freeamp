@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.122 2000/02/09 11:18:46 hiro Exp $
+   $Id: xinglmc.cpp,v 1.123 2000/02/11 04:31:25 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -645,6 +645,7 @@ Error XingLMC::InitDecoder()
          m_pContext->prefs->GetOutputBufferSize(&iNewSize);
          iNewSize *= 1024;
    
+         //iNewSize -= iNewSize % (m_iMaxWriteSize * 16);
          iNewSize -= iNewSize % m_iMaxWriteSize;
          result = m_pOutputBuffer->Resize(iNewSize, 0);
          if (IsError(result))

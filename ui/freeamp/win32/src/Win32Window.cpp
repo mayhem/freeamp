@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.29 2000/02/09 16:00:38 robert Exp $
+   $Id: Win32Window.cpp,v 1.30 2000/02/11 04:31:26 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -103,12 +103,11 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
             
             break;
         }
-        case WM_NCCREATE:  
-        case WM_NCDESTROY: 
-        case WM_NCCALCSIZE:
-            return 1;    
         
         default:
+			if (!ui) 
+                return DefWindowProc( hwnd, msg, wParam, lParam );
+            
             return ui->WindowProc(hwnd, msg, wParam, lParam);
     }
     return result;
@@ -227,12 +226,22 @@ LRESULT Win32Window::WindowProc(HWND hwnd, UINT msg,
             break;
         }
 
+        case WM_CHAR:
+        {
+            Keystroke((unsigned char)wParam);
+            break;
+        }
+            
         case WM_KEYDOWN:
         {
             if (wParam == VK_F1)
+            {
                wParam = 'h';
+               Keystroke((unsigned char)wParam);
+            }
+            else   
+               result = DefWindowProc( hwnd, msg, wParam, lParam );
                
-            Keystroke((unsigned char)wParam);
             break;
         }
         
@@ -247,7 +256,9 @@ LRESULT Win32Window::WindowProc(HWND hwnd, UINT msg,
         case WM_SYSCOMMAND:
         {
             if (!MenuCommand(wParam))
+            {
                 result = DefWindowProc( hwnd, msg, wParam, lParam );
+            }    
                 
             break;
         }    

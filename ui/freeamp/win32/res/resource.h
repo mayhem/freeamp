@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
-// Used by theme.rc
+// Used by freeampui.rc
 //
 #define IDI_EXE_ICON                    101
 #define IDC_URL                         101

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.22 1999/03/07 07:29:45 elrod Exp $
+	$Id: eventdata.h,v 1.23 1999/03/07 08:37:51 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -99,7 +99,7 @@ class MediaInfoEvent : public Event {
     }
     void AddChildEvent(Event *pE) {
 	if (pE) {
-	    m_childEvents->Insert(pE);
+	    m_childEvents->AddItem(pE);
 	}
     }
 };

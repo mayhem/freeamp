@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.132 2000/07/31 19:51:39 ijr Exp $
+   $Id: xinglmc.cpp,v 1.133 2000/08/08 16:05:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -54,6 +54,7 @@ ____________________________________________________________________________*/
 #define DB Debug_v("%s:%d\n",  __FILE__, __LINE__);
 
 const int iInitialOutputBufferSize = 64512;
+static Semaphore m_xingSem(2);
 
 extern    "C"
 {
@@ -103,6 +104,8 @@ const char *szCannotDecode = The_BRANDING" cannot play this file/stream. This fi
 XingLMC::XingLMC(FAContext *context) :
          LogicalMediaConverter(context)
 {
+   m_xingSem.Wait();
+
    m_pContext = context;
 
    m_decoderThread = NULL;
@@ -147,6 +150,7 @@ XingLMC::~XingLMC()
       delete m_pXingHeader->toc;
       delete m_pXingHeader;
    }
+   m_xingSem.Signal();
 }
 
 Error XingLMC::Prepare(PullBuffer *pInputBuffer, PullBuffer *&pOutBuffer)

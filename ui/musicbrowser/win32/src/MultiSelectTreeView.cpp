@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.22 2000/06/22 15:13:36 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.23 2000/08/08 16:05:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -150,6 +150,9 @@ EditLabelWndProc(HWND hwnd,
 
 void MusicBrowserUI::EditItemLabel(HWND hwnd, HTREEITEM item)
 {
+    if (item == NULL)
+        return;
+
     g_editItem = item;
 
     bool isPlaylist = false;

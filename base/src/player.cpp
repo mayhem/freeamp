@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.219 2000/08/05 01:25:11 ijr Exp $
+        $Id: player.cpp,v 1.220 2000/08/08 16:05:57 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1423,10 +1423,11 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
       if (m_pmo)
       {
          m_pmo->Pause();
-         m_signatureSem->Signal();
          delete m_pmo;
-
          m_pmo = NULL;
+
+         m_signatureSem->Signal();
+
          m_lmc = NULL;
       }
       if (SetState(PlayerState_Stopped))
@@ -1446,10 +1447,11 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
    if (m_pmo)
    {
       m_pmo->Pause();
-      m_signatureSem->Signal();
       delete    m_pmo;
-
       m_pmo = NULL;
+
+      m_signatureSem->Signal();
+
       m_lmc = NULL;
    }
 
@@ -1595,9 +1597,10 @@ DoneOutputting(Event *pEvent)
 
    if (m_pmo)
    {
-      m_signatureSem->Signal();
       delete m_pmo;
       m_pmo = NULL;
+
+      m_signatureSem->Signal();
       m_lmc = NULL;
    }
 
@@ -1661,10 +1664,11 @@ Stop(Event *pEvent)
     if (m_pmo)
     {
        m_pmo->Pause();
-       m_signatureSem->Signal();
-       delete    m_pmo;
- 
+       delete m_pmo;
        m_pmo = NULL;
+
+       m_signatureSem->Signal();
+ 
        m_lmc = NULL;
     }
 
@@ -1738,8 +1742,9 @@ Play(Event *pEvent)
     if (m_playerState == PlayerState_Playing)
     {
        delete m_pmo;
-       m_signatureSem->Signal();
        m_pmo = NULL;
+
+       m_signatureSem->Signal();
        m_lmc = NULL;
 
        if (SetState(PlayerState_Stopped))

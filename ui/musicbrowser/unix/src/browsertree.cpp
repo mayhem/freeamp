@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.23 2000/08/01 17:29:19 ijr Exp $
+        $Id: browsertree.cpp,v 1.24 2000/08/08 16:05:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1357,6 +1357,19 @@ void GTKMusicBrowser::FillRelatable(bool force)
     if (relatableSpace)
         gtk_ctree_remove_node(musicBrowserTree, relatableSpace);
     relatableSpace = NULL;
+
+    GtkCTreeRow *row = GTK_CTREE_ROW(relatableTree);
+    int expanded = row->expanded;
+
+    if (force) {
+        GtkCTreeNode *todelete = row->children;
+
+        while (todelete) {
+            gtk_ctree_remove_node(musicBrowserTree, todelete);
+            todelete = row->children;
+        }
+    }
+
     relatableExpanded = true;
 
     char *name[1];
@@ -1389,6 +1402,9 @@ void GTKMusicBrowser::FillRelatable(bool force)
         gtk_ctree_node_set_row_data_full(musicBrowserTree, stream, data,
                                          (GtkDestroyNotify)kill_treedata);
     }
+    if (expanded)
+        gtk_ctree_expand(musicBrowserTree, relatableTree);
+
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
 }
 

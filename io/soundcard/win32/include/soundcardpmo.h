@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.22 2000/01/20 00:48:47 robert Exp $
+	$Id: soundcardpmo.h,v 1.23 2000/01/21 02:43:25 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -71,7 +71,7 @@ public:
 //    FAContext*      m_context;
 
 	WAVEFORMATEX*	m_wfex;
-	LPWAVEHDR*		m_wavehdr_array;
+	WAVEHDR*		m_wavehdr_array;
 	HWAVEOUT		m_hwo;
 
 	uint32			m_buffer[MAXCHANNELS];

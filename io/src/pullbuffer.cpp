@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.36 2000/01/20 00:48:50 robert Exp $
+   $Id: pullbuffer.cpp,v 1.37 2000/01/21 02:43:27 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -315,7 +315,6 @@ Error PullBuffer::EndWrite(size_t iBytesWritten)
    
    m_iBytesToWrite = 0;
 
-   m_context->log->Log(LogInput, "EndWrite: ReadIndex: %d WriteIndex %d\n", m_iReadIndex, m_iWriteIndex);
    m_pMutex->Release();
 
    return kError_NoErr;
@@ -421,8 +420,6 @@ Error PullBuffer::EndRead(size_t iBytesUsed)
    assert(m_iBytesInBuffer <= m_iBufferSize);
 
    m_iBytesToRead = 0;
-
-   m_context->log->Log(LogInput, "EndRead: ReadIndex: %d WriteIndex %d\n", m_iReadIndex, m_iWriteIndex);
 
    m_pMutex->Release();
 

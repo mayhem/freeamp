@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.18 2000/02/06 08:59:16 hiro Exp $
+	$Id: utility.cpp,v 1.18.2.1 2000/02/28 01:51:13 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -689,4 +689,54 @@ bool ResolveLink(string& path)
     return result;
 }
 
+#endif
+
+#ifndef WIN32
+
+const unsigned iCopyBufferSize = 8192;
+
+bool CopyFile(const char *pExistingFileName, 
+              const char *pNewFileName,      // name of new file
+              bool bFailIfExists)      // operation if file exists
+{
+    FILE  *fpDest, *fpSrc;
+    char   szBuffer[iCopyBufferSize];
+    unsigned iRet;
+
+    if (bFailIfExists && !access(pNewFileName, 0))
+        return false;
+
+    fpDest = fopen(pNewFileName, "wb");
+    if (fpDest == NULL)
+        return false;
+
+    fpSrc = fopen(pExistingFileName, "rb");
+    if (fpSrc == NULL)
+        return false;
+
+    for(;;)
+    {
+        iRet = fread(szBuffer, 1, iCopyBufferSize, fpSrc);
+        if (iRet < 0)
+        {
+            fclose(fpDest);
+            fclose(fpSrc);
+            return false;
+        }
+
+        if (fwrite(szBuffer, 1, iRet, fpDest) != iRet)
+        {
+            fclose(fpDest);
+            fclose(fpSrc);
+            return false;
+        }
+        if (iRet != iCopyBufferSize)
+           break; 
+    }
+
+    fclose(fpDest);
+    fclose(fpSrc);
+
+    return true;
+}
 #endif

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.6 2000/02/27 07:49:59 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.7 2000/02/28 01:51:13 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -629,18 +629,13 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
           szNewTheme = new char[iLen];
 
           LoadThemeEvent *pInfo = (LoadThemeEvent *)e;
-          URLToFilePath(pInfo->URL(), szNewTheme, &iLen);
+          strncpy(szNewTheme, pInfo->URL(), _MAX_PATH);
+          szNewTheme[_MAX_PATH - 1] = 0;
+          strncpy(szSavedTheme, pInfo->SavedTheme(), _MAX_PATH);
+          szSavedTheme[_MAX_PATH - 1] = 0;
 
-          iLen = _MAX_PATH;
-          m_pContext->prefs->GetPrefString(kThemePathPref, szSavedTheme, &iLen);
-
-          if (strcmp(szSavedTheme, szNewTheme))
-          {
-              m_pContext->prefs->SetPrefString(kThemePathPref, szNewTheme);
-              ReloadTheme();
-          }
-          else
-              strcpy(szSavedTheme, pInfo->SavedTheme());
+          m_pContext->prefs->SetPrefString(kThemePathPref, szNewTheme);
+          ReloadTheme();
   
           if (oBox.Show(oMessage.c_str(), string(BRANDING), kMessageYesNo) == 
               kMessageReturnYes)
@@ -649,7 +644,7 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
               string        oThemePath(szNewTheme);
           
               pMan = new ThemeManager(m_pContext);
-              if (IsntError(pMan->AddTheme(oThemePath))) {
+              if (IsntError(pMan->AddTheme(oThemePath, true))) {
                   m_pContext->prefs->SetPrefString(kThemePathPref, oThemePath.c_str());
                   ReloadTheme();
               }
@@ -660,7 +655,8 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
               m_pContext->prefs->SetPrefString(kThemePathPref, szSavedTheme);
               ReloadTheme();
           }
-          
+         
+          unlink(szNewTheme);
           delete szSavedTheme;
           delete szNewTheme;
           

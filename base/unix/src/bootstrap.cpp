@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.20.2.3 2000/02/27 07:49:59 ijr Exp $
+	$Id: bootstrap.cpp,v 1.20.2.4 2000/02/28 01:51:13 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -214,11 +214,17 @@ int main(int argc, char **argv)
                     bool bPlay;
 
                     context->prefs->GetPlayImmediately(&bPlay);
-                    if (bPlay)
-                        context->plm->RemoveAll();
-
                     for(i = 0, pPtr = pCmdLine; *pPtr; i++)
                     {
+                        if (i == 0)
+                        {
+                            if (strcmp("fat", pPtr + strlen(pPtr) - 3) == 0)
+                               bPlay = false;
+
+                            if (bPlay) 
+                                context->plm->RemoveAll();
+                        }
+
                         pP->HandleSingleArg(pPtr);
                         pPtr += strlen(pPtr) + 1;
                     }

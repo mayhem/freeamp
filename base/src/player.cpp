@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.176.2.3 2000/02/27 01:25:18 robert Exp $
+        $Id: player.cpp,v 1.176.2.4 2000/02/28 01:51:13 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -432,26 +432,15 @@ void Player::HandleSingleArg(char *arg)
                         giveToTheme = true; 
                 }
 
-
-                if(giveToDLM)
+                if (giveToDLM) 
                     m_dlm->ReadDownloadFile(url);
-                else
-                if(giveToTheme)
-                {
-                    char szSavedTheme[_MAX_PATH], szNewTheme[_MAX_PATH];
-                    uint32 iLen = _MAX_PATH;   
-
-                    m_context->prefs->GetPrefString(kThemePathPref, 
-                         szSavedTheme, &iLen);
-                    iLen = _MAX_PATH;   
-                    URLToFilePath(url, szNewTheme, &iLen); 
-                    m_context->prefs->SetPrefString(kThemePathPref, 
-                       szNewTheme);
-
-                    AcceptEvent(new LoadThemeEvent(url, szSavedTheme));
-                }
                 else 
-                    m_plm->AddItem(url); 
+                {
+                    if (giveToTheme)
+                        AddTheme(url);
+                    else 
+                        m_plm->AddItem(url); 
+                }	
 
             }while(FindNextFile(handle, &data));
            
@@ -502,28 +491,34 @@ void Player::HandleSingleArg(char *arg)
 
         if (giveToDLM) 
             m_dlm->ReadDownloadFile(url);
-        else if (giveToTheme)
-        {
-            char szSavedTheme[_MAX_PATH], szNewTheme[_MAX_PATH];
-            uint32 iLen = _MAX_PATH;   
-
-            m_context->prefs->GetPrefString(kThemePathPref, 
-                                            szSavedTheme, &iLen);
-            iLen = _MAX_PATH;   
-            URLToFilePath(url, szNewTheme, &iLen); 
-            m_context->prefs->SetPrefString(kThemePathPref, szNewTheme);
-
-            AcceptEvent(new LoadThemeEvent(url, szSavedTheme));
-        }
         else 
         {
-            m_plm->AddItem(url); 
+            if (giveToTheme)
+                AddTheme(url);
+            else 
+                m_plm->AddItem(url); 
         }	
 #endif
     }
     
     delete [] path;
     delete [] url;
+}
+
+void Player::AddTheme(char *url)
+{
+    char     szSavedTheme[_MAX_PATH], szNewTheme[_MAX_PATH];
+    char    *pTempFile;
+    uint32   iLen = _MAX_PATH;   
+
+    m_context->prefs->GetPrefString(kThemePathPref, 
+                                    szSavedTheme, &iLen);
+    iLen = _MAX_PATH;   
+    URLToFilePath(url, szNewTheme, &iLen); 
+    pTempFile = tmpnam(NULL);
+
+    if (CopyFile(szNewTheme, pTempFile, false))
+        AcceptEvent(new LoadThemeEvent(pTempFile, szSavedTheme));
 }
 
 void      

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.49.2.1 2000/02/26 23:03:14 robert Exp $
+        $Id: player.h,v 1.49.2.2 2000/02/28 01:51:13 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -77,6 +77,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     void      Run();
     bool      SetArgs(int32 argc, char **argv);
     void      HandleSingleArg(char *arg);
+    void      AddTheme(char *url);
     void      SetTerminationSemaphore(Semaphore *);
     void      testQueue();
     static void EventServiceThreadFunc(void *);

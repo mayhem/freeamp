@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.h,v 1.5 1999/12/10 07:16:43 elrod Exp $
+   $Id: ThemeManager.h,v 1.5.4.1 2000/02/28 01:51:13 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEMEMANAGER_H__
@@ -48,7 +48,7 @@ class ThemeManager
       virtual Error GetDefaultTheme(string &oThemePath);
 	  virtual Error GetThemeList   (map<string, string> &oThemeFileList);
       virtual Error UseTheme       (string &oThemeFile);
-      virtual Error AddTheme       (string &oThemeFile);
+      virtual Error AddTheme       (string &oThemeFile, bool bRename = false);
       virtual Error DeleteTheme    (string &oThemeFile);
       virtual Error GetCurrentTheme(string &oTheme);
 

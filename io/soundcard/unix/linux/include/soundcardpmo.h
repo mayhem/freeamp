@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.h,v 1.11 1999/03/05 23:17:34 robert Exp $
+        $Id: soundcardpmo.h,v 1.12 1999/03/06 23:12:43 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SOUNDCARDPMO_H_
@@ -29,7 +29,7 @@ ____________________________________________________________________________*/
 /* project headers */
 #include <config.h>
 #include "thread.h"
-#include "semaphore.h"
+#include "mutex.h"
 #include "pmo.h"
 #include "pmoevent.h"
 #include "eventbuffer.h"
@@ -62,6 +62,7 @@ class SoundCardPMO:public PhysicalMediaOutput, public EventBuffer
    virtual Error Init(OutputInfo * info);
    virtual Error Pause();
    virtual Error Resume();
+   virtual Error Break();
    virtual void  WaitToQuit();
    virtual Error Clear();
    virtual Error SetPropManager(Properties * p);
@@ -87,8 +88,7 @@ class SoundCardPMO:public PhysicalMediaOutput, public EventBuffer
    OutputInfo  *myInfo;
    int32        getprocessed(void);
    Thread      *m_pBufferThread;
-   Semaphore   *m_pPauseSem;
-   bool         m_bPause;
+   Mutex       *m_pPauseMutex;
    int          m_iOutputBufferSize, m_iTotalBytesWritten, m_iBytesPerSample;
    int          m_iLastFrame;
 };

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.9 1999/03/06 06:13:45 elrod Exp $
+   $Id: pullbuffer.cpp,v 1.10 1999/03/06 23:12:45 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -235,6 +235,13 @@ Error PullBuffer::BeginWrite(void *&pBuffer, size_t &iBytesToWrite)
    assert(m_iWriteIndex >= 0 && (uint32)m_iWriteIndex < m_iBufferSize);
 
    m_pMutex->Acquire();
+
+   if (m_bExit)
+   {
+       printf("bailing out!\n");
+       m_pMutex->Release();
+       return kError_Interrupt;
+   }
 
    pBuffer = m_pPullBuffer + m_iWriteIndex;
 

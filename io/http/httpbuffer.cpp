@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: httpbuffer.cpp,v 1.9 1999/03/06 06:00:11 robert Exp $
+   $Id: httpbuffer.cpp,v 1.10 1999/03/06 23:12:40 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -43,7 +43,7 @@ ____________________________________________________________________________*/
 #include "log.h"
 
 #ifndef WIN32
-check the closesocket shit!
+#define closesocket(s) close(s)
 #endif
 
 extern LogFile *g_Log;

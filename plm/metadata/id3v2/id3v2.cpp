@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.18 2000/08/24 08:51:14 ijr Exp $
+	$Id: id3v2.cpp,v 1.19 2000/08/30 09:20:53 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 #ifdef WIN32
 #include <winsock.h>
 #else
+#include <sys/types.h>
 #include <netinet/in.h>
 #endif
 

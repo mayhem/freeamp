@@ -18,13 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: thread.cpp,v 1.9 2000/05/06 12:05:48 ijr Exp $
+	$Id: thread.cpp,v 1.10 2000/08/30 09:20:53 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
 #include "thread.h"
 
-#if defined(__LINUX__) || defined(solaris)
+#if defined(__LINUX__) || defined(solaris) || defined(__FreeBSD__)
     #include "pthreadthread.h"
 #elif WIN32
     #include "win32thread.h"
@@ -34,15 +34,12 @@ ____________________________________________________________________________*/
     #error thread class needs to be defined for this platform
 #endif
 
-
-
-
 Thread* Thread::CreateThread()
 {
     Thread* thread = NULL;
-#if defined(__linux__) || defined(solaris)
+#if defined(__LINUX__) || defined(solaris) || defined(__FreeBSD__)
     thread = new pthreadThread();
-#elif defined(WIN32)
+#elif WIN32
     thread = new win32Thread();
 #elif defined(__BEOS__)
     thread = new beosThread();

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.44 2000/07/31 19:51:39 ijr Exp $
+        $Id: soundcardpmo.cpp,v 1.45 2000/08/30 09:20:53 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -139,7 +139,11 @@ Error SoundCardPMO::Init(OutputInfo * info)
    else
    {
       // got info, so this is the beginning...
+#ifdef __FreeBSD__
+      if ((audio_fd = open("/dev/dsp", O_WRONLY, 0)) < 0)
+#else
       if ((audio_fd = open("/dev/dsp", O_WRONLY | O_SYNC, 0)) < 0)
+#endif
       {
          if (errno == EBUSY)
          {

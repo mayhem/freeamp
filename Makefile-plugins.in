@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.74 2000/08/18 08:36:24 robert Exp $
+# $Id: Makefile-plugins.in,v 1.75 2000/08/30 09:20:53 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -101,7 +101,7 @@ plugins/obsinput.pmi: $(OBSPMI)
 SCPMObeosOBJ=io/soundcard/beos/src/soundutils.o
 SCPMObeosLIB=-lmedia -lbe -lroot
 
-SCPMOOBJ  = io/soundcard/$(OSDEP)/src/soundcardpmo.o io/src/pmo.o
+SCPMOOBJ  = io/soundcard/unix/$(UNIX_AUDIO_API)/src/soundcardpmo.o io/src/pmo.o
 SCPMOOBJ += io/src/pipeline.lo $(SCPMO$(HOST_OS)OBJ)
 
 plugins/soundcard.pmo: $(SCPMOOBJ)

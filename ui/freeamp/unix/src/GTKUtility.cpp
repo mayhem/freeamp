@@ -18,18 +18,18 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.15 2000/09/19 11:12:32 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.15.12.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "config.h"
 
 #include <stdio.h>
 #include <string>
-#include "thread.h"
-#include "GTKUtility.h"
-#include "facontext.h"
+
 #include <gdk/gdk.h>
+extern "C" {
 #include <gdk/gdkx.h>
+}
 #include <gtk/gtk.h>
 #include <X11/Xatom.h>
 #include <iostream>
@@ -39,19 +39,15 @@ ____________________________________________________________________________*/
 #include <map>
 using namespace std;
 
+#include "thread.h"
+#include "GTKUtility.h"
+#include "facontext.h"
 #include "gtkmessagedialog.h"
 
 static Thread *gtkThread = NULL;
 static bool weAreGTK = false;
 static bool doQuitNow = false;
 static FAContext *ourContext;
-
-void IconifyWindow(GdkWindow *win)
-{
-    Window window = GDK_WINDOW_XWINDOW(win);
-    XIconifyWindow(GDK_DISPLAY(), window, DefaultScreen(GDK_DISPLAY()));
- 
-}
 
 void WarpPointer(GdkWindow *win, int x, int y)
 {
@@ -159,6 +155,9 @@ static gint theme_timeout(void *c)
 
 static void runGTK(void *c)
 {
+    FAContext *context = (FAContext *)c;
+    gtk_init(&(context->argc), &(context->argv));
+    gdk_rgb_init();
     gtk_timeout_add(250, theme_timeout, NULL);
     gtk_main();
     gdk_threads_leave();
@@ -176,15 +175,13 @@ void InitializeGTK(FAContext *context)
         context->gtkInitialized = true;
 	g_thread_init(NULL);
         gtk_set_locale();
-	gtk_init(NULL, NULL);
-	gdk_rgb_init();
 	weAreGTK = true;
     }
     context->gtkLock.Release();
     
     if (weAreGTK) {
         gtkThread = Thread::CreateThread();
-        gtkThread->Create(runGTK, NULL);
+        gtkThread->Create(runGTK, context);
     }
 
     bool running = false;
@@ -218,18 +215,206 @@ void ShutdownGTK(void)
     }
 }
 
-bool ListFonts(char *mask)
+void PixbufDrawRectFill(GdkPixbuf *pb, gint x, gint y, gint w, gint h,
+                        gint r, gint g, gint b, gint a)
 {
-    int count;
-    int maxnames = 32767;
-    char **fontnames;
-    bool retvalue = false;
-    string realmask = string("-*-") + string(mask) + string("-*");
-    fontnames = XListFonts(GDK_DISPLAY(), realmask.c_str(), maxnames, &count);
-    XFreeFontNames(fontnames);
-    if (count > 0)
-        retvalue = true;
-    return retvalue;
+    gint p_alpha;
+    gint pw, ph, prs;
+    guchar *p_pix;
+    guchar *pp;
+    gint i, j;
+
+    if (!pb) 
+        return;
+
+    pw = gdk_pixbuf_get_width(pb);
+    ph = gdk_pixbuf_get_height(pb);
+
+    if (x < 0 || x + w > pw) 
+        return;
+    if (y < 0 || y + h > ph) 
+        return;
+
+    p_alpha = gdk_pixbuf_get_has_alpha(pb);
+    prs = gdk_pixbuf_get_rowstride(pb);
+    p_pix = gdk_pixbuf_get_pixels(pb);
+
+    for (i = 0; i < h; i++)
+    {
+        pp = p_pix + (y + i) * prs + (x * (p_alpha ? 4 : 3));
+        for (j = 0; j < w; j++)
+        {
+            *pp = (r * a + *pp * (256-a)) >> 8;
+            pp++;
+            *pp = (g * a + *pp * (256-a)) >> 8;
+            pp++;
+            *pp = (b * a + *pp * (256-a)) >> 8;
+            pp++;
+            if (p_alpha) pp++;
+        }
+    }
+}
+
+GdkPixbuf *PixbufFromRootWindow(gint x, gint y, gint w, gint h, gint get_all)
+{
+    GdkPixbuf *pb;
+    GdkVisual *gdkvisual;
+    GdkWindow *rootwindow;
+    gint screen_w;
+    gint screen_h;
+    gint screen_x;
+    gint screen_y;
+
+    if (w < 1 || h < 1 ) 
+        return NULL;
+
+    pb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, w, h);
+    PixbufDrawRectFill(pb, 0, 0, w, h, 0, 0, 0, 255);
+
+    screen_w = gdk_screen_width();
+    screen_h = gdk_screen_height();
+
+    if (x >= screen_w || y >= screen_h || x + w < 0 || y + h < 0) 
+        return pb;
+
+    screen_x = x;
+    if (screen_x < 0)
+    {
+        w += screen_x;
+        screen_x = 0;
+    }
+    if (screen_x + w > screen_w)
+    {
+        w -= screen_x + w - screen_w;
+    }
+
+    screen_y = y;
+    if (screen_y < 0)
+    {
+        h += screen_y;
+        screen_y = 0;
+    }
+    if (screen_y + h > screen_h)
+    {
+        h -= screen_y + h - screen_h;
+    }
+
+    if (w < 1 || h < 1) 
+        return pb;
+
+    rootwindow = (GdkWindow *) gdk_window_lookup(GDK_ROOT_WINDOW());
+    if (!rootwindow) 
+        return NULL;
+
+    gdkvisual = gdk_window_get_visual(rootwindow);
+    if (gdkvisual != gdk_visual_get_system()) 
+        return pb;
+
+    if (!get_all)
+    {
+        Atom prop, type;
+        int format;
+        unsigned long length, after;
+        unsigned char *data;
+        Window desktop_window;
+
+        gdk_error_trap_push();
+
+        desktop_window = GDK_ROOT_WINDOW();
+
+        prop = XInternAtom(GDK_DISPLAY(), "_XROOTPMAP_ID", True);
+
+        if (prop != None)
+        {
+            XGetWindowProperty(GDK_DISPLAY(), desktop_window, prop, 0L, 1L, 
+                               False, AnyPropertyType, &type, &format, &length,
+                               &after, &data);
+
+            if (type == XA_PIXMAP)
+            {
+                Pixmap p;
+                p = *((Pixmap *)data);
+
+                if (p != None)
+                {
+                    GdkPixmap *pp;
+                    GdkColormap *cmap;
+                    gint p_w, p_h;
+
+                    pp = gdk_pixmap_foreign_new(p);
+                    cmap = gdk_window_get_colormap(rootwindow);
+
+                    gdk_drawable_set_colormap(pp, cmap);
+
+                    gdk_window_get_size(pp, &p_w, &p_h);
+
+                    if (p_w < screen_x + w || p_h < screen_y + h)
+                    {
+                        gint i, j;
+
+                        for (j = (screen_y / p_h) * p_h; j < screen_y + h; 
+                             j += p_h)
+                            for (i = (screen_x / p_w) * p_w; i < screen_x + w; 
+                                 i += p_w)
+                            {
+                                gint offset_x, offset_y;
+                                gint offset_w, offset_h;
+
+                                if (j < screen_y)
+                                {
+                                    offset_y = screen_y - j;
+                                }
+                                else
+                                {
+                                    offset_y = 0;
+                                }
+
+                                offset_h = p_h - offset_y;
+                                if (j + offset_y + offset_h >= screen_y + h) 
+                                    offset_h = (screen_y + h) - (j + offset_y);
+
+                                if (i < screen_x)
+                                {
+                                    offset_x = screen_x - i;
+                                }
+                                else
+                                {
+                                    offset_x = 0;
+                                }
+
+                                offset_w = p_w - offset_x;
+                                if (i + offset_x + offset_w >= screen_x + w) 
+                                    offset_w = (screen_x + w) - (i + offset_x);
+
+                                 gdk_pixbuf_get_from_drawable(pb, pp, cmap,
+                                                              offset_x, 
+                                                              offset_y,
+                                                      (i + offset_x) - screen_x,
+                                                      (j + offset_y) - screen_y,
+                                                              offset_w, 
+                                                              offset_h);
+                            }
+                    }
+                    else
+                    {
+                        gdk_pixbuf_get_from_drawable(pb, pp, cmap,
+                                                     screen_x, screen_y,
+                                                     screen_x - x, screen_y - y,
+                                                     w, h);
+                    }
+                }
+            }
+        }
+        gdk_error_trap_pop();
+    }
+    else
+    {
+        gdk_pixbuf_get_from_drawable(pb, rootwindow, NULL,
+                                     screen_x, screen_y,
+                                     screen_x - x, screen_y - y, w, h);
+    }
+
+    return pb;
 }
 
 const char *kMimeTypes[] = {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.61 2001/01/05 21:59:59 robert Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.61.2.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -367,7 +367,8 @@ void GTKPreferenceWindow::GetPrefsValues(Preferences* prefs,
 
     size = bufferSize;
 
-    if (kError_BufferTooSmall == prefs->GetPrefString(kPMOPref, buffer, &size)) {
+    if (kError_BufferTooSmall == prefs->GetPrefString(kPMOPref, buffer, &size))
+    {
         buffer = (char *)realloc(buffer, size);
         prefs->GetPrefString(kPMOPref, buffer, &size);
     }
@@ -380,7 +381,9 @@ void GTKPreferenceWindow::GetPrefsValues(Preferences* prefs,
 
     prefs->GetPrefBoolean(kSaveStreamsPref, &values->saveStreams);
     
-    if (kError_BufferTooSmall == prefs->GetPrefString(kProxyHostPref, buffer, &size)) {
+    if (kError_BufferTooSmall == prefs->GetPrefString(kProxyHostPref, buffer, 
+                                                      &size)) 
+    {
         buffer = (char *)realloc(buffer, size);
         prefs->GetPrefString(kProxyHostPref, buffer, &size);
     }
@@ -711,16 +714,13 @@ GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
 
     GtkWidget *pane = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(pane), 5);
-    gtk_widget_show(pane);
 
     GtkWidget *frame = gtk_frame_new("Show 'My Music' Toolbars As");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 5);
-    gtk_widget_show(frame);
 
     GtkWidget *temphbox = gtk_hbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(temphbox), 5);
     gtk_container_add(GTK_CONTAINER(frame), temphbox);
-    gtk_widget_show(temphbox);
 
     bool setSomething = false;
 
@@ -732,7 +732,6 @@ GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
     gtk_box_pack_start(GTK_BOX(temphbox), button, FALSE, FALSE, 0);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(text_selected), this);
-    gtk_widget_show(button);
 
     button = gtk_radio_button_new_with_label(
                              gtk_radio_button_group(GTK_RADIO_BUTTON(button)),
@@ -744,7 +743,6 @@ GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
     gtk_box_pack_start(GTK_BOX(temphbox), button, FALSE, FALSE, 0);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(images_selected), this);
-    gtk_widget_show(button);
 
 
     button = gtk_radio_button_new_with_label(
@@ -757,19 +755,16 @@ GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
     gtk_box_pack_start(GTK_BOX(temphbox), button, FALSE, FALSE, 0);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(both_selected), this);
-    gtk_widget_show(button);
 
     if (!setSomething)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
 
     frame = gtk_frame_new("Playlist");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 5);
-    gtk_widget_show(frame);
 
     GtkWidget *vbox = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
     gtk_container_add(GTK_CONTAINER(frame), vbox);
-    gtk_widget_show(vbox);
 
     GtkWidget *check = gtk_check_button_new_with_label("Save current playlist when exiting the application");
     gtk_box_pack_start(GTK_BOX(vbox), check, FALSE, FALSE, 0);
@@ -777,7 +772,6 @@ GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
                        GTK_SIGNAL_FUNC(save_onexit_toggle), this);
     if (originalValues.savePlaylistOnExit)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
-    gtk_widget_show(check);
    
     check = gtk_check_button_new_with_label("By default queue tracks rather than play them immediately");
     gtk_box_pack_start(GTK_BOX(vbox), check, FALSE, FALSE, 0);
@@ -785,16 +779,13 @@ GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
                        GTK_SIGNAL_FUNC(play_now_toggle), this);
     if (!originalValues.playImmediately) 
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
-    gtk_widget_show(check);
 
     frame = gtk_frame_new("Miscellaneous");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 5);
-    gtk_widget_show(frame);
 
     vbox = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
     gtk_container_add(GTK_CONTAINER(frame), vbox);
-    gtk_widget_show(vbox);
 
     check = gtk_check_button_new_with_label("Allow multiple instances of "the_BRANDING);
     gtk_box_pack_start(GTK_BOX(vbox), check, FALSE, FALSE, 0);
@@ -802,7 +793,6 @@ GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
                        GTK_SIGNAL_FUNC(allow_multiple_toggle), this);
     if (originalValues.allowMultipleInstances)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
-    gtk_widget_show(check);
 
     check = gtk_check_button_new_with_label("Convert underscores to spaces");
     gtk_box_pack_start(GTK_BOX(vbox), check, FALSE, FALSE, 0);
@@ -810,16 +800,13 @@ GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
                        GTK_SIGNAL_FUNC(convert_underscores_toggle), this);
     if (originalValues.convertUnderscores)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
-    gtk_widget_show(check);
 
     frame = gtk_frame_new("File Associations");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 5);
-    gtk_widget_show(frame);
 
     vbox = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
     gtk_container_add(GTK_CONTAINER(frame), vbox);
-    gtk_widget_show(vbox);
 
     check = gtk_check_button_new_with_label("Reclaim music file associations when application starts");
     gtk_box_pack_start(GTK_BOX(vbox), check, FALSE, FALSE, 0);
@@ -827,7 +814,6 @@ GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
                        GTK_SIGNAL_FUNC(reclaim_types_toggle), this);
     if (originalValues.reclaimFiletypes)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
-    gtk_widget_show(check);
 
     check = gtk_check_button_new_with_label("Ask before reclaiming music file associations");
     gtk_box_pack_start(GTK_BOX(vbox), check, FALSE, FALSE, 0);
@@ -835,8 +821,8 @@ GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
                        GTK_SIGNAL_FUNC(ask_reclaim_toggle), this);
     if (originalValues.askReclaimFiletypes)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
-    gtk_widget_show(check);
 
+    gtk_widget_show_all(pane);
     return pane;
 }
 
@@ -987,35 +973,29 @@ GtkWidget *GTKPreferenceWindow::CreateStreaming(void)
 {
     GtkWidget *pane = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(pane), 5);
-    gtk_widget_show(pane);
 
     GtkWidget *check = gtk_check_button_new_with_label("Save SHOUTCast/icecast Streams Locally");
-    gtk_container_add(GTK_CONTAINER(pane), check);
     gtk_signal_connect(GTK_OBJECT(check), "toggled",
                        GTK_SIGNAL_FUNC(save_local_toggle), this);
     if (originalValues.saveStreams)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
-    gtk_widget_show(check);
 
     GtkWidget *frame = gtk_frame_new(NULL);
+    gtk_frame_set_label_widget(GTK_FRAME(frame), check);
     gtk_container_add(GTK_CONTAINER(pane), frame);
-    gtk_widget_show(frame);
 
     GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
     gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
     gtk_container_add(GTK_CONTAINER(frame), vbox);
-    gtk_widget_show(vbox);
 
     saveStreamLabel = gtk_label_new("Save Location:");
     gtk_misc_set_alignment(GTK_MISC(saveStreamLabel), 0.0, 0.5);
     gtk_box_pack_start(GTK_BOX(vbox), saveStreamLabel, FALSE, FALSE, 0);
-    gtk_widget_show(saveStreamLabel);
 
     char copys[256];
 
     GtkWidget *temphbox = gtk_hbox_new(FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), temphbox, FALSE, FALSE, 0);
-    gtk_widget_show(temphbox);
 
     strncpy(copys, originalValues.saveStreamsDirectory.c_str(), 256);
     saveStreamBox = gtk_entry_new();
@@ -1024,13 +1004,11 @@ GtkWidget *GTKPreferenceWindow::CreateStreaming(void)
     gtk_signal_connect(GTK_OBJECT(saveStreamBox), "changed",
                        GTK_SIGNAL_FUNC(save_stream_change), this);
     gtk_box_pack_start(GTK_BOX(temphbox), saveStreamBox, TRUE, TRUE, 0);
-    gtk_widget_show(saveStreamBox);
 
     saveBrowseBox = gtk_button_new_with_label(" Browse ");
     gtk_box_pack_start(GTK_BOX(temphbox), saveBrowseBox, FALSE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(saveBrowseBox), "clicked",
                        GTK_SIGNAL_FUNC(save_stream_browse), this);
-    gtk_widget_show(saveBrowseBox);
 
     if (!originalValues.saveStreams) {
         gtk_widget_set_sensitive(saveStreamLabel, FALSE);
@@ -1039,41 +1017,34 @@ GtkWidget *GTKPreferenceWindow::CreateStreaming(void)
     }
 
     check = gtk_check_button_new_with_label("Use Proxy Server");
-    gtk_container_add(GTK_CONTAINER(pane), check);
     gtk_signal_connect(GTK_OBJECT(check), "toggled",
                        GTK_SIGNAL_FUNC(proxy_toggle), this);
     if (originalValues.useProxyServer)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
-    gtk_widget_show(check);
 
     frame = gtk_frame_new(NULL);
+    gtk_frame_set_label_widget(GTK_FRAME(frame), check);
     gtk_container_add(GTK_CONTAINER(pane), frame);
-    gtk_widget_show(frame);
 
     vbox = gtk_vbox_new(FALSE, 0);
     gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
     gtk_container_add(GTK_CONTAINER(frame), vbox);
-    gtk_widget_show(vbox);
 
     GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
     gtk_container_set_border_width(GTK_CONTAINER(hbox), 0);
     gtk_container_add(GTK_CONTAINER(vbox), hbox);
-    gtk_widget_show(hbox);
 
     proxyAddyLabel = gtk_label_new("Proxy Address:");
     gtk_box_pack_start(GTK_BOX(hbox), proxyAddyLabel, FALSE, FALSE, 0);
     gtk_misc_set_alignment(GTK_MISC(proxyAddyLabel), 0.0, 0.5);
-    gtk_widget_show(proxyAddyLabel);
 
     proxyPortLabel = gtk_label_new("Port:");
     gtk_box_pack_end(GTK_BOX(hbox), proxyPortLabel, FALSE, FALSE, 0);
     gtk_misc_set_alignment(GTK_MISC(proxyPortLabel), 0.9, 0.5);
-    gtk_widget_show(proxyPortLabel);
 
     hbox = gtk_hbox_new(FALSE, 0);
     gtk_container_set_border_width(GTK_CONTAINER(hbox), 0);
     gtk_container_add(GTK_CONTAINER(vbox), hbox);
-    gtk_widget_show(hbox);
 
     char *port = NULL;
     char tempstr[256];
@@ -1090,11 +1061,9 @@ GtkWidget *GTKPreferenceWindow::CreateStreaming(void)
     gtk_signal_connect(GTK_OBJECT(proxyAddyBox), "changed",
                        GTK_SIGNAL_FUNC(proxy_change), this);
     gtk_box_pack_start(GTK_BOX(hbox), proxyAddyBox, TRUE, TRUE, 0);
-    gtk_widget_show(proxyAddyBox);
 
     proxyColon = gtk_label_new(":");
     gtk_box_pack_start(GTK_BOX(hbox), proxyColon, FALSE, FALSE, 5);
-    gtk_widget_show(proxyColon);
 
     proxyPortBox = gtk_entry_new();
     if (port)
@@ -1104,7 +1073,6 @@ GtkWidget *GTKPreferenceWindow::CreateStreaming(void)
     gtk_signal_connect(GTK_OBJECT(proxyPortBox), "changed",
                        GTK_SIGNAL_FUNC(proxy_change), this);
     gtk_box_pack_start(GTK_BOX(hbox), proxyPortBox, FALSE, FALSE, 0);
-    gtk_widget_show(proxyPortBox);
 
     if (!originalValues.useProxyServer) {
         gtk_widget_set_sensitive(proxyAddyBox, FALSE);
@@ -1115,25 +1083,21 @@ GtkWidget *GTKPreferenceWindow::CreateStreaming(void)
     }
 
     check = gtk_check_button_new_with_label("Use Alternate IP");
-    gtk_container_add(GTK_CONTAINER(pane), check);
     gtk_signal_connect(GTK_OBJECT(check), "toggled",
                        GTK_SIGNAL_FUNC(alt_ip_toggle), this);
     if (originalValues.useAlternateIP)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
-    gtk_widget_show(check);
 
     frame = gtk_frame_new(NULL);
+    gtk_frame_set_label_widget(GTK_FRAME(frame), check);
     gtk_container_add(GTK_CONTAINER(pane), frame);
-    gtk_widget_show(frame);
 
     hbox = gtk_hbox_new(FALSE, 0);
     gtk_container_set_border_width(GTK_CONTAINER(hbox), 10);
     gtk_container_add(GTK_CONTAINER(frame), hbox);
-    gtk_widget_show(hbox);
 
     ipLabel = gtk_label_new("IP Address: ");
     gtk_box_pack_start(GTK_BOX(hbox), ipLabel, FALSE, FALSE, 10);
-    gtk_widget_show(ipLabel);
 
     char *dot = NULL;
     char *ip[4];
@@ -1162,11 +1126,9 @@ GtkWidget *GTKPreferenceWindow::CreateStreaming(void)
     gtk_signal_connect(GTK_OBJECT(ipOneBox), "changed",
                        GTK_SIGNAL_FUNC(ip_change), this);
     gtk_box_pack_start(GTK_BOX(hbox), ipOneBox, FALSE, FALSE, 0);
-    gtk_widget_show(ipOneBox);
 
     ipPeriod1 = gtk_label_new(".");
     gtk_container_add(GTK_CONTAINER(hbox), ipPeriod1);
-    gtk_widget_show(ipPeriod1);
 
     ipTwoBox = gtk_entry_new();
     if (originalValues.alternateIP.length() == 0)
@@ -1178,11 +1140,9 @@ GtkWidget *GTKPreferenceWindow::CreateStreaming(void)
     gtk_signal_connect(GTK_OBJECT(ipOneBox), "changed",
                        GTK_SIGNAL_FUNC(ip_change), this);
     gtk_box_pack_start(GTK_BOX(hbox), ipTwoBox, FALSE, FALSE, 0);
-    gtk_widget_show(ipTwoBox);
 
     ipPeriod2 = gtk_label_new(".");
     gtk_container_add(GTK_CONTAINER(hbox), ipPeriod2);
-    gtk_widget_show(ipPeriod2);
 
     ipThreeBox = gtk_entry_new();
     if (originalValues.alternateIP.length() == 0)
@@ -1194,11 +1154,9 @@ GtkWidget *GTKPreferenceWindow::CreateStreaming(void)
     gtk_signal_connect(GTK_OBJECT(ipThreeBox), "changed",
                        GTK_SIGNAL_FUNC(ip_change), this);
     gtk_box_pack_start(GTK_BOX(hbox), ipThreeBox, FALSE, FALSE, 0);
-    gtk_widget_show(ipThreeBox);
 
     ipPeriod3 = gtk_label_new(".");
     gtk_container_add(GTK_CONTAINER(hbox), ipPeriod3);
-    gtk_widget_show(ipPeriod3);
 
     ipFourBox = gtk_entry_new();
     if (originalValues.alternateIP.length() == 0)
@@ -1210,7 +1168,6 @@ GtkWidget *GTKPreferenceWindow::CreateStreaming(void)
     gtk_signal_connect(GTK_OBJECT(ipFourBox), "changed",
                        GTK_SIGNAL_FUNC(ip_change), this);
     gtk_box_pack_start(GTK_BOX(hbox), ipFourBox, FALSE, FALSE, 0);
-    gtk_widget_show(ipFourBox);
 
     if (!originalValues.useAlternateIP) {
         gtk_widget_set_sensitive(ipLabel, FALSE);
@@ -1223,6 +1180,7 @@ GtkWidget *GTKPreferenceWindow::CreateStreaming(void)
         gtk_widget_set_sensitive(ipFourBox, FALSE);
     }
 
+    gtk_widget_show_all(pane);
     return pane;
 }
 
@@ -1268,15 +1226,12 @@ GtkWidget *GTKPreferenceWindow::CreatePlugins(void)
 {
     GtkWidget *pane = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(pane), 5);
-    gtk_widget_show(pane);
 
     GtkWidget *frame = gtk_frame_new("Audio");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 0);
-    gtk_widget_show(frame);
 
     GtkWidget *table = gtk_table_new(2, 2, FALSE);
     gtk_container_add(GTK_CONTAINER(frame), table);
-    gtk_widget_show(table);
 
     Registry *pmo = m_pContext->player->GetPMORegistry();
     int32 i = 0;
@@ -1286,7 +1241,6 @@ GtkWidget *GTKPreferenceWindow::CreatePlugins(void)
     gtk_misc_set_alignment(GTK_MISC(label), (gfloat)1.0, (gfloat)0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2, GTK_FILL, GTK_FILL,
                      5, 0);
-    gtk_widget_show(label);
 
     pmoOptionMenu = gtk_option_menu_new();
     pmoMenu = gtk_menu_new();
@@ -1309,7 +1263,7 @@ GtkWidget *GTKPreferenceWindow::CreatePlugins(void)
         gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
                            GTK_SIGNAL_FUNC(pmo_select), this);
         group = gtk_radio_menu_item_group(GTK_RADIO_MENU_ITEM(menuitem));
-        gtk_menu_append(GTK_MENU(pmoMenu), menuitem);
+        gtk_menu_shell_append(GTK_MENU_SHELL(pmoMenu), menuitem);
         if (originalValues.defaultPMO == (*vsi)) {
             gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), TRUE);
 
@@ -1322,21 +1276,17 @@ GtkWidget *GTKPreferenceWindow::CreatePlugins(void)
     gtk_table_attach(GTK_TABLE(table), pmoOptionMenu, 1, 2, 1, 2, GTK_FILL,
                      GTK_FILL, 5, 5);
     gtk_option_menu_set_history(GTK_OPTION_MENU(pmoOptionMenu), outputIndex);
-    gtk_widget_show(pmoOptionMenu);
 
     frame = gtk_frame_new("ALSA Setup");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 0);
     gtk_container_set_border_width(GTK_CONTAINER(frame), 1);
-    gtk_widget_show(frame);
 
     GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
     gtk_container_set_border_width(GTK_CONTAINER(hbox), 10);
     gtk_container_add(GTK_CONTAINER(frame), hbox);
-    gtk_widget_show(hbox);
 
     label = gtk_label_new("Default ALSA Output Device: ");
     gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 10);
-    gtk_widget_show(label);
 
     char tempstr[256];
     char *port = NULL;
@@ -1354,11 +1304,9 @@ GtkWidget *GTKPreferenceWindow::CreatePlugins(void)
     gtk_signal_connect(GTK_OBJECT(alsaOneBox), "changed",
                        GTK_SIGNAL_FUNC(alsa_change), this);
     gtk_box_pack_start(GTK_BOX(hbox), alsaOneBox, FALSE, FALSE, 0);
-    gtk_widget_show(alsaOneBox);
 
     label = gtk_label_new(":");
     gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
-    gtk_widget_show(label);
 
     alsaTwoBox = gtk_entry_new();
     if (port)
@@ -1368,7 +1316,6 @@ GtkWidget *GTKPreferenceWindow::CreatePlugins(void)
     gtk_signal_connect(GTK_OBJECT(alsaTwoBox), "changed",
                        GTK_SIGNAL_FUNC(alsa_change), this);
     gtk_box_pack_start(GTK_BOX(hbox), alsaTwoBox, FALSE, FALSE, 0);
-    gtk_widget_show(alsaTwoBox);
 
 /*
     frame = gtk_frame_new("Portable Devices");
@@ -1398,6 +1345,7 @@ GtkWidget *GTKPreferenceWindow::CreatePlugins(void)
     gtk_widget_show(textlabel);
 */
 
+    gtk_widget_show_all(pane);
     return pane;
 }
 
@@ -1444,15 +1392,12 @@ GtkWidget *GTKPreferenceWindow::CreateAdvanced(void)
 {
     GtkWidget *pane = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(pane), 5);
-    gtk_widget_show(pane);
 
     GtkWidget *frame = gtk_frame_new("Buffer Sizes");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 0);
-    gtk_widget_show(frame);
 
     GtkWidget *table = gtk_table_new(3, 2, FALSE);
     gtk_container_add(GTK_CONTAINER(frame), table);
-    gtk_widget_show(table);
 
     int32 value;
     char tempstr[256];
@@ -1461,7 +1406,6 @@ GtkWidget *GTKPreferenceWindow::CreateAdvanced(void)
     gtk_misc_set_alignment(GTK_MISC(label), (gfloat)1.0, (gfloat)0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1, GTK_FILL, GTK_FILL,
                      10, 1);
-    gtk_widget_show(label);
 
     GtkWidget *entry = gtk_entry_new();
     value = originalValues.inputBufferSize;
@@ -1472,13 +1416,11 @@ GtkWidget *GTKPreferenceWindow::CreateAdvanced(void)
                        GTK_SIGNAL_FUNC(input_buffer_change), this);
     gtk_table_attach(GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_FILL, GTK_FILL,
                      10, 3);
-    gtk_widget_show(entry);
 
     label = gtk_label_new("Output Buffer Size (Kilobytes)");
     gtk_misc_set_alignment(GTK_MISC(label), (gfloat)1.0, (gfloat)0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2, GTK_FILL, GTK_FILL,
                      10, 1);
-    gtk_widget_show(label);
 
     entry = gtk_entry_new();
     value = originalValues.outputBufferSize;
@@ -1489,13 +1431,11 @@ GtkWidget *GTKPreferenceWindow::CreateAdvanced(void)
                        GTK_SIGNAL_FUNC(output_buffer_change), this);
     gtk_table_attach(GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_FILL, GTK_FILL,
                      10, 3);
-    gtk_widget_show(entry);
 
     label = gtk_label_new("Prebuffer Streams (Seconds)");
     gtk_misc_set_alignment(GTK_MISC(label), (gfloat)1.0, (gfloat)0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3, GTK_FILL, GTK_FILL,
                      10, 1);
-    gtk_widget_show(label);
 
     entry = gtk_entry_new();
     value = originalValues.preBufferLength;
@@ -1506,8 +1446,8 @@ GtkWidget *GTKPreferenceWindow::CreateAdvanced(void)
                        GTK_SIGNAL_FUNC(prestream_buffer_change), this);
     gtk_table_attach(GTK_TABLE(table), entry, 1, 2, 2, 3, GTK_FILL, GTK_FILL,
                      10, 3);
-    gtk_widget_show(entry);
 
+    gtk_widget_show_all(pane);
     return pane;
 }
 
@@ -1530,46 +1470,37 @@ GtkWidget *GTKPreferenceWindow::CreateAbout(void)
 {
     GtkWidget *pane = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(pane), 0);
-    gtk_widget_show(pane);
 
     GtkWidget *textlabel = gtk_label_new(BRANDING);
     gtk_box_pack_start(GTK_BOX(pane), textlabel, FALSE, FALSE, 0);
-    gtk_widget_show(textlabel);
 
     textlabel = gtk_label_new("version "BRANDING_VERSION);
     gtk_box_pack_start(GTK_BOX(pane), textlabel, FALSE, FALSE, 0);
-    gtk_widget_show(textlabel);
 
     if (strcmp(BRANDING, "FreeAmp")) {
         textlabel = gtk_label_new("(based on FreeAmp)");
         gtk_box_pack_start(GTK_BOX(pane), textlabel, FALSE, FALSE, 0);
-        gtk_widget_show(textlabel);
     }       
  
     textlabel = gtk_label_new("FreeAmp is an Open Source effort to build the best digital audio\nplayer available. In the interest of supporting the free software\ncommunity, while at the same time fostering the growth of the online\ndelivery of music, EMusic.com, is funding both the FreeAmp.org\ndomain and the efforts of the FreeAmp team. The FreeAmp team\nconsists of: Mark B. Elrod, Robert Kaye, Isaac Richards, Brett\nThomas, and Jason Woodward.");
     gtk_label_set_justify(GTK_LABEL(textlabel), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start(GTK_BOX(pane), textlabel, FALSE, FALSE, 0);
-    gtk_widget_show(textlabel);
 
     textlabel = gtk_label_new("Other people have also contributed to FreeAmp:                         ");
     gtk_label_set_justify(GTK_LABEL(textlabel), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start(GTK_BOX(pane), textlabel, TRUE, TRUE, 0);
-    gtk_widget_show(textlabel);
 
     textlabel = gtk_label_new("William Bull, Alan Cutter, Gabor Fleischer, Jean-Michel HERVE,  \nHiromasa Kato, Michael Bruun Petersen, Sylvain Rebaud, The\nSnowblind Alliance, Tom Spindler, and Valters Vingolds.");
     gtk_label_set_justify(GTK_LABEL(textlabel), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start(GTK_BOX(pane), textlabel, FALSE, FALSE, 0);
-    gtk_widget_show(textlabel);
 
     textlabel = gtk_label_new("FreeAmp is being released under the terms of the GPL. As is\nprovided by the GPL, all of EMusic.com's and your efforts toward  \nFreeAmp will be released back to the community at large.");
     gtk_label_set_justify(GTK_LABEL(textlabel), GTK_JUSTIFY_FILL);
     gtk_box_pack_start(GTK_BOX(pane), textlabel, FALSE, FALSE, 0);
-    gtk_widget_show(textlabel);
 
     GtkWidget *hbox = gtk_hbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(hbox), 5);
     gtk_container_add(GTK_CONTAINER(pane), hbox);
-    gtk_widget_show(hbox);
 
     GtkWidget *button;
 
@@ -1577,20 +1508,18 @@ GtkWidget *GTKPreferenceWindow::CreateAbout(void)
     gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(button), "clicked", 
                        GTK_SIGNAL_FUNC(freeamp_press), this);
-    gtk_widget_show(button);
 
     button = gtk_button_new_with_label(" Visit Relatable.com ");
     gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(relatable_press), this);
-    gtk_widget_show(button);
 
     button = gtk_button_new_with_label(" Visit EMusic.com ");
     gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(emusic_press), this);
-    gtk_widget_show(button);
-   
+  
+    gtk_widget_show_all(pane); 
     return pane;
 }
 
@@ -1760,78 +1689,65 @@ GtkWidget *GTKPreferenceWindow::CreateThemes(void)
 {
     GtkWidget *pane = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(pane), 5);
-    gtk_widget_show(pane);
 
     GtkWidget *frame = gtk_frame_new("Theme Selection");
     gtk_container_set_border_width(GTK_CONTAINER(frame), 5);
     gtk_container_add(GTK_CONTAINER(pane), frame);
-    gtk_widget_show(frame);
 
     GtkWidget *hbox = gtk_hbox_new(FALSE, 5);
     gtk_container_add(GTK_CONTAINER(frame), hbox);
-    gtk_widget_show(hbox);
 
     GtkWidget *listwindow = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(listwindow),
                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_box_pack_start(GTK_BOX(hbox), listwindow, TRUE, TRUE, 5);
     gtk_widget_set_usize(listwindow, 200, 200);
-    gtk_widget_show(listwindow);
 
     themeList = gtk_clist_new(1);
     gtk_signal_connect(GTK_OBJECT(themeList), "select_row",
                        GTK_SIGNAL_FUNC(theme_click), this);
     gtk_container_add(GTK_CONTAINER(listwindow), themeList);
-    gtk_widget_show(themeList);
 
     UpdateThemeList();
 
     GtkWidget *vbox = gtk_vbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 5);
-    gtk_widget_show(vbox);
 
     GtkWidget *button = gtk_button_new_with_label("Add Theme");
     gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(add_theme_press), this);
-    gtk_widget_show(button);
 
     button = gtk_button_new_with_label("Delete Theme");
     gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(delete_theme_press), this);
-    gtk_widget_show(button);
 
     frame = gtk_frame_new("Default Font");
     gtk_container_set_border_width(GTK_CONTAINER(frame), 5);
     gtk_container_add(GTK_CONTAINER(pane), frame);
-    gtk_widget_show(frame);
 
     vbox = gtk_vbox_new(FALSE, 5);
     gtk_container_add(GTK_CONTAINER(frame), vbox);
-    gtk_widget_show(vbox);
 
     GtkWidget *textlabel = gtk_label_new("A theme may specify a font type that is not installed on your       \nsystem. The default font will by substituted in place of the\nmissing font.");
     gtk_label_set_justify(GTK_LABEL(textlabel), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start(GTK_BOX(vbox), textlabel, TRUE, TRUE, 0);
-    gtk_widget_show(textlabel);
 
     hbox = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 5);
-    gtk_widget_show(hbox);
 
     textlabel = gtk_label_new("Note: Only the font name will be used.  The font will appear in the style specified in the theme.");
     gtk_label_set_line_wrap(GTK_LABEL(textlabel), TRUE);
     gtk_label_set_justify(GTK_LABEL(textlabel), GTK_JUSTIFY_FILL);
     gtk_box_pack_start(GTK_BOX(hbox), textlabel, FALSE, FALSE, 5);
-    gtk_widget_show(textlabel);
 
     button = gtk_button_new_with_label(" Choose Font ");
     gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(choose_font_press), this);
-    gtk_widget_show(button);
 
+    gtk_widget_show_all(pane);
     return pane;
 }
 
@@ -2001,7 +1917,6 @@ GtkWidget *GTKPreferenceWindow::CreateProfiles(void)
 {
     GtkWidget *pane = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(pane), 5);
-    gtk_widget_show(pane);
 
     enableProfiles = true;
     if (!m_pContext->aps || !m_pContext->aps->GetTurnedOnFlag())
@@ -2012,19 +1927,16 @@ GtkWidget *GTKPreferenceWindow::CreateProfiles(void)
     gtk_container_add(GTK_CONTAINER(pane), profileEnable);
     gtk_signal_connect(GTK_OBJECT(profileEnable), "toggled",
                        GTK_SIGNAL_FUNC(profile_toggle), this);
-    gtk_widget_show(profileEnable);
 
     profileListFrame = gtk_frame_new("Profile Selection");
     gtk_container_set_border_width(GTK_CONTAINER(profileListFrame), 5);
     gtk_container_add(GTK_CONTAINER(pane), profileListFrame);
-    gtk_widget_show(profileListFrame);
 
     GtkWidget *listwindow = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(listwindow),
                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(profileListFrame), listwindow);
     gtk_widget_set_usize(listwindow, 200, 200);
-    gtk_widget_show(listwindow);
 
     profileList = gtk_clist_new(1);
     gtk_signal_connect(GTK_OBJECT(profileList), "select_row",
@@ -2034,50 +1946,43 @@ GtkWidget *GTKPreferenceWindow::CreateProfiles(void)
     gtk_clist_set_selection_mode(GTK_CLIST(profileList),
                                  GTK_SELECTION_EXTENDED);
     gtk_container_add(GTK_CONTAINER(listwindow), profileList);
-    gtk_widget_show(profileList);
 
     UpdateProfileList();
 
     profileTextFrame = gtk_frame_new("New Profile");
     gtk_container_set_border_width(GTK_CONTAINER(profileTextFrame), 5);
     gtk_container_add(GTK_CONTAINER(pane), profileTextFrame);
-    gtk_widget_show(profileTextFrame);
 
     GtkWidget *vbox = gtk_vbox_new(FALSE, 5);
     gtk_container_add(GTK_CONTAINER(profileTextFrame), vbox);
-    gtk_widget_show(vbox);
 
     GtkWidget *textlabel = gtk_label_new("To create a new profile, simply name it in the box below and click\n'Add Profile.'  To use an existing profile, select it from the list above.");
     gtk_label_set_justify(GTK_LABEL(textlabel), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start(GTK_BOX(vbox), textlabel, TRUE, TRUE, 5);
-    gtk_widget_show(textlabel);
 
     GtkWidget *hbox = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 5);
-    gtk_widget_show(hbox);
 
     profileEntry = gtk_entry_new();
     gtk_entry_set_max_length(GTK_ENTRY(profileEntry), 64);
     gtk_box_pack_start(GTK_BOX(hbox), profileEntry, TRUE, TRUE, 5);
-    gtk_widget_show(profileEntry);
 
     profileAdd = gtk_button_new_with_label("Add Profile");
     gtk_box_pack_start(GTK_BOX(hbox), profileAdd, FALSE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(profileAdd), "clicked",
                        GTK_SIGNAL_FUNC(add_profile_press), this);
-    gtk_widget_show(profileAdd);
 
     profileDelete = gtk_button_new_with_label("Delete Profile");
     gtk_box_pack_start(GTK_BOX(hbox), profileDelete, FALSE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(profileDelete), "clicked",
                        GTK_SIGNAL_FUNC(delete_profile_press), this);
-    gtk_widget_show(profileDelete);
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(profileEnable), 
                                  enableProfiles);
     gtk_widget_set_sensitive(profileListFrame, enableProfiles);
     gtk_widget_set_sensitive(profileTextFrame, enableProfiles);
 
+    gtk_widget_show_all(pane);
     return pane;
 }
 
@@ -2188,22 +2093,18 @@ GtkWidget *GTKPreferenceWindow::CreateDirectories(void)
 {
     GtkWidget *pane = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(pane), 5);
-    gtk_widget_show(pane);
 
     GtkWidget *frame = gtk_frame_new("Save Music Folder");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 5);
-    gtk_widget_show(frame);
 
     GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
     gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
     gtk_container_add(GTK_CONTAINER(frame), vbox);
-    gtk_widget_show(vbox);
 
     char copys[_MAX_PATH];
 
     GtkWidget *temphbox = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(vbox), temphbox, FALSE, FALSE, 5);
-    gtk_widget_show(temphbox);
 
     strncpy(copys, originalValues.saveMusicDirectory.c_str(), 256);
     saveMusicBox = gtk_entry_new();
@@ -2212,26 +2113,21 @@ GtkWidget *GTKPreferenceWindow::CreateDirectories(void)
     gtk_signal_connect(GTK_OBJECT(saveMusicBox), "changed",
                        GTK_SIGNAL_FUNC(save_music_change), this);
     gtk_box_pack_start(GTK_BOX(temphbox), saveMusicBox, TRUE, TRUE, 0);
-    gtk_widget_show(saveMusicBox);
 
     GtkWidget *button = gtk_button_new_with_label(" Browse ");
     gtk_box_pack_start(GTK_BOX(temphbox), button, FALSE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(save_music_browse), this);
-    gtk_widget_show(button);
 
     frame = gtk_frame_new("Watch This Directory");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 5);
-    gtk_widget_show(frame);
 
     vbox = gtk_vbox_new(FALSE, 0);
     gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
     gtk_container_add(GTK_CONTAINER(frame), vbox);
-    gtk_widget_show(vbox);
 
     temphbox = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(vbox), temphbox, FALSE, FALSE, 5);
-    gtk_widget_show(temphbox);
 
     strncpy(copys, originalValues.watchThisDirectory.c_str(), 256);
     watchDirBox = gtk_entry_new();
@@ -2240,22 +2136,18 @@ GtkWidget *GTKPreferenceWindow::CreateDirectories(void)
     gtk_signal_connect(GTK_OBJECT(watchDirBox), "changed",
                        GTK_SIGNAL_FUNC(watch_dir_change), this);
     gtk_box_pack_start(GTK_BOX(temphbox), watchDirBox, TRUE, TRUE, 0);
-    gtk_widget_show(watchDirBox);
 
     button = gtk_button_new_with_label(" Browse ");
     gtk_box_pack_start(GTK_BOX(temphbox), button, FALSE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(watch_dir_browse), this);
-    gtk_widget_show(button);
 
     GtkWidget *label = gtk_label_new("Update Frequency:");
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 5);
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-    gtk_widget_show(label);
 
     temphbox = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(vbox), temphbox, FALSE, FALSE, 5);
-    gtk_widget_show(temphbox);
 
     bool setSomething = false;
 
@@ -2267,7 +2159,6 @@ GtkWidget *GTKPreferenceWindow::CreateDirectories(void)
     gtk_box_pack_start(GTK_BOX(temphbox), button, FALSE, FALSE, 0);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(never_timeout_selected), this);
-    gtk_widget_show(button);
 
     button = gtk_radio_button_new_with_label(
                              gtk_radio_button_group(GTK_RADIO_BUTTON(button)),
@@ -2279,7 +2170,6 @@ GtkWidget *GTKPreferenceWindow::CreateDirectories(void)
     gtk_box_pack_start(GTK_BOX(temphbox), button, FALSE, FALSE, 0);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(one_timeout_selected), this);
-    gtk_widget_show(button);
 
 
     button = gtk_radio_button_new_with_label(
@@ -2292,7 +2182,6 @@ GtkWidget *GTKPreferenceWindow::CreateDirectories(void)
     gtk_box_pack_start(GTK_BOX(temphbox), button, FALSE, FALSE, 0);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(five_timeout_selected), this);
-    gtk_widget_show(button);
 
     button = gtk_radio_button_new_with_label(
                              gtk_radio_button_group(GTK_RADIO_BUTTON(button)),
@@ -2304,11 +2193,11 @@ GtkWidget *GTKPreferenceWindow::CreateDirectories(void)
     gtk_box_pack_start(GTK_BOX(temphbox), button, FALSE, FALSE, 0);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(ten_timeout_selected), this);
-    gtk_widget_show(button);
 
     if (!setSomething)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
 
+    gtk_widget_show_all(pane);
     return pane;
 }
 
@@ -2357,7 +2246,6 @@ GtkWidget *GTKPreferenceWindow::CreateCD(void)
 {
     GtkWidget *pane = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(pane), 5);
-    gtk_widget_show(pane);
 
     pollCD = gtk_check_button_new_with_label("Automatically update the CD Audio"
                                              " item in My Music");
@@ -2367,16 +2255,13 @@ GtkWidget *GTKPreferenceWindow::CreateCD(void)
     if (originalValues.pollCD)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pollCD),
                                      TRUE);
-    gtk_widget_show(pollCD);
 
     GtkWidget *temphbox = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(pane), temphbox, FALSE, FALSE, 5);
-    gtk_widget_show(temphbox);
 
     GtkWidget *label = gtk_label_new("CD-ROM path: ");
     gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start(GTK_BOX(temphbox), label, FALSE, FALSE, 5);
-    gtk_widget_show(label);
 
     char copys[256];
    
@@ -2387,16 +2272,13 @@ GtkWidget *GTKPreferenceWindow::CreateCD(void)
     gtk_signal_connect(GTK_OBJECT(cdPath), "changed",
                        GTK_SIGNAL_FUNC(cd_path_change), this);
     gtk_box_pack_start(GTK_BOX(temphbox), cdPath, TRUE, TRUE, 0);
-    gtk_widget_show(cdPath);
 
     temphbox = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(pane), temphbox, FALSE, FALSE, 5);
-    gtk_widget_show(temphbox);
 
     label = gtk_label_new("MusicBrainz server URL for Audio CD/metadata lookups: ");
     gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start(GTK_BOX(pane), label, FALSE, FALSE, 5);
-    gtk_widget_show(label);
 
     strncpy(copys, originalValues.MBServer.c_str(), 256);
     mbServer = gtk_entry_new();
@@ -2405,8 +2287,8 @@ GtkWidget *GTKPreferenceWindow::CreateCD(void)
     gtk_signal_connect(GTK_OBJECT(mbServer), "changed",
                        GTK_SIGNAL_FUNC(mb_server_change), this);
     gtk_box_pack_start(GTK_BOX(pane), mbServer, TRUE, TRUE, 0);
-    gtk_widget_show(mbServer);
 
+    gtk_widget_show_all(pane);
     return pane;
 }
 
@@ -2479,35 +2361,28 @@ GtkWidget *GTKPreferenceWindow::CreatePlaylistHeaders(void)
 {
     GtkWidget *pane = gtk_vbox_new(FALSE, 5);
     gtk_container_set_border_width(GTK_CONTAINER(pane), 5);
-    gtk_widget_show(pane);
 
     GtkWidget *label = gtk_label_new("This will allow you to change what fields are shown in the Playlist editor");
     gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start(GTK_BOX(pane), label, TRUE, TRUE, 0);
-    gtk_widget_show(label);
  
     GtkWidget *hbox = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(pane), hbox, TRUE, TRUE, 0);
-    gtk_widget_show(hbox);
 
     GtkWidget *vbox = gtk_vbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 0);
-    gtk_widget_show(vbox);
 
     label = gtk_label_new("Available:");
     gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
-    gtk_widget_show(label);
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
-                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+                                   GTK_POLICY_NEVER, GTK_POLICY_NEVER);
     gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, FALSE, 0);
     gtk_widget_set_usize(scrolledWindow, 50, 200);
-    gtk_widget_show(scrolledWindow);
 
     plAvailableList = gtk_clist_new(1);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), plAvailableList);
-    gtk_widget_show(plAvailableList);
 
     vbox = gtk_vbutton_box_new();
     gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
@@ -2515,41 +2390,33 @@ GtkWidget *GTKPreferenceWindow::CreatePlaylistHeaders(void)
     gtk_button_box_set_layout(GTK_BUTTON_BOX(vbox), GTK_BUTTONBOX_SPREAD);
     gtk_button_box_set_spacing(GTK_BUTTON_BOX(vbox), 10);
 
-    gtk_widget_show(vbox);
-
     GtkWidget *button =  gtk_button_new_with_label(" << ");
     gtk_container_add(GTK_CONTAINER(vbox), button);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(pl_remove), this);
-    gtk_widget_show(button);
 
     button =  gtk_button_new_with_label(" >> ");
     gtk_container_add(GTK_CONTAINER(vbox), button);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
                        GTK_SIGNAL_FUNC(pl_add), this);
-    gtk_widget_show(button);
 
     vbox = gtk_vbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 0);
-    gtk_widget_show(vbox);
 
     label = gtk_label_new("Shown:");
     gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
-    gtk_widget_show(label);
 
     scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
-                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+                                   GTK_POLICY_NEVER, GTK_POLICY_NEVER);
     gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, FALSE, 0);
     gtk_widget_set_usize(scrolledWindow, 50, 200);
-    gtk_widget_show(scrolledWindow);
 
     plShownList = gtk_clist_new(1);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), plShownList);
     gtk_clist_set_reorderable(GTK_CLIST(plShownList), TRUE);
     gtk_signal_connect_after(GTK_OBJECT(plShownList), "row_move",
                              GTK_SIGNAL_FUNC(pl_row_move), this);
-    gtk_widget_show(plShownList);
 
     char *columns = new char[originalValues.playlistHeaders.size() + 1];
     strcpy(columns, originalValues.playlistHeaders.c_str());
@@ -2579,5 +2446,6 @@ GtkWidget *GTKPreferenceWindow::CreatePlaylistHeaders(void)
         }
     }
 
+    gtk_widget_show_all(pane);
     return pane;
 }

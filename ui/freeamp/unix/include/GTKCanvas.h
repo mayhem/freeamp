@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.h,v 1.3 2000/05/15 12:52:02 robert Exp $
+   $Id: GTKCanvas.h,v 1.3.22.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKCANVAS_H__
@@ -53,13 +53,22 @@ class GTKCanvas : public Canvas
      virtual void  Paint(Rect &oRect);
      virtual void  Erase(Rect &oRect);
 
-     GdkPixmap *GetMask() { return ((GTKBitmap *)m_pBGBitmap)->GetMask(); }
+     GdkPixbuf *GetPixbuf() { return ((GTKBitmap*)m_pBGBitmap)->GetPixbuf(); }
+
      void SetParent(GTKWindow *newParent) { m_pParent = newParent; }
      void InitBackgrounds(vector<Panel *> *pPanels);
 
+     void SetTransparency(int newTrans);
+     
     protected:
      GTKBitmap *m_pBufferBitmap;
      GTKWindow *m_pParent;
+
+     GdkPixbuf *m_pBackgroundCache;
+     int        m_x, m_y, m_w, m_h;
+     
+     GdkGC     *m_GC;
+     int        m_transparencyLevel;
 };
 
 #endif

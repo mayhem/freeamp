@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.38 2001/01/04 09:11:36 robert Exp $
+   $Id: GTKWindow.cpp,v 1.38.2.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -110,19 +110,27 @@ void key_press(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
 
 void enter_notify(GtkWidget *w, GdkEventCrossing *e, GTKWindow *ui)
 {
+    GTKCanvas *canvas = (GTKCanvas *)(ui->GetCanvas());
+
     gdk_threads_leave();
     ui->m_pMindMeldMutex->Acquire();
     ui->SetMouseIn();
     ui->m_pMindMeldMutex->Release();
+ 
+    canvas->SetTransparency(100);
     gdk_threads_enter();
 }
 
 void leave_notify(GtkWidget *w, GdkEventCrossing *e, GTKWindow *ui)
 {
+    GTKCanvas *canvas = (GTKCanvas *)(ui->GetCanvas());
+
     gdk_threads_leave();
     ui->m_pMindMeldMutex->Acquire();
     ui->SetMouseOut();
     ui->m_pMindMeldMutex->Release();
+    
+    canvas->SetTransparency(50);
     gdk_threads_enter();
 }
 
@@ -137,7 +145,17 @@ void drop_file(GtkWidget *w, GdkDragContext *context, gint x, gint y,
     }
     gdk_threads_enter();
 }
-      
+
+static gint exposed(GtkWidget *widget, GdkEventExpose *event, GTKWindow *ui)
+{
+    Rect oRect;
+    GTKCanvas *canvas = (GTKCanvas *)(ui->GetCanvas());
+
+    canvas->Paint(oRect);
+
+    return TRUE;
+}
+
 static gint do_timeout(void *p)
 {
     GTKWindow *ui = (GTKWindow *)p;
@@ -192,7 +210,6 @@ Error GTKWindow::Run(Pos &oPos)
     GetCanvas()->GetBackgroundRect(oRect);
 
     gdk_threads_enter();
-
     gtk_signal_connect(GTK_OBJECT(mainWindow), "motion_notify_event",
                        GTK_SIGNAL_FUNC(mouse_move), this);
     gtk_signal_connect(GTK_OBJECT(mainWindow), "button_press_event",
@@ -209,6 +226,8 @@ Error GTKWindow::Run(Pos &oPos)
                        GTK_SIGNAL_FUNC(enter_notify), this);
     gtk_signal_connect(GTK_OBJECT(mainWindow), "leave_notify_event",
                        GTK_SIGNAL_FUNC(leave_notify), this);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "expose_event",
+                       GTK_SIGNAL_FUNC(exposed), this);
 
     iMaxX = gdk_screen_width();
     iMaxY = gdk_screen_height();
@@ -228,11 +247,16 @@ Error GTKWindow::Run(Pos &oPos)
     gdk_threads_leave();
 
     Init();
-    GdkBitmap *mask = ((GTKCanvas *)m_pCanvas)->GetMask();
+    GdkPixbuf *pixbuf = ((GTKCanvas *)m_pCanvas)->GetPixbuf();
+    GdkBitmap *mask;
 
     gdk_threads_enter();
+    gdk_pixbuf_render_pixmap_and_mask(pixbuf, NULL, &mask, 255);
     if (mask)
+    {
         gdk_window_shape_combine_mask(mainWindow->window, mask, 0, 0);
+        gdk_bitmap_unref(mask);
+    }
     gdk_threads_leave();
 
     ((GTKCanvas *)GetCanvas())->Paint(oRect);
@@ -278,15 +302,20 @@ Error GTKWindow::VulcanMindMeld(Window *pOther)
     Rect oNewRect, oSize;
     
     m_pCanvas->GetBackgroundRect(oSize);
-    GdkBitmap *mask = ((GTKCanvas *)m_pCanvas)->GetMask();
+    GdkPixbuf *pixbuf = ((GTKCanvas *)m_pCanvas)->GetPixbuf();
+    GdkBitmap *mask;
 
     GetReloadWindowPos(oRect, oSize.Width(), oSize.Height(), oNewRect);
 
     gdk_threads_enter();
+    gdk_pixbuf_render_pixmap_and_mask(pixbuf, NULL, &mask, 255);
     gtk_widget_set_uposition(mainWindow, oNewRect.x1, oNewRect.y1);
     gtk_widget_set_usize(mainWindow, oNewRect.Width(), oNewRect.Height());
-    if (mask)
+    if (mask) 
+    {
         gdk_window_shape_combine_mask(mainWindow->window, mask, 0, 0);
+        gdk_bitmap_unref(mask);
+    }
     gdk_threads_leave();
 
     Pos NewPos;
@@ -306,6 +335,7 @@ Error GTKWindow::VulcanMindMeld(Window *pOther)
 void GTKWindow::PanelStateChanged(void)
 {
     Rect       oRect;
+    GdkPixbuf *pixbuf = ((GTKCanvas *)m_pCanvas)->GetPixbuf();
     GdkBitmap *mask;
 
     GetCanvas()->SetNoScreenUpdate(true);
@@ -313,11 +343,14 @@ void GTKWindow::PanelStateChanged(void)
     Window::PanelStateChanged();
 
     GetCanvas()->GetBackgroundRect(oRect);
-    mask = ((GTKCanvas *)m_pCanvas)->GetMask();
 
     gdk_threads_enter();
+    gdk_pixbuf_render_pixmap_and_mask(pixbuf, NULL, &mask, 255);
     if (mask)
+    {
         gdk_window_shape_combine_mask(mainWindow->window, mask, 0, 0);
+        gdk_bitmap_unref(mask);
+    }
     gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
     gdk_threads_leave();
 
@@ -462,7 +495,7 @@ Error GTKWindow::GetWindowPosition(Rect &oWindowRect)
 Error GTKWindow::Minimize(void)
 {
     gdk_threads_enter();
-    IconifyWindow(mainWindow->window);
+    gdk_window_iconify(mainWindow->window);
     gdk_threads_leave();
     return kError_NoErr;
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.h,v 1.7 1999/12/16 02:37:56 ijr Exp $
+   $Id: GTKFont.h,v 1.7.42.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKFONT_H__
@@ -35,9 +35,7 @@ using namespace std;
 
 #include "Font.h"
 
-#ifdef HAVE_FREETYPE
 #include "ttfont.h"
-#endif
 
 enum FontTypeEnum 
 {
@@ -57,10 +55,12 @@ class GTKFont : public Font
       virtual ~GTKFont(void);
 
       Error    Load(int iFontHeight, bool bBold, bool bItalic);
-      int      GetLength(string &oText);
-      int      GetHeight(string &oText);
+      int      GetLength(string &oText, int iFontHeight, bool bBold, 
+                         bool bItalic);
       void     Render(Rect &oClipRect, string &oText, int iOffset, 
-                      const Color &oColor, GTKBitmap *bitmap, bool bUnderline);
+                      const Color &oColor, GTKBitmap *bitmap, 
+                      int iFontHeight, bool bBold, bool bItalic, 
+                      bool bUnderline);
       
     protected:
       FAContext *m_context;
@@ -69,9 +69,7 @@ class GTKFont : public Font
       FontTypeEnum type;
 
       GdkFont *gfont;
-#ifdef HAVE_FREETYPE
-      Efont   *ttfont;
-#endif
+      FT2Font   *ttfont;
       string   BuildFontString(bool bBold, bool bItalic, int iFontHeight);
       Error    AddFont(string &oFontFile);
 

@@ -18,20 +18,32 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.10 2000/10/08 15:32:34 ijr Exp $
+   $Id: GTKCanvas.cpp,v 1.10.6.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
 #include "GTKFont.h"
+#include "GTKUtility.h"
 
 GTKCanvas::GTKCanvas(GTKWindow *pParent)
 {
     m_pParent = pParent;
+    m_GC = NULL;
     m_pBufferBitmap = NULL;
+    m_pBackgroundCache = NULL;
 }
 
 GTKCanvas::~GTKCanvas(void)
 {
+    gdk_threads_enter();
+    if (m_GC)
+        gdk_gc_unref(m_GC);
+
+    if (m_pBackgroundCache)
+        gdk_pixbuf_unref(m_pBackgroundCache);
+
+    gdk_threads_leave();
+
     delete m_pBufferBitmap;
 }
 
@@ -53,6 +65,13 @@ void GTKCanvas::Init(void)
     oDestRect.x2 = m_oBGRect.Width();
     oDestRect.y2 = m_oBGRect.Height();
     m_pBufferBitmap->MaskBlitRect(m_pBGBitmap, m_oBGRect, oDestRect);
+
+    m_transparencyLevel = 20;
+}
+
+void GTKCanvas::SetTransparency(int newTrans)
+{
+    m_transparencyLevel = newTrans;
 }
 
 int GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect,
@@ -65,7 +84,7 @@ int GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect,
     if (IsError(err)) 
         return 0;
 
-    int width = ourFont->GetLength(oText);
+    int width = ourFont->GetLength(oText, iFontHeight, bBold, bItalic);
     int offset = 0;
 
     if (eAlign == eLeft)
@@ -76,7 +95,7 @@ int GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect,
         offset = (oClipRect.Width() - width) / 2;
    
     ourFont->Render(oClipRect, oText, offset, oColor, m_pBufferBitmap,
-                    bUnderline);
+                    iFontHeight, bBold, bItalic, bUnderline);
 
     Update();
     return MAX(0, width - oClipRect.Width());
@@ -92,19 +111,20 @@ int GTKCanvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
     if (IsError(err))
         return 0;
 
-    int width = ourFont->GetLength(oText);
+    int width = ourFont->GetLength(oText, iFontHeight, bBold, bItalic);
    
     width += iMarqueeSpacer;
     if (iOffset > width)
         return width - iOffset;
  
     ourFont->Render(oClipRect, oText, 0 - iOffset, oColor, m_pBufferBitmap,
-                    bUnderline);
+                    iFontHeight, bBold, bItalic, bUnderline);
 
     int iRet = width - iOffset - oClipRect.Width();
     if (iRet < 0)
         ourFont->Render(oClipRect, oText, width - iOffset, oColor, 
-                        m_pBufferBitmap, bUnderline);
+                        m_pBufferBitmap, iFontHeight, bBold, bItalic, 
+                        bUnderline);
 
     Update();
     return MAX(iRet, 0);
@@ -145,13 +165,73 @@ Error GTKCanvas::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec
 void GTKCanvas::Paint(Rect &oRect)
 {
     assert(m_pParent);
-    GtkWidget *w = m_pParent->GetWindow();
-    if (!w->window || !m_pBufferBitmap)
+    GtkWidget *window = m_pParent->GetWindow();
+
+    if (!window->window || !m_pBufferBitmap)
         return;
+
+    gint x, y, w, h;
+    GdkPixbuf *back = NULL;
+
+    w = m_oBGRect.Width();
+    h = m_oBGRect.Height();
+
     gdk_threads_enter();
-    gdk_window_set_back_pixmap(w->window, m_pBufferBitmap->GetBitmap(), 0);
-    gdk_window_clear(w->window);
-    gdk_flush();
+    if (m_transparencyLevel < 255)
+    {
+        gdk_window_get_position(window->window, &x, &y);
+
+        if (m_pBackgroundCache)
+        {
+            if (x == m_x && y == m_y && w == m_w && h == m_h)
+                back = gdk_pixbuf_copy(m_pBackgroundCache);
+            else
+            {
+                gdk_pixbuf_unref(m_pBackgroundCache);
+                m_pBackgroundCache = NULL;
+            }
+        }
+
+        if (!back)
+        {
+            back = PixbufFromRootWindow(x, y, w, h, false);
+            if (back)
+            {
+                m_pBackgroundCache = gdk_pixbuf_copy(back);
+                m_x = x; m_y = y; m_h = h; m_w = w;
+            }
+        }
+
+        if (!back) 
+        {
+            gdk_threads_leave();
+            return;
+        }
+
+        GdkPixbuf *overlay = m_pBufferBitmap->GetPixbuf();
+        if (!overlay) {
+            gdk_threads_leave();
+            return;
+        }
+        gdk_pixbuf_composite(overlay, back, 0, 0, w, h, 0, 0, 1, 1, 
+                             GDK_INTERP_BILINEAR, m_transparencyLevel);
+    }
+    else
+    {
+        back = m_pBufferBitmap->GetPixbuf();
+    }
+
+    if (!m_GC)
+        m_GC = gdk_gc_new(window->window);
+
+    gdk_pixbuf_render_to_drawable(back, window->window, m_GC, 0, 0, 0, 0,
+                                  w, h, GDK_RGB_DITHER_NORMAL, 1, 1);
+
+    if (m_transparencyLevel < 255)
+    {
+        gdk_pixbuf_unref(back);
+    }
+
     gdk_threads_leave();
 }
 
@@ -161,7 +241,7 @@ void GTKCanvas::Erase(Rect &oRect)
     newRect.y2++;
     newRect.x2++;
     if (m_pBufferBitmap)
-        m_pBufferBitmap->MaskBlitRect(m_pBGBitmap, newRect, newRect);
+        m_pBufferBitmap->BlitRect(m_pBGBitmap, newRect, newRect);
 }
 
 void GTKCanvas::InitBackgrounds(vector<Panel *> *pPanels)

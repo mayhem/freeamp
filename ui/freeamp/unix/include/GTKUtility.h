@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.h,v 1.4 2000/06/21 08:12:20 ijr Exp $
+   $Id: GTKUtility.h,v 1.4.16.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKUTILITY__H_
@@ -26,18 +26,18 @@ ____________________________________________________________________________*/
 #include "config.h"
 
 #include <gdk/gdk.h>
+#include <gdk/gdkpixbuf.h>
 #include "facontext.h"
 
 #include "Types.h"
 
-void IconifyWindow(GdkWindow *win);
+GdkPixbuf *PixbufFromRootWindow(gint x, gint y, gint w, gint h, gint get_all);
 void WarpPointer(GdkWindow *win, int x, int y);
 void InitializeGTK(FAContext *context);
 void ShutdownGTK(void);
 
-bool ListFonts(char *mask);
-
 Pos GetFocusPos(void);
 
 void ReclaimFileTypes(FAContext *context, bool askBeforeReclaiming);
+
 #endif

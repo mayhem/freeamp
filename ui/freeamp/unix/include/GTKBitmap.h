@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.h,v 1.8 2000/06/13 20:24:32 ijr Exp $
+   $Id: GTKBitmap.h,v 1.8.16.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKBITMAP_H__
@@ -27,16 +27,12 @@ ____________________________________________________________________________*/
 #include <string>
 
 #include <gdk/gdk.h>
+#include <gdk/gdkpixbuf.h>
 #include <stdio.h>
 
 #include "Bitmap.h"
 #include "Types.h"
 #include "errors.h"
-
-#define BI_RGB       0
-#define BI_RLE8      1
-#define BI_RLE4      2
-#define BI_BITFIELDS 3
 
 class GTKBitmap : public Bitmap
 {
@@ -60,25 +56,13 @@ class GTKBitmap : public Bitmap
      virtual void GetColor(Pos oPos, Color &oColor);
      virtual void GetSize(Pos &oPos);
 
-     GdkPixmap *GetBitmap() { return m_Bitmap; }
-     GdkPixmap *GetMask() { return m_MaskBitmap; }
+     GdkPixbuf *GetPixbuf() { return m_Pixbuf; }
 
     protected:
 
-     Error ReadleShort(FILE *file, gushort *ret);
-     Error ReadleLong(FILE *file, gulong *ret);
-
-     GdkPixmap *m_Bitmap;
-     GdkPixmap *m_MaskBitmap;
-
-     GdkGC *m_GC;
-     bool shape_set;
      int  m_width, m_height;
 
-     bool m_cache;
-     GdkImage *m_image;
-     GdkColormap *m_cmap;
-     GdkVisual *m_v;
+     GdkPixbuf *m_Pixbuf;
 };
 
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.123 2001/01/05 09:54:38 robert Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.123.2.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1787,7 +1787,6 @@ GTKMusicBrowser::~GTKMusicBrowser(void)
 
 void GTKMusicBrowser::ShowMusicBrowser(void)
 {
-    
     gdk_threads_enter();
     isVisible = true;
     if (m_initialized)

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.90 2001/01/28 06:43:24 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.90.2.1 2001/02/15 06:08:01 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -226,12 +226,12 @@ UNIXFREEAMPUIOBJ += ui/freeamp/unix/src/GTKMessageDialog.o
 UNIXFREEAMPUIOBJ += ui/freeamp/unix/src/GTKWindow.o
 UNIXFREEAMPUIOBJ += ui/freeamp/unix/src/GTKBitmap.o 
 UNIXFREEAMPUIOBJ += ui/freeamp/unix/src/GTKCanvas.o
-UNIXFREEAMPUIOBJ += ui/freeamp/unix/src/ttfont.o 
+UNIXFREEAMPUIOBJ += ui/freeamp/unix/src/ttfont.o
 UNIXFREEAMPUIOBJ += ui/freeamp/unix/src/ThemeManager.o 
 UNIXFREEAMPUIOBJ += ui/freeamp/unix/src/GTKPreferenceWindow.o 
 UNIXFREEAMPUIOBJ += ui/freeamp/unix/src/GTKFileSelector.o  
 UNIXFREEAMPUIOBJ += ui/musicbrowser/unix/src/gtkmessagedialog.o
-UNIXFREEAMPUILIBS = $(GTK_LIBS) $(TTF_LIBS) $(GDK_PIXBUF_LIBS)
+UNIXFREEAMPUILIBS = $(GTK_LIBS)
 
 BEOSFREEAMPUIOBJ  = ui/freeamp/beos/src/BeOSWindow.o
 BEOSFREEAMPUIOBJ += ui/freeamp/beos/src/BeOSBitmap.o

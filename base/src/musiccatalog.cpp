@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.98 2001/02/07 17:13:42 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.98.2.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -35,6 +35,7 @@ ____________________________________________________________________________*/
 #ifdef WIN32
 #include <windows.h>
 #else
+#include <glib.h>
 #include <unistd.h>
 #include "win32impl.h"
 #endif
@@ -1149,6 +1150,7 @@ void MusicCatalog::WriteMetaDataToDatabase(const char *url,
     if (!m_database->Working())
         return;
 
+ return;
     string ost;
     char *num = new char[4096];
     char *temp = new char[1024];
@@ -1264,40 +1266,56 @@ MetaData *MusicCatalog::ReadMetaDataFromDatabase(const char *url)
         if (fieldLength[j] == 0) 
             continue;
 
+        string substring = data.substr(count, fieldLength[j]);
+#ifndef WIN32
+        if (j < 5)
+        {
+            GError *bleh2 = NULL;
+            char *incoming = strdup_new(substring.c_str());
+	    char *bleh = g_convert(incoming, strlen(incoming), "UTF-8",
+                                   "ISO-8859-1", NULL, NULL, &bleh2);
+            delete [] incoming;
+            if (bleh) 
+            {
+                substring = bleh;
+                g_free(bleh);
+            }
+        }
+#endif
         switch(j)
         {
             case 0:
-                metadata->SetArtist(data.substr(count, fieldLength[j]).c_str());
+                metadata->SetArtist(substring.c_str());
                 break;
             case 1:
-                metadata->SetAlbum(data.substr(count, fieldLength[j]).c_str());
+                metadata->SetAlbum(substring.c_str());
                 break;
             case 2:
-                metadata->SetTitle(data.substr(count, fieldLength[j]).c_str());
+                metadata->SetTitle(substring.c_str());
                 break;
             case 3:
-                metadata->SetComment(data.substr(count, fieldLength[j]).c_str());
+                metadata->SetComment(substring.c_str());
                 break;
             case 4:
-                metadata->SetGenre(data.substr(count, fieldLength[j]).c_str());
+                metadata->SetGenre(substring.c_str());
                 break;
             case 5:
-                metadata->SetYear(atoi(data.substr(count, fieldLength[j]).c_str()));
+                metadata->SetYear(atoi(substring.c_str()));
                 break;
             case 6:
-                metadata->SetTrack(atoi(data.substr(count, fieldLength[j]).c_str()));
+                metadata->SetTrack(atoi(substring.c_str()));
                 break;
             case 7:
-                metadata->SetTime(atoi(data.substr(count, fieldLength[j]).c_str()));
+                metadata->SetTime(atoi(substring.c_str()));
                 break;
             case 8:
-                metadata->SetSize(atoi(data.substr(count, fieldLength[j]).c_str()));
+                metadata->SetSize(atoi(substring.c_str()));
                 break;
             case 9:
-                metadata->SetPlayCount(atoi(data.substr(count, fieldLength[j]).c_str()));
+                metadata->SetPlayCount(atoi(substring.c_str()));
                 break;
             case 10: 
-                metadata->SetGUID(data.substr(count, fieldLength[j]).c_str());
+                metadata->SetGUID(substring.c_str());
                 break;
             default:
                 break;

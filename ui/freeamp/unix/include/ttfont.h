@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ttfont.h,v 1.4 2000/02/16 02:20:47 ijr Exp $
+   $Id: ttfont.h,v 1.4.40.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TTFONT__H_
@@ -28,35 +28,20 @@ ____________________________________________________________________________*/
 #include "mutex.h"
 
 #include <gdk/gdk.h>
-#ifdef HAVE_FREETYPE_FREETYPE_H
 #include <freetype/freetype.h>
-#else
-#include <freetype.h>
-#endif
 
-typedef struct _efont
+typedef struct _ft2font
   {
-     TT_Engine           engine;
-     TT_Face             face;
-     TT_Instance         instance;
-     TT_Face_Properties  properties;
-     int                 num_glyph;
-     TT_Glyph           *glyphs;
-     TT_Raster_Map     **glyphs_cached;
-     int                 max_descent;
-     int                 max_ascent;
-     int                 ascent;
-     int                 descent;
+     FT_Library          library;
+     FT_Face             face;
   }
-Efont;
+FT2Font;
 
-void EFont_draw_string(GdkPixmap *win, GdkGC *gc, int x, int y, char *text,
-                       Efont *font);
-void Efont_free(Efont * f);
-Efont *Efont_load(char *file, int size);
-void Efont_extents(Efont * f, char *text, int *font_ascent_return,
-                   int *font_descent_return, int *width_return,
-                   int *max_ascent_return, int *max_descent_return,
-                   int *lbearing_return, int *rbearing_return);
+void FT2Font_draw_string(GdkPixbuf *win, int x, int y, char *text,
+                         FT2Font *font, int size, int clipx, int clipy, 
+                         int clipw, int cliph);
+void FT2Font_free(FT2Font * f);
+FT2Font *FT2Font_load(char *file);
+int FT2Font_length(FT2Font *f, char *text, int size);
 
 #endif

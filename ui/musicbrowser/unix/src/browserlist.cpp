@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browserlist.cpp,v 1.18 2001/01/24 20:47:25 ijr Exp $
+        $Id: browserlist.cpp,v 1.18.2.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -453,8 +453,8 @@ void GTKMusicBrowser::UpdatePlaylistList(void)
     gtk_clist_freeze(GTK_CLIST(playlistList));
     gtk_clist_clear(GTK_CLIST(playlistList));
 
-    if (playlistColsChanged)
-        UpdateColumnHeaders();
+    //if (playlistColsChanged)
+    //    UpdateColumnHeaders();
 
     uint32 iLoop = m_plm->CountItems();
 
@@ -576,6 +576,7 @@ void GTKMusicBrowser::UpdatePlaylistList(void)
     gtk_clist_select_row(GTK_CLIST(playlistList), m_lastindex, 0);
     gtk_clist_moveto(GTK_CLIST(playlistList), m_lastindex, 0, 0.5, -1);
     ChangeCurrentPlayingIndex(m_playingindex, m_playingindex);
+
     gtk_clist_thaw(GTK_CLIST(playlistList));
 }
 
@@ -653,8 +654,6 @@ static void drag_dest_info_destroy(gpointer data)
                                     ((row) + 1) + (clist)->voffset)
 #define ROW_FROM_YPIXEL(clist, y)  (((y) - (clist)->voffset) / \
                                     ((clist)->row_height + 1))
-#define GTK_CLIST_CLASS_FW(_widget_) GTK_CLIST_CLASS (((GtkObject*) (_widget_))->klass)
-
 
 static gint COLUMN_FROM_XPIXEL (GtkCList * clist, gint x)
 {
@@ -682,7 +681,7 @@ static void drag_dest_cell (GtkCList *clist, gint x, gint y,
     dest_info->insert_pos = GTK_CLIST_DRAG_NONE;
 
     y -= (GTK_CONTAINER (clist)->border_width +
-          widget->style->klass->ythickness + clist->column_title_area.height);
+          widget->style->ythickness + clist->column_title_area.height);
 
     dest_info->cell.row = ROW_FROM_YPIXEL (clist, y);
     if (dest_info->cell.row >= clist->rows) {
@@ -697,7 +696,7 @@ static void drag_dest_cell (GtkCList *clist, gint x, gint y,
     }
 
     x -= GTK_CONTAINER (widget)->border_width +
-         widget->style->klass->xthickness;
+         widget->style->xthickness;
     dest_info->cell.column = COLUMN_FROM_XPIXEL (clist, x);
 
     if (dest_info->cell.row >= 0) {
@@ -858,7 +857,7 @@ static void list_drag_leave_internal(GtkWidget *widget, GdkDragContext *context,
                 if (((int)tree == GPOINTER_TO_INT(list->data)) ||
                     ((int)plain == GPOINTER_TO_INT(list->data)) ||
                     ((int)html == GPOINTER_TO_INT(list->data))) {
-                    GTK_CLIST_CLASS_FW(clist)->draw_drag_highlight(clist,
+                    GTK_CLIST_GET_CLASS(clist)->draw_drag_highlight(clist,
                             (GtkCListRow *)g_list_nth(clist->row_list,
                                                      dest_info->cell.row)->data,
                              dest_info->cell.row, dest_info->insert_pos);
@@ -968,7 +967,7 @@ static gint list_drag_motion_internal(GtkWidget *widget,
             (new_info.cell.row == dest_info->cell.row &&
              dest_info->insert_pos != new_info.insert_pos)) {
             if (dest_info->cell.row >= 0 && dest_info->cell.column != -1)
-                GTK_CLIST_CLASS_FW(clist)->draw_drag_highlight(clist,
+                GTK_CLIST_GET_CLASS(clist)->draw_drag_highlight(clist,
                         (GtkCListRow *)g_list_nth(clist->row_list,
                                                   dest_info->cell.row)->data,
                         dest_info->cell.row, dest_info->insert_pos);
@@ -977,7 +976,7 @@ static gint list_drag_motion_internal(GtkWidget *widget,
             dest_info->cell.column = new_info.cell.column;
 
             if (dest_info->cell.column != -1)
-                GTK_CLIST_CLASS_FW(clist)->draw_drag_highlight(clist,
+                GTK_CLIST_GET_CLASS(clist)->draw_drag_highlight(clist,
                         (GtkCListRow *)g_list_nth(clist->row_list,
                                                   dest_info->cell.row)->data,
                         dest_info->cell.row, dest_info->insert_pos);

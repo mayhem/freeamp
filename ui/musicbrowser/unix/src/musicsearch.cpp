@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicsearch.cpp,v 1.8 2001/02/07 17:13:42 ijr Exp $
+        $Id: musicsearch.cpp,v 1.8.2.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -212,25 +212,25 @@ void musicsearchUI::Show(bool runMain)
    gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
                       GTK_SIGNAL_FUNC(search_select_entire), this);   
    gtk_widget_show(menuitem);
-   gtk_menu_append(GTK_MENU(menu), menuitem);
+   gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 
    menuitem = gtk_menu_item_new_with_label("My Home Directory");
    gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
                       GTK_SIGNAL_FUNC(search_select_home), this);
    gtk_widget_show(menuitem);
-   gtk_menu_append(GTK_MENU(menu), menuitem);
+   gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 
    menuitem = gtk_menu_item_new_with_label("/usr/share");
    gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
                       GTK_SIGNAL_FUNC(search_select_share), this);
    gtk_widget_show(menuitem);
-   gtk_menu_append(GTK_MENU(menu), menuitem);
+   gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 
    menuitem = gtk_menu_item_new_with_label("Let me select a directory");
    gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
                       GTK_SIGNAL_FUNC(search_select_custom), this);
    gtk_widget_show(menuitem);
-   gtk_menu_append(GTK_MENU(menu), menuitem);
+   gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 
    gtk_option_menu_set_menu(GTK_OPTION_MENU(optionmenu), menu);
    gtk_box_pack_start(GTK_BOX(hbox), optionmenu, FALSE, FALSE, 0);

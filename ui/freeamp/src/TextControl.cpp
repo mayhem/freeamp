@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.19 2000/10/06 12:13:04 robert Exp $
+   $Id: TextControl.cpp,v 1.19.6.1 2001/02/15 06:08:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -190,7 +190,7 @@ void TextControl::MarqueeText(void)
     int    iRet;
 
     m_oMutex.Acquire();
-	m_iMarqueePos += m_iMarqueeScrollIncrement;
+    m_iMarqueePos += m_iMarqueeScrollIncrement;
     m_oMutex.Release();
     
     pCanvas = m_pParent->GetCanvas();

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.54 2000/08/16 18:55:19 ijr Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.55 2000/08/21 08:52:24 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1936,6 +1936,8 @@ bool Win32PreferenceWindow::PrefProfileProc(HWND hwnd,
                         APSInterface *pAPS = m_pContext->aps;
                         if (pAPS)
                         {
+							vector<string> *profiles = pAPS->GetKnownProfiles();
+
                             int nRes = pAPS->CreateProfile(szCurSel);
                             SendDlgItemMessage(hwnd, IDC_PROFILE_LIST,
                                                LB_ADDSTRING, NULL, 
@@ -1943,6 +1945,12 @@ bool Win32PreferenceWindow::PrefProfileProc(HWND hwnd,
                             SendDlgItemMessage(hwnd, IDC_PROFILE_LIST,
                                                LB_SELECTSTRING, -1,
                                                (LPARAM)(LPCTSTR)szCurSel);
+
+							if (!profiles || profiles->size() == 0)
+								m_pContext->target->AcceptEvent(new Event(INFO_UnsignaturedTracksExist));
+
+							if (profiles)
+								delete profiles;
                         }
                     }
                     break;

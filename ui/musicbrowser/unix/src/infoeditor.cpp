@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.9 2000/03/23 03:34:22 ijr Exp $
+        $Id: infoeditor.cpp,v 1.10 2000/04/26 15:20:38 robert Exp $
 ____________________________________________________________________________*/
 
 #include "utility.h"
@@ -57,7 +57,7 @@ void infoeditorUI::DoApplyInfoEdit(void)
     newmeta.SetSize(oldmeta.Size());
 
     m_playlistItem->SetMetaData(&newmeta);
-
+    m_context->plm->UpdateTrackMetaData(m_playlistItem, true);
     m_context->catalog->UpdateSong(m_playlistItem);
 }
 

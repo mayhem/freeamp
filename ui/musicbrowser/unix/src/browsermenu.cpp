@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.cpp,v 1.20 2000/09/22 07:12:43 ijr Exp $
+        $Id: browsermenu.cpp,v 1.21 2000/09/25 08:41:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -449,6 +449,11 @@ static void sort_track(GTKMusicBrowser *p, guint action, GtkWidget *w)
     p->SortPlaylistEvent(kPlaylistSortKey_Track, kPlaylistSortType_Ascending);
 }
 
+static void sort_comment(GTKMusicBrowser *p, guint action, GtkWidget *w)
+{
+    p->SortPlaylistEvent(kPlaylistSortKey_Comment, kPlaylistSortType_Ascending);
+}
+
 static void sort_genre(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
     p->SortPlaylistEvent(kPlaylistSortKey_Genre, kPlaylistSortType_Ascending);
@@ -610,6 +615,7 @@ void GTKMusicBrowser::CreateMenu(GtkWidget *topbox)
      {"/_Sort Playlist/by _Length", NULL,        (void(*)(...))sort_time,  0, 0 },
      {"/_Sort Playlist/by L_ocation", NULL,   (void(*)(...))sort_location, 0, 0 },
      {"/_Sort Playlist/by _Filename", NULL,   (void(*)(...))sort_filename, 0, 0 },
+     {"/_Sort Playlist/by _Comment", NULL,    (void(*)(...))sort_comment, 0, 0},
      {"/_Sort Playlist/_Randomly", NULL,        (void(*)(...))sort_random, 0, 0 },
 
      {"/_Relatable",           NULL,            0,          0, "<Branch>" },

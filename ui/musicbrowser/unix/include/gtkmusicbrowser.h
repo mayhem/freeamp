@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.55 2000/09/24 19:26:25 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.56 2000/09/25 08:41:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -49,6 +49,7 @@ typedef enum {
     kCommentColumn,
     kGenreColumn,
     kLocationColumn,
+    kPositionColumn,
     kTitleColumn,
     kTimeColumn
 } PlaylistColumns;
@@ -254,7 +255,12 @@ class GTKMusicBrowser {
 
     GtkWidget *artistSubTree;
     GtkWidget *playlistSubTree;
-  
+ 
+    PlaylistColumns playlistCols[8];
+    bool playlistColsChanged;
+    void ParsePlaylistCols();
+    void UpdateColumnHeaders();
+
     void UpdatePlayPause();
     TreeData *NewTreeData(TreeNodeType type, MusicCatalog *cat = NULL, 
                           ArtistList *art = NULL, AlbumList *alb = NULL, 
@@ -288,7 +294,7 @@ class GTKMusicBrowser {
     void AskSignatureDialog(void);  
     void AskOptIn(bool inMain = true);
     void StillNeedSignature(bool inMain = true);
-    
+   
   public:
 
     vector<PlaylistItem *> *GetTreeSelection(void);

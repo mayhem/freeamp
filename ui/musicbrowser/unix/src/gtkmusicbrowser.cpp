@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.114 2000/09/22 07:12:43 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.115 2000/09/25 08:41:43 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1591,6 +1591,10 @@ GTKMusicBrowser::GTKMusicBrowser(FAContext *context, MusicBrowserUI *masterUI,
     stream_timer = NULL;
     m_sigsExist = false;
     m_sigsStart = true;
+    playlistColsChanged = true;
+    for (int i = 0; i < 8; i++)
+        playlistCols[i] = kEmptyColumn;
+    playlistCols[0] = kPositionColumn;
 
     mbSelections = new vector<TreeData *>;
 

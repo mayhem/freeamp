@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.3 1999/09/16 00:49:27 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.4 1999/09/19 07:48:56 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -70,6 +70,14 @@ DownloadManager::DownloadManager(FAContext* context)
             }
         }
     }
+
+    m_downloadThread = Thread::CreateThread();
+
+    if(m_downloadThread)
+    {
+        m_downloadThread->Create(download_thread_function, this);
+        m_downloadThread->Suspend();
+    }
 }
 
 DownloadManager::~DownloadManager()
@@ -97,6 +105,11 @@ DownloadManager::~DownloadManager()
     {
         //delete m_formats[index]->GetRef();
         delete m_formats[index];
+    }
+
+    if(m_downloadThread)
+    {
+        delete m_downloadThread;
     }
 }
 
@@ -492,3 +505,96 @@ inline uint32 DownloadManager::CheckIndex(uint32 index)
 
 	return index;
 }
+
+void DownloadManager::QueueItem(DownloadItem* item)
+{
+    item->SetState(kDownloadItemState_Queued);
+
+    m_queueList.push_back(item);
+
+    m_downloadThread->Resume();
+}
+
+DownloadItem* DownloadManager::GetNextQueuedItem()
+{
+    DownloadItem* result = m_queueList[0];
+    m_queueList.pop_front();
+
+    return result;
+}
+
+Error DownloadManager::Download(DownloadItem* item)
+{
+    Error result = kError_InvalidParam;
+
+    assert(item);
+
+    if(item)
+    {
+
+    }
+
+    return result;
+}
+
+void DownloadManager::CleanUpDownload(DownloadItem* item)
+{
+
+}
+
+Error DownloadManager::SubmitToDatabase(DownloadItem* item)
+{
+    Error result = kError_InvalidParam;
+
+    assert(item);
+
+    if(item)
+    {
+
+    }
+
+    return result;
+}
+
+void DownloadManager::DownloadThreadFunction()
+{
+    while(true)
+    {
+        DownloadItem* item = GetNextQueuedItem();
+        Error result;
+
+        if(item)
+        {
+            result = Download(item);
+
+            if(IsntError(result))
+            {
+                item->SetState(kDownloadItemState_Done);
+
+                result = SubmitToDatabase(item);
+            }
+            else if(result == kError_UserCancel)
+            {
+                if(!item->IsResumable())
+                {
+                    CleanUpDownload(item);
+                }
+
+
+            }
+            else
+            {
+                item->SetState(kDownloadItemState_Error);
+            }
+        }
+    }
+}
+
+void DownloadManager::download_thread_function(void* arg)
+{
+    DownloadManager* dlm = (DownloadManager*)arg;
+
+    dlm->DownloadThreadFunction();
+}
+
+

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.6 1999/09/16 18:23:23 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.7 1999/09/19 07:48:55 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -27,6 +27,7 @@ ____________________________________________________________________________*/
 #include <assert.h>
 #include <string>
 #include <vector>
+#include <deque>
 #include <functional>
 
 using namespace std;
@@ -102,21 +103,28 @@ typedef enum {
     kDownloadItemState_Queued,
     kDownloadItemState_Downloading,
     kDownloadItemState_Cancelled,
+    kDownloadItemState_Error,
     kDownloadItemState_Done
 
 } DownloadItemState;
 
 class DownloadItem {
+ friend class DownloadManager;
 
  public:
     DownloadItem():m_state(kDownloadItemState_Queued){}
 
-    DownloadItem(const char* url, const MetaData* metadata = NULL)
+    DownloadItem(const char* src, const char* dest = NULL, const MetaData* metadata = NULL)
     {
-        assert(url);
+        assert(src);
 
-        if(url)
-            SetURL(url);
+        m_allowResume = false;
+
+        if(src)
+            SetSourceURL(src);
+
+        if(dest)
+            SetDestinationURL(dest);
 
         if(metadata)
             SetMetaData(metadata);
@@ -141,14 +149,19 @@ class DownloadItem {
 
     const MetaData& GetMetaData() const { return m_metadata; }
 
-    Error SetURL(const char* url) { m_url = url; return kError_NoErr;}
-    Error GetURL(char* buf, uint32* len) { return SetBuffer(buf, m_url.c_str(), len); }
-    const string& URL() const { return m_url; }
+    Error SetSourceURL(const char* url) { m_src = url; return kError_NoErr;}
+    Error GetSourceURL(char* buf, uint32* len) { return SetBuffer(buf, m_src.c_str(), len); }
+    const string& SourceURL() const { return m_src; }
+
+    Error SetDestinationURL(const char* url) { m_dest = url; return kError_NoErr;}
+    Error GetDestinationURL(char* buf, uint32* len) { return SetBuffer(buf, m_dest.c_str(), len); }
+    const string& DestinationURL() const { return m_dest; }
 
     DownloadItemState GetState() const { return m_state; }
+    void SetState(DownloadItemState state) { m_state = state; }
 
-    Error StartDownload();
-    Error StopDownload(bool allowResume);
+    void SetResumeable(bool allowResume) { m_allowResume = allowResume; }
+    bool IsResumable()  const { return m_allowResume; }
 
  protected:
     Error SetBuffer(char* dest, const char* src, uint32* len)
@@ -181,8 +194,10 @@ class DownloadItem {
 
  private:
     MetaData m_metadata;
-    string m_url;
+    string m_src;
+    string m_dest;
     DownloadItemState m_state;
+    bool m_allowResume;
 };
 
 class DownloadManager {
@@ -236,20 +251,32 @@ class DownloadManager {
     inline uint32 CheckIndex(uint32 index);
     uint32 InternalIndexOf(vector<DownloadItem*>* list, DownloadItem* item);    
 
+    static void download_thread_function(void* arg);
+    void DownloadThreadFunction();
+
+    void QueueItem(DownloadItem* item);
+    DownloadItem* GetNextQueuedItem();
+
+    Error Download(DownloadItem* item);
+    void CleanUpDownload(DownloadItem* item);
+    Error SubmitToDatabase(DownloadItem* item);
+
  private:
 
     FAContext* m_context;
 
-    Mutex       m_mutex;
+    Mutex m_mutex;
 
     vector<DownloadItem*> m_itemList;
-    vector<DownloadItem*> m_queueList;
+    deque<DownloadItem*> m_queueList;
 
     Registry m_formatRegistry;
 
     vector<DownloadFormatInfo*> m_formats;
    
     uint32 m_current;
+
+    Thread* m_downloadThread;
 
 };
 

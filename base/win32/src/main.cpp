@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.43 2000/01/21 01:03:20 elrod Exp $
+	$Id: main.cpp,v 1.44 2000/01/21 01:29:47 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -252,8 +252,8 @@ bool SendCommandLineToRealJukebox()
 								LONG regErr;
 								HKEY key;
 
-								regErr = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-													  "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\realjbox.exe",
+                                regErr = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+													  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\realjbox.exe",
 													  0, 
 													  KEY_ALL_ACCESS,
 													  &key);
@@ -271,11 +271,11 @@ bool SendCommandLineToRealJukebox()
                                                              (LPBYTE)buf, 
                                                              &len);
 
-                                    if(result == ERROR_SUCCESS)
+                                    if(regErr == ERROR_SUCCESS)
                                     {
                                         rjFound = true;
 
-                                        strcat(buf, "/m application/vnd.rn-rn_music_package ");
+                                        strcat(buf, " /m application/vnd.rn-rn_music_package ");
                                         strcat(buf, __argv[1]);
 
                                         WinExec(buf, SW_NORMAL);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.1 1998/10/19 21:59:23 jdw Exp $
+	$Id: Mpg123UI.cpp,v 1.2 1998/10/19 22:21:25 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -28,14 +28,10 @@ ____________________________________________________________________________*/
 
 #include <signal.h>
 
-#include <curses.h>
-#include <termios.h>
-
 
 #include "Mpg123UI.h"
 #include "event.h"
 #include "eventdata.h"
-#include "player.h"
 #include "playlist.h"
 
 void mysigterm(int);

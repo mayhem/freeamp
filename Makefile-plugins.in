@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.10 1999/07/19 21:07:58 dogcow Exp $
+# $Id: Makefile-plugins.in,v 1.11 1999/07/19 22:22:21 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -91,8 +91,7 @@ plugins/alsa-$(HOST_OS).pmo: $(ALSAOBJ)
 	$(LINKMOD) -o $@ $(ALSAOBJ) -lasound
 
 # esound
-ESNDOBJ = io/esound/src/esdvolume.o io/esound/src/esoundpmo.o \
-          io/src/pipeline.o io/src/pmo.o
+ESNDOBJ = io/esound/src/esoundpmo.o io/src/pipeline.o io/src/pmo.o
 
 plugins/esound-$(HOST_OS).pmo: $(ESNDOBJ)
 	$(LINKMOD) -o $@ $(ESNDOBJ) $(ESD_LIBS)

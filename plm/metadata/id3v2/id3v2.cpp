@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.28 2000/10/12 20:22:40 ijr Exp $
+	$Id: id3v2.cpp,v 1.29 2000/10/13 08:05:44 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -228,6 +228,14 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     URLToFilePath(url, path, &length);
 
     pTag = ID3Tag_New();
+#ifdef WIN32
+    int ret = ID3Tag_Link(pTag, path);
+	if (ret <= 0)
+	{
+		ID3Tag_Delete(pTag);
+		return false;
+	}
+#else
     ID3Tag_Link(pTag, path);
 
     if (!ID3Tag_HasTagType(pTag, ID3TT_ID3V1) &&
@@ -237,6 +245,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
         ID3Tag_Delete(pTag);
         return false;
     }
+#endif
 
 #if (ID3LIB_PATCH_VERSION >= 13) || (ID3LIB_MINOR_VERSION > 7) || \
     (ID3LIB_MAJOR_VERSION > 3)

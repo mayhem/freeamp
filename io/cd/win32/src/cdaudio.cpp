@@ -20,7 +20,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-        $Id: cdaudio.cpp,v 1.1 2000/03/20 20:50:13 ijr Exp $
+        $Id: cdaudio.cpp,v 1.2 2000/03/22 00:06:48 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -146,10 +146,10 @@ cd_poll(string cd_desc, struct disc_status *status)
    char mciCommand[128];
    char mciReturn[128];
 
-   sprintf(mciCommand, "status %s number of tracks", cd_desc.c_str());
+   sprintf(mciCommand, "status %s media present", cd_desc.c_str());
    mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
 
-   if (atoi(mciReturn) <= 0) {
+   if (!strcmp("true", mciReturn) && !strcmp("TRUE", mciReturn)) {
 	   status->status_present = 0;
 	   return 0;
    }

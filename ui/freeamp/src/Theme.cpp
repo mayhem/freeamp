@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.5 1999/09/23 01:30:03 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.6 1999/09/23 18:13:48 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -29,7 +29,7 @@ ____________________________________________________________________________*/
 #include "DialControl.h"
 #include "SliderControl.h"
 #include "TextControl.h"
-#include "debug.hpp"
+#include "debug.h"
 
 #ifdef WIN32
 #include "Win32Window.h"

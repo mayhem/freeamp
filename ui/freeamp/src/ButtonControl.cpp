@@ -18,13 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.1.2.6 1999/09/23 01:29:56 robert Exp $
+   $Id: ButtonControl.cpp,v 1.1.2.7 1999/09/23 18:13:44 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "ButtonControl.h"
 #include "Window.h"
-#include "Debug.hpp"
+#include "debug.h"
 
 // Bitmap info:
 // Frame 0: Normal

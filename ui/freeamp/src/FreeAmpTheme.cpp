@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.10 1999/09/23 01:30:00 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.11 1999/09/23 18:13:46 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -28,7 +28,7 @@ ____________________________________________________________________________*/
 #include "eventdata.h"
 #include "event.h"
 #include "id3v1.h"
-#include "debug.hpp"
+#include "debug.h"
 
 void WorkerThreadStart(void* arg);
 

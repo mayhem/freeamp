@@ -18,14 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.4 1999/09/23 01:30:11 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.5 1999/09/23 18:13:54 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
 #include "Theme.h"
 #include "Win32Window.h"
 #include "Win32Canvas.h"
-#include "Debug.hpp"
+#include "debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 

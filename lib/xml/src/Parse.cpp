@@ -18,14 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.1.2.2 1999/09/23 01:29:43 robert Exp $
+   $Id: Parse.cpp,v 1.1.2.3 1999/09/23 18:13:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "map"
 #include "assert.h"
 #include "Parse.h"
-#include "Debug.hpp"
+#include "debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 

@@ -18,13 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.1.2.6 1999/09/23 01:30:01 robert Exp $
+   $Id: SliderControl.cpp,v 1.1.2.7 1999/09/23 18:13:47 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "SliderControl.h"
 #include "Window.h"
-#include "debug.hpp"
+#include "debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 

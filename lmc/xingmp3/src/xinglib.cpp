@@ -17,29 +17,29 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglib.cpp,v 1.1 1998/10/14 02:50:37 elrod Exp $
+	$Id: xinglib.cpp,v 1.2 1998/10/14 08:50:31 elrod Exp $
 ____________________________________________________________________________*/
 
 /* project headers */
 #include "lmclib.h"
 #include "xinglmc.h"
 
-void Initialize(LMCRef* ref, LMCFunctionTable* table)
+void Initialize(LMCRef ref)
 {
-    if(ref && table)
+    if(ref)
     {
         LMC* lmc = new XingLMC;
-        *ref = lmc;
+        ref->ref = lmc;
 
-        table->SetPMI = SetPMI;
-        table->SetPMO = SetPMO;
-        table->SetInfoEventQueue = SetInfoEventQueue;
-        table->Decode = Decode;
-        table->Stop = Stop;
-        table->Pause = Pause;
-        table->Resume = Resume;
-        table->Reset = Reset;
-        table->ChangePosition = ChangePosition;
+        ref->SetPMI = SetPMI;
+        ref->SetPMO = SetPMO;
+        ref->SetInfoEventQueue = SetInfoEventQueue;
+        ref->Decode = Decode;
+        ref->Stop = Stop;
+        ref->Pause = Pause;
+        ref->Resume = Resume;
+        ref->Reset = Reset;
+        ref->ChangePosition = ChangePosition;
 
         lmc->Init();
     }

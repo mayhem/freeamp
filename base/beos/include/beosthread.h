@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: beosthread.h,v 1.4 1999/10/23 08:26:38 hiro Exp $
+	$Id: beosthread.h,v 1.5 2000/03/31 19:15:22 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_BEOS_THREAD_H
@@ -73,7 +73,7 @@ beosThread::Lock( void )
 inline void
 beosThread::Unlock( void )
 {
-	Unlock();
+	m_lock.Unlock();
 }
 
 // Utility functions.

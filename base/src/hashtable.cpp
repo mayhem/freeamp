@@ -18,9 +18,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$$
+	$Id: hashtable.cpp,v 1.4 1999/04/08 07:33:46 elrod Exp $
 ____________________________________________________________________________*/
-
 
 #include <stdlib.h>
 #include <memory.h>

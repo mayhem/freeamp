@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.63 2000/11/14 22:10:59 ijr Exp $
+	$Id: playlist.h,v 1.64 2001/01/02 03:47:15 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -366,7 +366,7 @@ class PlaylistManager {
 
 
  private:
-    void ShuffleIt(void);
+    void ShuffleIt(vector<PlaylistItem *> *toBeShuffled = NULL);
     
     FAContext* m_context;
 

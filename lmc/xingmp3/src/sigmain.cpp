@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigmain.cpp,v 1.11 2000/11/14 22:11:00 ijr Exp $
+        $Id: sigmain.cpp,v 1.12 2001/01/02 03:47:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
        }
        hasmeta = true;
    }
-    
+   
    if (hasmeta || nosubmit)
    {
        if (ff_decode(argv[index], sig, 0, 0, 0, 24000, 0))

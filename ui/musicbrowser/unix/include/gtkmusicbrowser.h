@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.60 2000/10/27 10:50:31 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.61 2001/01/02 03:47:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -249,6 +249,17 @@ class GTKMusicBrowser {
     GtkStyle *redStyle;
     GtkStyle *greenStyle;
 
+    GdkPixmap *album_pmap;
+    GdkBitmap *album_mask;
+    GdkPixmap *artist_pmap;
+    GdkBitmap *artist_mask;
+    GdkPixmap *playlist_pmap;
+    GdkBitmap *playlist_mask;
+    GdkPixmap *track_pmap;
+    GdkBitmap *track_mask;
+    GdkPixmap *stream_pmap;
+    GdkBitmap *stream_mask;
+    
     void ChangeCurrentPlayingIndex(uint32 oldindex, uint32 newindex);
 
     void SetStatusText(const char *text);

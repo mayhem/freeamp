@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: GTKFileSelector.cpp,v 1.2 2000/05/24 17:08:34 ijr Exp $
+        $Id: GTKFileSelector.cpp,v 1.2.22.1 2001/02/22 03:38:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "GTKFileSelector.h"
@@ -61,7 +61,7 @@ void GTKFileSelector::CancelEvent()
 void GTKFileSelector::AddEvent()
 {
     GtkFileSelection *gfile = GTK_FILE_SELECTION(filesel);
-    char *raw_path = NULL;
+    const char *raw_path = NULL;
     GList *row = GTK_CLIST(gfile->file_list)->row_list;
     gint rownum = 0;
     char *temp, *path_temp;

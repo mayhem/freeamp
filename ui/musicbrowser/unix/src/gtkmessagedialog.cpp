@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: gtkmessagedialog.cpp,v 1.7 2000/09/14 11:00:22 ijr Exp $
+   $Id: gtkmessagedialog.cpp,v 1.7.12.1 2001/02/22 03:38:35 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <gtk/gtk.h>
@@ -110,7 +110,7 @@ static void retry_click(GtkWidget *w, int *ret)
 
 static void entry_change(GtkWidget *w, GTKMessageDialog *p)
 {
-    p->SetText(gtk_entry_get_text(GTK_ENTRY(w)));
+    p->SetText((char *)gtk_entry_get_text(GTK_ENTRY(w)));
 }
 
 static void check_box_toggle(GtkWidget *w, GTKMessageDialog *p)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.98.2.1 2001/02/15 06:08:01 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.98.2.2 2001/02/22 03:38:34 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -547,6 +547,9 @@ Error MusicCatalog::AddSong(const char *url)
         meta = ReadMetaDataFromDatabase(url);
     }
 
+    if (!meta)
+        return kError_YouScrewedUp;
+
     if (m_killGUIDs)
     { 
         meta->SetGUID("");
@@ -696,11 +699,11 @@ Error MusicCatalog::Remove(const char *url)
 
     Error retvalue = kError_YouScrewedUp;
 
-    if (!strncmp("P", data, 1))
+    if (*data == 'P')
         retvalue = RemovePlaylist(url);
-    else if (!strncmp("M", data, 1)) 
+    else if (*data == 'M') 
         retvalue = RemoveSong(url);
-    else if (!strncmp("S", data, 1))
+    else if (*data == 'S')
         retvalue = RemoveStream(url);
 
     delete [] data;
@@ -721,11 +724,11 @@ Error MusicCatalog::Add(const char *url)
 
     Error retvalue = kError_YouScrewedUp;
 
-    if (!strncmp("P", data, 1))
+    if (*data == 'P')
         retvalue = AddPlaylist(url);
-    else if (!strncmp("M", data, 1)) 
+    else if (*data == 'M') 
         retvalue = AddSong(url);
-    else if (!strncmp("S", data, 1))
+    else if (*data == 'S')
         retvalue = AddStream(url);
 
     delete [] data;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.29 2001/01/05 21:59:59 robert Exp $
+   $Id: GTKPreferenceWindow.h,v 1.29.2.1 2001/02/22 03:38:35 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -293,7 +293,7 @@ class GTKPreferenceWindow : public PreferenceWindow
       void SetPreBufferLength(int newvalue);
 
       void SaveLocalToggle(int active);
-      void SaveLocalSet(char *newpath, bool set);
+      void SaveLocalSet(const char *newpath, bool set);
       void ProxyAddySet(void);
       void ProxyToggle(int active);
       void AltIPSet(void);
@@ -306,7 +306,7 @@ class GTKPreferenceWindow : public PreferenceWindow
 
       void ShowHelp(void);
 
-      void SaveMusicSet(char *newpath, bool set);
+      void SaveMusicSet(const char *newpath, bool set);
       void SetToolbar(bool text, bool pics);
       void SaveOnExitToggle(int active);
       void PlayImmediatelyToggle(int active);
@@ -315,12 +315,12 @@ class GTKPreferenceWindow : public PreferenceWindow
       void ReclaimTypesToggle(int active);
       void AskReclaimToggle(int active);
 
-      void WatchDirSet(char *newpath, bool set);
+      void WatchDirSet(const char *newpath, bool set);
       void SetWatchTimeout(int32 timeout);
 
       void PollCDToggle(int active);
-      void CDPathSet(char *newpath, bool set);
-      void MBServerSet(char *newpath, bool set);
+      void CDPathSet(const char *newpath, bool set);
+      void MBServerSet(const char *newpath, bool set);
 
       void UpdatePLHeaders(void);     
       void AddPLSelection(void);

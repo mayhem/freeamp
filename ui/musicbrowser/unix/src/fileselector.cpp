@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: fileselector.cpp,v 1.8 2000/09/28 08:08:03 ijr Exp $
+    $Id: fileselector.cpp,v 1.8.10.1 2001/02/22 03:38:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -69,12 +69,12 @@ void FileSelector::CancelEvent()
 void FileSelector::AddEvent()
 {
     GtkFileSelection *gfile = GTK_FILE_SELECTION(filesel);
-    char *raw_path = NULL;
+    const char *raw_path = NULL;
     GList *row = GTK_CLIST(gfile->file_list)->row_list;
     gint rownum = 0;
     char *temp, *path_temp;
 
-    char *rawtext = gtk_entry_get_text(GTK_ENTRY(gfile->selection_entry));
+    const char *rawtext = gtk_entry_get_text(GTK_ENTRY(gfile->selection_entry));
     if (!strncasecmp("http://", rawtext, 7) ||
         !strncasecmp("rtp://", rawtext, 6)) {
         returnpath = strdup_new(rawtext);

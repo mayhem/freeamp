@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.17 2000/09/21 20:43:38 ijr Exp $
+        $Id: infoeditor.cpp,v 1.17.12.1 2001/02/22 03:38:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -76,7 +76,7 @@ void infoeditorUI::DoApplyInfoEdit(void)
     vector<PlaylistItem *>::iterator i = m_itemlist->begin();
     for (; i != m_itemlist->end(); i++) {
         MetaData oldmeta, newmeta;
-        gchar *text;
+        const gchar *text;
 
         oldmeta = newmeta = (*i)->GetMetaData();
 

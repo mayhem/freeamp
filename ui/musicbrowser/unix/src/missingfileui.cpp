@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: missingfileui.cpp,v 1.6 2000/10/12 20:22:41 ijr Exp $
+        $Id: missingfileui.cpp,v 1.6.6.1 2001/02/22 03:38:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -90,7 +90,7 @@ void MissingFileUI::ChangeTextEntry(const char *text, bool set)
 
 static void entry_change(GtkWidget *w, MissingFileUI *p)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(w));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(w));
     p->ChangeTextEntry(text);
 }
 

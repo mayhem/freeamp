@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: introwizard.cpp,v 1.9.2.1 2001/02/15 06:08:01 ijr Exp $
+        $Id: introwizard.cpp,v 1.9.2.2 2001/02/22 03:38:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -53,7 +53,7 @@ gboolean wiz_destroy(GtkWidget *widget, IntroWizardUI *p)
 
 void IntroWizardUI::CheckCreateProfile(void)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(profileEntry));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(profileEntry));
     if (text && strlen(text) > 0) {
         m_context->aps->CreateProfile(text);
 
@@ -146,7 +146,7 @@ static void search_select_custom(GtkWidget *widget, IntroWizardUI *p)
 
 static void search_entry_change(GtkWidget *w, IntroWizardUI *p)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(w));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(w));
     p->SetSearchPath(text);
 }
 

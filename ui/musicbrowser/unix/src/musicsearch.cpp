@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicsearch.cpp,v 1.8.2.1 2001/02/15 06:08:01 ijr Exp $
+        $Id: musicsearch.cpp,v 1.8.2.2 2001/02/22 03:38:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -108,7 +108,7 @@ static void search_select_custom(GtkWidget *widget, musicsearchUI *p)
 
 static void search_entry_change(GtkWidget *w, musicsearchUI *p)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(w));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(w));
     p->SetSearchPath(text);
 }
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.61.2.1 2001/02/15 06:08:01 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.61.2.2 2001/02/22 03:38:35 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -884,7 +884,7 @@ static void alt_ip_toggle(GtkWidget *w, GTKPreferenceWindow *p)
     p->AltIPToggle(i);
 }
 
-void GTKPreferenceWindow::SaveLocalSet(char *newpath, bool set)
+void GTKPreferenceWindow::SaveLocalSet(const char *newpath, bool set)
 {
     proposedValues.saveStreamsDirectory = newpath;
     gtk_widget_set_sensitive(applyButton, TRUE);
@@ -894,7 +894,7 @@ void GTKPreferenceWindow::SaveLocalSet(char *newpath, bool set)
 
 static void save_stream_change(GtkWidget *w, GTKPreferenceWindow *p)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(w));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(w));
     p->SaveLocalSet(text, false);
 }
 
@@ -921,8 +921,8 @@ static void save_stream_browse(GtkWidget *w, GTKPreferenceWindow *p)
 
 void GTKPreferenceWindow::ProxyAddySet()
 {
-    char *name = gtk_entry_get_text(GTK_ENTRY(proxyAddyBox));
-    char *port = gtk_entry_get_text(GTK_ENTRY(proxyPortBox));
+    const char *name = gtk_entry_get_text(GTK_ENTRY(proxyAddyBox));
+    const char *port = gtk_entry_get_text(GTK_ENTRY(proxyPortBox));
 
     proposedValues.proxyServer = name;
     if (*port) {
@@ -938,10 +938,10 @@ static void proxy_change(GtkWidget *w, GTKPreferenceWindow *p)
 
 void GTKPreferenceWindow::AltIPSet()
 {
-    char *one = gtk_entry_get_text(GTK_ENTRY(ipOneBox));
-    char *two = gtk_entry_get_text(GTK_ENTRY(ipTwoBox));
-    char *three = gtk_entry_get_text(GTK_ENTRY(ipThreeBox));
-    char *four = gtk_entry_get_text(GTK_ENTRY(ipFourBox));
+    const char *one = gtk_entry_get_text(GTK_ENTRY(ipOneBox));
+    const char *two = gtk_entry_get_text(GTK_ENTRY(ipTwoBox));
+    const char *three = gtk_entry_get_text(GTK_ENTRY(ipThreeBox));
+    const char *four = gtk_entry_get_text(GTK_ENTRY(ipFourBox));
     if (*one)
         proposedValues.alternateIP = one;
     else
@@ -1210,8 +1210,8 @@ static void pmo_select(GtkWidget *item, GTKPreferenceWindow *p)
 
 void GTKPreferenceWindow::AlsaSet(void)
 {
-    char *one = gtk_entry_get_text(GTK_ENTRY(alsaOneBox));
-    char *two = gtk_entry_get_text(GTK_ENTRY(alsaTwoBox));
+    const char *one = gtk_entry_get_text(GTK_ENTRY(alsaOneBox));
+    const char *two = gtk_entry_get_text(GTK_ENTRY(alsaTwoBox));
 
     proposedValues.alsaOutput = string(one) + string(":") + string(two);
     gtk_widget_set_sensitive(applyButton, TRUE);
@@ -1357,7 +1357,7 @@ void GTKPreferenceWindow::SetInputBufferSize(int newvalue)
 
 static void input_buffer_change(GtkWidget *w, GTKPreferenceWindow *p)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(w));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(w));
     int newdata = atoi(text);
     p->SetInputBufferSize(newdata);
 }
@@ -1370,7 +1370,7 @@ void GTKPreferenceWindow::SetOutputBufferSize(int newvalue)
 
 static void output_buffer_change(GtkWidget *w, GTKPreferenceWindow *p)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(w));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(w));
     int newdata = atoi(text);
     p->SetOutputBufferSize(newdata);
 }
@@ -1383,7 +1383,7 @@ void GTKPreferenceWindow::SetPreBufferLength(int newvalue)
 
 static void prestream_buffer_change(GtkWidget *w, GTKPreferenceWindow *p)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(w));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(w));
     int newdata = atoi(text);
     p->SetPreBufferLength(newdata);
 }
@@ -1780,7 +1780,7 @@ void GTKPreferenceWindow::AddProfileEvent(void)
     if (!aps)
         return;
 
-    char *name = gtk_entry_get_text(GTK_ENTRY(profileEntry));
+    const char *name = gtk_entry_get_text(GTK_ENTRY(profileEntry));
     if (name && strlen(name) > 0) {
         vector<string> *profiles = aps->GetKnownProfiles();
         if (!profiles || profiles->size() == 0) 
@@ -1986,7 +1986,7 @@ GtkWidget *GTKPreferenceWindow::CreateProfiles(void)
     return pane;
 }
 
-void GTKPreferenceWindow::SaveMusicSet(char *newpath, bool set)
+void GTKPreferenceWindow::SaveMusicSet(const char *newpath, bool set)
 {
     proposedValues.saveMusicDirectory = newpath;
     gtk_widget_set_sensitive(applyButton, TRUE);
@@ -1996,7 +1996,7 @@ void GTKPreferenceWindow::SaveMusicSet(char *newpath, bool set)
 
 static void save_music_change(GtkWidget *w, GTKPreferenceWindow *p)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(w));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(w));
     p->SaveMusicSet(text, false);
 }
 
@@ -2021,7 +2021,7 @@ static void save_music_browse(GtkWidget *w, GTKPreferenceWindow *p)
     delete filesel;
 }
 
-void GTKPreferenceWindow::WatchDirSet(char *newpath, bool set)
+void GTKPreferenceWindow::WatchDirSet(const char *newpath, bool set)
 {
     proposedValues.watchThisDirectory = newpath;
     gtk_widget_set_sensitive(applyButton, TRUE);
@@ -2031,7 +2031,7 @@ void GTKPreferenceWindow::WatchDirSet(char *newpath, bool set)
 
 static void watch_dir_change(GtkWidget *w, GTKPreferenceWindow *p)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(w));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(w));
     p->WatchDirSet(text, false);
 }
 
@@ -2214,7 +2214,7 @@ static void pollcd_toggle(GtkWidget *w, GTKPreferenceWindow *p)
     p->PollCDToggle(i);
 }
 
-void GTKPreferenceWindow::CDPathSet(char *newpath, bool set)
+void GTKPreferenceWindow::CDPathSet(const char *newpath, bool set)
 {
     proposedValues.CDDevicePath = newpath;
     gtk_widget_set_sensitive(applyButton, TRUE);
@@ -2224,11 +2224,11 @@ void GTKPreferenceWindow::CDPathSet(char *newpath, bool set)
 
 static void cd_path_change(GtkWidget *w, GTKPreferenceWindow *p)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(w));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(w));
     p->CDPathSet(text, false);
 }
 
-void GTKPreferenceWindow::MBServerSet(char *newpath, bool set)
+void GTKPreferenceWindow::MBServerSet(const char *newpath, bool set)
 {
     proposedValues.MBServer = newpath;
     gtk_widget_set_sensitive(applyButton, TRUE);
@@ -2238,7 +2238,7 @@ void GTKPreferenceWindow::MBServerSet(char *newpath, bool set)
 
 static void mb_server_change(GtkWidget *w, GTKPreferenceWindow *p)
 {
-    char *text = gtk_entry_get_text(GTK_ENTRY(w));
+    const char *text = gtk_entry_get_text(GTK_ENTRY(w));
     p->MBServerSet(text, false);
 }
 

@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.127.2.1 2001/02/15 06:08:01 ijr Exp $
+dnl $Id: configure.in,v 1.127.2.2 2001/02/22 03:38:34 ijr Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -488,10 +488,10 @@ ORBIT_LIBS=""
 ORBIT_IDL=""
 
 if test "$have_orbit" = "true"; then
-  ORBIT_LIBS=`orbit-config --libs server`
-  AC_DEFINE(HAVE_ORBIT)
-  OSDEPPLUGINS="$OSDEPPLUGINS plugins/corba.ui"
-  OSINC="$OSINC `orbit-config --cflags server`"
+  #ORBIT_LIBS=`orbit-config --libs server`
+  #AC_DEFINE(HAVE_ORBIT)
+  #OSDEPPLUGINS="$OSDEPPLUGINS plugins/corba.ui"
+  #OSINC="$OSINC `orbit-config --cflags server`"
   ORBIT_IDL=`which orbit-idl`
 fi
 

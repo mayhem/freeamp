@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.10 1999/12/13 12:49:52 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.11 1999/12/16 01:30:13 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <assert.h>
@@ -94,7 +94,6 @@ Error Win32Bitmap::LoadBitmapFromDisk(string &oFile)
    GetObject(m_hBitmap, sizeof(DIBSECTION), (LPSTR)&sSection);
    memcpy(&m_sBitmapInfo, &sSection.dsBmih, sizeof(BITMAPINFOHEADER));
    
-   assert(m_sBitmapInfo.bmiHeader.biBitCount == 24);
    m_iBytesPerLine = m_sBitmapInfo.bmiHeader.biWidth * 3;
    m_iHeight = m_sBitmapInfo.bmiHeader.biHeight;
    m_iWidth = m_sBitmapInfo.bmiHeader.biWidth;

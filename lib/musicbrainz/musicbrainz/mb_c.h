@@ -18,7 +18,7 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-     $Id: mb_c.h,v 1.3 2000/09/21 13:03:03 robert Exp $
+     $Id: mb_c.h,v 1.4 2000/09/22 09:25:51 robert Exp $
 
 ----------------------------------------------------------------------------*/
 #ifndef _MB_C_H_
@@ -61,6 +61,8 @@ int       mb_GenerateSignature (musicbrainz_t o, char *data, int size,
                                 char signature[17], char *collectionID);
 void      mb_GenerateSignatureNow(musicbrainz_t o, char signature[17],
                                 char *collectionID);
+void      mb_ConvertSigToASCII (musicbrainz_t o, char sig[17], 
+                                char ascii_sig[37]);
 
 #ifdef __cplusplus
 }

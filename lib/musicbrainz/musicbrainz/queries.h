@@ -18,7 +18,7 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-     $Id: queries.h,v 1.2 2000/09/21 13:03:03 robert Exp $
+     $Id: queries.h,v 1.3 2000/09/22 09:25:51 robert Exp $
 
 ----------------------------------------------------------------------------*/
 #ifndef _QUERIES_H_
@@ -114,7 +114,7 @@
                                   "<DC:Format duration=\"@7@\"/>\n"            \
                                   "<DC:Date issued=\"@8@\"/>\n"                \
                                   "<MM:Genre>@9@</MM:Genre>\n"                 \
-                                  "<DC:Description>@10</DC:Description>\n"    
+                                  "<DC:Description>@10@</DC:Description>\n"
 #define MB_GetLyricsById          "<MQ:Query>GetLyricsById</MQ:Query>\n"       \
                                   "<MQ:Args id=\"@1@\"/>\n"
 

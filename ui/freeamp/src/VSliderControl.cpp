@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.cpp,v 1.16 2000/06/12 12:11:32 robert Exp $
+   $Id: VSliderControl.cpp,v 1.17 2000/09/11 23:21:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -59,7 +59,8 @@ VSliderControl::VSliderControl(Window *pWindow, string &oName, int iThumbs,
                Control(pWindow, oName, pTransitions)
 {
      m_iRange = -1;
-     m_iCurrentPos = 0;
+     m_iCurrentPos = -1;
+     m_iValue = -1;
      m_oOrigin.y = -1;
      m_iNumThumbStates = iThumbs;
      m_iNumFrames = iNumFrames;

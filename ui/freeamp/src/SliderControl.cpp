@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.17 2000/08/08 21:04:40 robert Exp $
+   $Id: SliderControl.cpp,v 1.18 2000/09/11 23:21:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -58,7 +58,8 @@ SliderControl::SliderControl(Window *pWindow, string &oName, int iThumbs,
                Control(pWindow, oName, pTransitions)
 {
      m_iRange = -1;
-     m_iCurrentPos = 0;
+     m_iCurrentPos = -1;
+     m_iValue = -1;
      m_oOrigin.x = -1;
      m_iNumThumbStates = iThumbs;
      m_iNumFrames = iNumFrames;

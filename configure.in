@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.69 1999/12/29 01:11:54 ijr Exp $
+dnl $Id: configure.in,v 1.70 1999/12/29 01:19:11 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-1999 EMusic.com
 dnl
@@ -305,6 +305,7 @@ int main ()
      CFLAGS="$ac_save_CFLAGS"
      LIBS="$ac_save_LIBS"
      AC_LANG_RESTORE
+     rm -f conf.esdtest
   fi
 fi
 

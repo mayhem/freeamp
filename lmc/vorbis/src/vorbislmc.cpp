@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.cpp,v 1.13 2001/01/28 06:43:24 ijr Exp $
+   $Id: vorbislmc.cpp,v 1.14 2001/01/30 03:25:54 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -550,7 +550,7 @@ size_t VorbisLMC::Read(void *buf, size_t size, size_t num)
        {
            bytes = m_pInputBuffer->GetNumBytesInBuffer();
            if (bytes == 0)
-              return (size_t)-1;
+              return (size_t)0;
            continue;
        }
        break;

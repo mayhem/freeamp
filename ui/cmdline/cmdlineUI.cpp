@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cmdlineUI.cpp,v 1.28 2000/10/11 14:35:26 robert Exp $
+        $Id: cmdlineUI.cpp,v 1.29 2000/12/29 20:00:47 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream>
@@ -148,13 +148,19 @@ keyboardServiceFunction(void *pclcio)
 
    // char *pkey = new char[1];
    char      chr;
+   int       ret;
 
    // size_t rtn;
    // int fn = STDIN_FILENO;
    for (;;)
    {
       ::getKey();
-      read(stdinfd, &chr, 1);
+      ret = read(stdinfd, &chr, 1);
+      if (ret <= 0)
+      {
+         break;
+      }
+
       switch (chr)
       {
       case 'p':

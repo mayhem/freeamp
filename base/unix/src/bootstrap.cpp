@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.35 2000/12/29 19:28:52 robert Exp $
+	$Id: bootstrap.cpp,v 1.36 2000/12/29 20:00:47 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -169,7 +169,7 @@ int main(int argc, char **argv)
         {
             // Set the current pid into the semaphore
             unsem.val = getpid();
-            int ret = semctl(iCmdSem, 0, SETVAL, unsem);
+            semctl(iCmdSem, 0, SETVAL, unsem);
 
             // Create the shared memory segment
             iCmdMem = shmget(tMemKey, iSharedMemSize, IPC_CREAT | 0660);

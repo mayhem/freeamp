@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.29 1999/11/16 04:24:26 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.30 1999/11/16 09:23:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -84,6 +84,12 @@ SavePlaylistDlgProc(HWND hwnd,
                     WPARAM wParam, 
                     LPARAM lParam);
 
+BOOL CALLBACK 
+RemoveTracksDlgProc(HWND hwnd, 
+                    UINT msg, 
+                    WPARAM wParam, 
+                    LPARAM lParam);
+
 class MusicBrowserUI : public UserInterface 
 {
  public:
@@ -120,7 +126,12 @@ class MusicBrowserUI : public UserInterface
                             WPARAM wParam, 
                             LPARAM lParam);
 
-    BOOL SavePlaylistDlgProc(HWND hwnd, 
+    BOOL RemoveTracksDlgProc(HWND hwnd, 
+                             UINT msg, 
+                             WPARAM wParam, 
+                             LPARAM lParam);
+
+     BOOL SavePlaylistDlgProc(HWND hwnd, 
                              UINT msg, 
                              WPARAM wParam, 
                              LPARAM lParam);

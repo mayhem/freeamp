@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.5 1999/08/27 09:32:20 elrod Exp $
+        $Id: player.cpp,v 1.133.2.6 1999/08/27 16:55:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -100,8 +100,9 @@ EventQueue()
    m_lmc = NULL;
    m_ui = NULL;
 
+/*
    m_argUIList = new vector < char *>();
-
+*/
    m_argc = 0;
    m_argv = NULL;
    m_pTermSem = NULL;
@@ -144,10 +145,8 @@ Player::
    // Delete CIOs
    if (m_uiList)
    {
-        int32 count = m_uiList->size();
-
-        for(int32 i=0;i<count;i++)
-            delete m_uiList->at(i);
+        while (m_uiList->size() > 0)    
+            delete &m_uiList[0];
 
         delete m_uiList;
 
@@ -259,10 +258,8 @@ SetArgs(int32 argc, char **argv)
 
                   if (justGotArgvZero)
                   {
-                     int32 count = m_argUIList->size();
-
-                     for(int32 i=0;i<count;i++)
-                        delete m_argUIList->at(i);
+                     while (m_argUIList->size() > 0)
+                        delete &m_argUIList[0];
 
                      justGotArgvZero = false;
                   }
@@ -353,7 +350,7 @@ SetArgs(int32 argc, char **argv)
 	   m_argv = new pchar[m_argc];
       for (int f = 0; f < m_argc; f++)
       {
-         m_argv[f] = argList.at(f);
+         m_argv[f] = argList[f];
          // cerr << "Adding argument (" << f << "): " << m_argv[f] << endl;
       }
    }
@@ -426,7 +423,7 @@ void
 Player::
 Run()
 {
-   int32     uiListIndex = 0;
+   uint32    uiListIndex = 0;
    char     *name = NULL;
    uint32    len = 256;
    Error     error = kError_NoErr;
@@ -474,7 +471,7 @@ Run()
    }
    else
    {
-      char *orig = m_argUIList->at(uiListIndex++);
+      char *orig = (*m_argUIList)[uiListIndex++];
       name = new char[strlen(orig) + 1];
 
       strcpy(name, orig);
@@ -517,7 +514,7 @@ Run()
 
          if(uiListIndex < m_argUIList->size())
          {
-            char *p = m_argUIList->at(uiListIndex++);
+            char *p = (*m_argUIList)[uiListIndex++];
             strcpy(name, p);
          }
          else
@@ -628,10 +625,10 @@ RegisterLMCs(Registry * registry)
       lmc = (LogicalMediaConverter *)temp->InitFunction()(m_context);
       vector<char *> *extList = lmc->GetExtensions();
 
-      for (int iextLoop = 0; iextLoop < extList->size(); iextLoop++)
+      for (uint32 iextLoop = 0; iextLoop < extList->size(); iextLoop++)
       {
           lmc_item = new RegistryItem(*temp);
-          m_lmcExtensions->Insert(extList->at(iextLoop), lmc_item);
+          m_lmcExtensions->Insert((*extList)[iextLoop], lmc_item);
       }
 
       delete extList;
@@ -929,7 +926,7 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
    {
       char szErr[1024];
 
-      sprintf(szErr, "Cannot determine what pmi to use for %s\n", pc->URL());
+      sprintf(szErr, "Cannot determine what pmi to use for %s\n", pc->URL().c_str());
       m_context->log->Error(szErr);
       AcceptEvent(new LMCErrorEvent(szErr));
 
@@ -1417,9 +1414,9 @@ HandleMediaInfo(Event *pEvent)
 
    SendToUI(pEvent);
 
-   for (int foobar = 0; foobar < pmvi->m_childEvents->size(); foobar++)
+   for (uint32 foobar = 0; foobar < pmvi->m_childEvents->size(); foobar++)
    {
-      pe = pmvi->m_childEvents->at(foobar);
+      pe = (*pmvi->m_childEvents)[foobar];
       SendToUI(pe);
    }
 
@@ -1647,11 +1644,11 @@ void
 Player::
 SendToUI(Event * pe)
 {
-   int32     i;
+   uint32     i;
 
    for (i = 0; i < m_uiList->size(); i++)
    {
-      m_uiList->at(i)->AcceptEvent(pe);
+      (*m_uiList)[i]->AcceptEvent(pe);
    }
 }
 

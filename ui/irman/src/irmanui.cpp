@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.cpp,v 1.8.4.1 1999/08/27 03:09:43 elrod Exp $
+	$Id: irmanui.cpp,v 1.8.4.2 1999/08/27 16:55:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -207,7 +207,7 @@ int32 IRManUI::AcceptEvent(Event *e) {
     if (e) {
 	//cout << "IRManUI: processing event " << e->Type() << endl;
 	switch (e->Type()) {
-	    case INFO_PlayListDonePlay: {
+	    case INFO_PlaylistDonePlay: {
 		if (m_startupType == PRIMARY_UI) {
 		    Event *e = new Event(CMD_QuitPlayer);
 		    m_playerEQ->AcceptEvent(e);
@@ -240,7 +240,7 @@ void IRManUI::ProcessArgs() {
 	    m_plm->AddItem(pc,0);
 	}
     }
-    m_plm->SetFirst();
+    m_plm->SetCurrentItem(0);
     Event *e = new Event(CMD_Play);
     m_playerEQ->AcceptEvent(e);
 }

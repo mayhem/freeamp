@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.18 1999/04/21 04:20:44 elrod Exp $
+	$Id: bootstrap.cpp,v 1.18.8.1 1999/08/27 16:55:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -77,12 +77,12 @@ int main(int argc, char **argv) {
     context->log = new LogFile("freeamp.log");
 
     Registrar *registrar= new Registrar();
-    LMCRegistry *lmc;
-    PMIRegistry *pmi;
-    PMORegistry *pmo;
-    UIRegistry* ui;
+    Registry *lmc;
+    Registry *pmi;
+    Registry *pmo;
+    Registry* ui;
     
-    lmc = new LMCRegistry();
+    lmc = new Registry();
 #if MP3_PROF
     {
 	RegistryItem* item = new RegistryItem;
@@ -103,18 +103,18 @@ int main(int argc, char **argv) {
 //    registrar->SetSubDir("io");
     registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.pmi");
-    pmi = new PMIRegistry;
+    pmi = new Registry;
     registrar->InitializeRegistry(pmi,context->prefs);
 
     registrar->SetSearchString("*.pmo");
-    pmo = new PMORegistry;
+    pmo = new Registry;
     registrar->InitializeRegistry(pmo,context->prefs);
 
 
 //    registrar->SetSubDir("ui");
     registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.ui");
-    ui = new UIRegistry;
+    ui = new Registry;
     registrar->InitializeRegistry(ui,context->prefs);
 
     delete registrar;

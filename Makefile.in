@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.30.2.1 1999/08/18 04:18:06 ijr Exp $
+# $Id: Makefile.in,v 1.30.2.2 1999/08/27 16:55:27 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = @FPIC@ for plugins.
@@ -35,14 +35,11 @@ FREEAMPbeosOBJ += base/beos/src/mutex.o base/beos/src/semaphore.o
 FREEAMPbeosOBJ += base/beos/src/utility.o
 FREEAMPbeosOBJ += base/beos/src/win32impl.o
 
-FREEAMPOBJ =  base/src/hashtable.o base/src/log.o base/src/player.o
+FREEAMPOBJ =  base/src/log.o base/src/player.o base/src/musicsearch.o
 FREEAMPOBJ += base/src/playlist.o base/src/propimpl.o base/src/registrar.o
 FREEAMPOBJ += base/src/registry.o base/src/thread.o io/src/eventbuffer.o
 FREEAMPOBJ += base/src/prefixprefs.o base/src/preferences.o
-FREEAMPOBJ += base/src/musicsearch.o 
-FREEAMPOBJ += io/src/pmiregistry.o io/src/pmoregistry.o
 FREEAMPOBJ += io/src/pullbuffer.o io/src/streambuffer.o io/src/tstream.o
-FREEAMPOBJ += lmc/src/lmcregistry.o ui/src/uiregistry.o
 FREEAMPOBJ += $(FREEAMP$(HOST_OS)OBJ)
 FREEAMPOBJ += $(GDBMOBJ)
 #FREEAMPOBJ += $(OSDEPOBJ)

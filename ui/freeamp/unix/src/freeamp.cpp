@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.37.4.1 1999/08/27 03:09:42 elrod Exp $
+	$Id: freeamp.cpp,v 1.37.4.2 1999/08/27 16:55:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -487,11 +487,11 @@ void FreeAmpUI::ParseArgs() {
 	}
     }
     if (m_startupType == PRIMARY_UI) {
-	m_plm->SetFirst();
+	m_plm->SetCurrentItem(0);
     }
     if (m_startupType == PRIMARY_UI) {
 	if(shuffle) 
-	    m_plm->SetShuffle(SHUFFLE_RANDOM);
+	    m_plm->SetShuffleMode(true);
 	
 	if(autoplay)
 	    m_playerEQ->AcceptEvent(new Event(CMD_Play));
@@ -666,19 +666,19 @@ int32 FreeAmpUI::AcceptEvent(Event *e) {
 	    XUnlockDisplay(m_display);
 	    break;
 	}
-	case INFO_PlayListRepeat: {
-	    PlayListRepeatEvent *plre = (PlayListRepeatEvent *)e;
+	case INFO_PlaylistRepeat: {
+	    PlaylistRepeatEvent *plre = (PlaylistRepeatEvent *)e;
 	    switch (plre->GetRepeatMode()) 
 	    {
-		case REPEAT_CURRENT:
+		case kPlaylistMode_RepeatOne:
 		    m_lcdWindow->SetIcon(FALcdWindow::REPEAT);
 		    m_lcdWindow->ClearIcon(FALcdWindow::REPEAT_ALL);
 		    break;
-		case REPEAT_ALL:
+		case kPlaylistMode_RepeatAll:
 		    m_lcdWindow->SetIcon(FALcdWindow::REPEAT);
 		    m_lcdWindow->SetIcon(FALcdWindow::REPEAT_ALL);
 		    break;
-		case REPEAT_NOT:
+		case kPlaylistMode_RepeatNone:
 		default:
 		    m_lcdWindow->ClearIcon(FALcdWindow::REPEAT);
 		    m_lcdWindow->ClearIcon(FALcdWindow::REPEAT_ALL);
@@ -689,15 +689,12 @@ int32 FreeAmpUI::AcceptEvent(Event *e) {
 	    XUnlockDisplay(m_display);
 	    break;
 	}
-	case INFO_PlayListShuffle: {
-	    PlayListShuffleEvent *plse = (PlayListShuffleEvent *)e;
+	case INFO_PlaylistShuffle: {
+	    PlaylistShuffleEvent *plse = (PlaylistShuffleEvent *)e;
 	    
 	    switch (plse->GetShuffleMode()) 
 	    {
-		case SHUFFLE_NOT_SHUFFLED:
-		    m_lcdWindow->ClearIcon(FALcdWindow::SHUFFLE);
-		    break;
-		case SHUFFLE_RANDOM:
+		case true:
 		    m_lcdWindow->SetIcon(FALcdWindow::SHUFFLE);
 		    break;
 		default:
@@ -804,12 +801,12 @@ void FreeAmpUI::closeFunction(void *p) {
 
 void FreeAmpUI::repeatFunction(void *p) {
     //cerr << "repeat" << endl;
-    ((FreeAmpUI *)p)->m_plm->ToggleRepeat();
+    ((FreeAmpUI *)p)->m_plm->ToggleRepeatMode();
 }
 
 void FreeAmpUI::shuffleFunction(void *p) {
     //cerr << "shuffle" << endl;
-    ((FreeAmpUI *)p)->m_plm->ToggleShuffle();
+    ((FreeAmpUI *)p)->m_plm->ToggleShuffleMode();
 }
 
 void FreeAmpUI::openFunction(void *p) {

@@ -35,6 +35,7 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "thread.h"
 #include "playlist.h"
+#include "eventdata.h"
 
 class FAContext;
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.14.4.1 1999/08/27 03:09:43 elrod Exp $
+	$Id: Mpg123UI.cpp,v 1.14.4.2 1999/08/27 16:55:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -100,7 +100,7 @@ int32 Mpg123UI::AcceptEvent(Event *e) {
     if (e) {
 	//cerr << "Mpg123COO: processing event " << e->Type() << endl;
 	switch (e->Type()) {
-	    case INFO_PlayListDonePlay: {
+	    case INFO_PlaylistDonePlay: {
 		Event *e = new Event(CMD_QuitPlayer);
 		m_playerEQ->AcceptEvent(e);
 		break; }
@@ -325,7 +325,7 @@ void Mpg123UI::ProcessArgs() {
 		    cout << "use HTTP proxy " << pc << endl;
 		    break;
 		case 'z':
-		    m_plm->SetShuffle(SHUFFLE_RANDOM);
+		    m_plm->SetShuffleMode(true);
 		    //cout << "shuffle play (with wildcards) " << endl;
 		    break;
 		case 'Z':
@@ -351,8 +351,8 @@ void Mpg123UI::ProcessArgs() {
 
     if (addedStuff) {
 
-	m_plm->SetFirst();
-	m_plm->SetSkip(skipFirst);
+	m_plm->SetCurrentItem(0);
+/*	m_plm->SetSkip(skipFirst); */
 	Event *e = new Event(CMD_Play);
 	m_playerEQ->AcceptEvent(e);
     } else {

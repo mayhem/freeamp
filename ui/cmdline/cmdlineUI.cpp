@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.17.2.1 1999/08/27 03:09:42 elrod Exp $
+	$Id: cmdlineUI.cpp,v 1.17.2.2 1999/08/27 16:55:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -149,8 +149,8 @@ void cmdlineUI::keyboardServiceFunction(void *pclcio) {
 	    case 's':
 	    case 'S': {
 		if (pMe->m_plm) {
-		    pMe->m_plm->SetShuffle(SHUFFLE_RANDOM);
-		    pMe->m_plm->SetFirst();
+		    pMe->m_plm->SetShuffleMode(true);
+		    pMe->m_plm->SetCurrentIndex(0);
 		}
 		Event *e = new Event(CMD_Stop);
 		pMe->m_playerEQ->AcceptEvent(e);
@@ -172,7 +172,7 @@ int32 cmdlineUI::AcceptEvent(Event *e) {
     if (e) {
 	//cout << "cmdlineUI: processing event " << e->getEvent() << endl;
 	switch (e->Type()) {
-	    case INFO_PlayListDonePlay: {
+	    case INFO_PlaylistDonePlay: {
 		Event *e = new Event(CMD_QuitPlayer);
 		m_playerEQ->AcceptEvent(e);
 		break; }
@@ -224,7 +224,7 @@ void cmdlineUI::ProcessArgs() {
 	    m_plm->AddItem(pc,0);
 	}
     }
-    m_plm->SetFirst();
+    m_plm->SetCurrentIndex(0);
     Event *e = new Event(CMD_Play);
     m_playerEQ->AcceptEvent(e);
 }

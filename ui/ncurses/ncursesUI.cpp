@@ -32,12 +32,6 @@ ____________________________________________________________________________*/
 #include <termios.h>
 #include <signal.h>
 
-/* ncurses / curses include */
-#include <curses.h>
-#ifndef NCURSES_VERSION
-#define color_set(a,b) ;
-#endif
-
 #include "config.h"
 #include "ncursesUI.h"
 #include "event.h"
@@ -45,6 +39,11 @@ ____________________________________________________________________________*/
 #include "thread.h"
 #include "eventdata.h"
 
+/* ncurses / curses include */
+#include <curses.h>
+#ifndef NCURSES_VERSION
+#define color_set(a,b) ;
+#endif
 
 #define stdinfd 0
 
@@ -176,8 +175,8 @@ void ncursesUI::keyboardServiceFunction(void *pclcio) {
             case 's':
             case 'S': {
                 if (pMe->m_plm) {
-                    pMe->m_plm->SetShuffle(SHUFFLE_RANDOM);
-                    pMe->m_plm->SetFirst();
+                    pMe->m_plm->SetShuffleMode(true);
+                    pMe->m_plm->SetCurrentItem(0);
                 }
                 Event *e = new Event(CMD_Stop);
                 pMe->m_playerEQ->AcceptEvent(e);
@@ -198,7 +197,7 @@ void ncursesUI::keyboardServiceFunction(void *pclcio) {
 int32 ncursesUI::AcceptEvent(Event *e) {
     if (e) {
         switch (e->Type()) {
-            case INFO_PlayListDonePlay: {
+            case INFO_PlaylistDonePlay: {
                 Event *e = new Event(CMD_QuitPlayer);
                 m_playerEQ->AcceptEvent(e);
                 break; }
@@ -387,7 +386,7 @@ void ncursesUI::ProcessArgs() {
             m_plm->AddItem(pc,0);
         }
     }
-    m_plm->SetFirst();
+    m_plm->SetCurrentItem(0);
     Event *e = new Event(CMD_Play);
     m_playerEQ->AcceptEvent(e);
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.42.4.3 1999/08/27 07:16:45 elrod Exp $
+        $Id: player.h,v 1.42.4.4 1999/08/27 16:55:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -174,7 +174,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
    Registry *m_pmoRegistry;
    Registry *m_uiRegistry;
 
-    vector < char *>*m_argUIList;
+    vector < char *>* m_argUIList;
 
     int32     m_argc;
     char    **m_argv;

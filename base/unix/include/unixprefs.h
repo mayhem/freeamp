@@ -19,12 +19,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: unixprefs.h,v 1.3 1999/07/13 18:42:02 robert Exp $
+	$Id: unixprefs.h,v 1.3.4.1 1999/08/27 16:55:28 ijr Exp $
 ____________________________________________________________________________*/
 
 
 #ifndef _UNIXPREFS_H
 #define _UNIXPREFS_H
+
+#include <vector>
+using namespace std;
 
 #include "config.h"
 #include "errors.h"
@@ -80,7 +83,7 @@ class UnixPrefs : public Preferences
     int m_errorLineNumber;      // 0 if no error
     bool m_saveEnable, m_changed;
 
-    List<UnixPrefEntry *> m_entries;
+    vector<UnixPrefEntry *> m_entries;
     HashTable<UnixPrefEntry *> m_ht;
 };
 

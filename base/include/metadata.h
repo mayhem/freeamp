@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: metadata.h,v 1.1.2.3 1999/08/26 04:28:18 elrod Exp $
+	$Id: metadata.h,v 1.1.2.4 1999/08/27 16:55:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef _METADATA_H_
@@ -40,9 +40,9 @@ class MetaData {
 
     MetaData()
     {
-        m_year = -1;
-        m_track = -1;
-        m_time = -1;
+        m_year = 0;
+        m_track = 0;
+        m_time = 0;
     }
 
     virtual ~MetaData(){}

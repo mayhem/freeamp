@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-x11.h,v 1.13.8.1 1999/08/27 03:09:42 elrod Exp $
+	$Id: freeamp-x11.h,v 1.13.8.2 1999/08/27 16:55:28 ijr Exp $
 ____________________________________________________________________________*/
 // FreeAmpUI.h
 
@@ -37,6 +37,7 @@ ____________________________________________________________________________*/
 
 #include "ui.h"
 #include "event.h"
+#include "eventdata.h"
 #include "thread.h"
 #include "playlist.h"
 #include "fawindow.h"

@@ -1,8 +1,4 @@
-Due to a couple of issues with automake, in order to build on solaris
-you need to use the configure and Makefile.in in experimental/; i.e.
-cp experimental/Makefile.in experimental/configure .
-./configure --whatever
+Solaris mostly works, although it has strange problems with lockups.
+Still trying to track them down.
 
-also, see README.experimental.
-
-$Id: README.solaris,v 1.1 1999/05/04 22:33:04 dogcow Exp $
+$Id: README.solaris,v 1.2 1999/08/05 22:25:31 dogcow Exp $

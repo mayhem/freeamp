@@ -18,14 +18,14 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.3 1998/10/22 00:52:02 jdw Exp $
+##      $Id: Makefile.am,v 1.4 1998/10/27 02:28:44 jdw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
 if AM_HAVE_LINUX
-FILES = soundcardpmo.cpp soundcardlib.cpp
+FILES = soundcardpmo.cpp 
 MYLIBS = libfasndcard.a
 else
 FILES = 
@@ -45,8 +45,8 @@ CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT)
 
 all-local: sndcard-local
 
-sndcard-local: soundcardpmo.o soundcardlib.o
-	gcc -shared -Wl,-soname,soundcard-@target_os@.pmo -o soundcard-@target_os@.pmo soundcardpmo.o soundcardlib.o
+sndcard-local: soundcardpmo.o 
+	gcc -shared -Wl,-soname,soundcard-@target_os@.pmo -o soundcard-@target_os@.pmo soundcardpmo.o 
 	cp soundcard-@target_os@.pmo @top_srcdir@/plugins
 
 

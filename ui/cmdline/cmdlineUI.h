@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.h,v 1.2 1998/10/19 23:39:30 jdw Exp $
+	$Id: cmdlineUI.h,v 1.3 1998/10/27 02:28:44 jdw Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -36,12 +36,11 @@ class cmdlineUI : public UserInterface {
     cmdlineUI();
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int argc, char **argv);
-    virtual void SetRef(UIRef uir) { return; }
-    virtual void SetTarget(EventQueueRef eqr) { m_playerEQ = eqr; }
+    virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
     static void keyboardServiceFunction(void *);
     virtual ~cmdlineUI();
  private:
-    EventQueueRef m_playerEQ;
+    EventQueue *m_playerEQ;
     void processSwitch(char *);
     Thread *keyboardListenThread;
     PlayList *mypl;

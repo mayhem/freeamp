@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: linuxthread.cpp,v 1.2 1998/10/14 00:31:24 jdw Exp $
+	$Id: linuxthread.cpp,v 1.3 1998/10/27 02:28:43 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <pthread.h>
@@ -66,6 +66,12 @@ void *
 linuxThread::
 InternalThreadFunction()
 {
+    if (!m_function) {
+//	cout << "screwwwwwwwwwwwed..." << endl;
+	return 0;
+    } else {
+//	cout << "fine..." << endl;
+    }
     m_function(m_arg);
 
     return 0;

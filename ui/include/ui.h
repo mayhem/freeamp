@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ui.h,v 1.1 1998/10/19 23:39:30 jdw Exp $
+	$Id: ui.h,v 1.2 1998/10/27 02:28:44 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UI_H_
@@ -27,6 +27,7 @@ ____________________________________________________________________________*/
 #include "event.h"
 
 
+#if 0
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -44,12 +45,13 @@ typedef struct UI{
 #ifdef __cplusplus
 } // extern "C"
 #endif
+#endif
 
-class UserInterface {
+class UserInterface : public EventQueue {
  public:
     virtual int32 AcceptEvent(Event *) = 0;
     virtual void  SetArgs(int32,char **) = 0;
-    virtual void SetTarget(EventQueueRef) = 0;
+    virtual void SetTarget(EventQueue *) = 0;
     virtual ~UserInterface() {}
 };
 

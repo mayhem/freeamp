@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.h,v 1.5 1998/10/26 18:26:37 jdw Exp $
+	$Id: xinglmc.h,v 1.6 1998/10/27 02:28:44 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -78,9 +78,9 @@ public:
     virtual void Reset();
     virtual bool ChangePosition(int32 position);
 
-    virtual void SetPMI(PMIRef);
-    virtual void SetPMO(PMORef);
-    virtual void SetTarget(EventQueueRef);
+    virtual void SetPMI(PhysicalMediaInput *);
+    virtual void SetPMO(PhysicalMediaOutput *);
+    virtual void SetTarget(EventQueue *);
     virtual void InitDecoder();
 //	bool SetCallback(EventCallback callback, void* cookie);
 
@@ -94,11 +94,11 @@ private:
     int32                   m_frameWaitTill;
     Semaphore *             m_pauseSemaphore;
     AUDIO                   m_audioMethods;
-    EventQueueRef           m_target;
+    EventQueue *            m_target;
     Mutex*                  m_seekMutex;
     Queue<XingCommand*>*    m_xcqueue;
-    PMIRef                  m_input;
-    PMORef                  m_output;
+    PhysicalMediaInput *    m_input;
+    PhysicalMediaOutput *   m_output;
     
     int32                   m_bsBufBytes;
     int32                   m_bsTrigger;

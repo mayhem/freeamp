@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.6 1998/10/22 00:52:02 jdw Exp $
+##      $Id: Makefile.am,v 1.7 1998/10/27 02:28:43 jdw Exp $
 ##
 ############################################################################
 
@@ -29,7 +29,7 @@ FILES =
 MYLIBS = 
 TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 else
-FILES = localfileinput.cpp localfilelib.cpp
+FILES = localfileinput.cpp
 MYLIBS = libfaiolocal.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 endif
@@ -46,6 +46,6 @@ CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT)
 
 all-local: localfile-local
 
-localfile-local: localfileinput.o localfilelib.o
-	gcc -shared -Wl,-soname,localfileinput-@target_os@.pmi -o localfileinput-@target_os@.pmi localfileinput.o localfilelib.o
+localfile-local: localfileinput.o 
+	gcc -shared -Wl,-soname,localfileinput-@target_os@.pmi -o localfileinput-@target_os@.pmi localfileinput.o 
 	cp localfileinput-@target_os@.pmi @top_srcdir@/plugins

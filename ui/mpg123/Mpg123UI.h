@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.2 1998/10/19 23:39:30 jdw Exp $
+	$Id: Mpg123UI.h,v 1.3 1998/10/27 02:28:44 jdw Exp $
 ____________________________________________________________________________*/
 
 // Mpg123UI.h
@@ -36,8 +36,7 @@ class Mpg123UI : public UserInterface {
 
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int argc, char **argv);
-    virtual void SetTarget(struct EventQueue *);
-    virtual void SetRef(struct UI *);
+    virtual void SetTarget(EventQueue *);
     ~Mpg123UI();
 
     static EventQueue *m_playerEQ;

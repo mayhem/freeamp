@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: localfileinput.cpp,v 1.3 1998/10/20 08:49:46 elrod Exp $
+	$Id: localfileinput.cpp,v 1.4 1998/10/27 02:28:43 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -43,7 +43,11 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "localfileinput.h"
 
-
+extern "C" {
+PhysicalMediaInput *Initialize() {
+    return new LocalFileInput();
+}
+	   }
 LocalFileInput::
 LocalFileInput(): 
 PhysicalMediaInput()

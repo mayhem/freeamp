@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.3 1998/10/17 20:58:11 jdw Exp $
+	$Id: soundcardpmo.cpp,v 1.4 1998/10/27 02:28:44 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -38,6 +38,12 @@ ____________________________________________________________________________*/
 #include "soundcardpmo.h"
 
 #define PIECES 50
+
+extern "C" {
+PhysicalMediaOutput *Initialize() {
+    return new SoundCardPMO();
+}
+	   }
 
 SoundCardPMO::SoundCardPMO() {
     //cout << "Creating scpmo" << endl;

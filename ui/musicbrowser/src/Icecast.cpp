@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Icecast.cpp,v 1.1 2000/05/04 10:19:21 robert Exp $
+	$Id: Icecast.cpp,v 1.2 2000/05/04 10:21:07 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -131,7 +131,7 @@ Error IcecastStreams::EndElement(string &oElement)
     return kError_NoErr;
 }
 
-#if 1
+#if 0
 
 const char *test = "<directory>"
                    "  <resource href=\"http://icecast.server.com:8000/stream\">"

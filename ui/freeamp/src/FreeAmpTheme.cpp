@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.83 2000/02/15 18:42:37 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.84 2000/02/15 19:25:23 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1216,30 +1216,6 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
      case '!':
      {
         m_bShowBuffers = !m_bShowBuffers;
-        break;
-     }    
-     
-     case '#':
-     {
-        int i, j;
-        string oTheme;
-
-        for(j = 0; j < 10; j++)
-        {
-           Debug_v("j: %d", j);   
-           for(i = 0; ; i++)
-           {
-              if (strlen(aThemes[i]) == 0)
-                 break;
-
-              Debug_v("i: %d", i);   
-                 
-              oTheme = aThemes[i];
-              m_pThemeMan->UseTheme(oTheme);
-              AcceptEvent(new Event(INFO_PrefsChanged));
-              m_pWindow->ProcessWaitingMessages();
-           }   
-        }   
         break;
      }    
    }

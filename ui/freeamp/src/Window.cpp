@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.28 2000/02/15 18:42:37 robert Exp $
+   $Id: Window.cpp,v 1.29 2000/02/15 19:25:23 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -258,7 +258,6 @@ Error Window::ControlShow(const string &oTarget, bool bSet, bool &bShow)
     Error               eRet;
     Control            *pControl;
     ControlMapIterator  i;
-    int                 j;
 
     IncUsageRef();
 
@@ -281,13 +280,12 @@ Error Window::ControlShow(const string &oTarget, bool bSet, bool &bShow)
 
     DecUsageRef();
 
-    return (j == 0) ? kError_InvalidParam : kError_NoErr;
+    return kError_NoErr;
 }
 
 Error Window::ControlIntValue(const string &oTarget, bool bSet, int &iValue)
 {
     ControlMapIterator  i;
-    int                 j;
 
     IncUsageRef();
        
@@ -301,7 +299,7 @@ Error Window::ControlIntValue(const string &oTarget, bool bSet, int &iValue)
 
     DecUsageRef();
 
-    return (j == 0) ? kError_InvalidParam : kError_NoErr;
+    return kError_NoErr;
 }
 
 Error Window::ControlStringValue(const string &oTarget, bool bSet, string &oValue)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.50 2000/02/29 10:01:57 elrod Exp $
+        $Id: player.h,v 1.51 2000/03/30 08:57:09 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -43,7 +43,7 @@ using namespace std;
 #include "musiccatalog.h"
 #include "hashtable.h"
 #include "downloadmanager.h"
-
+#include "timer.h"
 #include "lmc.h"
 
 typedef enum
@@ -55,6 +55,18 @@ typedef enum
 PlayerState;
 
 class FAContext;
+
+
+class CDTimer : public Timer {
+ public:
+    CDTimer(FAContext* context):Timer(5000),m_context(context){}
+    virtual ~CDTimer() {}
+
+    virtual void Tick();
+
+ private:
+    FAContext* m_context;
+};
 
 class Player : public EventQueue, Properties, PropertyWatcher
 {
@@ -192,6 +204,8 @@ class Player : public EventQueue, Properties, PropertyWatcher
 
     DownloadManager* m_dlm;
     UserInterface *m_downloadUI;
+
+    CDTimer* m_cdTimer;
 };
 
 #endif // _PLAYER_H_

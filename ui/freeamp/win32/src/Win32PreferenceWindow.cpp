@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.34 2000/03/28 01:34:54 elrod Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.35 2000/03/30 08:57:09 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -3411,6 +3411,9 @@ bool Win32PreferenceWindow::PrefPluginsProc(HWND hwnd,
 
             while(item = pmo.GetItem(i++))
             {
+                if(!strncasecmp("cd.pmo", item->Name(), 7))
+                    continue;
+
                 if(*item->Description())
                     pos = ComboBox_AddString(hwndPMO, item->Description());
                 else

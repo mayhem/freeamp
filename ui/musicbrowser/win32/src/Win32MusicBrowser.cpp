@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.51 2000/03/28 01:34:55 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.52 2000/03/30 08:57:09 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -227,12 +227,21 @@ void MusicBrowserUI::Init()
     m_hUncatItem = NULL; 
     m_hPlaylistItem = NULL; 
     m_hNewPlaylistItem = NULL;
+    m_hStreamsItem = NULL;
+    m_hCDItem = NULL;
     
     m_hMusicView = NULL;
     m_hPortableItem = NULL;
     m_hNewPortableItem = NULL;
 
     m_autoPlayHack = false;
+
+    m_cdId = 0;
+
+    if(m_pParent == NULL)
+        m_cdTracks = new vector<PlaylistItem*>;
+    else
+        m_cdTracks = NULL;
 }
 
 MusicBrowserUI::~MusicBrowserUI()
@@ -243,7 +252,9 @@ MusicBrowserUI::~MusicBrowserUI()
 
     if (m_pParent)
     {
-       delete m_plm;
+        delete m_plm;
+        if(m_cdTracks)
+            delete m_cdTracks;
     }
     else
     {
@@ -346,8 +357,52 @@ void MusicBrowserUI::SaveCurrentPlaylist()
 
 Error MusicBrowserUI::AcceptEvent(Event *event)
 {
-    switch (event->Type()) 
+    switch(event->Type()) 
     {
+        case INFO_CDDiscStatus:
+        {
+            CDInfoEvent* cie = (CDInfoEvent*)event;
+            uint32 numTracks = cie->GetNumTracks();
+
+            if(cie->GetCDDB() != m_cdId)
+            {
+                m_cdId = cie->GetCDDB();
+
+                m_cdTracks->erase(m_cdTracks->begin(), m_cdTracks->end()); 
+
+                for(uint32 track = 1; track <= numTracks; track++)
+                {
+                    char url[40];
+
+                    sprintf(url, "file://%d.cda", track);
+
+                    PlaylistItem* item = new PlaylistItem(url);
+                
+                    m_cdTracks->push_back(item);
+                }
+
+                if(m_cdTracks->size() > 0) 
+                {
+                    vector<PlaylistItem*>* metalist =
+                                       new vector<PlaylistItem*>(m_cdTracks->size());
+
+                    copy(m_cdTracks->begin(), m_cdTracks->end(), metalist->begin());
+                    m_plm->RetrieveMetaData(metalist);
+                }
+
+                vector<MusicBrowserUI *>::iterator i;
+
+                for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+                {
+                    (*i)->RefreshCDList(m_cdTracks);
+                }
+
+                RefreshCDList(m_cdTracks);
+            }
+
+            break;
+        }
+
         case INFO_PrefsChanged:
         {
             bool useTextLabels, useImages;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: IntroductionWizard.cpp,v 1.8 2000/03/01 03:49:30 elrod Exp $
+        $Id: IntroductionWizard.cpp,v 1.9 2000/03/30 08:57:09 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -289,7 +289,7 @@ static BOOL CALLBACK IntroWizardSearch( HWND hwnd,
             HWND hwndDrives = GetDlgItem(hwnd, IDC_DRIVES);
             HWND hwndDirectory = GetDlgItem(hwnd, IDC_DIRECTORY);
             DWORD  dwDrives;
-            char   *szDrive = "X:";
+            char   szDrive[3] = "X:";
             int32  i, ret;
 
             i = ComboBox_AddString(hwndDrives, "All Drives");

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.72 2000/03/28 01:34:55 elrod Exp $
+        $Id: Dialog.cpp,v 1.73 2000/03/30 08:57:09 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -876,6 +876,9 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     ImageList_AddMasked(hList, bmp, RGB(255,0,0));
     DeleteObject(bmp);
     bmp = LoadBitmap(g_hinst, MAKEINTRESOURCE(IDB_BUSY));
+    ImageList_AddMasked(hList, bmp, RGB(255,0,0));
+    DeleteObject(bmp);
+    bmp = LoadBitmap(g_hinst, MAKEINTRESOURCE(IDB_CD));
     ImageList_AddMasked(hList, bmp, RGB(255,0,0));
     DeleteObject(bmp);
     

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Slashdot.cpp,v 1.1 2000/02/04 08:13:04 robert Exp $
+   $Id: Slashdot.cpp,v 1.2 2000/02/04 16:42:58 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -53,7 +53,7 @@ ____________________________________________________________________________*/
 #define DB printf("%s:%d\n", __FILE__, __LINE__);
 
 const char *szURL = "http://www.slashdot.org/slashdot.xml";
-const int iDownloadInterval = 3600;
+const int iDownloadInterval = 20;
 const int iHeadlineChangeInterval = 10;
 
 Slashdot::Slashdot(FAContext * context)
@@ -104,7 +104,7 @@ void Slashdot::WorkerThread(void)
            m_pWakeSem->Wait();
 
         time(&t);
-        if (lLastDownload > t + iDownloadInterval || m_oHeadlines.size() == 0)
+        if (lLastDownload + iDownloadInterval < t || m_oHeadlines.size() == 0)
         {
             if (IsntError(Download()))
                 lLastDownload = t;

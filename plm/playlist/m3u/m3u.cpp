@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.5 1999/10/23 04:54:42 ijr Exp $
+	$Id: m3u.cpp,v 1.6 1999/11/10 03:08:39 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -182,9 +182,9 @@ Error M3U::ReadPlaylist(const char* url,
                             strcpy(path, entry);
                         }
                         
-                        // make it a url so we can add it to the playlist right
-                        uint32 urlLength = strlen(path) + 15;
-                        char *itemurl = new char[urlLength];
+                        // make it a url so we can add it to the playlist
+                        length = strlen(path) + 15;
+                        char *itemurl = new char[length];
 
                         if (IsntError(FilePathToURL(path, itemurl, &length)))
                             strcpy(path, itemurl);

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.155 2000/11/08 18:11:31 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.156 2000/12/29 20:15:59 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1394,8 +1394,13 @@ void FreeAmpTheme::InitControls(void)
        m_pWindow->ControlIntValue(string("Balance"), true, m_iBalance);
     }
     else 
+    {
+       int iTemp = 50;
+
+       m_pWindow->ControlIntValue(string("Balance"), true, iTemp);
        bSet = false;   
-       
+    }   
+
     m_pWindow->ControlEnable(string("Volume"), true, bSet);
     m_pWindow->ControlEnable(string("Balance"), true, bSet);
 

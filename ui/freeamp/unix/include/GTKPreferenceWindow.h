@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.16 2000/02/19 06:04:57 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.17 2000/03/25 04:33:02 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -121,6 +121,21 @@ typedef struct PrefsStruct
     }
 } PrefsStruct;
 
+class OptionsPane {
+  public:
+    OptionsPane(string label, string desc, uint32 page, GtkWidget *pane)
+    {
+        m_label = label; m_description = desc; m_pageno = page; 
+        m_pane = pane;
+    }
+    ~OptionsPane() { }
+
+    string     m_label;
+    string     m_description;
+    uint32     m_pageno;
+    GtkWidget *m_pane;
+};
+
 class GTKPreferenceWindow : public PreferenceWindow
 {
   public:
@@ -188,11 +203,25 @@ class GTKPreferenceWindow : public PreferenceWindow
 
       GtkWidget *fontDialog;
 
+      GtkWidget *paneLabel;
+      GtkStyle  *paneStyle;
+
+      GtkWidget *paneVbox;
+      GtkWidget *visiblePane;
+
+      GtkCTree *prefTree;
+
+      vector<OptionsPane *> *paneList;
+      void AddPane(OptionsPane *pane);      
+
       bool firsttime;
 
       vector<string> *m_PMOnames;
 
   public:
+      void SetPane(OptionsPane *pane);
+      void SetPane(uint32 panenum);
+
       GtkWidget *mainWindow;
       GtkWidget *pmoOptionMenu;
 

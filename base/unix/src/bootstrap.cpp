@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.24 2000/03/23 12:37:31 ijr Exp $
+	$Id: bootstrap.cpp,v 1.25 2000/03/25 04:33:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -63,10 +63,14 @@ static void PrintMutexDebugInfo(int sig)
 }
 #endif
 
-#ifndef semun
+#if defined(__GNU_LIBRARY__) && !defined(_SEM_SEMUN_UNDEFINED)
+#else
 union semun 
 {
     int val;
+    struct semid_ds *buf;
+    unsigned short int *array;
+    struct seminfo *__buf;
 };
 #endif
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.41 1999/10/19 07:12:45 elrod Exp $
+	$Id: playlist.h,v 1.42 1999/10/25 10:29:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -73,9 +73,9 @@ typedef enum {
 } PlaylistKey;
 
 typedef enum {
-    kPlaylistMode_RepeatNone,
-    kPlaylistMode_RepeatOne,
-    kPlaylistMode_RepeatAll
+    kPlaylistMode_RepeatNone = 0,
+    kPlaylistMode_RepeatOne  = 1,
+    kPlaylistMode_RepeatAll  = 2
 
 } RepeatMode;
 

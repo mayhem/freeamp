@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.13 1999/10/20 23:51:27 elrod Exp $
+	$Id: preferences.h,v 1.14 1999/10/25 10:29:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -68,6 +68,10 @@ extern const char* kThemeDefaultFontPref;
 extern const char* kSaveMusicDirPref;
 extern const char* kDatabaseDirPref;
 extern const char* kCheckForUpdatesPref;
+extern const char* kPlaylistRepeatPref;
+extern const char* kPlaylistShufflePref;
+extern const char* kTimeDisplayPref;
+extern const char* kVolumePref;
 
 class LibDirFindHandle;
 
@@ -192,7 +196,18 @@ class Preferences {
 
     Error GetCheckForUpdates(bool* value);
     Error SetCheckForUpdates(bool value);
-    
+
+    Error GetPlaylistRepeat(int32* value);
+    Error SetPlaylistRepeat(int32 value);
+
+    Error GetPlaylistShuffle(bool* value);
+    Error SetPlaylistShuffle(bool value);
+
+    Error GetTimeDisplay(int32* value);
+    Error SetTimeDisplay(int32 value);
+
+    Error GetVolume(int32* value);
+    Error SetVolume(int32 value);  
 };
 
 #endif /* _PREFERENCES_H */

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.h,v 1.8 1999/04/21 04:21:02 elrod Exp $
+	$Id: simpleui.h,v 1.9 1999/04/27 23:00:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SIMPLE_UI_H_
@@ -35,9 +35,13 @@ ____________________________________________________________________________*/
 #include "thread.h"
 #include "mutex.h"
 #include "queue.h"
+#include "facontext.h"
+#include "preferences.h"
 
+#define	UIState_Stopped 0
+#define	UIState_Playing 1
+#define	UIState_Paused  2
 
-class FAContext;
 
 class SimpleUI : public UserInterface {
  public:
@@ -59,10 +63,18 @@ class SimpleUI : public UserInterface {
 						            LPARAM lParam );
     
     void SetHwnd(HWND hwnd);
+    void ReadPreferences();
+    void AddTrayIcon();
+    void RemoveTrayIcon();
+    void SetTrayTooltip(char *str);
 
     Semaphore*      m_uiSemaphore;
 
     bool            m_scrolling;
+    HICON           m_trayIcon;
+    Preferences*    m_prefs;
+    int32		    m_state;
+
 
 
  protected:
@@ -77,6 +89,10 @@ class SimpleUI : public UserInterface {
     float			    m_secondsPerFrame;
     Thread*             m_uiThread;
     EventQueue*         m_target;
+
+    bool                m_onTop;
+    bool                m_liveInTray;
+    char                m_trayTooltip[64];
 
     HWND            m_hwnd;
     HWND            m_hwndPlay;

@@ -2,7 +2,7 @@
    
    FreeAmp - The Free MP3 Player
 
-   Copyright (C) 1998 GoodNoise
+   Copyright (C) 1998-1999 EMusic.com
    Copyright (C) 1999 Alexander Haväng <eel@musiknet.se>
 
    This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.11 1999/08/20 19:24:28 robert Exp $
+   $Id: tstream.cpp,v 1.12 1999/10/19 07:13:05 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -44,7 +44,7 @@ ____________________________________________________________________________*/
 #endif  
 
 /* project headers */
-#include <config.h>
+#include "config.h"
 #include "tstream.h"
 #include "facontext.h"
 #include "log.h" 

@@ -5,7 +5,7 @@
         MP3 Decoder originally Copyright (C) 1995-1997 Xing Technology
         Corp.  http://www.xingtech.com
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupini.c,v 1.2 1999/07/13 18:42:14 robert Exp $
+	$Id: cupini.c,v 1.3 1999/10/19 07:13:08 elrod Exp $
 ____________________________________________________________________________*/
 
 /*=========================================================
@@ -191,11 +191,11 @@ void sbt_init();
 
 IN_OUT L1audio_decode(unsigned char *bs, signed short *pcm);
 IN_OUT L2audio_decode(unsigned char *bs, signed short *pcm);
-IN_OUT L3audio_decode(unsigned char *bs, void *pcm);
+IN_OUT L3audio_decode(unsigned char *bs, unsigned char *pcm);
 static AUDIO_DECODE_ROUTINE decode_routine_table[4] =
 {
    L2audio_decode,
-   L3audio_decode,
+   (AUDIO_DECODE_ROUTINE)L3audio_decode,
    L2audio_decode,
    L1audio_decode,};
 

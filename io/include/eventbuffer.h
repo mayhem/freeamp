@@ -2,7 +2,7 @@
    
    FreeAmp - The Free MP3 Player
 
-   Portions Copyright (C) 1998 GoodNoise
+   Portions Copyright (C) 1998-1999 EMusic.com
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: eventbuffer.h,v 1.4 1999/07/02 01:13:33 robert Exp $
+   $Id: eventbuffer.h,v 1.5 1999/10/19 07:13:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _EVENTBUFFER_H_
-#define _EVENTBUFFER_H_
+#ifndef INCLUDED_EVENTBUFFER_H_
+#define INCLUDED_EVENTBUFFER_H_
 
 /* system headers */
 #include <stdlib.h>

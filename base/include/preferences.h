@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998-1999 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.11 1999/08/10 14:38:46 ijr Exp $
+	$Id: preferences.h,v 1.12 1999/10/19 07:12:45 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PREFERENCES_H
-#define _PREFERENCES_H
+#ifndef INCLUDED_PREFERENCES_H
+#define INCLUDED_PREFERENCES_H
 
 #include "config.h"
 #include "errors.h"
@@ -32,6 +32,8 @@ extern const char* kInstallDirPref;
 extern const char* kLibraryPathPref;
 extern const char* kUIPref;
 extern const char* kTextUIPref;
+extern const char* kMusicBrowserUIPref;
+extern const char* kDownloadManagerUIPref;
 extern const char* kPMOPref;
 extern const char* kALSADevicePref;
 extern const char* kESOUNDHostPref;
@@ -60,6 +62,11 @@ extern const char* kPreBufferPref;
 extern const char* kUseAlternateNICPref;
 extern const char* kAlternateNICAddressPref;
 extern const char* kUseTitleStreamingPref;  
+extern const char* kThemePathPref;
+extern const char* kMainWindowPosPref;
+extern const char* kThemeDefaultFontPref;
+extern const char* kSaveMusicDirPref;
+extern const char* kDatabaseDirPref;
 
 class LibDirFindHandle;
 
@@ -176,6 +183,12 @@ class Preferences {
     Error GetAlternateNICAddress(char* address, uint32* len);
     Error SetAlternateNICAddress(char* address);
 
+    Error GetThemeDefaultFont(char* font, uint32* len);
+    Error SetThemeDefaultFont(char* font);
+
+    Error GetThemePath(char*path, uint32* len);
+    Error SetThemePath(char*path);
+    
 };
 
 #endif /* _PREFERENCES_H */

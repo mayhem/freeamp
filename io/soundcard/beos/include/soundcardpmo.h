@@ -1,7 +1,7 @@
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
-	Portions copyright (C) 1998 GoodNoise
+	Portions copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.3 1999/07/20 01:02:11 hiro Exp $
+	$Id: soundcardpmo.h,v 1.4 1999/10/19 07:13:02 elrod Exp $
 ____________________________________________________________________________*/
 
 
-#ifndef _SOUNDCARDPMO_H_
-#define _SOUNDCARDPMO_H_
+#ifndef INCLUDED_SOUNDCARDPMO_H_
+#define INCLUDED_SOUNDCARDPMO_H_
 
 /* system headers */
 #include <stdlib.h>
@@ -109,6 +109,7 @@ private:
 	size_t					m_dataSize;
 	Semaphore				m_eventSem;
 	BLocker					m_pauseLock;
+    bigtime_t               m_timeBase;
 #if DEBUG_SAVE_PCM
 	FILE*					m_pcmSaveFile;
 #endif

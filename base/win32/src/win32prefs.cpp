@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998-1999 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32prefs.cpp,v 1.7 1999/07/21 21:20:13 elrod Exp $
+	$Id: win32prefs.cpp,v 1.8 1999/10/19 07:12:57 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -27,9 +27,8 @@ ____________________________________________________________________________*/
 
 // location
 const HKEY  kMainKey = HKEY_CURRENT_USER;
-//const char* kPrefsKey = "SOFTWARE\\FreeAmp\\FreeAmp v1.3\\Main";
 const char* kFreeAmpKey = "SOFTWARE\\FreeAmp";
-const char* kFreeAmpVersionKey = "FreeAmp v1.3";
+const char* kFreeAmpVersionKey = "FreeAmp v2.0";
 const char* kMainComponentKey = "Main";
 
 // default values
@@ -272,6 +271,7 @@ Win32Prefs::
 SetDefaults()
 {
     char cwd[MAX_PATH]= {0x00};
+    char path[MAX_PATH];
     char buf[1024];
     uint32 size;
     bool dummyBool;
@@ -285,6 +285,26 @@ SetDefaults()
     if (GetPrefString(kInstallDirPref, buf, &size) == kError_NoPrefValue)
 	    SetPrefString(kInstallDirPref, cwd);
     
+    // set music directory value
+    size = sizeof(buf);
+    if (GetPrefString(kSaveMusicDirPref, buf, &size) == kError_NoPrefValue)
+    {
+        strcpy(path, cwd);
+        strcat(path, "\\");
+        strcat(path, "MyMusic");
+	    SetPrefString(kSaveMusicDirPref, path);
+    }
+
+    // set db directory value
+    size = sizeof(buf);
+    if (GetPrefString(kDatabaseDirPref, buf, &size) == kError_NoPrefValue)
+    {
+        strcpy(path, cwd);
+        strcat(path, "\\");
+        strcat(path, "db");
+	    SetPrefString(kDatabaseDirPref, path);
+    }
+
     // set default ui value
     size = sizeof(buf);
     if (GetPrefString(kUIPref, buf, &size) == kError_NoPrefValue)

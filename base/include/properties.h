@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: properties.h,v 1.3 1999/01/24 01:37:15 jdw Exp $
+	$Id: properties.h,v 1.4 1999/10/19 07:12:46 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PROPERTIES_H_
-#define _PROPERTIES_H_
+#ifndef INCLUDED_PROPERTIES_H_
+#define INCLUDED_PROPERTIES_H_
 
 #include <string.h>
 #include "config.h"

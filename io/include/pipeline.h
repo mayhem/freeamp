@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pipeline.h,v 1.1 1999/06/28 23:09:21 robert Exp $
+	$Id: pipeline.h,v 1.2 1999/10/19 07:13:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PIPELINE_H_
-#define _PIPELINE_H_
+#ifndef INCLUDED_PIPELINE_H_
+#define INCLUDED_PIPELINE_H_
 
 /* system headers */
 #include <stdlib.h>
@@ -60,7 +60,6 @@ public:
     virtual void  Clear(void);
 
     virtual void  SetPropManager(Properties *);
-    virtual void  SetTarget(EventQueue *target);
     virtual void  SetInputBuffer(PullBuffer *pBuffer);
 
     virtual void  ReportError(const char *szError);

@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dsoundvolume.h,v 1.1 1999/04/26 02:52:13 elrod Exp $
+	$Id: dsoundvolume.h,v 1.2 1999/10/19 07:12:59 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _DSOUNDVOLUME_H_
-#define _DSOUNDVOLUME_H_
+#ifndef INCLUDED_DSOUNDVOLUME_H_
+#define INCLUDED_DSOUNDVOLUME_H_
 
 #include "config.h"
 #include "volume.h"

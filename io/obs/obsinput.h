@@ -2,7 +2,7 @@
         
         FreeAmp - The Free MP3 Player
 
-        Portions Copyright (C) 1998 GoodNoise
+        Portions Copyright (C) 1998-1999 EMusic.com
 
         This program is free software; you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.h,v 1.11 1999/07/26 20:22:20 robert Exp $
+        $Id: obsinput.h,v 1.12 1999/10/19 07:13:01 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _OBSFILEINPUT_H_
-#define _OBSFILEINPUT_H_
+#ifndef INCLUDED_OBSFILEINPUT_H_
+#define INCLUDED_OBSFILEINPUT_H_
 
 /* system headers */
 #include <stdlib.h>
@@ -80,7 +80,7 @@ class ObsInput :public PhysicalMediaInput
    virtual Error Prepare(PullBuffer *&pBuffer, bool bStartThread);
    virtual Error Run(void);
 
-   virtual bool  CanHandle(char *szUrl, char *szTitle);
+   virtual bool  CanHandle(const char *szUrl, char *szTitle);
    virtual bool  IsStreaming(void)
                  { return true; };
    virtual bool  PauseLoop(bool bLoop);

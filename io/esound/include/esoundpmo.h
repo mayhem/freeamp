@@ -1,7 +1,7 @@
 /*____________________________________________________________________________
         
         FreeAmp - The Free MP3 Player
-        Portions copyright (C) 1998 GoodNoise
+        Portions copyright (C) 1998-1999 EMusic.com
 
         This program is free software; you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: esoundpmo.h,v 1.5 1999/08/10 14:38:46 ijr Exp $
+        $Id: esoundpmo.h,v 1.6 1999/10/19 07:12:59 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _ESOUNDDPMO_H_
-#define _ESOUNDDPMO_H_
+#ifndef INCLUDED_ESOUNDDPMO_H_
+#define INCLUDED_ESOUNDDPMO_H_
 
 /* system headers */
 #include <stdlib.h>

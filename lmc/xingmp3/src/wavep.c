@@ -5,7 +5,7 @@
         MP3 Decoder originally Copyright (C) 1995-1997 Xing Technology
         Corp.  http://www.xingtech.com
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: wavep.c,v 1.2 1999/07/13 18:42:24 robert Exp $
+	$Id: wavep.c,v 1.3 1999/10/19 07:13:09 elrod Exp $
 ____________________________________________________________________________*/
 
 /*---- wavep.c --------------------------------------------
@@ -66,15 +66,15 @@ static BYTE_WAVE wave =
    {(sizeof(BYTE_WAVE) - 8), 0, 0, 0},
    "WAVE",
    "fmt ",
-   16, 0, 0, 0,
-   1, 0,
-   1, 0,
-   34, 86, 0, 0,		/* 86 * 256 + 34 = 22050 */
-   172, 68, 0, 0,		/* 172 * 256 + 68 = 44100 */
-   2, 0,
-   16, 0,
+   {16, 0, 0, 0},
+   {1, 0},
+   {1, 0},
+   {34, 86, 0, 0},		/* 86 * 256 + 34 = 22050 */
+   {172, 68, 0, 0},		/* 172 * 256 + 68 = 44100 */
+   {2, 0},
+   {16, 0},
    "data",
-   0, 0, 0, 0
+   {0, 0, 0, 0}
 };
 
 /*---------------------------------------------------------*/

@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.24 1999/07/02 01:13:34 robert Exp $
+	$Id: pmi.h,v 1.25 1999/10/19 07:13:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PMI_H_
-#define _PMI_H_
+#ifndef INCLUDED_PMI_H_
+#define INCLUDED_PMI_H_
 
 /* system headers */
 #include <stdlib.h>
@@ -40,7 +40,6 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "pipeline.h"
 #include "thread.h"
-#include "id3v1.h"
 #include "config.h"
 #include "errors.h"
 #include "eventdata.h"
@@ -58,7 +57,7 @@ public:
             PhysicalMediaInput(FAContext *context);
     virtual ~PhysicalMediaInput();
 
-    virtual Error SetTo(char *url);
+    virtual Error SetTo(const char *url);
     virtual Error Close(void);
     virtual Error Open(void) = 0;
     virtual const char* Url(void) const = 0;
@@ -66,8 +65,7 @@ public:
 
     virtual Error Seek(int32 & rtn, int32 offset, int32 origin)
                   { return kError_FileSeekNotSupported; };
-	 virtual Error GetID3v1Tag(Id3TagInfo &sTag);
-	 virtual bool  CanHandle(char *szUrl, char *szTitle)
+	 virtual bool  CanHandle(const char *szUrl, char *szTitle)
 	               {return false;}
     virtual Error GetLength(size_t &iSize)
                   { return kError_FileSeekNotSupported; };
@@ -78,7 +76,6 @@ public:
 protected:
 
     char          *m_path;
-    Id3TagInfo    *m_pID3Tag;
 };
 
 #endif /* _PMI_H_ */

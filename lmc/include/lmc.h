@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,15 +18,21 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.23 1999/07/21 19:24:50 ijr Exp $
+	$Id: lmc.h,v 1.24 1999/10/19 07:13:07 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _LMC_H_
-#define _LMC_H_
+#ifndef INCLUDED_LMC_H_
+#define INCLUDED_LMC_H_
+
+#include <vector>
+
+using namespace std;
 
 #include "pipeline.h"
 #include "errors.h"
 #include "eventdata.h"
+
+
 
 class MediaInfoEvent;
 class PullBuffer;
@@ -52,7 +58,7 @@ class LogicalMediaConverter : public PipelineUnit
     virtual Error SetEQData(float *) = 0;
     virtual Error SetEQData(bool) = 0;
     
-    virtual bool CanHandleExt(char *ext) = 0;
+    virtual vector<char *> *GetExtensions(void) = 0;
 
     protected:
 

@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,12 +18,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32thread.h,v 1.4 1999/04/16 09:46:39 elrod Exp $
+	$Id: win32thread.h,v 1.5 1999/10/19 07:12:48 elrod Exp $
 ____________________________________________________________________________*/
 
 
-#ifndef _WIN32_THREAD_H
-#define _WIN32_THREAD_H
+#ifndef INCLUDED_WIN32_THREAD_H
+#define INCLUDED_WIN32_THREAD_H
 
 #include <windows.h>
 #include "config.h"

@@ -5,7 +5,7 @@
         MP3 Decoder originally Copyright (C) 1995-1997 Xing Technology
         Corp.  http://www.xingtech.com
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: csbtL3.c,v 1.1 1998/10/14 02:50:36 elrod Exp $
+	$Id: csbtL3.c,v 1.2 1999/10/19 07:13:08 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  csbtL3.c  ***************************************************

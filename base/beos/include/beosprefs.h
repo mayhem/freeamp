@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998-1999 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com 
 	Portions Copyright (C) 1999 Mark H. Weaver <mhw@netris.org>
 
 	This program is free software; you can redistribute it and/or modify
@@ -19,12 +19,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: beosprefs.h,v 1.3 1999/07/20 01:06:00 hiro Exp $
+	$Id: beosprefs.h,v 1.4 1999/10/19 07:12:45 elrod Exp $
 ____________________________________________________________________________*/
 
 
-#ifndef _BEOSPREFS_H
-#define _BEOSPREFS_H
+#ifndef INCLUDED_BEOSPREFS_H
+#define INCLUDED_BEOSPREFS_H
+
+#include <vector>
+using namespace std;
 
 #include "config.h"
 #include "errors.h"
@@ -79,7 +82,7 @@ private:
     bool m_saveEnable, m_changed;
     int m_errorLineNumber;	// 0 if no error
 
-    List<BeOSPrefEntry *> m_entries;
+    vector<BeOSPrefEntry *> m_entries;
     HashTable<BeOSPrefEntry *> m_ht;
 };
 

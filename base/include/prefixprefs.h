@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998-1999 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 	Portions Copyright (C) 1999 Mark H. Weaver <mhw@netris.org>
 
 	This program is free software; you can redistribute it and/or modify
@@ -19,12 +19,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: prefixprefs.h,v 1.2 1999/04/21 04:20:43 elrod Exp $
+	$Id: prefixprefs.h,v 1.3 1999/10/19 07:12:46 elrod Exp $
 ____________________________________________________________________________*/
 
 
-#ifndef _PREFIXPREFS_H
-#define _PREFIXPREFS_H
+#ifndef INCLUDED_PREFIXPREFS_H
+#define INCLUDED_PREFIXPREFS_H
 
 #include "config.h"
 #include "errors.h"

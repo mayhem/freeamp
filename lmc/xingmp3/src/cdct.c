@@ -5,7 +5,7 @@
         MP3 Decoder originally Copyright (C) 1995-1997 Xing Technology
         Corp.  http://www.xingtech.com
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cdct.c,v 1.10 1999/07/21 22:17:00 elrod Exp $
+	$Id: cdct.c,v 1.11 1999/10/19 07:13:08 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  cdct.c  ***************************************************

@@ -2,7 +2,7 @@
         
         FreeAmp - The Free MP3 Player
 
-        Portions Copyright (C) 1998 GoodNoise
+        Portions Copyright (C) 1998-1999 EMusic.com
 
         This program is free software; you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.24 1999/08/20 19:24:26 robert Exp $
+        $Id: obsinput.cpp,v 1.25 1999/10/19 07:13:01 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -55,7 +55,6 @@ ____________________________________________________________________________*/
 #include "obsinput.h"
 #include "log.h"
 #include "facontext.h"
-#include "id3v1.h"
 
 const int iMaxHostNameLen = 64;
 const int iGetHostNameBuffer = 1024;
@@ -84,12 +83,6 @@ ObsInput::ObsInput(FAContext *context):
     m_bLoop = true;
     m_bDiscarded = false;
     m_pTitleStream = NULL;  
-
-    // Let's make up a ficticous ID3 tag.
-    m_pID3Tag = new Id3TagInfo();
-    memset(m_pID3Tag, 0, sizeof(ID3Tag));
-    m_pID3Tag->m_containsInfo = true;
-    strcpy(m_pID3Tag->m_songName, "RTP Stream");
 }
 
 
@@ -112,7 +105,7 @@ ObsInput::~ObsInput()
        close(m_hHandle);
 }
 
-bool ObsInput::CanHandle(char *szUrl, char *szTitle)
+bool ObsInput::CanHandle(const char *szUrl, char *szTitle)
 {
    bool bRet;
 
@@ -403,7 +396,9 @@ void ObsInput::WorkerThread(void)
    }
 
    delete pTemp;
-   close(m_hHandle);
+   if (m_hHandle >= 0)
+      close(m_hHandle);
+      
    m_hHandle = -1;
    m_pContext->log->Log(LogInput, "Worker thread done");
 }

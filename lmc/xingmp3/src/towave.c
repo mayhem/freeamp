@@ -5,7 +5,7 @@
         MP3 Decoder originally Copyright (C) 1995-1997 Xing Technology
         Corp.  http://www.xingtech.com
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: towave.c,v 1.2 1999/04/26 00:51:57 robert Exp $
+	$Id: towave.c,v 1.3 1999/10/19 07:13:09 elrod Exp $
 ____________________________________________________________________________*/
 
 /* ------------------------------------------------------------------------
@@ -136,6 +136,9 @@ decode (standard decoder) reduction_code:
 #include <sys/types.h>		/* someone wants for port */
 #include <sys/stat.h>		/* forward slash for portability */
 #include "mhead.h"		/* mpeg header structure, decode protos */
+
+#define NEED_KBHIT
+
 #include "port.h"
 
 // JDW

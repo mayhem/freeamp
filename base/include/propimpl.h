@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,19 +18,22 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: propimpl.h,v 1.4 1999/06/28 23:09:17 robert Exp $
+	$Id: propimpl.h,v 1.5 1999/10/19 07:12:46 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PROPIMPL_H_
-#define _PROPIMPL_H_
+#ifndef INCLUDED_PROPIMPL_H_
+#define INCLUDED_PROPIMPL_H_
 
 #include <stdlib.h>
 
+#include <vector>
+
+using namespace std;
+
 #include "config.h"
-#include "hashtable.h"
-#include "list.h"
 #include "mutex.h"
 #include "properties.h"
+#include "hashtable.h"
 
 class PropertiesImpl : public Properties {
  private:
@@ -38,7 +41,7 @@ class PropertiesImpl : public Properties {
     public:
 	PropElem() { m_val = NULL; }
 	~PropElem() {if (m_val) delete m_val; }
-	List<PropertyWatcher *> m_propWatchers;
+	vector<PropertyWatcher *> m_propWatchers;
 	PropValue *m_val;
     };
     HashTable<PropElem *> *m_props;

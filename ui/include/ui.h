@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,16 +18,17 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ui.h,v 1.8 1999/01/22 06:02:51 jdw Exp $
+	$Id: ui.h,v 1.9 1999/10/19 07:13:27 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _UI_H_
-#define _UI_H_
+#ifndef INCLUDED_UI_H_
+#define INCLUDED_UI_H_
 
 #include "event.h"
 #include "errors.h"
 
 #include "playlist.h"
+#include "properties.h"
 
 enum {
     PRIMARY_UI = 0,  // passed to Init method of Primary UI at startup
@@ -38,11 +39,7 @@ enum {
 class UserInterface : public EventQueue {
  public:
     virtual int32 AcceptEvent(Event *) = 0;
-    virtual void SetArgs(int32,char **) = 0;
-    virtual void SetTarget(EventQueue *) = 0;
-    virtual void SetPlayListManager(PlayListManager *) = 0;
     virtual Error Init(int32) = 0;
-    virtual Error SetPropManager(Properties *) = 0;
     virtual ~UserInterface() {}
 };
 

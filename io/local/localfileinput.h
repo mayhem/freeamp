@@ -2,7 +2,7 @@
         
         FreeAmp - The Free MP3 Player
 
-        Portions Copyright (C) 1998 GoodNoise
+        Portions Copyright (C) 1998-1999 EMusic.com
 
         This program is free software; you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.h,v 1.16 1999/07/02 01:13:39 robert Exp $
+        $Id: localfileinput.h,v 1.17 1999/10/19 07:13:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _LOCALFILEINPUT_H_
-#define _LOCALFILEINPUT_H_
+#ifndef INCLUDED_LOCALFILEINPUT_H_
+#define INCLUDED_LOCALFILEINPUT_H_
 
 /* system headers */
 #include <stdlib.h>
@@ -43,14 +43,14 @@ class LocalFileInput:public PhysicalMediaInput
    LocalFileInput(char *path);
    virtual ~ LocalFileInput(void);
 
-	virtual bool  CanHandle(char *szUrl, char *szTitle);
+	virtual bool  CanHandle(const char *szUrl, char *szTitle);
 	virtual bool  IsStreaming(void)
 	              { return false; };
    virtual Error Seek(int32 & rtn, int32 offset, int32 origin);
    virtual Error GetLength(size_t &iSize);
 
    virtual Error Prepare(PullBuffer *&pBuffer, bool bStartThread);
-   virtual Error SetTo(char *url);
+   virtual Error SetTo(const char *url);
    virtual Error Close(void);
    virtual void  Clear(void);
    virtual const char *Url(void) const

@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,14 +18,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.12 1999/08/20 22:58:36 robert Exp $
+	$Id: Mpg123UI.h,v 1.13 1999/10/19 07:13:28 elrod Exp $
 ____________________________________________________________________________*/
 
-// Mpg123UI.h
 
-
-#ifndef _Mpg123UI_H_
-#define _Mpg123UI_H_
+#ifndef INCLUDED_Mpg123UI_H_
+#define INCLUDED_Mpg123UI_H_
 
 #include "ui.h"
 #include "event.h"
@@ -39,15 +37,11 @@ class Mpg123UI : public UserInterface {
     Mpg123UI(FAContext *context);
 
     virtual int32 AcceptEvent(Event *);
-    virtual void SetArgs(int argc, char **argv);
-    virtual void SetTarget(EventQueue *);
     virtual Error Init(int32);
-    virtual void SetPlayListManager(PlayListManager *);
     
     ~Mpg123UI();
 
     static EventQueue *m_playerEQ;
-   virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
 
  protected:
     FAContext *m_context;
@@ -55,16 +49,17 @@ class Mpg123UI : public UserInterface {
  private:
     Properties *m_propManager;
     int32 m_argc;
-    char **m_argv, *m_filename;
+    char **m_argv;
     int32 m_startupType;
     void ProcessArgs();
 
-    PlayListManager *m_plm;
+    PlaylistManager *m_plm;
     void DisplayStuff();
+    MediaInfoEvent *m_mediaInfo;
     bool m_mediaInfo_set;
     MpegInfoEvent m_mpegInfo;
     bool m_mpegInfo_set;
-    Id3TagInfo m_id3Tag;
+/*    Id3TagInfo m_id3Tag; */
     bool verboseMode;
     int32 totalFrames;
     float totalTime;

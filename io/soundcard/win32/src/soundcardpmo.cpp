@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.5 1998/10/20 23:01:03 elrod Exp $
+	$Id: soundcardpmo.cpp,v 1.6 1998/10/21 05:38:03 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -196,11 +196,19 @@ Reset(bool user_stop)
 {
 	bool result = false;
 
+    MessageBox(NULL, "Reset", 0, MB_OK);
+
+    char buf[1024];
+
+    memset(buf, 0x00, sizeof(buf));
+
+    Write(buf, sizeof(buf));
+
 	if(user_stop)
 	{
 		m_user_stop = user_stop;
 
-		//waveOutReset(m_hwo);
+		waveOutReset(m_hwo);
 	}
 
 	return result;

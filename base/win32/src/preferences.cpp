@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.14 1999/04/07 01:10:08 elrod Exp $
+	$Id: preferences.cpp,v 1.15 1999/04/08 07:25:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -39,7 +39,7 @@ const char* kUIPref = "UI";
 const char* kPMOPref = "PMO";
 const char* kOpenSaveDirPref = "OpenSaveDirectory";
 const char* kStayOnTopPref = "StayOnTop";
-const char* kMinimizeToTrayPref = "MinimizeToTray";
+const char* kLiveInTrayPref = "LiveInTray";
 const char* kInputBufferSizePref = "InputBufferSize";
 const char* kOutputBufferSizePref = "OutputBufferSize";
 const char* kStreamBufferIntervalPref = "StreamBufferInterval";
@@ -57,7 +57,7 @@ const char* kLogPerformancePref = "LogPerformance";
 const char*  kDefaultUI = "freeamp.ui";
 const char*  kDefaultPMO = "soundcard.pmo";
 const bool   kDefaultStayOnTop = false;
-const bool   kDefaultMinimizeToTray = false;
+const bool   kDefaultLiveInTray = false;
 const int32  kDefaultInputBufferSize = 64;
 const int32  kDefaultOutputBufferSize = 512;
 const int32  kDefaultStreamBufferInterval = 3;
@@ -299,7 +299,7 @@ Initialize()
             SetPrefBoolean(kStayOnTopPref, kDefaultStayOnTop);
 
             // set default for minimizing to tray
-            SetPrefBoolean(kMinimizeToTrayPref, kDefaultMinimizeToTray);
+            SetPrefBoolean(kLiveInTrayPref, kDefaultLiveInTray);
 
             // set default for input buffer size
             SetPrefInt32(kInputBufferSizePref, kDefaultInputBufferSize);
@@ -411,16 +411,16 @@ SetStayOnTop(bool value)
 
 Error 
 Preferences::
-GetMinimizeToTray(bool* value)
+GetLiveInTray(bool* value)
 {
-    return GetPrefBoolean(kMinimizeToTrayPref, value);
+    return GetPrefBoolean(kLiveInTrayPref, value);
 }
 
 Error 
 Preferences::
-SetMinimizeToTray(bool value)
+SetLiveInTray(bool value)
 {
-    return SetPrefBoolean(kMinimizeToTrayPref, value);
+    return SetPrefBoolean(kLiveInTrayPref, value);
 }
 
 Error 

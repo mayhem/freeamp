@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.28 1999/04/07 01:12:29 elrod Exp $
+	$Id: freeampui.h,v 1.29 1999/04/08 07:25:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -107,6 +107,7 @@ class FreeAmpUI : public UserInterface {
     void Timer(int32 timerID);
     void InitMenuPopup(HMENU menuHandle, uint32 position, bool systemMenu);
     void MinMaxInfo(MINMAXINFO* info);
+    void TrayNotify(int32 notifyMessage);
 
     void FilesReceived(char* array, int32 count);
     bool MouseCaptured() const { return m_mouseCaptured; }
@@ -130,12 +131,16 @@ class FreeAmpUI : public UserInterface {
     void DeleteControls();
 
     void CreatePalette();
-
     void CreateTooltips();
 
     void UpdatePlayList();
-
     void AddFileListToPlayList(List<char*>* fileList);
+
+    void ReadPreferences();
+
+    void AddTrayIcon();
+    void RemoveTrayIcon();
+    void SetTrayTooltip(char *str);
 
  public:
     
@@ -154,6 +159,13 @@ class FreeAmpUI : public UserInterface {
     Semaphore*          m_uiSemaphore;
     int32			    m_state;
     EventQueue*         m_target;
+
+    bool                m_log;
+    bool                m_onTop;
+    bool                m_liveInTray;
+    HICON               m_trayIcon;
+    char                m_trayTooltip[64];
+
 
     bool                m_mouseCaptured;
 

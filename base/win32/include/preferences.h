@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.9 1999/04/07 01:10:51 elrod Exp $
+	$Id: preferences.h,v 1.10 1999/04/08 07:25:34 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -36,7 +36,7 @@ extern const char* kUIPref;
 extern const char* kPMOPref;
 extern const char* kOpenSaveDirPref;
 extern const char* kStayOnTopPref;
-extern const char* kMinimizeToTrayPref;
+extern const char* kLiveInTrayPref;
 extern const char* kInputBufferSizePref;
 extern const char* kOutputBufferSizePref;
 extern const char* kStreamBufferIntervalPref;
@@ -84,8 +84,8 @@ class Preferences {
     Error GetStayOnTop(bool* value);
     Error SetStayOnTop(bool value);
 
-    Error GetMinimizeToTray(bool* value);
-    Error SetMinimizeToTray(bool value);
+    Error GetLiveInTray(bool* value);
+    Error SetLiveInTray(bool value);
 
     Error GetInputBufferSize(int32* value);
     Error SetInputBufferSize(int32 value);

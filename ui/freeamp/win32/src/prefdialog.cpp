@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: prefdialog.cpp,v 1.3 1999/04/07 01:09:01 elrod Exp $
+	$Id: prefdialog.cpp,v 1.4 1999/04/08 07:25:35 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -47,7 +47,7 @@ typedef struct PrefValues {
     int32 streamInterval;
     int32 decoderThreadPriority;
     bool stayOnTop;
-    bool minimizeToTray;
+    bool liveInTray;
 
     // page2
     bool enableLogging;
@@ -81,7 +81,7 @@ SavePrefValues( Preferences* prefs,
     prefs->SetOutputBufferSize(values->outputBufferSize);
     prefs->SetStreamBufferInterval(values->streamInterval);
     prefs->SetStayOnTop(values->stayOnTop);
-    prefs->SetMinimizeToTray(values->minimizeToTray);
+    prefs->SetLiveInTray(values->liveInTray);
     prefs->SetUseDebugLog(values->enableLogging);
     prefs->SetLogMain(values->logMain);
     prefs->SetLogDecode(values->logDecoder);
@@ -109,7 +109,7 @@ PrefPage1Proc(  HWND hwnd,
     static HWND hwndOutput = NULL;
     static HWND hwndStreamInterval = NULL;
     static HWND hwndStayOnTop = NULL;
-    static HWND hwndMinimizeToTray = NULL;
+    static HWND hwndLiveInTray = NULL;
     
 
     switch(msg)
@@ -128,7 +128,7 @@ PrefPage1Proc(  HWND hwnd,
             hwndOutput = GetDlgItem(hwnd, IDC_OUTPUT);
             hwndStreamInterval = GetDlgItem(hwnd, IDC_STREAM_INTERVAL);
             hwndStayOnTop = GetDlgItem(hwnd, IDC_STAYONTOP);
-            hwndMinimizeToTray = GetDlgItem(hwnd, IDC_TRAY);
+            hwndLiveInTray = GetDlgItem(hwnd, IDC_TRAY);
 
             // get registries
             Registrar registrar;
@@ -213,8 +213,8 @@ PrefPage1Proc(  HWND hwnd,
             prefs->GetStayOnTop(&originalValues.stayOnTop);
             Button_SetCheck(hwndStayOnTop, originalValues.stayOnTop);
 
-            prefs->GetMinimizeToTray(&originalValues.minimizeToTray);
-            Button_SetCheck(hwndMinimizeToTray, originalValues.minimizeToTray);
+            prefs->GetLiveInTray(&originalValues.liveInTray);
+            Button_SetCheck(hwndLiveInTray, originalValues.liveInTray);
 
             currentValues = originalValues;
             
@@ -375,13 +375,13 @@ PrefPage1Proc(  HWND hwnd,
 
                 case IDC_TRAY:
                 {
-                    if(Button_GetCheck(hwndMinimizeToTray) == BST_CHECKED)
+                    if(Button_GetCheck(hwndLiveInTray) == BST_CHECKED)
                     {
-                        currentValues.minimizeToTray = true;
+                        currentValues.liveInTray = true;
                     }
                     else
                     {
-                        currentValues.minimizeToTray = false;
+                        currentValues.liveInTray = false;
                     }
 
                     if(memcmp(  &originalValues, 

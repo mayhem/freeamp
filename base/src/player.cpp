@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.149 1999/11/12 19:04:01 robert Exp $
+        $Id: player.cpp,v 1.150 1999/11/12 21:13:31 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -413,7 +413,7 @@ SetArgs(int32 argc, char **argv)
                                  szSavedTheme, &iLen);
                             iLen = MAX_PATH;   
                             URLToFilePath(url, szNewTheme, &iLen); 
-                            m_context->prefs->setPrefString(kThemePathPref, 
+                            m_context->prefs->SetPrefString(kThemePathPref, 
                                szNewTheme);
 
                             AcceptEvent(new LoadThemeEvent(url, szSavedTheme));

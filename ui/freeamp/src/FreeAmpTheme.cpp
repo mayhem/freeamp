@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.27 1999/11/12 19:04:04 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.28 1999/11/12 21:13:33 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -443,7 +443,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
       {
           char          szSavedTheme[MAX_PATH], szNewTheme[MAX_PATH];
           uint32        iLen = MAX_PATH;
-          string        oThemePath, oThemeFile("theme.xml");
+          string        oThemePath;
           MessageDialog oBox;
 	       string        oMessage(szKeepThemeMessage);
 
@@ -464,16 +464,18 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
           if (oBox.Show(oMessage.c_str(), string(BRANDING), kMessageYesNo) == 
               kMessageReturnYes)
           {
-              // Save the theme to the proper place and set the pref to
-              // point to the right place
-              printf("Accept %s\n", szNewTheme);
+              ThemeManager oMan(m_pContext);
+              string       oThemePath(szNewTheme);
+              
+              if (!IsError(oMan.AddTheme(oThemePath)))
+                  m_pContext->prefs->SetPrefString(kThemePathPref, oThemePath.c_str());
           }
           else
           {
               m_pContext->prefs->SetPrefString(kThemePathPref, szSavedTheme);
               ReloadTheme();
           }
-      	 break;
+          break;
       }
       
       default:

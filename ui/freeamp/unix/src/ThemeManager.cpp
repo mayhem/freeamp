@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.6 1999/11/08 23:31:50 ijr Exp $
+   $Id: ThemeManager.cpp,v 1.7 1999/11/12 21:13:34 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -171,9 +171,6 @@ Error ThemeManager::AddTheme(string &oThemeFile)
     ext = strrchr(filename, '.');
     if (ext)
         *ext = '\0';
-    if (strcmp(filename, m_oCurrentTheme.c_str()) == 0) {
-        return kError_NoErr;
-    }
     
     oThemeDest += string(filename) + string(".") + string(ext);   
 
@@ -190,6 +187,10 @@ Error ThemeManager::AddTheme(string &oThemeFile)
         fwrite(buf, 1, 1, dest);
     fclose(orig);
     fclose(dest);
+
+    // So the caller knows where the theme ended up
+    oThemeFile = oThemeDest;
+    
     return kError_NoErr;
 }
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.22 1999/12/07 20:29:04 elrod Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.23 1999/12/12 18:30:32 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2254,32 +2254,7 @@ static void update_function(void* arg)
 
     result = ts->um->UpdateComponents(callback_function, ts);
 
-    if(IsntError(result))
-    {
-        int32 response;
-        HWND hwnd = GetParent(GetParent(ts->hwndList));
-
-        response = MessageBox(hwnd, 
-                            BRANDING" needs to close down and restart in order to replace components\r\n"
-                            "which are being used. If you do not wish to quit the application you\r\n"
-                            "can choose \"Cancel\" and update again at a later time.",
-                            "Restart "BRANDING"?", 
-                            MB_OKCANCEL|MB_ICONQUESTION);
-
-        if(response == IDOK)
-        {
-            char appPath[MAX_PATH];
-            uint32 length = sizeof(appPath);
-            ts->context->prefs->GetPrefString(kInstallDirPref, appPath, &length);
-            
-            strcat(appPath, "\\update.exe");
-
-            ts->context->target->AcceptEvent(new Event(CMD_QuitPlayer));
-
-            WinExec(appPath, SW_NORMAL);
-        }
-    }
-    else if(result == kError_UserCancel)
+    if(result == kError_UserCancel)
     {
         SetWindowText(hwndStatus, " Status: Update cancelled by user."); 
     }

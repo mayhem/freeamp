@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.3 1999/12/02 22:06:52 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.4 1999/12/12 18:30:32 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -90,6 +90,57 @@ Error Win32UpdateManager::DetermineLocalVersions()
     return result;
 }
 
+Error Win32UpdateManager::UpdateComponents(UMCallBackFunction function,
+                                           void* cookie)
+{
+    Error result;
+    
+    result = UpdateManager::UpdateComponents();
+
+    if(IsntError(result))
+    {
+        int32 response;
+
+        response = MessageBox(NULL, 
+                              BRANDING" needs to close down and restart in order to replace components\r\n"
+                              "which are being used. If you do not wish to quit the application you\r\n"
+                              "can choose \"Cancel\" and update again at a later time.",
+                              "Restart "BRANDING"?", 
+                              MB_OKCANCEL|MB_ICONQUESTION|MB_SETFOREGROUND);
+
+        if(response == IDOK)
+        {
+            char appPath[MAX_PATH];
+            char updatePath[MAX_PATH];
+            uint32 length = sizeof(appPath);
+            m_context->prefs->GetPrefString(kInstallDirPref, appPath, &length);
+            
+            strcpy(updatePath, appPath);
+
+            strcat(appPath, "\\update.exe");
+            strcat(updatePath, "\\update\\update.exe");
+
+            // if the update program has been updated we need to 
+            // move it before execing it...
+            HANDLE findFileHandle = NULL;
+            WIN32_FIND_DATA findData;
+
+            findFileHandle = FindFirstFile(updatePath, &findData);
+
+            if(findFileHandle != INVALID_HANDLE_VALUE)
+            {
+                MoveFileEx(updatePath, appPath, MOVEFILE_REPLACE_EXISTING);
+                FindClose(findFileHandle);
+            }            
+
+            m_context->target->AcceptEvent(new Event(CMD_QuitPlayer));
+
+            WinExec(appPath, SW_NORMAL);
+        }
+    }
+    
+    return result;
+}
 Error Win32UpdateManager::GetFileVersions(const char* path)
 {
     Error result = kError_NoErr;

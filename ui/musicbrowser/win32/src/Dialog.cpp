@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.48 1999/12/07 23:29:51 robert Exp $
+        $Id: Dialog.cpp,v 1.49 1999/12/12 18:30:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -216,6 +216,14 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
                 
                 case ID_FILE_CLOSEPLAYLIST:
                     Close();
+                    return 1;
+
+                case ID_EDIT_UNDO_ACTION:
+                    m_oPlm->Undo();
+                    return 1;
+
+                case ID_EDIT_REDO_ACTION:
+                    m_oPlm->Redo();
                     return 1;
 
                 case ID_POPUP_ADDTRACK:

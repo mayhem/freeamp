@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.h,v 1.3 1999/12/02 22:06:51 elrod Exp $
+	$Id: win32updatemanager.h,v 1.4 1999/12/12 18:30:32 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32_UPDATE_MANAGER_H_
@@ -50,6 +50,9 @@ class Win32UpdateManager : public UpdateManager {
  public:
     Win32UpdateManager(FAContext* context);
     virtual ~Win32UpdateManager();
+
+    virtual Error UpdateComponents(UMCallBackFunction function = NULL,
+                                   void* cookie = NULL);
     
     virtual Error DetermineLocalVersions();
         

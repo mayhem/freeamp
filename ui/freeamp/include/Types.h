@@ -2,7 +2,7 @@
 
    FreeAmp - The Free MP3 Player
 
-   Copyright (C) 1999 EMusic
+   Copyright (C) 1999-2000 EMusic
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Types.h,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: Types.h,v 1.3 2000/02/20 05:36:40 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TYPES_H__
@@ -37,7 +37,7 @@ struct Rect
     int x2, y2;
 
     Rect(void) { };
-    Rect(Rect &other)
+    Rect(const Rect &other)
     {
          x1 = other.x1;
          x2 = other.x2;

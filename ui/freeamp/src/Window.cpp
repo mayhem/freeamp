@@ -2,7 +2,7 @@
 
    FreeAmp - The Free MP3 Player
 
-   Copyright (C) 1999 EMusic
+   Copyright (C) 1999-2000 EMusic
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.29 2000/02/15 19:25:23 robert Exp $
+   $Id: Window.cpp,v 1.30 2000/02/20 05:36:40 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -234,7 +234,6 @@ void Window::GetName(string &oName)
 Error Window::ControlEnable(const string &oTarget, bool bSet, bool &bEnable)
 {
     ControlMapIterator i;
-    int                j;
 
     IncUsageRef();
        
@@ -248,7 +247,7 @@ Error Window::ControlEnable(const string &oTarget, bool bSet, bool &bEnable)
 
     DecUsageRef();
 
-    return (j == 0) ? kError_InvalidParam : kError_NoErr;
+    return kError_NoErr;
 }
 
 Error Window::ControlShow(const string &oTarget, bool bSet, bool &bShow)

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.1 2000/07/31 19:51:38 ijr Exp $
+        $Id: apsinterface.cpp,v 1.2 2000/07/31 21:32:36 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -301,7 +301,7 @@ int APSInterface::APSSubmitPlaylist(APSPlaylist* pPlayList)
     return nRes;
 }
 
-void APSInterface::WriteToLog(const string& strGUID, int nEventType = SongDone)
+void APSInterface::WriteToLog(const string& strGUID, int nEventType)
 {
     if (m_strCurrentProfile.empty())
         return;  // if no active profile, don't log anything
@@ -409,7 +409,7 @@ int APSInterface::CreateProfile(const char *pczNewName)
     return APS_PARAMERROR;
 }
 
-int APSInterface::DeleteProfile(const char *pczNewName, bool bServerToo = false)
+int APSInterface::DeleteProfile(const char *pczNewName, bool bServerToo)
 {
     // TODO: add server side deletion as well
     if (pczNewName == NULL) 

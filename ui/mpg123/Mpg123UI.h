@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.5 1998/11/01 23:05:31 jdw Exp $
+	$Id: Mpg123UI.h,v 1.6 1998/11/07 07:05:12 jdw Exp $
 ____________________________________________________________________________*/
 
 // Mpg123UI.h
@@ -30,6 +30,7 @@ ____________________________________________________________________________*/
 #include "ui.h"
 #include "event.h"
 #include "eventdata.h"
+#include "playlist.h"
 
 class Mpg123UI : public UserInterface {
  public:
@@ -39,10 +40,13 @@ class Mpg123UI : public UserInterface {
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *);
     virtual void Init() {}
+    virtual void SetPlayListManager(PlayListManager *);
+    
     ~Mpg123UI();
 
     static EventQueue *m_playerEQ;
  private:
+    PlayListManager *m_plm;
     void DisplayStuff();
     MediaInfoEvent m_mediaInfo;
     bool m_mediaInfo_set;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-gtk.cpp,v 1.4 1998/11/06 00:07:23 jdw Exp $
+	$Id: freeamp-gtk.cpp,v 1.5 1998/11/07 07:05:12 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -50,7 +50,7 @@ UserInterface *Initialize() {
 
 GtkUI::GtkUI() {
 
-    mypl = NULL;
+    m_plm = NULL;
     m_playerEQ = NULL;
     
     g_pGtkUI = this;
@@ -61,6 +61,10 @@ GtkUI::GtkUI() {
     //cout << " * -    Prev Song" << endl;
     //cout << " * p    Pause / UnPause" << endl;
     //cout << " * s    Shuffle" << endl << endl;
+}
+
+void GtkUI::SetPlayListManager(PlayListManager *plm) {
+    m_plm = plm;
 }
 
 GtkWidget *window;
@@ -220,7 +224,7 @@ int32 GtkUI::AcceptEvent(Event *e) {
 		if (pmvi) {
 		    //cout << "Playing: " << pmvi->m_songTitle << endl;
 		    //g_print("Playing: %s\n",pmvi->m_songTitle);
-		    gtk_label_set(GTK_LABEL(p_titleField), pmvi->m_songTitle);
+		    gtk_label_set(GTK_LABEL(p_titleField), pmvi->m_filename);
 		    //cout << "set label..." << endl;
 		    //g_print("set label...\n");
 		    while (gtk_events_pending())
@@ -247,7 +251,6 @@ void GtkUI::SetArgs(int argc, char **argv) {
     
     gtk_init(&argc, &argv);
 
-    mypl = new PlayList();
     char *pc = NULL;
     for(int i=1;i<argc;i++) {
 	//cout << "Adding arg " << i << ": " << argv[i] << endl;
@@ -255,12 +258,10 @@ void GtkUI::SetArgs(int argc, char **argv) {
 	if (pc[0] == '-') {
 	    processSwitch(&(pc[0]));
 	} else {
-	    mypl->Add(pc,0);
+	    m_plm->Add(pc,0);
 	}
     }
-    mypl->SetFirst();
-    Event *e = new SetPlayListEvent(mypl);
-    m_playerEQ->AcceptEvent(e);
+    m_plm->SetFirst();
 }
 
 void GtkUI::processSwitch(char *pc) {

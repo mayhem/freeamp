@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-gtk.h,v 1.1 1998/10/28 02:27:24 jdw Exp $
+	$Id: freeamp-gtk.h,v 1.2 1998/11/07 07:05:12 jdw Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -38,6 +38,7 @@ class GtkUI : public UserInterface {
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
     virtual void Init();
+    virtual void SetPlayListManager(PlayListManager *);
     static void gtkServiceFunction(void *);
     virtual ~GtkUI();
 
@@ -45,7 +46,7 @@ class GtkUI : public UserInterface {
  private:
     void processSwitch(char *);
     Thread *gtkListenThread;
-    PlayList *mypl;
+    PlayListManager *m_plm;
 };
 
 

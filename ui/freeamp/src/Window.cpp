@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.23 2000/01/19 22:20:30 ijr Exp $
+   $Id: Window.cpp,v 1.24 2000/02/01 23:32:11 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -611,6 +611,14 @@ bool Window::MenuCommand(uint32 uCommand)
        return true;
 
     return m_pTheme->HandleMenuCommand(uCommand);
+}
+
+void Window::VolumeChanged(void)
+{
+    if (m_bMindMeldInProgress)
+       return;
+
+    m_pTheme->VolumeChanged();
 }
 
 void Window::GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight, 

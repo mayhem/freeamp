@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.27 2000/01/04 19:07:42 robert Exp $
+        $Id: AUTHORS,v 1.28 2000/02/01 23:32:10 robert Exp $
 ____________________________________________________________________________*/
 
 FreeAmp (www.freeamp.org) is an Open Source development effort 
@@ -102,3 +102,6 @@ Other major contributors and their contributions:
 "Anton Kruger" <unknown>
 * Median-cut color quantization algorithm as published in 
   Dr. Dobbs Journal September 1994
+
+"Chen Su" <chensu@hotmail.com>
+* Sample code on controlling the mixer device under Win32.

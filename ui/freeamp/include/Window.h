@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.15 2000/01/13 22:23:44 robert Exp $
+   $Id: Window.h,v 1.16 2000/02/01 23:32:11 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -62,6 +62,7 @@ class Window
       void    ClearControls(void);
       void    Keystroke(unsigned char cKey);
       bool    MenuCommand(uint32 uCommand);
+      void    VolumeChanged(void);
 
       virtual void SetStayOnTop(bool bStay);
       virtual void SetLiveInToolbar(bool bLive);

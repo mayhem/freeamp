@@ -4,6 +4,7 @@
 
    Copyright (C) 1999 EMusic
    Portions Copyright (C) 1999 Valters Vingolds
+   Portions Copyright (C) 2000 Chen Su
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.27 2000/01/15 01:55:04 robert Exp $
+   $Id: Win32Window.cpp,v 1.28 2000/02/01 23:32:11 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -257,6 +258,12 @@ LRESULT Win32Window::WindowProc(HWND hwnd, UINT msg,
             hDc = GetDC(m_hWnd);
             SelectPalette(hDc, m_hPal, false);
             RealizePalette(hDc);
+            break;
+        }
+
+        case MM_MIXM_CONTROL_CHANGE:
+        {
+            VolumeChanged();
             break;
         }
         

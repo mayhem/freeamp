@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.67 2000/01/19 22:20:30 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.68 2000/02/01 23:32:11 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1155,6 +1155,11 @@ bool FreeAmpTheme::HandleMenuCommand(uint32 uCommand)
     }
     
     return false;
+}
+
+void FreeAmpTheme::VolumeChanged(void)
+{
+    m_pContext->target->AcceptEvent(new Event(CMD_GetVolume));
 }
 
 void FreeAmpTheme::UpdateTimeDisplay(int iCurrentSeconds)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.14 2000/01/13 22:23:48 robert Exp $
+   $Id: Win32Window.h,v 1.15 2000/02/01 23:32:11 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -31,6 +31,7 @@ ____________________________________________________________________________*/
 #include <windows.h>
 #include <shellapi.h>
 #include <commctrl.h>
+#include <mmsystem.h>
 
 #include "Window.h"
 

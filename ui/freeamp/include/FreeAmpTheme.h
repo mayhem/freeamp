@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.17 1999/12/21 20:31:54 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.18 2000/02/01 23:32:11 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -70,6 +70,7 @@ class FreeAmpTheme : public UserInterface, public Theme
         
         virtual void  HandleKeystroke(unsigned char cKey);
         virtual bool  HandleMenuCommand(uint32 uCommand);
+        virtual void  VolumeChanged(void);
         virtual Error HandleControlMessage(string &oControlName, 
                                            ControlMessageEnum eMesg);
         virtual void  DropFiles(vector<string> *pFileList);

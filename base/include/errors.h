@@ -17,13 +17,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.15 1999/04/21 04:20:43 elrod Exp $
+	$Id: errors.h,v 1.16 1999/05/14 09:58:14 jbobier Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
 #define ERROR_H
 
-#include <config.h>
+#include "config.h"
 
 
 typedef enum Error

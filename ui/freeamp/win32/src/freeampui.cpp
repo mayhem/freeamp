@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.43 1999/03/20 10:33:19 elrod Exp $
+	$Id: freeampui.cpp,v 1.44 1999/03/20 20:59:56 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1574,7 +1574,7 @@ CreateControls()
 
 	m_songTitleView->SetText("Welcome to FreeAmp");
 
-    m_prevSongInfoText = new char [strlen(m_songTitleView->Text() + 1)];
+    m_prevSongInfoText = new char [strlen(m_songTitleView->Text()) + 1];
     strcpy(m_prevSongInfoText, m_songTitleView->Text());
 
     /*LEAK*/m_timeView = new TimeView(  m_hwnd, 
@@ -2300,7 +2300,7 @@ AcceptEvent(Event* event)
                     if(m_prevSongInfoText)
                         delete m_prevSongInfoText;
 
-                    m_prevSongInfoText = new char [strlen(m_songTitleView->Text() + 1)];
+                    m_prevSongInfoText = new char [strlen(m_songTitleView->Text()) + 1];
                     strcpy(m_prevSongInfoText, m_songTitleView->Text());
 
                     char title[256] = "FreeAmp - ";
@@ -2339,7 +2339,7 @@ AcceptEvent(Event* event)
                 if(m_prevSongInfoText)
                         delete m_prevSongInfoText;
 
-                m_prevSongInfoText = new char [strlen(m_songTitleView->Text() + 1)];
+                m_prevSongInfoText = new char [strlen(m_songTitleView->Text()) + 1];
                 strcpy(m_prevSongInfoText, m_songTitleView->Text());
 
                 strncat(title, m_songTitleView->Text(), sizeof(title) - strlen(title));

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.1.2.8 1999/10/02 18:09:09 ijr Exp $
+   $Id: GTKWindow.h,v 1.1.2.9 1999/10/11 22:01:23 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKWINDOW__H_
@@ -36,6 +36,7 @@ class GTKWindow : public Window
               GTKWindow(Theme *pTheme, string &oName);
      virtual ~GTKWindow(void);
 
+     virtual Error VulcanMindMeld(Window *pOther);
      virtual void  SaveWindowPos(Pos &oPos);
      virtual Error Run(Pos &oWindowPos);
      virtual Error Close(void); 

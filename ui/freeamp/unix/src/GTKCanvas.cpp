@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.1.2.12 1999/10/03 04:49:25 ijr Exp $
+   $Id: GTKCanvas.cpp,v 1.1.2.13 1999/10/11 22:01:23 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -28,7 +28,6 @@ GTKCanvas::GTKCanvas(GTKWindow *pParent)
 {
     m_pParent = pParent;
     m_pBufferBitmap = NULL;
-    shape_set = false;
 }
 
 GTKCanvas::~GTKCanvas(void)
@@ -115,8 +114,6 @@ int GTKCanvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
 
 Error GTKCanvas::Invalidate(Rect &oRect)
 {
-//   Paint(oRect);
-
    return kError_NoErr;
 }
 
@@ -146,16 +143,11 @@ Error GTKCanvas::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec
 
 void GTKCanvas::Paint(Rect &oRect)
 {
+    assert(m_pParent);
     GtkWidget *w = m_pParent->GetWindow();
     if (!w->window)
         return;
     gdk_threads_enter();
-    if (!shape_set) {
-        shape_set = true;
-        GdkBitmap *mask = ((GTKBitmap *)m_pBGBitmap)->GetMask();
-        if (mask)
-            gdk_window_shape_combine_mask(w->window, mask, 0, 0);
-    }
     gdk_window_set_back_pixmap(w->window, m_pBufferBitmap->GetBitmap(), 0);
     gdk_window_clear(w->window);
     gdk_flush();

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.1.2.2 1999/10/06 18:47:02 ijr Exp $
+        $Id: downloadui.cpp,v 1.1.2.3 1999/10/11 22:01:22 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -72,21 +72,21 @@ void DownloadUI::UIThreadFunc(void *p)
 
 void DownloadUI::GTKEventService(void)
 {
-    bool init = false;
     weAreGTK = false;
 
     m_context->gtkLock.Acquire();
     if (!m_context->gtkInitialized) {
-        init = true;
         m_context->gtkInitialized = true;
+
+	g_thread_init(NULL);
+	gtk_init(&m_context->argc, &m_context->argv);
+	gdk_rgb_init();
+
+	weAreGTK = true;
     }
     m_context->gtkLock.Release();
 
-    if (init) {
-        g_thread_init(NULL);
-        gtk_init(&m_context->argc, &m_context->argv);
-        gdk_rgb_init();
-        weAreGTK = true;
+    if (weAreGTK) {
         gtk_main();
     }
 }

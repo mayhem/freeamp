@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.40 1999/10/11 21:25:02 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.41 1999/10/11 22:01:23 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -73,13 +73,6 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
    m_iSeekPos = -1;
    m_bPlayShown = true;
    m_oTitle = string("");
-
-#ifdef HAVE_GTK
-    // This needs to be done before _any_ gdk/gtk calls, so really needs
-    // go here...
-    // RAK: This would actually make sense to put into Theme.cpp
-    InitializeGTK(context);
-#endif
 
    LoadFreeAmpTheme();
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.1.2.5 1999/10/02 18:09:09 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.1.2.6 1999/10/11 22:01:23 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <string>
@@ -57,22 +57,18 @@ void InitializeGTK(FAContext *context)
     if (gtkThread)
         return;
 
-    bool init = false;
-
     context->gtkLock.Acquire();
     if (!context->gtkInitialized) {
-        init = true;
         context->gtkInitialized = true;
+
+	g_thread_init(NULL);
+	gtk_init(&context->argc, &context->argv);
+	gdk_rgb_init();
+	weAreGTK = true;
     }
     context->gtkLock.Release();
-
-    if (init) {
-        g_thread_init(NULL);
-        gtk_init(&context->argc, &context->argv);
-        gdk_rgb_init();
-   
-        weAreGTK = true;
- 
+    
+    if (weAreGTK) {
         gtkThread = Thread::CreateThread();
         gtkThread->Create(runGTK, NULL);
     }

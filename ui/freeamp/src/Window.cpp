@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.1.2.14 1999/10/09 18:53:03 robert Exp $
+   $Id: Window.cpp,v 1.1.2.15 1999/10/11 22:01:23 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -34,7 +34,7 @@ Window::Window(Theme *pTheme, string &oName)
     m_oName = oName;
     m_bExit = false;
     m_pTheme = pTheme;
-	m_bMouseButtonDown = false;
+    m_bMouseButtonDown = false;
     m_bStayOnTop = false;
     m_bLiveInToolbar = false;
 
@@ -46,7 +46,7 @@ Window::Window(Theme *pTheme, string &oName)
 
 Window::~Window(void)
 {
-	if (!m_bIsVulcanMindMeldHost)
+    if (!m_bIsVulcanMindMeldHost)
     {
        ClearControls();
        delete m_pCanvas;
@@ -60,7 +60,7 @@ void Window::VulcanMindMeldHost(bool bHost)
 
 Error Window::VulcanMindMeld(Window *pOther)
 {
-	m_oName = pOther->m_oName;
+    m_oName = pOther->m_oName;
     m_pTheme = pOther->m_pTheme;
 
     m_bMouseButtonDown = pOther->m_bMouseButtonDown;
@@ -72,7 +72,6 @@ Error Window::VulcanMindMeld(Window *pOther)
     m_oControlMap = pOther->m_oControlMap;
 
     m_pCanvas = pOther->m_pCanvas;
-    
     Init();   
     
     return kError_NoErr;
@@ -82,7 +81,7 @@ void Window::Init(void)
 {
     vector<Control *>::iterator i;
 
-	m_pCanvas->Init();
+    m_pCanvas->Init();
 
     for(i = m_oControls.begin(); i != m_oControls.end(); i++)
     {
@@ -152,7 +151,7 @@ Error Window::ControlShow(const string &oTarget, bool bSet, bool &bShow)
     if (bSet && bShow && pControl->PosInControl(oPos))
     	pControl->AcceptTransition(CT_MouseEnter);
 
-	return eRet;
+    return eRet;
 }
 
 Error Window::ControlIntValue(const string &oTarget, bool bSet, int &iValue)
@@ -206,7 +205,7 @@ Error Window::ControlGetTip(const string &oTarget, string &oTip)
 Error Window::SendControlMessage(Control *pControl, 
                                  ControlMessageEnum eMesg)
 {
-	string oControlName;
+    string oControlName;
     
     pControl->GetName(oControlName);
 
@@ -342,13 +341,13 @@ void Window::HandleMouseLButtonUp(Pos &oScreenPos)
     oPos.x = oScreenPos.x - oRect.x1;
     oPos.y = oScreenPos.y - oRect.y1;
 
-	if (m_bMouseButtonDown)
+    if (m_bMouseButtonDown)
     {
        m_bMouseButtonDown = false;
        CaptureMouse(false);
           
        return; 
-	}
+    }
     
     if (m_pCaptureControl)
     {
@@ -389,5 +388,5 @@ void Window::SetLiveInToolbar(bool bLive)
 
 void Window::Keystroke(unsigned char cKey)
 {
-	m_pTheme->HandleKeystroke(cKey);
+    m_pTheme->HandleKeystroke(cKey);
 }

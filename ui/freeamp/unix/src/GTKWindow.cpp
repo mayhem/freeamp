@@ -18,12 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.12 1999/10/04 17:57:59 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.13 1999/10/11 22:01:23 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
 #include <unistd.h>
 #include "facontext.h"
+#include "errors.h"
 #include "Theme.h"
 #include "GTKWindow.h"
 #include "GTKCanvas.h"
@@ -80,6 +81,28 @@ GTKWindow::GTKWindow(Theme *pTheme, string &oName)
           :Window(pTheme, oName)
 {
     m_pCanvas = new GTKCanvas(this);
+
+    gdk_threads_enter();
+    mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_widget_set_app_paintable(mainWindow, TRUE);
+    gtk_window_set_title(GTK_WINDOW(mainWindow), "FreeAmp");
+    gtk_window_set_policy(GTK_WINDOW(mainWindow), TRUE, TRUE, TRUE);
+    gtk_widget_set_events(mainWindow, GDK_SUBSTRUCTURE_MASK | GDK_STRUCTURE_MASK
+                          | GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK |
+                          GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
+                          GDK_KEY_PRESS_MASK);
+    gtk_widget_realize(mainWindow);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "motion_notify_event",
+                       GTK_SIGNAL_FUNC(mouse_move), this);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "button_press_event",
+                       GTK_SIGNAL_FUNC(button_down), this);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "button_release_event",
+                       GTK_SIGNAL_FUNC(button_up), this);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "key_press_event",
+                       GTK_SIGNAL_FUNC(key_press), this);
+    gdk_window_set_decorations(mainWindow->window, (GdkWMDecoration)0);
+    gdk_threads_leave();
+
     initialized = false;
 }
 
@@ -108,30 +131,15 @@ Error GTKWindow::Run(Pos &oPos)
     if (m_oWindowPos.y > iMaxY || m_oWindowPos.y + oRect.Height() < 0)
        m_oWindowPos.y = 0;
 
-    mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_widget_set_app_paintable(mainWindow, TRUE);
-    gtk_window_set_title(GTK_WINDOW(mainWindow), "FreeAmp");
-    gtk_window_set_policy(GTK_WINDOW(mainWindow), TRUE, TRUE, TRUE);
     gtk_widget_set_uposition(mainWindow, m_oWindowPos.x, m_oWindowPos.y);
     gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
-    gtk_widget_set_events(mainWindow, GDK_SUBSTRUCTURE_MASK | GDK_STRUCTURE_MASK
-                          | GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | 
-                          GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
-                          GDK_KEY_PRESS_MASK);
-    gtk_widget_realize(mainWindow);
-
-    gtk_signal_connect(GTK_OBJECT(mainWindow), "motion_notify_event",
-                       GTK_SIGNAL_FUNC(mouse_move), this);
-    gtk_signal_connect(GTK_OBJECT(mainWindow), "button_press_event",
-                       GTK_SIGNAL_FUNC(button_down), this);
-    gtk_signal_connect(GTK_OBJECT(mainWindow), "button_release_event",
-                       GTK_SIGNAL_FUNC(button_up), this);
-    gtk_signal_connect(GTK_OBJECT(mainWindow), "key_press_event",
-                       GTK_SIGNAL_FUNC(key_press), this);
-    gdk_window_set_decorations(mainWindow->window, (GdkWMDecoration)0);
     gdk_threads_leave();
     
     Init();
+    GdkBitmap *mask = ((GTKCanvas *)m_pCanvas)->GetMask();
+    if (mask)
+        gdk_window_shape_combine_mask(mainWindow->window, mask, 0, 0);
+
     ((GTKCanvas *)GetCanvas())->Paint(oRect);
 
     gdk_threads_enter();
@@ -146,6 +154,29 @@ Error GTKWindow::Run(Pos &oPos)
     quitLoop = false;
     while (!quitLoop) 
        sleep(1);
+    return kError_NoErr;
+}
+
+Error GTKWindow::VulcanMindMeld(Window *pOther)
+{
+    Error eRet;
+    Rect  oRect;
+
+    eRet = Window::VulcanMindMeld(pOther);
+    if (IsError(eRet))
+        return eRet;
+
+    m_pCanvas->GetBackgroundRect(oRect);
+    pOther->GetWindowPosition(oRect);
+    SetWindowPosition(oRect);
+    gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
+
+    GdkBitmap *mask = ((GTKCanvas *)m_pCanvas)->GetMask();
+    if (mask)
+        gdk_window_shape_combine_mask(mainWindow->window, mask, 0, 0);
+
+    ((GTKCanvas *)m_pCanvas)->SetParent(this);
+    m_pCanvas->Update();
     return kError_NoErr;
 }
 

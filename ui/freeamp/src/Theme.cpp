@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.22 1999/10/11 04:20:00 ijr Exp $
+   $Id: Theme.cpp,v 1.1.2.23 1999/10/11 22:01:23 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -64,6 +64,7 @@ ____________________________________________________________________________*/
 #include "GTKWindow.h"
 #include "GTKBitmap.h"
 #include "GTKFont.h"
+#include "GTKUtility.h"
 #elif defined(__BEOS__)
 #include "BeOSWindow.h"
 #include "BeOSBitmap.h"
@@ -78,22 +79,24 @@ const char *szCannotCreateTempDirError = "Cannot create a temporary directory to
 
 Theme::Theme(FAContext *context)
 {
-	m_pContext = context;
+    m_pContext = context;
     m_pCurrentWindow = NULL;
     m_pCurrentControl = NULL;
     m_pParsedWindows = m_pWindows = NULL;
     m_pParsedBitmaps = m_pBitmaps = NULL;
     m_pParsedFonts = m_pFonts = NULL;
-	m_bReloadTheme = false;
+    m_bReloadTheme = false;
     m_bReloadWindow = false;
     m_oReloadWindow = string("");
     m_eCurrentControl = eUndefinedControl;
     m_pThemeMan = new ThemeManager(m_pContext);
-   
+    
     string funkyName = "Frunobulax"; 
 #ifdef WIN32
     m_pWindow = new Win32Window(this, funkyName);
 #elif defined(HAVE_GTK)
+    InitializeGTK(context);
+    
     m_pWindow = new GTKWindow(this, funkyName);
 #elif defined(__BEOS__)
     m_pWindow = new BeOSWindow(this, funkyName);
@@ -103,12 +106,12 @@ Theme::Theme(FAContext *context)
 
 Theme::~Theme(void)
 {
-	delete m_pCurrentWindow;
-	delete m_pCurrentControl;
+    delete m_pCurrentWindow;
+    delete m_pCurrentControl;
     delete m_pThemeMan;
     delete m_pWindow;
     
-	ClearWindows();
+    ClearWindows();
     ClearBitmaps();
     ClearFonts();
 }
@@ -162,86 +165,83 @@ void Theme::SetThemePath(string &oThemePath)
 
 Error Theme::LoadTheme(string &oFile, string &oWindowName)
 {
-	char    *pTemp;
-	ThemeZip oZip;
+    char    *pTemp;
+    ThemeZip oZip;
     string   oCompleteFile, oTempPath, oDefaultPath;
     Error    eRet;
     struct   _stat buf;
 
-	if (_stat(oFile.c_str(), &buf) == 0 && (buf.st_mode & _S_IFDIR))
+    if (_stat(oFile.c_str(), &buf) == 0 && (buf.st_mode & _S_IFDIR))
     {
         SetThemePath(oFile);
-	    oCompleteFile = oFile + string(DIR_MARKER_STR) + 
-                        string("theme.xml");
+	oCompleteFile = oFile + string(DIR_MARKER_STR) + string("theme.xml");
         eRet = Parse::ParseFile(oCompleteFile);
-	}
+    }
     else
     {
-	    pTemp = tempnam(NULL, "fat");
-		oTempPath = pTemp;
-	    free(pTemp);
-		if (MKDIR(oTempPath.c_str()))
-	    {
-	        MessageDialog oBox;
-	        string        oErr, oMessage(szCannotCreateTempDirError);
+        pTemp = tempnam(NULL, "fat");
+        oTempPath = pTemp;
+        free(pTemp);
+	if (MKDIR(oTempPath.c_str()))
+        {
+            MessageDialog oBox;
+            string        oErr, oMessage(szCannotCreateTempDirError);
 
-	        oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
-	        return kError_InvalidParam;
-	    }    
-	       
-		SetThemePath(oTempPath);
-	    
-	    eRet = oZip.DecompressThemeZip(oFile, oTempPath);
-	    if (eRet == kError_FileNotFound)
-	    {
-	        string oDefaultPath;
-	        
-	        if (oFile.length() > 0)
-	        {
-	            MessageDialog oBox;
-	        
-	            string        oErr, oMessage(szThemeNotFoundError);
+            oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
+            return kError_InvalidParam;
+        }    
+	SetThemePath(oTempPath);
 	 
-	            oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
-	        }
-	        
-	    	m_pThemeMan->GetDefaultTheme(oFile);
-	        eRet = oZip.DecompressThemeZip(oFile, oTempPath);
-	        if (IsError(eRet))
-	        {
-	        	m_oLastError = "Cannot find default theme";
-	            rmdir(oTempPath.c_str());
-	            return eRet;
-	        }    
-	    }
-	    if (IsError(eRet))
-	    {
-	        MessageDialog oBox;
-	        string        oErr, oMessage(szThemeUnzipError);
+        eRet = oZip.DecompressThemeZip(oFile, oTempPath);
+        if (eRet == kError_FileNotFound)
+        {
+            string oDefaultPath;
+        
+            if (oFile.length() > 0)
+            {
+                MessageDialog oBox;
+       
+                string        oErr, oMessage(szThemeNotFoundError);
 
-	        oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
-	        return kError_InvalidParam;
-	    }    
+                oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
+            }
+        
+            m_pThemeMan->GetDefaultTheme(oFile);
+            eRet = oZip.DecompressThemeZip(oFile, oTempPath);
+            if (IsError(eRet))
+            {
+                m_oLastError = "Cannot find default theme";
+                rmdir(oTempPath.c_str());
+                return eRet;
+            }    
+        }
+        if (IsError(eRet))
+        {
+            MessageDialog oBox;
+            string        oErr, oMessage(szThemeUnzipError);
 
-	    oCompleteFile = oTempPath + string(DIR_MARKER_STR) + 
-                        string("theme.xml");
+            oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
+            return kError_InvalidParam;
+        }    
+
+        oCompleteFile = oTempPath + string(DIR_MARKER_STR) 
+	                + string("theme.xml");
         eRet = Parse::ParseFile(oCompleteFile);
-
         oZip.CleanupThemeZip();
         rmdir(oTempPath.c_str());
     }    
 
     if (!IsError(eRet))
     {
-	   string                      oTemp;
+       string                      oTemp;
        vector<Window *>::iterator  i;
        Window                     *pMainWindow, *pNewWindow = NULL; 
-       
+      
        // Is this a reload, as opposed to a new load?
        if (m_pWindows)
        {
           // Clear the current window list
-		  ClearWindows();
+	  ClearWindows();
 
           // Adopt the new window vector
           m_pWindows = m_pParsedWindows;
@@ -259,7 +259,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
               	  pMainWindow = *i;
           }
 
-		  // If we can't find the proper mode, switch to mainwindow
+	  // If we can't find the proper mode, switch to mainwindow
           if (!pNewWindow)
              pNewWindow = pMainWindow;
           
@@ -273,18 +273,17 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
           m_pParsedWindows = NULL;
           m_pParsedBitmaps = NULL;
           m_pParsedFonts = NULL;
-          
-		  // Now the window lists have been properly adjusted, so
+         
+	  // Now the window lists have been properly adjusted, so
           // adopt all the info from the new window into the existing
           // window via the VulcanMindLink 
           m_pWindow->VulcanMindMeld(pNewWindow);
-          
           // And if god doesn't stike me down right now,
           // everything *should* be fine.
        }
        else
        {
-		  // Its a new load -- just take things verbatim and run
+	  // Its a new load -- just take things verbatim and run
           m_pWindows = m_pParsedWindows;
           m_pBitmaps = m_pParsedBitmaps;
           m_pFonts = m_pParsedFonts;
@@ -305,7 +304,6 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
           }
           if (!pNewWindow)
              pNewWindow = pMainWindow;
-
           m_pWindow->VulcanMindMeld(pNewWindow);
        }   
     }   

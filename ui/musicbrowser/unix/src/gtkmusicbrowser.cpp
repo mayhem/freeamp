@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.42 1999/12/16 04:59:26 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.43 1999/12/16 19:11:22 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -765,8 +765,8 @@ static gint TreeDataCompare(TreeData *a, TreeData *b)
 {
     bool retvalue = true;
     if ((a->type == b->type) && (a->catalog == b->catalog) && 
-        (a->album == b->album) && (a->track == b->track) && 
-        (a->playlistname == b->playlistname))
+        (a->artist == b->artist) && (a->album == b->album) && 
+        (a->track == b->track) && (a->playlistname == b->playlistname))
         retvalue = false;
     return retvalue;
 }
@@ -2606,7 +2606,7 @@ int32 GTKMusicBrowser::AcceptEvent(Event *e)
                 gdk_threads_enter();
                 AddCatTrack((ArtistList *)mct->Artist(), 
                             (AlbumList *)mct->Album(), 
-                            (PlaylistItem *)mct->Item());
+                            (PlaylistItem *)mct->Item(), false);
                 gdk_threads_leave();
             }
             break; }

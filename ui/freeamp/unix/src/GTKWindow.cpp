@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.17 1999/12/16 02:37:56 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.18 1999/12/16 19:11:22 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -415,8 +415,8 @@ void GTKWindow::MouseLeaveCheck(void)
 
 Error GTKWindow::GetDesktopSize(int32 &iX, int32 &iY)
 {
-    iX = gdk_screen_width();
-    iY = gdk_screen_height();
+    iX = gdk_screen_width() / 2;
+    iY = gdk_screen_height() / 2;
 
     return kError_NoErr;
 }

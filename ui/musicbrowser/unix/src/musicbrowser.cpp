@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.17 1999/12/16 16:59:53 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.18 1999/12/16 19:11:22 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -140,6 +140,10 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 (*i)->AcceptEvent(event);
             if (searching)
                 searching->AcceptEvent(event);
+            if (event->Type() == INFO_SearchMusicDone) {
+                delete searching;
+                searching = NULL;
+            }
             break; }
         case CMD_TogglePlaylistUI: {
             if (mainBrowser->Visible())
@@ -211,6 +215,4 @@ void MusicBrowserUI::StartSearch(bool runMain)
     searching = new musicsearchUI(m_context);
 
     searching->Show(runMain);
-
-    searching = NULL;
 }

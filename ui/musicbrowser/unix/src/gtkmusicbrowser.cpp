@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.47 1999/12/28 02:53:29 elrod Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.48 1999/12/29 13:07:18 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1557,7 +1557,7 @@ static void sort_random2(GTKMusicBrowser *p, guint action, GtkWidget *w)
 
 static void sort_random(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
-    p->SortPlaylistEvent(kPlaylistSortKey_Random, PlaylistSortType_Ascending);
+    p->SortPlaylistEvent(kPlaylistSortKey_Random, kPlaylistSortType_Ascending);
 }
 
 static void catalog_tog(GTKMusicBrowser *p, guint action, GtkWidget *w)
@@ -1597,7 +1597,7 @@ static void saveas_list(GTKMusicBrowser *p, guint action, GtkWidget *w)
     GTKMessageDialog oBox;
     string oMessage = string("What do you want to call this playlist?");
 
-    if (oBox.Show(oMessage.c_str(), "Delete Confirmation", kMessageOkCancel,
+    if (oBox.Show(oMessage.c_str(), "Save This List to Disk?", kMessageOkCancel,
                   true, true)
                   == kMessageReturnOk) {
 

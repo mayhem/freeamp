@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.119 2000/10/04 22:49:39 ijr Exp $
+dnl $Id: configure.in,v 1.120 2000/10/08 15:32:34 ijr Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -174,8 +174,8 @@ case "$host_os" in
     ;;
   freebsd*)
     host_os="freebsd"
-    CFLAGS="$CFLAGS -D_THREAD_SAFE -pthread"
-    LDFLAGS="$LDFLAGS -Wl,-export-dynamic"
+    CFLAGS="$CFLAGS -D_THREAD_SAFE -pthread -I/usr/local/include"
+    LDFLAGS="$LDFLAGS -Wl,-export-dynamic -L/usr/local/lib"
     ;;
   netbsd*)
     host_os="freebsd"
@@ -502,7 +502,7 @@ fi
 
 if test "$have_gtk" = "true"; then
   OSDEPPLUGINS="$OSDEPPLUGINS plugins/musicbrowser.ui"
-  OSDEPPLUGINS="$OSDEPPLUGINS plugins/freeamp.ui" dnl #MakeTheme"
+  OSDEPPLUGINS="$OSDEPPLUGINS plugins/freeamp.ui"
   OSDEPPLUGINS="$OSDEPPLUGINS plugins/download.ui"
   OSDEPPLUGINS="$OSDEPPLUGINS plugins/winamp.ftf"
   OSDEPPLUGINS="$OSDEPPLUGINS plugins/kjofol.ftf"

@@ -18,13 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.14 1999/09/10 07:41:50 elrod Exp $
+	$Id: pmp300.cpp,v 1.1.2.15 1999/09/21 03:17:43 dogcow Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
 #include <iostream>
 #include <algorithm>
-#ifdef linux
+#ifdef unix
 #include <strstream>
 typedef ostrstream ostringstream;
 #else

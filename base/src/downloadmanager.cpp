@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.8 1999/09/21 02:47:32 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.9 1999/09/21 03:17:43 dogcow Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -26,6 +26,10 @@ ____________________________________________________________________________*/
 // When symbols are longer than 255 characters, the warning is disabled.
 #ifdef WIN32
 #pragma warning(disable:4786)
+#else
+#include <sys/socket.h>
+#include <netdb.h>
+#include <arpa/inet.h>
 #endif
 
 #include <assert.h>
@@ -480,7 +484,7 @@ Error DownloadManager::Download(DownloadItem* item)
     {
         char hostname[kMaxHostNameLen + 1];
         char localname[kMaxHostNameLen + 1];
-        uint8  port;
+        uint16  port;
         struct sockaddr_in  addr;
         struct hostent      host;
         SOCKET s;
@@ -497,7 +501,7 @@ Error DownloadManager::Download(DownloadItem* item)
             result = kError_NoErr;  
 
             numFields = sscanf(item->SourceURL().c_str(), 
-                               "http://%[^:/]:%d", hostname, &port);
+                               "http://%[^:/]:%d", hostname, (int *) &port);
 
             if(numFields < 1)
             {

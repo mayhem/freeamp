@@ -1,7 +1,0 @@
-; dde.def : Declares the module parameters for the DLL.
-
-LIBRARY      "dde"
-DESCRIPTION  'DDE UI Library'
-
-EXPORTS
-	Initialize

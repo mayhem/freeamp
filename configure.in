@@ -15,14 +15,14 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.83 2000/02/29 10:01:57 elrod Exp $
+dnl $Id: configure.in,v 1.84 2000/02/29 21:26:24 ijr Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
 AC_CONFIG_AUX_DIR(config)
 AC_CANONICAL_HOST
 
-AC_DEFINE_UNQUOTED(FREEAMP_VERSION, "2.0.4")
+AC_DEFINE_UNQUOTED(FREEAMP_VERSION, "2.1")
 
 AC_PROG_MAKE_SET
 
@@ -38,7 +38,7 @@ AC_CHECK_PROGS(NASM, nasm)
 dnl libcdaudio stuff
 AC_HEADER_STDC
 AC_CHECK_HEADERS(stdarg.h linux/cdrom.h linux/ucdrom.h sys/cdio.h io/cam/cdrom.h mntent.h sys/mntent.h sys/ucred.h sys/mount.h)
-AC_CHECK_FUNCS(getmntinfo snprintf)
+AC_CHECK_FUNCS(getmntinfo shmget shmat shmdt semget semctl shmctl snprintf)
 AC_FUNC_GETMNTENT
 
 AC_C_CONST

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.25 2000/02/29 10:02:01 elrod Exp $
+        $Id: musicbrowser.cpp,v 1.26 2000/02/29 21:26:24 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -220,10 +220,10 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             break; }
         case INFO_PlaylistItemAdded:
         case INFO_PlaylistItemsAdded:
-        case INFO_PlaylistItemMoved:
         case INFO_PlaylistItemRemoved:
         case INFO_PlaylistRepeat:
         case INFO_PlaylistShuffle:
+        case INFO_PlaylistSorted:
         case INFO_Paused:
         case INFO_Stopped:
         case INFO_Playing:

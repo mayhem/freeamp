@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: CommandLineCIO.h,v 1.2 1998/10/14 00:31:25 jdw Exp $
+	$Id: CommandLineCIO.h,v 1.3 1998/10/14 17:33:25 jdw Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 #include "ctrlobj.h"
 #include "event.h"
 #include "thread.h"
+#include "playlist.h"
 
 class CommandLineCIO : public CIO {
  public:
@@ -40,7 +41,7 @@ class CommandLineCIO : public CIO {
  private:
     void processSwitch(char *);
     Thread *keyboardListenThread;
-
+    PlayList *mypl;
 };
 
 

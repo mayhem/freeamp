@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: CommandLineCIO.cpp,v 1.4 1998/10/14 00:31:24 jdw Exp $
+	$Id: CommandLineCIO.cpp,v 1.5 1998/10/14 17:33:24 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -51,6 +51,8 @@ int getKey() {
 }
 CommandLineCIO::CommandLineCIO() {
 
+    mypl = NULL;
+
     tcgetattr(stdinfd, &::normalTTY);
     ::rawTTY = ::normalTTY;
     ::rawTTY.c_lflag &= ~ICANON;
@@ -65,8 +67,8 @@ CommandLineCIO::CommandLineCIO() {
     cout << " * q    Quit" << endl;
     cout << " * +/=  Next Song" << endl;
     cout << " * -    Prev Song" << endl;
-    cout << " * p    Pause / UnPause" << endl << endl;
-
+    cout << " * p    Pause / UnPause" << endl;
+    cout << " * s    Shuffle" << endl << endl;
 }
 
 
@@ -117,6 +119,17 @@ void CommandLineCIO::keyboardServiceFunction(void *pclcio) {
 		Event *e = new Event(CMD_QuitPlayer);
 		Player::GetPlayer()->AcceptEvent(e);
 		break; }
+	    case 's':
+	    case 'S': {
+		if (pMe->mypl) {
+		    pMe->mypl->Shuffle();
+		    pMe->mypl->SetFirst();
+		}
+		Event *e = new Event(CMD_Stop);
+		Player::GetPlayer()->AcceptEvent(e);
+		e = new Event(CMD_Play);
+		Player::GetPlayer()->AcceptEvent(e);
+	    }
 	    default:
 		break;
 	}
@@ -144,7 +157,7 @@ int32 CommandLineCIO::acceptCIOEvent(Event *e) {
 }
 
 void CommandLineCIO::setArgs(int argc, char **argv) {
-    PlayList *pl = new PlayList();
+    mypl = new PlayList();
     char *pc = NULL;
     for(int i=1;i<argc;i++) {
 	//cout << "Adding arg " << i << ": " << argv[i] << endl;
@@ -152,11 +165,11 @@ void CommandLineCIO::setArgs(int argc, char **argv) {
 	if (pc[0] == '-') {
 	    processSwitch(&(pc[0]));
 	} else {
-	    pl->add(pc,0);
+	    mypl->Add(pc,0);
 	}
     }
-    pl->setFirst();
-    Event *e = new Event(CMD_SetPlaylist,pl);
+    mypl->SetFirst();
+    Event *e = new Event(CMD_SetPlaylist,mypl);
     Player::GetPlayer()->AcceptEvent(e);
     e = new Event(CMD_Play);
     Player::GetPlayer()->AcceptEvent(e);

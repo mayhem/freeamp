@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.5 1998/10/13 08:46:10 elrod Exp $
+	$Id: playlist.h,v 1.6 1998/10/14 17:33:24 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -45,16 +45,17 @@ class PlayList {
  public:
     PlayList();
     ~PlayList();
-    void add(char *,int);
-    void setSkip(int32 f) { skipNum = f; } // logical media units to skip at beginning
-    int32 getSkip() { return skipNum; }
-    PlayListItem *getFirst();
-    PlayListItem *getNext();
-    PlayListItem *getPrev();
-    PlayListItem *getCurrent();
-    void setFirst();
-    void setNext();
-    void setPrev();
+    void Add(char *,int);
+    void SetSkip(int32 f) { skipNum = f; } // logical media units to skip at beginning
+    void Shuffle();
+    int32 GetSkip() { return skipNum; }
+    PlayListItem *GetFirst();
+    PlayListItem *GetNext();
+    PlayListItem *GetPrev();
+    PlayListItem *GetCurrent();
+    void SetFirst();
+    void SetNext();
+    void SetPrev();
 };
 
 

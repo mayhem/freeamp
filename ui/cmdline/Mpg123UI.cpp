@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.5 1998/10/13 22:09:05 jdw Exp $
+	$Id: Mpg123UI.cpp,v 1.6 1998/10/14 17:33:24 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -181,6 +181,7 @@ int32 Mpg123UI::acceptCOOEvent(Event *e) {
 void Mpg123UI::setArgs(int argc, char **argv) {
     PlayList *pl = new PlayList();
     char *pc = NULL;
+    bool do_shuffle = false;
     for(int i=1;i<argc;i++) {
 	pc = argv[i];
 	if (pc[0] == '-') {
@@ -289,7 +290,8 @@ void Mpg123UI::setArgs(int argc, char **argv) {
 		    cout << "use HTTP proxy " << pc << endl;
 		    break;
 		case 'z':
-		    cout << "shuffle play (with wildcards) " << endl;
+		    do_shuffle = true;
+		    //cout << "shuffle play (with wildcards) " << endl;
 		    break;
 		case 'Z':
 		    cout << "Random Play" << endl;
@@ -299,13 +301,16 @@ void Mpg123UI::setArgs(int argc, char **argv) {
 		    break;
 	    }
 	} else {
-	    pl->add(argv[i],0);
+	    pl->Add(argv[i],0);
 	}
     }
 
 
-    pl->setFirst();
-    pl->setSkip(skipFirst);
+    pl->SetFirst();
+    pl->SetSkip(skipFirst);
+    if (do_shuffle) {
+	pl->Shuffle();
+    }
     Event *e = new Event(CMD_SetPlaylist,pl);
     Player::GetPlayer()->AcceptEvent(e);
     e = new Event(CMD_Play);

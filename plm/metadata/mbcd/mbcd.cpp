@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: mbcd.cpp,v 1.11 2000/11/14 16:41:22 robert Exp $
+    $Id: mbcd.cpp,v 1.12 2000/11/14 16:46:19 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -234,7 +234,7 @@ bool MusicBrainzCD::LookupCD(void)
            return false;
         }
     
-        if (1) //mb_GetNumItems(o) == 0)
+        if (mb_GetNumItems(o) == 0)
         {
            char url[MAX_PATH];
 

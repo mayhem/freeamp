@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: missingfileui.h,v 1.1 2000/05/08 20:29:58 ijr Exp $
+        $Id: missingfileui.h,v 1.2 2000/05/10 20:12:43 ijr Exp $
 ____________________________________________________________________________*/
 
-#ifndef INCLUDED_MISSINGFILE_H_
-#define INCLUDED_MISSINGFILE_H_
+#ifndef INCLUDED_MISSINGFILEUI_H_
+#define INCLUDED_MISSINGFILEUI_H_
 
 #include "config.h"
 

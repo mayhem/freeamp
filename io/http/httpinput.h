@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.9 1999/03/08 02:16:51 robert Exp $
+        $Id: httpinput.h,v 1.10 1999/03/13 00:45:16 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPINPUT_H_
@@ -47,7 +47,7 @@ class HttpInput:public PhysicalMediaInput
    virtual Error GetLength(size_t &iSize); 
    virtual Error GetID3v1Tag(unsigned char *pTag);
 
-   virtual bool  CanHandle(char *szUrl);
+   virtual bool  CanHandle(char *szUrl, char *szTitle);
    virtual bool  IsStreaming(void)
                  { return true; };
 	virtual int32 GetBufferPercentage();

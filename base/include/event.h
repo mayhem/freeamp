@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.22 1999/01/25 23:00:08 robert Exp $
+	$Id: event.h,v 1.23 1999/03/13 00:45:07 robert Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -102,6 +102,8 @@ class EventQueue {
 #define INFO_BufferingBegin       41 // Network rebuffering just started
 #define INFO_BufferingEnd         42 // Network rebuffering just stopped
 #define INFO_BufferStatus         43 // Buffer percent full information
+
+#define CMD_PLMGetMediaTitle      44 // sent by PlayListManager to player to get title about a particular playlistitem
 
 #endif // _EVENT_H_
 

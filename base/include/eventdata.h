@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.23 1999/03/07 08:37:51 elrod Exp $
+	$Id: eventdata.h,v 1.24 1999/03/13 00:45:08 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -58,6 +58,34 @@ class UserMessageEvent : public Event {
     const char *GetInfo() {
 	return m_info;
     }
+};
+
+class PlayListItem;
+class PLMGetMediaTitleEvent : public Event
+{
+public:
+
+	         PLMGetMediaTitleEvent(void)
+             {
+     		    m_type = CMD_PLMGetMediaTitle;
+		     }
+
+	virtual ~PLMGetMediaTitleEvent(void)
+             { };
+
+	void     SetPlayListItem(PlayListItem *pItem)
+	         {
+                m_pItem = pItem;
+             }
+    PlayListItem *GetPlayListItem(void)
+             {
+                return m_pItem;
+              }
+
+private:
+
+    PlayListItem *m_pItem;    
+
 };
 
 class MediaInfoEvent : public Event {

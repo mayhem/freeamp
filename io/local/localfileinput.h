@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.h,v 1.11 1999/03/06 06:00:18 robert Exp $
+        $Id: localfileinput.h,v 1.12 1999/03/13 00:45:20 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LOCALFILEINPUT_H_
@@ -47,7 +47,7 @@ class     LocalFileInput:public PhysicalMediaInput
    virtual Error GetLength(size_t &iSize); // filesize - ID3tag if any
    virtual Error GetID3v1Tag(unsigned char *pTag);
 
-	virtual bool  CanHandle(char *szUrl);
+	virtual bool  CanHandle(char *szUrl, char *szTitle);
 	virtual bool  IsStreaming(void)
 	              { return false; };
    virtual Error SetBufferSize(size_t iNewSize)

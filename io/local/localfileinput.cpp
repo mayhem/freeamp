@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.14 1999/03/06 06:00:17 robert Exp $
+        $Id: localfileinput.cpp,v 1.15 1999/03/13 00:45:19 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -93,9 +93,15 @@ LocalFileInput::~LocalFileInput()
    }
 }
 
-bool LocalFileInput::CanHandle(char *szUrl)
+bool LocalFileInput::CanHandle(char *szUrl, char *szTitle)
 {
-   return strncmp(szUrl, "file://", 7) == 0;
+   bool bRet;
+
+   bRet = strncmp(szUrl, "file://", 7) == 0;
+   if (szTitle && bRet)
+      *szTitle = 0;
+
+   return bRet;
 }
 
 Error     LocalFileInput::SetTo(char *url)

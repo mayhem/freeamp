@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.18 1999/03/08 02:16:52 robert Exp $
+	$Id: pmi.h,v 1.19 1999/03/13 00:45:18 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -66,7 +66,7 @@ public:
 	 virtual Error GetID3v1Tag(unsigned char *pTag)
 	               {return kError_GotDefaultMethod;}
     
-	 virtual bool  CanHandle(char *szUrl)
+	 virtual bool  CanHandle(char *szUrl, char *szTitle)
 	               {return false;}
 
 	 virtual bool  IsStreaming(void)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.32 1999/03/08 02:16:45 robert Exp $
+        $Id: player.h,v 1.33 1999/03/13 00:45:09 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -51,6 +51,20 @@ typedef enum
 }
 PlayerState;
 
+const int iID3TitleLength = 30;
+const int iID3ArtistLength = 30;
+const int iID3AlbumLength = 30;
+struct ID3Tag
+{
+   char szTag[3];
+   char szTitle[iID3TitleLength];
+   char szArtist[iID3ArtistLength];
+   char szAlbum[iID3AlbumLength];
+   char szYear[4];
+   char szComment[30];
+   char cGenre;
+}; 
+
 class     Player:public EventQueue, Properties, PropertyWatcher
 {
 
@@ -72,7 +86,7 @@ class     Player:public EventQueue, Properties, PropertyWatcher
    void      testQueue();
    static void EventServiceThreadFunc(void *);
    virtual int32 AcceptEvent(Event *);
-   virtual RegistryItem *ChoosePMI(char *szUrl);
+   virtual RegistryItem *ChoosePMI(char *szUrl, char *szTitle = NULL);
 
    // Properties
    virtual Error GetProperty(const char *, PropValue **);
@@ -112,6 +126,7 @@ class     Player:public EventQueue, Properties, PropertyWatcher
    void HandleMediaTimeInfo(Event *pEvent);
    void SendEventToUI(Event *pEvent);
    void LMCError(Event *pEvent);
+   void GetMediaTitle(Event *pEvent);
 
    #define _EQUALIZER_ENABLE_
    #ifdef  _EQUALIZER_ENABLE_

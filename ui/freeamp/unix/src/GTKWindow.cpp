@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.2 1999/09/08 22:46:38 robert Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.3 1999/09/20 17:45:03 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -98,6 +98,26 @@ Error GTKWindow::SetMousePos(Pos &oPos)
 }
 
 Error GTKWindow::GetMousePos(Pos &oPos)
+{
+    return kError_NoErr;
+}
+
+Error GTKWindow::Run(Pos &oWindowPos);
+{
+    return kError_NoErr;
+}
+
+Error GTKWIndow::Close(void); 
+{
+    return kError_NoErr;
+}
+
+Error GTKWindow::SetWindowPosition(Rect &oWindowRect)
+{
+    return kError_NoErr;
+}
+
+Error GTKWindow::GetWindowPosition(Rect &oWindowRect) 
 {
     return kError_NoErr;
 }

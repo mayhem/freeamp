@@ -24,7 +24,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.30 2000/06/23 07:21:15 ijr Exp $
+        $Id: alsapmo.cpp,v 1.31 2000/10/11 09:32:27 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -542,7 +542,10 @@ void AlsaPMO::WorkerThread(void)
           break;
       }
       if (m_bExit)
+      {
+          m_pInputBuffer->EndRead(0);
           return;
+      }
 
       if (m_bPause)
       {

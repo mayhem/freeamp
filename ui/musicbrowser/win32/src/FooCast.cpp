@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: FooCast.cpp,v 1.1 1999/12/31 02:01:39 elrod Exp $
+        $Id: FooCast.cpp,v 1.2 2000/01/13 01:04:13 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -47,7 +47,7 @@ FooCast::FooCast(HWND hwndTree, HTREEITEM parentItem):
     insert.item.iImage = 11;
     insert.item.iSelectedImage = 11;
     insert.item.cChildren= 0;
-    insert.item.lParam = -1;
+    insert.item.lParam = NULL;
     insert.hInsertAfter = TVI_LAST;
     insert.hParent = m_parentItem;
     m_busyItem = TreeView_InsertItem(m_hwndTree, &insert);

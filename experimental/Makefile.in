@@ -1,6 +1,6 @@
 # Freeamp master Makefile
 # blown into bits and reconstructed by dogcow
-# $Id: Makefile.in,v 1.5 1999/04/22 08:12:30 dogcow Exp $
+# $Id: Makefile.in,v 1.6 1999/04/22 08:15:43 dogcow Exp $
 
 SHELL = /bin/sh
 
@@ -108,10 +108,10 @@ freeamp: $(FREEAMPOBJ) $(freeamp_DEPENDENCIES)
 	$(COMPILE) $(FPIC) -c $< -o $@
 
 .asm.asm1:
-       $(PERL) -pe 's/\b_//g' $< > $@
+	$(PERL) -pe 's/\b_//g' $< > $@
 
-.asm1.o:
-       $(NASM) -f elf -o $@ $<
+.asm1.:
+	$(NASM) -f elf -o $@ $<
 
 .s.o:
 	$(COMPILE) -c $< -o $@

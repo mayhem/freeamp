@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.11 1999/04/08 07:39:04 elrod Exp $
+	$Id: preferences.h,v 1.12 1999/04/09 09:50:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PREFERENCES_H
@@ -114,6 +114,16 @@ class Preferences {
 
     Error GetLogPerformance(bool* value);
     Error SetLogPerformance(bool value);
+
+    Error GetWindowPosition(int32* left,
+                            int32* top,
+                            int32* width,
+                            int32* height);
+
+    Error SetWindowPosition(int32 left,
+                            int32 top,
+                            int32 width,
+                            int32 height);
 
  protected:
     

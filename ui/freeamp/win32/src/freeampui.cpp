@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.53 1999/04/09 01:42:03 elrod Exp $
+	$Id: freeampui.cpp,v 1.54 1999/04/09 09:50:07 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -518,16 +518,25 @@ Create()
 
     GetRgnBox(m_windowRegion, &windowRect);
     
-    m_width = windowRect.right - windowRect.left;
-    m_height = windowRect.bottom - windowRect.top;
+    int32 left, top;
 
-    int32 xPos = (GetSystemMetrics (SM_CXFULLSCREEN) - m_width) / 2;
-	int32 yPos = (GetSystemMetrics (SM_CYFULLSCREEN) - m_height) / 2;
-				
+    m_prefs->GetWindowPosition( &left, 
+                                &top,
+                                &m_width, 
+                                &m_height);
+
+    if(left == 0 && top == 0 && m_width == 0 && m_height == 0)
+    {
+        m_width = windowRect.right - windowRect.left;
+        m_height = windowRect.bottom - windowRect.top;
+        left = (GetSystemMetrics (SM_CXFULLSCREEN) - m_width) / 2;
+	    top = (GetSystemMetrics (SM_CYFULLSCREEN) - m_height) / 2;
+    }
+    		
 	SetWindowPos (	m_hwnd,
 					0, 
-					xPos, 
-					yPos, 
+					left, 
+					top, 
 					m_width, 
 					m_height, 
 					SWP_NOZORDER);
@@ -630,6 +639,17 @@ Destroy()
             break;
         }
     }
+
+
+    // save window position
+    RECT windowRect;
+
+    GetWindowRect(m_hwnd, &windowRect);
+    
+    m_prefs->SetWindowPosition( windowRect.left, 
+                                windowRect.top,
+                                windowRect.right - windowRect.left, 
+                                windowRect.bottom - windowRect.top);
 
     // Tell windows msg loop we wanna die
     PostQuitMessage(0);

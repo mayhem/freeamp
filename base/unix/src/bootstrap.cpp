@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.18.8.2 1999/09/09 01:25:35 ijr Exp $
+	$Id: bootstrap.cpp,v 1.18.8.3 1999/09/16 00:03:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -62,11 +62,11 @@ int main(int argc, char **argv) {
     //exit(1);
 
     FAContext *context = new FAContext;
-    UnixPrefs *unixPrefs = new UnixPrefs();
+    UnixPrefs *unixPrefs = new UnixPrefs;
 
     int errLine = unixPrefs->GetErrorLineNumber();
     if (errLine)
-    	cerr << "ERROR parsing line " << errLine << " of ~/.freeamp_prefs\n";
+    	cerr << "ERROR parsing line " << errLine << " of ~/.freeamp/preferences\n";
 
     context->prefs = unixPrefs;
     context->log = new LogFile("freeamp.log");

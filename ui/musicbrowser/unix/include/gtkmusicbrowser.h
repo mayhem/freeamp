@@ -18,11 +18,13 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.1.2.2 1999/09/09 03:58:14 elrod Exp $
+        $Id: gtkmusicbrowser.h,v 1.1.2.1 1999/09/16 00:03:59 ijr Exp $
 ____________________________________________________________________________*/
 
-#ifndef _MUSICBROWSER_H_
-#define _MUSICBROWSER_H_
+#ifndef INCLUDED_GTKMUSICBROWSER_H_
+#define INCLUDED_GTKMUSICBROWSER_H_
+
+#include "config.h"
 
 #include <gtk/gtk.h>
 
@@ -30,6 +32,7 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "thread.h"
 #include "playlist.h"
+#include "musicbrowser.h"
 
 class FAContext;
 
@@ -47,13 +50,17 @@ class musicbrowserUI : public UserInterface {
     EventQueue *m_playerEQ;
 
     uint32 m_currentindex;
-
+    
+    PlaylistSortType m_playlistColumnSort;
+    int m_playlistLastSort;
+     
  protected:
     FAContext *m_context;
 
  private:
     void UpdatePlaylistList(void);
-
+    void UpdateCatalog(void);
+   
     Properties *m_propManager;
     int32 m_startupType;
     bool m_noStartUp;
@@ -71,6 +78,7 @@ class musicbrowserUI : public UserInterface {
     Thread *gtkThread;
 
     PlaylistManager *m_plm;
+    MusicCatalog *m_musicCatalog;
  
     int32 m_state;
 	    
@@ -84,10 +92,13 @@ class musicbrowserUI : public UserInterface {
     GtkWidget *masterBox;
     GtkWidget *masterBrowserBox;
     GtkWidget *masterPlaylistBox;
+    GtkWidget *musicBrowserWindow;
     GtkWidget *musicBrowserTree;
     GtkWidget *playlistList;
     GtkWidget *expandLabel;
     
+    GtkWidget *artistSubTree;
+    GtkWidget *playlistSubTree;
   public:
     /* event callbacks */
 
@@ -102,6 +113,9 @@ class musicbrowserUI : public UserInterface {
     void MoveItemEvent(int source, int dest);
     void AddTrackPlaylistEvent(char *path);
     void PlayEvent();
+    void StartMusicSearch();
+    void SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType type);
+    void PopUpInfoEditor();
 };
 
 #endif

@@ -18,11 +18,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.cpp,v 1.1.2.4 1999/08/30 22:35:21 ijr Exp $
+	$Id: id3v1.cpp,v 1.1.2.5 1999/09/16 00:03:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
-#include <iostream>
 #include <string>
 
 using namespace std;
@@ -270,8 +269,6 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                         if(strlen(buffer) > metadata->Artist().size())
                             metadata->SetArtist(buffer);
 
-                        cout << "artist: " << buffer << endl;
-
                         strncpy(buffer, id3.v1_0.album, 30);
                         buffer[30] = 0;
                         KillTrailingSpaces(buffer);
@@ -279,7 +276,6 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                         // would be nice if we can test for "better" data
                         if(strlen(buffer) > metadata->Album().size())
                             metadata->SetAlbum(buffer);
-                        cout << "album: " << buffer << endl;
 
                         strncpy(buffer, id3.v1_0.title, 30);
                         buffer[30] = 0;
@@ -288,13 +284,11 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                         // would be nice if we can test for "better" data
                         if(strlen(buffer) > metadata->Title().size())
                             metadata->SetTitle(buffer);
-                        cout << "title: " << buffer << endl;
 
                         strncpy(buffer, id3.v1_0.year,4);
                         buffer[4] = 0;
                         KillTrailingSpaces(buffer);
                         metadata->SetYear(atoi(buffer));
-                        cout << "year: " << buffer << endl;
 
                         strncpy(buffer, id3.v1_0.comment, 
                             (id3.v1_1.zero ? 30 : 28));
@@ -304,7 +298,6 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                         // would be nice if we can test for "better" data
                         if(strlen(buffer) > metadata->Comment().size())
                             metadata->SetComment(buffer);
-                        cout << "comment: " << buffer << endl;
 
                         if( id3.v1_1.zero == 0x00 &&
                             id3.v1_1.track != 0x00)
@@ -312,7 +305,6 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                             uint32 track = id3.v1_1.track;
 
                             metadata->SetTrack(track);
-                            cout << "track: " << track << endl;
                         }
 
                         if(id3.v1_0.genre >= 0 && (uint32)id3.v1_0.genre < kNumGenres)
@@ -321,7 +313,6 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                             // would be nice if we can test for "better" data
                             if(strlen(buffer) > metadata->Genre().size())
                                 metadata->SetGenre(genre_strings[id3.v1_0.genre]);
-                            cout << "genre: " << genre_strings[id3.v1_0.genre] << endl;
                         }
                         else
                         {
@@ -330,20 +321,10 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                             if(!metadata->Genre().size())
                                 metadata->SetGenre("{unknown}");
 
-                            cout << "genre: " << "{unknown}" << endl;
                         }
 
                         result = true;
                     }
-
-                    cout << endl;
-
-                    /*cout << id3.v1_0.title << endl;
-                    cout << id3.v1_0.artist << endl;
-                    cout << id3.v1_0.album << endl;
-                    cout << id3.v1_0.year << endl;
-                    cout << id3.v1_0.comment << endl;
-                    cout << id3.v1_0.genre << endl;*/
                 }
             }
 

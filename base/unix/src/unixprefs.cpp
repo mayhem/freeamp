@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.13.2.3 1999/09/09 01:25:35 ijr Exp $
+        $Id: unixprefs.cpp,v 1.13.2.4 1999/09/16 00:03:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include <errno.h>
 #endif
 
+#include <sys/stat.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -349,14 +350,26 @@ UnixPrefEntry::
     if (suffix)    delete[] suffix;
 }
 
+static bool file_exists(char *s)
+{
+    struct stat st;
+    if ((!s) || (!*s))
+        return false;
+    if (stat(s, &st) < 0)
+        return false;
+    return true;
+}
 
 UnixPrefs::
 UnixPrefs()
      : m_prefsFilePath(0), m_errorLineNumber(0),
        m_saveEnable(true), m_changed(false)
 {
-    const char *suffix = "/.freeamp_prefs";
-    char *homeDir = getenv("HOME");
+    const char *old_suffix = "/.freeamp_prefs";
+    char *old_prefsFilePath;
+    const char *fadir = "/.freeamp";
+    const char *suffix = "/preferences";
+    char *homeDir = getenv("HOME"); 
 
     if (!homeDir)
     {
@@ -365,9 +378,20 @@ UnixPrefs()
     }
 
     // Compute pathname of preferences file
-    m_prefsFilePath = new char[strlen(homeDir) + strlen(suffix) + 1];
+    old_prefsFilePath = new char[strlen(homeDir) + strlen(old_suffix) + 1];
+    strcpy(old_prefsFilePath, homeDir);
+    strcat(old_prefsFilePath, old_suffix);
+
+    m_prefsFilePath = new char[strlen(homeDir) + strlen(fadir) + strlen(suffix) 
+                               + 1];
     strcpy(m_prefsFilePath, homeDir);
+    strcat(m_prefsFilePath, fadir);
+    if (!file_exists(m_prefsFilePath))
+        mkdir(m_prefsFilePath, S_IRWXU);
     strcat(m_prefsFilePath, suffix);
+
+    if (file_exists(old_prefsFilePath))
+        rename(old_prefsFilePath, m_prefsFilePath);
 
     FILE *prefsFile = fopen(m_prefsFilePath, "r");
     if (!prefsFile && errno != ENOENT)

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.12 1999/09/10 02:20:15 ijr Exp $
+        $Id: player.cpp,v 1.133.2.13 1999/09/16 00:03:58 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -42,6 +42,7 @@ ____________________________________________________________________________*/
 #include "facontext.h"
 #include "log.h"
 #include "pmo.h"
+#include "utility.h"
 
 #define DB printf("%s:%d\n", __FILE__, __LINE__);
 
@@ -93,8 +94,6 @@ EventQueue()
    m_uiRegistry = NULL;
    
    m_lmcExtensions = NULL;
-   m_musicBrowser = NULL;
-//   m_musicBrowser = new MusicBrowser("/tmp/dbase");
  
    m_pmo = NULL;
    m_lmc = NULL;
@@ -116,6 +115,16 @@ EventQueue()
    m_context->plm = m_plm;
    m_context->props = &m_props;
    m_context->target = (EventQueue *) this;
+
+   m_musicBrowser = new MusicBrowser(m_context);
+   m_context->browser = m_musicBrowser;
+
+   char *freeampdir = FreeampDir();
+   char *tempstr = new char[strlen(freeampdir) + strlen(DIR_MARKER_STR) + 14];
+   sprintf(tempstr, "%s%s%s", freeampdir, DIR_MARKER_STR, "metadatabase");
+   m_musicBrowser->SetDatabase(tempstr);
+   delete tempstr;
+   delete freeampdir;
 }
 
 #define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }
@@ -458,8 +467,6 @@ Run()
    m_context->prefs->GetLogPerformance(&bValue);
    if (bValue)
       m_context->log->AddLogLevel(LogPerf);
-
-//   m_musicBrowser->SearchMusic(m_context, "/data/music");
 
    // which ui should we instantiate first??
    if (m_argUIList->size() == 0)

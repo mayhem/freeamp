@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.2.2.3 1999/09/02 20:01:05 elrod Exp $
+	$Id: utility.cpp,v 1.2.2.4 1999/09/16 00:03:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -29,6 +29,31 @@ ____________________________________________________________________________*/
 
 #include "config.h"
 #include "utility.h"
+
+#ifdef WIN32
+#else
+
+#include <stdlib.h>
+
+char *FreeampDir(void)
+{
+    char *homeDir = getenv("HOME");
+    const char *fadir = "/.freeamp";
+    char *s;
+
+    if (!homeDir) {
+        s = new char[2];
+        strcpy(s, "/");
+        return s;
+    }
+
+    s = new char[strlen(homeDir) + strlen(fadir) + 1];
+    strcpy(s, homeDir);
+    strcat(s, fadir);
+
+    return s;
+}
+#endif    
 
 const char* protocol = "file://";
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.14.8.3 1999/09/01 22:30:53 ijr Exp $
+	$Id: config.h.in,v 1.14.8.4 1999/09/16 00:03:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -171,6 +171,10 @@ typedef short			int32;
 #else
 #define LINE_END_MARKER_STR "\n"
 #endif /* WIN32 */
+
+#if !defined(WIN32) || !defined(OS2) || !defined(__DOS__)
+#define ROOT_DIR "/"
+#endif
 
 #ifndef NULL
 #ifdef  __cplusplus

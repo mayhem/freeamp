@@ -18,11 +18,12 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.2 1999/09/10 02:20:17 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.3 1999/09/16 00:03:59 ijr Exp $
 ____________________________________________________________________________*/
 
-#include "musicbrowser.h" 
+#include "gtkmusicbrowser.h" 
 #include "event.h"
+#include "infoeditor.h"
 
 extern "C" {
 
@@ -54,6 +55,7 @@ Error musicbrowserUI::Init(int32 startup_level)
     m_argv = m_context->argv;
     m_plm = m_context->plm;
     m_playerEQ = m_context->target;
+    m_musicCatalog = m_context->browser->m_catalog;
 
     gtkThread = Thread::CreateThread();
     gtkThread->Create(musicbrowserUI::gtkServiceFunction, this);
@@ -69,7 +71,7 @@ void musicbrowserUI::gtkServiceFunction(void *p)
 
 void musicbrowserUI::ParseArgs(void)
 {
-/* Most of this is temporary */
+/* Most of this is temporary, and shouldn't be here */
     char *arg = NULL;
  
     for (int32 i = 1; i < m_argc; i++) {
@@ -164,3 +166,28 @@ void musicbrowserUI::PlayEvent(void)
     m_plm->SetCurrentIndex(m_currentindex);
     m_playerEQ->AcceptEvent(new Event(CMD_Play));
 }
+
+void musicbrowserUI::StartMusicSearch(void)
+{
+    m_context->browser->SearchMusic(ROOT_DIR);
+    UpdateCatalog();
+}
+
+void musicbrowserUI::SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType
+                                       type)
+{
+    if (order == kPlaylistSortKey_Random)
+        m_plm->SetShuffleMode(true);
+    else
+        m_plm->Sort(order, type);
+    UpdatePlaylistList();
+}
+
+void musicbrowserUI::PopUpInfoEditor(void)
+{
+    infoeditorUI *infoedit = new infoeditorUI(m_context, 
+                                              m_plm->ItemAt(m_currentindex));
+    
+    infoedit->DisplayInfo();
+}
+

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.6 1999/09/09 01:25:33 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.7 1999/09/16 00:03:58 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -109,7 +109,8 @@ plugins/esound.pmo: $(ESNDOBJ)
 
 # musicbrowser ui
 MUSICBROWSEROBJ = ui/musicbrowser/unix/gtkmusicbrowser.o \
-                  ui/musicbrowser/unix/musicbrowser.o
+                  ui/musicbrowser/unix/musicbrowser.o \
+                  ui/musicbrowser/unix/infoeditor.o
 
 plugins/musicbrowser.ui: $(MUSICBROWSEROBJ)
 	$(LINKMOD) -o $@ $(MUSICBROWSEROBJ) $(GTK_LIBS)

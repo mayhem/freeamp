@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.81 2000/05/25 10:48:29 elrod Exp $
+        $Id: Dialog.cpp,v 1.82 2000/06/01 17:11:32 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -1435,9 +1435,8 @@ BOOL MusicBrowserUI::SetCursor(int hitTest, int mouseMsg)
 {
     BOOL result = FALSE;
 
-    if((m_overSplitter || m_trackSplitter) && hitTest == HTCLIENT)
+    if(hitTest == HTCLIENT)
     {
-        ::SetCursor(m_hSplitterCursor);
         result = TRUE;
     }
     return result;
@@ -1490,13 +1489,14 @@ void MusicBrowserUI::MouseMove(uint32 uFlags, POINT &sPoint)
 
         if(PtInRect(&m_splitterRect, sPoint))
         {
-            m_overSplitter = true;
+            //m_overSplitter = true;
+            ::SetCursor(m_hSplitterCursor);
         }
         else
         {
-            m_overSplitter = false;
+            //m_overSplitter = false;
+            ::SetCursor(LoadCursor(NULL, IDC_ARROW));
         }
-   
     }
 } 
 
@@ -1615,7 +1615,10 @@ void MusicBrowserUI::MouseButtonUp(int keys, int x, int y)
                   titleRect.bottom - titleRect.top,
                   TRUE);
 
-
+        m_splitterRect.top = playlistRect.top;
+        m_splitterRect.bottom = playlistRect.bottom;
+        m_splitterRect.left = catalogRect.right + 1;
+        m_splitterRect.right = playlistRect.left - 1;
     }
 }
 

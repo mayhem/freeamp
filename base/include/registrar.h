@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.h,v 1.1 1998/10/15 21:42:48 jdw Exp $
+	$Id: registrar.h,v 1.2 1998/10/15 21:56:33 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _REGISTRAR_H_
@@ -31,42 +31,8 @@ ____________________________________________________________________________*/
 #include "uiregistry.h"*/
 
 #ifndef WIN32
-#define MAX_PATH 1024
-
-class FILETIME {
-public:
-    int32 dwLowDateTime;
-    int32 dwHighDateTime;
-};
-
-class WIN32_FIND_DATA {
-public:
-    int32 dwFileAttributes;
-    FILETIME ftCreationTime;
-    FILETIME ftLastAccessTime;
-    FILETIME ftLastWriteTime;
-    int32 nFileSizeHigh;
-    int32 nFileSizeLow;
-    int32 dwReserved0;
-    int32 dwReserved1;
-    char cFileName[ MAX_PATH ];
-    char cAlternateFileName[ 14 ];
-};
-
-typedef int HANDLE;
-#define INVALID_HANDLE_VALUE ((HANDLE)-1)
-typedef void *HMODULE;
-#define HINSTANCE HMODULE
-typedef void (*FARPROC)(void *);
-
-HANDLE FindFirstFile(char *lpFileName, WIN32_FIND_DATA *lpFindFileData);
-bool FindNextFile(HANDLE hFindFile, WIN32_FIND_DATA *lpFindFileData);
-bool FindClose(HANDLE hFindFile);
-HINSTANCE LoadLibrary(char *lpLibFileName);
-bool FreeLibrary(HMODULE hLibModule);
-FARPROC GetProcAddress(HMODULE hModule, char *lpProcName);
-
-#endif // WIN32
+#include "win32impl.h"
+#endif
 
 class Registrar{
  public:

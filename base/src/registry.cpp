@@ -18,10 +18,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.cpp,v 1.2 1998/10/15 13:33:49 elrod Exp $
+	$Id: registry.cpp,v 1.3 1998/10/15 21:56:36 jdw Exp $
 ____________________________________________________________________________*/
 
-#include "Registry.h"
+#include "registry.h"
 
 
 Registry::

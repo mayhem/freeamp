@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.1.2.2 1999/09/09 02:42:10 elrod Exp $
+   $Id: GTKWindow.h,v 1.1.2.3 1999/09/20 17:45:39 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKWINDOW__H_
@@ -38,7 +38,8 @@ class GTKWindow : public Window
               GTKWindow(Theme *pTheme, string &oName);
      virtual ~GTKWindow(void);
 
-     virtual Error Run(void);
+     virtual Error Run(Pos &oWindowPos);
+     virtual Error Close(void); 
      virtual Error Create(void);
      virtual Error Destroy(void);
      virtual Error Show(void);
@@ -50,6 +51,8 @@ class GTKWindow : public Window
      virtual Error HideMouse(bool bHide);
      virtual Error SetMousePos(Pos &oPos);
      virtual Error GetMousePos(Pos &oPos);
+     virtual Error SetWindowPosition(Rect &oWindowRect);
+     virtual Error GetWindowPosition(Rect &oWindowRect); 
 
     protected:
      

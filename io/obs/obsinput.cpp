@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.18 1999/07/26 23:48:12 robert Exp $
+        $Id: obsinput.cpp,v 1.19 1999/07/27 02:12:55 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -351,7 +351,7 @@ void ObsInput::WorkerThread(void)
 
       iStructSize = sizeof(struct sockaddr_in);
       iRead = recvfrom(m_hHandle, (char *)pTemp, iMAX_PACKET_SIZE, 0,
-                       (struct sockaddr *)m_pSin, (socklen_t *)&iStructSize);
+                       (struct sockaddr *)m_pSin, (int32 *)&iStructSize);
       if (iRead <= 0)
       {
          m_pOutputBuffer->SetEndOfStream(true);

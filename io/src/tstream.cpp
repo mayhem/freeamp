@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.2 1999/07/26 23:48:13 robert Exp $
+   $Id: tstream.cpp,v 1.3 1999/07/27 02:12:55 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -83,7 +83,7 @@ TitleStreamServer::~TitleStreamServer()
 Error TitleStreamServer::Init(int &iPort)
 {
    struct sockaddr_in sin;
-   socklen_t sinlen = sizeof(struct sockaddr_in);
+   uint32 sinlen = sizeof(struct sockaddr_in);
    int       port, startport = 10000;
    char      szSourceAddr[100];
    bool      bUseAltNIC;
@@ -261,7 +261,7 @@ void TitleStreamServer::WorkerThread(void)
       {
           iStructSize = sizeof(struct sockaddr_in);
           iRet = recvfrom(m_hHandle, buf, 255, 0, (struct sockaddr *)m_pSin, 
-                          (socklen_t *)&iStructSize);
+                          (int32 *)&iStructSize);
       }
       else
           iRet = recv(m_hHandle, buf, 255, 0);

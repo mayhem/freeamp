@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.12 2000/02/09 21:21:26 elrod Exp $
+        $Id: downloadui.cpp,v 1.12.4.1 2000/03/04 06:34:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -109,10 +109,10 @@ void DownloadUI::GTKEventService(void)
     }
 }
 
-Error DownloadUI::AcceptEvent(Event *event)
+Error DownloadUI::AcceptEvent(Event *e)
 {
     
-    switch (event->Type()) {
+    switch (e->Type()) {
         case CMD_Cleanup: {
             if (weAreGTK) 
                 doQuitNow = true;
@@ -141,17 +141,18 @@ Error DownloadUI::AcceptEvent(Event *event)
                     CreateDownloadUI();
                     m_initialized = true;
                 }
+                UpdateDownloadList();
                 isVisible = true;
             }
             gdk_threads_leave();
             break; }
         case INFO_DownloadItemAdded: {
-            DownloadItemAddedEvent *dliae = (DownloadItemAddedEvent *)event;
+            DownloadItemAddedEvent *dliae = (DownloadItemAddedEvent *)e;
             downloadList.push_back(dliae->Item());
 
             if (isVisible) {
                 gdk_threads_enter();
-                UpdateDownloadList();
+                AddItem(dliae->Item());
                 UpdateOverallProgress();
                 gdk_threads_leave();
             }
@@ -161,10 +162,10 @@ Error DownloadUI::AcceptEvent(Event *event)
 
             break; }
 	case INFO_DownloadItemNewState: {
-	    DownloadItemNewStateEvent *dlinse = (DownloadItemNewStateEvent *)event;
+	    DownloadItemNewStateEvent *dlinse = (DownloadItemNewStateEvent *)e;
 	    if (isVisible) {
 	        gdk_threads_enter();
-		UpdateDownloadList();
+		UpdateItem(dlinse->Item());
 		UpdateOverallProgress();
 		
 		uint32 count = 0;
@@ -180,11 +181,20 @@ Error DownloadUI::AcceptEvent(Event *event)
 		gdk_threads_leave();
             }
 	    break; }
-        case INFO_DownloadItemRemoved:
-        case INFO_DownloadItemProgress: {
+        case INFO_DownloadItemRemoved: {
+            DownloadItemRemovedEvent *dire = (DownloadItemRemovedEvent *)e;
             if (isVisible) {
                 gdk_threads_enter();
-                UpdateDownloadList();
+                RemoveItem(dire->Item());
+                UpdateOverallProgress();
+                gdk_threads_leave();
+            }
+            break; }
+        case INFO_DownloadItemProgress: {
+            DownloadItemProgressEvent *dipe = (DownloadItemProgressEvent *)e;
+            if (isVisible) {
+                gdk_threads_enter();
+                UpdateItem(dipe->Item());
                 UpdateOverallProgress();
                 gdk_threads_leave();
             }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.9 2000/02/13 03:26:45 ijr Exp $
+	$Id: downloadui.h,v 1.9.4.1 2000/03/04 06:34:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -87,6 +87,11 @@ class DownloadUI : public UserInterface {
     void CreateDownloadList(GtkWidget *box);
     void UpdateOverallProgress(void);
     void UpdateInfo(void);
+    void AddItem(DownloadItem *dli);
+    void UpdateItem(DownloadItem *dli);
+    void RemoveItem(DownloadItem *dli);
+
+    string StatusString(DownloadItem *dli);
     
     GtkWidget *m_downloadUI;
     GtkWidget *m_List;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.4 1999/10/14 00:35:18 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.5 1999/10/14 18:42:51 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -391,7 +391,7 @@ void MusicBrowserUI::InitDialog(void)
     TV_ITEM         sItem;
     TV_INSERTSTRUCT sInsert;
     
-    hList = ImageList_Create(16, 16, ILC_COLOR8, 3, 0);
+    hList = ImageList_Create(16, 16, ILC_COLOR8|ILC_MASK, 3, 0);
     hShell = GetModuleHandle("SHELL32.DLL");
     dwIcon = 4;     // 'Closed folder' Icon
     ImageList_AddIcon(hList, LoadIcon(hShell, MAKEINTRESOURCE(dwIcon)));

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.3 1998/10/13 20:08:06 elrod Exp $
+	$Id: registrar.cpp,v 1.4 1998/10/13 21:33:14 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -98,7 +98,7 @@ Error RegisterPMOs(PMORegistry* registry)
         char search[MAX_PATH];
 
         strcpy(search, dir);
-        strcat(search, "\\pmo\\*.pmo");
+        strcat(search, "\\io\\*.pmo");
 
         handle = FindFirstFile(search, &find);
 
@@ -146,7 +146,7 @@ Error RegisterPMIs(PMIRegistry* registry)
         char search[MAX_PATH];
 
         strcpy(search, dir);
-        strcat(search, "\\pmi\\*.pmi");
+        strcat(search, "\\io\\*.pmi");
 
         handle = FindFirstFile(search, &find);
 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.2 1998/10/13 10:07:04 elrod Exp $
+	$Id: main.cpp,v 1.3 1998/10/13 21:33:14 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -41,8 +41,8 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 		 				LPSTR lpszCmdLine, 
 						int cmdShow)
 {
-   // Initialize Windows Registry
-   InitWindowsRegistry();
+    // Initialize Windows Registry
+    InitWindowsRegistry();
 
     // find all the plug-ins we use
     LMCRegistry* lmc;

@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.42 1998/11/01 21:49:14 jdw Exp $
+	$Id: player.cpp,v 1.43 1998/11/03 01:21:04 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -634,19 +634,24 @@ int32 Player::ServiceEvent(Event *pC) {
                 break;
 	    }
 	    
-	    case CMD_SetPlaylist:
-		
-		if (m_myPlayList) {
-		    delete m_myPlayList;
-		    m_myPlayList = NULL;
-		}
-		
-		m_myPlayList = ((SetPlayListEvent *)pC)->GetPlayList();
-		m_myPlayList->SetFirst();
-		
-		return 0;
+		case CMD_SetPlaylist: {
+			
+			if (m_myPlayList) {
+				delete m_myPlayList;
+				m_myPlayList = NULL;
+			}
+			
+			m_myPlayList = ((SetPlayListEvent *)pC)->GetPlayList();
+			//m_myPlayList->SetFirst();
+
+			GetUIManipLock();
+			Event *pe = new PlayListEvent(m_myPlayList);
+			SendToUI(pe);
+			delete pe;
+			ReleaseUIManipLock();
+			return 0;
 	    	break;
-		
+							  }
 	    case CMD_QuitPlayer: {
 		AcceptEvent(new Event(CMD_Stop));
 		// 1) Set "I'm already quitting flag" (or exit if its already Set)

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.2 1998/11/03 00:05:21 jdw Exp $
+	$Id: freeampui.cpp,v 1.3 1998/11/03 01:21:04 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -176,6 +176,12 @@ AcceptEvent(Event* event)
 				m_state = STATE_Stopped;
 	            break; 
             }
+			case INFO_PlayList: 
+				{
+					PlayListEvent *info = (PlayListEvent *)event;
+					m_playList = info->GetPlayList();
+					break;
+				}
 			case INFO_MPEGInfo: 
 				{
 					MpegInfoEvent *info = (MpegInfoEvent *)event;

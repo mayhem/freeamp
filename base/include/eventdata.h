@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.10 1998/11/02 07:13:00 jdw Exp $
+	$Id: eventdata.h,v 1.11 1998/11/03 01:21:04 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -33,6 +33,14 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "id3v1.h"
 
+class PlayListEvent : public Event {
+public:
+	PlayListEvent(PlayList *pl) { m_type = INFO_PlayList; m_arg = pl; }
+	PlayList *GetPlayList() { return m_arg; }
+	virtual ~PlayListEvent() {}
+private:
+	PlayList *m_arg;
+};
 
 class SetPlayListEvent : public Event {
  public:

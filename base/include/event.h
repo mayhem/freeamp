@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.12 1998/11/01 21:49:14 jdw Exp $
+	$Id: event.h,v 1.13 1998/11/03 01:21:03 jdw Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -77,6 +77,7 @@ class EventQueue {
 #define INFO_LMCError           28 // sent by LMC to player to signal an error condition in the decoder
 #define INFO_MPEGInfo			29 // info about MPEG stuff (layer, samprate, etc.)
 #define INFO_ID3TagInfo			30 // info about ID3 tag
+#define INFO_PlayList			31 // sent by player to UIs notifying of new playlist
 #endif // _EVENT_H_
 
 

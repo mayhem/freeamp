@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.2 1998/11/03 00:05:21 jdw Exp $
+	$Id: freeampui.h,v 1.3 1998/11/03 01:21:04 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -35,7 +35,7 @@ ____________________________________________________________________________*/
 #include "thread.h"
 #include "mutex.h"
 #include "queue.h"
-
+#include "playlist.h"
 
 enum { STATE_Stopped = 1, STATE_Playing, STATE_Paused };
 
@@ -71,6 +71,7 @@ class FreeAmpUI : public UserInterface {
 
 
  private:
+	 PlayList *		m_playList;
     int32			m_totalSeconds;
     float			m_secondsPerFrame;
     Thread*         m_uiThread;

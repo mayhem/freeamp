@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.19 2000/06/13 20:24:32 ijr Exp $
+   $Id: Control.cpp,v 1.20 2000/08/08 21:04:40 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -185,7 +185,7 @@ void Control::AcceptTransition(ControlTransitionEnum eTrans, Pos *pPos)
 void Control::SetParent(Window *pParent)
 {
     m_oMutex.Acquire();
-	m_pParent = pParent;
+    m_pParent = pParent;
     m_oMutex.Release();
 }
 

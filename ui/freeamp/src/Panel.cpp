@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Panel.cpp,v 1.5 2000/08/08 16:05:57 ijr Exp $
+   $Id: Panel.cpp,v 1.6 2000/08/08 21:04:40 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -88,22 +88,33 @@ void Panel::ClearControls(void)
 
 void Panel::GetControlToolTips(vector<pair<Rect, string> > &oList)
 {
-    vector<Control *>::iterator i;
-	Rect                        oRect;
-	string                      oTip;
-	pair<Rect, string>          oTemp;
+   vector<Control *>::iterator i;
+    Rect                        oRect;
+    string                      oTip;
+    pair<Rect, string>          oTemp;
 
-	if (m_bIsHidden)
-	    return;
+    if (m_bIsHidden)
+        return;
 
     for(i = m_oControls.begin(); i != m_oControls.end(); i++)
     {
         (*i)->GetTip(oTip);
         (*i)->GetRect(oRect);
-		oTemp.first = oRect;
-		oTemp.second = oTip;
-		oList.push_back(oTemp);
+        oTemp.first = oRect;
+        oTemp.second = oTip;
+        oList.push_back(oTemp);
     }
+}
+
+void Panel::SetParentWindow(Window *pWin)
+{
+    vector<Control *>::iterator i;
+
+    m_pWindow = pWin;    
+    for(i = m_oControls.begin(); i != m_oControls.end(); i++)
+    {
+        (*i)->SetParent(pWin);
+    }    
 }
 
 void Panel::GetName(string &oName)

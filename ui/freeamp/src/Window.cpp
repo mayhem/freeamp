@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.46 2000/07/10 16:26:00 hiro Exp $
+   $Id: Window.cpp,v 1.47 2000/08/08 21:04:40 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -167,6 +167,7 @@ Error Window::VulcanMindMeld(Window *pOther)
     m_oPanels.clear();
     for(k = pOther->m_oPanels.begin(); k != pOther->m_oPanels.end(); k++)
     {
+        (*k)->SetParentWindow(this);
         m_oPanels.push_back(*k);
     }    
 
@@ -483,7 +484,7 @@ void Window::HandleMouseMove(Pos &oScreenPos)
     GetWindowPosition(oRect);
     oPos.x = oScreenPos.x - oRect.x1;
     oPos.y = oScreenPos.y - oRect.y1;
-    
+   
     if (m_pCaptureControl)
     {
        m_pCaptureControl->AcceptTransition(CT_MouseMove, &oPos);

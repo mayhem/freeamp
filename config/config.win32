@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.9 1999/07/05 23:11:08 robert Exp $
+	$Id: config.win32,v 1.10 1999/07/21 21:34:52 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -52,6 +52,7 @@ ____________________________________________________________________________*/
 #define __BYTE_ORDER    __LITTLE_ENDIAN
 #define usleep(x) ::Sleep(x/1000)
 #define strcasecmp(a,b) stricmp(a,b)
+#define strncasecmp(a,b,c) strnicmp(a,b,c)
 #endif
 
 /* define our datatypes */

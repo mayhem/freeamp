@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: IntroductionWizard.cpp,v 1.18 2000/08/25 13:40:13 sward Exp $
+        $Id: IntroductionWizard.cpp,v 1.19 2000/09/01 16:45:42 sward Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -594,8 +594,10 @@ static BOOL CALLBACK IntroWizardSearch( HWND hwnd,
                     if(allDrives)
                     {
                         DWORD  dwDrives;
-                        char   *szDrive = "X:\\";
-                        int32  i, ret;
+                        char   *szDrive = new char[5];
+						memset(szDrive, 0x00, sizeof(char)*5);
+                        szDrive[1] = ':';
+						int32  i, ret;
 
                         dwDrives = GetLogicalDrives();
                         for(i = 0; i < sizeof(DWORD) * 8; i++)
@@ -610,6 +612,7 @@ static BOOL CALLBACK IntroWizardSearch( HWND hwnd,
                               }
                            }   
                         }
+						delete [] szDrive;
                     }
                     else
                     {

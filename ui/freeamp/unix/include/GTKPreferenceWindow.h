@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.10 1999/12/07 22:16:43 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.11 1999/12/09 07:37:56 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -135,8 +135,9 @@ class GTKPreferenceWindow : public PreferenceWindow
 
                void SavePrefsValues(Preferences* prefs, 
                                     PrefsStruct* values);
+
   protected:
-    
+
       PrefsStruct  currentValues;
       PrefsStruct  originalValues;
       PrefsStruct  proposedValues;

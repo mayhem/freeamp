@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.h,v 1.4 1999/12/06 12:27:25 ijr Exp $
+   $Id: GTKFont.h,v 1.5 1999/12/09 07:37:56 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKFONT_H__
@@ -36,9 +36,7 @@ using namespace std;
 #include "Font.h"
 
 #ifdef HAVE_FREETYPE
-extern "C" {
 #include "ttfont.h"
-}
 #endif
 
 enum FontTypeEnum 

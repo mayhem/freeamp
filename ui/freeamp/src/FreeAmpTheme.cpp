@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.41 1999/12/07 18:08:49 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.42 1999/12/09 07:37:56 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -491,7 +491,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
       }
       case CMD_ShowPreferences:
       {
-          ShowPreferencesEvent* prefsEvent = (ShowPreferencesEvent*)e;
+         ShowPreferencesEvent* prefsEvent = (ShowPreferencesEvent*)e;
       	 ShowOptions(prefsEvent->GetDefaultPage(), false);
       	 break;
       }
@@ -1022,9 +1022,10 @@ void FreeAmpTheme::ShowOptions(uint32 defaultPage, bool inEventLoop)
 #else
     pWindow = new GTKPreferenceWindow(m_pContext, m_pThemeMan, defaultPage, 
                                       inEventLoop);
-#endif       
+#endif
+
     pWindow->Show(m_pWindow);
-          
+
     delete pWindow;
 }
 

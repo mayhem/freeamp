@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: unixprefs.h,v 1.4 1999/10/19 07:12:48 elrod Exp $
+	$Id: unixprefs.h,v 1.5 1999/12/09 07:37:56 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -65,7 +65,7 @@ class UnixPrefs : public Preferences
 
     virtual LibDirFindHandle *GetFirstLibDir(char *path, uint32 *len);
     virtual Error GetNextLibDir(LibDirFindHandle *hLibDirFind,
-				char *path, uint32 *len);
+                   		char *path, uint32 *len);
     virtual Error GetLibDirClose(LibDirFindHandle *hLibDirFind);
 
     virtual const char *GetLibDirs();

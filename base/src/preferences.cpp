@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.32 2000/01/14 02:44:12 elrod Exp $
+        $Id: preferences.cpp,v 1.33 2000/01/14 20:44:17 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -73,6 +73,7 @@ const char* kViewMusicBrowserPref = "ViewMusicBrowser";
 const char* kWindowModePref = "WindowMode";
 const char* kWelcomePref = "Welcome";
 const char* kPlayImmediatelyPref = "PlayImmediately";
+const char* kNumberOfURLsToRememberPref = "NumberOfURLsToRemember";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -122,6 +123,7 @@ const bool kDefaultSaveCurrentPlaylistOnExit = false;
 const bool kDefaultViewMusicBrowser = true;
 const bool kDefaultWelcome = true;
 const bool kDefaultPlayImmediately = true;
+const int32 kDefaultNumberOfURLsToRemember = 10;
 
 Error
 Preferences::
@@ -277,6 +279,9 @@ SetDefaults()
 
     if (GetPrefBoolean(kPlayImmediatelyPref, &dummyBool) == kError_NoPrefValue)
         SetPrefBoolean(kPlayImmediatelyPref, kDefaultPlayImmediately);
+
+    if (GetPrefInt32(kNumberOfURLsToRememberPref, &dummyInt) == kError_NoPrefValue)
+        SetPrefInt32(kNumberOfURLsToRememberPref, kDefaultNumberOfURLsToRemember);
 
     return kError_NoErr;
 }
@@ -941,6 +946,20 @@ Preferences::
 SetPlayImmediately(bool value)
 {
     return SetPrefBoolean(kPlayImmediatelyPref, value);
+}
+
+Error
+Preferences::
+GetNumberOfURLsToRemember(int32* value)
+{
+    return GetPrefInt32(kNumberOfURLsToRememberPref, value);
+}
+
+Error
+Preferences::
+SetNumberOfURLsToRemember(int32 value)
+{
+    return SetPrefInt32(kNumberOfURLsToRememberPref, value);
 }
 
 LibDirFindHandle *

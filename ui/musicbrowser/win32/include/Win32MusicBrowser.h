@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.57 2000/01/14 09:16:21 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.58 2000/01/14 20:44:17 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -73,13 +73,6 @@ class TrackSort : public binary_function<PlaylistItem*, PlaylistItem*, bool> {
     bool operator() (PlaylistItem* item1, PlaylistItem* item2) const;
 };
 
-
-bool FileOpenDialog(HWND hwnd, 
-                    const char* title,
-                    const char* filter,
-                    vector<string>* fileList,
-                    Preferences* prefs, 
-                    bool allowURL);
 
 LRESULT WINAPI 
 ListViewWndProc(HWND hwnd, 
@@ -154,7 +147,13 @@ class MusicBrowserUI : public UserInterface
     BOOL MusicSearchDlgProc(HWND hwnd, 
                             UINT msg, 
                             WPARAM wParam, 
-                            LPARAM lParam);    
+                            LPARAM lParam);   
+    
+    bool FileOpenDialog(HWND hwnd, 
+                    const char* title,
+                    const char* filter,
+                    vector<string>* fileList,
+                    bool allowURL);
     
     const PlaylistManager* PLManager() const { return m_oPlm; }
  

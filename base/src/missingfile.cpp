@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: missingfile.cpp,v 1.2 2000/05/08 16:39:00 robert Exp $
+        $Id: missingfile.cpp,v 1.3 2000/05/12 13:51:28 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -51,11 +51,12 @@ using namespace std;
 #include "config.h"
 #include "missingfile.h"
 #include "utility.h"
+#include "musiccatalog.h"
 
 
-MissingFile::MissingFile(FAContext *context)
+MissingFile::MissingFile(FAContext *context):m_context(context)
 {
-    m_context = context;
+
 }
 
 MissingFile::~MissingFile()
@@ -82,9 +83,35 @@ Error MissingFile::FindMissingFile(PlaylistItem *item,
 Error MissingFile::AcceptLocation(PlaylistItem *item,
                                   const string &newUrl)
 {
-    item->SetURL(newUrl.c_str());
+    // update all the user's playlists
+    const vector<string>* playlists;
+    vector<string>::const_iterator url;
 
-    // Elrod: finish this function
+    playlists = m_context->catalog->GetPlaylists();
+
+    for(url = playlists->begin(); 
+        url != playlists->end(); 
+        url++)
+    {
+        vector<PlaylistItem*> tracks;
+
+        m_context->plm->ReadPlaylist((*url).c_str(), &tracks);
+
+        vector<PlaylistItem*>::iterator i = tracks.begin();
+
+        for(; i != tracks.end(); i++)
+        {
+            if((*i)->URL() == item->URL())
+            {
+                (*i)->SetURL(newUrl.c_str());   
+            }
+        }
+        
+        m_context->plm->WritePlaylist((*url).c_str(), &tracks);
+    }
+
+    // update the item itself
+    item->SetURL(newUrl.c_str());
 
     return kError_UnknownErr;
 }

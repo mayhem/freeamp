@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: PlaylistView.h,v 1.1 2000/03/24 01:18:41 hiro Exp $
+        $Id: PlaylistView.h,v 1.2 2000/03/28 08:48:50 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_VIEW_H__
@@ -32,14 +32,21 @@ public:
                     PlaylistView( BRect frame, const char* name,
                                   uint32 resizingMode );
     virtual         ~PlaylistView();
+    virtual void    Draw( BRect updateRect );
     virtual bool    InitiateDrag( BPoint point, int32 index, bool wasSelected );
+    virtual void    MessageReceived( BMessage* message );
+    virtual void    MouseMoved( BPoint point, uint32 transit,
+                                const BMessage* message );
+    virtual void    MouseUp( BPoint point );
 
     void            SetCurrentlyPlaying( int32 index );
 
 protected:
+    void            SetInserter( int32 index ); // if negative, removes it.
 
 private:
     int32           m_currentIndex;
+    int32           m_inserter;
 };
 
 #endif // INCLUDED_PLAYLIST_VIEW_H__

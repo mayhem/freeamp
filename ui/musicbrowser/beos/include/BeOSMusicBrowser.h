@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: BeOSMusicBrowser.h,v 1.1 2000/03/24 01:18:41 hiro Exp $
+        $Id: BeOSMusicBrowser.h,v 1.2 2000/03/28 08:48:50 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_BEOSMUSICBROWSER_H__
@@ -66,6 +66,7 @@ enum {
     MBMSG_WIZARD_GONE = 'wzgn',
     MBMSG_STOP_SEARCH = 'stps',
     MBMSG_EDIT_CATALOG_ITEM = 'edci',
+    MBMSG_SELECTION_CHANGED = 'slnc',
 
     // For debug.
     MBMSG_DEBUG_1 = 'dbg1',
@@ -126,6 +127,7 @@ private:
     bool                m_master;
     MusicTreeView*      m_musicTreeView;
     PlaylistView*       m_playlistView;
+    BListView*          m_selectedView;
     Placard*            m_placard;
     IntroductionWizard* m_wizard;
     string              m_currentListName;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: BeOSMusicBrowser.cpp,v 1.1 2000/03/24 01:18:41 hiro Exp $
+        $Id: BeOSMusicBrowser.cpp,v 1.2 2000/03/28 08:48:50 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "BeOSMusicBrowser.h"
@@ -68,7 +68,8 @@ BeOSMusicBrowser::BeOSMusicBrowser( FAContext* context, MusicBrowserUI* ui,
     m_context( context ),
     m_plm( NULL ),
     m_ui( ui ),
-    m_master( master )
+    m_master( master ),
+    m_selectedView( NULL )
 {
     if ( m_master )
     {
@@ -381,7 +382,17 @@ BeOSMusicBrowser::MessageReceived( BMessage* message )
             break;
         }
         case MBMSG_EDIT_INFO:
+        {
+            if ( !m_selectedView ) break;
+            BListItem* li =
+                m_selectedView->ItemAt( m_selectedView->CurrentSelection() );
+            CatalogItem* item = dynamic_cast<CatalogItem*>( li );
+            if ( item )
+            {
+                EditCatalogItem( item );
+            }
             break;
+        }
         case MBMSG_MOVE_UP:
         {
             uint32 index = m_playlistView->CurrentSelection();
@@ -400,6 +411,21 @@ BeOSMusicBrowser::MessageReceived( BMessage* message )
                 = (PlaylistSortKey)message->FindInt32( "PlaylistSortKey" );
             PRINT(( "Sorting by %ld\n", key ));
             m_plm->Sort( key );
+            break;
+        }
+        case MBMSG_SELECTION_CHANGED:
+        {
+            BListView* lv;
+            if ( message->FindPointer( "source", (void**)&lv ) < B_OK ) break;
+            if ( m_selectedView == NULL )
+            {
+                m_selectedView = lv;
+            }
+            else if ( lv != m_selectedView && lv->CurrentSelection() >= 0 )
+            {
+                m_selectedView->DeselectAll();
+                m_selectedView = lv;
+            }
             break;
         }
         case MBMSG_TOOLTIP_MESSAGE:
@@ -627,6 +653,8 @@ BeOSMusicBrowser::UpdateCatalogView( void )
     UpdateCatalogPlaylistGroup();
 
     catalog->ReleaseCatalogLock();
+
+    m_musicTreeView->FindArtistGroup( "Headboard" );
 }
 
 // --------------------------------------------

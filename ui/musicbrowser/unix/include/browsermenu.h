@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.h,v 1.2 1999/10/19 07:13:28 elrod Exp $
+        $Id: browsermenu.h,v 1.3 1999/10/24 19:41:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_BROWSERMENU_H_
@@ -27,7 +27,7 @@ ____________________________________________________________________________*/
 #include <gtk/gtk.h>
 
 extern "C" {
-void CreateMenuItems(GtkItemFactory *item_factory);
+void CreateMenuItems(GtkItemFactory *item_factory, void *p);
 }
 
 #endif

@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.h,v 1.4 2000/08/24 14:37:05 robert Exp $
+   $Id: vorbislmc.h,v 1.5 2000/09/22 09:38:17 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -71,7 +71,7 @@ class VorbisLMC : public LogicalMediaConverter
  
  private:
 
-   static int    SeekWrapper(void *stream, int64_t offset, int whence);
+   static int    SeekWrapper(void *stream, ogg_int64_t offset, int whence);
    static long   TellWrapper(void *stream);
    static int CloseWrapper(void *stream);
    static size_t ReadWrapper(void *buf, size_t size, size_t num, void *stream);

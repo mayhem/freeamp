@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.cpp,v 1.9 2000/09/21 21:39:04 robert Exp $
+   $Id: vorbislmc.cpp,v 1.10 2000/09/22 09:38:17 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -406,7 +406,7 @@ void VorbisLMC::DecodeWork()
           m_frameCounter = 0;
           bytesCopied = 0;
           bytesPerFrame = (vi->rate / iFramesPerSecond) * 
-                          sizeof(int16_t) * vi->channels;
+                          sizeof(ogg_int16_t) * vi->channels;
           m_section = section;
        
           m_pOutputBuffer->EndWrite(0);
@@ -434,7 +434,7 @@ Error VorbisLMC::ChangePosition(int32 position)
    return kError_NoErr;
 }
 
-int VorbisLMC::SeekWrapper(void *stream, int64_t offset, int whence)
+int VorbisLMC::SeekWrapper(void *stream, ogg_int64_t offset, int whence)
 {
    return ((VorbisLMC *)stream)->Seek((int32)offset, whence);
 }

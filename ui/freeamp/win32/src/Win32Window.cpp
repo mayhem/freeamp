@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.32 2000/02/15 19:25:24 robert Exp $
+   $Id: Win32Window.cpp,v 1.32.2.1 2000/02/27 22:52:48 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -738,9 +738,6 @@ CreateTooltips()
     TOOLINFO ti;
     vector<Control *>::iterator i;
     uint32 uCtr;
-
-    if (m_bMindMeldInProgress)
-       return;
 
     //
     // check if we have been here

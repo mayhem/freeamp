@@ -18,13 +18,19 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.21 1999/10/09 18:52:59 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.22 1999/10/11 04:20:00 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifdef WIN32
 #include <io.h>
+#else
+#include <unistd.h>
+#define _S_IFDIR S_IFDIR
+#define _stat stat
+#endif
 #include <map>
 #include <algorithm>
 #include <assert.h>
@@ -83,13 +89,14 @@ Theme::Theme(FAContext *context)
     m_oReloadWindow = string("");
     m_eCurrentControl = eUndefinedControl;
     m_pThemeMan = new ThemeManager(m_pContext);
-    
+   
+    string funkyName = "Frunobulax"; 
 #ifdef WIN32
-    m_pWindow = new Win32Window(this, string("Frunobulax"));
+    m_pWindow = new Win32Window(this, funkyName);
 #elif defined(HAVE_GTK)
-    m_pWindow = new GTKWindow(this, string("Frunobulax"));
+    m_pWindow = new GTKWindow(this, funkyName);
 #elif defined(__BEOS__)
-    m_pWindow = new BeOSWindow(this, string("Frunobulax"));
+    m_pWindow = new BeOSWindow(this, funkyName);
 #endif
     m_pWindow->VulcanMindMeldHost(true);
 }

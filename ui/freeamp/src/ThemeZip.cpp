@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.1.2.5 1999/10/09 20:38:23 elrod Exp $
+   $Id: ThemeZip.cpp,v 1.1.2.6 1999/10/11 04:20:00 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include <winsock.h>
 #define unlink(a) _unlink(a)
 #else
+#include <unistd.h>
 #undef socklen_t
 #include <netinet/in.h>
 #endif

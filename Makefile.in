@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.30.2.11 1999/10/01 06:12:52 robert Exp $
+# $Id: Makefile.in,v 1.30.2.12 1999/10/11 04:20:00 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -76,11 +76,20 @@ distclean: clean
 	-rm -f config.status Makefile config.cache config/config.h
 	-rm -f config/Makefile.header Makefile-plugins
 
-install: install-freeamp install-plugins
+install: install-freeamp install-themes install-plugins
 
 install-freeamp: freeamp
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) freeamp $(DESTDIR)$(bindir)
+
+install-themes:
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/freeamp/themes
+	@list=`ls themes/*.*`; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo "  $(INSTALL_PROGRAM) $$p $(DESTRIR)$(datadir)/freeamp/`echo $$p|sed '$(transform)'`"; \
+	    $(INSTALL_PROGRAM) $$p $(DESTDIR)$(datadir)/freeamp/`echo $$p|sed '$(transform)'`; \
+	  else :; fi; \
+	done
 
 depend:
 	makedepend -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(FREEAMPOBJ) | sed -e 's,\.o,.cpp,g'`

@@ -18,20 +18,22 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.1.2.2 1999/10/07 21:40:24 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.1.2.3 1999/10/11 04:20:00 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
 #include <assert.h>
 
+#include "ThemeManager.h"
 #include "GTKPreferenceWindow.h"
 #include "GTKWindow.h"
 
 static GTKPreferenceWindow *g_pCurrentPrefWindow = NULL;
 
-GTKPreferenceWindow::GTKPreferenceWindow(FAContext *context) :
-     PreferenceWindow(context)
+GTKPreferenceWindow::GTKPreferenceWindow(FAContext *context,
+                                         ThemeManager *pThemeMan) :
+     PreferenceWindow(context, pThemeMan)
 {     
     g_pCurrentPrefWindow = this;
 }
@@ -82,7 +84,7 @@ void GTKPreferenceWindow::GetPrefsValues(Preferences* prefs,
 
     size = 256;
     prefs->GetThemeDefaultFont(values->defaultFont, &size);
-    m_oThemeMan.GetCurrentTheme(values->currentTheme);
+    m_pThemeMan->GetCurrentTheme(values->currentTheme);
 }
 
 void GTKPreferenceWindow::SavePrefsValues(Preferences* prefs, 
@@ -111,5 +113,5 @@ void GTKPreferenceWindow::SavePrefsValues(Preferences* prefs,
     prefs->SetLogPerformance(values->logPerformance);
 
     prefs->SetThemeDefaultFont(values->defaultFont);
-    m_oThemeMan.UseTheme(currentValues.currentTheme);
+    m_pThemeMan->UseTheme(currentValues.currentTheme);
 }

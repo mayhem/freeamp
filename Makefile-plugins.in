@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.20 1999/10/06 16:42:14 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.21 1999/10/11 04:20:00 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -130,10 +130,11 @@ THEMEUIOBJ = ui/theme/src/Theme.doh ui/theme/src/Bitmap.o \
              ui/theme/src/Control.o ui/theme/src/TextControl.o \
              ui/theme/src/DialControl.o ui/theme/src/Font.o \
              ui/theme/src/FreeAmpTheme.o ui/theme/src/ThemeZip.o \
-             ui/theme/src/MultiStateControl.o ui/theme/src/ThemeManager.o \
+             ui/theme/src/MultiStateControl.o \
              ui/theme/unix/src/GTKMessageDialog.o ui/theme/unix/src/GTKFont.o \
              ui/theme/unix/src/GTKWindow.o ui/theme/unix/src/GTKBitmap.o \
              ui/theme/unix/src/GTKCanvas.o ui/theme/unix/src/GTKUtility.o \
+	     ui/theme/unix/src/ThemeManager.o \
              ui/theme/unix/src/GTKPreferenceWindow.o 
 
 plugins/theme.ui: $(THEMEUIOBJ)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.1.2.2 1999/10/07 21:40:24 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.1.2.3 1999/10/11 04:20:00 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -82,7 +82,8 @@ class GTKPreferenceWindow : public PreferenceWindow
 {
     public:
 
-               GTKPreferenceWindow(FAContext *context);
+               GTKPreferenceWindow(FAContext *context,
+                                   ThemeManager *pThemeMan);
       virtual ~GTKPreferenceWindow(void); 
       
       virtual  bool Show(Window *pParent);
@@ -100,7 +101,6 @@ class GTKPreferenceWindow : public PreferenceWindow
       PrefsStruct  currentValues;
 
       vector<string *> m_oThemeList;
-      ThemeManager     m_oThemeMan;
 };
 
 #endif

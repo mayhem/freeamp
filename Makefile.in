@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.30.2.5 1999/09/17 18:20:17 ijr Exp $
+# $Id: Makefile.in,v 1.30.2.6 1999/09/17 22:33:37 dogcow Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = @FPIC@ for plugins.
@@ -68,7 +68,8 @@ plugins-cc install-plugins clean-plugins plugins-install plugins-clean:
 	+$(PIMAKE) $@
 
 distclean: clean
-	-rm -f config.status Makefile config.cache
+	-rm -f config.status Makefile config.cache config/config.h
+	-rm -f config/Makefile.header
 
 install: install-freeamp install-plugins
 

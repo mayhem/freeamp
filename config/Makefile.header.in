@@ -1,6 +1,6 @@
 # Freeamp Makefile header 
 # contains all the compiler-related configure-extracted vars
-# $Id: Makefile.header.in,v 1.4.2.6 1999/09/22 15:55:27 ijr Exp $
+# $Id: Makefile.header.in,v 1.4.2.7 1999/09/29 07:40:19 robert Exp $
 
 SHELL = /bin/sh
 
@@ -51,7 +51,7 @@ PERL = @PERL@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 HOST_OS = @host_os@
-CFLAGS = -Wall @CFLAGS@ -D_REENTRANT
+CFLAGS = -Wall -Wno-return-type @CFLAGS@ -D_REENTRANT
 OSDEP = @OSDEP@
 OSINC = @OSINC@
 OSTYPE = @OSTYPE@

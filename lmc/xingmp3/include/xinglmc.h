@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.h,v 1.10 1998/10/27 22:26:00 jdw Exp $
+	$Id: xinglmc.h,v 1.11 1998/10/31 01:47:55 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -103,6 +103,7 @@ private:
     int32 bs_fill();
     void bs_clear();
 private:
+	uint32					m_searchAhead;
     bool                    m_properlyInitialized;
     int32                   m_frameWaitTill;
     Semaphore *             m_pauseSemaphore;

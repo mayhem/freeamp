@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mhead.h,v 1.1 1998/10/14 02:58:00 elrod Exp $
+	$Id: mhead.h,v 1.2 1998/10/31 01:47:55 jdw Exp $
 ____________________________________________________________________________*/
 
 /* portable copy of eco\mhead.h */
@@ -72,8 +72,8 @@ extern "C"
 
    int head_info(unsigned char *buf, unsigned int n, MPEG_HEAD * h);
    int head_info2(unsigned char *buf,
-		  unsigned int n, MPEG_HEAD * h, int *br);
-
+	   unsigned int n, MPEG_HEAD * h, int *br);
+	int head_info3(unsigned char *buf, unsigned int n, MPEG_HEAD *h, int*br, unsigned int *searchForward);
 /* head_info returns framebytes > 0 for success */
 /* audio_decode_init returns 1 for success, 0 for fail */
 /* audio_decode returns in_bytes = 0 on sync loss */

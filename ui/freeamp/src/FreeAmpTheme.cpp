@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.68 2000/02/01 23:32:11 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.69 2000/02/02 19:13:20 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -97,6 +97,7 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
    m_iTotalSeconds = -1;
    m_iSeekSeconds = 0;
    m_bSeekInProgress = false;
+   m_bVolumeChangeInProgress = false;
    m_iVolume = -1;
    m_iSeekPos = -1;
    m_bPlayShown = true;
@@ -652,7 +653,13 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        (eMesg == CM_ValueChanged || eMesg == CM_SliderUpdate))
    {
        int iVol;
-       
+
+       if (eMesg == CM_SliderUpdate)
+           m_bVolumeChangeInProgress = true;
+           
+       if (eMesg == CM_ValueChanged)
+           m_bVolumeChangeInProgress = false;
+           
        m_pWindow->ControlIntValue(oControlName, false, iVol);
        SetVolume(iVol);
            
@@ -1159,7 +1166,8 @@ bool FreeAmpTheme::HandleMenuCommand(uint32 uCommand)
 
 void FreeAmpTheme::VolumeChanged(void)
 {
-    m_pContext->target->AcceptEvent(new Event(CMD_GetVolume));
+    if (!m_bVolumeChangeInProgress)
+       m_pContext->target->AcceptEvent(new Event(CMD_GetVolume));
 }
 
 void FreeAmpTheme::UpdateTimeDisplay(int iCurrentSeconds)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.18 2000/02/01 23:32:11 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.19 2000/02/02 19:13:20 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -101,8 +101,8 @@ class FreeAmpTheme : public UserInterface, public Theme
         Thread          *m_uiThread, *m_pUpdateThread;
         Thread          *m_pOptionsThread;
         Pos              m_oWindowPos;
-        bool             m_bSeekInProgress, m_bPlayShown;
-		bool             m_bPaused, m_bInOptions;
+        bool             m_bSeekInProgress, m_bVolumeChangeInProgress;
+		bool             m_bPaused, m_bInOptions, m_bPlayShown;
         string           m_oCurrentWindow, m_oTitle, m_oStreamInfo;
         TimeDisplayState m_eTimeDisplayState;
         UpdateManager   *m_pUpdateMan;

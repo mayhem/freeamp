@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.24 2000/08/24 17:40:38 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.25 2000/08/30 13:45:31 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -184,7 +184,8 @@ class GTKPreferenceWindow : public PreferenceWindow
       GtkWidget *CreateAdvanced(void);
       GtkWidget *CreateDirectories(void);
       GtkWidget *CreateProfiles(void);
-
+      GtkWidget *CreateCD(void);
+      
       GtkWidget *saveMusicBox;
 
       GtkWidget *applyButton;

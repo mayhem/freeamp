@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.13 2000/08/25 06:50:37 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.14 2000/08/30 13:45:31 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "config.h"
@@ -39,7 +39,7 @@ ____________________________________________________________________________*/
 #include <map>
 using namespace std;
 
-#include "MessageDialog.h"
+#include "gtkmessagedialog.h"
 
 static Thread *gtkThread = NULL;
 static bool weAreGTK = false;
@@ -371,11 +371,37 @@ void ReclaimFileTypes(FAContext *context, bool askBeforeReclaiming)
 
     if (needRewrite) {
         if (askBeforeReclaiming) {
-            MessageDialog oBox(context);
+            gdk_threads_enter();
+
+            GTKMessageDialog *oBox = new GTKMessageDialog();
             string oMessage(kNotifyStolen);
 
-            if (oBox.Show(oMessage.c_str(), string("Reclaim File Types?"),
-                          kMessageYesNo) == kMessageReturnNo)
+            MessageDialogReturnEnum answer;
+
+            answer = oBox->Show(oMessage.c_str(), "Reclaim File Types?",
+                                kMessageYesNo, false, false, 
+                                "Don't ask me this again");
+
+            if (oBox->GetCheckStatus()) {
+                bool setFileTypes = false;
+
+                if (answer == kMessageReturnYes) {
+                    setFileTypes = true;
+                }
+                else {
+                    setFileTypes = false;
+                }
+
+                context->prefs->SetPrefBoolean(kReclaimFiletypesPref, 
+                                               setFileTypes);
+                context->prefs->SetPrefBoolean(kAskToReclaimFiletypesPref, 
+                                               false);
+            }
+
+            delete oBox;
+            gdk_threads_leave();
+
+            if (answer == kMessageReturnNo)
                 goto failed_reclaim_open;
         }
 

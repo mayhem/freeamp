@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: gtkmessagedialog.h,v 1.2 1999/11/20 21:34:13 ijr Exp $
+   $Id: gtkmessagedialog.h,v 1.3 2000/08/30 13:45:31 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_MESSAGEDIALOG_H__
@@ -69,15 +69,17 @@ class GTKMessageDialog
        char *GetEntryText();
  
        void      SetText(char *text) { entryText = text; }
+       void      SetCheck(bool check) { checkStatus = check; }
 
   private:
        bool       hasCheck;
        GtkWidget *checkBox;
        string     checkText;
+       bool       checkStatus;
 
        bool       hasEntry;
        string     entryText;
-       GtkWidget *entryBox;       
+       GtkWidget *entryBox; 
 };
 
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.51 2000/06/22 18:53:10 elrod Exp $
+        $Id: preferences.cpp,v 1.52 2000/08/30 13:45:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -76,6 +76,7 @@ const char* kWelcomePref = "Welcome";
 const char* kPlayImmediatelyPref = "PlayImmediately";
 const char* kNumberOfURLsToRememberPref = "NumberOfURLsToRemember";
 const char* kCDDevicePathPref = "CDDevice";
+const char* kCheckCDAutomaticallyPref = "AutoUpdateCD";
 const char* kCDDBServerPref = "CDDBServer";
 const char* kConvertUnderscoresToSpacesPref = "ConvertUnderscoresToSpaces";
 const char* kAllowMultipleInstancesPref = "AllowMultipleInstances";
@@ -124,6 +125,7 @@ const char *kDefaultCDDevicePath = "cdaudio";
 const char *kDefaultThemeDefaultFont = "Helvetica";
 const char *kDefaultCDDevicePath = "/dev/cdrom";
 #endif
+const bool  kDefaultCheckCDAutomatically = false;
 const char *kDefaultDownloadManagerUI = "download.ui";
 const char *kDefaultMusicBrowserUI = "musicbrowser.ui";
 const char *kDefaultToolbarUI = "toolbar.ui";
@@ -380,6 +382,10 @@ SetDefaults()
     if (GetPrefBoolean(kPerformDBCheckPref, &dummyBool) == 
         kError_NoPrefValue)
         SetPrefBoolean(kPerformDBCheckPref, kDefaultPerformDBCheck);
+
+    if (GetPrefBoolean(kCheckCDAutomaticallyPref, &dummyBool) == 
+        kError_NoPrefValue)
+        SetPrefBoolean(kCheckCDAutomaticallyPref, kDefaultCheckCDAutomatically);
 
     return kError_NoErr;
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.107 2000/08/25 07:09:43 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.108 2000/08/30 13:45:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -89,7 +89,7 @@ void GTKMusicBrowser::AskOptIn(bool inMain)
     if (dialog->Show(message.c_str(), caption.c_str(), kMessageYesNo, inMain) ==
         kMessageReturnYes)
     {
-        ShowOptions(6);
+        ShowOptions(7);
     }
 
     delete dialog;

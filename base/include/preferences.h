@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.41 2000/06/22 18:53:10 elrod Exp $
+	$Id: preferences.h,v 1.42 2000/08/30 13:45:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -83,6 +83,7 @@ extern const char* kWelcomePref;
 extern const char* kPlayImmediatelyPref;
 extern const char* kNumberOfURLsToRememberPref;
 extern const char* kCDDevicePathPref;
+extern const char* kCheckCDAutomaticallyPref;
 extern const char* kCDDBServerPref;
 extern const char* kConvertUnderscoresToSpacesPref;
 extern const char* kAllowMultipleInstancesPref;
@@ -98,6 +99,7 @@ extern const char* kMusicBrowserHeaderWidthsPref;
 extern const char* kCloseDLMOnCompletePref;
 extern const char* kPerformDBCheckPref;
 extern const char* kWAVOutputPathPref;
+
 
 extern const int32 kDefaultWatchThisDirTimeout;
 

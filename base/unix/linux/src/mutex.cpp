@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: mutex.cpp,v 1.4 1999/05/24 17:38:13 robert Exp $
+        $Id: mutex.cpp,v 1.5 1999/05/25 20:04:03 mhw Exp $
 ____________________________________________________________________________*/
 #include "config.h"
 
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include <sys/time.h>
 #include <unistd.h>
 #include <assert.h>
+#include <errno.h>
 
 #include "mutex.h"
 

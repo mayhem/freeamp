@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: streambuffer.h,v 1.1 1999/01/25 23:38:53 robert Exp $
+   $Id: streambuffer.h,v 1.2 1999/02/13 01:35:40 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _STREAMBUFFER_H_
@@ -28,6 +28,8 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 
 #include "pullbuffer.h"
+
+const int iReceiveTimeout = 1;
 
 class StreamBuffer : public PullBuffer
 {

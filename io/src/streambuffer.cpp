@@ -3,11 +3,13 @@
    FreeAmp - The Free MP3 Player
 
    Portions Copyright (C) 1998 GoodNoise
-                                                                                   This program is free software; you can redistribute it and/or modify
+
+   This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
-                                                                                   This program is distributed in the hope that it will be useful,
+
+   This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
@@ -16,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: streambuffer.cpp,v 1.2 1999/01/28 20:02:27 robert Exp $
+   $Id: streambuffer.cpp,v 1.3 1999/02/13 01:35:46 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -29,8 +31,6 @@ ____________________________________________________________________________*/
 #include <netdb.h>
 
 #include "streambuffer.h"
-
-#define DB printf("%s:%d\n", __FILE__, __LINE__);
 
 StreamBuffer::StreamBuffer(size_t iBufferSize, size_t iOverFlowSize, 
                            size_t iWriteTriggerSize) : 

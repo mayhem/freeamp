@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: httpbuffer.h,v 1.3 1999/01/28 20:02:14 robert Exp $
+   $Id: httpbuffer.h,v 1.4 1999/02/13 01:35:38 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPBUFFER_H_
@@ -55,6 +55,7 @@ enum
    httpError_CannotOpenSocket,
    httpError_CannotConnect,
    httpError_SocketRead,
+   httpError_SocketWrite,
 	httpError_CustomError,
    httpError_MaximumError
 };
@@ -80,7 +81,7 @@ class HttpBuffer : public StreamBuffer
       int             m_hHandle;
       char            m_szUrl[iMaxUrlLen], *m_szError;
       Thread         *m_pBufferThread;
-      bool            m_bLoop, m_bExit;
+      bool            m_bLoop;
       ID3Tag         *m_pID3Tag;
 
     public:

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.2 1999/01/28 20:02:24 robert Exp $
+        $Id: obsinput.cpp,v 1.3 1999/02/13 01:35:43 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -152,8 +152,7 @@ SetTo(char *url)
 
          result = m_pPullBuffer->Open();
          if (result == kError_NoErr)
-             result = m_pPullBuffer->Run();
-
+            result = m_pPullBuffer->Run();
       }
    }
    else

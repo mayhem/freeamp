@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.3 1999/01/28 20:02:19 robert Exp $
+   $Id: pullbuffer.h,v 1.4 1999/02/13 01:35:39 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PULLBUFFER_H_
@@ -76,6 +76,7 @@ class PullBuffer
 
       Semaphore *m_pWriteSem, *m_pReadSem;
       Mutex     *m_pMutex;
+      bool       m_bExit;
 
     private:
 

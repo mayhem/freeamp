@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.11 1999/01/25 23:00:07 robert Exp $
+	$Id: errors.h,v 1.12 1999/02/13 01:35:31 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -55,7 +55,8 @@ typedef enum Error
     kError_NoDataAvail = 24,
     kError_SeekFailed = 25,
     kError_CreateThreadFailed = 26,
-    kError_BufferingUp = 27
+    kError_BufferingUp = 27,
+    kError_Interrupt   = 28
 }Error;
 
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: obsbuffer.h,v 1.2 1999/01/28 20:02:23 robert Exp $
+   $Id: obsbuffer.h,v 1.3 1999/02/13 01:35:42 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSBUFFER_H_
@@ -77,6 +77,7 @@ class ObsBuffer : public StreamBuffer
       virtual ~ObsBuffer(void);
 
       Error    Open(void);
+      Error    ReadTest(void);
       Error    Run(void);
 
       Error    GetID3v1Tag(unsigned char *pTag);
@@ -90,7 +91,7 @@ class ObsBuffer : public StreamBuffer
       int                 m_hHandle;
       char                m_szUrl[iMaxUrlLen], *m_szError;
       Thread             *m_pBufferThread;
-      bool                m_bLoop, m_bExit;
+      bool                m_bLoop;
       ID3Tag             *m_pID3Tag;
       struct sockaddr_in *m_pSin;
  

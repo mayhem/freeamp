@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.27 1999/01/25 23:00:10 robert Exp $
+	$Id: player.h,v 1.28 1999/02/13 01:35:32 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -72,6 +72,8 @@ class Player : public EventQueue, Properties, PropertyWatcher  {
 //    static int32 AcceptEventStub(EventQueueRef ref, Event* e);
     virtual int32 AcceptEvent(Event *);
 	 virtual RegistryItem *ChoosePMI(char *szUrl);
+    virtual void GetMediaInfo(PLMGetMediaInfoEvent *pEvent, 
+                              PLMSetMediaInfoEvent *smi);
 
     // Properties
     virtual Error GetProperty(const char *, PropValue **);
@@ -89,6 +91,7 @@ class Player : public EventQueue, Properties, PropertyWatcher  {
     void Usage(const char *);
     bool SetState(PlayerState);
     int32 ServiceEvent(Event *);
+    void  Play(PlayListItem *pc, Event *pC);
 
 
  private:

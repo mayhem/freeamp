@@ -19,7 +19,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.46 2000/09/24 19:26:24 ijr Exp $
+        $Id: AUTHORS,v 1.47 2000/09/26 10:39:29 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -156,3 +156,6 @@ Michael Rich <istan@alltel.net>
 
 "Steve Kemp" <skx@tardis.ed.ac.uk>
 * Playlist column selection for Win32 version of musicbrowser.ui
+
+"Martin Enlund" <maren@lysator.liu.se>
+* ORBit corba ui

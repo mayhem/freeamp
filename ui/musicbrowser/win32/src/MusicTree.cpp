@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.8 1999/11/07 12:48:10 elrod Exp $
+        $Id: MusicTree.cpp,v 1.9 1999/11/08 09:42:09 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -128,7 +128,7 @@ void MusicBrowserUI::FillArtists(void)
        sInsert.item.iSelectedImage = 2;
        sInsert.item.cChildren= 1;
        sInsert.item.lParam = m_oTreeIndex.Add(oCrossRef);
-       sInsert.hInsertAfter = TVI_LAST;
+       sInsert.hInsertAfter = TVI_SORT;
        sInsert.hParent = m_hCatalogItem;
        TreeView_InsertItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sInsert);
     }    

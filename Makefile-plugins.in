@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.4 1999/06/28 23:09:14 robert Exp $
+# $Id: Makefile-plugins.in,v 1.5 1999/07/01 23:48:41 dogcow Exp $
 
 RELOC = @FPIC@
 
@@ -165,4 +165,9 @@ XINGLMCOBJ = $(XINGLMCOBJC) $(XINGLMCOBJCXX)
 
 plugins/xingmp3-$(HOST_OS).lmc: $(XINGLMCOBJ)
 	$(LINKMOD) -o $@ $(XINGLMCOBJ)
+
+depend:
+	makedepend -fMakefile-plugins -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(LFIOBJ) $(HTTPOBJ) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(GTKUIOBJ) $(FREEAMPUIOBJ) $(XINGLMCOBJ) | sed -e 's,\.o,.cpp,g'`
+ 
+# DO NOT DELETE THIS LINE -- make depend depends on it.
 

@@ -18,14 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dummyui.h,v 1.2 1998/10/19 07:51:44 elrod Exp $
+	$Id: dummyui.h,v 1.3 1998/10/19 23:39:30 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _DUMMY_UI_H_
 #define _DUMMY_UI_H_
 
-#include "ctrlobj.h"
-#include "player.h"
+#include "ui.h"
 #include "semaphore.h"
 
 class DummyUI : public UserInterface {

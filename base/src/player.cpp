@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.25 1998/10/19 21:59:22 jdw Exp $
+	$Id: player.cpp,v 1.26 1998/10/19 23:39:30 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -28,7 +28,7 @@ ____________________________________________________________________________*/
 #include "thread.h"
 #include "debug.h"
 #include "vector.h"
-#include "ctrlobj.h"
+#include "ui.h"
 #include "queue.h"
 #include "semaphore.h"
 #include "eventdata.h"

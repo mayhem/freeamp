@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.h,v 1.1 1998/10/19 21:59:23 jdw Exp $
+	$Id: cmdlineUI.h,v 1.2 1998/10/19 23:39:30 jdw Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -26,7 +26,7 @@ ____________________________________________________________________________*/
 #ifndef _COMMANDLINECIO_H_
 #define _COMMANDLINECIO_H_
 
-#include "ctrlobj.h"
+#include "ui.h"
 #include "event.h"
 #include "thread.h"
 #include "playlist.h"

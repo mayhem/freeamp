@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.3 1998/10/19 21:59:22 jdw Exp $
+	$Id: bootstrap.cpp,v 1.4 1998/10/19 23:39:30 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -26,7 +26,7 @@ ____________________________________________________________________________*/
 
 #include "player.h"
 #include "event.h"
-#include "ctrlobj.h"
+#include "ui.h"
 #include "vector.h"
 #include "hashtable.h"
 #include "semaphore.h"

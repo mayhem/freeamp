@@ -18,20 +18,21 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.2 1998/10/19 22:21:25 jdw Exp $
+	$Id: cmdlineUI.cpp,v 1.3 1998/10/19 23:39:30 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
 #include <stdio.h>
 #include <unistd.h>
 
+#include <sys/time.h>
 #include <termios.h>
 #include <signal.h>
 
 
+#include "config.h"
 #include "cmdlineUI.h"
 #include "event.h"
-#include "player.h"
 #include "playlist.h"
 #include "thread.h"
 #include "eventdata.h"

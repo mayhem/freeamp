@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.12 1998/10/19 21:59:22 jdw Exp $
+	$Id: player.h,v 1.13 1998/10/19 23:39:29 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -28,7 +28,7 @@ ____________________________________________________________________________*/
 #include "thread.h"
 #include "event.h"
 #include "queue.h"
-#include "ctrlobj.h"
+#include "ui.h"
 #include "vector.h"
 #include "mutex.h"
 #include "playlist.h"

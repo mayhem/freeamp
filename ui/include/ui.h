@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ctrlobj.h,v 1.9 1998/10/19 07:51:44 elrod Exp $
+	$Id: ui.h,v 1.1 1998/10/19 23:39:30 jdw Exp $
 ____________________________________________________________________________*/
 
-#ifndef _CTRLOBJ_H_
-#define _CTRLOBJ_H_
+#ifndef _UI_H_
+#define _UI_H_
 
 #include "event.h"
 
@@ -50,9 +50,8 @@ class UserInterface {
     virtual int32 AcceptEvent(Event *) = 0;
     virtual void  SetArgs(int32,char **) = 0;
     virtual void SetTarget(EventQueueRef) = 0;
-    virtual void SetRef(UIRef) = 0;
     virtual ~UserInterface() {}
 };
 
-#endif // _CTRLOBJ_H_
+#endif // _UI_H_
 

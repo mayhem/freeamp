@@ -1,4 +1,4 @@
-$Id: README.experimental,v 1.1 1999/04/20 05:22:57 dogcow Exp $
+$Id: README.experimental,v 1.2 1999/04/21 06:53:10 dogcow Exp $
 
 This is the all-in-one Makefile system that I'm working on. It seems to
 work reasonably well, but there are undoubtedly things that are still
@@ -7,7 +7,6 @@ Makefile.in change.)
 
 Vaguely important things not working:
 * gtk compilation definitely does not work.
-* install is broken.
 
 How to use:
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.35 1999/11/17 05:45:29 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.36 1999/11/18 01:42:35 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -779,10 +779,17 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
 #else
        LaunchBrowser((char *)oUrl.c_str());
 #endif
+       return kError_NoErr;
    }
    if (oControlName == string("Help") && eMesg == CM_Pressed)
    {
        ShowHelp();
+       return kError_NoErr;
+   }
+   if (oControlName == string("Credits") && eMesg == CM_Pressed)
+   {
+       ShowThemeCredits();
+       return kError_NoErr;
    }
   
    return kError_NoErr;
@@ -952,6 +959,11 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
      case 'o':
      case 'O':
      	ShowOptions();
+        break;
+
+     case 'c':
+     case 'C':
+        ShowThemeCredits();
         break;
  
      case 't':
@@ -1198,3 +1210,4 @@ void FreeAmpTheme::ShowHelp(void)
     }
 #endif
 }
+

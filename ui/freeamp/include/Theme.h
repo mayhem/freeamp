@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.6 1999/11/05 01:19:40 robert Exp $
+   $Id: Theme.h,v 1.7 1999/11/18 01:42:33 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -83,6 +83,8 @@ class Theme : public Parse
       virtual Error BeginElement(string &oElement, AttrMap &oAttrMap);  
       virtual Error PCData(string &oData);
       virtual Error EndElement(string &oElement);
+      void    ShowThemeCredits(void);
+	  
       ThemeManager *m_pThemeMan;
       string        m_oThemePath;
       Window       *m_pWindow;
@@ -109,6 +111,8 @@ class Theme : public Parse
       string            m_oReloadWindow, m_oReloadFile;
       ControlTypeEnum   m_eCurrentControl;
       string            m_oDefaultFont;
+	  string            m_oThemeName, m_oThemeAuthor;
+	  string            m_oAuthorEMail, m_oAuthorWebPage;
 };
 
 #endif

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.3 1999/11/01 19:06:23 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.4 1999/11/18 01:42:39 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -33,11 +33,14 @@ Win32Canvas::Win32Canvas(Win32Window *pParent)
 {
    m_pParent = pParent;
    m_pBufferBitmap = NULL;
+   m_hPal = NULL;
 }
 
 Win32Canvas::~Win32Canvas(void)
 {
    delete m_pBufferBitmap;
+   if (m_hPal)
+      DeleteObject(m_hPal);
 }
 
 void Win32Canvas::SetParent(Win32Window *pParent)
@@ -248,15 +251,20 @@ void Win32Canvas::Paint(HDC hDC, Rect &oRect)
    
    DeleteObject(SelectObject(hMemDC, m_pBufferBitmap->GetBitmapHandle()));
    
-//   if (GetDeviceCaps(hDC, RASTERCAPS) & RC_PALETTE)
-//   {
-//      HPALETTE hPal;
-//      
-//      hPal = m_pBufferBitmap->GetPaletteFromBackground(hDC);
-//      SelectPalette(hDC, hPal, true);
-//      RealizePalette(hDC);
-//      DeleteObject(hPal);
-//   }
+#if 0
+   if (GetDeviceCaps(hDC, RASTERCAPS) & RC_PALETTE)
+   {
+      SetStretchBltMode(hDC, HALFTONE);
+      if (!m_hPal)
+      {
+         m_hPal = CreateHalftonePalette(hDC);
+      }   
+      SelectPalette(hDC, m_hPal, false);
+      RealizePalette(hDC);
+   }
+   StretchBlt(hDC, oRect.x1, oRect.y1, oRect.Width(), oRect.Height(),
+              hMemDC, oRect.x1, oRect.y1, oRect.Width(), oRect.Height(), SRCCOPY);
+#endif   
    BitBlt(hDC, oRect.x1, oRect.y1, oRect.Width(), oRect.Height(),
           hMemDC, oRect.x1, oRect.y1, SRCCOPY);
    DeleteDC(hMemDC);       

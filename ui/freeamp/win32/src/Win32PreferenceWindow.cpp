@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.17 1999/11/17 01:54:18 robert Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.18 1999/11/18 01:42:40 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -269,7 +269,6 @@ bool Win32PreferenceWindow::DisplayPreferences(HWND hwndParent, Preferences* pre
     GetPrefsValues(prefs, &m_originalValues);
 
     m_proposedValues = m_currentValues = m_originalValues;
-    
     result = (PropertySheet(&psh) > 0);
 
     delete updateManager;

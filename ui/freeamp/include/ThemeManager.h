@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.h,v 1.3 1999/11/02 20:24:59 robert Exp $
+   $Id: ThemeManager.h,v 1.4 1999/11/18 01:42:34 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEMEMANAGER_H__
@@ -54,6 +54,8 @@ class ThemeManager
 
     protected:
     
+      bool          GetDescriptiveName(string &oThemeFile, string &oThemeName);
+	
     private:
 
 	  string     m_oCurrentTheme, m_oDevelTheme;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.8 1999/11/12 21:13:35 robert Exp $
+   $Id: ThemeManager.cpp,v 1.9 1999/11/18 01:42:38 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -38,9 +38,11 @@ ____________________________________________________________________________*/
 
 ThemeManager::ThemeManager(FAContext *pContext)
 {
-    char   szThemePath[MAX_PATH];
-    uint32 len = MAX_PATH;
-    Error  eRet;
+    char     szThemePath[MAX_PATH];
+    uint32   len = MAX_PATH;
+    Error    eRet;
+    string   oThemeName;
+    ThemeZip oZip;
     
     m_pContext = pContext;
     m_oCurrentTheme = "";
@@ -67,8 +69,14 @@ ThemeManager::ThemeManager(FAContext *pContext)
         }   
         else
         {
-           _splitpath(m_oCurrentTheme.c_str(), NULL, NULL, szThemePath, NULL);
-           m_oCurrentTheme = szThemePath;
+           oZip.GetDescriptiveName(m_oCurrentTheme,oThemeName);
+           if (oThemeName.size() > 0)
+               m_oCurrentTheme = oThemeName;
+           else
+           {    
+               _splitpath(m_oCurrentTheme.c_str(), NULL, NULL, szThemePath, NULL);
+               m_oCurrentTheme = szThemePath;
+           }    
         }   
     }    
 }
@@ -97,9 +105,7 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
     uint32          len = sizeof(dir);
     string          oThemePath, oThemeBasePath, oThemeFile;
     string          oThemeName;
-    map<string,string>::iterator oDupName;
     ThemeZip        oZip;
-
 
     if (m_bDevelTheme)
        oThemeFileMap[THEME_IN_DEVEL] = m_oDevelTheme;
@@ -119,19 +125,8 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
 
         // check for extended info
         oZip.GetDescriptiveName(oThemeFile,oThemeName); 
-        if(oThemeName.length())
+        if (oThemeName.size() > 0)
         {
-            // got something
-
-            // see if the name is unique
-            oDupName = oThemeFileMap.find(oThemeName);
-            if(oDupName != oThemeFileMap.end())
-            {
-                // dupe found!
-                // manipulate theme name to include filename in it
-                oThemeName += string(" (") + string(find.cFileName) + string(")");
-            }
-            
             oThemeFileMap[oThemeName] = oThemeFile;
         }
         else
@@ -140,7 +135,7 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
             ptr = strrchr(find.cFileName, '.');
             if (ptr)
                *ptr = 0;
-        oThemeFileMap[find.cFileName] = oThemeFile;
+            oThemeFileMap[find.cFileName] = oThemeFile;
         }
     }
     while(FindNextFile(handle, &find));
@@ -201,6 +196,4 @@ Error ThemeManager::GetCurrentTheme(string &oTheme)
     oTheme = m_oCurrentTheme;
     return kError_NoErr;
 }
-
-    
 

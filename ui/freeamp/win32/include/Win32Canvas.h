@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.h,v 1.2 1999/10/19 07:13:21 elrod Exp $
+   $Id: Win32Canvas.h,v 1.3 1999/11/18 01:42:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32CANVAS_H__
@@ -60,6 +60,7 @@ class Win32Canvas : public Canvas
 
 	 Win32Bitmap *m_pBufferBitmap;
      Win32Window *m_pParent;
+	 HPALETTE     m_hPal;
 };
 
 #endif

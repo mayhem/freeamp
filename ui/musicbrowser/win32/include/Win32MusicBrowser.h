@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.1.2.12 1999/10/17 01:00:04 robert Exp $
+        $Id: Win32MusicBrowser.h,v 1.1.2.13 1999/10/17 02:20:24 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -134,7 +134,7 @@ class MusicBrowserUI : public UserInterface
 
     EventQueue          *m_playerEQ;
     int32                m_state, m_startupType;
-    int32                m_currentindex;
+    int32                m_currentindex, m_currentplaying;
   	HWND                 m_hWnd, m_hStatus;		
     PlaylistManager     *m_plm;
     bool                 m_initialized, isVisible, m_bListChanged, 

@@ -6,6 +6,8 @@
 #define IDC_URL                         101
 #define IDR_MENU1                       102
 #define IDI_CLOSED                      104
+#define IDI_ARROW                       106
+#define IDI_BLANK                       107
 #define IDD_OPENURL                     219
 #define IDC_MUSICTREE                   1000
 #define IDC_PLAYLISTBOX                 1002
@@ -45,7 +47,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        106
+#define _APS_NEXT_RESOURCE_VALUE        108
 #define _APS_NEXT_COMMAND_VALUE         40019
 #define _APS_NEXT_CONTROL_VALUE         1016
 #define _APS_NEXT_SYMED_VALUE           101

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.15 1999/10/17 01:00:08 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.16 1999/10/17 02:20:30 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -366,15 +366,14 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
  
     TreeView_SetImageList(GetDlgItem(m_hWnd, IDC_MUSICTREE),
                           hList, TVSIL_NORMAL); 
+	FreeLibrary(hShell);
     
-    hList = ImageList_Create(16, 16, ILC_COLOR24|ILC_MASK, 1, 0);
-    dwIcon = 152; 	   // 'File folder' icon (hopefully)
-    ImageList_AddIcon(hList, LoadIcon(hShell, MAKEINTRESOURCE(dwIcon)));
+    hList = ImageList_Create(8, 16, ILC_COLOR24|ILC_MASK, 2, 0);
+    ImageList_AddIcon(hList, LoadIcon(g_hinst, MAKEINTRESOURCE(IDI_ARROW)));
+    ImageList_AddIcon(hList, LoadIcon(g_hinst, MAKEINTRESOURCE(IDI_BLANK)));
  
     ListView_SetImageList(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX),
-                          hList, TVSIL_NORMAL); 
-    
-	FreeLibrary(hShell);
+                          hList, LVSIL_SMALL); 
                           
     InitTree();                      
     InitList();
@@ -819,7 +818,6 @@ void MusicBrowserUI::UpdatePlaylistList(void)
 
     ListView_DeleteAllItems(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX));
 
-    sItem.iImage = 0;
     sItem.state = sItem.stateMask = 0;
     for(i = 0; pItem = m_context->plm->ItemAt(i); i++)
     {
@@ -832,15 +830,17 @@ void MusicBrowserUI::UpdatePlaylistList(void)
         sItem.iSubItem = 0;
         sItem.iItem = i;
         sItem.lParam = i;
+        sItem.iImage = (m_currentplaying == i && 
+                        m_currentListName.length() == 0) ? 0 : 1;
         ListView_InsertItem(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), &sItem);
 
-        sItem.mask = LVIF_TEXT | LVIF_IMAGE;
+        sItem.mask = LVIF_TEXT;
         sItem.pszText = (char *)pItem->GetMetaData().Artist().c_str();
         sItem.cchTextMax = pItem->GetMetaData().Artist().length();
         sItem.iSubItem = 1;
         ListView_SetItem(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), &sItem);
 
-        sItem.mask = LVIF_TEXT | LVIF_IMAGE;
+        sItem.mask = LVIF_TEXT;
         sItem.pszText = (char *)pItem->GetMetaData().Album().c_str();
         sItem.cchTextMax = pItem->GetMetaData().Album().length();
         sItem.iSubItem = 2;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.9 1999/10/16 23:34:37 robert Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.10 1999/10/17 02:20:23 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -60,6 +60,7 @@ MusicBrowserUI::MusicBrowserUI(FAContext *context)
     m_sMinSize.x = -1;
     m_bListChanged = false;
     m_bSearchInProgress = false;
+    m_currentplaying = -1;
 #endif
 }
 
@@ -154,7 +155,9 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             break; }
 
 #ifdef WIN32
+        case INFO_MediaInfo: 
         case INFO_PlaylistItemUpdated: {
+            m_currentplaying = m_context->plm->GetCurrentIndex();
             UpdatePlaylistList();
             break; }
 
@@ -277,10 +280,11 @@ void MusicBrowserUI::DeleteListEvent(void)
 
 void MusicBrowserUI::DeleteEvent(void)
 {
+    m_plm->RemoveItem(m_currentindex);
 #if WIN32
     m_bListChanged = true;
+    m_currentplaying = m_context->plm->GetCurrentIndex();
 #endif    
-    m_plm->RemoveItem(m_currentindex);
     UpdatePlaylistList();
 }
 

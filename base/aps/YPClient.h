@@ -17,7 +17,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: YPClient.h,v 1.2 2000/09/22 07:12:42 ijr Exp $
+        $Id: YPClient.h,v 1.3 2000/09/22 10:37:54 sward Exp $
 ____________________________________________________________________________*/
 
 #ifndef YPCLIENT_H
@@ -43,14 +43,15 @@ public:
    ~YPClient();
     void SetAddress(string strIP, int nPort) 
     { m_strIP = strIP, m_nPort = nPort; }
-    int GetSoundsLike(APSPlaylist& ResultList, APSPlaylist& SeedList,
-		      int nMaxItems, string& strUID, string& CollectionID);
+    int SoundsLike(APSPlaylist& ResultList, APSPlaylist& SeedList, 
+			string& strCollectionID);
     int GeneratePlayList(APSPlaylist& ResultList, APSPlaylist& SeedList,
                          int nMaxItems, int bLocalOnly, string& strUID,
                          string& CollectionID);
     int SubmitPlaylist(APSPlaylist& SeedList, string& strUID);
     int GetGUID(string& strGUID, int nSeed);
-    int GetStreams(StreamList& ResultList, string& strUID);
+    int GetStreams(StreamList& ResultList, string& strUID, 
+			string& strCollectionID);
     int DeleteProfile(string& strUID);
     int SyncLog(EventLog& TheLog, string& strUID);
 

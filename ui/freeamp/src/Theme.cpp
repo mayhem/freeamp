@@ -18,12 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.50 2000/06/21 13:34:37 ijr Exp $
+   $Id: Theme.cpp,v 1.51 2000/06/21 19:03:49 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
 // STL often creates symbols longer than that.
 // When symbols are longer than 255 characters, the warning is disabled.
+#include "config.h"
+
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
@@ -55,8 +57,7 @@ ____________________________________________________________________________*/
 #include "MessageDialog.h"
 #include "debug.h"
 #include "ForeignTheme.h"
-
-#include "config.h"
+#include "utility.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 

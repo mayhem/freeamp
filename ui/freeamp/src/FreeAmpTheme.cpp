@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.129 2000/06/20 08:24:11 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.130 2000/06/21 19:03:49 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -759,6 +759,12 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
    	       int iState = 0;
              m_pWindow->ControlIntValue(string("Mute"), false, iState);
          }
+
+         char VolumeText[255];
+         sprintf(VolumeText, "%d%%", m_iVolume);
+         string oVol = string(VolumeText);
+         m_pWindow->ControlStringValue(string("VolumeText"), true, oVol);
+
          break;
       }
 
@@ -1498,6 +1504,8 @@ void FreeAmpTheme::SetVolume(int iVolume, int iBalance)
         sprintf(szPercent, "%d%%", iVolume);
         oVol += string(szPercent);
         m_pWindow->ControlStringValue(string("Info"), true, oVol);
+        oVol = string(szPercent);
+        m_pWindow->ControlStringValue(string("VolumeText"), true, oVol);
     }
     else
     {

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: utility.cpp,v 1.30 2000/06/21 13:34:36 ijr Exp $
+    $Id: utility.cpp,v 1.31 2000/06/21 19:03:49 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -89,7 +89,7 @@ void CreateDirectoryPath(const char* path)
     delete [] temp;
 }
 
-static bool IsRelative(const char* path)
+bool IsRelative(const char* path)
 {
     bool result = false;
 

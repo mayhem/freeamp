@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: PixSliderControl.cpp,v 1.3 2000/06/14 10:51:28 ijr Exp $
+   $Id: PixSliderControl.cpp,v 1.4 2000/06/21 19:03:49 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -137,10 +137,10 @@ void PixSliderControl::Transition(ControlTransitionEnum  eTrans,
     {
        case CT_MouseEnter:
           m_pParent->SendControlMessage(this, CM_MouseEnter);
-          break;
+          return;
        case CT_MouseLeave:
           m_pParent->SendControlMessage(this, CM_MouseLeave);
-          break;
+          return;
        case CT_SetValue: {
           if (m_iValue < 0 || m_iValue > 100)
               return;
@@ -164,7 +164,7 @@ void PixSliderControl::Transition(ControlTransitionEnum  eTrans,
            pCanvas = m_pParent->GetCanvas();
            pCanvas->Erase(oRect);
            pCanvas->Invalidate(oRect);
-       	  break;
+       	   return;
        }   
 
        default:

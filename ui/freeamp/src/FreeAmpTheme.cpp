@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.60 1999/12/22 17:23:14 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.61 1999/12/28 02:53:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -410,7 +410,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          PlaylistCurrentItemInfoEvent *pInfo = 
             (PlaylistCurrentItemInfoEvent *)e;
  
-         if (pInfo->Item())
+         if (m_pContext->plm->GetCurrentIndex() != kInvalidIndex)
              UpdateMetaData(pInfo->Item());
          break;
       }

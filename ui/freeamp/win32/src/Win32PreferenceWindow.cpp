@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.26 1999/12/20 02:39:13 elrod Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.27 1999/12/28 02:53:29 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2048,7 +2048,7 @@ static bool callback_function(UMEvent* event, void* userData)
             {
                 total /= 1024;
                 recvd /= 1024;
-                ost << percent << "% ("<< recvd << " of "<< total << " MB)";
+                ost << percent << "% ("<< recvd << " of "<< total << " KB)";
             }
             else
             {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.39 1999/12/18 03:35:59 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.40 1999/12/28 02:53:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -212,7 +212,7 @@ void MusicBrowserUI::Init()
     m_initialCount = 0;
     m_itemsAddedBeforeWeWereCreated = 0;
 
-    m_hMusicCatalog = NULL;
+    m_hMusicView = NULL;
     m_hPlaylistView = NULL;
 
     m_hCatalogItem = NULL;
@@ -221,7 +221,7 @@ void MusicBrowserUI::Init()
     m_hPlaylistItem = NULL; 
     m_hNewPlaylistItem = NULL;
     
-    m_hMusicCatalog = NULL;
+    m_hMusicView = NULL;
     m_hPortableItem = NULL;
     m_hNewPortableItem = NULL;
 
@@ -231,6 +231,8 @@ void MusicBrowserUI::Init()
 MusicBrowserUI::~MusicBrowserUI()
 {
     DeleteObject(m_splitterBrush);
+    DeleteObject(m_hSplitterCursor);
+    DeleteObject(m_hPointerCursor);
 
     if (m_pParent)
     {
@@ -305,10 +307,8 @@ void MusicBrowserUI::MusicSearchDone()
     m_bSearchInProgress = false;
                 
     //InitTree();
-    TreeView_Expand(GetDlgItem(m_hWnd, IDC_MUSICTREE), 
-                    m_hPlaylistItem, TVE_EXPAND);
-    TreeView_Expand(GetDlgItem(m_hWnd, IDC_MUSICTREE), 
-                    m_hCatalogItem, TVE_EXPAND);
+    TreeView_Expand(m_hMusicView,m_hPlaylistItem, TVE_EXPAND);
+    TreeView_Expand(m_hMusicView,m_hCatalogItem, TVE_EXPAND);
 }
 
 void MusicBrowserUI::DisplayBrowserMessage(const char* msg)
@@ -337,7 +337,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             AddToolbarButtons(useTextLabels, useImages);
             UpdateButtonMenuStates();
 
-            /*if(TreeView_GetChild(m_hMusicCatalog, m_hPortableItem) != NULL)
+            /*if(TreeView_GetChild(m_hMusicView, m_hPortableItem) != NULL)
             {    
                 FillPortables();
             }*/

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.52 1999/12/15 07:14:54 elrod Exp $
+	$Id: playlist.h,v 1.53 1999/12/28 02:53:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -60,8 +60,8 @@ typedef enum {
 } PlaylistSortKey;
 
 typedef enum {
-    PlaylistSortType_Ascending,
-    PlaylistSortType_Descending
+    kPlaylistSortType_Ascending,
+    kPlaylistSortType_Descending
 } PlaylistSortType;
 
 typedef enum {
@@ -187,7 +187,7 @@ class PlaylistItemSort : public binary_function<PlaylistItem*, PlaylistItem*, bo
 
  public:
     PlaylistItemSort(PlaylistSortKey sortKey, 
-                     PlaylistSortType sortType = PlaylistSortType_Ascending) : 
+                     PlaylistSortType sortType = kPlaylistSortType_Ascending) : 
                      m_sortKey(sortKey), m_sortType(sortType) { }
 
     bool operator() (PlaylistItem* item1, PlaylistItem* item2) const;
@@ -271,7 +271,7 @@ class PlaylistManager {
     Error UpdateTrackMetaData(PlaylistItem* updatedTrack);
 
     // Functions for sorting
-    Error Sort(PlaylistSortKey key, PlaylistSortType type = PlaylistSortType_Ascending);
+    Error Sort(PlaylistSortKey key, PlaylistSortType type = kPlaylistSortType_Ascending);
     PlaylistSortKey GetPlaylistSortKey() const;
     PlaylistSortType GetPlaylistSortType() const;
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DataIndex.cpp,v 1.5 1999/12/03 21:07:56 elrod Exp $
+        $Id: DataIndex.cpp,v 1.6 1999/12/28 02:53:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -121,6 +121,18 @@ bool TreeDataIndex::IsPortable(int32 lParam)
 
     result = m_oTreeData[lParam].m_pPortable != NULL;
 
+    return result;
+}
+
+bool TreeDataIndex::IsStream(int32 lParam)
+{
+   bool result = false;
+
+    if (!IsValidParam(lParam))
+       return false;
+
+    result = m_oTreeData[lParam].m_pStream != NULL;
+    
     return result;
 }
 

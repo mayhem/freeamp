@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicBrowserUI.cpp,v 1.5 2000/07/13 04:20:43 hiro Exp $
+        $Id: MusicBrowserUI.cpp,v 1.6 2000/07/17 22:31:03 hiro Exp $
 ____________________________________________________________________________*/
 
 #define DEBUG 1
@@ -117,7 +117,7 @@ MusicBrowserUI::AcceptEvent( Event* event )
             }
             break;
         case INFO_PlaylistItemsUpdated:
-            PRINT(( "INFO_PlaylistItemUpdated\n" ));
+            PRINT(( "INFO_PlaylistItemsUpdated\n" ));
             BroadcastToAllBrowsers( MBMSG_PLAYLIST_ITEMS_UPDATED, event );
             break;
         case INFO_PlaylistUpdated: // not used?
@@ -126,6 +126,11 @@ MusicBrowserUI::AcceptEvent( Event* event )
             break;
         case INFO_PlaylistItemsAdded:
             PRINT(( "INFO_PlaylistItemsAdded\n" ));
+            break;
+        case INFO_PlaylistItemRemoved:
+            PRINT(( "INFO_PlaylistItemRemoved\n" ));
+            BroadcastToAllBrowsers( MBMSG_PLAYLIST_ITEM_REMOVED, event );
+            break;
             break;
         case INFO_PlaylistItemMoved:
             PRINT(( "INFO_PlaylistItemMoved\n" ));

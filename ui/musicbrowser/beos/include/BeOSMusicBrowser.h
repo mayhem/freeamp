@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: BeOSMusicBrowser.h,v 1.4 2000/07/13 04:20:42 hiro Exp $
+        $Id: BeOSMusicBrowser.h,v 1.5 2000/07/17 22:31:03 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_BEOSMUSICBROWSER_H__
@@ -36,6 +36,7 @@ enum {
     // These are simply BMessage wrappers for the similarly named
     // FreeAmp events (those dispatched to/from AcceptEvent())
     MBMSG_PLAYLIST_CURRENT_ITEM_INFO = 'plci',
+    MBMSG_PLAYLIST_ITEM_REMOVED = 'pirm',
     MBMSG_PLAYLIST_ITEMS_UPDATED = 'piud',
     MBMSG_PLAYLIST_SORTED = 'plsd',
     MBMSG_PLAYLIST_UPDATED = 'plud',
@@ -68,11 +69,13 @@ enum {
     MBMSG_EDIT_CATALOG_ITEM = 'edci',
     MBMSG_CLEAR_PLAYLIST = 'clpl',
     MBMSG_SELECTION_CHANGED = 'slnc',
+    MBMSG_DRAGGED = 'drgd',
 
     // For debug.
     MBMSG_DEBUG_1 = 'dbg1',
     MBMSG_DEBUG_2 = 'dbg2',
     MBMSG_DEBUG_3 = 'dbg3',
+    MBMSG_DEBUG_4 = 'dbg4',
 };
 
 class FAContext;

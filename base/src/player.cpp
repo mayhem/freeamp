@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.191 2000/04/26 18:31:11 ijr Exp $
+        $Id: player.cpp,v 1.192 2000/04/28 00:42:54 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1002,11 +1002,12 @@ RegisterLMCs(Registry * registry)
 
       lmc = (LogicalMediaConverter *)temp->InitFunction()(m_context);
       vector<char *> *extList = lmc->GetExtensions();
+      vector<char *>::iterator i;
 
-      for (uint32 iextLoop = 0; iextLoop < extList->size(); iextLoop++)
+      for (i = extList->begin(); i != extList->end(); i++)
       {
           lmc_item = new RegistryItem(*temp);
-          m_lmcExtensions->Insert((*extList)[iextLoop], lmc_item);
+          m_lmcExtensions->Insert(*i, lmc_item);
       }
 
       delete extList;
@@ -1296,7 +1297,6 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
       m_pmo = NULL;
    }
 
-   
    pmi_item = ChoosePMI(pc->URL().c_str());
    if (!pmi_item)
    {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.37 2000/01/21 02:43:27 robert Exp $
+   $Id: pullbuffer.cpp,v 1.38 2000/04/28 00:42:54 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -47,6 +47,7 @@ PullBuffer::PullBuffer(size_t iBufferSize,
    m_bExit = false;
    m_iBytesToRead = 0;
    m_iBytesToWrite = 0;
+   m_pName = NULL;
 
    m_iReadIndex =  m_iWriteIndex = 0;
    m_iBytesInBuffer = 0;
@@ -68,6 +69,13 @@ PullBuffer::~PullBuffer(void)
       delete m_pPullBuffer;
 
    delete m_pMutex;
+   delete m_pName;
+}
+
+void PullBuffer::SetName(char *name)
+{
+   m_pName = new char[strlen(name) + 1];
+   strcpy(m_pName, name);
 }
 
 Error PullBuffer::Clear(void)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.26 2000/04/25 14:30:19 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.27 2000/04/28 00:42:54 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -84,6 +84,8 @@ class FreeAmpTheme : public UserInterface, public Theme
 
         static void update_thread(void*);
         static void options_thread(void*);
+
+        void BangOnThemes(void);
 
     protected:
 

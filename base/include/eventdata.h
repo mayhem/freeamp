@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.51 2000/04/25 14:30:19 robert Exp $
+        $Id: eventdata.h,v 1.52 2000/04/28 00:42:54 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -449,6 +449,40 @@ class     MpegInfoEvent:public Event
    {
    }
 
+};
+
+class VorbisInfoEvent:public Event
+{
+   public:
+   VorbisInfoEvent(int32 bitrate, int32 channels, int32 rate, float spf)
+   {
+      m_type = INFO_VorbisInfo;
+      m_bitrate = bitrate;
+      m_channels = channels;
+      m_rate = rate; 
+      m_secondsPerFrame = spf;
+   }
+   int32     GetBitRate()
+   {
+      return m_bitrate;
+   };
+   int32     GetSampleRate()
+   {
+      return m_rate;
+   };
+   int32     GetChannels()
+   {
+      return m_channels;
+   };
+   float     GetSecondsPerFrame()
+   {
+      return m_secondsPerFrame;
+   }
+   private:
+   int32     m_bitrate;
+   int32     m_rate;
+   int32     m_channels;
+   float     m_secondsPerFrame;
 };
 
 class     SetEqualizerDataEvent:public Event

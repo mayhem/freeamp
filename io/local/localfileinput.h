@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.h,v 1.19 1999/11/15 19:36:04 robert Exp $
+        $Id: localfileinput.h,v 1.20 2000/04/28 00:42:54 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_LOCALFILEINPUT_H_
@@ -47,6 +47,7 @@ class LocalFileInput:public PhysicalMediaInput
 	virtual bool  IsStreaming(void)
 	              { return false; };
    virtual Error Seek(int32 & rtn, int32 offset, int32 origin);
+   virtual Error Tell(int32 & rtn);
    virtual Error GetLength(size_t &iSize);
 
    virtual Error Prepare(PullBuffer *&pBuffer);

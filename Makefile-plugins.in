@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.57 2000/04/25 14:30:19 robert Exp $
+# $Id: Makefile-plugins.in,v 1.58 2000/04/28 00:42:54 robert Exp $
 
 RELOC = @FPIC@
 
@@ -305,6 +305,11 @@ XINGLMCOBJ = $(XINGLMCOBJC) $(XINGLMCOBJCXX)
 
 plugins/xingmp3.lmc: $(XINGLMCOBJ)
 	$(LINKMOD) -o $@ $(XINGLMCOBJ) $(STATICLD)
+
+# vorbis lmc
+VORBISOBJ = lmc/vorbis/src/vorbislmc.o
+plugins/vorbis.lmc: $(VORBISOBJ)
+	$(LINKMOD) -o $@ $(VORBISOBJ) $(STATICLD) -lvorbisfile -lvorbis
 
 
 # MDF section 

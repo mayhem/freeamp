@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.47 2000/03/28 01:34:53 elrod Exp $
+	$Id: event.h,v 1.48 2000/04/28 00:42:54 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -146,5 +146,6 @@ class EventQueue {
 #define INFO_CDDiscStatus             79 // sent by the CD PMO when a disc starts playing, so the MB gui knows the number of tracks, etc
 #define INFO_MusicCatalogRegenerating 80 // sent by the MC to tell the UIs to ignore it for awhile
 #define INFO_MusicCatalogDoneRegenerating 81 // sent by the MC to tell the UIs to regenerate their database
+#define INFO_VorbisInfo             82 // Used to send vorbis stream info
 #endif // _EVENT_H_
 

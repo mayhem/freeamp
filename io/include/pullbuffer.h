@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.19 2000/02/11 04:31:25 robert Exp $
+   $Id: pullbuffer.h,v 1.20 2000/04/28 00:42:54 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PULLBUFFER_H_
@@ -68,6 +68,7 @@ class PullBuffer
 		       {
 			       return (100 * m_iBytesInBuffer) / m_iBufferSize;
 			   };
+      void     SetName(char *name);
 
       // These function really should not be public, but
 	  // the stupid windows PMO needs them. Grrr.
@@ -90,6 +91,7 @@ class PullBuffer
       bool           m_bEOS;
       size_t         m_iBytesToWrite, m_iBytesToRead;
       unsigned char *m_pPullBuffer;
+      char          *m_pName;
 };
 
 #endif

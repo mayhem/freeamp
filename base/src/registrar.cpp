@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.21 2000/04/26 15:18:30 robert Exp $
+	$Id: registrar.cpp,v 1.22 2000/04/28 00:42:54 robert Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */

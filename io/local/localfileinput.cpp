@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.29 2000/02/05 23:59:16 robert Exp $
+        $Id: localfileinput.cpp,v 1.30 2000/04/28 00:42:54 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -204,15 +204,33 @@ Error LocalFileInput::GetLength(size_t &iSize)
     return kError_NoErr;
 }; 
 
+Error LocalFileInput::Tell(int32 &iRet) 
+{
+    iRet = ftell(m_fpFile);
+    if (iRet < 0)
+       return kError_SeekFailed;
+
+    iRet -= m_pOutputBuffer->GetNumBytesInBuffer();
+       
+    return kError_NoErr;
+}
+
 Error LocalFileInput::Seek(int32 &iRet, int32 iPos, int32 iFrom) 
 { 
     Error eRet = kError_NoErr;
 
+    if (iPos == 0 && iFrom == SEEK_CUR)
+       return Tell(iRet);
+
     iRet = fseek(m_fpFile, iPos, iFrom);
     if (iRet < 0)
+    {
        eRet = kError_SeekFailed;
+    }
     else
-       iRet = ftell(m_fpFile);
+    {
+       eRet = Tell(iRet);
+    }
 
     m_pOutputBuffer->Clear();
 

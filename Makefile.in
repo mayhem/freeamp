@@ -1,3 +1,7 @@
+# Freeamp master Makefile
+# blown into bits and reconstructed by dogcow
+# $Id: Makefile.in,v 1.21.2.2 1999/04/19 01:08:48 dogcow Exp $
+
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -21,16 +25,9 @@ oldincludedir = /usr/include
 
 DESTDIR =
 
-pkgdatadir = $(datadir)/@PACKAGE@
-pkglibdir = $(libdir)/@PACKAGE@
-pkgincludedir = $(includedir)/@PACKAGE@
-
 top_builddir = .
 
-ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
-AUTOMAKE = @AUTOMAKE@
-AUTOHEADER = @AUTOHEADER@
 
 INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
@@ -50,24 +47,13 @@ PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 host_os = @host_os@
-CFLAGS = -D_REENTRANT -DGODDAMNIT
+CFLAGS = @CFLAGS@ -D_REENTRANT
 
 OSLINK = @OSLINK@
 FPIC = -fpic
-LINK = gcc -shared $(OSLINK)
-
-SUBDIRS = base io ui lmc
-#LINK@AM_HAVE_WIN32_TRUE@PRG = 
-@AM_HAVE_WIN32_FALSE@PRG = freeamp
-@AM_HAVE_WIN32_FALSE@@AM_MP3_PROF_TRUE@PROF_LD_ADD = @top_srcdir@/lmc/xingmp3/src/*.o
-@AM_HAVE_WIN32_FALSE@@AM_MP3_PROF_FALSE@PROF_LD_ADD = 
-@AM_HAVE_WIN32_FALSE@@AM_MP3_PROF_TRUE@PROF_DEPS = @top_srcdir@/lmc/xingmp3/src/libfalmc.a
-@AM_HAVE_WIN32_FALSE@@AM_MP3_PROF_FALSE@PROF_DEPS = 
-@AM_HAVE_WIN32_FALSE@ALLLDADD = @top_srcdir@/base/unix/@host_os@/src/*.o            @top_srcdir@/base/unix/src/*.o            @top_srcdir@/lmc/src/*.o            @top_srcdir@/io/src/*.o            @top_srcdir@/ui/src/*.o            -lpthread -lm -ldl
-@AM_HAVE_WIN32_FALSE@FALDADD = @top_srcdir@/base/src/*.o $(ALLLDADD) $(PROF_LD_ADD)
-@AM_HAVE_WIN32_FALSE@DSLDADD = @top_srcdir@/base/src/player.o @top_srcdir@/base/src/playlist.o @top_srcdir@/base/src/command.o @top_srcdir@/base/src/thread.o $(ALLLDADD)
-@AM_HAVE_WIN32_FALSE@MYDEPS = @top_srcdir@/base/unix/@host_os@/src/libfasys.a          @top_srcdir@/base/src/libfabase.a          @top_srcdir@/base/unix/src/libfaunix.a          @top_srcdir@/lmc/src/libfalmcsrc.a          @top_srcdir@/io/src/libfaiosrc.a          @top_srcdir@/ui/src/libfauisrc.a          $(PROF_DEPS)
-@AM_HAVE_WIN32_FALSE@TRGT_SYS_HEADS = @top_srcdir@/base/unix/@host_os@/include
+LINKMOD = gcc -shared $(OSLINK)
+NETLIBS = -lsocket -lnsl
+XLIBS = -L/usr/openwin/lib -R/usr/openwin/lib -lX11 -lXext -lXpm
 
 bin_PROGRAMS = $(PRG)
 freeamp_SOURCES = freeamp.cpp
@@ -112,8 +98,8 @@ OBJECTS = $(freeamp_OBJECTS)
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .cpp .o .s
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu Makefile
+#$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+#	cd $(top_srcdir) && $(AUTOMAKE) --gnu Makefile
 
 #Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 #	cd $(top_builddir) \
@@ -142,9 +128,9 @@ $(srcdir)/config/config.h.in: $(srcdir)/config/stamp-h.in
 		rm -f $(srcdir)/config/stamp-h.in; \
 		$(MAKE) $(srcdir)/config/stamp-h.in; \
 	else :; fi
-$(srcdir)/config/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOHEADER)
-	@echo timestamp > $(srcdir)/config/stamp-h.in 2> /dev/null
+#$(srcdir)/config/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+#	cd $(top_srcdir) && $(AUTOHEADER)
+#	@echo timestamp > $(srcdir)/config/stamp-h.in 2> /dev/null
 
 mostlyclean-hdr:
 
@@ -200,7 +186,9 @@ freeamp: $(freeamp_OBJECTS) $(freeamp_DEPENDENCIES)
 	@rm -f freeamp
 	$(CXXLINK) $(freeamp_LDFLAGS) $(freeamp_OBJECTS) $(freeamp_LDADD) $(LIBS)
 .cpp.o:
-	$(CXXCOMPILE) -c $<
+	$(CXXCOMPILE) $(FPIC) -c $<
+.c.o:
+	$(COMPILE) $(FPIC) -c $<
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -379,8 +367,130 @@ uninstall_plugins:
 	  else :; fi; \
 	done
 
+#here there be dogcow makefile stuff
+
+#plugins!
+
+#
+# PMI section
+
+#
+# localfileinput is a nice simple example of a plugin dependency.
+LFIOBJ = io/local/filebuffer.o io/local/localfileinput.cpp
+
+plugins/localfileinput-@host_os@.pmi: localfileinput-@host_os@.pmi
+
+localfileinput-@host_os@.pmi: $(LFIOBJ)
+	$(LINKMOD) -o plugins/$@ $(LFIOBJ)
+
+#$(LFIOBJ):
+#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+
+#
+# here's httpinput
+HTTPOBJ = io/http/httpinput.o io/http/httpbuffer.o
+
+plugins/httpinput-@host_os@.pmi: httpinput-@host_os@.pmi
+
+httpinput-@host_os@.pmi: $(LFIOBJ)
+	$(LINKMOD) -o plugins/$@ $(HTTPOBJ)
+
+#$(HTTPOBJ):
+#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+
+# obsinput
+OBSPMI = io/obs/obsbuffer.o io/local/obsinput.cpp
+
+plugins/obsinput-$host_os@.pmi: obsinput-@host_os@.pmi
+
+obsinput-@host_os@.pmi: $(OBSPMI)
+	$(LINKMOD) -o plugins/$@ $(OBSPMI)
+
+#$(OBSPMI):
+#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+
+#
+# PMO section
+
+# soundcardpmo is os-dependent, so have to fool with @OSDEP@
+SCPMOOBJ = io/soundcard/@OSDEP@/soundcardpmo.o
+
+plugins/soundcard-@host_os@.pmo: soundcard-@host_os@.pmo
+
+soundcard-@host_os@.pmo: $(SCPMOOBJ)
+	$(LINKMOD) -o plugins/$@ $(SCPMOOBJ)
+
+#$(SCPMOOBJ):
+#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+
+#
+# UI section
+
+# cmdline
+CMDUIOBJ = ui/cmdline/cmdlineUI.o
+
+plugins/freeampcmd-@host_os@.ui: freeampcmd-@host_os@.ui
+
+freeampcmd-@host_os@.ui: $(CMDUIOBJ)
+	$(LINKMOD) -o plugins/$@ $(CMDUIOBJ)
+
+#$(CMDUIOBJ):
+#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+
+
+p# Mpg123 ui
+MPG123UIOBJ = ui/mpg123/Mpg123UI.o
+
+plugins/mpg123-@host_os@.ui: mpg123-@host_os@.ui
+
+mpg123-@host_os@.ui: $(MPG123UIOBJ)
+	$(LINKMOD) -o plugins/$@ $(MPG123UIOBJ)
+
+#$(MPG123UIOBJ):
+#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+
+# lcd ui
+LCDUIOBJ = ui/lcd/src/lcdui.o ui/lcd/src/sockets.o
+
+plugins/lcd-@host_os@.ui: lcd-@host_os@.ui
+
+lcd-@host_os@.ui: $(LCDUIOBJ)
+	$(LINKMOD) -o plugins/$@ $(LCDUIOBJ) $(NETLIBS)
+
+#$(LCDUIOBJ):
+#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+
+# IRman
+IRMANUIOBJ = ui/irman/src/irmanui.o ui/irman/src/ircmd.o 
+IRMANUIOBJ += ui/irman/src/irfunc.o ui/irman/src/irio.o
+
+plugins/irman-@host_os@.ui: irman-@host_os@.ui
+
+#irman-@host_os@.ui: $(IRMANUIOBJ)
+#	$(LINKMOD) -o plugins/$@ $(IRMANUIOBJ)
+
+#$(IRMANUIOBJ):
+#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+
+# The studly X11 freeamp interface
+FREEAMPUIOBJ = ui/freeamp/unix/src/freeamp.o ui/freeamp/unix/src/windowhash.o
+FREEAMPUIOBJ += ui/freeamp/unix/src/res.o ui/freeamp/unix/src/fawindow.o
+
+plugins/freeamp-@host_os@.ui: freeamp-@host_os@.ui
+
+freeamp-@host_os@.ui: $(FREEAMPUIOBJ)
+	$(LINKMOD) -o plugins/$@ $(FREEAMPUIOBJ) $(XLIBS) $(NETLIBS)
+
+#$(FREEAMPUIOBJ):
+#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+
+
+#
+# LMC section
+
 # the XING decoder objs and dependencies:
-# This was sheer, unadulterated hell.
+# This is kinda nasty, since there's C, C++, and asm, oh my!
+# of course, each needs different compilation methods. grr.
 XINGLMCOBJX86 = lmc/xingmp3/src/x86gas.o
 
 XINGLMCOBJC = lmc/xingmp3/src/cdct.o lmc/xingmp3/src/cupl3.o \
@@ -403,17 +513,14 @@ XINGLMCOBJ = $(XINGLMCOBJC) $(XINGLMCOBJCXX)
 plugins/xingmp3-@host_os@.lmc: xingmp3-@host_os@.lmc
 
 xingmp3-@host_os@.lmc: $(XINGLMCOBJ)
-	$(LINK) -o plugins/xingmp3-@host_os@.lmc $(XINGLMCOBJ)
+	$(LINKMOD) -o plugins/$@ $(XINGLMCOBJ)
 
-$(XINGLMCOBJC):
-	$(COMPILE) $(FPIC) $(XINGDEF) -Ilmc/xingmp3/include -o $(*).o -c ${*:%.o=%}.c
+#$(XINGLMCOBJC):
+#	$(COMPILE) $(FPIC) $(XINGDEF) -Ilmc/xingmp3/include -o $(*).o -c ${*:%.o=%}.c
 
-$(XINGLMCOBJCXX):
-	$(CXXCOMPILE) $(FPIC) $(XINGDEF) -Ilmc/xingmp3/include -c ${*:%.o=%}.cpp
+#$(XINGLMCOBJCXX):
+#	$(CXXCOMPILE) $(FPIC) $(XINGDEF) -Ilmc/xingmp3/include -c ${*:%.o=%}.cpp
 
-xingmp3-@host_os@.lmc := CFLAGS = $(FPIC) -Ilmc/xingmp3/include @ISX86@
-plugins/xingmp3-@host_os@.lmc := CFLAGS = $(FPIC) -Ilmc/xingmp3/include @ISX86@
-
-# Tell versions [3.59,3.63) of GNU make to not export all variables.
-# Otherwise a system limit (for SysV at least) may be exceeded.
-.NOEXPORT:
+#the following does not work. dammit.
+#xingmp3-@host_os@.lmc := CFLAGS = $(FPIC) -Ilmc/xingmp3/include @ISX86@
+#plugins/xingmp3-@host_os@.lmc := CFLAGS = $(FPIC) -Ilmc/xingmp3/include @ISX86@

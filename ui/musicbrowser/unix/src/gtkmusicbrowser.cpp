@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.122 2000/10/12 20:22:41 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.123 2001/01/05 09:54:38 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -499,6 +499,18 @@ void GTKMusicBrowser::AddStreamToFavs(void)
                                                     stream->GetMetaData(),
                                                     kTypeStream);
         m_context->catalog->AddStream(stream->URL().c_str());
+    }
+}
+
+void GTKMusicBrowser::VisitWebsite(void)
+{
+    vector<TreeData *>::iterator i = mbSelections->begin();
+    for (; i != mbSelections->end(); i++) {
+        if ((*i)->type != kTreeStream)
+            continue;
+
+        PlaylistItem *stream = (*i)->track;
+        LaunchBrowser(stream->WebURL().c_str());
     }
 }
 

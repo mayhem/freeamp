@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.61 2001/01/02 03:47:16 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.62 2001/01/05 09:54:37 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -373,6 +373,7 @@ class GTKMusicBrowser {
     void AddStreamToFavs(void);
     void AddPLStreamToFavs(void);
     void AddNewStream(void);
+    void VisitWebsite(void);
 
     void HandleSignature(void);
 

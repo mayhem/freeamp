@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.59 2000/02/18 20:56:44 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.59.2.1 2000/02/27 06:10:14 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1771,6 +1771,128 @@ void GTKMusicBrowser::CreateMenu(GtkWidget *topbox)
     gtk_widget_show(separator);
 }
 
+PlaylistManager *BADPLM = NULL;
+
+class comp_pi_pos {
+  public:
+    bool operator()(PlaylistItem *a, PlaylistItem *b)
+    {
+        if (!BADPLM)
+            return false;
+        return (BADPLM->IndexOf(a) < BADPLM->IndexOf(b));
+    }
+};
+
+void GTKMusicBrowser::RenumberPlaylistList(int starting)
+{
+    if (starting > GTK_CLIST(playlistList)->rows)
+        return;
+
+    gtk_clist_freeze(GTK_CLIST(playlistList));
+    
+    for (int i = starting; i < GTK_CLIST(playlistList)->rows; i++) {
+        char location[50];
+        
+        sprintf(location, "%d", i + 1);
+        gtk_clist_set_text(GTK_CLIST(playlistList), i, 0, location);
+    }
+
+    gtk_clist_thaw(GTK_CLIST(playlistList));
+}
+
+void GTKMusicBrowser::AddPlaylistItems(vector<PlaylistItem *> *items)
+{
+    if (!items)
+        return;
+
+    uint32 minpos = (uint32)-1;
+
+    gtk_clist_freeze(GTK_CLIST(playlistList));
+
+    // hack hack hack hack
+    BADPLM = m_plm;
+    sort(items->begin(), items->end(), comp_pi_pos());
+    BADPLM = NULL;
+
+    vector<PlaylistItem *>::iterator i = items->begin();
+    for (; i != items->end(); i++) {
+        PlaylistItem *item = *i;
+ 
+       if (!item) 
+            continue;
+
+        while (item->GetState() == kPlaylistItemState_RetrievingMetaData)
+           usleep(10);
+
+        MetaData mdata = item->GetMetaData();
+        char *iText[4];
+        char position[10];
+        char *title;
+        char *artist;
+        char length[50];
+
+        uint32 pos = m_plm->IndexOf(item);
+
+        sprintf(position, "%d", pos + 1);
+        title = (char *)mdata.Title().c_str();
+        artist = (char *)mdata.Artist().c_str();
+
+        if (mdata.Time() == 0)
+            sprintf(length, "Unknown");
+        else {
+            int secs = mdata.Time();
+            if (secs > 3600)
+                sprintf(length, "%d:%02d:%02d", secs / 3600, (secs / 60) % 60,
+                        secs % 60);
+            else
+                sprintf(length, "%d:%02d", (secs / 60) % 60, secs % 60);
+        }
+
+        iText[0] = position;
+        iText[1] = title;
+        iText[2] = artist;
+        iText[3] = length;
+
+        gtk_clist_insert(GTK_CLIST(playlistList), pos, iText);
+        
+        if (pos < minpos)
+            minpos = pos;
+    }
+
+    RenumberPlaylistList(minpos + 1);
+
+    gtk_clist_columns_autosize(GTK_CLIST(playlistList));
+    gtk_clist_select_row(GTK_CLIST(playlistList), m_currentindex, 0);
+    gtk_clist_moveto(GTK_CLIST(playlistList), m_currentindex, 0, 0.5, -1);
+    gtk_clist_thaw(GTK_CLIST(playlistList));
+}
+
+void GTKMusicBrowser::RemovePlaylistItems(vector<uint32> *indices)
+{
+    if (!indices)
+        return;
+
+    uint32 minpos = (uint32)-1;
+
+    gtk_clist_freeze(GTK_CLIST(playlistList));
+
+    sort(indices->begin(), indices->end(), greater<uint32>());
+
+    vector<uint32>::iterator i = indices->begin();
+    for (; i != indices->end(); i++) {
+        gtk_clist_remove(GTK_CLIST(playlistList), *i);
+        if (*i < minpos)
+            minpos = *i;
+    }
+
+    RenumberPlaylistList(minpos);
+
+    gtk_clist_columns_autosize(GTK_CLIST(playlistList));
+    gtk_clist_select_row(GTK_CLIST(playlistList), m_currentindex, 0);
+    gtk_clist_moveto(GTK_CLIST(playlistList), m_currentindex, 0, 0.5, -1);
+    gtk_clist_thaw(GTK_CLIST(playlistList));
+}
+
 void GTKMusicBrowser::UpdatePlaylistList(void)
 {
     if (!playlistList || !m_plm)
@@ -1903,7 +2025,6 @@ void GTKMusicBrowser::LoadPlaylist(string &oPlaylist)
     if (!strncmp("file://", oPlaylist.c_str(), 7)) {
         m_plm->ReadPlaylist(oPlaylist.c_str());
         m_currentListName = oPlaylist;
-        UpdatePlaylistList();
     }
     else {
         uint32 length = _MAX_PATH;
@@ -1911,7 +2032,6 @@ void GTKMusicBrowser::LoadPlaylist(string &oPlaylist)
         if (IsntError(FilePathToURL(oPlaylist.c_str(), PlaylistURL, &length))) {
             m_plm->ReadPlaylist(PlaylistURL);
             m_currentListName = PlaylistURL;
-            UpdatePlaylistList();
         }
         delete [] PlaylistURL;
     }
@@ -2077,7 +2197,6 @@ void GTKMusicBrowser::DeleteListEvent(void)
 {
     m_plm->RemoveAll();
     m_context->target->AcceptEvent(new Event(CMD_Stop));
-    UpdatePlaylistList();
     m_currentindex = kInvalidIndex;
 }
 
@@ -2241,7 +2360,6 @@ void GTKMusicBrowser::DeleteEvent(void)
         m_context->target->AcceptEvent(new Event(CMD_Play));
     }
     m_plm->RemoveItem(deleteindex);
-    UpdatePlaylistList();
 }
 
 void GTKMusicBrowser::MoveUpEvent(void)
@@ -2292,10 +2410,8 @@ void GTKMusicBrowser::AddTrackPlaylistEvent(char *path)
         }
     }
 
-    if (additReally) {
+    if (additReally)
         m_plm->AddItem(tempurl, m_currentindex);
-        UpdatePlaylistList();
-    }
 
     if (needToDelete)
         delete [] tempurl;
@@ -2306,7 +2422,6 @@ void GTKMusicBrowser::AddTrackPlaylistEvent(PlaylistItem *newitem)
     if (m_currentindex == kInvalidIndex)
         m_currentindex = 0;
     m_plm->AddItem(newitem, m_currentindex, true);
-    UpdatePlaylistList();
 }
 
 void GTKMusicBrowser::AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist,
@@ -2328,7 +2443,6 @@ void GTKMusicBrowser::AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist,
     }
 
     m_plm->AddItems(newlist, m_currentindex, true);
-    UpdatePlaylistList();
 
     if (play) {
         m_currentindex = 0;
@@ -2730,6 +2844,39 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
                 gdk_threads_enter();
                 ClearTree();
                 gdk_threads_leave();
+            }
+            break; }
+        case INFO_PlaylistItemAdded: {
+            if (m_initialized) {
+                PlaylistItemAddedEvent *piae = (PlaylistItemAddedEvent *)e;
+                if (piae->Manager() == m_plm) {
+                    vector<PlaylistItem *> list;
+                    list.push_back((PlaylistItem *)(piae->Item()));
+            
+                    gdk_threads_enter();         
+                    AddPlaylistItems(&list);
+                    gdk_threads_leave();
+                }
+            }
+            break; }
+        case INFO_PlaylistItemsAdded: {
+            if (m_initialized) {
+                PlaylistItemsAddedEvent *piae = (PlaylistItemsAddedEvent *)e;
+                if (piae->Manager() == m_plm) {
+                    gdk_threads_enter();
+                    AddPlaylistItems((vector<PlaylistItem*>*)piae->Items());
+                    gdk_threads_leave();
+                }
+            }
+            break; }
+        case INFO_PlaylistItemRemoved: {
+            if (m_initialized) {
+                PlaylistItemRemovedEvent *pire = (PlaylistItemRemovedEvent *)e;
+                if (pire->Manager() == m_plm) {
+                    gdk_threads_enter();
+                    RemovePlaylistItems((vector<uint32>*)pire->Indices());
+                    gdk_threads_leave();
+                }
             }
             break; }
         case INFO_PlaylistCurrentItemInfo: {

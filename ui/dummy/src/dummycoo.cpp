@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dummycoo.cpp,v 1.4 1998/10/16 20:29:01 elrod Exp $
+	$Id: dummycoo.cpp,v 1.5 1998/10/16 20:35:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "dummycoo.h"
@@ -35,7 +35,7 @@ DummyCOO::~DummyCOO() {
 int32 DummyCOO::AcceptEvent(Event *pe) {
     if (pe) {
   	//cout << "DummyCOO::acceptEvent: processing " << pe->getEvent() << "..." << endl;
-        switch (pe->getEvent()) {
+        switch (pe->GetEvent()) {
 	        case CMD_Terminate:
 	            m_termSemaphore->Signal();
 	            break;

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.3 1998/10/13 22:09:05 jdw Exp $
+	$Id: event.h,v 1.4 1998/10/16 20:35:36 elrod Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -41,8 +41,8 @@ class Event {
     Event(const Event &);
 
     ~Event();
-    int32 getEvent();
-    void *getArgument();
+    int32 GetEvent();
+    void *GetArgument();
     
 };
 

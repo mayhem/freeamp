@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: command.cpp,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: command.cpp,v 1.2 1998/10/16 20:35:36 elrod Exp $
 ____________________________________________________________________________*/
 
 // command.cpp
@@ -49,11 +49,11 @@ Event::Event(const Event &c) {
 
 Event::~Event() { }
 
-int32 Event::getEvent() {
+int32 Event::GetEvent() {
     return event;
 }
 
-void *Event::getArgument() {
+void *Event::GetArgument() {
     return arg;
 }
 

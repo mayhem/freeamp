@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.34 2000/03/16 07:24:59 ijr Exp $
+   $Id: Theme.cpp,v 1.35 2000/03/17 19:05:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -313,7 +313,8 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
              pNewWindow = pMainWindow;
           
           // Save the old bitmaps and fonts
-          oFonts = *m_pFonts;
+          if (m_pFonts)
+              oFonts = *m_pFonts;
           oBitmaps = *m_pBitmaps;
 
           // Accept the new bitmaps and font.

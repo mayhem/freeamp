@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigmain.cpp,v 1.8 2000/10/12 23:05:49 robert Exp $
+        $Id: sigmain.cpp,v 1.9 2000/10/13 10:18:14 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -36,6 +36,7 @@ ____________________________________________________________________________*/
 
 #include "metadata.h"
 #include "config.h"
+#include "utility.h"
 
 #include "plm/metadata/id3v1/id3v1.h"
 #include "plm/metadata/id3v2/id3v2.h"
@@ -115,7 +116,8 @@ void submit_metadata(MetaData *pmetaData)
    int    ret;
    char   *args[11];
    char    temp[255];
-   int     i;
+   int     i, proxyPort;
+   string  proxyServer;
 
    if (pmetaData == NULL)
        return;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.16 2000/10/04 22:49:39 ijr Exp $
+	$Id: utility.h,v 1.17 2000/10/13 10:18:14 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
@@ -72,5 +72,6 @@ bool ResolveLink(string& path);
 string FindFile(string oPath);
 
 bool ShowHelp(FAContext *context, const char *helptopic);
+bool GetProxySettings(FAContext *context, string &server, unsigned short &port);
 
 #endif /* INCLUDED_UTILITY_H */

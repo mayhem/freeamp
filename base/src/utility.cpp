@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: utility.cpp,v 1.35 2000/10/04 22:49:39 ijr Exp $
+    $Id: utility.cpp,v 1.36 2000/10/13 10:18:14 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -887,3 +887,32 @@ bool ShowHelp(FAContext *m_context, const char *helpurl)
 
     return true;
 } 
+
+bool GetProxySettings(FAContext *context, string &server, unsigned short &port)
+{
+    bool   useProxy;
+    int32  numFields;
+    uint32 length;
+    char   proxyname[256], hostname[256];
+
+    context->prefs->GetPrefBoolean(kUseProxyPref, &useProxy);
+
+    length = sizeof(proxyname);
+    context->prefs->GetPrefString(kProxyHostPref, proxyname, &length);
+
+    if(useProxy)
+    {
+        numFields = sscanf(proxyname,
+                           "http://%[^:/]:%hu", hostname, &port);
+        if (numFields > 0)
+        {
+            server = string(hostname);
+            if (numFields == 1)
+               port = 80;
+
+            return true;
+        }
+    }
+
+    return false;
+}

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.7.2.1.2.1 2000/03/07 22:49:05 robert Exp $
+   $Id: TextControl.cpp,v 1.7.2.1.2.1.2.1 2000/03/22 23:12:05 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -88,7 +88,8 @@ bool TextControl::UseToDragWindow(void)
 {
     return m_oName != string("Time") && 
            m_oName != string("TimeRemaining") &&
-           m_oName != string("HeadlineInfo");
+           m_oName != string("HeadlineInfo") &&
+           m_oName != string("HeadlineStreamInfo");
 }
 
 TextControl::~TextControl(void)

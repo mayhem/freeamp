@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.3 2000/03/22 21:57:37 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4 2000/03/22 23:12:05 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1124,7 +1124,8 @@ void FreeAmpTheme::InitControls(void)
 
     m_pWindow->ControlStringValue("StreamInfo", true, m_oStreamInfo);
 
-    if (m_pWindow->DoesControlExist("HeadlineInfo") && m_pHeadlines)
+    if ((m_pWindow->DoesControlExist("HeadlineInfo") ||
+         m_pWindow->DoesControlExist("HeadlineStreamInfo")) && m_pHeadlines)
     {
         if (m_pHeadlineGrabber)
         {

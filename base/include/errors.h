@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.18.4.6 1999/08/30 04:50:58 elrod Exp $
+	$Id: errors.h,v 1.18.4.7 1999/08/31 20:18:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -73,6 +73,7 @@ typedef enum Error
     kError_FormatNotSupported   = 42,
     kError_NoMoreDevices        = 43,
     kError_DeviceNotFound       = 44,
+    kError_FeatureNotSupported  = 45,
 
     kError_LastError            = 9999
 }Error;

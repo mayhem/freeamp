@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupini.c,v 1.5.10.1 2000/08/11 18:27:46 robert Exp $
+	$Id: cupini.c,v 1.5.10.2 2000/10/05 13:38:17 robert Exp $
 ____________________________________________________________________________*/
 
 /*=========================================================
@@ -206,7 +206,11 @@ extern void cup3_init(MPEG *m);
 
 void mpeg_init(MPEG *m)
 {
-	memset(m, 0, sizeof(MPEG));
+   // Init everything but the equalizer stuff -- that is done in the
+   // function below. This is seperate, because we don't want to reset
+   // the eq when we reset the decoder
+	memset(m, 0, sizeof(MPEG) - sizeof(eq_info));
+
 	m->cup.nsb_limit = 6;
 	m->cup.nbat[0] = 3;
 	m->cup.nbat[1] = 8;
@@ -226,6 +230,15 @@ void mpeg_init(MPEG *m)
 	m->cup.sample = (float *)&m->cupl.sample;
 	m->csbt.first_pass = 1;
 	cup3_init(m);
+}
+
+void mpeg_eq_init(MPEG *m)
+{
+   int i;
+
+   m->eq.enableEQ = 0;
+   for(i = 0; i < 32; i++)
+      m->eq.equalizer[i] = 1.0;
 }
 
 /*---------------------------------------------------------*/

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cdct.c,v 1.15.10.1 2000/08/11 18:27:45 robert Exp $
+	$Id: cdct.c,v 1.15.10.2 2000/10/05 13:38:17 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cdct.c  ***************************************************
@@ -94,31 +94,20 @@ static void back_bf(int m, int n, float x[], float f[])
 }
 /*------------------------------------------------------------*/
 
-#ifdef  _EQUALIZER_ENABLE_
-extern float equalizer[32];
-extern int enableEQ;
-#endif
-
 void fdct32(MPEG *m, float x[], float c[])
 {
-#if (!defined(ASM_X86) && !defined(ASM_X86_OLD) || defined(_EQUALIZER_ENABLE_))
    float a[32];			/* ping pong buffers */
    float b[32];
    int p, q;
-#endif
 
    float *src = x;
 
-#ifdef  _EQUALIZER_ENABLE_
    int i;
-   float b[32];
-   if (enableEQ) {
+   if (m->eq.enableEQ) {
        for(i=0; i<32; i++)
-	   b[i] = x[i] * equalizer[i];
+	   b[i] = x[i] * m->eq.equalizer[i];
        src = b;
    }
-#endif  /* _EQUALIZER_ENABLE_ */
-#undef  _EQUALIZER_ENABLE_
 
 #ifdef ASM_X86
    fdct32_asm(src, c);

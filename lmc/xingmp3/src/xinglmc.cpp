@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.134.2.1 2000/08/11 18:27:46 robert Exp $
+   $Id: xinglmc.cpp,v 1.134.2.2 2000/10/05 13:38:17 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -614,7 +614,8 @@ Error XingLMC::InitDecoder()
 //   if (m_decodeInfo.eightbit)
 //       iConvCode += 8;
 
-   memset(&m_sMPEG, 0, sizeof(MPEG));
+   mpeg_init(&m_sMPEG);
+   mpeg_eq_init(&m_sMPEG);
    if (audio_decode_init(&m_sMPEG, &m_sMpegHead, m_frameBytes,
                    iRedCode /* reduction code */, 
                    0 /* transform code (ignored) */ ,
@@ -875,7 +876,7 @@ void XingLMC::DecodeWork()
                  ReportError("Cannot advance to next frame. Possible media corruption?");
                  return;
              }
-          memset(&m_sMPEG, 0, sizeof(MPEG));
+          mpeg_init(&m_sMPEG);
 			 audio_decode_init(&m_sMPEG, &m_sMpegHead, m_frameBytes, 0, 0, 0, 24000);
 		  }
 		  else
@@ -976,28 +977,19 @@ Error XingLMC::EndRead(size_t iBytesUsed)
    return m_pInputBuffer->EndRead(iBytesUsed);
 }
 
-		
-extern "C" {
-float equalizer[32] = {
-    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-};
-int enableEQ = false;
-	   }
-
-Error XingLMC::SetEQData(float *arrayEQ) {
+Error XingLMC::SetEQData(float *arrayEQ) 
+{
     Error error = kError_NoErr;
-        for(int i=0; i<32; i++)
-                equalizer[i] = arrayEQ[i];
-        return error;
+
+    for(int i=0; i<32; i++)
+       m_sMPEG.eq.equalizer[i] = arrayEQ[i];
+    return error;
 }
 
 Error XingLMC::SetEQData(bool enable) {
     Error error = kError_NoErr;
-        enableEQ = enable;
-        return error;
+    m_sMPEG.eq.enableEQ = enable;
+    return error;
 }
 
 Error XingLMC::SetDecodeInfo(DecodeInfo &info) 

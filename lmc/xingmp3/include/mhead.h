@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mhead.h,v 1.3.26.1 2000/08/11 18:27:45 robert Exp $
+	$Id: mhead.h,v 1.3.26.2 2000/10/05 13:38:17 robert Exp $
 ____________________________________________________________________________*/
 
 /* portable copy of eco\mhead.h */
@@ -81,6 +81,13 @@ typedef void (*SBT_FUNCTION_F) (MPEG *m, float *sample, short *pcm, int n);
 #define BUF_TRIGGER (NBUF-1500)
 
 typedef void (*XFORM_FUNCTION) (void *mv, void *pcm, int igr);
+
+
+typedef struct
+{
+  int enableEQ;      
+  float equalizer[32];
+} eq_info;
 
 struct _mpeg
 {
@@ -187,6 +194,9 @@ struct _mpeg
 	struct {
 		float coef32[31];	/* 32 pt dct coefs */
 	} cdct;
+
+   // This needs to be last in this struct!
+   eq_info eq;
 };
 
 typedef int (*CVT_FUNCTION_8) (void *mv, unsigned char *pcm);
@@ -265,6 +275,7 @@ extern "C"
 
 
    void mpeg_init(MPEG *m);
+   void mpeg_eq_init(MPEG *m);
    int head_info(unsigned char *buf, unsigned int n, MPEG_HEAD * h);
    int head_info2(unsigned char *buf,
 	   unsigned int n, MPEG_HEAD * h, int *br);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.43 2000/01/19 19:14:30 elrod Exp $
+        $Id: MusicTree.cpp,v 1.44 2000/01/20 00:33:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -83,6 +83,8 @@ void MusicBrowserUI::InitTree(void)
     insert.hParent = NULL;
     m_hPlaylistItem = TreeView_InsertItem(m_hMusicView, &insert);
 
+	/*
+
     HTREEITEM temp;
 
     insert.item.pszText = "Streams";
@@ -115,7 +117,7 @@ void MusicBrowserUI::InitTree(void)
     insert.hParent = temp;
     m_hIceCastItem = TreeView_InsertItem(m_hMusicView, &insert);
 
-    /*
+    
     insert.item.pszText = kShoutCast;
     insert.item.cchTextMax = lstrlen(insert.item.pszText);
     insert.item.iImage = 11;

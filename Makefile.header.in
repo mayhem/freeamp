@@ -1,6 +1,6 @@
 # Freeamp Makefile header 
 # contains all the compiler-related configure-extracted vars
-# $Id: Makefile.header.in,v 1.13 2000/07/31 19:51:38 ijr Exp $
+# $Id: Makefile.header.in,v 1.14 2000/08/17 18:03:35 robert Exp $
 
 SHELL = /bin/sh
 
@@ -64,7 +64,7 @@ LIBMOD = @LIBMOD@
 
 OSDEPOBJ = @OSDEPOBJ@
 
-INCLUDES = -I. -I$(srcdir)/lib/gdbm -I$(srcdir)/base/include -I$(srcdir)/config -I$(srcdir)/io/include -I$(srcdir)/ui/include -I$(srcdir)/lmc/include $(OSINC) -I$(srcdir)/io/soundcard/$(OSDEP)/include -I$(srcdir)/lmc/xingmp3/include -I$(srcdir)/lmc/cd/include -I$(srcdir)/plm/portable/pmp300/sba -I$(srcdir)/lib/xml/include -I$(srcdir)/lib/zlib/include -I$(srcdir)/lib/unzip/include -I$(srcdir)/io/cd/unix/include -I$(srcdir)/base/aps -I$(srcdir)/io/wavout/include -I$(srcdir)/ui/lcd/include -I$(srcdir)/ui/irman/include -I$(srcdir)/lib/http/include -I$(srcdir)/io/signature/include
+INCLUDES = -I. -I$(srcdir)/lib/gdbm -I$(srcdir)/base/include -I$(srcdir)/config -I$(srcdir)/io/include -I$(srcdir)/ui/include -I$(srcdir)/lmc/include $(OSINC) -I$(srcdir)/io/soundcard/$(OSDEP)/include -I$(srcdir)/lmc/xingmp3/include -I$(srcdir)/lmc/cd/include -I$(srcdir)/plm/portable/pmp300/sba -I$(srcdir)/lib/xml/include -I$(srcdir)/lib/zlib/include -I$(srcdir)/lib/unzip/include -I$(srcdir)/io/cd/unix/include -I$(srcdir)/base/aps -I$(srcdir)/io/wavout/include -I$(srcdir)/ui/lcd/include -I$(srcdir)/ui/irman/include -I$(srcdir)/lib/http/include -I$(srcdir)/io/signature/include -I$(srcdir)/lib/musicbrainz/lib -I$(srcdir)/lib/musicbrainz/expat/xmltok -I$(srcdir)/lib/musicbrainz/expat/xmlparse
 
 CXXFLAGS = $(EXTRA_CXXFLAGS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4

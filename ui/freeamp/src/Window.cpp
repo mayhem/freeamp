@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.33 2000/04/06 22:36:41 ijr Exp $
+   $Id: Window.cpp,v 1.33.4.1 2000/05/10 18:32:22 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -204,6 +204,15 @@ void Window::AddControl(Control *pControl)
     m_oControlMap.insert(pair<string, Control *>(oName, pControl));
     m_oControls.push_back(pControl);
 
+    DecUsageRef();
+}
+
+void Window::AddPanel(Panel *pPanel)
+{
+    string oName;
+
+    IncUsageRef();
+    m_oPanels.push_back(pPanel);
     DecUsageRef();
 }
 
@@ -817,3 +826,4 @@ void Window::GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight,
     }
 }
 
+    

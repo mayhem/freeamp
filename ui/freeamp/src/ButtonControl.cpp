@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.9 2000/03/28 01:34:54 elrod Exp $
+   $Id: ButtonControl.cpp,v 1.9.4.1 2000/05/10 18:32:22 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -56,12 +56,14 @@ static TransitionInfo pTransitions[] =
 ButtonControl::ButtonControl(Window *pWindow, string &oName) :
                Control(pWindow, oName, pTransitions)
 {
+   m_pPanelToToggle = NULL;
 }
 
 ButtonControl::ButtonControl(Window *pWindow, string &oName, string &oUrl) :
                Control(pWindow, oName, pTransitions)
 {
    m_oValue = oUrl;
+   m_pPanelToToggle = NULL;
 }
 
 ButtonControl::~ButtonControl(void)
@@ -207,6 +209,14 @@ void ButtonControl::SetTargetWindow(string &oWindow)
     m_oTargetWindow = oWindow;
     m_oMutex.Release();
 }
+
+void ButtonControl::SetPanelToggle(Panel *pPanel)
+{
+    m_oMutex.Acquire();
+    m_pPanelToToggle = pPanel;
+    m_oMutex.Release();
+}
+
 
 bool ButtonControl::UseToDragWindow(void)
 {

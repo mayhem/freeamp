@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.12 1998/10/26 19:45:52 jdw Exp $
+##      $Id: Makefile.am,v 1.13 1998/10/30 05:08:55 jdw Exp $
 ##
 ############################################################################
 
@@ -59,6 +59,10 @@ freeamp_DEPENDENCIES = $(MYDEPS)
 
 INCLUDES = -I@top_srcdir@/base/include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@top_srcdir@/lmc/include
 CXXFLAGS = $(EXTRA_CXXFLAGS) -D__@target_os@__ -Wl,-export-dynamic
+
+install-exec-local: install_plugins
+
+uninstall-local: uninstall_plugins
 
 
 install_plugins:

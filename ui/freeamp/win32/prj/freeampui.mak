@@ -84,6 +84,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\view.obj"
 	-@erase "$(INTDIR)\volumeview.obj"
+	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
 	-@erase "$(OUTDIR)\freeamp.exp"
 	-@erase "$(OUTDIR)\freeamp.lib"
@@ -144,6 +145,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\view.obj" \
 	"$(INTDIR)\volumeview.obj" \
+	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
 	"..\..\..\..\io\local\win32\prj\Release\fileinput.lib" \
 	"..\..\..\..\io\soundcard\win32\prj\Release\soundcard.lib" \
@@ -161,8 +163,8 @@ ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 Release" "soundcard - Win32 Release"\
  "fileinput - Win32 Release" ".\freeamp.ui"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                   ..\..\..\..\base\win32\prj\plugins
-	copy freeamp.ui                  ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                    ..\..\..\..\base\win32\prj\plugins
+	copy freeamp.ui                   ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
@@ -218,6 +220,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(INTDIR)\view.obj"
 	-@erase "$(INTDIR)\volumeview.obj"
+	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
 	-@erase "$(OUTDIR)\freeamp.exp"
 	-@erase "$(OUTDIR)\freeamp.lib"
@@ -281,6 +284,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\view.obj" \
 	"$(INTDIR)\volumeview.obj" \
+	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
 	"..\..\..\..\io\local\win32\prj\Debug\fileinput.lib" \
 	"..\..\..\..\io\soundcard\win32\prj\Debug\soundcard.lib" \
@@ -298,8 +302,8 @@ ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 Debug" "soundcard - Win32 Debug"\
  "fileinput - Win32 Debug" ".\freeamp.ui"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                   ..\..\..\..\base\win32\prj\plugins
-	copy freeamp.ui                  ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                    ..\..\..\..\base\win32\prj\plugins
+	copy freeamp.ui                   ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ENDIF 
@@ -424,6 +428,9 @@ InputPath=..\..\..\..\config\config.win32
 !ENDIF 
 
 SOURCE=..\src\control.cpp
+
+!IF  "$(CFG)" == "freeampui - Win32 Release"
+
 DEP_CPP_CONTR=\
 	"..\..\..\..\config\config.h"\
 	"..\include\control.h"\
@@ -434,12 +441,28 @@ DEP_CPP_CONTR=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
+
+DEP_CPP_CONTR=\
+	"..\..\..\..\config\config.h"\
+	"..\include\control.h"\
+	
+
+"$(INTDIR)\control.obj" : $(SOURCE) $(DEP_CPP_CONTR) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
 SOURCE=..\src\controlinfo.cpp
 
 !IF  "$(CFG)" == "freeampui - Win32 Release"
 
 DEP_CPP_CONTRO=\
+	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\list.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\utility.h"\
@@ -453,7 +476,9 @@ DEP_CPP_CONTRO=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
 
 DEP_CPP_CONTRO=\
+	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\list.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\utility.h"\
@@ -474,11 +499,13 @@ DEP_CPP_DIALV=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
 	"..\..\..\..\base\include\linkedlist.h"\
 	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
@@ -520,11 +547,13 @@ DEP_CPP_DIALV=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
 	"..\..\..\..\base\include\linkedlist.h"\
 	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
@@ -562,9 +591,6 @@ DEP_CPP_DIALV=\
 !ENDIF 
 
 SOURCE=..\src\dib.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_DIB_C=\
 	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
@@ -574,20 +600,6 @@ DEP_CPP_DIB_C=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_DIB_C=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	
-
-"$(INTDIR)\dib.obj" : $(SOURCE) $(DEP_CPP_DIB_C) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\fontwidth.cpp
 DEP_CPP_FONTW=\
@@ -671,7 +683,7 @@ DEP_RSC_FREEA=\
 
 "$(INTDIR)\freeamp.res" : $(SOURCE) $(DEP_RSC_FREEA) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\freeamp.res" /i\
- "\Local\src\freeamp\ui\freeamp\win32\res" /d "NDEBUG" $(SOURCE)
+ "\TEMP\freeamp\ui\freeamp\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
@@ -679,7 +691,7 @@ DEP_RSC_FREEA=\
 
 "$(INTDIR)\freeamp.res" : $(SOURCE) $(DEP_RSC_FREEA) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\freeamp.res" /i\
- "\Local\src\freeamp\ui\freeamp\win32\res" /d "_DEBUG" $(SOURCE)
+ "\TEMP\freeamp\ui\freeamp\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ENDIF 
@@ -692,6 +704,7 @@ DEP_CPP_FREEAM=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\hashtable.h"\
 	"..\..\..\..\base\include\id3v1.h"\
 	"..\..\..\..\base\include\linkedlist.h"\
@@ -699,13 +712,13 @@ DEP_CPP_FREEAM=\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\player.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\propimpl.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\pmi.h"\
@@ -752,6 +765,7 @@ DEP_CPP_FREEAM=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\hashtable.h"\
 	"..\..\..\..\base\include\id3v1.h"\
 	"..\..\..\..\base\include\linkedlist.h"\
@@ -759,13 +773,13 @@ DEP_CPP_FREEAM=\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\player.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\propimpl.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\pmi.h"\
@@ -814,11 +828,13 @@ DEP_CPP_LISTV=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
 	"..\..\..\..\base\include\linkedlist.h"\
 	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
@@ -860,11 +876,13 @@ DEP_CPP_LISTV=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
 	"..\..\..\..\base\include\linkedlist.h"\
 	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
@@ -982,6 +1000,7 @@ DEP_CPP_PREFD=\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\player.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\propimpl.h"\
 	"..\..\..\..\base\include\queue.h"\
@@ -989,7 +1008,6 @@ DEP_CPP_PREFD=\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\pmi.h"\
@@ -1024,6 +1042,7 @@ DEP_CPP_PREFD=\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\player.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\propimpl.h"\
 	"..\..\..\..\base\include\queue.h"\
@@ -1031,7 +1050,6 @@ DEP_CPP_PREFD=\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\pmi.h"\
@@ -1052,36 +1070,6 @@ DEP_CPP_PREFD=\
 
 !ENDIF 
 
-SOURCE=..\..\..\..\base\win32\src\preferences.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
 SOURCE=..\..\..\..\base\src\registrar.cpp
 
 !IF  "$(CFG)" == "freeampui - Win32 Release"
@@ -1091,9 +1079,9 @@ DEP_CPP_REGIS=\
 	"..\..\..\..\base\include\hashtable.h"\
 	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
 	"..\..\..\..\config\config.h"\
 	
 NODEP_CPP_REGIS=\
@@ -1112,9 +1100,9 @@ DEP_CPP_REGIS=\
 	"..\..\..\..\base\include\hashtable.h"\
 	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -1195,11 +1183,13 @@ DEP_CPP_RESIZ=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
 	"..\..\..\..\base\include\linkedlist.h"\
 	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
@@ -1241,11 +1231,13 @@ DEP_CPP_RESIZ=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
 	"..\..\..\..\base\include\linkedlist.h"\
 	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
@@ -1314,6 +1306,9 @@ DEP_CPP_RIO_C=\
 !ENDIF 
 
 SOURCE=..\src\scrollview.cpp
+
+!IF  "$(CFG)" == "freeampui - Win32 Release"
+
 DEP_CPP_SCROL=\
 	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
@@ -1326,6 +1321,23 @@ DEP_CPP_SCROL=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
+
+DEP_CPP_SCROL=\
+	"..\..\..\..\config\config.h"\
+	"..\include\dib.h"\
+	"..\include\renderer.h"\
+	"..\include\scrollview.h"\
+	"..\include\view.h"\
+	
+
+"$(INTDIR)\scrollview.obj" : $(SOURCE) $(DEP_CPP_SCROL) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\semaphore.cpp
 DEP_CPP_SEMAP=\
@@ -1476,6 +1488,9 @@ DEP_CPP_THREA=\
 !ENDIF 
 
 SOURCE=..\src\timeview.cpp
+
+!IF  "$(CFG)" == "freeampui - Win32 Release"
+
 DEP_CPP_TIMEV=\
 	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
@@ -1489,6 +1504,23 @@ DEP_CPP_TIMEV=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
+
+DEP_CPP_TIMEV=\
+	"..\..\..\..\config\config.h"\
+	"..\include\dib.h"\
+	"..\include\renderer.h"\
+	"..\include\timeview.h"\
+	"..\include\view.h"\
+	
+
+"$(INTDIR)\timeview.obj" : $(SOURCE) $(DEP_CPP_TIMEV) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
 SOURCE=..\src\utility.cpp
 
 !IF  "$(CFG)" == "freeampui - Win32 Release"
@@ -1496,7 +1528,7 @@ SOURCE=..\src\utility.cpp
 DEP_CPP_UTILI=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\list.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\utility.h"\
@@ -1512,7 +1544,7 @@ DEP_CPP_UTILI=\
 DEP_CPP_UTILI=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\list.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
 	"..\include\utility.h"\
@@ -1526,6 +1558,9 @@ DEP_CPP_UTILI=\
 !ENDIF 
 
 SOURCE=..\src\view.cpp
+
+!IF  "$(CFG)" == "freeampui - Win32 Release"
+
 DEP_CPP_VIEW_=\
 	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
@@ -1537,7 +1572,25 @@ DEP_CPP_VIEW_=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
+
+DEP_CPP_VIEW_=\
+	"..\..\..\..\config\config.h"\
+	"..\include\dib.h"\
+	"..\include\view.h"\
+	
+
+"$(INTDIR)\view.obj" : $(SOURCE) $(DEP_CPP_VIEW_) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
 SOURCE=..\src\volumeview.cpp
+
+!IF  "$(CFG)" == "freeampui - Win32 Release"
+
 DEP_CPP_VOLUM=\
 	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
@@ -1550,6 +1603,23 @@ DEP_CPP_VOLUM=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
+
+DEP_CPP_VOLUM=\
+	"..\..\..\..\config\config.h"\
+	"..\include\dib.h"\
+	"..\include\renderer.h"\
+	"..\include\view.h"\
+	"..\include\volumeview.h"\
+	
+
+"$(INTDIR)\volumeview.obj" : $(SOURCE) $(DEP_CPP_VOLUM) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
 
@@ -1584,12 +1654,12 @@ DEP_CPP_WIN32=\
 !IF  "$(CFG)" == "freeampui - Win32 Release"
 
 "fileinput - Win32 Release" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\TEMP\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 Release" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "fileinput - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\TEMP\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 Release" RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -1597,12 +1667,12 @@ DEP_CPP_WIN32=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
 
 "fileinput - Win32 Debug" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\TEMP\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 Debug" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "fileinput - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\TEMP\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak CFG="fileinput - Win32 Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -1612,12 +1682,12 @@ DEP_CPP_WIN32=\
 !IF  "$(CFG)" == "freeampui - Win32 Release"
 
 "soundcard - Win32 Release" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\TEMP\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 Release" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "soundcard - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\TEMP\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 Release" RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -1625,12 +1695,12 @@ DEP_CPP_WIN32=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
 
 "soundcard - Win32 Debug" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\TEMP\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 Debug" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "soundcard - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\TEMP\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak CFG="soundcard - Win32 Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -1640,12 +1710,12 @@ DEP_CPP_WIN32=\
 !IF  "$(CFG)" == "freeampui - Win32 Release"
 
 "xing - Win32 Release" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\TEMP\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 Release" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "xing - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\TEMP\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 Release"\
  RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -1653,15 +1723,77 @@ DEP_CPP_WIN32=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
 
 "xing - Win32 Debug" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\TEMP\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 Debug" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "xing - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\TEMP\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 Debug" RECURSE=1\
  
    cd "..\..\..\..\ui\freeamp\win32\prj"
+
+!ENDIF 
+
+SOURCE=..\..\..\..\base\src\preferences.cpp
+
+!IF  "$(CFG)" == "freeampui - Win32 Release"
+
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
+
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\..\..\base\win32\src\win32prefs.cpp
+
+!IF  "$(CFG)" == "freeampui - Win32 Release"
+
+DEP_CPP_WIN32P=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32P) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
+
+DEP_CPP_WIN32P=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32P) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
 
 !ENDIF 
 

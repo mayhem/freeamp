@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.1.2.1 1999/04/16 08:14:43 mhw Exp $
+	$Id: preferences.cpp,v 1.1.2.2 1999/04/19 18:58:09 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -162,7 +162,9 @@ SetPrefInt32(const char* pref, int32 value)
     if (isNeg)
 	*--p = '-';
 
-    return SetPrefString(pref, p);
+    error = SetPrefString(pref, p);
+
+    return error;
 }
 
 
@@ -479,6 +481,6 @@ const char *
 Preferences::
 GetLibDirs()
 {
-    
+    return NULL;
 }
 

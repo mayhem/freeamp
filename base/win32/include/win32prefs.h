@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32prefs.h,v 1.1.2.1 1999/04/16 08:14:44 mhw Exp $
+	$Id: win32prefs.h,v 1.1.2.2 1999/04/19 18:58:09 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _WIN32PREFS_H
@@ -48,6 +48,7 @@ class Win32Prefs : public Preferences {
 
     virtual Error GetPrefInt32(const char* pref, int32* value);
     virtual Error SetPrefInt32(const char* pref, int32 value);
+    virtual const char* GetLibDirs() { return NULL; }
 
  private:
     Error Initialize();

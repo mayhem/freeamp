@@ -24,6 +24,8 @@ CRainplayUI(FAContext *context):
 UserInterface()
 {
 	m_context = context;
+    m_prefs = m_context->prefs;
+
 	m_uiSemaphore = new Semaphore();
 
 	g_ui = this;
@@ -217,6 +219,7 @@ CreateUI()
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	m_Dlg = new CRainplayDlg;
+    m_Dlg->SetPreferences(m_prefs);
 	m_Dlg->DoModal();
 
 	g_ui->m_target->AcceptEvent(new Event(CMD_QuitPlayer));

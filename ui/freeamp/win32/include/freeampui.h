@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.29.4.1 1999/04/16 08:14:49 mhw Exp $
+	$Id: freeampui.h,v 1.29.4.2 1999/04/19 18:58:12 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -49,6 +49,8 @@ ____________________________________________________________________________*/
 #include "dib.h"
 #include "linkedlist.h"
 #include "preferences.h"
+#include "facontext.h"
+
 
 #include "bitmapview.h"
 #include "buttonview.h"
@@ -170,7 +172,7 @@ class FreeAmpUI : public UserInterface {
 
     bool                m_mouseCaptured;
 
-
+    FAContext*          m_context;
     PlayListManager*    m_plm;
     Properties*         m_propManager;
     Preferences*        m_prefs;

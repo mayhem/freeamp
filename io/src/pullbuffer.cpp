@@ -18,13 +18,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.19.2.1 1999/04/16 08:14:47 mhw Exp $
+   $Id: pullbuffer.cpp,v 1.19.2.2 1999/04/19 18:58:12 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 #include <assert.h>
 
 #include "pullbuffer.h"

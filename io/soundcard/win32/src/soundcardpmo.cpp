@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.32.2.1 1999/04/16 08:14:47 mhw Exp $
+   $Id: soundcardpmo.cpp,v 1.32.2.2 1999/04/19 18:58:12 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -30,8 +30,6 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "SoundCardPMO.h"
 #include "eventdata.h"
-#include "facontext.h"
-#include "preferences.h"
 #include "log.h"
 
 #define DB Debug_v("%s:%d", __FILE__, __LINE__);
@@ -97,6 +95,9 @@ SoundCardPMO::SoundCardPMO(FAContext *context) :
    m_iOffset = 0;
    m_iLastFrame = -1;
    m_bPaused = false;
+
+   m_context = context;
+   m_prefs = m_context->prefs;
 
    if (!m_pBufferThread)
    {
@@ -509,11 +510,8 @@ void SoundCardPMO::WorkerThread(void)
    Error       eErr;
    Event      *pEvent;
    int         iValue;
-   Preferences *pPref;
 
-   pPref = new Preferences();
-   pPref->GetDecoderThreadPriority(&iValue);
-   delete pPref;
+   m_prefs->GetDecoderThreadPriority(&iValue);
 
    m_pBufferThread->SetPriority((Priority) iValue);
 

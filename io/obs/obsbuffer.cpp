@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: obsbuffer.cpp,v 1.15.2.1 1999/04/16 08:14:46 mhw Exp $
+   $Id: obsbuffer.cpp,v 1.15.2.2 1999/04/19 18:58:12 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -207,7 +207,7 @@ void ObsBuffer::WorkerThread(void)
 {
    size_t          iToCopy, iActual; 
    int             iRead, iPacketNum = -1, iCurrNum, iRet, iHeaderSize;
-   socklen_t       iStructSize;
+   int           iStructSize;
    RTPHeader      *pHeader;
    void           *pBuffer;
    unsigned        char *pTemp, *pCopy;

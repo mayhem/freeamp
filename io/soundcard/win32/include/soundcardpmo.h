@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.14.4.1 1999/04/16 08:14:47 mhw Exp $
+	$Id: soundcardpmo.h,v 1.14.4.2 1999/04/19 18:58:12 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -37,6 +37,8 @@ ____________________________________________________________________________*/
 #include "mutex.h"
 #include "properties.h"
 #include "eventbuffer.h"
+#include "preferences.h"
+#include "facontext.h"
 
 #define BIT_SELECT  0x1f
 #define SLEEPTIME   256
@@ -67,7 +69,7 @@ public:
     virtual Error AcceptEvent(Event *);
     virtual int   GetBufferPercentage();
 
-    
+ 
  private:
 
 	void          WorkerThread(void); 
@@ -79,7 +81,10 @@ public:
     Error         Write(void *pBuffer);
 
  private:
-	Properties *    m_propManager;
+    FAContext*      m_context;
+
+    Properties *    m_propManager;
+    Preferences*    m_prefs;
 	WAVEFORMATEX*	m_wfex;
 	LPWAVEHDR*		m_wavehdr_array;
 	HWAVEOUT		m_hwo;

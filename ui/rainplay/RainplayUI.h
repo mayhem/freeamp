@@ -12,8 +12,8 @@
 #include "playlist.h"
 #include "RainplayDlg.h"
 #include "player.h"
-
-class FAContext;
+#include "preferences.h"
+#include "facontext.h"
 
 class CRainplayUI: public UserInterface
 {
@@ -37,8 +37,10 @@ protected:
       static void UIThreadFunc(void *);
 
 private:
-	Properties *   m_propManager;
-	CRainplayDlg*	m_Dlg;
+    FAContext*      m_context;
+	Properties *    m_propManager;
+    Preferences*     m_prefs;
+	CRainplayDlg*   m_Dlg;
 	Thread*         m_uiThread;
 };
 

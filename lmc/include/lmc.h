@@ -19,13 +19,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.8 1998/10/27 02:28:44 jdw Exp $
+	$Id: lmc.h,v 1.9 1998/10/27 05:44:09 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
 #define _LMC_H_
 
-
+#include "errors.h"
 #include "event.h"
 #include "pmo.h"
 #include "pmi.h"
@@ -33,17 +33,19 @@ ____________________________________________________________________________*/
 class LogicalMediaConverter {
  public:
     virtual ~LogicalMediaConverter() {}
-    virtual bool Decode() = 0;
-    virtual void Stop() = 0;
-    virtual void Pause() = 0;
-    virtual void Resume() = 0;
-    virtual void Reset() = 0;
-    virtual bool ChangePosition(int32) = 0;
+    virtual Error Decode() = 0;
+    virtual Error Stop() = 0;
+    virtual Error Pause() = 0;
+    virtual Error Resume() = 0;
+    virtual Error Reset() = 0;
+    virtual Error ChangePosition(int32) = 0;
 
-    virtual void SetPMI(PhysicalMediaInput *) = 0;
-    virtual void SetPMO(PhysicalMediaOutput *) = 0;
-    virtual void SetTarget(EventQueue *) = 0;
-    virtual void InitDecoder() = 0;
+    virtual Error SetPMI(PhysicalMediaInput *) = 0;
+    virtual Error SetPMO(PhysicalMediaOutput *) = 0;
+    virtual Error SetTarget(EventQueue *) = 0;
+    virtual Error InitDecoder() = 0;
+
+    virtual Error GetErrorString(int32 /*error*/, char *,int32 /*length of buffer*/) = 0;
 };
 
 #if 0

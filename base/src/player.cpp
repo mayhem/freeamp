@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.35 1998/10/27 02:28:43 jdw Exp $
+	$Id: player.cpp,v 1.36 1998/10/27 05:44:09 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -515,6 +515,7 @@ int32 Player::ServiceEvent(Event *pC) {
 		    }
 		    
 		    m_lmc->InitDecoder();
+
 		    if (SetState(STATE_Playing)) {
 			    SEND_NORMAL_EVENT(INFO_Playing);
 		    }

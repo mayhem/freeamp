@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.17 1999/09/23 21:50:06 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.18 1999/09/23 23:31:23 dogcow Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -35,6 +35,12 @@ ____________________________________________________________________________*/
 #include <sys/socket.h>
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <unistd.h>
+#define SOCKET int
+#define closesocket(x) close(x)
+#define _O_BINARY 0
+#define _O_CREAT O_CREAT
+#define _O_RDWR O_RDWR
 #endif
 #include <fcntl.h>
 #include <errno.h>

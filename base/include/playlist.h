@@ -19,13 +19,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.10 1998/11/07 02:39:04 jdw Exp $
+	$Id: playlist.h,v 1.11 1998/11/07 05:39:35 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
 #define _PLAYLIST_H_
 
 #include "vector.h"
+#include "errors.h"
+#include "event.h"
 
 class PlayListItem {
  public:
@@ -59,9 +61,10 @@ public:
     };
 
  public:
-    PlayListManager();
+    PlayListManager(EventQueue *);
     ~PlayListManager();
     void Add(char *,int);
+	Error RemoveAll();
     void SetSkip(int32 f) { m_skipNum = f; } // logical media units to skip at beginning
     int32 GetSkip() { return m_skipNum; }
     PlayListItem *GetFirst();
@@ -81,6 +84,7 @@ public:
     RepeatPlay GetRepeat() {return m_repeat;}
 
  private:
+	 EventQueue *			m_target;
     Vector<PlayListItem *>* m_pMediaElems;
     int32                   m_current;
     int32                   m_skipNum;

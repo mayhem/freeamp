@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.8 1998/11/07 02:39:04 jdw Exp $
+	$Id: freeampui.cpp,v 1.9 1998/11/07 05:39:35 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -229,6 +229,15 @@ AcceptEvent(Event* event)
 				break;
 			}
 
+			case INFO_ID3TagInfo:
+				{
+					ID3TagEvent *info = (ID3TagEvent *)event;
+					if (info->GetId3Tag().m_containsInfo) {
+						strncpy(g_displayInfo.path,info->GetId3Tag().m_songName,sizeof(g_displayInfo.path)-1);
+					}
+					break;
+				}
+
             case INFO_MediaInfo: 
             {
                 MediaInfoEvent *info = (MediaInfoEvent*)event;
@@ -237,7 +246,7 @@ AcceptEvent(Event* event)
 				int32 minutes = (seconds - (hours * 3600)) / 60;
 				seconds = seconds - (hours * 3600) - (minutes * 60);
 
-                strcpy(g_displayInfo.path,info->m_filename);
+                strncpy(g_displayInfo.path,info->m_filename,sizeof(g_displayInfo.path)-1);
 				g_displayInfo.totalhours = hours;
 				g_displayInfo.totalminutes = minutes;
 				g_displayInfo.totalseconds = seconds;

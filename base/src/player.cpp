@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.48 1998/11/07 02:42:57 jdw Exp $
+	$Id: player.cpp,v 1.49 1998/11/07 05:39:35 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -66,7 +66,7 @@ EventQueue() {
     //cout << "Created mutex" << endl;
     m_imQuitting = 0;
     m_quitWaitingFor = 0;
-    m_plm = new PlayListManager();
+    m_plm = new PlayListManager((EventQueue *)this);
     m_playerState = STATE_Stopped;
 
     m_lmcRegistry = NULL;

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.176.2.4.2.1 2000/03/04 05:33:34 ijr Exp $
+        $Id: player.cpp,v 1.176.2.4.2.2 2000/03/07 21:45:22 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1241,6 +1241,7 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
                }
            }
        }
+       delete extension;
    }
 
    if (!item) {

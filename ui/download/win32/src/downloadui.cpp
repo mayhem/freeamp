@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.18.2.2.2.3 2000/03/07 00:42:35 robert Exp $
+	$Id: downloadui.cpp,v 1.18.2.2.2.4 2000/03/07 21:45:22 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -159,8 +159,6 @@ DownloadUI::~DownloadUI()
 
     delete m_uiSemaphore;
     delete m_uiThread;
-
-
 }
 
 Error DownloadUI::AcceptEvent(Event* event)
@@ -435,6 +433,12 @@ Error DownloadUI::Init(int32 startup_type)
 
 BOOL DownloadUI::InitDialog()
 {
+    char title[100];
+    
+    GetWindowText(m_hwnd, title, 100);
+    strcat(title, BRANDING);
+    SetWindowText(m_hwnd, title);
+    
     // get hwnds for all my controls
     m_hwndList = GetDlgItem(m_hwnd, IDC_LIST);
     m_hwndInfo = GetDlgItem(m_hwnd, IDC_INFO);

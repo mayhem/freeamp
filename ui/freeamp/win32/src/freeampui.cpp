@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.40 1999/03/18 08:09:05 elrod Exp $
+	$Id: freeampui.cpp,v 1.41 1999/03/18 21:16:17 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -496,6 +496,7 @@ FreeAmpUI::
 DropFiles(HDROP dropHandle)
 {
 	int32 count;
+    int32 originalCount = m_plm->CountItems();
 	char file[MAX_PATH + 1];
 
 	count = DragQueryFile(	dropHandle,
@@ -546,10 +547,9 @@ DropFiles(HDROP dropHandle)
         }
 	}
 
-	if(count) 
+	if(!originalCount) 
     {
-		//m_target->AcceptEvent(new Event(CMD_Play));
-        //SendMessage(m_hwnd, WM_COMMAND, kPlayControl,0);
+		m_target->AcceptEvent(new Event(CMD_Play));
 	}
 }
 

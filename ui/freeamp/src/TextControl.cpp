@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.17 2000/09/29 00:34:58 robert Exp $
+   $Id: TextControl.cpp,v 1.18 2000/10/05 09:07:56 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -156,6 +156,7 @@ void TextControl::TextChanged(void)
     pCanvas = m_pParent->GetCanvas();
     m_oMutex.Release();
 
+    pCanvas->SetNoScreenUpdate(true);
     pCanvas->Erase(m_oRect);
     iRet = pCanvas->RenderText(m_oRect.Height(), m_oRect, 
                                m_oValue, m_eAlign, 
@@ -173,6 +174,9 @@ void TextControl::TextChanged(void)
                            m_bItalic, m_bUnderline); 
        iRet = 0;
     }
+    pCanvas->SetNoScreenUpdate(false);
+    pCanvas->Invalidate(m_oRect);
+    pCanvas->Update();
 
     m_oMutex.Acquire();
     m_bWantsTimingMessages = (iRet > 0);

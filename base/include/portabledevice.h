@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portabledevice.h,v 1.1.2.8 1999/08/30 22:35:20 ijr Exp $
+	$Id: portabledevice.h,v 1.1.2.9 1999/08/31 08:14:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PORTABLE_DEVICE_H_
@@ -34,6 +34,7 @@ using namespace std;
 #include "config.h"
 #include "errors.h"
 #include "facontext.h"
+#include "plmevent.h"
 
 typedef enum {
     kConnection_Unknown, 
@@ -44,8 +45,6 @@ typedef enum {
 class PortableDevice;
 
 typedef PortableDevice* DeviceRef;
-
-typedef bool (*callback_function)(void * cookie);
 
 class PlaylistItem;
 
@@ -109,20 +108,26 @@ class PortableDevice {
     virtual Error GetDeviceInfo(DeviceInfo* device) = 0;
 
     virtual Error InitializeDevice(DeviceInfo* device, 
-                                   callback_function function = NULL) = 0;
+                                   PLMCallBackFunction function = NULL,
+                                   void* cookie = NULL) = 0;
 
     virtual Error ReadPlaylist(DeviceInfo* device, 
                                vector<PlaylistItem*>* items,
-                               callback_function function = NULL) = 0;
+                               PLMCallBackFunction function = NULL,
+                               void* cookie = NULL) = 0;
+
 
     virtual Error WritePlaylist(DeviceInfo* device, 
                                 vector<PlaylistItem*>* items,
-                                callback_function function = NULL) = 0;
+                                PLMCallBackFunction function = NULL,
+                                void* cookie = NULL) = 0;
+
 
     virtual Error DownloadSong(DeviceInfo* device, 
                                PlaylistItem* item,
                                char* url,
-                               callback_function function = NULL) = 0;
+                               PLMCallBackFunction function = NULL,
+                               void* cookie = NULL) = 0;
 };
 
 

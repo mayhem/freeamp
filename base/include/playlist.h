@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.13 1999/08/30 12:23:17 elrod Exp $
+	$Id: playlist.h,v 1.40.4.14 1999/08/31 08:14:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -41,6 +41,7 @@ using namespace std;
 #include "playlistformat.h"
 #include "portabledevice.h"
 #include "registry.h"
+#include "plmevent.h"
 
 typedef enum {
     kPlaylistSortKey_FirstKey,
@@ -236,17 +237,20 @@ class PlaylistManager {
     Error SetExternalPlaylist(char* url);
     Error GetExternalPlaylist(char* url, uint32* length);
     Error SetPortablePlaylist(DeviceInfo* device, 
-                              callback_function function = NULL);
+                              PLMCallBackFunction function = NULL,
+                              void* cookie = NULL);
     Error GetPortablePlaylist(DeviceInfo* device);
 
     // External playlist support
     Error GetSupportedPlaylistFormats(PlaylistFormatInfo* format, uint32 index);
     Error ReadPlaylist(char* url, vector<PlaylistItem*>* items = NULL, 
-                        callback_function function = NULL);
+                       PLMCallBackFunction function = NULL,
+                       void* cookie = NULL);
 
     Error WritePlaylist(char* url, PlaylistFormatInfo* format, 
                         vector<PlaylistItem*>* items = NULL,
-                        callback_function function = NULL);
+                        PLMCallBackFunction function = NULL,
+                        void* cookie = NULL);
 
     // Portable player communication
     Error GetSupportedPortables(DeviceInfo* device, uint32 index);
@@ -255,17 +259,21 @@ class PlaylistManager {
     Error GetDeviceInfo(DeviceInfo* device);
 
     Error InitializeDevice(DeviceInfo* device, 
-                            callback_function function = NULL);
+                           PLMCallBackFunction function = NULL,
+                           void* cookie = NULL);
 
     Error ReadPortablePlaylist(DeviceInfo* device, 
-                                callback_function function = NULL);
+                               PLMCallBackFunction function = NULL,
+                               void* cookie = NULL);
     Error SyncPortablePlaylist(DeviceInfo* device, 
-                                callback_function function = NULL);
+                               PLMCallBackFunction function = NULL,
+                               void* cookie = NULL);
 
     Error DownloadItemFromPortable(DeviceInfo* device,
                                    PlaylistItem* item,
                                    char* url,
-                                   callback_function function = NULL);
+                                   PLMCallBackFunction function = NULL,
+                                   void* cookie = NULL);
     // Utility Functions
     bool            IsEmpty();
     uint32          CountItems();

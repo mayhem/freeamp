@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlistformat.h,v 1.1.2.6 1999/08/30 06:48:04 elrod Exp $
+	$Id: playlistformat.h,v 1.1.2.7 1999/08/31 08:14:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_FORMAT_H_
@@ -34,8 +34,7 @@ using namespace std;
 #include "config.h"
 #include "errors.h"
 #include "facontext.h"
-
-typedef bool (*callback_function)(void * cookie);
+#include "plmevent.h"
 
 class PlaylistFormatInfo;
 class PlaylistItem;
@@ -49,10 +48,12 @@ class PlaylistFormat {
 
     virtual Error GetSupportedFormats(PlaylistFormatInfo* info, uint32 index) = 0;
     virtual Error ReadPlaylist(char* url, vector<PlaylistItem*>* items,
-                                callback_function function = NULL) = 0;
+                                PLMCallBackFunction function = NULL,
+                                void* cookie = NULL) = 0;
     virtual Error WritePlaylist(char* url, PlaylistFormatInfo* format, 
                                 vector<PlaylistItem*>* items,
-                                callback_function function = NULL) = 0;  
+                                PLMCallBackFunction function = NULL,
+                                void* cookie = NULL) = 0;
 };
 
 typedef PlaylistFormat* FormatRef;

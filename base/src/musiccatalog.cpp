@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.47 2000/04/07 01:14:43 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.48 2000/04/09 17:07:58 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -859,7 +859,7 @@ void MusicCatalog::DoSearchMusic(char *path, bool bSendMessages)
 
                 stat(dirtest.c_str(), &stdir);
                 if (stdir.st_mode & _S_IFDIR) {
-                    DoSearchMusic((char *)dirtest.c_str());
+                    DoSearchMusic((char *)dirtest.c_str(), bSendMessages);
                     continue;
                 }
 #endif           

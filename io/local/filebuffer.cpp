@@ -16,17 +16,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: filebuffer.cpp,v 1.11 1999/03/15 09:02:22 robert Exp $
+   $Id: filebuffer.cpp,v 1.12 1999/04/09 16:38:56 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-
-#ifdef WIN32
 #include <errno.h>
-#endif
 
 #include "filebuffer.h"
 #include "log.h"

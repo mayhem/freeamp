@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.154 1999/11/13 13:03:20 elrod Exp $
+        $Id: player.cpp,v 1.155 1999/11/13 17:00:46 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1240,9 +1240,8 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
    {
       char szErr[1024];
 
-      sprintf(szErr, "Cannot initialize pmo: %d\n", error);
+      sprintf(szErr, "Cannot setup the audio decode process: %d\n", error);
       m_context->log->Error(szErr);
-      AcceptEvent(new ErrorMessageEvent(szErr));
 
       goto epilogue;
    }

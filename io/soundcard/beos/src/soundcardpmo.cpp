@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.7 1999/11/04 22:59:54 hiro Exp $
+	$Id: soundcardpmo.cpp,v 1.8 1999/11/13 17:00:57 robert Exp $
 ____________________________________________________________________________*/
 
 #define DEBUG 0
@@ -594,6 +594,7 @@ SoundCardPMO::Player(
 	PRINT(( "SoundCardPMO::Player: %d bytes copied\n", bytesCopied ));
 
 	m_pauseLock.Unlock();
+    UpdateBufferStatus();
 
 	return;
 }

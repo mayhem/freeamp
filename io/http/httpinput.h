@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.18 1999/11/12 02:36:13 robert Exp $
+        $Id: httpinput.h,v 1.19 1999/11/13 17:00:52 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_HTTPINPUT_H_
@@ -67,6 +67,9 @@ class HttpInput:public PhysicalMediaInput
    virtual bool  CanHandle(const char *szUrl, char *szTitle);
    virtual bool  IsStreaming(void)
                  { return m_bIsStreaming; };
+   virtual bool  UseBufferReduction(void)
+                 { return m_bUseBufferReduction; };
+				 
    virtual bool  PauseLoop(bool bLoop);  
    virtual Error Close(void);
    virtual const char *Url(void) const
@@ -92,6 +95,7 @@ private:
    char           *m_szError;
    bool            m_bUseProxy, m_bIsStreaming;
    char            m_szProxyHost[iMaxUrlLen];
+   bool            m_bUseBufferReduction;
 };
 
 #endif /* _HTTPFILEINPUT_H_ */

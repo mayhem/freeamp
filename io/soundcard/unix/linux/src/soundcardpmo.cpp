@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.32 1999/10/19 07:13:04 elrod Exp $
+        $Id: soundcardpmo.cpp,v 1.33 1999/11/13 17:00:58 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -485,6 +485,7 @@ void SoundCardPMO::WorkerThread(void)
       m_iTotalBytesWritten += iRet;
       m_pInputBuffer->EndRead(iRet);
       m_pLmc->Wake();
+      UpdateBufferStatus();
    }
 }
 

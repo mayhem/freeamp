@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.24 1999/11/12 02:36:19 robert Exp $
+        $Id: localfileinput.cpp,v 1.25 1999/11/13 17:00:55 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -119,7 +119,7 @@ Error LocalFileInput::Prepare(PullBuffer *&pBuffer)
     }
     else
     {
-       ReportError("Could not open the specified file.");
+       ReportError("Cannot open file %s.", m_path);
        return result;
     }
 

@@ -24,7 +24,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.21 1999/10/19 07:12:59 elrod Exp $
+        $Id: alsapmo.cpp,v 1.22 1999/11/13 17:00:47 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -521,6 +521,7 @@ void AlsaPMO::WorkerThread(void)
 
       m_pInputBuffer->EndRead(iRet);
       m_pLmc->Wake();
+      UpdateBufferStatus();
    }
 }
 

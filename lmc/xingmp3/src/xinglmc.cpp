@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.106 1999/11/13 14:43:34 robert Exp $
+   $Id: xinglmc.cpp,v 1.107 1999/11/13 17:01:02 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -213,7 +213,7 @@ Error XingLMC::AdvanceBufferToNextFrame()
        if (Err != kError_NoErr)
        {
            ReportError(szFailRead);
-	        return Err;
+	       return Err;
        }
    }
 
@@ -873,7 +873,6 @@ void XingLMC::DecodeWork()
 Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
                          bool bBufferUp)
 {
-   time_t iNow;
    int32  iInPercent, iOutPercent;
    unsigned int iBufferUpBytes;
 
@@ -899,18 +898,10 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
    iInPercent = m_pInputBuffer->GetBufferPercentage();
    iOutPercent = m_pOutputBuffer->GetBufferPercentage();
 
-   time(&iNow);
-   if (iNow != m_iBufferUpdate)
-   {
-      m_pTarget->AcceptEvent(new StreamBufferEvent(false, iInPercent, 
-                                                   iOutPercent));
-      m_iBufferUpdate = iNow;
-   }
-
    // If the input buffer is getting too full, discard some bytes.
    // This could be caused by a soundcard with slow playback or 
    // a host that is sending data too quicky. Clock-drift-a-moo!
-   if (iOutPercent > 90 && iInPercent > 90)
+   if (iOutPercent > 90 && iInPercent > 90 && m_pPmi->UseBufferReduction())
    {
        m_pInputBuffer->DiscardBytes();
    }

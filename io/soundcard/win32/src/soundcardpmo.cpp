@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.44 1999/11/10 01:28:02 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.45 1999/11/13 17:01:00 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -494,6 +494,7 @@ void SoundCardPMO::WorkerThread(void)
       {
 		  if (m_bPause || m_bExit)
 			  break;
+
 	      
           eErr = AllocHeader(pBuffer);
 		  if (eErr == kError_EndOfStream || eErr == kError_Interrupt)
@@ -555,6 +556,7 @@ void SoundCardPMO::WorkerThread(void)
       Write(pBuffer);
 	  m_pLmc->Wake();
 
+      UpdateBufferStatus();
    }
    m_pContext->log->Log(LogDecode, "PMO: Soundcard thread exiting\n");
 }    

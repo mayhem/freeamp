@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.4 1999/10/29 20:56:58 elrod Exp $
+   $Id: Win32PreferenceWindow.h,v 1.5 1999/10/29 21:14:44 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -195,8 +195,9 @@ class Win32PreferenceWindow : public PreferenceWindow
                void LoadThemeListBox  (HWND hwnd);
     
     
-      PrefsStruct  originalValues;
-      PrefsStruct  currentValues;
+      PrefsStruct  m_originalValues;
+      PrefsStruct  m_currentValues;
+      PrefsStruct  m_proposedValues;
     
       map<string, string> m_oThemeList;
 };

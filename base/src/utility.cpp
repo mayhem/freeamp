@@ -18,17 +18,37 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.2.2.7 1999/09/22 18:58:21 ijr Exp $
+	$Id: utility.cpp,v 1.2.2.8 1999/09/24 00:16:12 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
 #include <string.h>
+#include <time.h>
+#include <stdio.h>
+
 #ifdef WIN32
 #include <direct.h>
 #endif
 
 #include "config.h"
 #include "utility.h"
+
+void RFC822GMTTimeString(struct tm* time, char buf[32])
+{
+    const char* day[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    const char* month[] = {"Jan", "Feb",  "Mar", "Apr", "May", "Jun",  
+                           "Jul", "Aug", "Sep", "Oct",  "Nov", "Dec"};
+
+    // Example: Sun, 06 Nov 1994 08:49:37 GMT
+    const char* k822Format = "%s, %2d %s %4d %2d:%2d:%2d GMT";
+
+    sprintf(buf, k822Format, day[time->tm_wday],
+                             time->tm_mday,
+                             month[time->tm_mon],
+                             time->tm_hour,
+                             time->tm_min,
+                             time->tm_sec);
+}
 
 char *strdup_new(const char *str)
 {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.cpp,v 1.2 1999/10/19 07:12:57 elrod Exp $
+	$Id: rmp.cpp,v 1.3 1999/12/15 06:09:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -202,6 +202,11 @@ Error RMP::PCData(string &oData)
     if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/YEAR"))
     {
     	m_pMetaData->SetYear(atoi(oData.c_str()));
+        return kError_NoErr;
+    }
+    if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/DURATION"))
+    {
+    	m_pMetaData->SetTime(atoi(oData.c_str()));
         return kError_NoErr;
     }
         

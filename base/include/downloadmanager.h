@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.6 2000/01/15 01:54:53 robert Exp $
+	$Id: downloadmanager.h,v 1.7 2000/01/16 02:48:26 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -80,7 +80,6 @@ class DownloadItem {
         if(metadata)
 		{
             SetMetaData(metadata);
-			delete metadata;
         }
 
         m_state = kDownloadItemState_Null;

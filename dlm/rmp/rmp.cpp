@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.cpp,v 1.5 2000/01/13 22:23:38 robert Exp $
+	$Id: rmp.cpp,v 1.6 2000/01/16 02:48:28 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -215,7 +215,7 @@ Error RMP::PCData(string &oData)
     if (m_oPath == string("/PACKAGE/COOKIE/VALUE"))
     {
         m_oCookieValue = oData; 
-
+        
         return kError_NoErr;
     }
         
@@ -232,11 +232,11 @@ Error RMP::EndElement(string &oElement)
     {
         if(m_oCookie.size())
         {
-            m_oCookie += "; ";
+            m_oCookie += string("; ");
         }
 
         m_oCookie += m_oCookieName;
-        m_oCookie += "=";
+        m_oCookie += string("=");
         m_oCookie += m_oCookieValue;
     }
     
@@ -265,6 +265,7 @@ Error RMP::EndElement(string &oElement)
         pItem->SetSourceCookie(m_oCookie.c_str());
 
 		m_pList->push_back(pItem);
+        delete m_pMetaData;
         m_pMetaData = NULL;
     }
        

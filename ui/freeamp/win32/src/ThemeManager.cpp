@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.13 2000/02/14 22:03:38 robert Exp $
+   $Id: ThemeManager.cpp,v 1.14 2000/02/15 21:33:45 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -150,12 +150,6 @@ Error ThemeManager::UseTheme(string &oThemeFile)
     string oThemePath;
 
     _splitpath(oThemeFile.c_str(), NULL, NULL, dir, NULL);
-//    if (strcmp(dir, m_oCurrentTheme.c_str()) == 0)
-//    {
-//       Debug_v("Use same theme");
-//       return kError_NoErr;
-//    }   
-
     m_pContext->prefs->SetThemePath((char *)oThemeFile.c_str());
     if (oThemeFile == m_oDevelTheme)
         m_oCurrentTheme = THEME_IN_DEVEL;

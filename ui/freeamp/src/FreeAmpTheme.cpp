@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.84 2000/02/15 19:25:23 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.85 2000/02/15 21:33:44 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -163,8 +163,6 @@ void FreeAmpTheme::WorkerThread(void)
     uint32 iLen = 255;
     Error  eRet;
     int32  iValue;
-
-    Debug_v("UI Theme: %d", GetCurrentThreadId());
 
     m_pContext->prefs->GetTimeDisplay(&iValue);
     if (iValue)

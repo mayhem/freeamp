@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.30 2000/02/14 22:03:38 robert Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.31 2000/02/15 21:33:45 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -486,26 +486,6 @@ void Win32PreferenceWindow::SavePrefsValues(Preferences* prefs,
         m_pContext->target->AcceptEvent(new Event(INFO_PrefsChanged));
         m_currentValues = m_proposedValues = *values;
     }
-}
-
-void Win32PreferenceWindow::BangOnThemes(void)
-{
-    map<string, string>::iterator i;
-    string oTemp;
-    
-    for(i = m_oThemeList.begin(); i != m_oThemeList.end(); i++)
-    {
-        if ((*i).first.length() > 0)
-        {
-           oTemp = (*i).first;
-           Debug_v("BangOn loading: '%s' -> %s", 
-               oTemp.c_str(), m_oThemeList[oTemp].c_str());
-           m_pThemeMan->UseTheme(m_oThemeList[oTemp]);
-        }   
-           
-        m_pContext->target->AcceptEvent(new Event(INFO_PrefsChanged));
-        Sleep(5000);
-    }    
 }
 
 void Win32PreferenceWindow::LaunchHelp(HWND hwnd, uint32 topic)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowserui.h,v 1.7 1999/12/16 16:59:53 ijr Exp $
+        $Id: musicbrowserui.h,v 1.8 2000/01/23 00:49:26 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSERUI_H_
@@ -33,6 +33,7 @@ ____________________________________________________________________________*/
 #include "musiccatalog.h"
 #include "gtkmusicbrowser.h"
 #include "musicsearchui.h"
+#include "introwizard.h"
 
 class FAContext;
 
@@ -49,7 +50,7 @@ class MusicBrowserUI : public UserInterface {
     void CreateNewEditor(string & newPlaylist);
     void WindowClose(GTKMusicBrowser *oldUI);
 
-    void StartSearch(bool runMain = true);
+    void StartSearch(bool runMain = true, bool intro = false);
     void SetRunning(void);
 
     bool doQuitNow;
@@ -76,6 +77,7 @@ class MusicBrowserUI : public UserInterface {
     GTKMusicBrowser *mainBrowser;
     vector<GTKMusicBrowser *> browserWindows;
 
+    IntroWizardUI *wiz;
     musicsearchUI *searching;
 };
 

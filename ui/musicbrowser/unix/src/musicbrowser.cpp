@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.18 1999/12/16 19:11:22 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.19 2000/01/23 00:49:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -126,8 +126,10 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             if (weAreGTK) 
                 doQuitNow = true;
 
-            if (searching)
-                delete searching;
+            //if (searching)
+            //    delete searching;
+            //if (wiz)
+            //    delete wiz;
 
             gtkThread->Join();
             m_playerEQ->AcceptEvent(new Event(INFO_ReadyToDieUI));
@@ -140,9 +142,17 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 (*i)->AcceptEvent(event);
             if (searching)
                 searching->AcceptEvent(event);
+            if (wiz)
+	        wiz->AcceptEvent(event);
             if (event->Type() == INFO_SearchMusicDone) {
-                delete searching;
-                searching = NULL;
+	        if (searching) {
+                    delete searching;
+                    searching = NULL;
+		}
+		if (wiz) {
+		    delete wiz;
+		    wiz = NULL;
+		}
             }
             break; }
         case CMD_TogglePlaylistUI: {
@@ -207,12 +217,17 @@ void MusicBrowserUI::WindowClose(GTKMusicBrowser *oldUI)
         browserWindows.erase(loc);
 }
 
-void MusicBrowserUI::StartSearch(bool runMain)
+void MusicBrowserUI::StartSearch(bool runMain, bool intro)
 {
-    if (searching)
+    if (wiz || searching)
         return;
 
-    searching = new musicsearchUI(m_context);
-
-    searching->Show(runMain);
+    if (intro) {
+        wiz = new IntroWizardUI(m_context);
+	wiz->Show(runMain);
+    }
+    else {
+        searching = new musicsearchUI(m_context);
+        searching->Show(runMain);
+    }    
 }

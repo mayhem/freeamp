@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.21 1999/12/16 04:28:13 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.22 2000/01/23 00:49:26 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -193,7 +193,8 @@ class GTKMusicBrowser {
     void RemoveCatPlaylist(string playlist);
     void SetRepeatType(RepeatMode mode);
     void SetShuffleType(bool shuffled);
-
+    bool CheckEmptyDatabase(void);
+    
   public:
     bool iSetShuffleMode;
 
@@ -221,7 +222,7 @@ class GTKMusicBrowser {
     void AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist, 
                                 bool end = false);
     void PlayEvent();
-    void StartMusicSearch(bool runMain = true);
+    void StartMusicSearch(bool runMain = true, bool intro = false);
     void SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType type);
     void PopUpInfoEditor(PlaylistItem *editee = NULL);
     void SaveCurrentPlaylist(char *path = NULL);

@@ -113,7 +113,7 @@ _gdbm_end_update (dbf)
 /* If a fatal error is detected, come here and exit. VAL tells which fatal
    error occured. */
 
-int
+void
 _gdbm_fatal (dbf, val)
      gdbm_file_info *dbf;
      char *val;

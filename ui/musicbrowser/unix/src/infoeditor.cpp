@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.6 1999/12/06 13:29:50 ijr Exp $
+        $Id: infoeditor.cpp,v 1.7 1999/12/18 16:57:20 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "utility.h"
@@ -270,7 +270,7 @@ void infoeditorUI::DisplayInfo(void)
    gtk_container_add(GTK_CONTAINER(vbox), hbox);
    gtk_widget_show(hbox);
 
-   m_okButton = gtk_button_new_with_label("Okay");
+   m_okButton = gtk_button_new_with_label("OK");
    gtk_signal_connect(GTK_OBJECT(m_okButton), "clicked",
                       GTK_SIGNAL_FUNC(info_ok_button_event), this);
    gtk_container_add(GTK_CONTAINER(hbox), m_okButton);

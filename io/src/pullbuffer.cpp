@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.35 1999/10/19 07:13:05 elrod Exp $
+   $Id: pullbuffer.cpp,v 1.36 2000/01/20 00:48:50 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -326,8 +326,7 @@ Error PullBuffer::BeginRead(void *&pBuffer, size_t iBytesNeeded)
 {
    assert(m_pPullBuffer != NULL);
    assert(m_iBytesToRead == 0);
-   assert(iBytesNeeded <= m_iBufferSize);
-
+   
    Error  eError = kError_UnknownErr;
    int    iOverflow;
    size_t iAvail = 0;

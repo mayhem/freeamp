@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pipeline.cpp,v 1.11 2000/01/19 22:20:30 ijr Exp $
+        $Id: pipeline.cpp,v 1.12 2000/01/20 00:48:49 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -112,7 +112,7 @@ void PipelineUnit::ReportError(const char * format, ...)
     va_end(argptr);
 
     m_pTarget->AcceptEvent(new ErrorMessageEvent(szBuffer));
-    m_pTarget->AcceptEvent(new Event(INFO_DoneOutputting));
+    m_pTarget->AcceptEvent(new Event(INFO_DoneOutputtingDueToError));
 }   
 
 void PipelineUnit::ReportStatus(const char * format, ...)

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.21 1999/12/14 17:01:07 robert Exp $
+	$Id: soundcardpmo.h,v 1.22 2000/01/20 00:48:47 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -58,7 +58,7 @@ public:
 	void          WorkerThread(void); 
     virtual Error Reset(bool user_stop);
     void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
-    WAVEHDR      *NextHeader();
+    WAVEHDR      *NextHeader(bool bFreeHeadersOnly = false);
     Error         FreeHeader();
     Error         AllocHeader(void *&pBuffer);
     Error         Write(void *pBuffer);

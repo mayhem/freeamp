@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.96 1999/07/26 23:48:14 robert Exp $
+   $Id: xinglmc.cpp,v 1.97 1999/07/27 19:25:03 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -730,8 +730,8 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
    time(&iNow);
   	if (iNow != m_iBufferUpdate)
   	{
-  	    printf("Input: %3d%% Output: %3d%%\r", iInPercent, iOutPercent);
-  	    //Debug_v("Input: %3d%% Output: %3d%%", iInPercent, iOutPercent);
+       m_pTarget->AcceptEvent(new StreamBufferEvent(false, iInPercent, 
+                                                    iOutPercent));
   	    fflush(stdout);
        m_iBufferUpdate = iNow;
   	}
@@ -755,27 +755,26 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
        assert(m_iBufferUpInterval > 0);
        assert(m_iBitRate > 0);
 
-       printf("Buffering up...           \n");
+       m_pTarget->AcceptEvent(new StreamBufferEvent(true, iInPercent, 
+                                                    iOutPercent));
        for(; !m_bExit;)
        {
            usleep(1000000);
            iInPercent = m_pInputBuffer->GetBufferPercentage();
            iOutPercent = m_pOutputBuffer->GetBufferPercentage();
-  	        printf("Input: %3d%% Output: %3d%%\r", iInPercent, iOutPercent);
-           fflush(stdout);
-           
+
+           m_pTarget->AcceptEvent(new StreamBufferEvent(true, iInPercent, 
+                                                    iOutPercent));
+
            if (m_pInputBuffer->GetNumBytesInBuffer() >= iBufferUpBytes)
                break;
            if (m_pInputBuffer->GetBufferPercentage() > 90)
            {
-               printf("iBufferUpBytes: %d Interval: %d bitrate: %d\n",
-                     iBufferUpBytes, m_iBufferUpInterval, m_iBitRate);
-               printf("iBufferPercentage: %d\n",
-                      m_pInputBuffer->GetBufferPercentage());
                break;
            }
        }
-       printf("Done buffering up.              \n");
+       m_pTarget->AcceptEvent(new StreamBufferEvent(false, iInPercent, 
+                                                    iOutPercent));
    }
 
 	return BlockingBeginRead(pBuffer, iBytesNeeded);

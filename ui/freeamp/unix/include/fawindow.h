@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.h,v 1.10 1999/07/20 22:55:24 robert Exp $
+	$Id: fawindow.h,v 1.11 1999/07/27 19:25:04 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -142,6 +142,8 @@ class FALcdWindow : public FAWindow {
     XRectangle m_repeatAllRect;
     GC m_timeGC;
     GC m_iconGC;
+    bool m_bufferingup;
+    int m_inputbuf, m_outputbuf;
 
     bool m_insideDisplay;
 
@@ -195,6 +197,7 @@ class FALcdWindow : public FAWindow {
     void SetLargeFontPixmap(Pixmap);
     void SetLargeFontWidth(int *);
     void SetMainText(const char *);
+    void SetBufferStatus(bool bBufferingUp, int iInput, int iOutput);
     bool WiggleMainText();
     void SetCurrentTime(int32 h, int32 m, int32 s);
     void SetTotalTime(int32 h, int32 m, int32 s);

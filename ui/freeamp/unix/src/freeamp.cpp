@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.36 1999/07/26 20:22:22 robert Exp $
+	$Id: freeamp.cpp,v 1.37 1999/07/27 19:25:06 robert Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -611,7 +611,7 @@ int32 FreeAmpUI::AcceptEvent(Event *e) {
 	}
    case INFO_StreamInfo:
    { 
-       char szTitle[100], szURL[100];
+       char szTitle[100];
 
        StreamInfoEvent *pInfo = (StreamInfoEvent *)e;
 
@@ -624,6 +624,19 @@ int32 FreeAmpUI::AcceptEvent(Event *e) {
 	    XUnlockDisplay(m_display);
 
 	    break;
+   }
+   case INFO_BufferStatus:
+   {
+	    StreamBufferEvent *info = (StreamBufferEvent *)e;
+
+       m_lcdWindow->SetBufferStatus(info->IsBufferingUp(),
+                                    info->GetInputPercent(),
+                                    info->GetOutputPercent());
+	    XLockDisplay(m_display);
+	    m_lcdWindow->Draw(FALcdWindow::FullRedraw);
+	    XUnlockDisplay(m_display);
+
+       break;
    }
 	case INFO_MediaTimeInfo: {
 	    MediaTimeInfoEvent *info = (MediaTimeInfoEvent *)e;

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: hwin.c,v 1.3 1999/07/27 18:50:58 elrod Exp $
+	$Id: hwin.c,v 1.4 1999/07/27 19:25:02 robert Exp $
 ____________________________________________________________________________*/
 
 /****  hwin.c  ***************************************************
@@ -36,8 +36,8 @@ hybrid window/filter
 #include <float.h>
 #include <math.h>
 
-#ifdef ASM_X86
 extern int band_limit_nsb;
+#ifdef ASM_X86
 extern int hybrid_asm(float xin[], float xprev[], float y[18][32],
 	   int btype, int nlong, int ntot, int nprev);
 extern void FreqInvert_asm(float y[18][32], int n);

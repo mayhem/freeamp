@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.131 1999/07/26 20:22:14 robert Exp $
+        $Id: player.cpp,v 1.132 1999/07/27 19:25:00 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1553,8 +1553,6 @@ ServiceEvent(Event * pC)
       case INFO_PlayListShuffle:
       case INFO_PlayListRepeat:
       case INFO_PlayListUpdated:
-      case INFO_BufferingBegin:
-      case INFO_BufferingEnd:
       case INFO_BufferStatus:
            SendEventToUI(pC);
            break;

@@ -18,7 +18,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: signaturepmo.h,v 1.2 2000/09/18 14:21:01 ijr Exp $
+  $Id: signaturepmo.h,v 1.3 2000/09/19 15:20:53 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -40,7 +40,7 @@ ____________________________________________________________________________*/
 #include "facontext.h"
 #include "preferences.h"
 
-#include <musicbrainz/musicbrainz.h>
+#include "musicbrainz/mb_c.h"
 
 class SignaturePMO : public PhysicalMediaOutput
 {
@@ -74,7 +74,7 @@ public:
   Thread*         m_pBufferThread;
   bool            m_initialized;
 
-  MusicBrainz    *m_MB;
+  musicbrainz_t   m_MB;
   string          m_strGUID;
   string          m_collID;
 };

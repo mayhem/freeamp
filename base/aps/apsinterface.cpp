@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.24 2000/09/19 14:03:47 robert Exp $
+        $Id: apsinterface.cpp,v 1.25 2000/09/19 15:20:53 robert Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -53,10 +53,8 @@ ____________________________________________________________________________*/
 #include "apsutility.h"
 #include "apsconvert.h"
 #include <math.h>
-#include "utility.h"
-
 #include <musicbrainz/mb_c.h>
-
+#include "utility.h"
 #include "slclient.h" // FIXME: remove before b9
 
 #ifndef WIN32

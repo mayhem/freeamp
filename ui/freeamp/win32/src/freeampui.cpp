@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.65 1999/07/27 23:58:13 elrod Exp $
+	$Id: freeampui.cpp,v 1.66 1999/07/28 00:24:42 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1806,14 +1806,19 @@ TrayNotify(int32 notifyMessage)
                                 &mii);
             }
 
+            SetForegroundWindow(m_hwnd);
+
             // display the popup
             command = TrackPopupMenu(   popupHandle,			
-					                    TPM_RETURNCMD | TPM_RIGHTBUTTON,
+					                    TPM_RETURNCMD | TPM_RIGHTBUTTON |
+                                        TPM_NONOTIFY,
 					                    pt.x, 
                                         pt.y,       
 					                    0,  
 					                    m_hwnd,
 					                    NULL);
+
+            SetForegroundWindow(m_hwnd);
 
             switch(command)
             {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.111 2000/09/11 06:39:38 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.112 2000/09/18 20:10:05 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -766,6 +766,9 @@ void GTKMusicBrowser::ExpandCollapseEvent(void)
             gtk_paned_set_position(GTK_PANED(masterBox), lastPanedPosition);
             gtk_paned_set_handle_size(GTK_PANED(masterBox), lastPanedHandle);
         }
+        gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(musicBrowserWindow),
+                                       GTK_POLICY_AUTOMATIC, 
+                                       GTK_POLICY_AUTOMATIC);
         title += string(" - My Music: ");
         GtkWidget *w = gtk_item_factory_get_widget(menuFactory,
                                                    "/View/View Playlist Only");
@@ -778,6 +781,8 @@ void GTKMusicBrowser::ExpandCollapseEvent(void)
         lastPanedHandle = ((GtkPaned *)masterBox)->handle_size;
         gtk_paned_set_position(GTK_PANED(masterBox), 0);
         gtk_paned_set_handle_size(GTK_PANED(masterBox), 0);
+        gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(musicBrowserWindow),
+                                       GTK_POLICY_NEVER, GTK_POLICY_NEVER);
         title += string(" - Playlist Editor: ");
         GtkWidget *w = gtk_item_factory_get_widget(menuFactory,
                                                    "/View/View Playlist Only");

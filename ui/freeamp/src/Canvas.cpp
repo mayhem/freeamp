@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.10.4.4 2000/06/07 13:46:08 robert Exp $
+   $Id: Canvas.cpp,v 1.10.4.5 2000/06/07 14:32:34 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -126,18 +126,27 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
             continue;
         }
 
+        string j;
+        (*i)->GetName(j);
+
         (*i)->GetRect(oTemp);
         (*i)->GetPos(oOffset);
-        oTemp.x1 += oOffset.x;
-        oTemp.y1 += oOffset.y;
-        oTemp.x2 += oOffset.x;
-        oTemp.y2 += oOffset.y;
+        oTemp.x2 = oOffset.x + oTemp.Width();
+        oTemp.y2 = oOffset.y + oTemp.Height();
+        oTemp.x1 = oOffset.x;
+        oTemp.y1 = oOffset.y;
+
+        printf("Panel %s (%d %d %d %d) (%d %d)\n", 
+           j.c_str(), oTemp.x1, oTemp.y1, oTemp.x2, oTemp.y2, oOffset.x, oOffset.y);
         if (iLoop == 0)
            oUnion = oTemp;
         else
            oUnion.Union(oTemp);
 
     }
+    printf("Union size: %d %d (%d %d %d %d)\n", 
+       oUnion.Width(), oUnion.Height(), oUnion.x1, oUnion.y1, 
+                                        oUnion.x2, oUnion.y2);
      
     oOffset.x = oUnion.x1;
     oOffset.y = oUnion.y1;

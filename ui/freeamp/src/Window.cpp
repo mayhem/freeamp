@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.40.4.2 2000/06/07 09:53:53 robert Exp $
+   $Id: Window.cpp,v 1.40.4.3 2000/06/07 14:32:34 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -569,7 +569,6 @@ void Window::HandleMouseLButtonDown(Pos &oScreenPos)
     m_pCanvas->GetBackgroundRect(oRect);
     m_oMoveStart.x2 = m_oMoveStart.x1 + oRect.Width();
     m_oMoveStart.y2 = m_oMoveStart.y1 + oRect.Height();
-
     m_oMovePos = oScreenPos;
 
     if (IsError(GetDesktopSize(m_iDesktopWidth, m_iDesktopHeight)))

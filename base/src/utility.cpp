@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: utility.cpp,v 1.28 2000/06/12 18:07:50 robert Exp $
+    $Id: utility.cpp,v 1.29 2000/06/12 18:41:38 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -838,8 +838,11 @@ bool ShowHelp(FAContext *m_context, const char *helpurl)
          return false;
     }
 
-#ifdef UNIX 
-    LaunchBrowser((char *)oHelpFile.c_str());
+    len = _MAX_PATH;
+    FilePathToURL(oHelpFile.c_str(), dir, &len);
+
+#ifdef HAVE_GTK 
+    LaunchBrowser(dir);
 #endif
 #ifdef WIN32
 
@@ -851,8 +854,6 @@ bool ShowHelp(FAContext *m_context, const char *helpurl)
     else
        hWnd = (HWND)pProp->GetInt32();
 
-    len = _MAX_PATH;
-    FilePathToURL(oHelpFile.c_str(), dir, &len);
     ShellExecute(hWnd, "open", dir, NULL, NULL, SW_SHOWNORMAL);
 #endif
     delete [] dir;

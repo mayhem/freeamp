@@ -18,19 +18,22 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.1.2.4 1999/10/09 18:53:02 robert Exp $
+   $Id: ThemeZip.cpp,v 1.1.2.5 1999/10/09 20:38:23 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
-#include "zlib.h"
-#include "config.h"
+
 #ifdef WIN32
+#include <windows.h>
 #include <winsock.h>
 #define unlink(a) _unlink(a)
 #else
 #undef socklen_t
 #include <netinet/in.h>
 #endif
+
+#include "zlib.h"
+#include "config.h"
 #include "ThemeZip.h"
 #include "debug.h"
 

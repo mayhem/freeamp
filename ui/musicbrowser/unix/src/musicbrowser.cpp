@@ -18,11 +18,12 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: musicbrowser.cpp,v 1.33 2000/04/08 05:35:59 ijr Exp $
+   $Id: musicbrowser.cpp,v 1.34 2000/05/08 20:29:58 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
 #include "gtkmusicbrowser.h" 
+#include "missingfileui.h"
 #include "infoeditor.h"
 #include "eventdata.h"
 #include "player.h"
@@ -208,6 +209,13 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             for (; i != browserWindows.end(); i++)
                 if ((*i)->Visible())
                     (*i)->AcceptEvent(event);
+            break; }
+        case INFO_FileNotFound: {
+            MissingFileEvent *mfe = (MissingFileEvent *)event;
+            
+            MissingFileUI *mfui = new MissingFileUI(m_context, mfe->Item());
+            mfui->Run();
+
             break; }
         default:
             break;

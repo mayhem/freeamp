@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.45 1999/10/17 22:45:29 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.46 1999/10/18 01:35:13 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -217,20 +217,25 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          m_pWindow->ControlEnable(string("VolumePlus"), true, bSet);
          m_pWindow->ControlEnable(string("VolumeMinus"), true, bSet);
 
-
-//         PlaylistItem *pItem;
-//         
-//         pItem = m_pContext->plm->ItemAt(m_pContext->plm->
-//                                         GetCurrentIndex());
-//         Debug_v("Artist: %s", pItem->GetMetaData().Artist().c_str());
-//         Debug_v("Album: %s", pItem->GetMetaData().Album().c_str());
-
          break;
       }
       
-      case INFO_PlaylistItemUpdated:
+      case INFO_PlaylistCurrentItemInfo:
       {
-         Debug_v("PlaylistitemUpdated");
+         const PlaylistItem *pItem;
+
+         PlaylistCurrentItemInfoEvent *pInfo = 
+            (PlaylistCurrentItemInfoEvent *)e;
+         pItem = pInfo->Item();
+         
+         Debug_v("Artist: %s", pItem->GetMetaData().Artist().c_str());
+         Debug_v("Album: %s", pItem->GetMetaData().Album().c_str());
+
+         m_oTitle = pItem->GetMetaData().Title() + string(" -- ") +
+                    pItem->GetMetaData().Artist();
+                    
+         m_pWindow->ControlStringValue(string("Title"), true, m_oTitle);
+         
          break;
       }
       

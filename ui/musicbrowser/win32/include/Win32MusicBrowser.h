@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.1.2.16 1999/10/17 22:45:34 robert Exp $
+        $Id: Win32MusicBrowser.h,v 1.1.2.17 1999/10/18 01:35:16 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -96,6 +96,7 @@ class MusicBrowserUI : public UserInterface
     void  SortEvent(int id);
     void  MouseMove(uint32 uFlags, POINT &sPoint);
     void  MouseButtonUp(void);
+    void  EmptyDBCheck(void);
  
  protected:
     FAContext *m_context;

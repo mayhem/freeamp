@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.41 1999/10/17 22:44:49 robert Exp $
+        $Id: player.cpp,v 1.133.2.42 1999/10/18 01:35:02 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1240,12 +1240,29 @@ Stop(Event *pEvent)
        m_pmo = NULL;
     }
 
+#if 0
     if (pEvent && !pEvent->IsInternal())
     {
+       vector<PlaylistItem *>            oTempList;
+       vector<PlaylistItem *>::iterator  j;
+       int                               i;
+       
+       // Copy the contents of the current external list to the
+       // master list
+       m_context->plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
+       for(i = 0; i < m_context->plm->CountItems(); i++)
+          oTempList.push_back(new PlaylistItem(*m_context->plm->ItemAt(i)));
+       
        m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
-       SendToUI(new VolumeEvent(INFO_ActivePlaylistCleared));
        m_plm->RemoveAll();
+       
+       for(j = oTempList.begin(); j != oTempList.end(); j++)
+          m_context->plm->AddItem(*j, false);
+       m_plm->SetCurrentIndex(0);
+       
+       SendToUI(new VolumeEvent(INFO_ActivePlaylistCleared));
     }   
+#endif
 
     if (SetState(PlayerState_Stopped))
     {
@@ -1308,9 +1325,6 @@ void
 Player::
 Play(Event *pEvent)
 {
-    vector<PlaylistItem *>            oTempList;
-    vector<PlaylistItem *>::iterator  j;
-    int                               i;
     const PlaylistItem               *pItem;
 
     if (m_playerState == PlayerState_Playing)
@@ -1324,23 +1338,29 @@ Play(Event *pEvent)
        }
     }
 
+#if 0
     if (!pEvent->IsInternal())
     {
-        // Copy the contents of the current external list to the
-        // master list
-        m_context->plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
-        for(i = 0; i < m_context->plm->CountItems(); i++)
-           oTempList.push_back(new PlaylistItem(*m_context->plm->ItemAt(i)));
-        
-        m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
-        m_plm->RemoveAll();
-        
-        for(j = oTempList.begin(); j != oTempList.end(); j++)
-           m_context->plm->AddItem(*j, false);
-        m_plm->SetCurrentIndex(0);
-        
-        SendToUI(new VolumeEvent(INFO_ActivePlaylistChanged));
+       vector<PlaylistItem *>            oTempList;
+       vector<PlaylistItem *>::iterator  j;
+       int                               i;
+       
+       // Copy the contents of the current external list to the
+       // master list
+       m_context->plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
+       for(i = 0; i < m_context->plm->CountItems(); i++)
+          oTempList.push_back(new PlaylistItem(*m_context->plm->ItemAt(i)));
+       
+       m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
+       m_plm->RemoveAll();
+       
+       for(j = oTempList.begin(); j != oTempList.end(); j++)
+          m_context->plm->AddItem(*j, false);
+       m_plm->SetCurrentIndex(0);
+       
+       SendToUI(new VolumeEvent(INFO_ActivePlaylistChanged));
     }
+#endif
     
     if (!m_pmo)
     {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.13 1999/10/17 22:45:33 robert Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.14 1999/10/18 01:35:14 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -155,11 +155,12 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             break; }
 
 #ifdef WIN32
-        case INFO_MediaInfo: 
-        case INFO_PlaylistItemUpdated: {
+        case INFO_PlaylistCurrentItemInfo:
+        {
             m_currentplaying = m_context->plm->GetCurrentIndex();
             UpdatePlaylistList();
-            break; }
+            break; 
+        }
 
 #endif
 
@@ -183,6 +184,11 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             m_bSearchInProgress = false;
                         
             InitTree();
+            TreeView_Expand(GetDlgItem(m_hWnd, IDC_MUSICTREE), 
+                            m_hPlaylistItem, TVE_EXPAND);
+            TreeView_Expand(GetDlgItem(m_hWnd, IDC_MUSICTREE), 
+                            m_hCatalogItem, TVE_EXPAND);
+            
             //FillPlaylistCombo();
 #endif                
             break; }
@@ -264,7 +270,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             gdk_threads_leave();
             break; }
 
-#if WIN32            
+#if 0 //WIN32            
         case INFO_ActivePlaylistChanged:
             SetActivePlaylist();
             break;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.18 1999/10/17 22:45:39 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.19 1999/10/18 01:35:17 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -54,6 +54,9 @@ static int pControls[] =
    IDC_CLEARLIST,
    -1     
 };   
+
+#define DB Debug_v("%d", __LINE__);
+#define WM_EMPTYDBCHECK WM_USER + 69
 
 const char* kAudioFileFilter =
             "MPEG Audio Streams (.mpg, .mp1, .mp2, .mp3, .mpp)\0"
@@ -143,6 +146,10 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
         }
         case WM_LBUTTONUP:
             g_ui->MouseButtonUp();
+            return 1;
+            
+        case WM_EMPTYDBCHECK:
+            g_ui->EmptyDBCheck();
             return 1;
             
         case WM_COMMAND:
@@ -256,6 +263,7 @@ Error MusicBrowserUI::CloseMainDialog(void)
 
 void MusicBrowserUI::ShowBrowser(bool bShowExpanded)
 {
+    PostMessage(m_hWnd, WM_EMPTYDBCHECK, 0, 0);
 	ShowWindow(m_hWnd, SW_SHOW);
     SetForegroundWindow(m_hWnd);
 }
@@ -916,24 +924,20 @@ void MusicBrowserUI::SetActivePlaylistIcon(int iImage)
 
 void MusicBrowserUI::LoadPlaylist(string &oPlaylist)
 {
+    vector<PlaylistItem *>            oTempList;
+
     if (oPlaylist == m_currentListName)
        return;
 
     WritePlaylist();
 
-    if (oPlaylist == m_activeListName)
-    {
-        m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
-        //ComboBox_SetCurSel(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), 0);
-    }
-    else
-    {   
-        m_context->plm->SetExternalPlaylist((char *)oPlaylist.c_str());
-        m_context->plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
-        //sel = ComboBox_FindString(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO),
-        //                          0, (char *)oPlaylist.c_str());
-        //ComboBox_SetCurSel(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), sel);
-    }
+    m_playerEQ->AcceptEvent(new Event(CMD_Stop));
+
+    m_context->plm->RemoveAll();
+    m_context->plm->ReadPlaylist((char *)oPlaylist.c_str());
+       
+    m_playerEQ->AcceptEvent(new Event(CMD_Play));
+        
     SetWindowText(GetDlgItem(m_hWnd, IDC_PLAYLISTNAME), oPlaylist.c_str());
         
     m_currentListName = oPlaylist;
@@ -943,29 +947,15 @@ void MusicBrowserUI::LoadPlaylist(string &oPlaylist)
 
 void MusicBrowserUI::WritePlaylist(void)
 {
-    PlaylistFormatInfo oInfo;              
-    char               ext[MAX_PATH];
-    int                i;
-    Error              eRet = kError_NoErr;
+    PlaylistFormatInfo     oInfo;              
+    char                   ext[MAX_PATH];
+    Error                  eRet = kError_NoErr;
+    vector<PlaylistItem *> oTempList;
+    int                    i;
 
     if (!m_bListChanged)
        return;
        
-    if (m_currentListName == m_activeListName)
-    {
-       vector<PlaylistItem *>           oTempList;
-       vector<PlaylistItem *>::iterator j;
-       
-       for(i = 0; i < m_context->plm->CountItems(); i++)
-          oTempList.push_back(new PlaylistItem(*m_context->plm->ItemAt(i)));
-       
-       m_context->plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
-       m_plm->RemoveAll();
-       
-       for(j = oTempList.begin(); j != oTempList.end(); j++)
-          m_context->plm->AddItem(*j, false);
-    }
-
     _splitpath(m_currentListName.c_str(), NULL, NULL, NULL, ext);
     for(i = 0; ; i++)
     {
@@ -980,9 +970,6 @@ void MusicBrowserUI::WritePlaylist(void)
         m_context->plm->WritePlaylist((char *)m_currentListName.c_str(),
                                       &oInfo);   
 
-    if (m_currentListName == m_activeListName)
-       m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
-
     m_bListChanged = false;
 }
 
@@ -994,6 +981,7 @@ void MusicBrowserUI::UpdatePlaylistList(void)
     char          szText[100];
 
     ListView_DeleteAllItems(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX));
+
 
     sItem.state = sItem.stateMask = 0;
     for(i = 0; pItem = m_context->plm->ItemAt(i); i++)
@@ -1007,8 +995,7 @@ void MusicBrowserUI::UpdatePlaylistList(void)
         sItem.iSubItem = 0;
         sItem.iItem = i;
         sItem.lParam = i;
-        sItem.iImage = (m_currentplaying == i && 
-                        m_currentListName == m_activeListName) ? 0 : 1;
+        sItem.iImage = (m_currentplaying == i) ? 0 : 1;
         ListView_InsertItem(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), &sItem);
 
         sItem.mask = LVIF_TEXT;
@@ -1452,4 +1439,20 @@ void ClientToWindow(HWND hWnd, POINT *Pt)
     MapWindowPoints(hWnd, HWND_DESKTOP, (LPPOINT)&cRect, 2);
     Pt->x += (wRect.left - cRect.left);
     Pt->y += (wRect.top - cRect.top);
+}
+
+void MusicBrowserUI::EmptyDBCheck(void)
+{
+    int iRet;
+    
+    if (m_context->browser->m_catalog->m_playlists->size() > 0 ||
+        m_context->browser->m_catalog->m_artistList->size() > 0)
+        return;
+        
+    iRet = MessageBox(m_hWnd, "Your music database does not contain any items. "
+                       "Would you like to\r\nstart a music search to find "
+                       "music and playlists on your machine?",
+                       "MusicBrowser", MB_YESNO);
+    if (iRet == IDYES)
+        StartMusicSearch();
 }

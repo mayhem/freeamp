@@ -18,13 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.2.2.10 1999/10/04 02:42:35 elrod Exp $
+	$Id: utility.cpp,v 1.2.2.11 1999/10/04 13:44:48 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
 #include <string.h>
 #include <time.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #ifdef WIN32
 #include <direct.h>

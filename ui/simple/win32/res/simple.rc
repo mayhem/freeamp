@@ -78,10 +78,6 @@ BEGIN
         MENUITEM "&Next Song\tPage Up",         IDC_NEXTSONG
         MENUITEM "&Last Song\tPage Down",       IDC_LASTSONG
     END
-    POPUP "&Help"
-    BEGIN
-        MENUITEM "&About...",                   IDC_ABOUT
-    END
 END
 
 IDM_TRAY MENU DISCARDABLE 
@@ -323,13 +319,6 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_ABOUT8              BITMAP  DISCARDABLE     "about8.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //

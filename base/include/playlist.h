@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.64 2001/01/02 03:47:15 ijr Exp $
+	$Id: playlist.h,v 1.65 2001/01/05 18:57:01 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -132,6 +132,10 @@ class PlaylistItem {
     Error GetURL(char* buf, uint32* len) { return SetBuffer(buf, m_url.c_str(), len); }
     const string& URL() const { return m_url; }
 
+    Error SetWebURL(const char* webUrl) { m_webUrl = string(webUrl); return kError_NoErr;}
+    Error GetWebURL(char* buf, uint32* len) { return SetBuffer(buf, m_webUrl.c_str(), len); }
+    const string& WebURL() const { return m_webUrl; }
+
     void SetState(PlaylistItemState state) { m_state = state; }
     PlaylistItemState GetState() const { return m_state; }
 
@@ -181,7 +185,7 @@ class PlaylistItem {
 
  private:
     MetaData m_metadata;
-    string m_url;
+    string m_url, m_webUrl;
     PlaylistItemState m_state;
 };
 

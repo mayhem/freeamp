@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.40 2001/01/05 21:59:58 robert Exp $
+        $Id: apsinterface.cpp,v 1.41 2001/02/12 20:24:05 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -173,6 +173,14 @@ int APSInterface::APSFillMetaData(APSMetaData* pmetaData)
         mb_SetProxy(o, (char *)m_strProxyAddr.c_str(), m_nProxyPort);
 
     uuid_ascii((unsigned char*)pmetaData->GUID().c_str(), guid);
+
+    string guidMapping = m_profilePath + string(DIR_MARKER_STR) +
+                         string("guid_mapping.txt");
+
+    FILE *guidLogfile = fopen(guidMapping.c_str(), "a+");
+    fprintf(guidLogfile, "%s\t%s\n", pmetaData->Filename().c_str(),
+                                     guid);
+    fclose(guidLogfile);
 
     args[0] = strdup(pmetaData->Title().c_str());
     args[1] = strdup(guid);

@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.38 1999/12/10 07:16:42 elrod Exp $
+   $Id: xinglmc.h,v 1.39 2000/02/05 23:57:41 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -143,7 +143,7 @@ class     XingLMC:public LogicalMediaConverter
    int32                m_frameBytes, m_iBufferUpInterval, m_iBufferSize;
    size_t               m_lFileSize;
    MPEG_HEAD            m_sMpegHead;
-   int32                m_iBitRate;
+   int32                m_iBitRate, m_iTotalFrames;
    bool                 m_bBufferingUp;
    Thread              *m_decoderThread;
 

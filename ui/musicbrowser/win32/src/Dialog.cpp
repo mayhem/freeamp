@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.42 1999/12/02 22:06:53 elrod Exp $
+        $Id: Dialog.cpp,v 1.43 1999/12/03 00:00:23 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -672,7 +672,7 @@ void MusicBrowserUI::SizeWindow(int iType, int iWidth, int iHeight)
 
 #endif
 
-    GetClientRect(m_hPlaylistView, &newListViewRect);
+    /*GetClientRect(m_hPlaylistView, &newListViewRect);
     
     headerResizeAmount = (newListViewRect.right - newListViewRect.left) - 
                          (oldListViewRect.right - oldListViewRect.left);
@@ -699,6 +699,10 @@ void MusicBrowserUI::SizeWindow(int iType, int iWidth, int iHeight)
     
     if(titleExtraAmount)
     {
+        char buf[256];
+        wsprintf(buf, "%d ",titleExtraAmount);
+        OutputDebugString(buf);
+
         static uint32 lastColumn = 1;
 
         while(titleExtraAmount)
@@ -721,7 +725,7 @@ void MusicBrowserUI::SizeWindow(int iType, int iWidth, int iHeight)
             if(++lastColumn > 3)
                 lastColumn = 1;
         }
-    }
+    }*/
 }
 
 void MusicBrowserUI::GetMinMaxInfo(MINMAXINFO *pInfo)

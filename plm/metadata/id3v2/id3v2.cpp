@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.21 2000/09/29 14:13:41 robert Exp $
+	$Id: id3v2.cpp,v 1.22 2000/10/01 18:45:06 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -332,7 +332,9 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     pFrame = ID3Tag_FindFrameWithID(pTag, ID3FID_CONTENTTYPE);
     if (pFrame)
     {
-
+        char genre[255];
+        int  genreId, ret;
+ 
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
         ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 

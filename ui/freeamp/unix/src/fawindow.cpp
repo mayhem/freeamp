@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.cpp,v 1.7 1998/11/25 20:13:43 jdw Exp $
+	$Id: fawindow.cpp,v 1.8 1998/11/25 20:53:43 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -451,6 +451,7 @@ void FALcdWindow::SetVolume(int32 v) {
 }
 
 void FALcdWindow::BlitIcons(Drawable d) {
+    //cout << "bliting icons..." << (m_iconStates[0] ? " Yes" : " No") << (m_iconStates[1] ? " Yes" : " No") <<  (m_iconStates[2] ? " Yes" : " No") << endl;
     XCopyArea(m_display,m_pixmap,d,m_iconGC,ICON_CLIP_X,ICON_CLIP_Y,ICON_CLIP_WIDTH,ICON_CLIP_HEIGHT,ICON_CLIP_X,ICON_CLIP_Y);
     if (m_iconStates[0]) XCopyArea(m_display,m_shufflePixmap,d,m_iconGC,0,0,m_shuffleRect.width,m_shuffleRect.height,m_shuffleRect.x,m_shuffleRect.y);
     if (m_iconStates[1]) XCopyArea(m_display,m_repeatPixmap,d,m_iconGC,0,0,m_repeatRect.width,m_repeatRect.height,m_repeatRect.x,m_repeatRect.y);

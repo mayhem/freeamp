@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.113 2000/09/19 11:12:32 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.114 2000/09/22 07:12:43 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -223,36 +223,29 @@ void GTKMusicBrowser::GenSLPlaylist(vector<PlaylistItem *> *seed, float fMax)
         return;
     }
 
-    vector<string> seedList;
-    vector<string> returnList;
+    APSPlaylist seedList;
+    APSPlaylist returnList;
     uint32 nResponse = 0;
 
     if ((seed) && (!seed->empty())) {
-        APSPlaylist InputPlaylist;
         vector<PlaylistItem *>::iterator i;
 
         for (i = seed->begin(); i != seed->end(); i++)
-            seedList.push_back((*i)->GetMetaData().GUID());
-
-        nResponse = m_context->aps->APSGetSoundsLike(&seedList,
-                               m_context->catalog->m_guidList, &returnList, 10,
-                               fMax);
+            seedList.Insert((*i)->GetMetaData().GUID().c_str(), 
+                            (*i)->URL().c_str());
     }
-    else {
-        nResponse = m_context->aps->APSGetSoundsLike(&seedList,
-                               m_context->catalog->m_guidList, &returnList, 10,
-                               fMax);
-    }
+    nResponse = m_context->aps->APSGetSoundsLike(&seedList,
+                                                 &returnList);
 
     if (nResponse == APS_NOERROR) {
-        if (returnList.size() > 0) {
+        if (returnList.Size() > 0) {
             vector<string> newitems;
             string strTemp;
             string strFilename;
-            vector<string>::iterator j;
+            APSPlaylist::iterator j;
 
-            for (j = returnList.begin(); j != returnList.end(); j++) {
-                strFilename = m_context->catalog->GetFilename(*j);
+            for (j = returnList.begin(); j.isvalid(); j.next()) {
+                strFilename = m_context->catalog->GetFilename(j.first());
                 if (strFilename != "")
                     newitems.push_back(strFilename.c_str());
             }

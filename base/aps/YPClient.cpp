@@ -17,7 +17,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: YPClient.cpp,v 1.2 2000/08/04 15:19:44 ijr Exp $
+        $Id: YPClient.cpp,v 1.3 2000/09/22 07:12:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -91,6 +91,12 @@ int YPClient::Disconnect()
         m_pSocket->Disconnect();
     }
     return 0;
+}
+
+int YPClient::GetSoundsLike(APSPlaylist& ResultList, APSPlaylist& SeedList,
+                            int nMaxItems, string& strUID, string& CollectionID)
+{
+    return -1;
 }
 
 int YPClient::GeneratePlayList(APSPlaylist& ResultList, APSPlaylist& SeedList,

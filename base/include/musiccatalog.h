@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.h,v 1.17 2000/09/11 06:39:38 ijr Exp $
+        $Id: musiccatalog.h,v 1.18 2000/09/22 07:12:42 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -131,8 +131,6 @@ class MusicCatalog : public EventQueue
     int32 GetNumNeedingSigs(void) { return m_sigs->size(); }
     void StartGeneratingSigs(void);
     void StopGeneratingSigs(void);
-
-    vector<string> *m_guidList; // FIXME: remove before b9
 
  protected:
     static void musicsearch_thread_function(void *arg);

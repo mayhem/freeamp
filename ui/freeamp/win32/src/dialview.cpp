@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dialview.cpp,v 1.1 1999/03/03 09:06:20 elrod Exp $
+	$Id: dialview.cpp,v 1.2 1999/03/14 08:27:04 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -124,8 +124,8 @@ MouseMove(int32 x, int32 y, int32 modifiers)
 
         m_offset = abs(m_position % 5) * Width();
 
-        if(y == 0 || y == Height() - 1)
-            SetCursorPos(m_screenPoint.x, m_screenPoint.y);
+        /*if(y == 0 || y == Height() - 1)
+            SetCursorPos(m_screenPoint.x, m_screenPoint.y);*/
 
         Invalidate();
 
@@ -136,6 +136,15 @@ MouseMove(int32 x, int32 y, int32 modifiers)
                     y);
 
         OutputDebugString(buffer);*/
+
+        NMHDR nmhdr;
+
+        nmhdr.hwndFrom = (HWND)this;
+        nmhdr.idFrom = (UINT)m_command;
+        nmhdr.code = (UINT)DIAL_MOVE;
+
+
+        SendMessage(Window(), WM_NOTIFY, (WPARAM)m_command, (LPARAM) &nmhdr);
     }
 }
 

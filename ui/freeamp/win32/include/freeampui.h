@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.19 1999/03/14 07:14:52 elrod Exp $
+	$Id: freeampui.h,v 1.20 1999/03/14 08:27:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -112,6 +112,8 @@ class FreeAmpUI : public UserInterface {
     void CreateControls();
 
     void CreatePalette();
+
+    void CreateTooltips();
 
     void UpdatePlayList();
 

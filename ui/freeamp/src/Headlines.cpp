@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Headlines.cpp,v 1.9 2000/05/19 09:55:51 robert Exp $
+   $Id: Headlines.cpp,v 1.10 2000/05/19 15:26:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -157,7 +157,7 @@ Error Headlines::Download(void)
     string oPage;
     Error  eRet;
     Http   oDownload(m_pContext);
-    vector<string>::iterator i;
+    //vector<string>::iterator i;
 
     m_pContext->target->AcceptEvent(new StatusMessageEvent("Downloading headlines..."));
     eRet = oDownload.DownloadToString(m_oInfo.m_oUrl, oPage);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.49 2000/05/06 12:05:48 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.50 2000/05/06 13:28:36 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1151,10 +1151,8 @@ void WatchDirectoryTimer::Tick(void)
    vector<string> searchPaths;
    searchPaths.push_back(watchPath);
 
-cout << "tick\n";
    m_context->catalog->PruneDirectory(watchPath);
    m_context->catalog->SearchMusic(searchPaths, false);
-cout << "tick done\n";
 
    delete [] watchDir;
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.77 2000/04/06 22:36:41 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.78 2000/05/06 13:28:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1064,6 +1064,7 @@ GTKMusicBrowser::GTKMusicBrowser(FAContext *context, MusicBrowserUI *masterUI,
     CDTracks = new vector<PlaylistItem *>;
     m_bIgnoringMusicCatalogMessages = false;
     m_bCDMode = cdCreationMode;
+    ice_timer = NULL;
 
     parentUI = masterUI;
  

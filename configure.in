@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.95 2000/05/06 12:05:48 ijr Exp $
+dnl $Id: configure.in,v 1.96 2000/05/06 13:28:36 ijr Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -418,6 +418,7 @@ if test "$have_gtk" = "true"; then
   OSINC="$OSINC -I$srcdir/ui/musicbrowser/unix/include"
   OSINC="$OSINC -I$srcdir/ui/freeamp/include -I$srcdir/ui/freeamp/unix/include"
   OSINC="$OSINC -I$srcdir/ui/download/unix/include"
+  OSINC="$OSINC -I$srcdir/ui/musicbrowser/include"
   CFLAGS="$CFLAGS $GTK_CFLAGS"
   AC_DEFINE(HAVE_GTK)
 elif test "$host_os" = "beos"; then

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.30 1999/12/08 03:18:30 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.31 1999/12/08 15:33:41 robert Exp $
 
 RELOC = @FPIC@
 
@@ -140,6 +140,7 @@ plugins/musicbrowser.ui: $(MUSICBROWSEROBJ)
 # freeamp ui
 FREEAMPUIOBJ  = ui/freeamp/src/Theme.doh ui/freeamp/src/Bitmap.o 
 FREEAMPUIOBJ += ui/freeamp/src/Canvas.o ui/freeamp/src/SliderControl.o 
+FREEAMPUIOBJ += ui/freeamp/src/VSliderControl.o 
 FREEAMPUIOBJ += ui/freeamp/src/Window.o ui/freeamp/src/ButtonControl.o 
 FREEAMPUIOBJ += ui/freeamp/src/Control.o ui/freeamp/src/TextControl.o 
 FREEAMPUIOBJ += ui/freeamp/src/DialControl.o ui/freeamp/src/Font.o 

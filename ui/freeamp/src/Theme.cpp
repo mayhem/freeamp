@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.14 1999/12/06 12:27:25 ijr Exp $
+   $Id: Theme.cpp,v 1.15 1999/12/08 15:33:43 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -45,6 +45,7 @@ ____________________________________________________________________________*/
 #include "ButtonControl.h"
 #include "DialControl.h"
 #include "SliderControl.h"
+#include "VSliderControl.h"
 #include "TextControl.h"
 #include "MultiStateControl.h"
 #include "ThemeZip.h"
@@ -654,6 +655,25 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        return kError_NoErr;
     }
 
+    if (oElement == string("VSliderControl"))
+    {
+       if (m_pCurrentControl)
+       {
+           m_oLastError = string("Controls cannot be nested");
+           return kError_InvalidParam;
+       }
+	   if (oAttrMap.find("Name") == oAttrMap.end())
+       {
+           m_oLastError = string("the <VSliderControl> tag needs a Name attribute");
+           return kError_ParseError;
+       }        
+
+       m_eCurrentControl = eVSliderControl;
+       m_pCurrentControl = new VSliderControl(m_pCurrentWindow,
+                                              oAttrMap["Name"]);
+       return kError_NoErr;
+    }
+
     if (oElement == string("TextControl"))
     {
        if (m_pCurrentControl)
@@ -939,6 +959,7 @@ Error Theme::EndElement(string &oElement)
     if (oElement == string("ButtonControl") ||
         oElement == string("DialControl") ||
         oElement == string("SliderControl") ||
+        oElement == string("VSliderControl") ||
         oElement == string("MultiStateControl"))
     {
        m_pCurrentWindow->AddControl(m_pCurrentControl);

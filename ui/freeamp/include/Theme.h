@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.8 1999/11/19 01:01:10 robert Exp $
+   $Id: Theme.h,v 1.9 1999/12/08 15:33:42 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -51,6 +51,7 @@ enum ControlTypeEnum
     eButtonControl,
     eTextControl,
     eSliderControl,
+    eVSliderControl,
     eDialControl,
     eMultiStateControl,
     

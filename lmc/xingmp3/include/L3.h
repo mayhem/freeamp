@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: L3.h,v 1.7 1999/12/10 07:16:42 elrod Exp $
+	$Id: L3.h,v 1.8 2000/01/24 01:04:55 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  L3.h  ***************************************************
@@ -55,6 +55,14 @@ ____________________________________________________________________________*/
 #define LITTLE_ENDIAN 0
 #elif defined(__INTEL__)
 #define LITTLE_ENDIAN 1
+#endif
+
+#ifndef LITTLE_ENDIAN
+#if defined(WORDS_BIGENDIAN)
+#define LITTLE_ENDIAN 0
+#else
+#define LITTLE_ENDIAN 1
+#endif
 #endif
 
 #ifndef LITTLE_ENDIAN

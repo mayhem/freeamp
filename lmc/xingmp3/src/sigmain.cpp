@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigmain.cpp,v 1.4 2000/10/02 12:17:30 ijr Exp $
+        $Id: sigmain.cpp,v 1.5 2000/10/02 12:48:16 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -143,7 +143,7 @@ void submit_metadata(MetaData *pmetaData)
    args[8] = strdup(pmetaData->Comment().c_str());
    args[9] = NULL;
 
-   ret = mb_QueryWithArgs(o, MB_ExchangeMetadata, args);
+   ret = mb_QueryWithArgs(o, MB_SubmitTrack, args);
    for(i = 0; i < 9; i++)
       free(args[i]);
 

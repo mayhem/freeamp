@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.25 1999/04/09 00:32:32 robert Exp $
+	$Id: freeamp.cpp,v 1.26 1999/04/20 01:42:10 dogcow Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -30,7 +30,10 @@ ____________________________________________________________________________*/
 
 #include <X11/extensions/shape.h>
 
+#ifdef linux
 #include <linux/soundcard.h>
+#endif
+
 #include <sys/ioctl.h>
 
 #include <stdio.h>

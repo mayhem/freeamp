@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: L3.h,v 1.2 1999/03/19 19:49:18 elrod Exp $
+	$Id: L3.h,v 1.3 1999/04/20 01:42:10 dogcow Exp $
 ____________________________________________________________________________*/
 
 /****  L3.h  ***************************************************
@@ -43,6 +43,10 @@ ____________________________________________________________________________*/
 
 #ifdef _M_ALPHA
 #define LITTLE_ENDIAN 1
+#endif
+
+#ifdef sparc
+#define LITTLE_ENDIAN 0
 #endif
 
 #ifndef LITTLE_ENDIAN

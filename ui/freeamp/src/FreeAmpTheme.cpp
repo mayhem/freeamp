@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.117 2000/05/25 10:59:47 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.118 2000/05/25 17:25:37 ksteinbe Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1418,9 +1418,9 @@ void FreeAmpTheme::ReloadTheme(void)
 
     szTemp = new char[iLen];
 
-    eRet = m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
-
-    if (_stat(szTemp, &buf) < 0 && strlen(szTemp) > 0)
+    m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
+    
+    if (_stat(szTemp, &buf) < 0 && strlen(szTemp) < 1)
     {
        // If the theme doesn't exist, let's try to prepend the install/theme dir
        char   *dir;

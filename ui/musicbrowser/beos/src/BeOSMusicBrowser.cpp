@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: BeOSMusicBrowser.cpp,v 1.3 2000/03/28 11:30:52 hiro Exp $
+        $Id: BeOSMusicBrowser.cpp,v 1.4 2000/07/10 04:27:06 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "BeOSMusicBrowser.h"
@@ -310,6 +310,7 @@ BeOSMusicBrowser::MessageReceived( BMessage* message )
             m_playlistView->SetCurrentlyPlaying(
                                 message->FindInt32( "index" ) );
             break;
+#if 0
         case MBMSG_PLAYLIST_ITEM_UPDATED:
         {
             PlaylistItemUpdatedEvent* piue;
@@ -320,6 +321,7 @@ BeOSMusicBrowser::MessageReceived( BMessage* message )
             }
             break;
         }
+#endif
         case MBMSG_PLAYLIST_SORTED:
         {
             PlaylistSortedEvent* pse;

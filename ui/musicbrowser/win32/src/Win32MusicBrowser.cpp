@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.37 1999/12/16 03:06:31 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.38 1999/12/16 09:02:54 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -283,12 +283,7 @@ void MusicBrowserUI::MusicSearchDone()
     HMENU        hMenu;
     MENUITEMINFO sItem;
     
-    if (m_bSearchInProgress)
-        SendMessage(m_hStatus, SB_SETTEXT, 0, 
-                    (LPARAM)"Music search completed.");
-    else                
-        SendMessage(m_hStatus, SB_SETTEXT, 0, 
-                    (LPARAM)"Music search interrupted -- your database may be incomplete.");
+    SendMessage(m_hStatus, SB_SETTEXT, 0, (LPARAM)"Music search completed.");
 
     hMenu = GetMenu(m_hWnd);
     hMenu = GetSubMenu(hMenu, 0);
@@ -299,10 +294,9 @@ void MusicBrowserUI::MusicSearchDone()
     sItem.cch = strlen(sItem.dwTypeData);
     SetMenuItemInfo(hMenu, ID_FILE_SEARCHFORMUSIC, false, &sItem);
                     
-    SetWindowText(GetDlgItem(m_hWnd, IDC_SEARCH), "Music Search");
     m_bSearchInProgress = false;
                 
-    InitTree();
+    //InitTree();
     TreeView_Expand(GetDlgItem(m_hWnd, IDC_MUSICTREE), 
                     m_hPlaylistItem, TVE_EXPAND);
     TreeView_Expand(GetDlgItem(m_hWnd, IDC_MUSICTREE), 

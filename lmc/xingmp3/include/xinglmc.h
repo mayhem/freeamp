@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.h,v 1.13 1998/11/08 01:20:01 jdw Exp $
+	$Id: xinglmc.h,v 1.14 1999/01/17 22:20:39 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -99,6 +99,9 @@ public:
     virtual Error InitDecoder();
     virtual const char *GetErrorString(int32);
 
+    virtual Error SetEQData(float *);
+    virtual Error SetEQData(bool);
+
 private:
     static void DecodeWorkerThreadFunc(void *);
     void DecodeWork();
@@ -132,6 +135,11 @@ private:
     Thread*                 m_decoderThread;
 
     int32                   m_frameCounter;
+
+    bool m_enableEQ;
+    float m_equalizer[32];
+
+
 };
 
 #endif /* _XINGLMC_H */

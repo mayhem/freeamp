@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.38 1999/01/17 19:15:20 jdw Exp $
+	$Id: xinglmc.cpp,v 1.39 1999/01/17 22:20:39 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -314,6 +314,8 @@ XingLMC()
     m_frameCounter = 0;
     m_frameWaitTill = 0;
     actually_decode = 0;
+    for(int i=0;i<32;i++) m_equalizer[i] = 1.0;
+    m_enableEQ = false;
 }
 
 XingLMC::~XingLMC() {
@@ -600,27 +602,19 @@ Error XingLMC::ChangePosition(int32 position) {
 
 #define	_EQUALIZER_ENABLE_
 #ifdef	_EQUALIZER_ENABLE_
-extern "C" {
-float equalizer[32] = {
-	1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-	1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-	1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-	1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-};
-int enableEQ = false;
-}
+
 Error XingLMC::SetEQData(float *arrayEQ) {
     ENSURE_INITIALIZED;
     Error error = kError_NoErr;
 	for(int i=0; i<32; i++)
-		equalizer[i] = arrayEQ[i];
+		m_equalizer[i] = arrayEQ[i];
 	return error;
 }
 
 Error XingLMC::SetEQData(bool enable) {
     ENSURE_INITIALIZED;
     Error error = kError_NoErr;
-	enableEQ = enable;
+	m_enableEQ = enable;
 	return error;
 }
 #endif	//_EQUALIZER_ENABLE_

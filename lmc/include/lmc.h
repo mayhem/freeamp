@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.11 1998/11/08 01:20:01 jdw Exp $
+	$Id: lmc.h,v 1.12 1999/01/17 22:20:39 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
@@ -49,6 +49,9 @@ class LogicalMediaConverter {
     virtual Error SetPMO(PhysicalMediaOutput *) = 0;
     virtual Error SetTarget(EventQueue *) = 0;
     virtual Error InitDecoder() = 0;
+
+    virtual Error SetEQData(float *) = 0;
+    virtual Error SetEQData(bool) = 0;
 
     virtual const char *GetErrorString(int32 /*error*/) = 0;
 };

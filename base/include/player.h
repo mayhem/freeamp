@@ -18,14 +18,14 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.63 2000/08/30 20:00:33 ijr Exp $
+        $Id: player.h,v 1.64 2000/09/20 11:03:51 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
 #define INCLUDED_PLAYER_H_
 
 #include <vector>
-
+#include <map>
 using namespace std;
 
 #include "config.h"
@@ -212,7 +212,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     int32     m_argc;
     char    **m_argv;
 
-    HashTable<RegistryItem *> *m_lmcExtensions;
+    map<string, RegistryItem *> *m_lmcExtensions;
 
     MusicCatalog *m_musicCatalog;
     UserInterface *m_browserUI;

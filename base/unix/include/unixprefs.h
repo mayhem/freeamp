@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: unixprefs.h,v 1.5 1999/12/09 07:37:56 ijr Exp $
+	$Id: unixprefs.h,v 1.6 2000/09/20 11:03:51 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -27,6 +27,7 @@ ____________________________________________________________________________*/
 #define INCLUDED_UNIXPREFS_H
 
 #include <vector>
+#include <map>
 using namespace std;
 
 #include "config.h"
@@ -34,12 +35,11 @@ using namespace std;
 #include "preferences.h"
 #include "win32impl.h"
 #include "mutex.h"
-#include "hashtable.h"
 
 class UnixPrefEntry
 {
  public:
-    UnixPrefEntry() : prefix(0), key(0), separator(0), value(0), suffix(0) { }
+    UnixPrefEntry();
     ~UnixPrefEntry();
 
     char *prefix;	// Preceeding comments and indentation
@@ -83,7 +83,7 @@ class UnixPrefs : public Preferences
     bool m_saveEnable, m_changed;
 
     vector<UnixPrefEntry *> m_entries;
-    HashTable<UnixPrefEntry *> m_ht;
+    map<string, UnixPrefEntry *> m_ht;
 };
 
 #endif /* _UNIXPREFS_H */

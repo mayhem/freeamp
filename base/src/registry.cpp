@@ -18,12 +18,19 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.cpp,v 1.10 1999/10/19 07:12:47 elrod Exp $
+	$Id: registry.cpp,v 1.11 2000/09/20 11:03:51 ijr Exp $
 ____________________________________________________________________________*/
+
+#ifdef WIN32
+#include <windows.h>
+#else
+#include "win32impl.h"
+#endif
 
 #include <iostream>
 #include "registry.h"
 
+using namespace std;
 
 Registry::Registry()
 {
@@ -32,10 +39,14 @@ Registry::Registry()
 
 Registry::~Registry()
 {
+#ifndef WIN32
     uint32 count = m_elements.size();
 
-    for(uint32 i = 0; i < count; i++)
+    for(uint32 i = 0; i < count; i++) {
+        FreeLibrary(m_elements[i]->Module());
         delete m_elements[i];
+    }
+#endif
 }
 
 void Registry::AddItem(RegistryItem* item)

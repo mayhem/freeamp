@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.28 2000/08/30 09:20:53 ijr Exp $
+	$Id: bootstrap.cpp,v 1.29 2000/09/20 11:03:51 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -38,7 +38,6 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "ui.h"
 #include "list.h"
-#include "hashtable.h"
 #include "semaphore.h"
 #include "registrar.h"
 #include "facontext.h"

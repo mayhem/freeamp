@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.h,v 1.4 2000/02/09 21:21:27 elrod Exp $
+	$Id: irmanui.h,v 1.5 2000/09/20 11:03:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_IRManUI_H_
@@ -28,7 +28,9 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "thread.h"
 #include "playlist.h"
-#include "hashtable.h"
+
+#include <map>
+using namespace std;
 
 #define DEFAULT_DEVICE "/dev/irman"
 
@@ -46,7 +48,7 @@ class IRManUI : public UserInterface {
     FAContext *m_context;
 
  private:
-    HashTable<int32 *> m_commands;
+    map<string, int32>  m_commands;
     bool m_quitIRListen;
     Properties *m_propManager;
     int32 m_startupType;

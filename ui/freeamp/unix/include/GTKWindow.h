@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.10 2000/03/28 01:34:54 elrod Exp $
+   $Id: GTKWindow.h,v 1.10.4.1 2000/05/11 18:55:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKWINDOW__H_
@@ -56,6 +56,7 @@ class GTKWindow : public Window
      virtual bool  LButtonDown(void);    
      virtual Error GetDesktopSize(int32 &iX, int32 &iY);
      virtual void  BringWindowToFront(void);
+     virtual void  PanelStateChanged(void);
 
      GtkWidget *GetWindow(void) { return mainWindow; }
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.108 2000/05/09 10:21:02 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.108.2.1 2000/05/11 18:55:58 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -869,6 +869,11 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
       
        m_pWindow->ControlStringValue(oName, true, oEmpty);
                                 
+       return kError_NoErr;
+   }
+   if (eMesg == CM_TogglePanel)
+   {
+       m_pWindow->PanelStateChanged();
        return kError_NoErr;
    }
    if (oControlName == string("Minimize") && eMesg == CM_Pressed)
@@ -1912,19 +1917,3 @@ void FreeAmpTheme::OptionsThread(uint32 defaultPage)
    
     m_bInOptions = false;
 }
-
-const char *pThemes[] = 
-{
-    "/home/robert/FreeAmp/freeamp/themes/Aquatica.fat",
-    "/home/robert/FreeAmp/freeamp/themes/EMusic.fat",
-    "/home/robert/FreeAmp/freeamp/themes/FreeAmp.fat",
-    "/home/robert/FreeAmp/freeamp/themes/FreeAmpClassic.fat",
-    "/home/robert/FreeAmp/freeamp/themes/Minimalist.fat",
-    "/home/robert/FreeAmp/freeamp/themes/Visions.fat",
-    "/home/robert/FreeAmp/freeamp/themes/cchiphop.fat",
-    "/home/robert/FreeAmp/freeamp/themes/ccpolarbear.fat",
-    "/home/robert/FreeAmp/freeamp/themes/ccstompola.fat",
-    "/home/robert/FreeAmp/freeamp/themes/glass.fat",
-    "\0"
-};
-

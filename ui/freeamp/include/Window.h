@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.23.4.1 2000/05/10 18:32:22 robert Exp $
+   $Id: Window.h,v 1.23.4.2 2000/05/11 18:55:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -59,11 +59,13 @@ struct Panel
         memset(&m_oClosedRect, 0, sizeof(Rect));
         memset(&m_oOffset, 0, sizeof(Pos));
         m_pOpenBitmap = m_pClosedBitmap = NULL;
+        m_bIsOpen = false;
     };
     string  m_oName;
     Rect    m_oOpenRect, m_oClosedRect;
     Pos     m_oOffset;
     Bitmap *m_pOpenBitmap, *m_pClosedBitmap;
+    bool    m_bIsOpen;
 };
 
 class Window
@@ -81,6 +83,8 @@ class Window
       bool    MenuCommand(uint32 uCommand);
       void    VolumeChanged(void);
       void    EnableTimer(bool bEnable);
+ 
+      // Panel related functions
       void    AddPanel(Panel *pPanel);
 
       virtual void SetStayOnTop(bool bStay);
@@ -136,6 +140,7 @@ class Window
       virtual bool  LButtonDown(void) = 0;
       virtual Error GetDesktopSize(int32 &iX, int32 &iY) = 0;
       virtual void  BringWindowToFront(void) = 0;
+      virtual void  PanelStateChanged(void);
       
       // Mouse position is in screen coordinates
       virtual Error SetMousePos(Pos &oMousePos) = 0;

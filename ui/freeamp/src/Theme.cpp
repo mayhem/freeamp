@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.39.4.1 2000/05/10 18:32:22 robert Exp $
+   $Id: Theme.cpp,v 1.39.4.2 2000/05/11 18:55:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -336,7 +336,6 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
           // Now the window lists have been properly adjusted, so
           // adopt all the info from the new window into the existing
           // window via the VulcanMindLink 
-          printf("VMM::Window %p\n", m_pWindow);
           m_pWindow->VulcanMindMeld(pNewWindow);
           // And if god doesn't stike me down right now,
           // everything *should* be fine.
@@ -506,6 +505,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        {
            string oBitmapErr;
 
+DB
            pBitmap->GetErrorString(oBitmapErr);
            m_oLastError = string("Cannot load bitmap ") +
                           oAttrMap["File"] + string(": ") + oBitmapErr;
@@ -644,6 +644,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        }        
 
        m_pCurrentPanel = new Panel;
+       m_pCurrentPanel->m_oName = oAttrMap["Name"];
        return kError_NoErr;
     }
 
@@ -680,11 +681,12 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        {
            m_oLastError = string("Undefined bitmap ") +
                           oAttrMap["Name"] +
-                          string(" in tag <Opened>");
+                          string(" in tag <Open>");
            return kError_InvalidParam;
        }
        m_pCurrentPanel->m_oOpenRect = oRect;
        m_pCurrentPanel->m_pOpenBitmap = pBitmap;
+       return kError_NoErr;
     }
     if (oElement == string("Closed"))
     {
@@ -733,6 +735,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        m_pCurrentPanel->m_oClosedRect = oRect;
        m_pCurrentPanel->m_oOffset = oPos;
        m_pCurrentPanel->m_pClosedBitmap = pBitmap;
+       return kError_NoErr;
     }
 
     if (oElement == string("Controls"))
@@ -1515,6 +1518,8 @@ Error Theme::EndElement(string &oElement)
     if (oElement == string("Bitmap") ||
         oElement == string("BackgroundBitmap") ||
         oElement == string("TogglePanel") ||
+        oElement == string("Open") ||
+        oElement == string("Closed") ||
         oElement == string("Font") ||
         oElement == string("ChangeWindow") ||
         oElement == string("ThemeInfo") ||

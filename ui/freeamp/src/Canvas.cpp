@@ -18,15 +18,17 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.3 1999/10/22 16:22:16 ijr Exp $
+   $Id: Canvas.cpp,v 1.3.16.1 2000/05/11 18:55:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "Canvas.h"
+#include "Window.h"
 #include "debug.h"
 
 Canvas::Canvas(void)
 {
     m_pBGBitmap = NULL;
+    m_pCompleteBGBitmap = NULL;
     m_pMaskBitmap = NULL;
 }
 
@@ -42,7 +44,9 @@ void Canvas::SetBackgroundRect(Rect &oRect)
 void Canvas::SetBackgroundBitmap(Bitmap *pBitmap)
 {
     delete m_pBGBitmap;
-    m_pBGBitmap = pBitmap;
+    delete m_pCompleteBGBitmap;
+    m_pCompleteBGBitmap = pBitmap;
+    m_pBGBitmap = NULL;
 }
 
 void Canvas::SetMaskBitmap(Bitmap *pBitmap)
@@ -59,5 +63,43 @@ void Canvas::GetBackgroundRect(Rect &oRect)
 Bitmap *Canvas::GetBackgroundBitmap(void)
 {
     return m_pBGBitmap;
+}
+
+void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
+{
+    vector<Panel *>::iterator i;
+    Rect                      oDestRect;
+
+    if (m_pCompleteBGBitmap == NULL)
+       return;
+
+    if (pPanels->size() == 0)
+    {
+        m_pBGBitmap = m_pCompleteBGBitmap;
+        m_pCompleteBGBitmap = NULL;
+        return;
+    }
+
+    m_pBGBitmap = m_pCompleteBGBitmap->Clone();
+    for(i = pPanels->begin(); i != pPanels->end(); i++)
+    {
+        if (!(*i)->m_bIsOpen)
+        {
+            m_pBGBitmap->MakeTransparent((*i)->m_oOpenRect);
+            if ((*i)->m_pClosedBitmap)
+            {
+                oDestRect.x1 = (*i)->m_oOffset.x;
+                oDestRect.y1 = (*i)->m_oOffset.y;
+                oDestRect.x2 = oDestRect.x1 + (*i)->m_oClosedRect.Width();
+                oDestRect.y2 = oDestRect.y1 + (*i)->m_oClosedRect.Height();
+                m_pBGBitmap->BlitRect((*i)->m_pClosedBitmap, 
+                                      (*i)->m_oClosedRect,
+                                      oDestRect);
+                m_pBGBitmap->BlitRectMaskBitmap((*i)->m_pClosedBitmap, 
+                                                (*i)->m_oClosedRect,
+                                                oDestRect);
+            }
+        }
+    }
 }
 

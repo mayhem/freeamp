@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.12 2000/01/04 19:07:53 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.12.14.1 2000/05/11 18:55:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <assert.h>
@@ -47,12 +47,12 @@ Win32Bitmap::Win32Bitmap(int iWidth, int iHeight, const string &oName)
 
    m_iHeight = iHeight;
    m_iWidth = iWidth;
-   m_hMaskBitmap = NULL;
 
    hDc = GetDC(NULL);
    if (GetDeviceCaps(hDc, RASTERCAPS) & RC_PALETTE)
    {
        m_hBitmap = CreateBitmap(iWidth, iHeight, 1, 8, NULL);
+       m_hMaskBitmap = CreateBitmap(iWidth, iHeight, 1, 1, NULL);
    }
    else
    {
@@ -70,6 +70,9 @@ Win32Bitmap::Win32Bitmap(int iWidth, int iHeight, const string &oName)
 
        m_hBitmap = CreateDIBSection(hDc, &sBitmapInfo, DIB_RGB_COLORS, 
                                     (void **)&m_pBitmapData, NULL, NULL);
+       sBitmapInfo.bmiHeader.biBitCount = 1;
+       m_hMaskBitmap = CreateDIBSection(hDc, &sBitmapInfo, DIB_RGB_COLORS, 
+                                    (void **)&m_pMaskBitmapData, NULL, NULL);
    }       
    ReleaseDC(NULL, hDc);
 }
@@ -184,12 +187,12 @@ void Win32Bitmap::CreateMaskBitmap(void)
        }   
 
        memset(pMaskData, 0x00, (sInfo.bmWidth / 8) + 4);
-   	   for(iCol = 0, pColorPtr = (Color *)pData; 
+       for(iCol = 0, pColorPtr = (Color *)pData; 
            iCol < sInfo.bmWidth; iCol++, pColorPtr++)
        {    
-   		  if (pColorPtr->red != m_oTransColor.blue ||
-   		      pColorPtr->green != m_oTransColor.green ||
-   		      pColorPtr->blue != m_oTransColor.red)
+          if (pColorPtr->red != m_oTransColor.blue ||
+              pColorPtr->green != m_oTransColor.green ||
+              pColorPtr->blue != m_oTransColor.red)
           {
              pMaskData[iCol / 8] |= (0x80 >> (iCol % 8));
           }   
@@ -249,12 +252,6 @@ Error Win32Bitmap::BlitRect(Bitmap *pOther, Rect &oSrcRect,
    DeleteObject(SelectObject(hSrcDC, pSrcBitmap->m_hBitmap));
    DeleteObject(SelectObject(hDestDC, m_hBitmap));
 
-//   if (m_hPal)
-//   {
-//      SelectPalette(hDestDC, m_hPal, false);
-//      SelectPalette(hSrcDC, m_hPal, false);
-//   }   
-
    BitBlt(hDestDC, oDestRect.x1, oDestRect.y1, 
                  oDestRect.Width(), oDestRect.Height(),
                  hSrcDC, oSrcRect.x1, oSrcRect.y1, SRCCOPY);
@@ -272,7 +269,7 @@ Error Win32Bitmap::MaskBlitRect(Bitmap *pOther, Rect &oSrcRect,
    Win32Bitmap *pSrcBitmap = (Win32Bitmap *)pOther;
 
    if (!pSrcBitmap->m_hMaskBitmap)
-   	  return BlitRect(pOther, oSrcRect, oDestRect);
+      return BlitRect(pOther, oSrcRect, oDestRect);
    
    if (pSrcBitmap->m_hBitmap == NULL)
       return kError_UnknownErr;
@@ -305,6 +302,32 @@ Error Win32Bitmap::MaskBlitRect(Bitmap *pOther, Rect &oSrcRect,
    return kError_NoErr;
 }
 
+Error Win32Bitmap::BlitRectMaskBitmap(Bitmap *pOther, Rect &oSrcRect, 
+                                      Rect &oDestRect)
+{
+   HDC hRootDC, hSrcDC, hDestDC;
+   Win32Bitmap *pSrcBitmap = (Win32Bitmap *)pOther;
+ 
+   if (pSrcBitmap->m_hMaskBitmap == NULL)
+      return kError_UnknownErr;
+
+   hRootDC = GetDC(NULL);
+   hSrcDC = CreateCompatibleDC(hRootDC);
+   hDestDC = CreateCompatibleDC(hRootDC);
+   ReleaseDC(NULL, hRootDC);
+   
+   DeleteObject(SelectObject(hSrcDC, pSrcBitmap->m_hMaskBitmap));
+   DeleteObject(SelectObject(hDestDC, m_hMaskBitmap));
+
+   BitBlt(hDestDC, oDestRect.x1, oDestRect.y1, 
+                 oDestRect.Width(), oDestRect.Height(),
+                 hSrcDC, oSrcRect.x1, oSrcRect.y1, SRCCOPY);
+   
+   DeleteDC(hSrcDC);
+   DeleteDC(hDestDC);
+
+   return kError_NoErr;
+}
 void Win32Bitmap::UpdateHistogram(WORD *pHist)
 {
    BITMAP      sInfo;
@@ -344,12 +367,12 @@ void Win32Bitmap::UpdateHistogram(WORD *pHist)
           break;
        }   
 
-   	   for(iCol = 0, pColorPtr = (Color *)pData; 
+       for(iCol = 0, pColorPtr = (Color *)pData; 
            iCol < sInfo.bmWidth; iCol++, pColorPtr++)
        {    
-   		  if (pColorPtr->red != m_oTransColor.blue ||
-   		      pColorPtr->green != m_oTransColor.green ||
-   		      pColorPtr->blue != m_oTransColor.red)
+          if (pColorPtr->red != m_oTransColor.blue ||
+              pColorPtr->green != m_oTransColor.green ||
+              pColorPtr->blue != m_oTransColor.red)
                pHist[mcRGB(pColorPtr->blue, pColorPtr->green, pColorPtr->red)]++;
               
        }      
@@ -404,7 +427,7 @@ void Win32Bitmap::ConvertTo256Color(WORD            *pHist,
           break;
        }   
 
-   	   for(iCol = 0, pColorPtr = (Color *)pData; 
+       for(iCol = 0, pColorPtr = (Color *)pData; 
            iCol < sInfo.bmWidth; iCol++, pColorPtr++, pDest++)
        {
           *pDest = pHist[mcRGB(pColorPtr->blue, pColorPtr->green, pColorPtr->red)] + 10;
@@ -435,4 +458,46 @@ void Win32Bitmap::SetPalette(HPALETTE hPal)
        DeleteObject(m_hPal);
        
    m_hPal = hPal;
+}
+
+Win32Bitmap *Win32Bitmap::Clone(void)
+{
+   Win32Bitmap *pTemp;
+   Rect         oRect;
+
+   pTemp = new Win32Bitmap(m_iWidth, m_iHeight, m_oName);
+   pTemp->m_oTransColor = m_oTransColor;
+   pTemp->m_bHasTransColor = m_bHasTransColor;
+   oRect.x1 = oRect.y1 = 0;
+   oRect.x2 = m_iWidth;
+   oRect.y2 = m_iHeight;
+   pTemp->BlitRect(this, oRect, oRect);
+   pTemp->BlitRectMaskBitmap(this, oRect, oRect);
+
+   return pTemp;
+}
+
+Error Win32Bitmap::MakeTransparent(Rect &oRect)
+{
+   HDC    hRootDC, hDC;
+   RECT   sRect;
+   HBRUSH hBrush;
+ 
+   if (m_hMaskBitmap == NULL)
+      return kError_UnknownErr;
+
+   hRootDC = GetDC(NULL);
+   hDC = CreateCompatibleDC(hRootDC);
+   ReleaseDC(NULL, hRootDC);
+
+   sRect.left = oRect.x1;
+   sRect.right = oRect.x2;
+   sRect.top = oRect.y1;
+   sRect.bottom = oRect.y2;
+   
+   SelectObject(hDC, m_hMaskBitmap);
+   FillRect(hDC, &sRect, GetStockObject(BLACK_BRUSH));
+   DeleteDC(hDC);
+
+   return kError_NoErr;
 }

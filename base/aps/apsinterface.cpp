@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.29 2000/09/22 07:12:42 ijr Exp $
+        $Id: apsinterface.cpp,v 1.30 2000/09/22 10:49:59 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -222,9 +222,8 @@ int APSInterface::APSGetSoundsLike(APSPlaylist *pSeedList,
     if (strUID.empty())
         strUID = "NOT_OPTED_IN1111"; // 16 char aggregate query id
 
-    vector<pair<string, float> > *blah;
-    int nRes = m_pYpClient->GetSoundsLike(*pReturnList, *pSeedList, nMaxItems,
-                                       strUID, m_strCollectionID);
+    int nRes = m_pYpClient->SoundsLike(*pReturnList, *pSeedList, 
+                                       m_strCollectionID);
 
     m_pMutex->Release();
 
@@ -350,7 +349,7 @@ int APSInterface::APSGetStreams(vector<pair<string, string> >* pResultList)
     if (strUID.empty()) 
         strUID = "NOT_OPTED_IN1111";        // 16 char aggregate query id
        
-    int nRes = m_pYpClient->GetStreams(*pResultList, strUID);
+    int nRes = m_pYpClient->GetStreams(*pResultList, strUID, m_strCollectionID);
        
     fstream fout("test.txt", ios_base::in | ios_base::out | ios_base::app);
     fout << "GetStream returned: " << nRes << " and filled in " <<

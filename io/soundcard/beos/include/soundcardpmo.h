@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.3.4.1 1999/09/09 02:42:08 elrod Exp $
+	$Id: soundcardpmo.h,v 1.3.4.2 1999/10/01 04:52:19 hiro Exp $
 ____________________________________________________________________________*/
 
 
@@ -109,6 +109,7 @@ private:
 	size_t					m_dataSize;
 	Semaphore				m_eventSem;
 	BLocker					m_pauseLock;
+    bigtime_t               m_timeBase;
 #if DEBUG_SAVE_PCM
 	FILE*					m_pcmSaveFile;
 #endif

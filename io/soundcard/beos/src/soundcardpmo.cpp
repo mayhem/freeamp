@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.4 1999/08/06 07:18:33 elrod Exp $
+	$Id: soundcardpmo.cpp,v 1.4.2.1 1999/10/01 04:52:20 hiro Exp $
 ____________________________________________________________________________*/
 
 #define DEBUG 0
@@ -58,7 +58,8 @@ SoundCardPMO::SoundCardPMO( FAContext* context )
 	m_player( NULL ),
 	m_dataSize( 0 ),
 	m_eventSem( "EventSem" ),
-	m_pauseLock( "pause lock" )
+	m_pauseLock( "pause lock" ),
+    m_timeBase( 0 )
 {
 	PRINT(( "SoundCardPMO::ctor\n" ));
 	m_properlyInitialized = false;
@@ -117,7 +118,8 @@ int32
 SoundCardPMO::GetVolume( void )
 {
 	PRINT(( "SoundCardPMO::GetVolume\n" ));
-	int32	volume = 0;
+    if ( !m_player ) return 0;
+	int32 volume = int32( m_player->Volume() * 100.0 );
 	return volume;
 }
 
@@ -125,6 +127,10 @@ void
 SoundCardPMO::SetVolume( int32 volume )
 {
 	PRINT(( "SoundCardPMO::SetVolume\n" ));
+    if ( m_player )
+    {
+        m_player->SetVolume( float( volume ) / 100.0 );
+    }
 }
 
 void
@@ -137,6 +143,7 @@ SoundCardPMO::Pause( void )
 
 	if ( m_player )
 	{
+        m_timeBase += m_player->CurrentTime();
 		m_player->SetHasData( false );
 		m_player->Stop();
 	}
@@ -297,7 +304,19 @@ SoundCardPMO::Reset( bool user_stop )
 void
 SoundCardPMO::HandleTimeInfoEvent( PMOTimeInfoEvent* pEvent )
 {
-	printf( "SoundCardPMO::HandleTimeInfoEvent: FIXME\n" );
+    int32 hours, minutes, seconds, total;
+    MediaTimeInfoEvent* mtie;
+	PRINT(( "SoundCardPMO::HandleTimeInfoEvent: FIXME\n" ));
+
+    if ( !m_player ) return;
+
+    total = ( m_player->CurrentTime() + m_timeBase ) / 1000000;
+
+    hours = total / 3600;
+    minutes = (total / 60) % 60;
+    seconds = total % 60;
+    mtie = new MediaTimeInfoEvent( hours, minutes, seconds, 0, total, 0 );
+    m_pTarget->AcceptEvent( mtie );
 }
 
 void
@@ -513,6 +532,7 @@ SoundCardPMO::Player(
 			case PMO_Info:
 				//PRINT(( "SoundCardPMO::Player: PMO_Info recv'd\n" ));
 				event = eb->GetEvent();
+                HandleTimeInfoEvent( (PMOTimeInfoEvent*)event );
 				delete event;
 				break;
 			case PMO_Quit:

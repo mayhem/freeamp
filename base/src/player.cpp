@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.253 2001/01/05 21:59:59 robert Exp $
+        $Id: player.cpp,v 1.254 2001/01/28 04:50:20 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1285,17 +1285,6 @@ GetExtension(const char *title)
    char *ext_return = NULL;
    char *proto = NULL;
 
-   proto = GetProtocol(title);
-
-   if (IsSupportedProtocol(proto) && (strncasecmp(proto, "file", 4) != 0))
-   {
-       ext_return = new char[4];
-       strcpy(ext_return, "MP3");
-       return ext_return;
-   }
-   if (proto)
-       delete proto;
-
    temp_ext = strrchr(title, '.');
    if (temp_ext)
    {
@@ -1308,6 +1297,21 @@ GetExtension(const char *title)
          p++;
       }
    }
+
+   if (!IsSupportedExtension(ext_return))
+   {
+       delete [] ext_return;
+       proto = GetProtocol(title);
+ 
+       if (IsSupportedProtocol(proto) && (strncasecmp(proto, "file", 4) != 0))
+       {
+           ext_return = new char[4];
+           strcpy(ext_return, "MP3");
+       }
+       if (proto)
+           delete [] proto;
+   }
+
    return ext_return;
 }
 
@@ -1666,8 +1670,10 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
 
    lmc_item = ChooseLMC(pc->URL().c_str());
    if (!lmc_item) 
+   {
    // FIXME: Should probably have a user definable default LMC
       lmc_item = ChooseLMC("blah.mp3");
+   }
 
    if (pmi_item)
    {
@@ -1688,7 +1694,7 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
                }
            }
        }
-       delete extension;
+       delete [] extension;
    }
 
    if (!item) {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.22 2000/10/05 11:47:33 ijr Exp $
+        $Id: httpinput.h,v 1.22.2.1 2000/10/24 09:46:11 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_HTTPINPUT_H_
@@ -90,6 +90,9 @@ protected:
    static  void       StartWorkerThread(void *);
    void               LogError(char *);
    TitleStreamServer *m_pTitleStream;
+   int                WriteData(char *, int, char **);
+   int                ReopenFile(char *);
+   int                OpenPlaylist(char *);
 #ifdef WIN32
    Error              Win32GetHostByName(char *szHostName, struct hostent *pHostInfo);
 #endif
@@ -101,11 +104,21 @@ private:
    Thread         *m_pBufferThread;
    bool            m_bLoop, m_bDiscarded;
    FILE           *m_fpSave;
+   FILE           *m_fpPlaylist;
    char           *m_szError;
    bool            m_bUseProxy, m_bIsStreaming;
    char            m_szProxyHost[iMaxUrlLen];
    bool            m_bUseBufferReduction;
    int             m_uBytesReceived;
+   int             m_Mode;
+   bool            m_bSave;
+   bool            m_bSplit;
+   int             m_bSongOnlyOnce;
+   char           *m_CurrentFile;
+   unsigned char   m_HeadBuf[4];
+#define MODE_HUNT	1
+#define MODE_FRAME	2
+   int             m_Len;
 #ifdef WIN32
    HWND            m_hWnd;
 #endif

@@ -19,7 +19,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.49 2000/10/10 17:25:31 robert Exp $
+        $Id: AUTHORS,v 1.49.2.1 2000/10/24 09:46:11 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -169,3 +169,6 @@ Michael Rich <istan@alltel.net>
 
 "Stephen Frost" <sfrost@snowman.net>
 * irix and solaris porting efforts
+
+"Arne Jansen" <arne@die-jansens.de>
+* shoutcast stream splitting

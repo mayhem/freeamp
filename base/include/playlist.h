@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.2 1999/08/23 19:18:39 elrod Exp $
+	$Id: playlist.h,v 1.40.4.3 1999/08/23 23:04:16 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -69,9 +69,11 @@ typedef enum {
 } PlaylistSortKey;
 
 typedef enum {
-    kPlaylistKey_MasterPlaylist,
+    kPlaylistKey_FirstKey,
+    kPlaylistKey_MasterPlaylist = kPlaylistKey_FirstKey,
     kPlaylistKey_ExternalPlaylist,
-    kPlaylistKey_PortablePlaylist
+    kPlaylistKey_PortablePlaylist,
+    kPlaylistKey_LastKey
 
 } PlaylistKey;
 

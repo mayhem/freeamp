@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.42 2000/07/31 19:51:39 ijr Exp $
+   $Id: xinglmc.h,v 1.43 2000/08/24 14:37:05 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -112,7 +112,7 @@ class     XingLMC:public LogicalMediaConverter
    virtual Error Prepare(PullBuffer *pInputBuffer, PullBuffer *&pOutBuffer);
    virtual Error InitDecoder();
 
-   virtual Error SetEQData(float *);
+   virtual Error SetEQData(float *, float);
    virtual Error SetEQData(bool);
 
    virtual Error SetDecodeInfo(DecodeInfo &info);

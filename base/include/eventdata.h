@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.62 2000/08/21 08:05:22 ijr Exp $
+        $Id: eventdata.h,v 1.63 2000/08/24 14:37:05 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -499,6 +499,7 @@ class     SetEqualizerDataEvent:public Event
       float    *m_eq;
       bool      m_enable;
       bool      m_IsEQData;
+      float     m_preamp;
 
    public:
 
@@ -508,11 +509,12 @@ class     SetEqualizerDataEvent:public Event
       m_enable = enable;
       m_IsEQData = false;
    }
-   SetEqualizerDataEvent(float *eq)
+   SetEqualizerDataEvent(float *eq, float preamp)
    {
       m_type = CMD_SetEQData;
       m_eq = eq;
       m_IsEQData = true;
+      m_preamp = preamp;
    }
    float    *GetEQData()
    {
@@ -521,6 +523,10 @@ class     SetEqualizerDataEvent:public Event
    bool      IsEQData()
    {
       return m_IsEQData;
+   }
+   float     GetPreamp()
+   {
+      return m_preamp;
    }
    bool      GetEnableState()
    {

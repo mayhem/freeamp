@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupl3.c,v 1.11 2000/07/31 19:51:39 ijr Exp $
+	$Id: cupl3.c,v 1.12 2000/08/24 14:37:05 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cupL3.c  ***************************************************
@@ -622,6 +622,11 @@ static int unpack_side_MPEG2(int igr)
 /* return  bytes in header + side info */
    return side_bytes;
 }
+
+extern float equalizer[32];
+extern float EQ_gain_adjust;
+extern int enableEQ; 
+
 /*-----------------------------------------------------------------*/
 static void unpack_main(unsigned char *pcm, int igr)
 {
@@ -648,6 +653,10 @@ static void unpack_main(unsigned char *pcm, int igr)
       else
 	 unpack_sf_sub_MPEG2(&sf[igr][ch],
 			 &side_info.gr[igr][ch], is_mode & ch, &is_sf_info);
+
+      if (enableEQ)
+          side_info.gr[igr][ch].global_gain += EQ_gain_adjust;
+
 /*--- huff data ---*/
       n1 = sfBandIndex[0][side_info.gr[igr][ch].region0_count];
       n2 = sfBandIndex[0][side_info.gr[igr][ch].region0_count

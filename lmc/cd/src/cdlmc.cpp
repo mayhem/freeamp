@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: cdlmc.cpp,v 1.5 2000/07/31 19:51:39 ijr Exp $
+   $Id: cdlmc.cpp,v 1.6 2000/08/24 14:37:05 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -99,7 +99,7 @@ Error CDLMC::ChangePosition(int32 position)
    return kError_NoErr;
 }
 
-Error CDLMC::SetEQData(float *arrayEQ) 
+Error CDLMC::SetEQData(float *arrayEQ, float preamp) 
 {
     return kError_NoErr;
 }

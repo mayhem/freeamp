@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.136 2000/08/21 08:05:23 ijr Exp $
+   $Id: xinglmc.cpp,v 1.137 2000/08/24 14:37:05 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -1025,12 +1025,14 @@ float equalizer[32] = {
     1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 };
 int enableEQ = false;
+float EQ_gain_adjust = 1.0;
 	   }
 
-Error XingLMC::SetEQData(float *arrayEQ) {
+Error XingLMC::SetEQData(float *arrayEQ, float preamp) {
     Error error = kError_NoErr;
         for(int i=0; i<32; i++)
                 equalizer[i] = arrayEQ[i];
+        EQ_gain_adjust = preamp;
         return error;
 }
 

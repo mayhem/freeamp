@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.61 2000/08/21 12:26:01 ijr Exp $
+        $Id: player.h,v 1.62 2000/08/24 14:37:05 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -220,7 +220,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
 
     TimerRef m_cdTimer;
     TimerRef m_syncTimer;
-    float    m_eqValues[32];
+    float    m_eqValues[32], m_eqPreamp;
     bool     m_eqEnabled;
 };
 

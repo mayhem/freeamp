@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Equalizer.h,v 1.2 2000/04/25 14:58:35 robert Exp $
+   $Id: Equalizer.h,v 1.3 2000/08/24 14:37:06 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EQUALIZER_H
@@ -46,13 +46,14 @@ class Equalizer
         void SaveSettings(void);
         void InitControls(Window *pWindow);
         void ChangeValue(int sliderNum, int value);
+        void ChangePreamp(int value);
         bool IsEnabled(void);
 
     protected:
 
         FAContext       *m_context;
         bool             m_settingsChanged, m_enabled;
-        float            m_equalizer[32];
+        float            m_equalizer[32], m_preamp;
         int              m_sliders[10];
 };
 

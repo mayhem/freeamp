@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.137 2000/08/18 11:26:12 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.138 2000/08/24 14:37:06 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1313,6 +1313,14 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
 
        m_pWindow->ControlIntValue(oControlName, false, iValue);
        m_eq->ChangeValue(atoi(oControlName.c_str() + 2), iValue); 
+       return kError_NoErr;
+   }
+   if (oControlName == string("Preamp") && eMesg == CM_ValueChanged)
+   {
+       int iValue;
+
+       m_pWindow->ControlIntValue(oControlName, false, iValue);
+       m_eq->ChangePreamp(iValue); 
        return kError_NoErr;
    }
    if (oControlName == string("EqEnable") && eMesg == CM_Pressed)

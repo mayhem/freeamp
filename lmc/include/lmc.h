@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.30 2000/07/31 19:51:39 ijr Exp $
+	$Id: lmc.h,v 1.31 2000/08/24 14:37:05 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_LMC_H_
@@ -69,7 +69,7 @@ class LogicalMediaConverter : public PipelineUnit
     virtual void  SetPMI(PhysicalMediaInput *pmi) { m_pmi = pmi; };
     virtual void  SetPMO(PhysicalMediaOutput *pmo) { m_pmo = pmo; };
 
-    virtual Error SetEQData(float *) = 0;
+    virtual Error SetEQData(float *, float) = 0;
     virtual Error SetEQData(bool) = 0;
 
     virtual Error SetDecodeInfo(DecodeInfo &info) = 0;

@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.h,v 1.3 2000/07/31 19:51:39 ijr Exp $
+   $Id: vorbislmc.h,v 1.4 2000/08/24 14:37:05 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -64,7 +64,7 @@ class VorbisLMC : public LogicalMediaConverter
 
    virtual vector<const char *> *GetExtensions(void);
 
-   virtual Error SetEQData(float *f) { return kError_YouScrewedUp; };
+   virtual Error SetEQData(float *f, float) { return kError_YouScrewedUp; };
    virtual Error SetEQData(bool b) { return kError_YouScrewedUp; };
   
    virtual Error SetDecodeInfo(DecodeInfo &info);

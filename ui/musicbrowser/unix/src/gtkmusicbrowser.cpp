@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.2 1999/09/16 00:03:59 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.3 1999/09/22 15:55:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -34,6 +34,8 @@ char *filereturn = NULL;
 
 void musicbrowserUI::UpdateCatalog(void)
 {
+    m_musicCatalog = m_context->browser->m_catalog;
+
     if (musicBrowserTree) {
         gtk_widget_destroy(musicBrowserTree);
         musicBrowserTree = gtk_tree_new();
@@ -54,7 +56,8 @@ void musicbrowserUI::UpdateCatalog(void)
     gtk_tree_item_set_subtree(GTK_TREE_ITEM(artistSubTree), item_subtree1);
 
     for (; i != m_musicCatalog->m_artistList->end(); i++) {
-        item_new1 = gtk_tree_item_new_with_label((*i)->name);
+
+        item_new1 = gtk_tree_item_new_with_label((char *)(*i)->name.c_str());
         gtk_tree_append(GTK_TREE(item_subtree1), item_new1);
 
         vector<AlbumList *>::iterator j = (*i)->m_albumList->begin();
@@ -62,7 +65,7 @@ void musicbrowserUI::UpdateCatalog(void)
         gtk_tree_item_set_subtree(GTK_TREE_ITEM(item_new1), item_subtree2);
 
         for (; j != (*i)->m_albumList->end(); j++) {
-            item_new2 = gtk_tree_item_new_with_label((*j)->name);
+            item_new2 = gtk_tree_item_new_with_label((char *)(*j)->name.c_str());
             gtk_tree_append(GTK_TREE(item_subtree2), item_new2);
 
             vector<PlaylistItem *>::iterator k = (*j)->m_trackList->begin();
@@ -98,10 +101,10 @@ void musicbrowserUI::UpdateCatalog(void)
     
     item_subtree1 = gtk_tree_new();
     gtk_tree_item_set_subtree(GTK_TREE_ITEM(playlistSubTree), item_subtree1);
-    vector<char *>::iterator m = m_musicCatalog->m_playlists->begin();
+    vector<string>::iterator m = m_musicCatalog->m_playlists->begin();
 
     for (; m != m_musicCatalog->m_playlists->end(); m++) {
-        item_new1 = gtk_tree_item_new_with_label(*m);
+        item_new1 = gtk_tree_item_new_with_label((char *)(*m).c_str());
         gtk_tree_append(GTK_TREE(item_subtree1), item_new1);
         gtk_widget_show(item_new1);
     }

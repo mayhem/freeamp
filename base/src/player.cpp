@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.16 1999/09/21 03:32:29 ijr Exp $
+        $Id: player.cpp,v 1.133.2.17 1999/09/22 15:55:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -119,12 +119,12 @@ EventQueue()
    m_musicBrowser = new MusicBrowser(m_context);
    m_context->browser = m_musicBrowser;
 
-   char *freeampdir = FreeampDir(m_context->prefs);
-   char *tempstr = new char[strlen(freeampdir) + strlen(DIR_MARKER_STR) + 14];
-   sprintf(tempstr, "%s%s%s", freeampdir, DIR_MARKER_STR, "metadatabase");
+   char *tempstr = FreeampDir(m_context->prefs);
+   string freeampdir = tempstr;
+   freeampdir += DIR_MARKER_STR;
+   freeampdir += "metadatabase";
    m_musicBrowser->SetDatabase(tempstr);
    delete tempstr;
-   delete freeampdir;
 }
 
 #define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }
@@ -1557,6 +1557,7 @@ ServiceEvent(Event * pC)
       case INFO_PlaylistRepeat:
       case INFO_PlaylistUpdated:
       case INFO_BufferStatus:
+      case INFO_SearchMusicDone:
            SendEventToUI(pC);
            break;
 

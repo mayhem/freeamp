@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.6 1999/09/17 18:20:18 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.7 1999/09/22 15:55:27 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -28,7 +28,7 @@ ____________________________________________________________________________*/
 #include "win32impl.h"
 #endif
 
-#include <string.h>
+#include <string>
 
 #include "config.h"
 #include "musicbrowser.h"
@@ -41,7 +41,7 @@ MusicCatalog::MusicCatalog()
 {
     m_artistList = new vector<ArtistList *>;
     m_unsorted = new vector<PlaylistItem *>;
-    m_playlists = new vector<char *>;
+    m_playlists = new vector<string>;
 }
 
 MusicCatalog::~MusicCatalog()
@@ -55,52 +55,53 @@ void MusicCatalog::PopulateFromDatabase(MusicBrowser *mb, Database *dbase)
 {
     assert(mb);
     assert(dbase);
-
     delete m_artistList;
     delete m_unsorted;
     delete m_playlists;
 
     m_artistList = new vector<ArtistList *>;
     m_unsorted = new vector<PlaylistItem *>;
-    m_playlists = new vector<char *>;
+    m_playlists = new vector<string>;
  
     char *key = dbase->NextKey(NULL);
     while (key) {
         char *data = dbase->Value(key);
+
+        if (!data)
+            continue;
+
         if (!strncmp("P", data, 1)) {
             m_playlists->push_back(data);
         }
         else if (!strncmp("M", data, 1)) {
             MetaData *meta = mb->ReadMetaDataFromDatabase(key);
-           
+  
             assert(meta);
  
             PlaylistItem *newtrack = new PlaylistItem(key, meta);
-            
-            if (!strcmp(" ", meta->Artist().c_str())) {
+
+            if (meta->Artist() == " ") {
                 m_unsorted->push_back(newtrack);
             }
             else {
                 bool found_artist = false;
                 vector<ArtistList *>::iterator i = m_artistList->begin();
                 for (; i != m_artistList->end(); i++) {
-                    if (!strcmp(meta->Artist().c_str(), (*i)->name)) {
+                    if (meta->Artist() == (*i)->name) {
                         bool found_album = false;
 
                         found_artist = true;
                         vector<AlbumList *> *alList = (*i)->m_albumList;
                         vector<AlbumList *>::iterator j = alList->begin();
                         for (; j != alList->end(); j++) {
-                            if (!strcmp(meta->Album().c_str(), (*j)->name)) {
+                            if (meta->Album() == (*j)->name) {
                                 found_album = true;
                                 (*j)->m_trackList->push_back(newtrack);
                              }
                         }
                         if (!found_album) {
                             AlbumList *newalbum = new AlbumList;
-                            newalbum->name = new char[strlen(meta->Album().c_str()) 
-                                                      + 1];
-                            strcpy(newalbum->name, meta->Album().c_str());
+                            newalbum->name = meta->Album(); 
                             newalbum->m_trackList->push_back(newtrack);
                             alList->push_back(newalbum);
                         }
@@ -108,13 +109,9 @@ void MusicCatalog::PopulateFromDatabase(MusicBrowser *mb, Database *dbase)
                 }
                 if (!found_artist) {
                     ArtistList *newartist = new ArtistList;
-                    newartist->name = new char[strlen(meta->Artist().c_str()) 
-                                               + 1];
-                    strcpy(newartist->name, meta->Artist().c_str());
+                    newartist->name = meta->Artist(); 
                     AlbumList *newalbum = new AlbumList;
-                    newalbum->name = new char[strlen(meta->Album().c_str()) 
-                                              + 1];
-                    strcpy(newalbum->name, meta->Album().c_str());
+                    newalbum->name = meta->Album(); 
                     newalbum->m_trackList->push_back(newtrack);
 
                     newartist->m_albumList->push_back(newalbum);
@@ -129,8 +126,10 @@ void MusicCatalog::PopulateFromDatabase(MusicBrowser *mb, Database *dbase)
 MusicBrowser::MusicBrowser(FAContext *context, char *path)
 {
     m_database = NULL;
+    m_context = context;
     m_plm = context->plm;
-    m_catalog = new MusicCatalog;
+    m_catalog = new MusicCatalog();
+    m_mutex = new Mutex();
     
     if (path)
         SetDatabase(path);
@@ -144,6 +143,7 @@ MusicBrowser::~MusicBrowser()
     if (m_database)
         delete m_database;
     delete m_catalog;
+    delete m_mutex;
 }
 
 void MusicBrowser::SetDatabase(const char *path)
@@ -152,37 +152,65 @@ void MusicBrowser::SetDatabase(const char *path)
         delete m_database;
 
     m_database = new Database(path);
+
+    if (m_database)
+        m_catalog->PopulateFromDatabase(this, m_database);
 }
-   
+
+typedef struct MusicSearchThreadStruct {
+    MusicBrowser *mb;
+    char *path;
+    Thread *thread;
+};
+
 void MusicBrowser::SearchMusic(char *path)
 {
-    m_numSymLinks = 0;
-    DoSearchMusic(path);
+    Thread *thread = Thread::CreateThread();
 
-    m_database->Sync();
-    m_catalog->PopulateFromDatabase(this, m_database);
+    if (thread) {
+        MusicSearchThreadStruct *mst = new MusicSearchThreadStruct;
+
+        mst->mb = this;
+        mst->path = new char[strlen(path) + 1];
+        strcpy(mst->path, path);
+        mst->thread = thread;
+
+        thread->Create(musicsearch_thread_function, mst);
+    }
+}
+
+void MusicBrowser::musicsearch_thread_function(void *arg)
+{
+    MusicSearchThreadStruct *mst = (MusicSearchThreadStruct *)arg;
+
+    mst->mb->m_mutex->Acquire();
+
+    mst->mb->m_numSymLinks = 0;
+    mst->mb->DoSearchMusic(mst->path);
+
+    mst->mb->AcceptEvent(new Event(INFO_SearchMusicDone));
+
+    mst->mb->m_mutex->Release();
+
+    delete mst->path;
+    delete mst->thread;
+    delete mst;
 }
 
 void MusicBrowser::DoSearchMusic(char *path)
 {
     WIN32_FIND_DATA find;
     HANDLE handle;
-    char *search;
+    string search = path;
 
-    search = new char[strlen(path) + strlen(DIR_MARKER_STR) + 3];
-
-  
     Player *m_player = Player::GetPlayer(0);
-    strcpy(search, path);
 
-    if (search[strlen(search) - 1] != DIR_MARKER)
-       strcat(search, DIR_MARKER_STR);
+    if (search[search.size() - 1] != DIR_MARKER)
+       search.append(DIR_MARKER_STR);
 
-    strcat(search, "*");
+    search.append("*");
 
-    handle = FindFirstFile(search, &find);
-
-    delete search;
+    handle = FindFirstFile((char *)search.c_str(), &find);
 
     if (handle != INVALID_HANDLE_VALUE)
     {
@@ -207,54 +235,45 @@ void MusicBrowser::DoSearchMusic(char *path)
                     }
 #endif
 
-                    char *newDir = new char[strlen(path) + strlen(find.cFileName) 
-                                            + strlen(DIR_MARKER_STR) + 1];
-
+                    string newDir = path; 
                     if (path[strlen(path) - 1] != DIR_MARKER)
-                        sprintf(newDir, "%s%s%s", path, DIR_MARKER_STR, find.cFileName);
-                    else
-                        sprintf(newDir, "%s%s", path, find.cFileName);
+                        newDir.append(DIR_MARKER_STR);
+                    newDir.append(find.cFileName);
 
-                    if (!strcmp(newDir, path)) {
-                        delete newDir;
+                    if (newDir == path)
                         continue;
-                    } 
 
-                    DoSearchMusic(newDir);
+                    DoSearchMusic((char *)newDir.c_str());
 #ifndef WIN32
                     if (find.dwFileAttributes == FILE_ATTRIBUTE_SYMLINK)
                         m_numSymLinks--;
 #endif
-                    delete newDir;
                 }
             }
             else if ((fileExt = m_player->GetExtension(find.cFileName)))
             {
                 if (!strncmp("m3u", fileExt, 3))
                 {
-                    char *file = new char[strlen(path) + strlen(find.cFileName)
-                                          + strlen(DIR_MARKER_STR) + 1];
-                    sprintf(file, "%s%s%s", path, DIR_MARKER_STR, find.cFileName);
-                    m_database->Insert(file, "P");
+                    string file = path;
+                    file.append(DIR_MARKER_STR);
+                    file.append(find.cFileName);
+                    m_database->Insert(file.c_str(), "P");
 
-                    delete file;
                 }
                 else if (m_player->IsSupportedExtension(fileExt))
                 {
-                    char *file = new char[strlen(path) + strlen(DIR_MARKER_STR) 
-                                          + strlen(find.cFileName) + 1]; 
+                    string file = path;
+                    file.append(DIR_MARKER_STR);
+                    file.append(find.cFileName);
 
-                    sprintf(file, "%s%s%s", path, DIR_MARKER_STR, find.cFileName);
-
-                    PlaylistItem *plist = new PlaylistItem(file);
+                    PlaylistItem *plist = new PlaylistItem(file.c_str());
                     m_plm->RetrieveMetaData(plist);
 
                     while (plist->GetState() != kPlaylistItemState_Normal)
                        usleep(5);
 
-                    WriteMetaDataToDatabase(file, (MetaData)(plist->GetMetaData()));
+                    WriteMetaDataToDatabase((char *)file.c_str(), (MetaData)(plist->GetMetaData()));
  
-                    delete file;
                     delete plist;
                 }
                 delete fileExt;
@@ -266,61 +285,50 @@ void MusicBrowser::DoSearchMusic(char *path)
     }
 }
 
-char *MusicBrowser::Stradd(char *dest, char *src, bool delim)
-{
-    char *copy = src;
-    if (src[0] == '\0')
-        copy = " ";
-    if (delim) {
-       dest = (char *)realloc(dest, strlen(dest) + strlen(copy) + strlen(DBASEDELIM) + 1);
-       strcat(dest, DBASEDELIM);
-    }
-    else
-       dest = (char *)realloc(dest, strlen(dest) + strlen(copy) + 1);
-    strcat(dest, copy);
-    return dest;
-}
-
-char *MusicBrowser::Stradd(char *dest, uint32 src, bool delim)
-{
-    char inthold[11];
-
-    sprintf(inthold, "%u", src);
-    dest = Stradd(dest, inthold);
-    return dest;
-}
-   
 void MusicBrowser::WriteMetaDataToDatabase(char *path, MetaData information)
 {
-    char *data;
-    char *tempstr;
-    uint32 tempint;
+    string data;
+    char tempstr[11];
 
-    data = (char *)malloc(2);
-    sprintf(data, "M");
-    tempstr = (char *)(information.Artist()).c_str();
-    data = Stradd(data, tempstr);
-    tempstr = (char *)(information.Album()).c_str();
-    data = Stradd(data, tempstr);
-    tempstr = (char *)(information.Title()).c_str();
-    data = Stradd(data, tempstr);
-    tempstr = (char *)(information.Comment()).c_str();
-    data = Stradd(data, tempstr);
-    tempstr = (char *)(information.Genre()).c_str();
-    data = Stradd(data, tempstr);
+    data = "M";
+    if (information.Artist() != "")
+        data += information.Artist();
+        data += " ";
+    data += DBASEDELIM;
+    if (information.Album() != "")
+        data += information.Album();
+    else
+        data += " ";
+    data += DBASEDELIM;
+    if (information.Title() != "")
+        data += information.Title();
+    else
+        data += " ";
+    data += DBASEDELIM;
+    if (information.Comment() != "")
+        data += information.Comment();
+    else
+        data += " ";
+    data += DBASEDELIM;
+    if (information.Genre() != "")
+        data += information.Genre();
+    else
+        data += " ";
+    data += DBASEDELIM;
 
-    tempint = information.Year();
-    data = Stradd(data, tempint);
-    tempint = information.Track();
-    data = Stradd(data, tempint);
-    tempint = information.Time();
-    data = Stradd(data, tempint);
-    tempint = information.Size();
-    data = Stradd(data, tempint, false);
+    sprintf(tempstr, "%u", information.Year());
+    data += tempstr;
+    data += DBASEDELIM;
+    sprintf(tempstr, "%u", information.Track());
+    data += tempstr;
+    data += DBASEDELIM;
+    sprintf(tempstr, "%u", information.Time());
+    data += tempstr;
+    data += DBASEDELIM;
+    sprintf(tempstr, "%u", information.Size());
+    data += tempstr;
 
-    m_database->Insert(path, data);
-
-    free(data);
+    m_database->Insert(path, (char *)data.c_str());
 }
 
 MetaData *MusicBrowser::ReadMetaDataFromDatabase(char *path)
@@ -341,7 +349,6 @@ MetaData *MusicBrowser::ReadMetaDataFromDatabase(char *path)
     info = strtok(NULL, DBASEDELIM);
     new_metadata->SetTitle(info);
     info = strtok(NULL, DBASEDELIM);
-
     new_metadata->SetComment(info);
     info = strtok(NULL, DBASEDELIM);
     new_metadata->SetGenre(info);
@@ -356,4 +363,19 @@ MetaData *MusicBrowser::ReadMetaDataFromDatabase(char *path)
 
     delete data;
     return new_metadata;
+}
+
+int32 MusicBrowser::AcceptEvent(Event *e)
+{
+    switch (e->Type()) {
+        case INFO_SearchMusicDone: {
+            m_database->Sync();
+            m_catalog->PopulateFromDatabase(this, m_database);
+            m_context->target->AcceptEvent(new Event(INFO_SearchMusicDone));
+            break;
+        } 
+    }
+    delete e;
+
+    return 0; 
 }

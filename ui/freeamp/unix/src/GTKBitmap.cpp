@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.1.2.5 1999/09/21 17:23:25 ijr Exp $
+   $Id: GTKBitmap.cpp,v 1.1.2.6 1999/09/22 15:55:27 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -165,7 +165,7 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
             ReadleLong(file, &bmask);
             ReadleLong(file, &gmask);
             ReadleLong(file, &rmask);
-            for (int bit = bpp - 1; bit >= 0; bit--) {
+            for (int bit = bitcount - 1; bit >= 0; bit--) {
                 if (bmask & (1 << bit))
                     bshift = bit;
                 if (gmask & (1 << bit))
@@ -467,4 +467,3 @@ Error GTKBitmap::BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect,
 
     return kError_NoErr;
 }
-

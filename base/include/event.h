@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.28.4.2 1999/09/09 02:42:00 elrod Exp $
+	$Id: event.h,v 1.28.4.3 1999/09/22 15:55:26 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -107,6 +107,8 @@ class EventQueue {
 #define INFO_VolumeInfo         47
 #define INFO_StreamInfo         48
 
+
+#define INFO_SearchMusicDone    49 // sent by the music search thread on completion
 #endif // _EVENT_H_
 
 

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.8 1999/09/21 03:32:29 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.9 1999/09/22 15:55:26 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -40,7 +40,7 @@ PLUGINS += plugins/mpg123.ui
 #PLUGINS += plugins/ncurses.ui
 PLUGINS += plugins/lcd.ui
 PLUGINS += plugins/irman.ui
-PLUGINS += plugins/theme.ui
+#PLUGINS += plugins/theme.ui
 
 PLUGINS += plugins/xingmp3.lmc
 
@@ -125,7 +125,7 @@ THEMEUIOBJ = ui/theme/src/Theme.o ui/theme/src/Bitmap.o \
              ui/theme/unix/src/GTKCanvas.o ui/theme/src/FreeAmpTheme.o
 
 plugins/theme.ui: $(THEMEUIOBJ)
-	$(LINKMOD) -o $@ $(THEMEUIOBJ)
+	$(LINKMOD) -o $@ $(THEMEUIOBJ) $(GTK_LIBS)
 
 # cmdline
 CMDUIOBJ = ui/cmdline/cmdlineUI.o

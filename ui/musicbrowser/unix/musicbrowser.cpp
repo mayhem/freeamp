@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.3 1999/09/16 00:03:59 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.4 1999/09/22 15:55:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h" 
@@ -55,7 +55,7 @@ Error musicbrowserUI::Init(int32 startup_level)
     m_argv = m_context->argv;
     m_plm = m_context->plm;
     m_playerEQ = m_context->target;
-    m_musicCatalog = m_context->browser->m_catalog;
+    m_musicCatalog = NULL;
 
     gtkThread = Thread::CreateThread();
     gtkThread->Create(musicbrowserUI::gtkServiceFunction, this);
@@ -85,6 +85,8 @@ void musicbrowserUI::ParseArgs(void)
 
 void musicbrowserUI::GTKEventService(void)
 {
+    g_thread_init(NULL);
+
     gtk_init(&m_argc, &m_argv);
 
     ParseArgs();
@@ -110,6 +112,11 @@ int32 musicbrowserUI::AcceptEvent(Event *event)
         case CMD_Cleanup: {
             gtkThread->Join();
             m_playerEQ->AcceptEvent(new Event(INFO_ReadyToDieUI));
+            break; }
+        case INFO_SearchMusicDone: {
+            gdk_threads_enter();
+            UpdateCatalog();
+            gdk_threads_leave();
             break; }
         default:
             break;
@@ -170,7 +177,6 @@ void musicbrowserUI::PlayEvent(void)
 void musicbrowserUI::StartMusicSearch(void)
 {
     m_context->browser->SearchMusic(ROOT_DIR);
-    UpdateCatalog();
 }
 
 void musicbrowserUI::SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType

@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.49.2.4 1999/09/09 01:25:34 ijr Exp $
+dnl $Id: configure.in,v 1.49.2.5 1999/09/22 15:55:26 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -323,7 +323,7 @@ if test "$have_gtk" = "true"; then
      have_gtk="false"
   else
      GTK_CFLAGS=`$GTK_CONFIG --cflags`
-     GTK_LIBS=`$GTK_CONFIG --libs`
+     GTK_LIBS=`$GTK_CONFIG --libs gthread`
      min_gtk_version="1.2.2"
      AC_MSG_CHECKING(for GTK+ version >= $min_gtk_version)
      gtk_config_major=`$GTK_CONFIG --version | sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
@@ -369,9 +369,8 @@ int main()
 fi
 
 if test "$have_gtk" = "true"; then
-  MUSICBROWSERPLUGIN=plugins/musicbrowser.ui
-  OSDEPPLUGINS="$OSDEPPLUGINS $MUSICBROWSERPLUGIN"
-  OSINC="$OSINC -Iui/musicbrowser/unix"
+  OSDEPPLUGINS="$OSDEPPLUGINS plugins/musicbrowser.ui plugins/theme.ui"
+  OSINC="$OSINC -Iui/musicbrowser/unix -Iui/theme/include -Iui/theme/unix/include"
   CFLAGS="$CFLAGS $GTK_CFLAGS"
 else
   GTK_CFLAGS=""

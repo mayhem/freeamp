@@ -18,15 +18,17 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.1.2.4 1999/09/16 00:03:58 ijr Exp $
+        $Id: musicbrowser.h,v 1.1.2.5 1999/09/22 15:55:26 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
 #define INCLUDED_MUSICBROWSER_H_
 
 #include <vector>
+#include <string>
 using namespace std;
 
+#include "event.h"
 #include "database.h"
 #include "metadata.h"
 #include "playlist.h"
@@ -40,11 +42,10 @@ class AlbumList {
                       vector<PlaylistItem *>::iterator i = m_trackList->begin();
 		      for (; i != m_trackList->end(); i++)
                           delete (*i);
-                      delete name;
                   }
 
     vector<PlaylistItem *> *m_trackList;
-    char *name;
+    string name;
 };
 
 class ArtistList {
@@ -54,11 +55,10 @@ class ArtistList {
                      vector<AlbumList *>::iterator i = m_albumList->begin();
            	     for (; i != m_albumList->end(); i++)
                          delete (*i);
-		     delete name;
 		 }
     
     vector<AlbumList *> *m_albumList;
-    char *name;
+    string name;
 };
 
 class MusicBrowser;
@@ -73,31 +73,35 @@ class MusicCatalog
     
     vector<ArtistList *> *m_artistList;
     vector<PlaylistItem *> *m_unsorted;
-    vector<char *> *m_playlists;
+    vector<string> *m_playlists;
 };
 
-class MusicBrowser
+class MusicBrowser : public EventQueue
 {
  public:
     MusicBrowser(FAContext *context, char *path = NULL);
-    ~MusicBrowser();
+    virtual ~MusicBrowser();
 
     void SetDatabase(const char *path);
     void SearchMusic(char *path);
     
     void WriteMetaDataToDatabase(char *path, MetaData information);
     MetaData *ReadMetaDataFromDatabase(char *path);
+    virtual int32 AcceptEvent(Event *e);
     
     MusicCatalog *m_catalog;
 
- private:
+ protected:
+    static void musicsearch_thread_function(void *arg);
     void DoSearchMusic(char *path);
-    char *Stradd(char *dest, char *src, bool delim = true);
-    char *Stradd(char *dest, uint32 src, bool delim = true);
-
-    Database *m_database;
-    int m_numSymLinks;
     
+    int m_numSymLinks;
+    Mutex *m_mutex;
+    
+    FAContext *m_context;
+
+ private:   
+    Database *m_database;
     PlaylistManager *m_plm;
 };
 

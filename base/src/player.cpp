@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.63 1998/12/14 19:58:30 jdw Exp $
+	$Id: player.cpp,v 1.64 1998/12/14 20:15:47 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -159,7 +159,7 @@ typedef char *pchar;
 
 bool Player::SetArgs(int32 argc, char** argv){
     Vector<char *> argVector;
-
+    bool justGotArgvZero = false;
     char *arg = NULL;
 #ifndef WIN32
     // grab the UI name from how we are invoked.
@@ -173,6 +173,7 @@ bool Player::SetArgs(int32 argc, char** argv){
     //sprintf(m_argUI,"%s",pBegin);
     strcpy(argUI,pBegin);
     m_argUIvector->Insert(argUI);
+    justGotArgvZero = true;
 #endif
     argVector.Insert(argv[0]);
     for(int32 i = 1;i < argc; i++) 
@@ -205,6 +206,10 @@ bool Player::SetArgs(int32 argc, char** argv){
 			//if (m_argUI) delete m_argUI;
                         argUI = new char[strlen(arg) + 1];
                         strcpy(argUI, arg);
+			if (justGotArgvZero) {
+			    m_argUIvector->DeleteAll();
+			    justGotArgvZero = false;
+			}
 			m_argUIvector->Insert(argUI);
                     }
 		    break;

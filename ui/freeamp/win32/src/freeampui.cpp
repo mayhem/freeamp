@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.4 1998/11/03 09:13:28 elrod Exp $
+	$Id: freeampui.cpp,v 1.5 1998/11/03 09:40:37 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -362,7 +362,7 @@ CreateUI()
     wc.cbWndExtra = 0;
     wc.hInstance = g_hInst;
     wc.hCursor = LoadCursor( NULL, IDC_ARROW );
-    wc.hIcon = LoadIcon( NULL, IDI_APPLICATION );
+    wc.hIcon = LoadIcon( g_hInst, MAKEINTRESOURCE(IDI_EXE_ICON) );
     wc.hbrBackground = (HBRUSH)NULL;//( COLOR_WINDOW + 1 );
     wc.lpszMenuName = (LPSTR)0;
     wc.lpszClassName = "nonrect";

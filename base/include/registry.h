@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.h,v 1.8.10.2 2000/03/29 22:33:54 elrod Exp $
+	$Id: registry.h,v 1.8.10.2.2.1 2000/06/05 14:10:38 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_REGISTRY_H_
@@ -26,7 +26,9 @@ ____________________________________________________________________________*/
 
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
+#if _MSC_VER <= 1100
 #define STRICT
+#endif
 #include <windows.h>
 #endif
 

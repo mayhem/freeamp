@@ -36,10 +36,21 @@ RSC=rc.exe
 OUTDIR=.\Release
 INTDIR=.\Release
 
-ALL : "..\..\..\..\config\config.h" ".\xing.lmc"
+!IF "$(RECURSE)" == "0" 
 
+ALL : ".\xing.lmc"
 
+!ELSE 
+
+ALL : "fabaselib - Win32 Release" ".\xing.lmc"
+
+!ENDIF 
+
+!IF "$(RECURSE)" == "1" 
+CLEAN :"fabaselib - Win32 ReleaseCLEAN" 
+!ELSE 
 CLEAN :
+!ENDIF 
 	-@erase "$(INTDIR)\cdct.obj"
 	-@erase "$(INTDIR)\csbt.obj"
 	-@erase "$(INTDIR)\cup.obj"
@@ -68,7 +79,6 @@ CLEAN :
 	-@erase "$(OUTDIR)\xing.exp"
 	-@erase "$(OUTDIR)\xing.lib"
 	-@erase ".\xing.lmc"
-	-@erase "..\..\..\..\config\config.h"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -108,7 +118,8 @@ LINK32_OBJS= \
 	"$(INTDIR)\upsf.obj" \
 	"$(INTDIR)\wavep.obj" \
 	"$(INTDIR)\xinglmc.obj" \
-	"$(INTDIR)\xing.res"
+	"$(INTDIR)\xing.res" \
+	"..\..\..\..\base\win32\fabaselib.lib"
 
 ".\xing.lmc" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -120,7 +131,7 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 
 ALL : $(DS_POSTBUILD_DEP)
 
-$(DS_POSTBUILD_DEP) : "..\..\..\..\config\config.h" ".\xing.lmc"
+$(DS_POSTBUILD_DEP) : "fabaselib - Win32 Release" ".\xing.lmc"
    IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                    ..\..\..\..\base\win32\prj\plugins
 	copy xing.lmc                            ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
@@ -130,10 +141,21 @@ $(DS_POSTBUILD_DEP) : "..\..\..\..\config\config.h" ".\xing.lmc"
 OUTDIR=.\Debug
 INTDIR=.\Debug
 
+!IF "$(RECURSE)" == "0" 
+
 ALL : "..\..\..\..\config\config.h" ".\xing.lmc"
 
+!ELSE 
 
+ALL : "fabaselib - Win32 Debug" "..\..\..\..\config\config.h" ".\xing.lmc"
+
+!ENDIF 
+
+!IF "$(RECURSE)" == "1" 
+CLEAN :"fabaselib - Win32 DebugCLEAN" 
+!ELSE 
 CLEAN :
+!ENDIF 
 	-@erase "$(INTDIR)\cdct.obj"
 	-@erase "$(INTDIR)\csbt.obj"
 	-@erase "$(INTDIR)\cup.obj"
@@ -205,7 +227,8 @@ LINK32_OBJS= \
 	"$(INTDIR)\upsf.obj" \
 	"$(INTDIR)\wavep.obj" \
 	"$(INTDIR)\xinglmc.obj" \
-	"$(INTDIR)\xing.res"
+	"$(INTDIR)\xing.res" \
+	"..\..\..\..\base\win32\fabaselib.lib"
 
 ".\xing.lmc" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -217,7 +240,7 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 
 ALL : $(DS_POSTBUILD_DEP)
 
-$(DS_POSTBUILD_DEP) : "..\..\..\..\config\config.h" ".\xing.lmc"
+$(DS_POSTBUILD_DEP) : "fabaselib - Win32 Debug" "..\..\..\..\config\config.h" ".\xing.lmc"
    IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                    ..\..\..\..\base\win32\prj\plugins
 	copy xing.lmc                            ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
@@ -227,10 +250,21 @@ $(DS_POSTBUILD_DEP) : "..\..\..\..\config\config.h" ".\xing.lmc"
 OUTDIR=.\Release
 INTDIR=.\Release
 
-ALL : "..\..\..\..\config\config.h" ".\xing.lmc"
+!IF "$(RECURSE)" == "0" 
 
+ALL : ".\xing.lmc"
 
+!ELSE 
+
+ALL : "fabaselib - Win32 NASM Release" ".\xing.lmc"
+
+!ENDIF 
+
+!IF "$(RECURSE)" == "1" 
+CLEAN :"fabaselib - Win32 NASM ReleaseCLEAN" 
+!ELSE 
 CLEAN :
+!ENDIF 
 	-@erase "$(INTDIR)\cdct.obj"
 	-@erase "$(INTDIR)\csbt.obj"
 	-@erase "$(INTDIR)\cup.obj"
@@ -259,7 +293,6 @@ CLEAN :
 	-@erase "$(OUTDIR)\xing.exp"
 	-@erase "$(OUTDIR)\xing.lib"
 	-@erase ".\xing.lmc"
-	-@erase "..\..\..\..\config\config.h"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -304,7 +337,8 @@ LINK32_OBJS= \
 	"$(INTDIR)\cwin8asm.obj" \
 	"$(INTDIR)\cwinasm.obj" \
 	"$(INTDIR)\mdctasm.obj" \
-	"$(INTDIR)\msisasm.obj"
+	"$(INTDIR)\msisasm.obj" \
+	"..\..\..\..\base\win32\fabaselib.lib"
 
 ".\xing.lmc" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -316,7 +350,7 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 
 ALL : $(DS_POSTBUILD_DEP)
 
-$(DS_POSTBUILD_DEP) : "..\..\..\..\config\config.h" ".\xing.lmc"
+$(DS_POSTBUILD_DEP) : "fabaselib - Win32 NASM Release" ".\xing.lmc"
    IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                    ..\..\..\..\base\win32\prj\plugins
 	copy xing.lmc                            ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
@@ -326,10 +360,21 @@ $(DS_POSTBUILD_DEP) : "..\..\..\..\config\config.h" ".\xing.lmc"
 OUTDIR=.\Debug
 INTDIR=.\Debug
 
+!IF "$(RECURSE)" == "0" 
+
 ALL : "..\..\..\..\config\config.h" ".\xing.lmc"
 
+!ELSE 
 
+ALL : "fabaselib - Win32 NASM Debug" "..\..\..\..\config\config.h" ".\xing.lmc"
+
+!ENDIF 
+
+!IF "$(RECURSE)" == "1" 
+CLEAN :"fabaselib - Win32 NASM DebugCLEAN" 
+!ELSE 
 CLEAN :
+!ENDIF 
 	-@erase "$(INTDIR)\cdct.obj"
 	-@erase "$(INTDIR)\csbt.obj"
 	-@erase "$(INTDIR)\cup.obj"
@@ -406,7 +451,8 @@ LINK32_OBJS= \
 	"$(INTDIR)\cwin8asm.obj" \
 	"$(INTDIR)\cwinasm.obj" \
 	"$(INTDIR)\mdctasm.obj" \
-	"$(INTDIR)\msisasm.obj"
+	"$(INTDIR)\msisasm.obj" \
+	"..\..\..\..\base\win32\fabaselib.lib"
 
 ".\xing.lmc" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -418,7 +464,7 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 
 ALL : $(DS_POSTBUILD_DEP)
 
-$(DS_POSTBUILD_DEP) : "..\..\..\..\config\config.h" ".\xing.lmc"
+$(DS_POSTBUILD_DEP) : "fabaselib - Win32 NASM Debug" "..\..\..\..\config\config.h" ".\xing.lmc"
    IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                    ..\..\..\..\base\win32\prj\plugins
 	copy xing.lmc                            ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
@@ -516,19 +562,19 @@ InputPath=..\..\..\..\config\config.win32
 
 SOURCE=..\..\..\..\io\src\eventbuffer.cpp
 
-"$(INTDIR)\eventbuffer.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\eventbuffer.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 SOURCE=..\..\..\..\io\src\pipeline.cpp
 
-"$(INTDIR)\pipeline.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\pipeline.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 SOURCE=..\..\..\..\io\src\pullbuffer.cpp
 
-"$(INTDIR)\pullbuffer.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\pullbuffer.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -538,35 +584,35 @@ SOURCE=..\res\xing.rc
 
 
 "$(INTDIR)\xing.res" : $(SOURCE) "$(INTDIR)"
-	$(RSC) /l 0x409 /fo"$(INTDIR)\xing.res" /i "\Local\src\freeamp-2-0-6\lmc\xingmp3\win32\res" /d "NDEBUG" $(SOURCE)
+	$(RSC) /l 0x409 /fo"$(INTDIR)\xing.res" /i "\Local\src\freeamp-2-0-8\lmc\xingmp3\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "xing - Win32 Debug"
 
 
 "$(INTDIR)\xing.res" : $(SOURCE) "$(INTDIR)"
-	$(RSC) /l 0x409 /fo"$(INTDIR)\xing.res" /i "\Local\src\freeamp-2-0-6\lmc\xingmp3\win32\res" /d "_DEBUG" $(SOURCE)
+	$(RSC) /l 0x409 /fo"$(INTDIR)\xing.res" /i "\Local\src\freeamp-2-0-8\lmc\xingmp3\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "xing - Win32 NASM Release"
 
 
 "$(INTDIR)\xing.res" : $(SOURCE) "$(INTDIR)"
-	$(RSC) /l 0x409 /fo"$(INTDIR)\xing.res" /i "\Local\src\freeamp-2-0-6\lmc\xingmp3\win32\res" /d "NDEBUG" $(SOURCE)
+	$(RSC) /l 0x409 /fo"$(INTDIR)\xing.res" /i "\Local\src\freeamp-2-0-8\lmc\xingmp3\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "xing - Win32 NASM Debug"
 
 
 "$(INTDIR)\xing.res" : $(SOURCE) "$(INTDIR)"
-	$(RSC) /l 0x409 /fo"$(INTDIR)\xing.res" /i "\Local\src\freeamp-2-0-6\lmc\xingmp3\win32\res" /d "_DEBUG" $(SOURCE)
+	$(RSC) /l 0x409 /fo"$(INTDIR)\xing.res" /i "\Local\src\freeamp-2-0-8\lmc\xingmp3\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ENDIF 
 
 SOURCE=..\..\src\cdct.c
 
-"$(INTDIR)\cdct.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\cdct.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -584,13 +630,13 @@ SOURCE=..\..\src\cup.c
 
 SOURCE=..\..\src\cupl3.c
 
-"$(INTDIR)\cupl3.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\cupl3.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 SOURCE=..\..\src\cwinm.c
 
-"$(INTDIR)\cwinm.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\cwinm.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -632,13 +678,13 @@ SOURCE=..\..\src\iwinm.c
 
 SOURCE=..\..\src\l3dq.c
 
-"$(INTDIR)\l3dq.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\l3dq.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 SOURCE=..\..\src\l3init.c
 
-"$(INTDIR)\l3init.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\l3init.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -656,19 +702,19 @@ SOURCE=..\..\src\mhead.c
 
 SOURCE=..\..\src\msis.c
 
-"$(INTDIR)\msis.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\msis.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 SOURCE=..\..\src\uph.c
 
-"$(INTDIR)\uph.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\uph.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 SOURCE=..\..\src\upsf.c
 
-"$(INTDIR)\upsf.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\upsf.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -680,7 +726,7 @@ SOURCE=..\..\src\wavep.c
 
 SOURCE=..\..\src\xinglmc.cpp
 
-"$(INTDIR)\xinglmc.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\xinglmc.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -699,7 +745,7 @@ InputName=cdctasm
 "$(INTDIR)\cdctasm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	<<tempfile.bat 
 	@echo off 
-	nasm -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
+	nasmw -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
 << 
 	
 
@@ -712,7 +758,7 @@ InputName=cdctasm
 "$(INTDIR)\cdctasm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	<<tempfile.bat 
 	@echo off 
-	nasm -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
+	nasmw -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
 << 
 	
 
@@ -733,7 +779,7 @@ InputName=cwin8asm
 "$(INTDIR)\cwin8asm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	<<tempfile.bat 
 	@echo off 
-	nasm -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
+	nasmw -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
 << 
 	
 
@@ -746,7 +792,7 @@ InputName=cwin8asm
 "$(INTDIR)\cwin8asm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	<<tempfile.bat 
 	@echo off 
-	nasm -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
+	nasmw -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
 << 
 	
 
@@ -767,7 +813,7 @@ InputName=cwinasm
 "$(INTDIR)\cwinasm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	<<tempfile.bat 
 	@echo off 
-	nasm -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
+	nasmw -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
 << 
 	
 
@@ -780,7 +826,7 @@ InputName=cwinasm
 "$(INTDIR)\cwinasm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	<<tempfile.bat 
 	@echo off 
-	nasm -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
+	nasmw -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
 << 
 	
 
@@ -801,7 +847,7 @@ InputName=mdctasm
 "$(INTDIR)\mdctasm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	<<tempfile.bat 
 	@echo off 
-	nasm -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
+	nasmw -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
 << 
 	
 
@@ -814,7 +860,7 @@ InputName=mdctasm
 "$(INTDIR)\mdctasm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	<<tempfile.bat 
 	@echo off 
-	nasm -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
+	nasmw -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
 << 
 	
 
@@ -835,7 +881,7 @@ InputName=msisasm
 "$(INTDIR)\msisasm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	<<tempfile.bat 
 	@echo off 
-	nasm -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
+	nasmw -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
 << 
 	
 
@@ -848,9 +894,59 @@ InputName=msisasm
 "$(INTDIR)\msisasm.obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	<<tempfile.bat 
 	@echo off 
-	nasm -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
+	nasmw -f win32 -o $(IntDir)\$(InputName).obj $(InputPath)
 << 
 	
+
+!ENDIF 
+
+!IF  "$(CFG)" == "xing - Win32 Release"
+
+"fabaselib - Win32 Release" : 
+   cd "\Local\src\freeamp-2-0-8\base\win32\prj"
+   $(MAKE) /$(MAKEFLAGS) /F ".\fabaselib.mak" CFG="fabaselib - Win32 Release" 
+   cd "..\..\..\lmc\xingmp3\win32\prj"
+
+"fabaselib - Win32 ReleaseCLEAN" : 
+   cd "\Local\src\freeamp-2-0-8\base\win32\prj"
+   $(MAKE) /$(MAKEFLAGS) /F ".\fabaselib.mak" CFG="fabaselib - Win32 Release" RECURSE=1 CLEAN 
+   cd "..\..\..\lmc\xingmp3\win32\prj"
+
+!ELSEIF  "$(CFG)" == "xing - Win32 Debug"
+
+"fabaselib - Win32 Debug" : 
+   cd "\Local\src\freeamp-2-0-8\base\win32\prj"
+   $(MAKE) /$(MAKEFLAGS) /F ".\fabaselib.mak" CFG="fabaselib - Win32 Debug" 
+   cd "..\..\..\lmc\xingmp3\win32\prj"
+
+"fabaselib - Win32 DebugCLEAN" : 
+   cd "\Local\src\freeamp-2-0-8\base\win32\prj"
+   $(MAKE) /$(MAKEFLAGS) /F ".\fabaselib.mak" CFG="fabaselib - Win32 Debug" RECURSE=1 CLEAN 
+   cd "..\..\..\lmc\xingmp3\win32\prj"
+
+!ELSEIF  "$(CFG)" == "xing - Win32 NASM Release"
+
+"fabaselib - Win32 NASM Release" : 
+   cd "\Local\src\freeamp-2-0-8\base\win32\prj"
+   $(MAKE) /$(MAKEFLAGS) /F ".\fabaselib.mak" CFG="fabaselib - Win32 NASM Release" 
+   cd "..\..\..\lmc\xingmp3\win32\prj"
+
+"fabaselib - Win32 NASM ReleaseCLEAN" : 
+   cd "\Local\src\freeamp-2-0-8\base\win32\prj"
+   $(MAKE) /$(MAKEFLAGS) /F ".\fabaselib.mak" CFG="fabaselib - Win32 NASM Release" RECURSE=1 CLEAN 
+   cd "..\..\..\lmc\xingmp3\win32\prj"
+
+!ELSEIF  "$(CFG)" == "xing - Win32 NASM Debug"
+
+"fabaselib - Win32 NASM Debug" : 
+   cd "\Local\src\freeamp-2-0-8\base\win32\prj"
+   $(MAKE) /$(MAKEFLAGS) /F ".\fabaselib.mak" CFG="fabaselib - Win32 NASM Debug" 
+   cd "..\..\..\lmc\xingmp3\win32\prj"
+
+"fabaselib - Win32 NASM DebugCLEAN" : 
+   cd "\Local\src\freeamp-2-0-8\base\win32\prj"
+   $(MAKE) /$(MAKEFLAGS) /F ".\fabaselib.mak" CFG="fabaselib - Win32 NASM Debug" RECURSE=1 CLEAN 
+   cd "..\..\..\lmc\xingmp3\win32\prj"
 
 !ENDIF 
 

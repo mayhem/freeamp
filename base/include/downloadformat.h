@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadformat.h,v 1.1.2.1 1999/09/15 23:48:11 elrod Exp $
+	$Id: downloadformat.h,v 1.1.2.2 1999/09/15 23:49:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_FORMAT_H_
@@ -51,7 +51,7 @@ class DownloadFormat {
     
 };
 
-typedef DownloadFormat* FormatRef;
+typedef DownloadFormat* DownloadFormatRef;
 
 class DownloadFormatInfo {
 
@@ -69,14 +69,14 @@ class DownloadFormatInfo {
     { m_description = description; return kError_NoErr; }
     const char* GetDescription() { return m_description.c_str(); }
 
-    Error SetRef(FormatRef ref) { m_ref = ref; return kError_NoErr; }
-    const FormatRef GetRef() const { return m_ref; }
+    Error SetRef(DownloadFormatRef ref) { m_ref = ref; return kError_NoErr; }
+    const DownloadFormatRef GetRef() const { return m_ref; }
 
  private:
   
     string m_extension;
     string m_description;
-    FormatRef m_ref;
+    DownloadFormatRef m_ref;
 };
 
 

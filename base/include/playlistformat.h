@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlistformat.h,v 1.1.2.8 1999/09/09 02:42:00 elrod Exp $
+	$Id: playlistformat.h,v 1.1.2.9 1999/09/15 23:49:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_FORMAT_H_
@@ -56,7 +56,7 @@ class PlaylistFormat {
                                 void* cookie = NULL) = 0;
 };
 
-typedef PlaylistFormat* FormatRef;
+typedef PlaylistFormat* PlaylistFormatRef;
 
 class PlaylistFormatInfo {
 
@@ -74,14 +74,14 @@ class PlaylistFormatInfo {
     { m_description = description; return kError_NoErr; }
     const char* GetDescription() { return m_description.c_str(); }
 
-    Error SetRef(FormatRef ref) { m_ref = ref; return kError_NoErr; }
-    const FormatRef GetRef() const { return m_ref; }
+    Error SetRef(PlaylistFormatRef ref) { m_ref = ref; return kError_NoErr; }
+    const PlaylistFormatRef GetRef() const { return m_ref; }
 
  private:
   
     string m_extension;
     string m_description;
-    FormatRef m_ref;
+    PlaylistFormatRef m_ref;
 };
 
 

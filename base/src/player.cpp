@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.198 2000/05/17 16:04:00 robert Exp $
+        $Id: player.cpp,v 1.199 2000/05/17 16:07:43 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1296,11 +1296,8 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
 
    lmc_item = ChooseLMC(pc->URL().c_str());
    if (!lmc_item)
-   {
-      printf("Using default LMC!\n");
    // FIXME: Should probably have a user definable default LMC
       lmc_item = m_lmcRegistry->GetItem(0);
-   }
   
    if (pmi_item)
    {
@@ -1582,7 +1579,6 @@ Play(Event *pEvent)
     }
     else
     {
-        printf("Calling resume\n");
         m_pmo->Resume();
         if (SetState(PlayerState_Playing))
         {

@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.45 1999/07/28 00:51:13 dogcow Exp $
+dnl $Id: configure.in,v 1.45.2.1 1999/08/04 07:48:06 hiro Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -177,9 +177,13 @@ fi
 dnl ******************
 dnl Check for dynamic loading library
 dnl ******************
-AC_CHECK_LIB(dl, dlopen, foo="bar",
-  AC_MSG_ERROR([FreeAmp requires the ability to load libraries dynamically (-ldl must work)])
-)
+if test "$host_os" = "beos"; then
+  AC_MSG_WARN([skipping libdl check, using BeOS add-on mechanism])
+else
+  AC_CHECK_LIB(dl, dlopen, foo="bar",
+    AC_MSG_ERROR([FreeAmp requires the ability to load libraries dynamically (-ldl must work)])
+  )
+fi
 
 dnl Check for some more stuff
 
@@ -188,6 +192,8 @@ isunix="true"
 OSLINK=""
 FPIC="-fpic"
 LINKMOD="gcc -shared"
+FREEAMPLIBS='-ldl -lpthread $(X_LIBS) $(X_EXTRA_LIBS) $(EXTRALIBS)'
+SCPMOLIBS=""
 
 case "$host_os" in
   windowsnt)
@@ -198,6 +204,11 @@ case "$host_os" in
     isunix="false"
     ;;
   beos*)
+    AC_DEFINE(HAVE_BEOS)
+    CFLAGS="$CFLAGS -Wno-multichar -Wno-ctor-dtor-privacy"
+    LINKMOD='g++ -nostart -Xlinker -soname=${@F} freeamp'
+    FREEAMPLIBS="-lbe -lroot"
+    SCPMOLIBS="-lmedia -lbe -lroot"
     isunix="false"
     ;;
   linux*)
@@ -264,6 +275,8 @@ AC_SUBST(FPIC)
 AC_SUBST(LINKMOD)
 AC_SUBST(build_cpu)
 AC_SUBST(CFLAGS)
+AC_SUBST(FREEAMPLIBS)
+AC_SUBST(SCPMOLIBS)
 
 gtk="false"
 

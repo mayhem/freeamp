@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: thread.cpp,v 1.5 1999/04/20 03:09:09 dogcow Exp $
+	$Id: thread.cpp,v 1.5.8.1 1999/08/04 07:48:06 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -30,6 +30,8 @@ ____________________________________________________________________________*/
     #include "win32thread.h"
 #elif defined(solaris)
     #include "solaristhread.h"
+#elif defined(__BEOS__)
+    #include "beosthread.h"
 #else
     #error thread class needs to be defined for this platform
 #endif
@@ -46,6 +48,8 @@ Thread* Thread::CreateThread()
     thread = new win32Thread();
 #elif defined(solaris)
     thread = new solarisThread();
+#elif defined(__BEOS__)
+    thread = new beosThread();
 #else
     #error thread class needs to be defined for this platform
 #endif

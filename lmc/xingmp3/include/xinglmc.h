@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.32 1999/07/21 19:24:50 ijr Exp $
+   $Id: xinglmc.h,v 1.32.2.1 1999/08/04 07:48:07 hiro Exp $
 
 ____________________________________________________________________________*/
 
@@ -108,7 +108,7 @@ class     XingLMC:public LogicalMediaConverter
    PhysicalMediaOutput *m_pPmo;
 
    int                  m_iMaxWriteSize;
-   int                  m_frameBytes, m_iBufferUpInterval, m_iBufferSize;
+   int32                m_frameBytes, m_iBufferUpInterval, m_iBufferSize;
 	MPEG_HEAD            m_sMpegHead;
 	int32                m_iBitRate;
    bool                 m_bBufferingUp;

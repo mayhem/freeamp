@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.97 1999/07/27 19:25:03 robert Exp $
+   $Id: xinglmc.cpp,v 1.97.2.1 1999/08/04 07:48:07 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -227,7 +227,7 @@ Error XingLMC::GetHeadInfo()
        {
            m_frameBytes = head_info3((unsigned char *)pBuffer,
 			                            iMaxFrameSize, &m_sMpegHead, 
-                                     &m_iBitRate, &iForward);
+                                     (int*)&m_iBitRate, &iForward);
            if (m_frameBytes > 0 && m_frameBytes < iMaxFrameSize && 
                (m_sMpegHead.option == 1 || m_sMpegHead.option == 2))
            {
@@ -434,7 +434,7 @@ Error XingLMC::InitDecoder()
                                   24000 /* freq limit */ ))
    {
          DEC_INFO      decinfo;
-         int           iNewSize;
+         int32         iNewSize;
          Error         result;
 
          m_audioMethods.decode_info(&decinfo);
@@ -515,7 +515,7 @@ void XingLMC::DecodeWork()
 {
    void          *pBuffer, *pOutBuffer;
    Error          Err;
-   int            iLoop = 0, iValue;
+   int32          iLoop = 0, iValue;
    IN_OUT         x = {0, 0};
 
    assert(m_pPmi);

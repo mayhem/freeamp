@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.7 1999/04/26 09:01:25 elrod Exp $
+        $Id: preferences.cpp,v 1.8 1999/04/27 00:55:26 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -59,7 +59,7 @@ const char* kLogPerformancePref = "LogPerformance";
 const int32 kDefaultInputBufferSize = 64;
 const int32 kDefaultOutputBufferSize = 512;
 const int32 kDefaultStreamBufferInterval = 3;
-const int32 kDefaultDecoderThreadPriority = 1;
+const int32 kDefaultDecoderThreadPriority = 4;
 const bool  kDefaultLogging = false;
 const bool  kDefaultSaveStreams = false;
 const char* kDefaultSaveStreamsDir = ".";

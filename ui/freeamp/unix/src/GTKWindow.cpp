@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.23 2000/02/16 04:39:35 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.23.8.1 2000/03/20 23:51:55 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -44,7 +44,6 @@ void mouse_move(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     oPos.y = (int)e->motion.y_root;
     gdk_threads_leave();
     ui->m_pMindMeldMutex->Acquire();
-    ui->SetMouseIn();
     ui->HandleMouseMove(oPos);
     ui->m_pMindMeldMutex->Release();
     gdk_threads_enter();
@@ -58,7 +57,6 @@ void button_down(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     oPos.y = (int)e->button.y_root;
     gdk_threads_leave();
     ui->m_pMindMeldMutex->Acquire();
-    ui->SetMouseIn();
     if (e->button.button == 1) 
         ui->HandleMouseLButtonDown(oPos);
     else if (e->button.button == 3)
@@ -74,7 +72,6 @@ void button_up(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     oPos.y = (int)e->button.y_root;
     gdk_threads_leave();
     ui->m_pMindMeldMutex->Acquire();
-    ui->SetMouseOut();
     if (e->button.button == 1)
         ui->HandleMouseLButtonUp(oPos);
     ui->m_pMindMeldMutex->Release();
@@ -86,8 +83,25 @@ void key_press(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     char *str = e->key.string;
     gdk_threads_leave();
     ui->m_pMindMeldMutex->Acquire();
-    ui->SetMouseIn();
     ui->Keystroke(str[0]);
+    ui->m_pMindMeldMutex->Release();
+    gdk_threads_enter();
+}
+
+void enter_notify(GtkWidget *w, GdkEventCrossing *e, GTKWindow *ui)
+{
+    gdk_threads_leave();
+    ui->m_pMindMeldMutex->Acquire();
+    ui->SetMouseIn();
+    ui->m_pMindMeldMutex->Release();
+    gdk_threads_enter();
+}
+
+void leave_notify(GtkWidget *w, GdkEventCrossing *e, GTKWindow *ui)
+{
+    gdk_threads_leave();
+    ui->m_pMindMeldMutex->Acquire();
+    ui->SetMouseOut();
     ui->m_pMindMeldMutex->Release();
     gdk_threads_enter();
 }
@@ -107,7 +121,6 @@ void drop_file(GtkWidget *w, GdkDragContext *context, gint x, gint y,
 static gint do_timeout(GTKWindow *ui)
 {
     ui->m_pMindMeldMutex->Acquire();
-    ui->MouseLeaveCheck();
     ui->TimerEvent();
     ui->m_pMindMeldMutex->Release();
     
@@ -166,6 +179,10 @@ Error GTKWindow::Run(Pos &oPos)
                       GDK_ACTION_COPY);
     gtk_signal_connect(GTK_OBJECT(mainWindow), "drag_data_received",
                        GTK_SIGNAL_FUNC(drop_file), this);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "enter_notify_event",
+                       GTK_SIGNAL_FUNC(enter_notify), this);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "leave_notify_event",
+                       GTK_SIGNAL_FUNC(leave_notify), this);
 
     iMaxX = gdk_screen_width();
     iMaxY = gdk_screen_height();
@@ -428,6 +445,7 @@ bool GTKWindow::LButtonDown(void)
 
 void GTKWindow::MouseLeaveCheck(void)
 {
+/*
     if (m_bMouseInWindow) {
         if (gdk_window_at_pointer(NULL, NULL) != mainWindow->window) {
             m_bMouseInWindow = false;
@@ -435,6 +453,21 @@ void GTKWindow::MouseLeaveCheck(void)
         }
         else 
             m_bMouseInWindow = true;
+    }
+*/
+}
+
+void GTKWindow::SetMouseIn(void)
+{
+    m_bMouseInWindow = true;
+}
+
+void GTKWindow::SetMouseOut(void)
+{
+    if (!m_bWindowMove) {
+        if (m_bMouseInWindow)
+            MouseHasLeftWindow();
+        m_bMouseInWindow = false;
     }
 }
 

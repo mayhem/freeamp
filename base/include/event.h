@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.44 2000/02/09 21:21:25 elrod Exp $
+	$Id: event.h,v 1.44.6.1 2000/03/20 23:51:55 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -143,5 +143,8 @@ class EventQueue {
 #define INFO_PlaylistItemsAdded 76 // sent by PLM to player to inform of a playlistitem update
 #define INFO_DoneOutputtingDueToError 77 // sent by PMO (or LMC controlling PMO) to Player when its done outputing but an error occurred
 #define INFO_HeadlineText             78 // Used to send Slashdot headlines to UIs
+#define INFO_CDDiscStatus             79 // sent by the CD PMO when a disc starts playing, so the MB gui knows the number of tracks, etc
+#define INFO_MusicCatalogRegenerating 80 // sent by the MC to tell the UIs to ignore it for awhile
+#define INFO_MusicCatalogDoneRegenerating 81 // sent by the MC to tell the UIs to regenerate their database
 #endif // _EVENT_H_
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.59.2.1.2.4 2000/03/07 05:19:52 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.59.2.1.2.4.2.1 2000/03/20 23:51:55 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -2647,6 +2647,7 @@ GTKMusicBrowser::GTKMusicBrowser(FAContext *context, MusicBrowserUI *masterUI,
     m_playingindex = kInvalidIndex;
     iSetRepeatMode = false;
     iSetShuffleMode = false;
+    m_bIgnoringMusicCatalogMessages = false;
 
     parentUI = masterUI;
  
@@ -2665,8 +2666,10 @@ GTKMusicBrowser::GTKMusicBrowser(FAContext *context, MusicBrowserUI *masterUI,
         bool saveOnExit;
         m_context->prefs->GetSaveCurrentPlaylistOnExit(&saveOnExit);
 
-        if (saveOnExit)
+        if (saveOnExit) 
             LoadPlaylist(playlistURL);
+        else
+            m_currentListName = playlistURL;
     }
     else   
         LoadPlaylist(playlistURL);
@@ -2870,7 +2873,7 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
             break; }
         case INFO_MusicCatalogTrackAdded: {
             MusicCatalogTrackAddedEvent *mct = (MusicCatalogTrackAddedEvent *)e;
-            if (m_initialized) {
+            if (m_initialized && !m_bIgnoringMusicCatalogMessages) {
                 gdk_threads_enter();
                 AddCatTrack((ArtistList *)mct->Artist(), 
                             (AlbumList *)mct->Album(), 
@@ -2881,7 +2884,7 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
         case INFO_MusicCatalogPlaylistAdded: {
             MusicCatalogPlaylistAddedEvent *mcp = 
                               (MusicCatalogPlaylistAddedEvent *)e;
-            if (m_initialized) {
+            if (m_initialized && !m_bIgnoringMusicCatalogMessages) {
                 gdk_threads_enter();
                 AddCatPlaylist((string)mcp->Item());
                 gdk_threads_leave();
@@ -2981,6 +2984,17 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
                 gdk_threads_leave();
             }
             m_playingindex = temp;
+           break; }
+        case INFO_MusicCatalogRegenerating: {
+            m_bIgnoringMusicCatalogMessages = true;
+            break; }
+        case INFO_MusicCatalogDoneRegenerating: {
+            m_bIgnoringMusicCatalogMessages = false;
+            if (isVisible) {
+                gdk_threads_enter();
+                UpdateCatalog();
+                gdk_threads_leave();
+            }
             break; } 
         default:
             break;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.23.2.1.2.1 2000/03/04 05:33:34 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.23.2.1.2.1.2.1 2000/03/20 23:51:55 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -168,7 +168,10 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 mainBrowser->ShowMusicBrowser();
             break; }
         case CMD_AddFiles:
-        case INFO_PlaylistCurrentItemInfo: 
+        case INFO_MusicCatalogRegenerating:
+        case INFO_MusicCatalogDoneRegenerating:
+        case INFO_PlaylistCurrentItemInfo:
+        case INFO_PlaylistItemUpdated:
         case INFO_PrefsChanged: {
             mainBrowser->AcceptEvent(event);
             vector<GTKMusicBrowser *>::iterator i = browserWindows.begin();

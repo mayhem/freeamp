@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.2 1998/10/14 00:31:25 jdw Exp $
+##      $Id: Makefile.am,v 1.3 1998/10/19 21:13:08 jdw Exp $
 ##
 ############################################################################
 
@@ -29,7 +29,7 @@ FILES =
 MYLIBS = 
 TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 else
-FILES = dummycoo.cpp
+FILES = dummyui.cpp
 MYLIBS = libfauidummy.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 endif

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.1 1998/10/18 04:38:47 jdw Exp $
+	$Id: preferences.cpp,v 1.2 1998/10/19 21:13:08 jdw Exp $
 ____________________________________________________________________________*/
 
 #include "preferences.h"
@@ -79,6 +79,7 @@ Preferences::~Preferences() {
 
 
 Error Preferences::GetInstallDirectory(char* path, uint32* len) {
+    getcwd(path,*len);
     return kError_NoErr;
 #if 0
     return GetPrefString(kInstallDirPref, path, len);

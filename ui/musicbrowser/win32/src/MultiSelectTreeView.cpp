@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.6 1999/12/03 21:07:57 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.7 1999/12/17 09:49:03 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -202,7 +202,7 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
     static HTREEITEM dragItem = NULL;
     static bool selectedOnMouseDown = false;
 
-    //return CallWindowProc((int (__stdcall *)(void))lpOldProc, hwnd, msg, wParam, lParam );
+    //return CallWindowProc(lpOldProc, hwnd, msg, wParam, lParam );
 
 	switch(msg)
 	{
@@ -698,13 +698,6 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
         {
             UpdateButtonMenuStates();
             InvalidateRect(hwnd, NULL, TRUE);
-            break;
-        }
-
-        case WM_NOTIFY:
-        {
-            
-
             break;
         }
     } 

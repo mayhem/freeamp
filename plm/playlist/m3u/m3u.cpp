@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.1.2.1 1999/08/30 05:26:56 elrod Exp $
+	$Id: m3u.cpp,v 1.1.2.2 1999/08/30 22:35:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -213,7 +213,7 @@ Error M3U::WritePlaylist(char* url, PlaylistFormatInfo* format,
 
                 for(index = 0; index < count; index++)
                 {
-                    PlaylistItem* item = list->at(index);
+                    PlaylistItem* item = (*list)[index];
 
                     fprintf(fp, "%s%s", item->URL().c_str(), 
                                         LINE_END_MARKER_STR);

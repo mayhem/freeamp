@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.17.2.2 1999/08/27 16:55:28 ijr Exp $
+	$Id: cmdlineUI.cpp,v 1.17.2.3 1999/08/30 22:35:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -188,7 +188,7 @@ int32 cmdlineUI::AcceptEvent(Event *e) {
 		    cout << "Playing: " << pmvi->m_filename << endl;
 		}
 		break; }
-	    case INFO_ID3TagInfo: {
+/*	    case INFO_ID3TagInfo: {
 		ID3TagEvent *ite = (ID3TagEvent *)e;
 		if (ite) {
 		    Id3TagInfo ti = ite->GetId3Tag();
@@ -203,7 +203,7 @@ int32 cmdlineUI::AcceptEvent(Event *e) {
 		}
 		break;
 	    }
-	    default:
+*/	    default:
 		break;
 	}
     }

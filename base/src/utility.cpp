@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.2.2.1 1999/08/30 04:50:58 elrod Exp $
+	$Id: utility.cpp,v 1.2.2.2 1999/08/30 22:35:20 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -57,6 +57,7 @@ Error FilePathToURL(const char* path, char* url, uint32* length)
 
             strcpy(url, protocol);
 
+#ifdef WIN32
             if(extra)
             {
                 int32 drive = _getdrive();
@@ -65,6 +66,7 @@ Error FilePathToURL(const char* path, char* url, uint32* length)
                 url[8] = '|';
                 url[9] = 0x00;
             }
+#endif
 
             strcat(url, path);
 

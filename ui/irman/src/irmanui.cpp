@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.cpp,v 1.8.4.2 1999/08/27 16:55:28 ijr Exp $
+	$Id: irmanui.cpp,v 1.8.4.3 1999/08/30 22:35:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -240,7 +240,7 @@ void IRManUI::ProcessArgs() {
 	    m_plm->AddItem(pc,0);
 	}
     }
-    m_plm->SetCurrentItem(0);
+    m_plm->SetCurrentIndex(0);
     Event *e = new Event(CMD_Play);
     m_playerEQ->AcceptEvent(e);
 }

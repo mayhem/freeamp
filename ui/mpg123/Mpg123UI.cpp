@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.14.4.2 1999/08/27 16:55:29 ijr Exp $
+	$Id: Mpg123UI.cpp,v 1.14.4.3 1999/08/30 22:35:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -104,14 +104,14 @@ int32 Mpg123UI::AcceptEvent(Event *e) {
 		Event *e = new Event(CMD_QuitPlayer);
 		m_playerEQ->AcceptEvent(e);
 		break; }
-	    case INFO_ID3TagInfo: {
+/*	    case INFO_ID3TagInfo: {
 		ID3TagEvent *ite = (ID3TagEvent *)e;
 		if (ite) {
 		    m_id3Tag = ite->GetId3Tag();
 		}
 		break;
 	    }
-	    case INFO_MPEGInfo: {
+*/	    case INFO_MPEGInfo: {
 		MpegInfoEvent *mie = (MpegInfoEvent *)e;
 		if (mie) {
 		    m_mpegInfo = *mie;
@@ -175,11 +175,11 @@ void Mpg123UI::DisplayStuff() {
     }
     strncpy(fileName,fname,511);
     fileName[511] = '\0';
-    if (m_id3Tag.m_containsInfo) {
+/*    if (m_id3Tag.m_containsInfo) {
 	fprintf(stderr,"Title  : %30s  Artist: %s\n",m_id3Tag.m_songName,m_id3Tag.m_artist);
 	fprintf(stderr,"Album  : %30s  Year: %4s, Genre: %d\n",m_id3Tag.m_album,m_id3Tag.m_year,(int)m_id3Tag.m_genre);
 	fprintf(stderr,"Comment: %30s \n",m_id3Tag.m_comment);
-    }
+    } */
     cerr << endl;
     
     static char *mpeg_string[4] = { "1.0","1.0","2.0","2.5"};
@@ -351,7 +351,7 @@ void Mpg123UI::ProcessArgs() {
 
     if (addedStuff) {
 
-	m_plm->SetCurrentItem(0);
+	m_plm->SetCurrentIndex(0);
 /*	m_plm->SetSkip(skipFirst); */
 	Event *e = new Event(CMD_Play);
 	m_playerEQ->AcceptEvent(e);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portabledevice.h,v 1.1.2.7 1999/08/30 12:23:17 elrod Exp $
+	$Id: portabledevice.h,v 1.1.2.8 1999/08/30 22:35:20 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PORTABLE_DEVICE_H_
@@ -88,9 +88,9 @@ class DeviceInfo {
     string m_manufacturer;
     string m_device;
     DeviceRef m_ref;
+    ConnectionType m_type;
     uint32 m_bytesTotal;
     uint32 m_bytesUsed;
-    ConnectionType m_type;
     uint32 m_port;
     uint32 m_numEntries;
 };

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.30.4.4 1999/08/30 08:43:28 elrod Exp $
+        $Id: eventdata.h,v 1.30.4.5 1999/08/30 22:35:20 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -113,9 +113,10 @@ class     MediaInfoEvent:public Event
    {
       if (m_childEvents)
       {
-            while (m_childEvents->size() > 0)
-                delete &m_childEvents[0];
+            vector<Event *>::iterator i = m_childEvents->begin();
 
+            for (; i != m_childEvents->end(); i++)
+                delete *i;
             delete    m_childEvents;
             m_childEvents = NULL;
       }
@@ -144,8 +145,10 @@ class     MediaInfoEvent:public Event
                             other.m_childEvents->begin(),
                             other.m_childEvents->end());
 
-      while (other.m_childEvents->size() > 0)    
-          delete &other.m_childEvents[0];
+      vector<Event *>::iterator i = other.m_childEvents->begin();
+      
+      for (; i != other.m_childEvents->end(); i++)
+          delete *i;
 
       other.m_childEvents->clear();
    }

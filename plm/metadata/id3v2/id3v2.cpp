@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.1.2.1 1999/08/29 20:49:38 elrod Exp $
+	$Id: id3v2.cpp,v 1.1.2.2 1999/08/30 22:35:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -31,7 +31,7 @@ using namespace std;
 #include "errors.h"
 #include "errno.h"
 
-#include "id3v1.h"
+#include "id3v2.h"
 
 typedef struct id3v1_0 {
     char id[3];

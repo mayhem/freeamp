@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.13.2.1 1999/08/27 16:55:28 ijr Exp $
+        $Id: unixprefs.cpp,v 1.13.2.2 1999/08/30 22:35:20 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -766,8 +766,10 @@ UnixPrefs::
 GetLibDirClose(LibDirFindHandle *hLibDirFind)
 {
     if (hLibDirFind) {
-        while (hLibDirFind->m_pLibDirs->size() > 0)
-            delete &hLibDirFind->m_pLibDirs[0];
+        vector <char *>::iterator i = hLibDirFind->m_pLibDirs->begin();
+
+        for (; i != hLibDirFind->m_pLibDirs->end(); i++)
+             delete *i;
         delete hLibDirFind->m_pLibDirs;
         delete hLibDirFind;
     }

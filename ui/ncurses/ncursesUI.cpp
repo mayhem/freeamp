@@ -176,7 +176,7 @@ void ncursesUI::keyboardServiceFunction(void *pclcio) {
             case 'S': {
                 if (pMe->m_plm) {
                     pMe->m_plm->SetShuffleMode(true);
-                    pMe->m_plm->SetCurrentItem(0);
+                    pMe->m_plm->SetCurrentIndex(0);
                 }
                 Event *e = new Event(CMD_Stop);
                 pMe->m_playerEQ->AcceptEvent(e);
@@ -342,7 +342,7 @@ int32 ncursesUI::AcceptEvent(Event *e) {
                 lastSeconds = pmtp->m_totalSeconds;
                 break;}
 
-            case INFO_ID3TagInfo: {
+/*            case INFO_ID3TagInfo: {
                 ID3TagEvent *ite = (ID3TagEvent *)e;
                 if (ite) {
                     Id3TagInfo ti = ite->GetId3Tag();
@@ -365,7 +365,7 @@ int32 ncursesUI::AcceptEvent(Event *e) {
                 }
                 break;
             }
-            default:
+*/            default:
                 break;
         }
     }
@@ -386,7 +386,7 @@ void ncursesUI::ProcessArgs() {
             m_plm->AddItem(pc,0);
         }
     }
-    m_plm->SetCurrentItem(0);
+    m_plm->SetCurrentIndex(0);
     Event *e = new Event(CMD_Play);
     m_playerEQ->AcceptEvent(e);
 }

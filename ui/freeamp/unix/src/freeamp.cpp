@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.37.4.2 1999/08/27 16:55:28 ijr Exp $
+	$Id: freeamp.cpp,v 1.37.4.3 1999/08/30 22:35:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -487,7 +487,7 @@ void FreeAmpUI::ParseArgs() {
 	}
     }
     if (m_startupType == PRIMARY_UI) {
-	m_plm->SetCurrentItem(0);
+	m_plm->SetCurrentIndex(0);
     }
     if (m_startupType == PRIMARY_UI) {
 	if(shuffle) 
@@ -652,7 +652,7 @@ int32 FreeAmpUI::AcceptEvent(Event *e) {
 	    m_secondsPerFrame = info->GetSecondsPerFrame();
 	    break;
 	}
-	case INFO_ID3TagInfo: {
+/*	case INFO_ID3TagInfo: {
 	    ID3TagEvent *info = (ID3TagEvent *)e;
 	    Id3TagInfo p = info->GetId3Tag();
 	    char *pEnd = &((p.m_songName)[strlen(p.m_songName)]);
@@ -666,7 +666,7 @@ int32 FreeAmpUI::AcceptEvent(Event *e) {
 	    XUnlockDisplay(m_display);
 	    break;
 	}
-	case INFO_PlaylistRepeat: {
+*/	case INFO_PlaylistRepeat: {
 	    PlaylistRepeatEvent *plre = (PlaylistRepeatEvent *)e;
 	    switch (plre->GetRepeatMode()) 
 	    {

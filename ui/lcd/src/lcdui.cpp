@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.9.8.2 1999/08/27 16:55:29 ijr Exp $
+	$Id: lcdui.cpp,v 1.9.8.3 1999/08/30 22:35:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -335,7 +335,7 @@ int32 LcdUI::AcceptEvent(Event *e) {
 		}
 		break;
 	    }
-	    case INFO_ID3TagInfo: {
+/*	    case INFO_ID3TagInfo: {
 		ID3TagEvent *ite = (ID3TagEvent *)e;
 		if (ite) {
 		    Id3TagInfo ti = ite->GetId3Tag();
@@ -368,7 +368,7 @@ int32 LcdUI::AcceptEvent(Event *e) {
 		}
 		break;
 	    }
-	    default:
+*/	    default:
 		break;
 	}
     }
@@ -418,7 +418,7 @@ void LcdUI::ProcessArgs() {
 	    m_plm->AddItem(pc,0);
 	}
     }
-    m_plm->SetCurrentItem(0);
+    m_plm->SetCurrentIndex(0);
     Event *e = new Event(CMD_Play);
     m_playerEQ->AcceptEvent(e);
 }

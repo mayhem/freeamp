@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.11.4.1 1999/08/27 03:09:43 elrod Exp $
+	$Id: Mpg123UI.h,v 1.11.4.2 1999/08/30 22:35:21 ijr Exp $
 ____________________________________________________________________________*/
 
 // Mpg123UI.h
@@ -65,7 +65,7 @@ class Mpg123UI : public UserInterface {
     bool m_mediaInfo_set;
     MpegInfoEvent m_mpegInfo;
     bool m_mpegInfo_set;
-    Id3TagInfo m_id3Tag;
+/*    Id3TagInfo m_id3Tag; */
     bool verboseMode;
     int32 totalFrames;
     float totalTime;

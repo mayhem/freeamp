@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.7 1999/08/30 08:43:28 elrod Exp $
+        $Id: player.cpp,v 1.133.2.8 1999/08/30 22:35:20 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -100,9 +100,8 @@ EventQueue()
    m_lmc = NULL;
    m_ui = NULL;
 
-/*
    m_argUIList = new vector < char *>();
-*/
+
    m_argc = 0;
    m_argv = NULL;
    m_pTermSem = NULL;
@@ -145,9 +144,10 @@ Player::
    // Delete CIOs
    if (m_uiList)
    {
-        while (m_uiList->size() > 0)    
-            delete &m_uiList[0];
+        vector<UserInterface *>::iterator i = m_uiList->begin();
 
+        for (; i != m_uiList->end(); i++)
+            delete *i; 
         delete m_uiList;
 
       m_uiList = NULL;
@@ -258,8 +258,10 @@ SetArgs(int32 argc, char **argv)
 
                   if (justGotArgvZero)
                   {
-                     while (m_argUIList->size() > 0)
-                        delete &m_argUIList[0];
+                     vector<char *>::iterator i = m_argUIList->begin();
+
+                     for (; i != m_argUIList->end(); i++)
+                         delete *i;
 
                      justGotArgvZero = false;
                   }

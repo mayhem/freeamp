@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.cpp,v 1.1.2.3 1999/08/30 04:51:51 elrod Exp $
+	$Id: id3v1.cpp,v 1.1.2.4 1999/08/30 22:35:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -315,7 +315,7 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                             cout << "track: " << track << endl;
                         }
 
-                        if(id3.v1_0.genre >=0 && id3.v1_0.genre < kNumGenres)
+                        if(id3.v1_0.genre >= 0 && (uint32)id3.v1_0.genre < kNumGenres)
                         {
                             // simple test to see if we have "more" data
                             // would be nice if we can test for "better" data

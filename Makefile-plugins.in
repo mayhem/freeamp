@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.1 1999/08/25 23:08:28 robert Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.2 1999/08/30 22:35:20 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -32,14 +32,22 @@ clean-plugins plugins-clean:
 PLUGINS =  plugins/localfileinput.pmi
 PLUGINS += plugins/httpinput.pmi
 PLUGINS += plugins/obsinput.pmi
+
 PLUGINS += plugins/soundcard.pmo
+
 PLUGINS += plugins/freeampcmd.ui
 PLUGINS += plugins/mpg123.ui
 #PLUGINS += plugins/ncurses.ui
 PLUGINS += plugins/lcd.ui
 PLUGINS += plugins/irman.ui
 PLUGINS += plugins/theme.ui
+
 PLUGINS += plugins/xingmp3.lmc
+
+PLUGINS += plugins/id3v1.mdf
+PLUGINS += plugins/id3v2.mdf
+
+PLUGINS += plugins/m3u.plf
 
 plugins plugins-cc: $(PLUGINS) $(OSDEPPLUGINS)
 
@@ -180,6 +188,32 @@ XINGLMCOBJ = $(XINGLMCOBJC) $(XINGLMCOBJCXX)
 
 plugins/xingmp3.lmc: $(XINGLMCOBJ)
 	$(LINKMOD) -o $@ $(XINGLMCOBJ)
+
+
+# MDF section 
+
+#id3v1
+ID3V1OBJ = plm/metadata/id3v1/id3v1.o
+
+plugins/id3v1.mdf: $(ID3V1OBJ)
+	$(LINKMOD) -o $@ $(ID3V1OBJ)
+
+#id3v2
+ID3V2OBJ = plm/metadata/id3v2/id3v2.o
+
+plugins/id3v2.mdf: $(ID3V2OBJ)
+	$(LINKMOD) -o $@ $(ID3V2OBJ)
+
+# PLF section
+
+#m3u
+M3UOBJ = plm/playlist/m3u/m3u.o
+
+plugins/m3u.plf: $(M3UOBJ)
+	$(LINKMOD) -o $@ $(M3UOBJ)
+
+
+
 
 depend:
 	makedepend -fMakefile-plugins -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(LFIOBJ) $(HTTPOBJ) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(GTKUIOBJ) $(FREEAMPUIOBJ) $(XINGLMCOBJ) | sed -e 's,\.o,.cpp,g'`

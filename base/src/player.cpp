@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.224 2000/08/09 15:44:31 ijr Exp $
+        $Id: player.cpp,v 1.225 2000/08/10 20:49:36 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -110,7 +110,7 @@ EventQueue()
     m_pmiMutex = new Mutex();
     m_pmoMutex = new Mutex();
     m_uiMutex = new Mutex();
-    m_signatureSem = new Semaphore(2);
+    m_signatureSem = new Semaphore(SEM_UNLOCKED);
     // cout << "Created mutex" << endl;
     m_imQuitting = 0;
     m_quitWaitingFor = 0;

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.h,v 1.2 2000/05/06 12:05:48 ijr Exp $
+	$Id: semaphore.h,v 1.3 2000/08/10 20:49:37 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -29,6 +29,9 @@ ____________________________________________________________________________*/
 
 #include <pthread.h>
 
+#define SEM_LOCKED   1
+#define SEM_UNLOCKED 2
+
 class Semaphore {
  private:
     int count;
@@ -36,7 +39,7 @@ class Semaphore {
     pthread_cond_t cond;
 
  public:
-    Semaphore(int cnt = 1);
+    Semaphore(int cnt = SEM_LOCKED);
     ~Semaphore();
     bool Wait(int ms = -1);
     bool TimedWait(int iMilliSecs);

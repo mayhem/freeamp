@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.134 2000/08/09 00:45:44 ijr Exp $
+   $Id: xinglmc.cpp,v 1.135 2000/08/10 20:49:37 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -54,7 +54,7 @@ ____________________________________________________________________________*/
 #define DB Debug_v("%s:%d\n",  __FILE__, __LINE__);
 
 const int iInitialOutputBufferSize = 64512;
-static Semaphore m_xingSem(2);
+static Semaphore m_xingSem(SEM_UNLOCKED);
 
 extern    "C"
 {

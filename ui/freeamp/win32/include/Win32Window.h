@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.16 2000/02/14 22:39:02 robert Exp $
+   $Id: Win32Window.h,v 1.17 2000/05/14 23:12:26 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -65,6 +65,7 @@ class Win32Window : public Window
      virtual bool  LButtonDown(void);
      virtual Error GetDesktopSize(int32 &iX, int32 &iY);
      virtual void  BringWindowToFront(void);
+     virtual void  PanelStateChanged(void);
 
 	 virtual HWND  GetWindowHandle(void);
      LRESULT       WindowProc(HWND hwnd, UINT msg, 

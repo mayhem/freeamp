@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.4 2000/05/14 21:20:46 robert Exp $
+   $Id: Canvas.cpp,v 1.5 2000/05/14 23:12:26 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "Canvas.h"
@@ -81,9 +81,10 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
     }
 
     m_pBGBitmap = m_pCompleteBGBitmap->Clone();
+
     for(i = pPanels->begin(); i != pPanels->end(); i++)
     {
-        if (!(*i)->m_bIsOpen)
+        if ((*i)->m_bIsOpen)
         {
             m_pBGBitmap->MakeTransparent((*i)->m_oOpenRect);
             if ((*i)->m_pClosedBitmap)

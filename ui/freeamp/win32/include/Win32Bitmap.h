@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.h,v 1.9 2000/05/14 21:20:46 robert Exp $
+   $Id: Win32Bitmap.h,v 1.10 2000/05/14 23:12:26 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32BITMAP_H__
@@ -61,7 +61,10 @@ class Win32Bitmap : public Bitmap
      void          SaveBitmap(char    *szFile, 
                               RGBQUAD *pColorTable);
      virtual void  SetPalette(HPALETTE hPal);
+
      
+void BlitIt(int x, int y);
+
     protected:
 
      void          CreateMaskBitmap(void);
@@ -72,6 +75,7 @@ class Win32Bitmap : public Bitmap
      int32       m_iHeight, m_iWidth;
      void       *m_pBitmapData, *m_pMaskBitmapData;
      HPALETTE    m_hPal;
+     BITMAPINFO *m_pMaskInfo;
 };
 
 #endif

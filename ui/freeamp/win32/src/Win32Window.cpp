@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.36 2000/05/14 21:20:46 robert Exp $
+   $Id: Win32Window.cpp,v 1.37 2000/05/14 23:12:26 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1039,4 +1039,27 @@ void Win32Window::Create256ColorPalette(BYTE pColorMap[236][3],
    }    
                            
    delete pLog;
+}
+
+void Win32Window::PanelStateChanged(void)
+{
+    Rect   oRect;
+    RECT   sRect;
+	HRGN   hRgn;
+ 
+    Window::PanelStateChanged();
+
+    GetCanvas()->GetBackgroundRect(oRect);
+    hRgn = ((Win32Canvas *)m_pCanvas)->GetMaskRgn(); 
+    if (hRgn)
+        SetWindowRgn(m_hWnd, hRgn, true);
+
+
+    sRect.left = oRect.x1;
+    sRect.right = oRect.x2;
+    sRect.top = oRect.y1;
+    sRect.bottom = oRect.y2;
+
+	InvalidateRect(m_hWnd, &sRect, true);
+	UpdateWindow(m_hWnd);
 }

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.57 2000/05/09 10:21:01 elrod Exp $
+	$Id: main.cpp,v 1.58 2000/06/01 15:56:12 ksteinbe Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -131,7 +131,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     FAContext *context = new FAContext;
 
     context->prefs = new Win32Prefs();
-    context->log = new LogFile("freeamp.log");
+     context->log = new LogFile("freeamp.log");
 
     // find all the plug-ins we use
     Registrar* registrar;
@@ -571,7 +571,12 @@ static LRESULT WINAPI HiddenWndProc(HWND hwnd,
             
             break;
         }
-
+        
+        case WM_DISPLAYCHANGE:
+        {
+            context->target->AcceptEvent(new Event(INFO_PrefsChanged));
+            break;
+        }
         default:
             result = DefWindowProc(hwnd, msg, wParam, lParam);
             break;

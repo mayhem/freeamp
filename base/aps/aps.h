@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: aps.h,v 1.1 2000/07/31 19:51:38 ijr Exp $
+        $Id: aps.h,v 1.2 2000/08/01 03:46:43 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -83,7 +83,7 @@ public:
        
     /** IP of APS Servers can be overwridden in constructor. */
     APSInterface(const char* pYpIP  = "209.249.187.199", 
-                 const char* pSigIP = "209.248.187.199");
+                 const char* pSigIP = "209.249.187.199");
     virtual ~APSInterface(); // to be or not to be virtual....
        
     /** Submit an AudioSig structure to the Signature server, and get the

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.81 2000/09/28 08:08:00 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.82 2000/09/28 11:16:05 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -477,7 +477,7 @@ lib/unzip/lib/libunzip.la: $(UNZIPOBJ)
 
 # libhttp section
 
-LIBHTTPOBJ = lib/http/src/Http.o
+LIBHTTPOBJ = lib/http/src/Http.lo
 
 lib/http/lib/libfahttp.la: $(LIBHTTPOBJ)
 	+test -d lib/http/lib || mkdir lib/http/lib

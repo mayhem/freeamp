@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb.cpp,v 1.1 2000/02/20 04:16:16 ijr Exp $
+	$Id: cddb.cpp,v 1.2 2000/03/04 04:59:06 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -66,6 +66,13 @@ bool CDDB::ReadMetaData(const char* url, MetaData* metadata)
 
     if(url && metadata)
     {
+        char *ext = strrchr(url, '.');
+        if (!ext)
+            return retvalue;
+
+        if (strncasecmp(".CDA", ext, 4))
+            return retvalue;
+
         Registry *pmoRegistry = m_context->player->GetPMORegistry();
         RegistryItem *pmo_item = NULL;
         int32 i = 0;
@@ -86,8 +93,10 @@ bool CDDB::ReadMetaData(const char* url, MetaData* metadata)
 
         m_discinfo = ((CDPMO*)pmo)->GetDiscInfo();
 
-        if (!m_discinfo.disc_present)
+        if (!m_discinfo.disc_present) {
+            delete pmo;
             return retvalue;
+        }
 
         m_discid = ((CDPMO*)pmo)->GetCDDBDiscID();
 

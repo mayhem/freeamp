@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.178 2000/02/29 10:01:57 elrod Exp $
+        $Id: player.cpp,v 1.179 2000/03/04 04:59:06 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1693,7 +1693,6 @@ SendEventToUI(Event *pEvent)
    GetUIManipLock();
    SendToUI(pEvent);
    ReleaseUIManipLock();
-   delete pEvent;
 }
 
 void
@@ -1846,8 +1845,9 @@ ServiceEvent(Event * pC)
             break;
 
         case INFO_PlaylistItemUpdated:
-            SendEventToCatalog(pC);
             SendEventToUI(pC);
+            SendEventToCatalog(pC);
+            delete pC;
             break;
 
         case INFO_UserMessage:
@@ -1883,6 +1883,7 @@ ServiceEvent(Event * pC)
         case CMD_LoadTheme:
         case CMD_ShowPreferences:
             SendEventToUI(pC);
+            delete pC;
             break;
 
         case CMD_ToggleDownloadUI:

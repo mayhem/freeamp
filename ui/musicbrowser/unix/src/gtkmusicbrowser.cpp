@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.65 2000/03/01 05:21:02 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.66 2000/03/04 04:59:06 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1137,11 +1137,13 @@ void GTKMusicBrowser::RegenerateCDTree(void)
 
         CDTracks->push_back(newitem);
     }
-    vector<PlaylistItem *> *metalist = 
+    if (CDTracks->size() > 0) {
+        vector<PlaylistItem *> *metalist = 
                                    new vector<PlaylistItem *>(CDTracks->size());
 
-    copy(CDTracks->begin(), CDTracks->end(), metalist->begin());
-    m_plm->RetrieveMetaData(metalist);
+        copy(CDTracks->begin(), CDTracks->end(), metalist->begin());
+        m_plm->RetrieveMetaData(metalist);
+    }
 
     gtk_ctree_node_get_pixtext(musicBrowserTree, CDTree, 0, NULL, NULL, &pixmap,
                                &mask);

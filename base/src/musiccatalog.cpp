@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.41 2000/02/29 10:01:57 elrod Exp $
+        $Id: musiccatalog.cpp,v 1.42 2000/03/04 04:59:06 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -846,7 +846,6 @@ void MusicCatalog::DoSearchMusic(char *path)
                        
                     PlaylistItem *plist = new PlaylistItem(tempurl);
                     metalist->push_back(plist);
-                    m_itemWaitCount++;
 
                     delete [] tempurl;
                 }
@@ -856,8 +855,12 @@ void MusicCatalog::DoSearchMusic(char *path)
         while (FindNextFile(handle, &find) && !m_exit);
         FindClose(handle);
 
-        if (metalist->size() > 0)
+        if (metalist->size() > 0) {
+            while (m_itemWaitCount > 30)
+                usleep(50);
+            m_itemWaitCount += metalist->size();
             m_plm->RetrieveMetaData(metalist);
+        }
         else 
             delete metalist;
     }
@@ -1038,7 +1041,6 @@ Error MusicCatalog::AcceptEvent(Event *e)
                 WriteMetaDataToDatabase(piu->Item()->URL().c_str(), 
                                         (MetaData)piu->Item()->GetMetaData());
 
-                delete piu->Item();
                 m_itemWaitCount--;
             }
             break; }

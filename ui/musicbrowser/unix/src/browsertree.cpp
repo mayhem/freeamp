@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.15 2000/06/05 17:47:01 ijr Exp $
+        $Id: browsertree.cpp,v 1.16 2000/06/05 19:41:11 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -93,18 +93,13 @@ TreeData *GTKMusicBrowser::NewTreeData(TreeNodeType type, MusicCatalog *cat,
 
 vector<PlaylistItem *> *GTKMusicBrowser::GetTreeSelection(void)
 {
-    GtkCTree *tree = musicBrowserTree;
-
     vector<PlaylistItem *> *newlist = new vector<PlaylistItem *>;
 
-    GtkCList *clist = GTK_CLIST(tree);
-    GList *selection = clist->selection;
+    vector<TreeData *>::iterator iter = mbSelections->begin();
+    for (; iter != mbSelections->end(); iter++) {
+      TreeData *data = *iter;
 
-    while (selection) {
-      GtkCTreeNode *node = (GtkCTreeNode *)selection->data;
-      TreeData *data = (TreeData *)gtk_ctree_node_get_row_data(tree, node);
-
-      if (!data)
+      if (!data) 
           return newlist;
 
       switch (data->type) {
@@ -185,8 +180,6 @@ vector<PlaylistItem *> *GTKMusicBrowser::GetTreeSelection(void)
         default:
             break;
       }
-
-      selection = selection->next;
     }
     return newlist;
 }
@@ -1153,7 +1146,7 @@ void GTKMusicBrowser::StreamTimer(void)
     }
 
     eRet = o.ParseStreamXML(page, list);
-    
+   
     if (eRet != kError_NoErr) {
         cout << "Stream .xml parse error: " << ErrorString[eRet] << "\n";
         return;

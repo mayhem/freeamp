@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.15 1999/10/12 21:41:29 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.16 1999/10/16 21:25:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -498,7 +498,17 @@ void MusicBrowserUI::UpdateCatalog(void)
     vector<string>::iterator m = m_musicCatalog->m_playlists->begin();
 
     for (; m != m_musicCatalog->m_playlists->end(); m++) {
-        item_new1 = gtk_tree_item_new_with_label((char *)(*m).c_str());
+        char *fullname = new char[_MAX_PATH];
+        strcpy(fullname, (*m).c_str());
+        char *listname = fullname;
+        char *temp = strrchr(fullname, '.');
+        if (temp)
+            *temp = '\0';
+        temp = strrchr(fullname, '/');
+        if (temp)
+            listname = temp + 1;
+        item_new1 = gtk_tree_item_new_with_label(listname);
+        delete [] fullname;
         gtk_object_set_user_data(GTK_OBJECT(item_new1), (char *)(*m).c_str());
         gtk_object_set_data(GTK_OBJECT(item_new1), "type", (gpointer)5);
         gtk_tree_append(GTK_TREE(item_subtree1), item_new1);
@@ -826,10 +836,25 @@ void MusicBrowserUI::UpdatePlaylistList(void)
 
         MetaData mdata = item->GetMetaData();
         char *iText[3];
-
-        char *title = (char *)mdata.Title().c_str();
-        char *artist = (char *)mdata.Artist().c_str();
+        char *title;
+        char *artist;
         char length[50];
+
+        if (mdata.Title() == " ") {
+            char *filename = new char[_MAX_PATH];
+            char *tempdir = strrchr(item->URL().c_str(), '/');
+            if (tempdir)
+                strcpy(filename, tempdir + 1);
+            else 
+                strcpy(filename, item->URL().c_str());
+            tempdir = strrchr(filename, '.');
+            if (tempdir)
+                *tempdir = '\0';
+            mdata.SetTitle(filename);
+            delete [] filename;
+        }
+        title = (char *)mdata.Title().c_str();
+        artist = (char *)mdata.Artist().c_str();
         sprintf(length, "%d", mdata.Time());
 
         iText[0] = title;

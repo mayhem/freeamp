@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.42 1999/10/13 04:49:41 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.43 1999/10/16 21:25:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -526,9 +526,9 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    }    
    if (oControlName == string("Repeat") && eMesg == CM_Pressed)
    {
-   	   int        iState = 0;
+       int        iState = 0;
        string     oStatus;
-       RepeatMode eMode;
+       RepeatMode eMode = kPlaylistMode_RepeatNone;
 
        m_pWindow->ControlIntValue(oControlName, false, iState);
        iState = (iState + 1) % 3;

@@ -18,13 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.1.2.4 1999/10/16 20:48:40 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.1.2.5 1999/10/16 21:25:42 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
 #define INCLUDED_GTKPREFERENCEWINDOW_H__
 
 #include <map>
+#include <gtk/gtk.h>
 
 using namespace std;
 
@@ -102,7 +103,7 @@ class GTKPreferenceWindow : public PreferenceWindow
       PrefsStruct  originalValues;
       PrefsStruct  currentValues;
 
-      mapr<string, string> m_oThemeList;
+      map<string, string> m_oThemeList;
 
   private:
       GtkWidget *CreatePage1(void);
@@ -111,7 +112,6 @@ class GTKPreferenceWindow : public PreferenceWindow
       GtkWidget *CreateAbout(void);
       GtkWidget *CreatePage5(void);
 
-      GtkWidget *mainWindow;
       GtkWidget *applyButton;
 
       GtkWidget *saveStreamLabel;
@@ -128,7 +128,7 @@ class GTKPreferenceWindow : public PreferenceWindow
       GtkWidget *ipOneBox;
       GtkWidget *ipPeriod1;
       GtkWidget *ipTwoBox;
-      gtkWidget *ipPeriod2;
+      GtkWidget *ipPeriod2;
       GtkWidget *ipThreeBox;
       GtkWidget *ipPeriod3;
       GtkWidget *ipFourBox;
@@ -140,6 +140,8 @@ class GTKPreferenceWindow : public PreferenceWindow
       GtkWidget *logPerf;
 
   public:
+      GtkWidget *mainWindow;
+
       void ApplyInfo(void);
       void DefaultInfo(void);
       
@@ -152,6 +154,7 @@ class GTKPreferenceWindow : public PreferenceWindow
       void SaveLocalSet(char *newpath);
       void ProxyAddySet(void);
       void ProxyToggle(int active);
+      void AltIPSet(void);
       void AltIPToggle(int active);
 
       void LogToggle(int active);

@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.121 2000/02/07 22:13:47 robert Exp $
+   $Id: xinglmc.cpp,v 1.122 2000/02/09 11:18:46 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -873,7 +873,7 @@ void XingLMC::DecodeWork()
       {
           return;
       }
-      EndRead(min(x.in_bytes, iReadSize));
+      EndRead(min((int32)x.in_bytes, iReadSize));
       m_pPmi->Wake();
 
       if (m_pOutputBuffer)

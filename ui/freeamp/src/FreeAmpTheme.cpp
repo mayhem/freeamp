@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.142 2000/09/20 12:00:58 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.143 2000/09/20 12:51:36 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1986,6 +1986,7 @@ void FreeAmpTheme::ShowOptions(uint32 defaultPage)
     
     if (m_bInOptions)
        return;
+    m_bInOptions = true;
        
     if (m_pOptionsThread)
     {  
@@ -2013,7 +2014,6 @@ void FreeAmpTheme::OptionsThread(uint32 defaultPage)
 {
     PreferenceWindow *pWindow;
 
-    m_bInOptions = true;
 
 #ifdef WIN32
     pWindow = new Win32PreferenceWindow(m_pContext, m_pThemeMan, m_pUpdateMan, defaultPage);

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.1 2000/03/15 21:18:58 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.2 2000/03/22 19:03:45 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -484,6 +484,8 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
 
          oText = string(pInfo->GetHeadlineMessage());
          m_oHeadlineUrl = string(pInfo->GetHeadlineURL());
+         m_pWindow->ControlStringValue(oName, true, oText);
+         oName = string("HeadlineStreamInfo");
          m_pWindow->ControlStringValue(oName, true, oText);
 
          break;
@@ -1017,6 +1019,27 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
 #endif
        return kError_NoErr;
    }
+   if (oControlName == string("HeadlineStreamInfo") && eMesg == CM_Pressed)
+   {
+       bool bPlay;
+
+       if (m_oHeadlineUrl.length() == 0)
+          return kError_NoErr;
+
+       m_pContext->prefs->GetPlayImmediately(&bPlay);
+       if (bPlay)
+       {
+           m_pContext->target->AcceptEvent(new Event(CMD_Stop));
+           m_pContext->plm->RemoveAll();
+           m_pContext->plm->AddItem(m_oHeadlineUrl);
+           m_pContext->target->AcceptEvent(new Event(CMD_Play));
+       }
+       else
+           m_pContext->plm->AddItem(m_oHeadlineUrl);
+
+       return kError_NoErr;
+   }
+
    if (oControlName == string("Help") && eMesg == CM_Pressed)
    {
        ShowHelp();

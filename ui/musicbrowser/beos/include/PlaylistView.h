@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: PlaylistView.h,v 1.2 2000/03/28 08:48:50 hiro Exp $
+        $Id: PlaylistView.h,v 1.3 2000/03/28 11:30:52 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_VIEW_H__
@@ -26,27 +26,34 @@ ____________________________________________________________________________*/
 
 #include <be/interface/ListView.h>
 
+class BeOSMusicBrowser;
+class PlaylistManager;
+
 class PlaylistView : public BListView
 {
 public:
-                    PlaylistView( BRect frame, const char* name,
-                                  uint32 resizingMode );
-    virtual         ~PlaylistView();
-    virtual void    Draw( BRect updateRect );
-    virtual bool    InitiateDrag( BPoint point, int32 index, bool wasSelected );
-    virtual void    MessageReceived( BMessage* message );
-    virtual void    MouseMoved( BPoint point, uint32 transit,
-                                const BMessage* message );
-    virtual void    MouseUp( BPoint point );
+                        PlaylistView( BeOSMusicBrowser* browser,
+                                      BRect frame, const char* name,
+                                      uint32 resizingMode );
+    virtual             ~PlaylistView();
+    virtual void        Draw( BRect updateRect );
+    virtual bool        InitiateDrag( BPoint point, int32 index,
+                                      bool wasSelected );
+    virtual void        MessageReceived( BMessage* message );
+    virtual void        MouseMoved( BPoint point, uint32 transit,
+                                    const BMessage* message );
+    virtual void        MouseUp( BPoint point );
 
-    void            SetCurrentlyPlaying( int32 index );
+    void                SetCurrentlyPlaying( int32 index );
 
 protected:
-    void            SetInserter( int32 index ); // if negative, removes it.
+    void                SetInserter( int32 index ); // if negative, removes it.
 
 private:
-    int32           m_currentIndex;
-    int32           m_inserter;
+    BeOSMusicBrowser*   m_browser;
+    PlaylistManager*    m_plm;
+    int32               m_currentIndex;
+    int32               m_inserter;
 };
 
 #endif // INCLUDED_PLAYLIST_VIEW_H__

@@ -18,18 +18,26 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: PlaylistView.cpp,v 1.2 2000/03/28 08:48:50 hiro Exp $
+        $Id: PlaylistView.cpp,v 1.3 2000/03/28 11:30:52 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "PlaylistView.h"
 #include "TrackItem.h"
+#include "CollectionItem.h"
+#include "PlaylistListItem.h"
 #include "BeOSMusicBrowser.h"
+#include "playlist.h"
 #define DEBUG 1
 #include <be/support/Debug.h>
+#include <vector>
+using namespace std;
 
-PlaylistView::PlaylistView( BRect frame, const char* name,
+PlaylistView::PlaylistView( BeOSMusicBrowser* browser,
+                            BRect frame, const char* name,
                             uint32 resizingMode )
 :   BListView( frame, name, B_SINGLE_SELECTION_LIST, resizingMode ),
+    m_browser( browser ),
+    m_plm( m_browser->PLM() ),
     m_currentIndex( 0 ),
     m_inserter( -1 )
 {
@@ -48,7 +56,8 @@ PlaylistView::Draw( BRect updateRect )
     if ( m_inserter >= 0 )
     {
         BRect frame( ItemFrame( m_inserter ) );
-        StrokeRect( frame );
+        MovePenTo( frame.LeftBottom() );
+        StrokeLine( frame.RightBottom() );
     }
 }
 
@@ -80,7 +89,34 @@ PlaylistView::MessageReceived( BMessage* message )
     switch ( message->what )
     {
         case B_SIMPLE_DATA:
+        {
+            PRINT(( "inserter = %d\n", m_inserter ));
+            int32 index = m_inserter + 1;
+            CatalogItem* cti;
+            if ( message->FindPointer( "CatalogItem", (void**)&cti ) == B_OK )
+            {
+                if ( cti->Type() == CatalogItem::ITEM_TRACK )
+                {
+                    TrackItem* ti = dynamic_cast<TrackItem*>( cti );
+                    m_plm->AddItem( ti->URL(), index );
+                }
+                else if ( cti->Type() == CatalogItem::ITEM_COLLECTION )
+                {
+                    CollectionItem* cli = dynamic_cast<CollectionItem*>( cti );
+                    vector<string> urls;
+                    m_browser->GetURLsUnder( cli, &urls );
+                    m_plm->AddItems( urls, index );
+                }
+                else if ( cti->Type() == CatalogItem::ITEM_PLAYLIST )
+                {
+                    PlaylistListItem* pli =
+                        dynamic_cast<PlaylistListItem*>( cti );
+                    m_plm->AddItem( pli->URL(), index );
+                }
+            }
+            SetInserter( -1 );
             break;
+        }
         default:
             BListView::MessageReceived( message );
             break;
@@ -93,6 +129,7 @@ PlaylistView::MouseMoved( BPoint point, uint32 transit,
 {
     if ( message )
     {
+        // if the user is draggin something over, activate the inserter.
         SetInserter( IndexOf( point ) );
     }
 }
@@ -100,7 +137,8 @@ PlaylistView::MouseMoved( BPoint point, uint32 transit,
 void
 PlaylistView::MouseUp( BPoint point )
 {
-    SetInserter( -1 );
+    // inserter is reset after the message was delivered to MessageReceived.
+    // so nothing is done here.
 }
 
 void
@@ -127,7 +165,6 @@ PlaylistView::SetCurrentlyPlaying( int32 index )
 void
 PlaylistView::SetInserter( int32 index )
 {
-    PRINT(( "setting inserter at %d\n", index ));
     InvalidateItem( m_inserter );
     m_inserter = index;
     InvalidateItem( m_inserter );

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.2 1998/10/13 10:07:04 elrod Exp $
+	$Id: registrar.cpp,v 1.3 1998/10/13 20:08:06 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -204,8 +204,7 @@ Error RegisterUIs(UIRegistry* registry)
             {
                 char file[MAX_PATH];
 
-                strcpy(file, dir);
-                strcat(file, find.cFileName);
+                sprintf(file, "%s\\%s", dir, find.cFileName);
 
                 UIInfo* info = new UIInfo;
 

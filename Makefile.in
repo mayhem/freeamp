@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.76 2000/09/28 08:08:00 ijr Exp $
+# $Id: Makefile.in,v 1.77 2000/09/28 11:33:09 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -52,6 +52,7 @@ FREEAMPsolarisOBJ = $(FREEAMPunixOBJ)
 FREEAMPlinuxOBJ   = $(FREEAMPunixOBJ)
 FREEAMPfreebsdOBJ = $(FREEAMPunixOBJ)
 FREEAMPqnxOBJ     = $(FREEAMPunixOBJ)
+FREEAMPirixOBJ    = $(FREEAMPunixOBJ)
 
 FREEAMPbeosOBJ  = base/beos/src/beosprefs.o base/beos/src/beosthread.o
 FREEAMPbeosOBJ += base/beos/src/bootstrap.o base/beos/src/debug.o 
@@ -82,6 +83,7 @@ FREEAMPlinuxLIBS = -ldl -lpthread
 FREEAMPsolarisLIBS = -ldl -lpthread
 FREEAMPfreebsdLIBS = -pthread
 FREEAMPqnxLIBS = -lasound
+FREEAMPirixLIBX = -lpthread
 UNIXFREEAMPLIBS = $(FREEAMP$(HOST_OS)LIBS) -lmusicbrainz $(EXTRALIBS) #-ldmallocthcxx
 
 BEOSFREEAMPLIBS = -lbe -lroot

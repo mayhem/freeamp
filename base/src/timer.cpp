@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: timer.cpp,v 1.15 2000/09/28 08:08:00 ijr Exp $
+        $Id: timer.cpp,v 1.16 2000/09/28 11:33:09 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -32,7 +32,7 @@ ____________________________________________________________________________*/
 #include "timer.h"
 
 #if defined(__linux__) || defined(solaris) || defined(__FreeBSD__) || \
-    defined(__QNX__)
+    defined(__QNX__) || defined(irix)
 #include <unistd.h>
 #define GoToSleep(x) usleep(x*1000)
 #elif defined(WIN32)

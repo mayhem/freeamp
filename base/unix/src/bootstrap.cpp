@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.31 2000/09/28 08:08:00 ijr Exp $
+	$Id: bootstrap.cpp,v 1.32 2000/09/28 11:33:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -65,7 +65,7 @@ static void PrintMutexDebugInfo(int sig)
 #endif
 
 #if ( (defined(__GNU_LIBRARY__) && !defined(_SEM_SEMUN_UNDEFINED)) \
-    || (defined(__FreeBSD__)) )
+    || (defined(__FreeBSD__)) || defined(irix)))
 #else
 union semun 
 {

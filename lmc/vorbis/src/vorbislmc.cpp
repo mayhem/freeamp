@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.cpp,v 1.11 2000/09/28 08:08:01 ijr Exp $
+   $Id: vorbislmc.cpp,v 1.12 2000/10/06 10:48:31 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -61,7 +61,7 @@ const int iBitrateLoopsPerUpdate = iFramesPerSecond * 3;
 const int iInitialOutputBufferSize = 64512; 
 const char *szFailRead = "Cannot read vorbis data from input plugin.";
 const char *szFailWrite = "Cannot write audio data to output buffer.";
-const char *szCannotDecode = The_BRANDING" cannot play this file/stream. This file/stream may be corrupted.";
+const char *szCannotDecode = "Skipped corrupted file.";
 
 VorbisLMC::VorbisLMC(FAContext *context) :
          LogicalMediaConverter(context)
@@ -73,6 +73,7 @@ VorbisLMC::VorbisLMC(FAContext *context) :
    m_szError = NULL;
    m_bInit = false;
    m_newPos = -1;
+   m_decodeInfo.sendInfo = true;
 }
 
 VorbisLMC::~VorbisLMC()
@@ -287,7 +288,13 @@ void VorbisLMC::DecodeWork()
    if (Err != kError_NoErr)
    {
        m_pContext->log->Error("CanDecode returned false.\n");
-       ReportError(szCannotDecode);
+       if (m_decodeInfo.sendInfo)
+       {
+           ReportStatus(szCannotDecode);
+           m_pTarget->AcceptEvent(new Event(INFO_DoneOutputtingDueToError));
+       }
+       else
+           ((EventBuffer *)m_pOutputBuffer)->AcceptEvent(new PMOErrorEvent());
        return;
    }
 
@@ -298,8 +305,13 @@ void VorbisLMC::DecodeWork()
    if (IsError(Err))
    {
        m_pContext->log->Error("ExtractMediaInfo failed: %d\n", Err);
-       ReportError(szCannotDecode);
-
+       if (m_decodeInfo.sendInfo)
+       {
+           ReportStatus(szCannotDecode);
+           m_pTarget->AcceptEvent(new Event(INFO_DoneOutputtingDueToError));
+       }
+       else
+           ((EventBuffer *)m_pOutputBuffer)->AcceptEvent(new PMOErrorEvent());
        return;
    }
 
@@ -348,7 +360,7 @@ void VorbisLMC::DecodeWork()
              new PMOTimeInfoEvent(m_frameCounter));
 
           bitrateLoops++;
-          if (bitrateLoops == iBitrateLoopsPerUpdate)
+          if (bitrateLoops == iBitrateLoopsPerUpdate && m_decodeInfo.sendInfo)
           {
              int b;
 

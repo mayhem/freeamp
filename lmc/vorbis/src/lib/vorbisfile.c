@@ -12,7 +12,7 @@
  ********************************************************************
 
  function: stdio-based convenience library for opening/seeking/decoding
- last mod: $Id: vorbisfile.c,v 1.1 2000/09/21 20:46:25 robert Exp $
+ last mod: $Id: vorbisfile.c,v 1.2 2000/10/06 10:48:31 robert Exp $
 
  ********************************************************************/
 
@@ -209,7 +209,7 @@ static int _fetch_headers(OggVorbis_File *vf,vorbis_info *vi,vorbis_comment *vc,
 
   ret=_get_next_page(vf,&og,CHUNKSIZE);
   if(ret==-1){
-    fprintf(stderr,"Did not find initial header for bitstream.\n");
+    //fprintf(stderr,"Did not find initial header for bitstream.\n");
     return -1;
   }
   

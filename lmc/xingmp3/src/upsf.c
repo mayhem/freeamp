@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: upsf.c,v 1.3 1999/10/19 07:13:09 elrod Exp $
+	$Id: upsf.c,v 1.4 2000/10/13 14:29:03 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  upsf.c  ***************************************************
@@ -38,8 +38,6 @@ Layer III
 #include <float.h>
 #include <math.h>
 #include "L3.h"
-
-extern int iframe;
 
 unsigned int bitget(int n);
 

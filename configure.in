@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.121 2000/10/12 20:22:40 ijr Exp $
+dnl $Id: configure.in,v 1.122 2000/10/13 14:29:02 ijr Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -756,10 +756,6 @@ if test "x$enable_x86" = "xyes"; then
                      lmc/xingmp3/src/mdctasm.o \
                      lmc/xingmp3/src/msisasm.o`"
       AC_DEFINE(ASM_X86)
-    else
-      AC_MSG_RESULT([nasm not available, using older x86 optimizations])
-      XINGASM=lmc/xingmp3/src/x86gas.o
-      AC_DEFINE(ASM_X86_OLD)
     fi
   fi
 fi

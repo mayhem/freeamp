@@ -23,7 +23,7 @@
 ; * along with this program; if not, write to the Free Software
 ; * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ; * 
-; * $Id: cwin8asm.asm,v 1.3 1999/04/22 08:24:01 mhw Exp $
+; * $Id: cwin8asm.asm,v 1.4 2000/10/13 14:29:02 ijr Exp $
 ; */
 
   BITS 32

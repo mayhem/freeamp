@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: iwinm.c,v 1.3 2000/05/24 17:08:33 ijr Exp $
+	$Id: iwinm.c,v 1.4 2000/10/13 14:29:02 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  iwinm.c  ***************************************************
@@ -49,7 +49,7 @@ WININT vbuf2[512];
 static WINCOEF iwincoef[264];
 
 /*==================================================================*/
-WINCOEF *i_wincoef_addr(void)
+WINCOEF *i_wincoef_addr()
 {
    return iwincoef;
 }

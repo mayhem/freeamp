@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: icdct.c,v 1.3 2000/05/24 17:08:33 ijr Exp $
+	$Id: icdct.c,v 1.4 2000/10/13 14:29:02 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  icdct.c  ***************************************************
@@ -49,7 +49,7 @@ static DCTCOEF coef32[32];	/* 32 pt dct coefs */
 #define forward_bf idx_forward_bf
 /*--- #define forward_bf ptr_forward_bf  ---*/
 /*------------------------------------------------------------*/
-DCTCOEF *i_dct_coef_addr(void)
+DCTCOEF *i_dct_coef_addr()
 {
    return coef32;
 }

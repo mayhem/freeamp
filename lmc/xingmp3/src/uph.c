@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: uph.c,v 1.4 2000/05/25 18:21:24 ijr Exp $
+	$Id: uph.c,v 1.5 2000/10/13 14:29:03 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  uph.c  ***************************************************
@@ -278,7 +278,7 @@ void unpack_huff(int xy[][2], int n, int ntable)
 	    xy[i][0] = x;
 	    xy[i][1] = y;
 	    if (bitdat.bs_ptr > bitdat.bs_ptr_end)
-	       break;		/* bad data protect */
+	       break;		// bad data protect
 
 	 }
 	 return;
@@ -309,7 +309,7 @@ void unpack_huff(int xy[][2], int n, int ntable)
 	    xy[i][0] = x;
 	    xy[i][1] = y;
 	    if (bitdat.bs_ptr > bitdat.bs_ptr_end)
-	       break;		/* bad data protect */
+	       break;		// bad data protect
 
 	 }
 	 return;
@@ -343,7 +343,7 @@ void unpack_huff(int xy[][2], int n, int ntable)
 	    xy[i][0] = x;
 	    xy[i][1] = y;
 	    if (bitdat.bs_ptr > bitdat.bs_ptr_end)
-	       break;		/* bad data protect */
+	       break;		// bad data protect
 
 	 }
 	 return;
@@ -416,7 +416,7 @@ int unpack_huff_quad(int vwxy[][4], int n, int nbits, int ntable)
       vwxy[i][2] = x;
       vwxy[i][3] = y;
       if (bitdat.bs_ptr > bitdat.bs_ptr_end)
-	 break;			/* bad data protect */
+	 break;			// bad data protect
 
    }
    if (nbits < 0)
@@ -482,7 +482,7 @@ int unpack_huff_quad(int vwxy[][4], int n, int nbits, int ntable)
       vwxy[i][2] = x;
       vwxy[i][3] = y;
       if (bitdat.bs_ptr > bitdat.bs_ptr_end)
-	 break;			/* bad data protect */
+	 break;			// bad data protect
 
    }
    if (nbits < 0)

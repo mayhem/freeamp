@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.6 1999/08/31 10:26:15 elrod Exp $
+	$Id: pmp300.cpp,v 1.1.2.7 1999/08/31 23:39:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -48,6 +48,19 @@ DeviceInfoStruct devices[] = {
 const uint32 ports[] = { 0x378, 0x278, 0x03BC };
 
 #define kNumDevices (sizeof(devices)/sizeof(DeviceInfoStruct))
+
+Error InternalReadPlaylist(CRio& rio, 
+                           bool useExternal,
+                           uint32* totalMem,
+                           uint32* usedMem,
+                           vector<PlaylistItem*>* list,
+                           PLMCallBackFunction function,
+                           void* cookie);
+
+bool FindRio(CRio& rio, 
+             DeviceInfo* device,
+             PLMCallBackFunction function,
+             void* cookie);
 
 extern "C"
 {
@@ -178,18 +191,9 @@ bool PMP300::IsDeviceAvailable(DeviceInfo* device)
     {
         if(!strcasecmp(device->GetDevice(), devices[0].device))
         {
-            uint32 ports[] = { 0x378, 0x278, 0x03BC };
             CRio rio;
 
-            for(uint32 count = 0; count < sizeof(ports); count++)
-            {
-                if(rio.Set(ports[count]) && rio.CheckPresent())
-                {
-                    device->SetPortAddress(ports[count]);
-                    result = true;
-                    break;
-                }
-            }
+            result = FindRio(rio, device, NULL, NULL);
         }
     }
 
@@ -211,24 +215,7 @@ Error PMP300::GetDeviceInfo(DeviceInfo* device)
             CRio rio;
             bool rioPresent = false;
 
-            if(device->GetPortAddress() && 
-               rio.Set(device->GetPortAddress()) && 
-               rio.CheckPresent())
-            {
-                rioPresent = true;
-            }
-            else // brute force it...
-            {
-                for(uint32 count = 0; count < sizeof(ports); count++)
-                {
-                    if(rio.Set(ports[count]) && rio.CheckPresent())
-                    {
-                        device->SetPortAddress(ports[count]);
-                        rioPresent = true;
-                        break;
-                    }
-                }
-            }
+            rioPresent = FindRio(rio, device, NULL, NULL);
 
             if(rioPresent)
             {
@@ -314,34 +301,7 @@ Error PMP300::InitializeDevice(DeviceInfo* device,
             CRio rio;
             bool rioPresent = false;
 
-            if(function)
-            {
-                PLMEvent event;
-    
-                event.type = kPLMEvent_Status;
-                event.eventString = "Searching for portable device...";
-
-                function(&event, cookie);
-            }
-
-            if(device->GetPortAddress() && 
-               rio.Set(device->GetPortAddress()) && 
-               rio.CheckPresent())
-            {
-                rioPresent = true;
-            }
-            else // brute force it...
-            {
-                for(uint32 count = 0; count < sizeof(ports); count++)
-                {
-                    if(rio.Set(ports[count]) && rio.CheckPresent())
-                    {
-                        device->SetPortAddress(ports[count]);
-                        rioPresent = true;
-                        break;
-                    }
-                }
-            }
+            rioPresent = FindRio(rio, device, function, cookie);
 
             if(rioPresent)
             {
@@ -411,38 +371,11 @@ Error PMP300::ReadPlaylist(DeviceInfo* device,
             CRio rio;
             bool rioPresent = false;
 
-            if(function)
-            {
-                PLMEvent event;
-    
-                event.type = kPLMEvent_Status;
-                event.eventString = "Searching for portable device...";
-
-                function(&event, cookie);
-            }
-
-            if(device->GetPortAddress() && 
-               rio.Set(device->GetPortAddress()) && 
-               rio.CheckPresent())
-            {
-                rioPresent = true;
-            }
-            else // brute force it...
-            {
-                for(uint32 count = 0; count < sizeof(ports); count++)
-                {
-                    if(rio.Set(ports[count]) && rio.CheckPresent())
-                    {
-                        device->SetPortAddress(ports[count]);
-                        rioPresent = true;
-                        break;
-                    }
-                }
-            }
+            rioPresent = FindRio(rio, device, function, cookie);
 
             if(rioPresent)
             {
-                uint32 numEntries, totalMem, usedMem; 
+                uint32 totalMem, usedMem; 
 
                 if(function)
                 {
@@ -456,143 +389,42 @@ Error PMP300::ReadPlaylist(DeviceInfo* device,
                     function(&event, cookie);
                 }
 
-                result = kError_UnknownErr;
+                result = InternalReadPlaylist(rio, 
+                                              false,  
+                                              &totalMem, 
+                                              &usedMem, 
+                                              list, 
+                                              function, 
+                                              cookie);
 
-                if(rio.RxDirectory())
+                if(IsntError(result))
 	            {
-                    result = kError_NoErr;
+                    uint32 externalTotal, externalUsed;
 
-                    CDirBlock& cDirBlock = rio.GetDirectoryBlock();
-                    CDirHeader& cDirHeader = cDirBlock.m_cDirHeader;
-
-                    totalMem = ((long)cDirHeader.m_usCount32KBlockAvailable * CRIO_SIZE_32KBLOCK);
-                    usedMem = ((long)cDirHeader.m_usCount32KBlockUsed * CRIO_SIZE_32KBLOCK);
-
-                    uint32 count = cDirHeader.m_usCountEntry;
-
-                    numEntries = count;
-
-	                if(count)
-	                {
-		                CDirEntry* pDirEntry = cDirBlock.m_acDirEntry;
-
-		                if(count > CRIO_MAX_DIRENTRY)
-			                count = CRIO_MAX_DIRENTRY;
-
-
-                        for(uint32 index = 0; index < count; ++index, ++pDirEntry)
-                        {
-                            string url;
-                            MetaData metadata;
-                            char number[10];
-
-                            url = "portable://rio_pmp300/internal/";
-                            url += ltoa(index, number, 10);
-                            url +="/";
-                            url += pDirEntry->m_szName;
-
-                            metadata.SetSize(pDirEntry->m_lSize);
-                            metadata.SetTitle(pDirEntry->m_szName);
-
-                            PlaylistItem* item = new PlaylistItem(url.c_str(), &metadata);
-
-                            if(!item)
-                            {
-                                result = kError_OutOfMemory;  
-                                break;
-                            }
-
-                            list->push_back(item);
-
-                            if(function)
-                            {
-                                PLMEvent event;
-        
-                                event.type = kPLMEvent_Progress;
-                                event.data.progressData.position = index + 1;
-                                event.data.progressData.total = count;
-                                event.data.progressData.item = item;
-
-                                function(&event, cookie);
-                            }
-                        }
-	                }       
-                }
-
-                if(IsntError(result) && function)
-                {
-                    PLMEvent event;
+                    if(function)
+                    {
+                        PLMEvent event;
     
-                    event.type = kPLMEvent_Status;
-                    event.eventString = " Scanning external memory...";
+                        event.type = kPLMEvent_Status;
+                        event.eventString = " Scanning external memory...";
 
-                    function(&event, cookie);
+                        function(&event, cookie);
+                    }
+
+                    InternalReadPlaylist( rio, 
+                                          true,  
+                                          &externalTotal,
+                                          &externalUsed,
+                                          list, 
+                                          function, 
+                                          cookie);    
+                    
+                    totalMem += externalTotal;
+                    usedMem += externalUsed;
                 }
 
-                rio.UseExternalFlash( true );
-
-                if(IsntError(result) && rio.RxDirectory())
-	            {
-                    CDirBlock& cDirBlock = rio.GetDirectoryBlock();
-                    CDirHeader& cDirHeader = cDirBlock.m_cDirHeader;
-
-                    totalMem += ((long)cDirHeader.m_usCount32KBlockAvailable * CRIO_SIZE_32KBLOCK);
-                    usedMem += ((long)cDirHeader.m_usCount32KBlockUsed * CRIO_SIZE_32KBLOCK);
-
-                    uint32 count = cDirHeader.m_usCountEntry;
-
-                    numEntries += count;
-
-	                if(count)
-	                {
-		                CDirEntry* pDirEntry = cDirBlock.m_acDirEntry;
-
-		                if(count > CRIO_MAX_DIRENTRY)
-			                count = CRIO_MAX_DIRENTRY;
-
-                        for(uint32 index = 0; index < count; ++index, ++pDirEntry)
-                        {
-                            string url;
-                            MetaData metadata;
-                            char number[10];
-
-                            url = "portable://rio_pmp300/external/";
-                            url += ltoa(index, number, 10);
-                            url +="/";
-                            url += pDirEntry->m_szName;
-
-                            metadata.SetSize(pDirEntry->m_lSize);
-                            metadata.SetTitle(pDirEntry->m_szName);
-
-                            PlaylistItem* item = new PlaylistItem(url.c_str(), &metadata);
-
-                            if(!item)
-                            {
-                                result = kError_OutOfMemory;  
-                                break;
-                            }
-
-                            list->push_back(item);
-
-                            if(function)
-                            {
-                                PLMEvent event;
-        
-                                event.type = kPLMEvent_Progress;
-                                event.data.progressData.position = index + 1;
-                                event.data.progressData.total = count;
-                                event.data.progressData.item = item;
-
-                                function(&event, cookie);
-                            }
-                        }
-	                }       
-                }
-
-                device->SetNumEntries(numEntries);
+                device->SetNumEntries(list->size());
                 device->SetCapacity(totalMem, usedMem);
-
-                uint32 count = list->size();
             }
         }
     }
@@ -619,35 +451,27 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
             CRio rio;
             bool rioPresent = false;
 
-            if(device->GetPortAddress() && 
-               rio.Set(device->GetPortAddress()) && 
-               rio.CheckPresent())
-            {
-                rioPresent = true;
-            }
-            else // brute force it...
-            {
-                for(uint32 count = 0; count < sizeof(ports); count++)
-                {
-                    if(rio.Set(ports[count]) && rio.CheckPresent())
-                    {
-                        device->SetPortAddress(ports[count]);
-                        rioPresent = true;
-                        break;
-                    }
-                }
-            }
+            rioPresent = FindRio(rio, device, function, cookie);
 
             if(rioPresent)
             {
+                if(function)
+                {
+                    PLMEvent event;
+    
+                    event.type = kPLMEvent_Status;
+                    event.eventString += "A ";
+                    event.eventString = device->GetDevice();
+                    event.eventString += " has been found. Scanning internal memory...";
 
+                    function(&event, cookie);
+                }               
             }
         }       
     }
 
     return result;
 }
-
 
 Error PMP300::DownloadSong(DeviceInfo* device, 
                            PlaylistItem* item,
@@ -671,30 +495,127 @@ Error PMP300::DownloadSong(DeviceInfo* device,
             CRio rio;
             bool rioPresent = false;
 
-            if(device->GetPortAddress() && 
-               rio.Set(device->GetPortAddress()) && 
-               rio.CheckPresent())
-            {
-                rioPresent = true;
-            }
-            else // brute force it...
-            {
-                for(uint32 count = 0; count < sizeof(ports); count++)
-                {
-                    if(rio.Set(ports[count]) && rio.CheckPresent())
-                    {
-                        device->SetPortAddress(ports[count]);
-                        rioPresent = true;
-                        break;
-                    }
-                }
-            }
+            rioPresent = FindRio(rio, device, function, cookie);
 
             if(rioPresent)
             {
                 result = kError_FeatureNotSupported;
             }
         }   
+    }
+
+    return result;
+}
+
+bool FindRio ( CRio& rio, 
+               DeviceInfo* device,
+               PLMCallBackFunction function,
+               void* cookie)
+{
+    bool rioPresent = false;
+
+    if(function)
+    {
+        PLMEvent event;
+
+        event.type = kPLMEvent_Status;
+        event.eventString = "Searching for portable device...";
+
+        function(&event, cookie);
+    }
+
+    if(device->GetPortAddress() && 
+       rio.Set(device->GetPortAddress()) && 
+       rio.CheckPresent())
+    {
+        rioPresent = true;
+    }
+    else // brute force it...
+    {
+        for(uint32 count = 0; count < sizeof(ports); count++)
+        {
+            if(rio.Set(ports[count]) && rio.CheckPresent())
+            {
+                device->SetPortAddress(ports[count]);
+                rioPresent = true;
+                break;
+            }
+        }
+    }
+
+    return rioPresent;
+}
+
+Error InternalReadPlaylist(CRio& rio, 
+                           bool useExternal,
+                           uint32* totalMem,
+                           uint32* usedMem,
+                           vector<PlaylistItem*>* list,
+                           PLMCallBackFunction function,
+                           void* cookie)
+{
+    Error result = kError_UnknownErr;
+
+    rio.UseExternalFlash( useExternal );
+
+    if(rio.RxDirectory())
+	{
+        result = kError_NoErr;
+
+        CDirBlock& cDirBlock = rio.GetDirectoryBlock();
+        CDirHeader& cDirHeader = cDirBlock.m_cDirHeader;
+
+        *totalMem = ((long)cDirHeader.m_usCount32KBlockAvailable * CRIO_SIZE_32KBLOCK);
+        *usedMem = ((long)cDirHeader.m_usCount32KBlockUsed * CRIO_SIZE_32KBLOCK);
+
+        uint32 count = cDirHeader.m_usCountEntry;
+
+	    if(count)
+	    {
+		    CDirEntry* pDirEntry = cDirBlock.m_acDirEntry;
+
+		    if(count > CRIO_MAX_DIRENTRY)
+			    count = CRIO_MAX_DIRENTRY;
+
+
+            for(uint32 index = 0; index < count; ++index, ++pDirEntry)
+            {
+                string url;
+                MetaData metadata;
+                char number[10];
+
+                url = "portable://rio_pmp300/";
+                url += (useExternal ?  "external/" : "internal/");
+                url += ltoa(index, number, 10);
+                url += "/";
+                url += pDirEntry->m_szName;
+
+                metadata.SetSize(pDirEntry->m_lSize);
+                metadata.SetTitle(pDirEntry->m_szName);
+
+                PlaylistItem* item = new PlaylistItem(url.c_str(), &metadata);
+
+                if(!item)
+                {
+                    result = kError_OutOfMemory;  
+                    break;
+                }
+
+                list->push_back(item);
+
+                if(function)
+                {
+                    PLMEvent event;
+
+                    event.type = kPLMEvent_Progress;
+                    event.data.progressData.position = index + 1;
+                    event.data.progressData.total = count;
+                    event.data.progressData.item = item;
+
+                    function(&event, cookie);
+                }
+            }
+	    }       
     }
 
     return result;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.12 1999/09/27 19:20:35 ijr Exp $
+   $Id: Theme.cpp,v 1.1.2.13 1999/09/27 22:20:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -642,6 +642,13 @@ Error Theme::EndElement(string &oElement)
 
     return kError_InvalidParam;
 }    
+
+Error Theme::PCData(string &oData)
+{
+    m_oLastError = string("Invalid character data: ") + oData;
+    
+    return kError_InvalidParam;
+}
 
 Bitmap *Theme::FindBitmap(string &oName)
 {

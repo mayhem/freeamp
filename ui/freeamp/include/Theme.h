@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.1.2.10 1999/09/27 19:20:35 ijr Exp $
+   $Id: Theme.h,v 1.1.2.11 1999/09/27 22:20:26 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -75,6 +75,7 @@ class Theme : public Parse
     protected:
      
       virtual Error BeginElement(string &oElement, AttrMap &oAttrMap);  
+      virtual Error PCData(string &oData);
       virtual Error EndElement(string &oElement);
       string        m_oThemePath;
       Window       *m_pWindow;

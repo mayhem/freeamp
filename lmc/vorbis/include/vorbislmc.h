@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.h,v 1.6 2000/09/28 08:08:01 ijr Exp $
+   $Id: vorbislmc.h,v 1.7 2001/01/28 06:43:24 ijr Exp $
 
 ____________________________________________________________________________*/
 
@@ -78,6 +78,8 @@ class VorbisLMC : public LogicalMediaConverter
    int    Seek(long offset, int whence);
    long   Tell(void);
    size_t Read(void *buf, size_t size, size_t num);
+
+   const string ConvertToISO(const char *utf8);
 
    static void          DecodeWorkerThreadFunc(void *);
    void                 DecodeWork();

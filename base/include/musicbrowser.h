@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.5 1999/10/24 04:19:56 ijr Exp $
+        $Id: musicbrowser.h,v 1.6 1999/11/23 09:14:07 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -106,7 +106,7 @@ class MusicBrowser : public EventQueue
     void SearchMusic(vector<string> &pathList);
     void StopSearchMusic(void);
     
-    void WriteMetaDataToDatabase(const char *url, const MetaData information);
+    void WriteMetaDataToDatabase(const char *url, const MetaData metadata);
     MetaData *ReadMetaDataFromDatabase(const char *url);
 
     virtual int32 AcceptEvent(Event *e);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.c,v 1.6 1999/11/08 02:22:49 ijr Exp $
+        $Id: browsermenu.c,v 1.7 1999/11/23 09:14:08 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -54,7 +54,6 @@ void CreateMenuItems(GtkItemFactory *item_factory, void *p)
 {
     GtkItemFactoryEntry menu_items[] = {
      {"/_File",                 NULL,           0,         0, "<Branch>" },
-     {"/File/tearoff1",         NULL,           0,         0, "<Tearoff>" },
      {"/File/_New Playlist...",    "<control>N",new_plist, 0, 0 },
      {"/File/_Open Playlist...",   "<control>O",open_list, 0, 0 },
      {"/File/_Save Playlist",   "<control>S",   save_list, 0, 0 },

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.8 1999/11/10 02:43:26 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.9 1999/11/23 09:14:08 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -101,6 +101,9 @@ class GTKMusicBrowser {
     ClickState m_clickState;
     TreeClickState m_mbState;
 
+    int32 lastPanedPosition;
+    int32 lastPanedHandle;
+
     /* Widget creation */
     void CreateExpanded(void);
     void CreateMenu(GtkWidget *);
@@ -116,7 +119,12 @@ class GTKMusicBrowser {
     GtkWidget *playlistList;
     GtkWidget *playlistOMenu;
     GtkWidget *playlistMenu;
+    GtkWidget *addFile;
+    GtkWidget *toolUp;
+    GtkWidget *toolDown;
     GtkItemFactory *menuFactory;
+
+    GtkWidget *NewPixmap(char **data);
 
     void SetStatusText(const char *text);
     GtkWidget *statusBar;

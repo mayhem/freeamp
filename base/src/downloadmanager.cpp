@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.1 2000/03/04 05:39:10 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.2 2000/03/04 07:21:01 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -906,6 +906,7 @@ Error DownloadManager::Download(DownloadItem* item)
                         if(fd >= 0)
                         {
                             result = kError_NoErr;
+                            int wcount = 0;
 
                             char* cp = strstr(buffer, "\n\n");
 
@@ -923,7 +924,7 @@ Error DownloadManager::Download(DownloadItem* item)
                             {
                                 if(cp - buffer < (int)total)
                                 {
-                                    write(fd, cp, total - (cp - buffer));
+                                    wcount = write(fd, cp, total - (cp - buffer));
                                     item->SetBytesReceived(total - (cp - buffer) + item->GetBytesReceived());
                                     SendProgressMessage(item);
                                 }
@@ -935,7 +936,7 @@ Error DownloadManager::Download(DownloadItem* item)
 
                                 if(count > 0)
                                 {
-                                    write(fd, buffer, count);
+                                    wcount = write(fd, buffer, count);
                                     item->SetBytesReceived(count + item->GetBytesReceived());
                                     SendProgressMessage(item);
                                 }
@@ -943,12 +944,16 @@ Error DownloadManager::Download(DownloadItem* item)
                                 if(count < 0)
                                     result = kError_IOError;
                                 
+                                if(wcount < 0)
+                                    result = kError_WriteFile;
+
                                 if(item->GetState() == kDownloadItemState_Cancelled ||
                                    item->GetState() == kDownloadItemState_Paused)
                                     result = kError_UserCancel;
 
-                            }while(count > 0 && IsntError(result) && m_runDownloadThread &&
-                                  item->GetTotalBytes() > item->GetBytesReceived());
+                            }while(count > 0 && IsntError(result) && 
+                                   m_runDownloadThread && wcount >= 0 && 
+                                   (item->GetTotalBytes() > item->GetBytesReceived()));
 
                             close(fd);                           
                         }

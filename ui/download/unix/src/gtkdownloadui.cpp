@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.9.4.1 2000/03/04 06:34:39 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.9.4.2 2000/03/04 07:21:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -192,8 +192,8 @@ string DownloadUI::StatusString(DownloadItem *dli)
             statusString = outtext;
             break; }
         case kDownloadItemState_Error: {
-            char outtext[128];
-            sprintf(outtext, "Error: %d\n", dli->GetDownloadError());
+            char outtext[1024];
+            sprintf(outtext, "Error: %s\n", ErrorString[dli->GetDownloadError()]);
             statusString = outtext;
             break; }
         case kDownloadItemState_Done: {
@@ -215,8 +215,10 @@ void DownloadUI::UpdateDownloadList(void)
 
     uint32 iLoop = downloadList.size();
 
-    if (iLoop == 0)
+    if (iLoop == 0) {
+        gtk_clist_thaw(GTK_CLIST(m_List));
         return;
+    }
 
     for (uint32 i = 0; i < iLoop; i++) {
         DownloadItem *dli = downloadList[i];
@@ -232,7 +234,7 @@ void DownloadUI::UpdateDownloadList(void)
     }
 
     gtk_clist_select_row(GTK_CLIST(m_List), m_currentindex, 0);
-    UpdateInfo();
+    SelChangeEvent(m_currentindex);
     gtk_clist_thaw(GTK_CLIST(m_List));
 }
 
@@ -260,12 +262,12 @@ void DownloadUI::UpdateItem(DownloadItem *dli)
     if (!dli || !m_List || !isVisible)
         return;
 
-    gtk_clist_freeze(GTK_CLIST(m_List));
-
     int row = gtk_clist_find_row_from_data(GTK_CLIST(m_List), (gpointer)dli);
 
     if (row < 0)
         return;
+
+    gtk_clist_freeze(GTK_CLIST(m_List));
 
     char *iText[2];
     string displayString = dli->GetMetaData().Title();
@@ -284,15 +286,13 @@ void DownloadUI::RemoveItem(DownloadItem *dli)
     if (!dli || !m_List || !isVisible)
         return;
 
-    gtk_clist_freeze(GTK_CLIST(m_List));
-
     int row = gtk_clist_find_row_from_data(GTK_CLIST(m_List), (gpointer)dli);
 
     if (row < 0)
         return;
 
+    gtk_clist_freeze(GTK_CLIST(m_List));
     gtk_clist_remove(GTK_CLIST(m_List), row);
-
     gtk_clist_thaw(GTK_CLIST(m_List));
 
     vector<DownloadItem *>::iterator i = downloadList.begin();

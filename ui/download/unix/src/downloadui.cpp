@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.12.4.1 2000/03/04 06:34:39 ijr Exp $
+        $Id: downloadui.cpp,v 1.12.4.2 2000/03/04 07:21:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -141,8 +141,9 @@ Error DownloadUI::AcceptEvent(Event *e)
                     CreateDownloadUI();
                     m_initialized = true;
                 }
-                UpdateDownloadList();
                 isVisible = true;
+                UpdateDownloadList();
+                UpdateOverallProgress();
             }
             gdk_threads_leave();
             break; }
@@ -153,6 +154,19 @@ Error DownloadUI::AcceptEvent(Event *e)
             if (isVisible) {
                 gdk_threads_enter();
                 AddItem(dliae->Item());
+                UpdateOverallProgress();
+                gdk_threads_leave();
+            }
+            else {
+                gdk_threads_enter();
+                if (m_initialized)
+                    gtk_widget_show(m_downloadUI); 
+                else {
+                    CreateDownloadUI();
+                    m_initialized = true;
+                }
+                isVisible = true;
+                UpdateDownloadList();
                 UpdateOverallProgress();
                 gdk_threads_leave();
             }

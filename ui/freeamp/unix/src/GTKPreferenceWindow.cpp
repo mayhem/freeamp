@@ -18,10 +18,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.25.2.2 2000/02/26 21:27:48 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.25.2.2.2.1 2000/03/04 07:21:01 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
+#include "config.h"
+
 #include <stdlib.h>
 #include <assert.h>
 #include <sys/stat.h>

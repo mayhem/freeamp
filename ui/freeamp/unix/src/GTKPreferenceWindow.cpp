@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.33 2000/04/07 01:14:44 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.34 2000/04/26 18:31:11 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -552,6 +552,8 @@ void GTKPreferenceWindow::SavePrefsValues(Preferences* prefs,
         m_pContext->target->AcceptEvent(new Event(INFO_PrefsChanged));
         currentValues = proposedValues = *values;
     }
+
+    m_pContext->prefs->Save();
 }
 
 void GTKPreferenceWindow::SetToolbar(bool text, bool pics)

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.190 2000/04/25 14:30:19 robert Exp $
+        $Id: player.cpp,v 1.191 2000/04/26 18:31:11 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -723,7 +723,7 @@ Run()
     char* cp = secondaries;
     char* ui = cp;
 
-    while(cp = strchr(cp, ';'))
+    while((cp = strchr(cp, ';')))
     {
         *cp = 0x00;
         secondaryUIList.insert(string(ui));

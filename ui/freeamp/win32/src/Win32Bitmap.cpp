@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.1.2.12 1999/10/01 20:56:09 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.1.2.13 1999/10/06 00:48:47 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -73,6 +73,8 @@ HBITMAP Win32Bitmap::GetMaskBitmapHandle(void)
    return m_hMaskBitmap;
 }
 
+static int first = 0;
+
 void Win32Bitmap::CreateMaskBitmap(void)
 {
    BITMAP      sInfo;
@@ -117,11 +119,11 @@ void Win32Bitmap::CreateMaskBitmap(void)
    pMaskInfo->bmiHeader.biSizeImage = 0;
    pMaskInfo->bmiHeader.biXPelsPerMeter = 0;
    pMaskInfo->bmiHeader.biYPelsPerMeter = 0;
-   pMaskInfo->bmiHeader.biClrUsed = 0;
+   pMaskInfo->bmiHeader.biClrUsed = 2;
    pMaskInfo->bmiHeader.biClrImportant = 0;
-   pColorRefPtr = (COLORREF *)((char *)pMaskInfo) + sizeof(BITMAPINFOHEADER);
-   pColorRefPtr[0] = RGB(0,0,0);
-   pColorRefPtr[1] = RGB(255,255,255);
+   pColorRefPtr = (COLORREF *)(&pMaskInfo->bmiColors);
+   pColorRefPtr[0] = RGB(255,255,255);
+   pColorRefPtr[1] = RGB(0,0,0);
 
    pData = new char[sInfo.bmWidth * 4];
    pMaskData = new char[(sInfo.bmWidth / 8) + 4];
@@ -156,11 +158,6 @@ void Win32Bitmap::CreateMaskBitmap(void)
           Debug_v("SetDIBits failed. Last Error: %d", GetLastError());
           break;
        }   
-   }
-   if (iLine < sInfo.bmHeight)
-   {
-       DeleteObject(m_hMaskBitmap);
-       m_hMaskBitmap = NULL;
    }
 
    delete pData;

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.31 1999/10/05 19:08:19 robert Exp $
+        $Id: player.cpp,v 1.133.2.32 1999/10/06 00:48:37 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -472,7 +472,7 @@ CompareNames(const char *p1, const char *p2)
 {
 // windows plugins and unix plugins are named differently...
 #ifdef WIN32
-    return strcmp(p1, p2);
+    return strcasecmp(p1, p2);
 #else
     // ut << "Comparing: " << p1 << " to " << p2 << endl;
     if (strcmp(p1, p2))

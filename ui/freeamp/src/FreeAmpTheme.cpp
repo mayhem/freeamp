@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.34 1999/10/05 19:08:22 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.35 1999/10/06 00:48:46 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -695,9 +695,9 @@ void FreeAmpTheme::ReloadTheme(void)
     if (IsError(eRet))					   
     {
         MessageDialog oBox;
-	string        oErr, oMessage(szParseError);
-
-	GetErrorString(oErr);
+	    string        oErr, oMessage(szParseError);
+  
+        GetErrorString(oErr);
         oMessage += oErr;
         oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
     }	

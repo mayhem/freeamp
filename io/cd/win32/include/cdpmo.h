@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.h,v 1.4 2000/05/04 11:28:32 robert Exp $
+        $Id: cdpmo.h,v 1.5 2000/05/17 14:49:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDPMO_H_
@@ -79,6 +79,8 @@ class CDPMO:public PhysicalMediaOutput
    Thread       *m_pBufferThread;
 
    string        m_cdDesc;
+   string        m_thcdDesc;
+
    int           m_track;
    bool          sentData;
    bool          trackDone;

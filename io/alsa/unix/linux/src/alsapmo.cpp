@@ -24,7 +24,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.31 2000/10/11 09:32:27 robert Exp $
+        $Id: alsapmo.cpp,v 1.32 2000/10/19 14:37:13 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -277,7 +277,6 @@ Error AlsaPMO::Init(OutputInfo* info)
     memset(&params, 0, sizeof(params)); 
     params.format.format = SND_PCM_SFMT_S16_LE;
     params.format.interleave = 1;
-    //printf("Chan: %d rate: %d\n", m_channels, info->samples_per_second);
     params.format.voices = m_channels;
     params.format.rate = info->samples_per_second;
     params.channel = SND_PCM_CHANNEL_PLAYBACK;
@@ -377,7 +376,6 @@ void AlsaPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
    snd_pcm_channel_status(m_handle,&ainfo);
 
    iTotalTime = ainfo.scount / (m_iBytesPerSample * myInfo->samples_per_second);
-   //printf("total: %d base: %d\n", iTotalTime, m_iBaseTime);
    iTotalTime = (iTotalTime + m_iBaseTime) % 86400;
 
    hours = iTotalTime / 3600;
@@ -539,6 +537,11 @@ void AlsaPMO::WorkerThread(void)
                WasteTime();
                continue;
           }
+          if (iRet == -EIO)
+          {
+               snd_pcm_channel_prepare(m_handle, SND_PCM_CHANNEL_PLAYBACK);
+               continue;
+          }
           break;
       }
       if (m_bExit)
@@ -561,7 +564,6 @@ void AlsaPMO::WorkerThread(void)
 
       if (iRet < 0)
       {
-         //printf("ALSA: %s (%d==%d)\n", snd_strerror(iRet), iRet, EAGAIN);
          m_pInputBuffer->EndRead(0);
          ReportError("Could not write sound data to the soundcard.");
          m_pContext->log->Error("Failed to write to the soundcard: %s\n", 

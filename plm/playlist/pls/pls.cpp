@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pls.cpp,v 1.4 1999/12/17 05:09:33 ijr Exp $
+	$Id: pls.cpp,v 1.5 2000/01/14 19:29:03 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -106,7 +106,10 @@ Error PLS::ReadPlaylist(const char* url,
     assert(url);
     assert(list);
 
-    URLToFilePath(url, path, &length);
+    Error result = URLToFilePath(url, path, &length);
+
+    if(IsError(result))
+        return result;
 
     strcpy(root, path);
     cp = strrchr(root, DIR_MARKER);

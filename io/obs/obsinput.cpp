@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.1 1999/01/25 23:22:28 robert Exp $
+        $Id: obsinput.cpp,v 1.2 1999/01/28 20:02:24 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -43,9 +43,9 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "obsinput.h"
 
-const int iBufferSize = 65536;
-const int iOverflowSize = 8192;
-const int iTriggerSize = 8192;
+const int iBufferSize = 8192;
+const int iOverflowSize = 1024;
+const int iTriggerSize = 1024;
 
 extern    "C"
 {
@@ -162,6 +162,12 @@ SetTo(char *url)
    }
 
    return result;
+}
+
+Error ObsInput::
+SetBufferSize(size_t iNewSize)
+{
+    return m_pPullBuffer->Resize(iNewSize, iNewSize / 8, iNewSize / 8);
 }
 
 Error ObsInput::

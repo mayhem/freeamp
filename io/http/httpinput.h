@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.4 1999/01/25 23:00:23 robert Exp $
+        $Id: httpinput.h,v 1.5 1999/01/28 20:02:16 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPFILEINPUT_H_
@@ -51,6 +51,7 @@ class     HttpInput:public PhysicalMediaInput
    virtual bool  IsStreaming(void)
                  { return true; };
 	virtual int32 GetBufferPercentage();
+   virtual Error SetBufferSize(size_t iNewSize);
 	virtual bool  CachePMI()
 	              { return true; };
 

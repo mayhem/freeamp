@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.12 1999/01/25 23:00:24 robert Exp $
+	$Id: pmi.h,v 1.13 1999/01/28 20:02:18 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -68,6 +68,8 @@ public:
 
 	 virtual bool  IsStreaming(void)
 	               {return false;}
+    virtual Error SetBufferSize(size_t iSize)
+	               {return kError_GotDefaultMethod;}
     virtual int32 GetBufferPercentage()
 	               {return 0;};
 	 virtual void  Pause()

@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: streambuffer.cpp,v 1.1 1999/01/25 23:38:53 robert Exp $
+   $Id: streambuffer.cpp,v 1.2 1999/01/28 20:02:27 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -104,7 +104,7 @@ Error StreamBuffer::BeginWrite(void *&pBuffer, size_t &iBytesNeeded)
 
    eRet = PullBuffer::BeginWrite(pBuffer, iBytesNeeded);
    m_pStreamMutex->Acquire();
-   
+  
 	if (m_bPause && eRet == kError_BufferTooSmall)
 	{
 	    DiscardBytes();

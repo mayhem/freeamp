@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mhead.c,v 1.3 1998/10/31 02:52:58 jdw Exp $
+	$Id: mhead.c,v 1.4 1999/01/28 20:02:30 robert Exp $
 ____________________________________________________________________________*/
 
 /*------------ mhead.c ----------------------------------------------
@@ -177,7 +177,7 @@ int head_info3(unsigned char *buf, unsigned int n, MPEG_HEAD *h, int *br, unsign
 	// jdw insertion...
    while ((pBuf < n) && !(
 		  (buf[pBuf] == 0xFF) && 
-		  ((buf[pBuf+1] & 0xE0) == 0xE0) )
+		  ((buf[pBuf+1] & 0xF0) == 0xF0) )
 		 ) {
 		pBuf++;
    }

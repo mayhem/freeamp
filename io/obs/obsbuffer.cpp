@@ -16,18 +16,22 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: obsbuffer.cpp,v 1.1 1999/01/25 23:22:28 robert Exp $
+   $Id: obsbuffer.cpp,v 1.2 1999/01/28 20:02:22 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#ifdef WIN32
+#include <winsock.h>
+#else
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h> 
 #include <netdb.h>
+#endif
 
 #include "obsbuffer.h"
 
@@ -207,12 +211,12 @@ void ObsBuffer::WorkerThread(void)
              break;
           }
 
-			 iRead -= sizeof(PacketHeader);
-			 for(pCopy = pTemp + sizeof(PacketHeader); iRead > 0;)
+			 iRead -= sizeof(RTPHeader);
+			 for(pCopy = pTemp + sizeof(RTPHeader); iRead > 0;)
 			 {
 			     iActual = min(iToCopy, iRead);
 			     memcpy(pBuffer, pCopy, iActual);
-              EndWrite(iRead);
+              EndWrite(iActual);
 
 				  pCopy += iActual;
 				  iRead -= iActual;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.2 1999/01/25 23:00:25 robert Exp $
+   $Id: pullbuffer.h,v 1.3 1999/01/28 20:02:19 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PULLBUFFER_H_
@@ -53,6 +53,10 @@ class PullBuffer
       virtual  void     DiscardBytes();
 
       void     Clear        (void);
+      Error    Resize       (size_t iNewSize,
+                             size_t iNewOverflowSize,
+                             size_t iWriteTriggerSize);
+
       bool     IsEndOfStream(void);
       void     SetEndOfStream(bool bEOS);
       size_t   GetNumBytesInBuffer(void)

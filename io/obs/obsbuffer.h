@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: obsbuffer.h,v 1.1 1999/01/25 23:22:28 robert Exp $
+   $Id: obsbuffer.h,v 1.2 1999/01/28 20:02:23 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSBUFFER_H_
@@ -50,20 +50,12 @@ struct ID3Tag
    char cGenre;
 }; 
 
-typedef struct
+struct RTPHeader
 {
-   char  cType          __attribute__ ((packed));
-   char  cConfig        __attribute__ ((packed));
-   short iSize          __attribute__ ((packed));
-   int   iIPAddress     __attribute__ ((packed));
-   short iPort          __attribute__ ((packed));
-   char  cProtVer       __attribute__ ((packed));
-   char  cProtLevel     __attribute__ ((packed));
-   short iPacket        __attribute__ ((packed));
-   short iTimeStamp     __attribute__ ((packed));
-   short iByteOffset    __attribute__ ((packed));
-} PacketHeader;
-
+    int32 iFlags;
+    int32 iTimestamp;
+    int32 iSyncSourceId;
+};
 
 enum
 {

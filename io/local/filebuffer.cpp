@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: filebuffer.cpp,v 1.3 1999/01/25 23:00:26 robert Exp $
+   $Id: filebuffer.cpp,v 1.4 1999/01/28 20:02:20 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -155,7 +155,6 @@ Error FileBuffer::GetID3v1Tag(unsigned char *pTag)
         return kError_NoErr;
     }
 
-    printf("no tag!\n");
     return kError_NoDataAvail;
 }
 

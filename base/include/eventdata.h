@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.40 1999/11/16 00:50:50 elrod Exp $
+        $Id: eventdata.h,v 1.41 1999/11/16 01:05:00 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -33,7 +33,6 @@ using namespace std;
 
 #include "event.h"
 #include "playlist.h"
-#include "musicbrowser.h"
 #include "utility.h"
 
 class     LogicalMediaConverter;
@@ -548,6 +547,9 @@ public:
       szTitle[iSize - 1] = 0;
    }
 };
+
+class ArtistList;
+class AlbumList;
 
 class MusicCatalogTrackAddedEvent : public Event {
 private:

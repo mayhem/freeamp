@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.146 2000/10/13 14:29:03 ijr Exp $
+   $Id: xinglmc.cpp,v 1.147 2001/01/04 04:09:43 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -117,6 +117,7 @@ XingLMC::XingLMC(FAContext *context) :
    m_decodeInfo.mono = false;
    m_decodeInfo.eightbit = false;
    m_decodeInfo.sendInfo = true;
+   mpeg_init(&m_sMPEG);
 }
 
 XingLMC::~XingLMC()
@@ -619,8 +620,6 @@ Error XingLMC::InitDecoder()
 //   if (m_decodeInfo.eightbit)
 //       iConvCode += 8;
 
-   mpeg_init(&m_sMPEG);
-   mpeg_eq_init(&m_sMPEG);
    if (audio_decode_init(&m_sMPEG, &m_sMpegHead, m_frameBytes,
                    iRedCode /* reduction code */, 
                    0 /* transform code (ignored) */ ,

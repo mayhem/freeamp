@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigapp.c,v 1.7 2000/11/14 22:11:00 ijr Exp $
+        $Id: sigapp.c,v 1.8 2001/01/04 04:09:43 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -184,7 +184,6 @@ int ff_decode(char *filename, char ascii_sig[37],
 
 /*---- init decoder -------*/
    mpeg_init(&m);
-   mpeg_eq_init(&m);
    if (!audio_decode_init(&m, &head, framebytes,
                           reduction_code, 0, convert_code, freq_limit))
    {

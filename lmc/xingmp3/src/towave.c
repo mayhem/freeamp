@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: towave.c,v 1.6 2000/10/13 14:29:03 ijr Exp $
+	$Id: towave.c,v 1.7 2001/01/04 04:09:43 robert Exp $
 ____________________________________________________________________________*/
 
 /* ------------------------------------------------------------------------
@@ -383,8 +383,6 @@ int ff_decode(char *filename, char *fileout,
 
 
    mpeg_init(&m);
-   mpeg_eq_init(&m);
-   //memset(&m, 0, sizeof(MPEG));
    in_bytes = out_bytes = 0;
 /*-----------------------*/
    handout = -1;

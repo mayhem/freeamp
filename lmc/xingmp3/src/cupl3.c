@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupl3.c,v 1.17 2000/10/17 21:15:33 ijr Exp $
+	$Id: cupl3.c,v 1.18 2001/01/04 04:09:43 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cupL3.c  ***************************************************
@@ -543,7 +543,10 @@ static void unpack_main(MPEG *m, unsigned char *pcm, int igr)
 			 &m->cupl.side_info.gr[igr][ch], m->cupl.is_mode & ch, &m->cupl.is_sf_info);
 
       if (m->eq.enableEQ)
-	  m->cupl.side_info.gr[igr][ch].global_gain += m->eq.EQ_gain_adjust;
+      {
+	      m->cupl.side_info.gr[igr][ch].global_gain += m->eq.EQ_gain_adjust;
+      }
+
 /*--- huff data ---*/
       n1 = m->cupl.sfBandIndex[0][m->cupl.side_info.gr[igr][ch].region0_count];
       n2 = m->cupl.sfBandIndex[0][m->cupl.side_info.gr[igr][ch].region0_count

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mhead.h,v 1.5 2000/10/17 21:15:33 ijr Exp $
+	$Id: mhead.h,v 1.6 2001/01/04 04:09:43 robert Exp $
 ____________________________________________________________________________*/
 
 /* portable copy of eco\mhead.h */
@@ -197,7 +197,6 @@ struct _mpeg
 		float coef32[31];	/* 32 pt dct coefs */
 	} cdct;
 
-   // This needs to be last in this struct!
    eq_info eq;
 };
 
@@ -277,7 +276,6 @@ extern "C"
 
 
    void mpeg_init(MPEG *m);
-   void mpeg_eq_init(MPEG *m);
    int head_info(unsigned char *buf, unsigned int n, MPEG_HEAD * h);
    int head_info2(unsigned char *buf,
 	   unsigned int n, MPEG_HEAD * h, int *br);

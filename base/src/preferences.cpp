@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.55 2000/10/05 11:47:33 ijr Exp $
+        $Id: preferences.cpp,v 1.56 2001/01/04 04:09:43 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -161,7 +161,7 @@ const int32 kDefaultAudioCDLength = 4440; // 74 minutes
 const int32 kDefaultWatchThisDirTimeout = 600000;
 const bool  kDefaultWriteID3v1 = true;
 const bool  kDefaultWriteID3v2 = true;
-const char* kDefaultEqualizerSettings = "1,50,50,50,50,50,50,50,50,50,50";
+const char* kDefaultEqualizerSettings = "0,50,50,50,50,50,50,50,50,50,50";
 const uint32 kDefaultSavedPlaylistPosition = 0;
 const char* kDefaultMusicBrowserPosition = "-1,-1,-1,-1,-1";
 const char* kDefaultMusicBrowserHeaderWidths = "-1,-1,-1.-1";

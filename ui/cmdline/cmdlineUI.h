@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cmdlineUI.h,v 1.15 2000/02/09 21:21:25 elrod Exp $
+        $Id: cmdlineUI.h,v 1.16 2000/10/11 14:35:26 robert Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -60,6 +60,7 @@ class     cmdlineUI:public UserInterface
    float     m_secondsPerFrame;
    int32     m_currSeconds;
    int32     m_totalFrames;
+   int32     m_totalSeconds;
 };
 
 #endif // _COMMANDLINECIO_H_

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.15 1999/10/01 19:55:55 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.16 1999/10/01 23:53:53 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1435,6 +1435,22 @@ ProgressWndProc(HWND hwnd,
                     BitBlt(hdc, progressRect.left + 2 + i*kProgressWidth, progressRect.top + 2, remainder, kProgressHeight, 
                            memDC, 0, 0, SRCCOPY);
                 }
+
+                uint32 pad = 0;
+
+                if(progressWidth)
+                    pad = (progressWidth + kElementPadding);
+
+                rcClip.left += pad;
+
+                ExtTextOut( hdc, 
+                            rcClip.left, rcClip.top + 1, 
+                            ETO_CLIPPED | ETO_OPAQUE,
+                            &rcClip, 
+                            displayString.c_str(),
+                            displayString.size(),
+                            NULL);
+
             }
 
             EndPaint(hwnd, &ps);

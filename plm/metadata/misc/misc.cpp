@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.cpp,v 1.4.4.1 2000/02/24 00:21:37 elrod Exp $
+	$Id: misc.cpp,v 1.4.4.2 2000/02/24 01:41:22 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -176,16 +176,51 @@ bool Misc::ReadMetaData(const char* url, MetaData* metadata)
     if(convertUnderscores)
     {
         string::size_type pos = 0;
+        string temp;
+
+        temp = metadata->Title();
         
         while(pos != string::npos)
         {
-            pos = metadata->Title().find('_', pos);
+            pos = temp.find('_', pos);
 
             if(pos != string::npos)
             {
-                //replace(pos++, 1,  , ' '); 
+                temp[pos++] = ' ';
             }
         }
+
+        metadata->SetTitle(temp.c_str());
+
+        pos = 0;
+        temp = metadata->Artist();
+        
+        while(pos != string::npos)
+        {
+            pos = temp.find('_', pos);
+
+            if(pos != string::npos)
+            {
+                temp[pos++] = ' ';
+            }
+        }
+
+        metadata->SetArtist(temp.c_str());
+
+        pos = 0;
+        temp = metadata->Album();
+        
+        while(pos != string::npos)
+        {
+            pos = temp.find('_', pos);
+
+            if(pos != string::npos)
+            {
+                temp[pos++] = ' ';
+            }
+        }
+
+        metadata->SetAlbum(temp.c_str());
     }
 
     return true;

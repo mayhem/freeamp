@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.7 1999/08/26 04:28:18 elrod Exp $
+	$Id: playlist.h,v 1.40.4.8 1999/08/26 11:02:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -212,15 +212,20 @@ class PlaylistManager {
 
     // External playlist support
     Error GetSupportedPlaylistFormats(PlaylistFormatInfo* format, uint32 index);
-    Error ReadPlaylist(char* url, vector<PlaylistItem*>* items = NULL);
+    Error ReadPlaylist(char* url, vector<PlaylistItem*>* items = NULL, 
+                        callback_function function = NULL);
+
     Error WritePlaylist(char* url, PlaylistFormatInfo* format, 
-                            vector<PlaylistItem*>* items = NULL);
+                        vector<PlaylistItem*>* items = NULL,
+                        callback_function function = NULL);
 
     // Portable player communication
     Error GetSupportedPortables(DeviceInfo* device, uint32 index);
     bool IsPortableAvailable(DeviceInfo* device);
-    Error ReadPortablePlaylist(DeviceInfo* device);
-    Error SyncPortablePlaylist(DeviceInfo* device);
+    Error ReadPortablePlaylist(DeviceInfo* device, 
+                                callback_function function = NULL);
+    Error SyncPortablePlaylist(DeviceInfo* device, 
+                                callback_function function = NULL);
 
     // Utility Functions
     bool            IsEmpty();
@@ -273,7 +278,7 @@ class PlaylistManager {
 
     vector<MetaDataFormat*>         m_metadataFormats;
     vector<PlaylistFormatInfo*>     m_playlistFormats;
-    //vector<PortablePlayer*>         m_portablePlayers;
+    vector<DeviceInfo*>             m_portablePlayers;
 
 };
 

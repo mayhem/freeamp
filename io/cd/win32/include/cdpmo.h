@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.h,v 1.5 2000/05/17 14:49:09 ijr Exp $
+        $Id: cdpmo.h,v 1.6 2000/06/10 11:07:39 ksteinbe Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDPMO_H_
@@ -36,6 +36,7 @@ using namespace std;
 #include "pmo.h"
 #include "pmoevent.h"
 #include "eventbuffer.h"
+#include "win32volume.h"
 
 #include "mutex.h"
 
@@ -88,6 +89,9 @@ class CDPMO:public PhysicalMediaOutput
    uint32           cddbid;
    string           cdindexid;
    struct disc_info dinfo;
+
+   Win32Volume *m_volume;
+   HWND m_hWnd;
 };
 
 #endif /* _SOUNDCARDPMO_H_ */

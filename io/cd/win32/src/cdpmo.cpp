@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.6 2000/06/06 14:59:43 ksteinbe Exp $
+        $Id: cdpmo.cpp,v 1.7 2000/06/10 11:07:39 ksteinbe Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -62,15 +62,15 @@ CDPMO::CDPMO(FAContext *context) :
    trackDone = false;
    Int32PropValue *pProp;
 
-    hWnd = 0;
+    m_hWnd = 0;
 
     if (IsError(m_pContext->props->GetProperty("MainWindow", 
               (PropValue **)&pProp)))
         return;        
     else
-        hWnd = (HWND)pProp->GetInt32();
+        m_hWnd = (HWND)pProp->GetInt32();
 
-   m_volume = Win32Volume::GetInstance( Win32Volume::eCDOut, hWnd );
+   m_volume = Win32Volume::GetInstance( Win32Volume::eCDOut, m_hWnd );
 }
 
 CDPMO::~CDPMO()

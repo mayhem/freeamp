@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.h,v 1.1.2.2 1999/10/04 23:15:07 elrod Exp $
+	$Id: updatemanager.h,v 1.1.2.3 1999/10/05 00:39:12 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UPDATE_MANAGER_H_
@@ -129,12 +129,8 @@ class UpdateManager {
     Mutex m_mutex;
 
     vector<UpdateItem*> m_itemList;
-
-    Registry m_formatRegistry;
    
-    Thread* m_downloadThread;
     volatile bool m_runUpdateThread;
-
     Mutex m_quitMutex;
 
 };

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.12 1999/09/23 16:55:40 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.13 1999/09/23 20:30:18 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -769,7 +769,14 @@ Error DownloadManager::Download(DownloadItem* item)
 
                             //cout << cp << endl;
 
-                            item->SetSourceURL(cp);
+                            if(305 == returnCode) // proxy
+                            {
+
+                            }
+                            else // redirect of some type
+                            {
+                                item->SetSourceURL(cp);
+                            }
 
                             result = Download(item);
                         }

@@ -18,9 +18,15 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.9 1999/09/23 02:09:55 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.10 1999/09/23 20:30:18 elrod Exp $
 ____________________________________________________________________________*/
 
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #ifdef WIN32
 #include <windows.h>
@@ -161,7 +167,7 @@ typedef struct MusicSearchThreadStruct {
     MusicBrowser *mb;
     char *path;
     Thread *thread;
-};
+} MusicSearchThreadStruct;
 
 void MusicBrowser::SearchMusic(char *path)
 {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MakeTheme.cpp,v 1.2 1999/10/19 07:13:17 elrod Exp $
+   $Id: MakeTheme.cpp,v 1.3 2000/03/15 23:00:03 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include<stdio.h>
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     if (destFile == string("-d"))
     {
         destFile = argv[2];
-        err = oZip.DecompressThemeZip(destFile, string("."));
+        err = oZip.DecompressTheme(destFile, string("."));
         if (err == kError_NoErr)
         {
             printf("Theme unzipped ok.\n");

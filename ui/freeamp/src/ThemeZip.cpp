@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.11 1999/12/16 01:57:25 robert Exp $
+   $Id: ThemeZip.cpp,v 1.12 2000/03/15 23:00:03 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <time.h>
@@ -41,6 +41,8 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "ThemeZip.h"
 #include "debug.h"
+
+#include "zip_wrapper.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
@@ -269,8 +271,40 @@ long from_oct (int digs, char *where)
 
 // ---------------------------- TAR code ends
 
-Error ThemeZip::DecompressThemeZip(const string &oSrcFile,
-                                   const string &oDestPath)
+Error ThemeZip::DecompressTheme(const string &oSrcFile, const string &oDestPath)
+{
+    char *ext;
+
+    ext = strrchr(oSrcFile.c_str(), '.');
+    if (ext) {
+        ext++;
+        if (ext && *ext) {
+            if (!strcasecmp("zip", ext) || !strcasecmp("wsz", ext))
+                return DecompressZip(oSrcFile, oDestPath);
+        }
+    }
+    return DecompressGZ(oSrcFile, oDestPath);   
+}
+
+Error ThemeZip::DecompressZip(const string &oSrcFile, const string &oDestPath)
+{
+   ZipFile *zip = zip_file_new();
+   
+   if (!zip)
+       return kError_FileNotFound;
+
+   if (!zip_file_open(oSrcFile.c_str(), zip))
+       return kError_FileNotFound;
+
+   if (!zip_file_uncompress_all(oDestPath.c_str(), zip, 0x03))
+       return kError_NoDataAvail;
+
+   zip_file_free(zip);
+
+   return kError_NoErr;
+}
+
+Error ThemeZip::DecompressGZ(const string &oSrcFile, const string &oDestPath)
 {
    FILE   *pOut;
    gzFile  pIn;
@@ -605,7 +639,7 @@ void main(int argc, char **argv)
    }  
    if (argv[1][0] == 'd')
    {
-       int r = a.DecompressThemeZip(string(argv[2]), string(argv[3]));
+       int r = a.DecompressTheme(string(argv[2]), string(argv[3]));
        printf("ret: %d", r);
        exit(0);
    }  

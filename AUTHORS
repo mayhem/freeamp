@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.33 2000/03/08 23:11:41 hklein Exp $
+        $Id: AUTHORS,v 1.34 2000/03/15 23:00:03 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -115,13 +115,13 @@ Other major contributors and their contributions:
 * Contributed the README.win32 file which contains instructions on how
   to build the Win32 source code.
 
-"Harald Klein" <linux@chello.at>
-* key support for lcd ui
-
 "Tony Arcieri" <bascule@procyon.mesa.k12.co.us>
 * the libcdaudio library, included for CD support.
 
 "Harald Klein" <linux@chello.at>
+* key support for the lcd ui
 * media info support for lcd ui
 * v0.2 lcdproc protocol changes
 
+"Tero Koskinen" <tkoskine@gnwmail.com>
+* wrote cxunzip, the basis for the code in lib/unzip

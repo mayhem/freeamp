@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.180 2000/03/13 21:25:59 ijr Exp $
+        $Id: player.cpp,v 1.181 2000/03/15 23:00:03 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -428,7 +428,7 @@ void Player::HandleSingleArg(char *arg)
                             break;
                         }
                     }
-                    if (strcasecmp(extension, themeExtension) == 0)
+                    if (!strcasecmp(extension, themeExtension))
                         giveToTheme = true; 
                 }
 
@@ -485,7 +485,7 @@ void Player::HandleSingleArg(char *arg)
                     break;
                 }
             }
-            if (strcasecmp(extension, themeExtension) == 0)
+            if (!strcasecmp(extension, themeExtension))
                 giveToTheme = true; 
         }
 

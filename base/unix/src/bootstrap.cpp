@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.22 2000/03/13 21:25:59 ijr Exp $
+	$Id: bootstrap.cpp,v 1.23 2000/03/15 23:00:03 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -222,8 +222,8 @@ int main(int argc, char **argv)
                     {
                         if (i == 0)
                         {
-                            if (!strcasecmp("fat", pPtr + strlen(pPtr) - 3) ||
-                                !strcasecmp("rmp", pPtr + strlen(pPtr) - 3))
+                            if (!strcasecmp("fat", pPtr + strlen(pPtr) - 3) || 
+                                !strcasecmp("rmp", pPtr + strlen(pPtr) - 3)) 
                                bPlay = false;
 
                             if (bPlay) 

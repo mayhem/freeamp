@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.26 2000/02/29 21:26:24 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.27 2000/03/15 23:00:03 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -144,7 +144,7 @@ void MusicBrowserUI::GTKEventService(void)
     }
     m_context->gtkLock.Release();
 
-    gtk_timeout_add(1000, cd_check_timeout, this);
+    gtk_timeout_add(5000, cd_check_timeout, this);
 
     if (weAreGTK) {
         gtk_timeout_add(250, musicbrowser_timeout, this);

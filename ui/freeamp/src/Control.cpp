@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.12 2000/02/29 21:26:24 ijr Exp $
+   $Id: Control.cpp,v 1.13 2000/03/15 23:00:03 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -267,7 +267,7 @@ void Control::BlitFrame(ControlStateEnum eFrame, int iState, Rect *pRect,
         iState = 0;
 
     if (m_oStateBitmapRect[iState].find(eFrame) == 
-        m_oStateBitmapRect[iState].end())
+        m_oStateBitmapRect[iState].end()) 
         m_oStateBitmapRect[iState][eFrame] = 
                                     m_oStateBitmapRect[iState][CS_Normal];
 

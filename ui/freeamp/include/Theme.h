@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.15 2000/02/20 05:36:40 ijr Exp $
+   $Id: Theme.h,v 1.16 2000/03/15 23:00:03 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -44,6 +44,7 @@ using namespace std;
 #include "Font.h"
 #include "ThemeManager.h"
 #include "Headlines.h"
+#include "ForeignTheme.h"
 
 typedef map<string, string, less<string> > AttrMap;
 
@@ -93,8 +94,8 @@ class Theme : public Parse
       string        m_oThemePath;
       Window       *m_pWindow;
       FAContext    *m_pContext;
-	  Headlines    *m_pHeadlineGrabber;
-	  HeadlineInfo *m_pHeadlines, *m_pParsedHeadlines;
+      Headlines    *m_pHeadlineGrabber;
+      HeadlineInfo *m_pHeadlines, *m_pParsedHeadlines;
 
     private:
 
@@ -108,6 +109,9 @@ class Theme : public Parse
       void    ClearBitmaps(void);
       void    ClearFonts(void);
 
+      void    ConvertForeignFormat(string &oDir);
+      ForeignTheme    *m_pForeignThemes;
+
       Window          *m_pCurrentWindow;
       Control         *m_pCurrentControl;
 
@@ -115,15 +119,15 @@ class Theme : public Parse
       vector<Bitmap *> *m_pBitmaps, *m_pParsedBitmaps;
       vector<Font *>   *m_pFonts, *m_pParsedFonts;
       bool              m_bReloadTheme, m_bReloadWindow, m_bThemeLoaded;
-	  bool              m_bPosDefined, m_bBitmapDefined;
-	  bool              m_bInfoDefined;
+      bool              m_bPosDefined, m_bBitmapDefined;
+      bool              m_bInfoDefined;
       string            m_oReloadWindow, m_oReloadFile;
       ControlTypeEnum   m_eCurrentControl;
       string            m_oDefaultFont;
-	  string            m_oThemeName, m_oThemeAuthor;
-	  string            m_oAuthorEMail, m_oAuthorWebPage;
-	  string            m_oSavedText, m_oMiscInfo;
-	  bool              m_bCreditsShown;
+      string            m_oThemeName, m_oThemeAuthor;
+      string            m_oAuthorEMail, m_oAuthorWebPage;
+      string            m_oSavedText, m_oMiscInfo;
+      bool              m_bCreditsShown;
 };
 
 #endif

@@ -19,7 +19,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.41 2000/08/24 17:40:38 ijr Exp $
+        $Id: AUTHORS,v 1.42 2000/08/25 10:40:52 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -142,3 +142,6 @@ Michael Rich <istan@alltel.net>
 
 "Alexander Haväng" <eel@musiknet.se>
 * icecast title streaming fixes
+
+"Roger Hardiman" <roger@cs.strath.ac.uk>
+* Preliminary FreeBSD support

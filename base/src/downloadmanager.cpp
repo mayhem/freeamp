@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.16 1999/09/23 21:35:23 dogcow Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.17 1999/09/23 21:50:06 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -610,13 +610,17 @@ Error DownloadManager::Download(DownloadItem* item)
                                          "Accept: */*\n" 
                                          "User-Agent: FreeAmp/%s\n";
 
-                const char* kRange = "Range: %lu-\n";
+                const char* kRange = "Range: %lu-\n"
+                                     "If-Unmodified-Since: %s\n";
 
+                // the magic 58 is enough for fixed length time in
+                // HTTP time format + 2 terabyte length range numbers.
+                // the 2 extra bytes on the end is an extra \n and 0x00 byte
                 char* query = new char[ strlen(kHTTPQuery) + 
                                         strlen(file) +
                                         strlen(localname) +
                                         strlen(FREEAMP_VERSION)+
-                                        (item->GetBytesReceived() ? (strlen(kRange) + 26): 0 ) +
+                                        (item->GetBytesReceived() ? (strlen(kRange) + 58): 0 ) +
                                         2];
             
                 sprintf(query, kHTTPQuery, file, localname, FREEAMP_VERSION);
@@ -624,7 +628,7 @@ Error DownloadManager::Download(DownloadItem* item)
                 // do we need to request a range?
                 if(item->GetBytesReceived())
                 {
-                    char* range = new char[strlen(kRange) + 26 + 1];
+                    char* range = new char[strlen(kRange) + 58 + 1];
 
                     sprintf(range, kRange, item->GetBytesReceived());
 

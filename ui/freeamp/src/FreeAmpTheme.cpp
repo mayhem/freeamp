@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.4 2000/04/10 23:10:09 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.4.4.1 2000/07/08 14:20:57 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -30,6 +30,7 @@ ____________________________________________________________________________*/
 #endif
 
 #include <stdio.h> 
+#include <pwd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #ifndef WIN32
@@ -121,6 +122,10 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
    m_bShowBuffers = m_bPaused = false;
    m_iFramesSinceSeek = 2;
 
+   m_socketLink = new SocketLink(6969);
+   m_socketLink->Run();
+   m_chatOpen = false;
+
 #if defined( WIN32 )
     m_pUpdateMan = new Win32UpdateManager(m_pContext);
     m_pUpdateMan->DetermineLocalVersions();
@@ -153,6 +158,8 @@ FreeAmpTheme::~FreeAmpTheme()
 #if defined( WIN32 )
     delete m_pUpdateMan;
 #endif // WIN32
+
+    delete m_socketLink;
 }
 
 Error FreeAmpTheme::Init(int32 startup_type)
@@ -456,6 +463,17 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
  
          if (m_pContext->plm->GetCurrentIndex() != kInvalidIndex)
              UpdateMetaData(pInfo->Item());
+
+         if (m_socketLink->HasConnection())
+         {
+             string oText;
+             
+             oText = pInfo->Item()->GetMetaData().Title();
+             if (pInfo->Item()->GetMetaData().Artist().length() > 0)
+                oText += string(" - ") + pInfo->Item()->GetMetaData().Artist();
+             m_socketLink->SendCommand(string("send: ") + oText + 
+                                       string("\r\n"));
+         }
          break;
       }
 
@@ -1061,7 +1079,85 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        ShowThemeCredits();
        return kError_NoErr;
    }
+   if (oControlName == string("Chat") && eMesg == CM_Pressed)
+   {
+       if (m_chatOpen)
+       {
+          if (m_socketLink->HasConnection())
+          {
+              m_socketLink->SendCommand(string("bye: \r\n"));
+              m_socketLink->Disconnect();
+          }
+          m_chatOpen = false;
+       }           
+       else
+       {
+#ifdef WIN32
+          SHELLEXECUTEINFO info;
+          Int32PropValue *pProp;
+          HWND            hWnd;
+          uint32  len = _MAX_PATH;
+          char           *dir;
+
+          if (IsError(m_pContext->props->GetProperty("MainWindow", 
+                      (PropValue **)&pProp)))
+             hWnd = NULL;
+          else
+             hWnd = (HWND)pProp->GetInt32();
+       
+          dir = new char[_MAX_PATH];
+          m_pContext->prefs->GetInstallDirectory(dir, &len);
+          strcat(dir, "\\bridge.exe");
+
+          info.cbSize = sizeof(SHELLEXECUTEINFO);
+          info.fMask = 0;
+          info.hwnd = hWnd;
+          info.lpVerb = NULL;
+          info.lpFile = dir;
+          info.nShow = SW_SHOW;
+          info.lpParameters = NULL;
+          info.lpDirectory = NULL;
+          info.hInstApp = NULL;
+          ShellExecuteEx( &info );
+
+          delete dir;
+#endif
+#ifdef HAVE_GTK
+          //TODO: ijr add code to launch the chat client app here
+
+#endif
+
+          for(int i = 0; !m_socketLink->HasConnection() && i < 50; i++)
+              usleep(100000);
+
+          if (!m_socketLink->HasConnection())
+          {
+              MessageDialog oBox(m_pContext);
+              string        oMessage("Can't establish connection to chat app.");
+    
+              oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk, true);
+          }
+          else
+          {
+              string nick;
+#ifdef WIN32
+#endif
+#ifdef HAVE_GTK
+              struct passwd *pw;
   
+              pw = getpwuid(geteuid());
+              nick = string(pw->pw_name); 
+#endif
+              m_socketLink->SendCommand(    
+                             string("login: chunder.eorbit.net\r\n"));
+              m_socketLink->SendCommand(string("nick: ") + nick + 
+                             string("\r\n"));
+              m_socketLink->SendCommand(    
+                             string("channel: #freeamp\r\n"));
+              m_chatOpen = true;
+          }
+       }
+   }
    return kError_NoErr;
 }
 

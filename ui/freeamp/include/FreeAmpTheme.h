@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.24.4.1 2000/03/07 22:49:04 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.24.4.1.8.1 2000/07/08 14:20:57 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -38,6 +38,7 @@ ____________________________________________________________________________*/
 #include "playlist.h"
 #include "Theme.h"
 #include "ThemeManager.h"
+#include "SocketLink.h"
 
 enum TimeDisplayState
 {
@@ -107,6 +108,8 @@ class FreeAmpTheme : public UserInterface, public Theme
         string           m_oCurrentWindow, m_oTitle, m_oStreamInfo, m_oHeadlineUrl;
         TimeDisplayState m_eTimeDisplayState;
         UpdateManager   *m_pUpdateMan;
+        SocketLink      *m_socketLink;
+        bool             m_chatOpen;
 };
 
 #endif

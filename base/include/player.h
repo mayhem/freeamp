@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.25 1999/01/23 05:01:06 jdw Exp $
+	$Id: player.h,v 1.26 1999/01/23 23:14:36 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -40,6 +40,7 @@ ____________________________________________________________________________*/
 #include "preferences.h"
 #include "properties.h"
 #include "propimpl.h"
+#include "volume.h"
 
 #include "lmc.h"
 
@@ -49,7 +50,7 @@ typedef enum {
     STATE_Stopped,
 } PlayerState;
 
-class Player : public EventQueue, Properties  {
+class Player : public EventQueue, Properties, PropertyWatcher  {
 
  public:
     //Player();
@@ -76,6 +77,8 @@ class Player : public EventQueue, Properties  {
     virtual Error SetProperty(const char *, PropValue *);
     virtual Error RegisterPropertyWatcher(const char *, PropertyWatcher *);
     virtual Error RemovePropertyWatcher(const char *, PropertyWatcher *);
+
+    virtual Error PropertyChange(const char *, PropValue *);
  protected:
     Player();
     void GetUIManipLock();

@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.70 1999/01/23 05:01:06 jdw Exp $
+	$Id: player.cpp,v 1.71 1999/01/23 23:14:39 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -85,6 +85,12 @@ EventQueue() {
 
     m_didUsage = false;
     //m_autoplay = false;
+
+    int32 vol = VolumeManager::GetVolume();
+    Int32PropValue *ipv = new Int32PropValue(vol);
+    m_props.SetProperty("pcm_volume",ipv);
+    m_props.RegisterPropertyWatcher("pcm_volume",(PropertyWatcher *)this);
+
 }
 
 #define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }
@@ -972,6 +978,16 @@ int32 Player::ServiceEvent(Event *pC) {
 	cout << "serviceEvent: passed NULL event!!!" << endl;
 	return 255;
     }
+}
+
+Error Player::PropertyChange(const char *pProp, PropValue *ppv) {
+    Error rtn = kError_UnknownErr;
+    if (!strcmp(pProp,"pcm_volume")) {
+	int32 newVol = ((Int32PropValue *)ppv)->GetInt32();
+	VolumeManager::SetVolume(newVol);
+	rtn = kError_NoErr;
+    }
+    return rtn;
 }
 
 void Player::SendToUI(Event *pe) {

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.20 1999/01/17 22:20:39 jdw Exp $
+	$Id: event.h,v 1.21 1999/01/23 23:14:35 jdw Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -96,6 +96,8 @@ class EventQueue {
 #endif  //_VISUAL_ENABLE_
 #undef  _VISUAL_ENABLE_
 
+#define CMD_VolumeUp           39
+#define CMD_VolumeDown         40
 
 #endif // _EVENT_H_
 

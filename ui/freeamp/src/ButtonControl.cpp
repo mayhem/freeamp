@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.15 2000/06/12 12:11:32 robert Exp $
+   $Id: ButtonControl.cpp,v 1.16 2000/08/24 16:18:13 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -173,6 +173,8 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
        {
            m_pPanelToToggle->TogglePanelPos();
            m_pParent->SendControlMessage(this, CM_TogglePanel);
+           m_eCurrentState = CS_MouseOver;
+           BlitFrame(m_eCurrentState);
            return;
        }
        if (m_oName == string("ReloadTheme"))

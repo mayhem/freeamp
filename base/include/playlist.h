@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.5 1999/08/24 23:42:46 elrod Exp $
+	$Id: playlist.h,v 1.40.4.6 1999/08/25 00:20:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -175,6 +175,7 @@ class PlaylistManager {
 
     // Functions for moving items around
     Error SwapItems(uint32 index1, uint32 index2);
+    Error SwapItems(PlaylistItem* item1, PlaylistItem* item2);
     Error MoveItem(PlaylistItem* item, uint32 index);
     Error MoveItem(uint32 oldIndex, uint32 newIndex);
     Error MoveItems(vector<PlaylistItem*>* items, uint32 index);

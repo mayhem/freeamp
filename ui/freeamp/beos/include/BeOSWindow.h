@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSWindow.h,v 1.1.2.1 1999/10/01 03:28:18 hiro Exp $
+   $Id: BeOSWindow.h,v 1.1.2.2 1999/10/04 13:57:28 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BEOSWINDOW_H
@@ -62,6 +62,7 @@ protected:
 
 private:
     MainWindow*     m_mainWindow;
+    BView*          m_canvasView;
 };
 
 #endif // INCLUDED_BEOSWINDOW_H

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSBitmap.cpp,v 1.1.2.1 1999/10/01 03:28:18 hiro Exp $
+   $Id: BeOSBitmap.cpp,v 1.1.2.2 1999/10/04 13:57:28 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSBitmap.h"
@@ -39,22 +39,25 @@ BeOSBitmap::BeOSBitmap( string& oName )
     CHECK_POINT;
 }
 
-BeOSBitmap::BeOSBitmap( int iWidth, int iHeight, string& oName )
+BeOSBitmap::BeOSBitmap( int iWidth, int iHeight, string& oName,
+                        bool acceptViews )
 :   Bitmap( oName ),
-    m_bitmap( NULL )
-#if USE_OFFSCREEN_VIEW
-   ,m_offView( NULL )
-#endif
+    m_bitmap( NULL ),
+    m_offView( NULL ),
+    m_hasOffscreenView( acceptViews )
 {
     CHECK_POINT;
-#if USE_OFFSCREEN_VIEW
-    m_offView = new BView( BRect(0,0,iWidth,iHeight), "BeOSBitmap",
-                           B_FOLLOW_NONE, 0 );
-    m_bitmap = new BBitmap( BRect(0,0,iWidth,iHeight), B_RGB32, true );
-    m_bitmap->AddChild( m_offView );
-#else
-    m_bitmap = new BBitmap( BRect(0,0,iWidth,iHeight), B_RGB32 );
-#endif
+    if ( acceptViews )
+    {
+        m_offView = new BView( BRect(0,0,iWidth,iHeight), "BeOSBitmap",
+                               B_FOLLOW_NONE, 0 );
+        m_bitmap = new BBitmap( BRect(0,0,iWidth,iHeight), B_RGB32, true );
+        m_bitmap->AddChild( m_offView );
+    }
+    else
+    {
+        m_bitmap = new BBitmap( BRect(0,0,iWidth,iHeight), B_RGB32 );
+    }
 }
 
 BeOSBitmap::~BeOSBitmap()
@@ -66,7 +69,6 @@ BeOSBitmap::~BeOSBitmap()
 bool
 BeOSBitmap::IsPosVisible( Pos& oPos )
 {
-    CHECK_POINT_MSG( "IsPosVisible" );
     return true;
 }
 
@@ -89,18 +91,21 @@ BeOSBitmap::LoadBitmapFromDisk( string& oFile )
         return kError_LoadBitmapFailed;
     }
 
-#if USE_OFFSCREEN_VIEW
-    m_offView = new BView( loadedBitmap->Bounds(), "BeOSBitmap",
-                           B_FOLLOW_NONE, 0 );
-    m_bitmap = new BBitmap( loadedBitmap->Bounds(), loadedBitmap->ColorSpace(),
-                            true );
-    m_bitmap->AddChild( m_offView );
-    assert( m_bitmap->BitsLength() == loadedBitmap->BitsLength() );
-    memcpy( m_bitmap->Bits(), loadedBitmap->Bits(), m_bitmap->BitsLength() );
-    delete loadedBitmap;
-#else
-    m_bitmap = loadedBitmap;
-#endif
+    if ( m_hasOffscreenView )
+    {
+        m_offView = new BView( loadedBitmap->Bounds(), "BeOSBitmap",
+                               B_FOLLOW_NONE, 0 );
+        m_bitmap = new BBitmap( loadedBitmap->Bounds(), loadedBitmap->ColorSpace(),
+                                true );
+        m_bitmap->AddChild( m_offView );
+        assert( m_bitmap->BitsLength() == loadedBitmap->BitsLength() );
+        memcpy( m_bitmap->Bits(), loadedBitmap->Bits(), m_bitmap->BitsLength() );
+        delete loadedBitmap;
+    }
+    else
+    {
+        m_bitmap = loadedBitmap;
+    }
 
     // set transparency
     if ( m_bHasTransColor )
@@ -109,7 +114,6 @@ BeOSBitmap::LoadBitmapFromDisk( string& oFile )
                         (m_oTransColor.green << 8) |
                         (m_oTransColor.blue);
         uint32* pixel = (uint32*)m_bitmap->Bits();
-//        while ( pixel < (pixel + m_bitmap->BitsLength() / 4) )
         for ( int i = 0; i < m_bitmap->BitsLength(); i += 4 )
         {
             if ( *pixel == trans )
@@ -137,25 +141,6 @@ BeOSBitmap::BlitRect( Bitmap* pSrcBitmap, Rect& oSrcRect, Rect& oDestRect )
 Error
 BeOSBitmap::MaskBlitRect( Bitmap* pSrcBitmap, Rect& oSrcRect, Rect& oDestRect )
 {
-    CHECK_POINT_MSG( "MaskBlitRect" );
-#if USE_OFFSCREEN_VIEW
-    BRect srcRect( float(oSrcRect.x1), float(oSrcRect.y1),
-                   float(oSrcRect.x2), float(oSrcRect.y2) );
-    BRect dstRect( float(oDestRect.x1), float(oDestRect.y1),
-                   float(oDestRect.x2), float(oDestRect.y2) );
-
-    m_bitmap->Lock();
-
-    m_offView->DrawBitmap( ((BeOSBitmap*)pSrcBitmap)->GetBBitmap(),
-                           srcRect, dstRect );
-    m_offView->Sync();
-
-    m_bitmap->Unlock();
-#endif
-    PRINT(( "MaskBliting (%d,%d,%d,%d) to (%d,%d,%d,%d)\n",
-        oSrcRect.x1, oSrcRect.y1, oSrcRect.x2, oSrcRect.y2,
-        oDestRect.x1, oDestRect.y1, oDestRect.x2, oDestRect.y2 ));
-
     BBitmap* srcBitmap = ((BeOSBitmap*)pSrcBitmap)->GetBBitmap();
 
     assert( m_bitmap );
@@ -167,25 +152,24 @@ BeOSBitmap::MaskBlitRect( Bitmap* pSrcBitmap, Rect& oSrcRect, Rect& oDestRect )
     int32 dstBytesPerRow = m_bitmap->BytesPerRow();
 
     size_t len = (oSrcRect.Width() + (0)) * sizeof(int32);
-    src += oSrcRect.y1 * srcBytesPerRow + oSrcRect.x1 * sizeof(int32);
-    dst += oDestRect.y1 * dstBytesPerRow + oDestRect.x1 * sizeof(int32);
-    for ( int y = 0; y < oSrcRect.Height() + 0; y++ )
+    src += oSrcRect.y1 * srcBytesPerRow + oSrcRect.x1 * 4;
+    dst += oDestRect.y1 * dstBytesPerRow + oDestRect.x1 * 4;
+    for ( int y = 0; y < oDestRect.Height(); y++ )
     {
-//        memcpy( dst, src, len - 4 );
         uint32* ps = (uint32*)src;
         uint32* pd = (uint32*)dst;
-        for ( int x = 0; x < oSrcRect.Width() - 1; x++ )
+        for ( int x = 0; x < oDestRect.Width(); x++ )
         {
             if ( *ps != B_TRANSPARENT_MAGIC_RGBA32 )
             {
-                *pd++ = *ps;
+                *pd = *ps;
             }
             ps++;
+            pd++;
         }
         src += srcBytesPerRow;
         dst += dstBytesPerRow;
     }
 
-    CHECK_POINT;
     return kError_NoErr;
 }

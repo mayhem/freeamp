@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSFont.h,v 1.1.2.1 1999/10/01 03:28:18 hiro Exp $
+   $Id: BeOSFont.h,v 1.1.2.2 1999/10/04 13:57:28 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BEOSFONT_H
@@ -26,18 +26,21 @@ ____________________________________________________________________________*/
 
 #include <string>
 #include "Font.h"
+#include <be/interface/Font.h>
 
 using namespace std;
 
 class BeOSFont : public Font
 {
 public:
-                    BeOSFont( string& oNme, string& oFace, string& oDefault );
+                    BeOSFont( string& oName, string& oFace, string& oDefault );
     virtual         ~BeOSFont();
+    BFont*          GetBFont( void ) { return &m_font; }
 
 protected:
 
 private:
+    BFont           m_font;
 };
 
 #endif // INCLUDED_BEOSFONT_H

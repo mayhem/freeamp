@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSCanvas.cpp,v 1.1.2.1 1999/10/01 03:28:18 hiro Exp $
+   $Id: BeOSCanvas.cpp,v 1.1.2.2 1999/10/04 13:57:28 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSCanvas.h"
@@ -54,7 +54,8 @@ BeOSCanvas::Init( void )
     m_pBufferBitmap = new BeOSBitmap(
                             m_oBGRect.Width(),
                             m_oBGRect.Height(),
-                            string( "BufferBitmap" )
+                            string( "BufferBitmap" ),
+                            true // has offscreen BView for text rendering
                             );
     destRect.x1 = destRect.y1 = 0;
     destRect.x2 = m_oBGRect.Width();
@@ -62,12 +63,12 @@ BeOSCanvas::Init( void )
     m_pBufferBitmap->MaskBlitRect( m_pBGBitmap, m_oBGRect, destRect );
 
     m_canvasView = new CanvasView(
-                            m_pParent,
-                            BRect( 0, 0, m_oBGRect.Width(), m_oBGRect.Height() ),
-                            "CanvasView",
-                            B_FOLLOW_NONE,
-                            B_WILL_DRAW
-                            );
+                        m_pParent,
+                        BRect( 0, 0, m_oBGRect.Width(), m_oBGRect.Height() ),
+                        "CanvasView",
+                        B_FOLLOW_NONE,
+                        B_WILL_DRAW
+                        );
     m_canvasView->SetCanvasBitmap( m_pBufferBitmap->GetBBitmap() );
 }
 

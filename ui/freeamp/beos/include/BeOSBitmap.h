@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSBitmap.h,v 1.1.2.1 1999/10/01 03:28:18 hiro Exp $
+   $Id: BeOSBitmap.h,v 1.1.2.2 1999/10/04 13:57:28 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BEOSBITMAP_H__
@@ -27,8 +27,6 @@ ____________________________________________________________________________*/
 #include <string>
 #include "Bitmap.h"
 
-#define USE_OFFSCREEN_VIEW 1
-
 class BBitmap;
 class BView;
 
@@ -36,7 +34,8 @@ class BeOSBitmap : public Bitmap
 {
 public:
                         BeOSBitmap( string& oName );
-                        BeOSBitmap( int iWidth, int iHeight, string& oName );
+                        BeOSBitmap( int iWidth, int iHeight, string& oName,
+                                    bool acceptViews = false );
     virtual             ~BeOSBitmap();
     virtual bool        IsPosVisible( Pos& oPos );
     virtual Error       LoadBitmapFromDisk( string& oFile );
@@ -45,25 +44,14 @@ public:
     virtual Error       MaskBlitRect( Bitmap* pSrcBitmap, Rect& oSrcRect,
                                       Rect& oDestRect );
     BBitmap*            GetBBitmap( void ) { return m_bitmap; }
-    BView*              OffscreenView( void );
+    BView*              OffscreenView( void ) { return m_offView; }
 
 protected:
 
 private:
     BBitmap*            m_bitmap;
-#if USE_OFFSCREEN_VIEW
     BView*              m_offView;
-#endif
+    bool                m_hasOffscreenView;
 };
-
-inline BView*
-BeOSBitmap::OffscreenView( void )
-{
-#if USE_OFFSCREEN_VIEW
-    return m_offView;
-#else
-    return NULL;
-#endif
-}
 
 #endif // INCLUDED_BEOSBITMAP_H__

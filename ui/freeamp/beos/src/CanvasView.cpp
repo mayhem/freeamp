@@ -18,15 +18,18 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: CanvasView.cpp,v 1.1.2.1 1999/10/01 03:28:18 hiro Exp $
+   $Id: CanvasView.cpp,v 1.1.2.2 1999/10/04 13:57:28 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "CanvasView.h"
 #include "BeOSWindow.h"
 #include "Types.h"
-#define DEBUG 1
+#define DEBUG 0
 #include <be/support/Debug.h>
 #include <be/interface/Window.h>
+
+#define CHECK_POINT CHECK_POINT_MSG("")
+#define CHECK_POINT_MSG(a) PRINT(( "File %s Line %d: %s\n", __FILE__, __LINE__, a ))
 
 CanvasView::CanvasView(
             BeOSWindow* parent,
@@ -89,7 +92,9 @@ CanvasView::MouseMoved(
     Pos pos;
     pos.x = int( p.x );
     pos.y = int( p.y );
+    CHECK_POINT;
     m_parent->HandleMouseMove( pos );
+    CHECK_POINT;
 }
 
 void

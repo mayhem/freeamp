@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSWindow.cpp,v 1.1.2.1 1999/10/01 03:28:18 hiro Exp $
+   $Id: BeOSWindow.cpp,v 1.1.2.2 1999/10/04 13:57:28 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -34,7 +34,8 @@ ____________________________________________________________________________*/
 
 BeOSWindow::BeOSWindow( Theme* pTheme, string& oName )
 :   Window( pTheme, oName ),
-    m_mainWindow( NULL )
+    m_mainWindow( NULL ),
+    m_canvasView( NULL )
 {
     CHECK_POINT;
     m_pCanvas = new BeOSCanvas( this );
@@ -62,9 +63,9 @@ BeOSWindow::Run( Pos& oWindowPos )
     m_mainWindow = new MainWindow( brect, m_oName.c_str() );
 
     // set the root view
-    BView* view = ((BeOSCanvas*)GetCanvas())->GetBView();
-    assert( view );
-    m_mainWindow->AddChild( view );
+    m_canvasView = ((BeOSCanvas*)GetCanvas())->GetBView();
+    assert( m_canvasView );
+    m_mainWindow->AddChild( m_canvasView );
     m_mainWindow->Show();
 
     Init();
@@ -130,6 +131,13 @@ BeOSWindow::CaptureMouse( bool bCapture )
     // currently mouse tracking outside the window is turned on
     // in the CanvasView::MouseDown thru SetMouseEventMask.
 
+    if ( bCapture )
+    {
+    }
+    else
+    {
+    }
+
     return kError_NoErr;
 }
 
@@ -170,6 +178,7 @@ Error
 BeOSWindow::SetMousePos( Pos& oMousePos )
 {
     CHECK_POINT_MSG( "SetMousePos" );
+    assert( 0 );
     return kError_NoErr;
 }
 
@@ -177,6 +186,17 @@ Error
 BeOSWindow::GetMousePos( Pos& oMousePos )
 {
     CHECK_POINT_MSG( "GetMousePos" );
+    BPoint p;
+    uint32 buttons;
+
+    m_mainWindow->Lock();
+    m_canvasView->GetMouse( &p, &buttons, false );
+    m_mainWindow->Unlock();
+
+    oMousePos.x = int( p.x );
+    oMousePos.y = int( p.y );
+
+    CHECK_POINT_MSG( "GetMousePos done" );
     return kError_NoErr;
 }
 
@@ -196,7 +216,9 @@ BeOSWindow::GetWindowPosition( Rect& oWindowRect )
 {
     CHECK_POINT_MSG( "GetWindowPosition" );
 
+    m_mainWindow->Lock();
     BRect frame = m_mainWindow->Frame();
+    m_mainWindow->Unlock();
     oWindowRect.x1 = int( frame.left );
     oWindowRect.y1 = int( frame.top );
     oWindowRect.x2 = int( frame.right );

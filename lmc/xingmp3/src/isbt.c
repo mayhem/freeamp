@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: isbt.c,v 1.1 1998/10/14 02:50:37 elrod Exp $
+	$Id: isbt.c,v 1.2 1999/04/21 04:20:55 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  isbt.c  ***************************************************
@@ -44,6 +44,7 @@ mods 1/7/97 warnings
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4244)
+#pragma warning(disable: 4056)
 #endif
 
 
@@ -450,3 +451,8 @@ void i_sbt8_dual_right(SAMPLEINT * sample, short *pcm, int n)
 /*--- 8 bit output ----------------*/
 #include "isbtb.c"
 /*----------------------------------*/
+
+#ifdef _MSC_VER
+#pragma warning(default: 4244)
+#pragma warning(default: 4056)
+#endif

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-gtk.h,v 1.3 1998/12/12 22:36:39 jdw Exp $
+	$Id: freeamp-gtk.h,v 1.4 1999/04/21 04:21:00 elrod Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -31,9 +31,11 @@ ____________________________________________________________________________*/
 #include "thread.h"
 #include "playlist.h"
 
+class FAContext;
+
 class GtkUI : public UserInterface {
  public:
-    GtkUI();
+    GtkUI(FAContext *context);
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
@@ -43,6 +45,10 @@ class GtkUI : public UserInterface {
     virtual ~GtkUI();
 
     EventQueue *m_playerEQ;
+
+ protected:
+    FAContext *m_context;
+
  private:
     void processSwitch(char *);
     Thread *gtkListenThread;

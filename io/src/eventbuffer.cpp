@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: eventbuffer.cpp,v 1.7 1999/04/15 21:51:00 robert Exp $
+   $Id: eventbuffer.cpp,v 1.8 1999/04/21 04:20:54 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -32,8 +32,8 @@ ____________________________________________________________________________*/
 #define DB printf("%x: %s:%d\n", pthread_self(), __FILE__, __LINE__);
 
 EventBuffer::EventBuffer(size_t iBufferSize, size_t iOverFlowSize, 
-                         size_t iWriteTriggerSize) : 
-				 PullBuffer(iBufferSize, iOverFlowSize, iWriteTriggerSize)
+                         size_t iWriteTriggerSize, FAContext *context) : 
+				 PullBuffer(iBufferSize, iOverFlowSize, iWriteTriggerSize, context)
 {
     m_pQueue = new Queue < BufferEvent * >();
 }

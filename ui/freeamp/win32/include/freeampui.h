@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.30 1999/04/17 03:13:31 elrod Exp $
+	$Id: freeampui.h,v 1.31 1999/04/21 04:20:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -49,6 +49,8 @@ ____________________________________________________________________________*/
 #include "dib.h"
 #include "linkedlist.h"
 #include "preferences.h"
+#include "facontext.h"
+
 
 #include "bitmapview.h"
 #include "buttonview.h"
@@ -65,10 +67,11 @@ enum {	UIState_Stopped = 0,
 		UIState_Playing, 
 		UIState_Paused };
 
+class FAContext;
 
 class FreeAmpUI : public UserInterface {
  public:
-    FreeAmpUI();
+    FreeAmpUI(FAContext *context);
     ~FreeAmpUI();
 
     virtual Error Init(int32 startup_type) { return kError_NoErr;}
@@ -170,7 +173,7 @@ class FreeAmpUI : public UserInterface {
 
     bool                m_mouseCaptured;
 
-
+    FAContext*          m_context;
     PlayListManager*    m_plm;
     Properties*         m_propManager;
     Preferences*        m_prefs;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.12 1999/03/17 03:31:00 robert Exp $
+	$Id: Mpg123UI.cpp,v 1.13 1999/04/21 04:21:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -39,14 +39,15 @@ void mysigint(int);
 
 
 extern "C" {
-    UserInterface *Initialize() {
-	return new Mpg123UI();
+    UserInterface *Initialize(FAContext *context) {
+	return new Mpg123UI(context);
     }
 	   }
 
 EventQueue *Mpg123UI::m_playerEQ = NULL;
 
-Mpg123UI::Mpg123UI() {
+Mpg123UI::Mpg123UI(FAContext *context) {
+    m_context = context;
     m_mediaInfo_set = false;
     m_mpegInfo_set = false;
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: filebuffer.h,v 1.2 1999/01/25 23:00:27 robert Exp $
+   $Id: filebuffer.h,v 1.3 1999/04/21 04:20:49 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FILEBUFFER_H_
@@ -36,12 +36,15 @@ ____________________________________________________________________________*/
 const int32 iMaxFileNameLen = 255;
 const int32 iID3TagSize = 128;
 
+class FAContext;
+
 class FileBuffer : public PullBuffer
 {
     public:
 
                FileBuffer(size_t iBufferSize, size_t iOverFlowSize,
-                          size_t iWriteTriggerSize, char *szFile);
+                          size_t iWriteTriggerSize, char *szFile,
+			  FAContext *context);
       virtual ~FileBuffer(void);
 
       Error    Open(void);

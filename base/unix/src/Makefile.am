@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.4 1999/03/01 10:40:57 mhw Exp $
+##      $Id: Makefile.am,v 1.5 1999/04/21 04:20:44 elrod Exp $
 ##
 ############################################################################
 
@@ -28,7 +28,7 @@ if AM_HAVE_WIN32
 FILES = 
 MYLIBS = 
 else
-FILES = preferences.cpp bootstrap.cpp win32impl.cpp
+FILES = unixprefs.cpp bootstrap.cpp win32impl.cpp
 MYLIBS = libfaunix.a
 endif
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.12 1999/03/17 03:30:55 robert Exp $
+	$Id: cmdlineUI.cpp,v 1.13 1999/04/21 04:20:58 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -42,8 +42,8 @@ ____________________________________________________________________________*/
 
 extern "C" {
 
-UserInterface *Initialize() {
-    return new cmdlineUI();
+UserInterface *Initialize(FAContext *context) {
+    return new cmdlineUI(context);
 }
 
 	   }
@@ -64,8 +64,8 @@ void cmdlineUI::SetPlayListManager(PlayListManager *plm) {
     m_plm = plm;
 }
 
-cmdlineUI::cmdlineUI() {
-
+cmdlineUI::cmdlineUI(FAContext *context) {
+    m_context = context;
     m_plm = NULL;
     m_playerEQ = NULL;
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-gtk.cpp,v 1.6 1998/12/12 22:36:39 jdw Exp $
+	$Id: freeamp-gtk.cpp,v 1.7 1999/04/21 04:21:00 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -42,13 +42,14 @@ GtkUI *g_pGtkUI;
 
 extern "C" {
 
-UserInterface *Initialize() {
-    return new GtkUI();
+UserInterface *Initialize(FAContext *context) {
+    return new GtkUI(context);
 }
 
 	   }
 
-GtkUI::GtkUI() {
+GtkUI::GtkUI(FAContext *context) {
+    m_context = context;
 
     m_plm = NULL;
     m_playerEQ = NULL;

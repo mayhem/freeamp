@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: streambuffer.cpp,v 1.8 1999/03/15 09:30:01 elrod Exp $
+   $Id: streambuffer.cpp,v 1.9 1999/04/21 04:20:54 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -30,8 +30,8 @@ ____________________________________________________________________________*/
 #include "streambuffer.h"
 
 StreamBuffer::StreamBuffer(size_t iBufferSize, size_t iOverFlowSize, 
-                           size_t iWriteTriggerSize) : 
-				  PullBuffer(iBufferSize, iOverFlowSize, iWriteTriggerSize)
+                           size_t iWriteTriggerSize, FAContext *context) : 
+     PullBuffer(iBufferSize, iOverFlowSize, iWriteTriggerSize, context)
 {
    m_bBufferingUp = true;
    m_bPause = true;

@@ -18,8 +18,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.cpp,v 1.6 1999/04/07 23:36:56 robert Exp $
+	$Id: irmanui.cpp,v 1.7 1999/04/21 04:21:01 elrod Exp $
 ____________________________________________________________________________*/
+
+#include "config.h"
 
 #include <iostream.h>
 #include <stdio.h>
@@ -30,9 +32,11 @@ ____________________________________________________________________________*/
 #include <sys/time.h>
 #include <termios.h>
 #include <signal.h>
-#include <errno.h>
 
-#include "config.h"
+#if HAVE_ERRNO_H
+#include <errno.h>
+#endif
+
 #include "irmanui.h"
 
 #include "event.h"
@@ -45,8 +49,8 @@ extern "C" {
 
 extern "C" {
 
-UserInterface *Initialize() {
-    return new IRManUI();
+UserInterface *Initialize(FAContext *context) {
+    return new IRManUI(context);
 }
     
 	   }
@@ -62,7 +66,8 @@ void IRManUI::SetPlayListManager(PlayListManager *plm) {
 #define IR_VolumeDown 9999
 
 
-IRManUI::IRManUI() {
+IRManUI::IRManUI(FAContext *context) {
+    m_context = context;
     m_plm = NULL;
     m_playerEQ = NULL;
     m_propManager = NULL;
@@ -243,8 +248,4 @@ void IRManUI::ProcessArgs() {
 void IRManUI::processSwitch(char *pc) {
     return;
 }
-
-
-
-
 

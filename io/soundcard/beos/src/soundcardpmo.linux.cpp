@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.linux.cpp,v 1.1 1999/02/10 09:32:24 elrod Exp $
+	$Id: soundcardpmo.linux.cpp,v 1.2 1999/04/21 04:20:53 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -40,8 +40,8 @@ ____________________________________________________________________________*/
 #define PIECES 50
 
 extern "C" {
-PhysicalMediaOutput *Initialize() {
-    return new SoundCardPMO();
+PhysicalMediaOutput *Initialize(FAContext *context) {
+    return new SoundCardPMO(context);
 }
 	   }
 
@@ -63,7 +63,8 @@ const char *SoundCardPMO::GetErrorString(int32 error) {
     return g_ErrorArray[error - pmoError_MinimumError];
 }
 
-SoundCardPMO::SoundCardPMO() {
+SoundCardPMO::SoundCardPMO(FAContext *context) {
+    m_context = context;
     //cout << "Creating scpmo" << endl;
     m_properlyInitialized = false;
     myInfo = new OutputInfo();

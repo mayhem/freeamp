@@ -18,12 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.3 1999/03/07 08:37:51 elrod Exp $
+	$Id: bootstrap.cpp,v 1.4 1999/04/21 04:20:43 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
 #include <stdio.h>
 
+#include "config.h"
 #include "player.h"
 #include "event.h"
 #include "ui.h"
@@ -31,6 +32,9 @@ ____________________________________________________________________________*/
 #include "hashtable.h"
 #include "semaphore.h"
 #include "registrar.h"
+#include "log.h"
+#include "facontext.h"
+#include "beosprefs.h"
 
 #define TINYMAIN 0
 #if TINYMAIN
@@ -73,7 +77,9 @@ int main(int argc, char **argv) {
     //testBuffer();
     //testHashTable();
 
-    Preferences *prefs = new Preferences();
+    FAContext *context = new FAContext;
+    context->prefs = new UnixPrefs();
+    context->log = new LogFile("freeamp.log");
     Registrar *registrar= new Registrar();
     LMCRegistry *lmc;
     PMIRegistry *pmi;
@@ -84,31 +90,31 @@ int main(int argc, char **argv) {
     registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.lmc");
     lmc = new LMCRegistry();
-    registrar->InitializeRegistry(lmc,prefs);
+    registrar->InitializeRegistry(lmc,context->prefs);
 
 //    registrar->SetSubDir("io");
     registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.pmi");
     pmi = new PMIRegistry;
-    registrar->InitializeRegistry(pmi,prefs);
+    registrar->InitializeRegistry(pmi,context->prefs);
 
     registrar->SetSearchString("*.pmo");
     pmo = new PMORegistry;
-    registrar->InitializeRegistry(pmo,prefs);
+    registrar->InitializeRegistry(pmo,context->prefs);
 
 
 //    registrar->SetSubDir("ui");
     registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.ui");
     ui = new UIRegistry;
-    registrar->InitializeRegistry(ui,prefs);
+    registrar->InitializeRegistry(ui,context->prefs);
 
     delete registrar;
 
 
     Semaphore *termSemaphore;
     termSemaphore = new Semaphore();
-    Player *pP = Player::GetPlayer();
+    Player *pP = Player::GetPlayer(context);
 
     pP->RegisterLMCs(lmc);
     pP->RegisterPMIs(pmi);
@@ -119,13 +125,13 @@ int main(int argc, char **argv) {
 
 
     if (pP->SetArgs(argc,argv)) {
-	pP->SetPreferences(prefs);
 	pP->SetTerminationSemaphore(termSemaphore);
 	pP->Run();
 	
 	termSemaphore->Wait();
     }
     delete pP;
+    delete context;
     return 0;
 #endif
 }

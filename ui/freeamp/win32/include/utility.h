@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.6 1999/04/09 01:42:02 elrod Exp $
+	$Id: utility.h,v 1.7 1999/04/21 04:20:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UTILITY_H_
@@ -32,6 +32,7 @@ ____________________________________________________________________________*/
 /* project headers */  
 #include "list.h"
 #include "dib.h"
+#include "preferences.h"
 
 extern const char* kSaveToRio;
 
@@ -48,13 +49,15 @@ DetermineControlRegions(DIB* bitmap,
 bool FileOpenDialog(HWND hwnd, 
                     const char* title,
                     const char* filter,
-                    List<char*>* fileList);
+                    List<char*>* fileList,
+                    Preferences* prefs);
 
 bool FileSaveDialog(HWND hwnd, 
                     const char* title,
                     const char* filter,
                     char* path,
-                    uint32* pathLength);
+                    uint32* pathLength,
+                    Preferences* prefs);
 
 bool LoadDriver(const char* driverName, 
                 const char* driverPath);

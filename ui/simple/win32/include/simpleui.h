@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.h,v 1.7 1999/03/18 07:55:27 elrod Exp $
+	$Id: simpleui.h,v 1.8 1999/04/21 04:21:02 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SIMPLE_UI_H_
@@ -37,9 +37,11 @@ ____________________________________________________________________________*/
 #include "queue.h"
 
 
+class FAContext;
+
 class SimpleUI : public UserInterface {
  public:
-    SimpleUI();
+    SimpleUI(FAContext *context);
     ~SimpleUI();
 
     virtual Error Init(int32 startup_type) { return kError_NoErr;}
@@ -64,8 +66,9 @@ class SimpleUI : public UserInterface {
 
 
  protected:
-      static void UIThreadFunc(void *);
+    static void UIThreadFunc(void *);
 
+    FAContext*		m_context;
 
  private:
     PlayListManager*    m_plm;

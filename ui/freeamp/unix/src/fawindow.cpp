@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.cpp,v 1.16 1999/03/17 22:10:40 robert Exp $
+	$Id: fawindow.cpp,v 1.17 1999/04/21 04:20:58 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -366,13 +366,13 @@ void FALcdWindow::DoEvent(XEvent e) {
 		SetState(nextStateArray[m_displayState]);
 		switch (m_displayState) {
 		    case CurrentTimeState:
-			Player::GetPlayer()->AcceptEvent(new UserMessageEvent("time_curr_mode"));
+			Player::GetPlayer(0)->AcceptEvent(new UserMessageEvent("time_curr_mode"));
 			break;
 		    case RemainingTimeState:
-			Player::GetPlayer()->AcceptEvent(new UserMessageEvent("time_remain_mode"));
+			Player::GetPlayer(0)->AcceptEvent(new UserMessageEvent("time_remain_mode"));
 			break;
 		    case TotalTimeState:
-			Player::GetPlayer()->AcceptEvent(new UserMessageEvent("time_total_mode"));
+			Player::GetPlayer(0)->AcceptEvent(new UserMessageEvent("time_total_mode"));
 			break;
 		}
 	    }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: httpbuffer.h,v 1.7 1999/03/05 23:17:23 robert Exp $
+   $Id: httpbuffer.h,v 1.8 1999/04/21 04:20:49 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPBUFFER_H_
@@ -60,6 +60,7 @@ enum
    httpError_MaximumError
 };
 
+class FAContext;
 class HttpInput;
 class HttpBuffer : public StreamBuffer
 {
@@ -67,7 +68,7 @@ class HttpBuffer : public StreamBuffer
 
                HttpBuffer(size_t iBufferSize, size_t iOverFlowSize,
                           size_t iWriteTriggerSize, char *szFile,
-                          HttpInput *pHttp);
+                          HttpInput *pHttp, FAContext *context);
       virtual ~HttpBuffer(void);
 
       Error    Open(void);
@@ -77,6 +78,8 @@ class HttpBuffer : public StreamBuffer
 
       const char *GetErrorString(int32 error);
       static   void     StartWorkerThread(void *);
+
+      void            WorkerThread(void);
 
     private:
 
@@ -88,10 +91,6 @@ class HttpBuffer : public StreamBuffer
       bool            m_bLoop;
       ID3Tag         *m_pID3Tag;
       HttpInput      *m_pHttp;
-
-    public:
-
-      void            WorkerThread(void);
 };
 
 #endif

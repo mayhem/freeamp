@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.1 1999/02/10 09:32:23 elrod Exp $
+##      $Id: Makefile.am,v 1.2 1999/04/21 04:20:43 elrod Exp $
 ##
 ############################################################################
 
@@ -28,7 +28,7 @@ if AM_HAVE_WIN32
 FILES = 
 MYLIBS = 
 else
-FILES	=	preferences.cpp		\
+FILES	=	beosprefs.cpp		\
 			bootstrap.cpp		\
 			win32impl.cpp		\
 			beosthread.cpp		\

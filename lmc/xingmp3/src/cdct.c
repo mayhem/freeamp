@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cdct.c,v 1.4 1999/03/05 08:58:18 mhw Exp $
+	$Id: cdct.c,v 1.5 1999/04/21 04:20:54 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  cdct.c  ***************************************************
@@ -114,7 +114,9 @@ void fdct32(float x[], float c[])
 #endif  /* _EQUALIZER_ENABLE_ */
 #undef  _EQUALIZER_ENABLE_
 
-#ifdef ASM_FDCT32
+#ifdef ASM_X86
+   fdct32_asm(src, c);
+#elif defined(ASM_FDCT32)
    asm_fdct32(src, c);
 #else
 /* special first stage */
@@ -131,11 +133,14 @@ void fdct32(float x[], float c[])
    back_bf(4, 8, b, a);
    back_bf(2, 16, a, b);
    back_bf(1, 32, b, c);
-#endif	/* ASM_FDCT32 */
+#endif
 }
 /*------------------------------------------------------------*/
 void fdct32_dual(float x[], float c[])
 {
+#ifdef ASM_X86
+   fdct32_dual_asm(x, c);
+#else
    float a[32];			/* ping pong buffers */
    float b[32];
    int p, pp, qq;
@@ -156,6 +161,7 @@ void fdct32_dual(float x[], float c[])
    back_bf(4, 8, b, a);
    back_bf(2, 16, a, b);
    back_bf(1, 32, b, c);
+#endif
 }
 /*---------------convert dual to mono------------------------------*/
 void fdct32_dual_mono(float x[], float c[])

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.18 1999/09/22 18:58:21 ijr Exp $
+        $Id: player.cpp,v 1.133.2.19 1999/09/24 18:23:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -203,14 +203,14 @@ SetArgs(int32 argc, char **argv)
    char     *argUI = NULL;
 
 #ifndef WIN32
-   
+  
+#if 0 
    if (argc == 1)
    {
        Usage(argv[0]);
        exit(0);
    }
 
-#if 0
    // grab the UI name from how we are invoked.
    argUI = new char[strlen(argv[0]) + 1 + 3];
    char     *pBegin = strrchr(argv[0], '/');

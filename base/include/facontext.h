@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.3.8.4 1999/09/16 00:03:58 ijr Exp $
+	$Id: facontext.h,v 1.3.8.5 1999/09/24 18:23:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FACONTEXT_H_
@@ -27,6 +27,7 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "preferences.h"
 #include "log.h"
+#include "mutex.h"
 
 static const int32 c_majorVersion = 1;
 static const int32 c_minorVersion = 0;
@@ -51,8 +52,11 @@ class FAContext
           plm(0),
           target(0),
 	  browser(0),
+#ifndef WIN32	  
+	  gtkInitialized(false),
+#endif	  
 	  argc(0),
-          argv(0),
+          argv(0),	  
 	  argFlags(0) { }
     
     ~FAContext()
@@ -72,6 +76,10 @@ class FAContext
     PlaylistManager *plm;
     EventQueue *target;
     MusicBrowser *browser;
+#ifndef WIN32
+    Mutex gtkLock;
+    bool gtkInitialized;
+#endif    
     int32 argc;
     char** argv;
     uint32 argFlags;

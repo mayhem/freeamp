@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.cpp,v 1.9.12.4 1999/08/27 16:55:28 ijr Exp $
+	$Id: registry.cpp,v 1.9.12.5 1999/09/24 18:23:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream>
@@ -75,7 +75,7 @@ RegistryItem::~RegistryItem()
     m_module = NULL;
 #endif
 
-    cout << "Delete Registry Item" << endl;
+//    cout << "Delete Registry Item" << endl;
 
 }
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.7 1999/09/24 01:49:27 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.8 1999/09/24 18:23:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h" 
@@ -71,29 +71,22 @@ void musicbrowserUI::gtkServiceFunction(void *p)
     ((musicbrowserUI *)p)->GTKEventService();
 }
 
-void musicbrowserUI::ParseArgs(void)
-{
-/* Most of this is temporary, and shouldn't be here */
-    char *arg = NULL;
- 
-    for (int32 i = 1; i < m_argc; i++) {
-        arg = m_argv[i];
-        if (m_startupType == PRIMARY_UI) 
-            m_plm->AddItem(arg, 0);
-    }
-    if (m_startupType == PRIMARY_UI)
-        m_plm->SetCurrentIndex(0); 
-}
-
 void musicbrowserUI::GTKEventService(void)
 {
-    g_thread_init(NULL);
-
-    gtk_init(&m_argc, &m_argv);
-
-    ParseArgs();
+    m_context->gtkLock.Acquire();
+    if (!m_context->gtkInitialized) {
+        g_thread_init(NULL);
+        gtk_init(&m_argc, &m_argv);
+        m_context->gtkInitialized = true;
+    }
+    m_context->gtkLock.Release();
 
     CreatePlaylist();
+
+    string lastPlaylist = FreeampDir(m_context->prefs);
+    lastPlaylist += "/currentlist.m3u";
+
+    LoadPlaylist((char *)lastPlaylist.c_str());
 
     gtk_main();
 
@@ -101,19 +94,18 @@ void musicbrowserUI::GTKEventService(void)
         m_playerEQ->AcceptEvent(new Event(CMD_QuitPlayer));
 }
 
-void musicbrowserUI::Usage(void)
-{
-    cout << "FreeAmp MusicBrowser UI Plugin usage: " << endl;
-    cout << " NONE! You don't use this, really. " << endl;
-    cout << endl;
-}
-
 int32 musicbrowserUI::AcceptEvent(Event *event)
 {
     switch (event->Type()) {
         case CMD_Cleanup: {
             gtkThread->Join();
+            
+            string lastPlaylist = FreeampDir(m_context->prefs);
+            lastPlaylist += "/currentlist.m3u";
+            SaveCurrentPlaylist((char *)lastPlaylist.c_str());  
+
             m_playerEQ->AcceptEvent(new Event(INFO_ReadyToDieUI));
+
             break; }
         case INFO_SearchMusicDone: {
             gdk_threads_enter();

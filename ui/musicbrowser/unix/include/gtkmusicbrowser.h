@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.1.2.3 1999/09/24 01:49:27 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.1.2.4 1999/09/24 18:23:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -65,7 +65,6 @@ class musicbrowserUI : public UserInterface {
     Properties *m_propManager;
     int32 m_startupType;
     bool m_noStartUp;
-    void Usage();
 
     bool m_initialized;
     bool m_browserCreated;
@@ -74,7 +73,6 @@ class musicbrowserUI : public UserInterface {
 
     int32 m_argc;
     char **m_argv;
-    void ParseArgs();
 
     Thread *gtkThread;
 

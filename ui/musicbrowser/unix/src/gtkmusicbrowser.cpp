@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.5 1999/09/24 01:49:27 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.6 1999/09/24 18:23:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -543,7 +543,7 @@ void musicbrowserUI::CreatePlaylist(void)
 
     musicBrowser = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(musicBrowser), "Playlist Editor");
-    gtk_window_set_policy(GTK_WINDOW(musicBrowser), TRUE, TRUE, FALSE);
+    gtk_window_set_policy(GTK_WINDOW(musicBrowser), TRUE, TRUE, TRUE);
     gtk_signal_connect(GTK_OBJECT(musicBrowser), "destroy",
                        GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
     gtk_container_set_border_width(GTK_CONTAINER(musicBrowser), 5);
@@ -554,7 +554,7 @@ void musicbrowserUI::CreatePlaylist(void)
     gtk_widget_show(vbox);
 
     statusBar = gtk_statusbar_new();
-    gtk_box_pack_end(GTK_BOX(vbox), statusBar, TRUE, TRUE, 5);
+    gtk_box_pack_end(GTK_BOX(vbox), statusBar, FALSE, TRUE, 5);
     gtk_widget_show(statusBar);
 
     CreateMenu(vbox);

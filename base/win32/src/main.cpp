@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.12 1998/10/17 21:43:23 elrod Exp $
+	$Id: main.cpp,v 1.13 1998/10/18 06:53:23 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -34,21 +34,6 @@ ____________________________________________________________________________*/
 #include "registrar.h"
 #include "dummycoo.h"
 #include "preferences.h"
-#include "mem.h"
-
-void* operator new(size_t size)
-{
-    void* p;
-
-    p = __malloc(size);
-
-    return p;
-}
-
-void operator delete(void* p)
-{
-   __free(p);
-}
  
 int APIENTRY WinMain(	HINSTANCE hInstance, 
 						HINSTANCE hPrevInstance,

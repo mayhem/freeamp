@@ -17,28 +17,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardlib.cpp,v 1.3 1998/10/16 13:03:02 elrod Exp $
+	$Id: soundcardlib.cpp,v 1.4 1998/10/18 06:53:23 elrod Exp $
 ____________________________________________________________________________*/
 
 /* project headers */
 #include "pmolib.h"
 #include "soundcardpmo.h"
-
-#include "mem.h"
-
-void* operator new(size_t size)
-{
-    void* p;
-
-    p = __malloc(size);
-
-    return p;
-}
-
-void operator delete(void* p)
-{
-   __free(p);
-}
 
 
 void Initialize(PMORef ref)

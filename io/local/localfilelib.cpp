@@ -17,30 +17,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: localfilelib.cpp,v 1.4 1998/10/16 23:33:57 jdw Exp $
+	$Id: localfilelib.cpp,v 1.5 1998/10/18 06:53:23 elrod Exp $
 ____________________________________________________________________________*/
 
 /* project headers */
 #include "pmilib.h"
 #include "localfileinput.h"
-#ifdef WIN32
-#include "mem.h"
-
-void* operator new(size_t size)
-{
-    void* p;
-
-    p = __malloc(size);
-
-    return p;
-}
-
-void operator delete(void* p)
-{
-   __free(p);
-}
-
-#endif
 
 void Initialize(PMIRef ref)
 {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.9 2000/03/13 21:25:59 ijr Exp $
+	$Id: downloadmanager.h,v 1.10 2000/03/18 06:59:59 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -53,7 +53,7 @@ using namespace std;
 #include "registry.h"
 #include "downloadformat.h"
 
-#ifndef WIN32
+#if !defined(WIN32) && !defined(HAVE_BEOS)
 #include <arpa/inet.h>
 #endif
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.3 2000/02/07 09:07:31 hiro Exp $
+   $Id: ThemeManager.cpp,v 1.4 2000/02/15 11:36:41 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -92,6 +92,7 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
         }
         while(FindNextFile(handle, &find));
 
+#if 0
     oThemeBasePath = "./themes";
     oThemePath = oThemeBasePath + string("/*.fat");
     handle = FindFirstFile((char *)oThemePath.c_str(), &find);
@@ -104,6 +105,7 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
             oThemeFileMap[find.cFileName] = oThemeFile;
         }
         while(FindNextFile(handle, &find));
+#endif
 
     return kError_NoErr;
 }

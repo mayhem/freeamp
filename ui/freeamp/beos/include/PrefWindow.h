@@ -3,7 +3,7 @@
    FreeAmp - The Free MP3 Player
 
    Copyright (C) 1999 EMusic
-   Copyright (C) 1999 Hiromasa Kato
+   Portions Copyright (C) 1999 Hiromasa Kato (hiro@eng.iastate.edu)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,31 +19,28 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSPreferenceWindow.h,v 1.5 2000/02/15 11:36:41 hiro Exp $
+   $Id: PrefWindow.h,v 1.1 2000/02/15 11:36:41 hiro Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef INCLUDED_BEOSPREFERENCEWINDOW_H__
-#define INCLUDED_BEOSPREFERENCEWINDOW_H__
+#ifndef INCLUDED_PREF_WINDOW_H__
+#define INCLUDED_PREF_WINDOW_H__
 
-#define BEOSPREF 1
-#include "PreferenceWindow.h"
+#include <be/interface/Window.h>
 
-class PrefWindow;
-class PrefView;
-
-class BeOSPreferenceWindow : public PreferenceWindow
+class PrefWindow : public BWindow
 {
 public:
-                    BeOSPreferenceWindow( FAContext* context,
-                                          ThemeManager* themeMan );
-    virtual         ~BeOSPreferenceWindow();
-    virtual bool    Show( Window* pParent );
+                        PrefWindow( BRect frame, const char* title );
+    virtual             ~PrefWindow();
+    virtual bool        QuitRequested( void );
+    bool                WaitForQuit( bigtime_t timeout = B_INFINITE_TIMEOUT );
+    static bool         IsRunning( void );
 
 protected:
 
 private:
-    PrefWindow*     m_prefWindow;
-    PrefView*       m_prefView;
+    sem_id              m_okToQuitSem;
+    static int32        s_running;
 };
 
-#endif // INCLUDED_BEOSPREFERENCEWINDOW_H__
+#endif // INCLUDED_PREF_WINDOW_H__

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSPreferenceWindow.cpp,v 1.2 2000/02/07 09:07:31 hiro Exp $
+   $Id: BeOSPreferenceWindow.cpp,v 1.3 2000/02/15 11:36:41 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSPreferenceWindow.h"
@@ -29,7 +29,6 @@ ____________________________________________________________________________*/
 #include "PrefView.h"
 #endif
 
-#define DEBUG 1
 #if DEBUG
 #include <be/support/Debug.h>
 #define CHECK_POINT CHECK_POINT_MSG("")

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSCanvas.cpp,v 1.7 2000/02/09 16:58:15 hiro Exp $
+   $Id: BeOSCanvas.cpp,v 1.8 2000/02/15 11:36:41 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSCanvas.h"
@@ -222,9 +222,11 @@ BeOSCanvas::Invalidate( Rect& oRect )
     CHECK_POINT_MSG( "Invalidate" );
     if ( m_canvasView->Window() )
     {
-        m_canvasView->LockLooper();
-        m_canvasView->Invalidate();
-        m_canvasView->UnlockLooper();
+        if ( m_canvasView->LockLooper() )
+        {
+            m_canvasView->Invalidate();
+            m_canvasView->UnlockLooper();
+        }
     }
     else
     {

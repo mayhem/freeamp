@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.25 2000/04/06 22:36:41 ijr Exp $
+        $Id: unixprefs.cpp,v 1.26 2000/08/25 07:09:43 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -731,7 +731,8 @@ GetLibDirs()
         uint32 size = 1024;
         m_libDirs = new char[size];
 
-        GetPrefString(kLibraryPathPref, m_libDirs, &size);
+        strcpy(m_libDirs, kDefaultLibraryPath);
+        //GetPrefString(kLibraryPathPref, m_libDirs, &size);
     }
     return m_libDirs;
 }

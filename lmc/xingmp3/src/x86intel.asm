@@ -26,8 +26,8 @@
 ;	along with this program; if not, write to the Free Software
 ;	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ;
-;	$Id: x86intel.asm,v 1.17 1999/03/05 08:58:18 mhw Exp $
-;	Generated from Id: x86gas.s,v 1.8 1999/03/05 01:16:21 mhw Exp $
+;	$Id: x86intel.asm,v 1.17.4.1 1999/04/20 19:23:23 mhw Exp $
+;	Generated from Id: x86gas.s,v 1.9 1999/03/05 08:58:18 mhw Exp $
 ;
 
 .386

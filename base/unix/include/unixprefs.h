@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: unixprefs.h,v 1.1.2.1 1999/04/16 08:14:44 mhw Exp $
+	$Id: unixprefs.h,v 1.1.2.2 1999/04/20 19:23:16 mhw Exp $
 ____________________________________________________________________________*/
 
 
@@ -30,11 +30,25 @@ ____________________________________________________________________________*/
 #include "errors.h"
 #include "list.h"
 #include "preferences.h"
+#include "hashtable.h"
 #include "win32impl.h"
 #include "mutex.h"
 
-class UnixPrefs : public Preferences {
+class UnixPrefEntry
+{
+ public:
+    UnixPrefEntry() : prefix(0), key(0), separator(0), value(0), suffix(0) { }
+    ~UnixPrefEntry();
 
+    char *prefix;	// Preceeding comments and indentation
+    char *key;
+    char *separator;
+    char *value;
+    char *suffix;	// Trailing space and comment (including NL)
+};
+
+class UnixPrefs : public Preferences
+{
  public:
     UnixPrefs();
     ~UnixPrefs();
@@ -54,6 +68,8 @@ class UnixPrefs : public Preferences {
 
     virtual const char *GetLibDirs();
 
+    int GetErrorLineNumber() const { return m_errorLineNumber; }
+
  private:
     Mutex m_mutex;
 
@@ -62,9 +78,10 @@ class UnixPrefs : public Preferences {
 
     char *m_prefsFilePath;
     bool m_saveEnable, m_changed;
-    List<char *> m_lines;
+    int m_errorLineNumber;	// 0 if no error
 
-    bool FindPref(const char *pref, int32 *index);
+    List<UnixPrefEntry *> m_entries;
+    HashTable<UnixPrefEntry *> m_ht;
 };
 
 #endif /* _UNIXPREFS_H */

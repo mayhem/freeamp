@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: msis.c,v 1.1 1998/10/14 02:50:37 elrod Exp $
+	$Id: msis.c,v 1.1.4.1 1999/04/20 19:23:23 mhw Exp $
 ____________________________________________________________________________*/
 
 /****  msis.c  ***************************************************
@@ -50,7 +50,7 @@ is_process does ms or stereo in "forbidded sf regions"
 typedef float ARRAY2[2];
 typedef float ARRAY8_2[8][2];
 
-static float csa[8][2];		/* antialias */
+float csa[8][2];		/* antialias */
 
 /* nBand[0] = long, nBand[1] = short */
 extern int nBand[2][22];
@@ -109,6 +109,9 @@ ARRAY2_64_2 *msis_init_addr_MPEG2()
 /*===============================================================*/
 void antialias(float x[], int n)
 {
+#ifdef ASM_X86
+   antialias_asm(x, n);
+#else
    int i, k;
    float a, b;
 
@@ -123,7 +126,7 @@ void antialias(float x[], int n)
       }
       x += 18;
    }
-
+#endif
 }
 /*===============================================================*/
 void ms_process(float x[][1152], int n)		/* sum-difference stereo */

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: unixprefs.cpp,v 1.1.2.1 1999/04/16 08:14:44 mhw Exp $
+	$Id: unixprefs.cpp,v 1.1.2.2 1999/04/20 19:23:16 mhw Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -38,9 +38,11 @@ ____________________________________________________________________________*/
 
 
 // default values
+const char*  kDefaultLibraryPath = ".:~/.freeamp:" UNIX_LIBDIR "/freeamp";
 const char*  kDefaultUI = "freeamp-" AC_HOST_OS ".ui";
 const char*  kDefaultTextUI = "freeampcmd-" AC_HOST_OS ".ui";
 const char*  kDefaultPMO = "soundcard-" AC_HOST_OS ".pmo";
+const char*  kDefaultALSADevice = "1:0";
 
 
 class LibDirFindHandle {
@@ -51,21 +53,301 @@ class LibDirFindHandle {
 
 
 static
-int
-CompareLines(char *const &a, char *const &b)
+Error
+ScanQuotableString(const char *in, const char **endPtr,
+		   char *out, int32 *lengthPtr, const char *delim)
 {
-    return strcasecmp(a, b) > 0;
+    bool quoted = false;
+    int32 length = 0;
+
+    // In case of error, clear return fields now
+    if (endPtr)
+	*endPtr = 0;
+    if (lengthPtr)
+	*lengthPtr = 0;
+
+    if (*in == '"')
+    {
+	in++;
+	quoted = true;
+    }
+    while (*in)
+    {
+	if (*in == '"' && quoted)
+	{
+	    in++;
+	    break;
+	}
+	else if ((isspace(*in) || strchr(delim, *in)) && !quoted)
+	    break;
+	else if (*in == '\\' && quoted)
+	{
+	    char ch;
+
+	    in++;
+	    switch (*in)
+	    {
+		case '\\':  ch = '\\'; in++; break;
+		case  '"':  ch =  '"'; in++; break;
+		case  'n':  ch = '\n'; in++; break;
+		case  't':  ch = '\t'; in++; break;
+
+		default:
+		    if (in[0] < '0' || in[0] > '3' ||
+			in[1] < '0' || in[1] > '7' ||
+			in[2] < '0' || in[2] > '7')
+		    {
+			*endPtr = in;
+			return kError_SyntaxError;
+		    }
+
+		    ch = (char)(((in[0] - '0') << 6) |
+		    		((in[1] - '0') << 3) |
+				(in[2] - '0'));
+		    in += 3;
+		    break;
+	    }
+	    if (out)
+		*out++ = ch;
+	    length++;
+	}
+	else if (*in == '\n')
+	{
+	    if (quoted)
+	    {
+		*endPtr = in;
+		return kError_SyntaxError;
+	    }
+	    break;
+	}
+	else
+	{
+	    if (out)
+		*out++ = *in;
+	    length++;
+	    in++;
+	}
+    }
+
+    if (out)
+	*out++ = '\0';
+    if (lengthPtr)
+	*lengthPtr = length;
+    if (endPtr)
+	*endPtr = in;
+    return kError_NoErr;
 }
+
+static
+char *
+ReadQuotableString(const char *in, const char **endPtr, const char *delim)
+{
+    Error error;
+    int32 length;
+
+    error = ScanQuotableString(in, endPtr, 0, &length, delim);
+    if (IsError(error))
+	return 0;
+
+    char *out = new char[length + 1];
+
+    ScanQuotableString(in, 0, out, 0, delim);
+    return out;
+}
+
+static
+void
+PrepareQuotableString(const char *str, bool *needQuotes,
+		      char *out, int32 *lengthPtr, const char *delim)
+{
+    int32 unquotedLength = 0;
+    int32 quotedLength = 2;
+    bool quoted = *needQuotes;
+
+    if (out && quoted)
+	*out++ = '"';
+
+    if (*str == '"')
+	*needQuotes = true;
+
+    for (; *str; str++)
+    {
+	if (strchr(delim, *str) || *str == ' ')
+	{
+	    *needQuotes = true;
+	    quotedLength++;
+	    if (out)
+		*out++ = *str;
+	}
+	else if (*str == '\\' || *str == '"')
+	{
+	    quotedLength += 2;
+	    unquotedLength++;
+	    if (out)
+	    {
+		if (quoted)
+		    *out++ = '\\';
+		*out++ = *str;
+	    }
+	}
+	else if (*str == '\n' || *str == '\t')
+	{
+	    *needQuotes = true;
+	    quotedLength += 2;
+	    if (out)
+	    {
+		*out++ = '\\';
+		*out++ = (*str == '\n') ? 'n' : 't';
+	    }
+	}
+	else if (isspace(*str) || !isgraph(*str))
+	{
+	    *needQuotes = true;
+	    quotedLength += 4;
+	    if (out)
+	    {
+		unsigned char ch = *str;
+
+		*out++ = '\\';
+		*out++ = '0' + (ch >> 6);
+		*out++ = '0' + ((ch >> 3) & 7);
+		*out++ = '0' + (ch & 7);
+	    }
+	}
+	else
+	{
+	    unquotedLength++;
+	    quotedLength++;
+	    if (out)
+		*out++ = *str;
+	}
+    }
+
+    if (out)
+    {
+	if (quoted)
+	    *out++ = '"';
+	*out++ = '\0';
+    }
+    if (lengthPtr)
+	*lengthPtr = *needQuotes ? quotedLength : unquotedLength;
+}
+
+static
+char *
+WriteQuotableString(const char *str, const char *delim)
+{
+    int32 length;
+    bool needQuotes = false;
+
+    PrepareQuotableString(str, &needQuotes, 0, &length, delim);
+
+    char *out = new char[length + 1];
+
+    PrepareQuotableString(str, &needQuotes, out, 0, delim);
+    return out;
+}
+
+static
+void
+AppendToString(char **destPtr, const char *src, int32 length)
+{
+    char *oldStr = *destPtr;
+    int32 oldLen = oldStr ? strlen(oldStr) : 0;
+    int32 newLen = oldLen + length;
+    char *newStr = new char[newLen + 1];
+
+    if (oldStr)
+    {
+	memcpy(newStr, oldStr, oldLen);
+	delete[] oldStr;
+    }
+    memcpy(newStr + oldLen, src, length);
+    newStr[newLen] = '\0';
+    *destPtr = newStr;
+}
+
+#if 0
+static
+void
+Test(UnixPrefs *prefs)
+{
+    const char *delim = "#";
+    static const char *tests[] = {
+	"# \nfoo\tbar\r\017blah\371\321woz\\top\"dog",
+	"FooBar",
+	"Foo Bar",
+	" Foo Bar",
+	"\"Foo",
+	"Foo\"",
+	"Fo\"o",
+	"Fo\\o",
+	"#Foo",
+	"Fo#o",
+	":Foo",
+	"Fo:o",
+	"Fo\no",
+	"Fo\to",
+	"Fo\ro",
+	"Fo\017o",
+	"Fo\371o",
+	"Fo\123o",
+	"Foo",
+	0
+    };
+
+    prefs->SetPrefString(tests[0], tests[0]);
+
+    int i;
+    char quotedStr[256], recoveredStr[256];
+    bool needQuotes;
+    int len1, len2;
+    const char *end;
+
+    for (i = 0; tests[i]; i++)
+    {
+	needQuotes = false;
+	PrepareQuotableString(tests[i], &needQuotes, 0, &len1, delim);
+	PrepareQuotableString(tests[i], &needQuotes, quotedStr,
+			      &len2, delim);
+	if (len1 != len2 || len1 != strlen(quotedStr))
+	    printf("ERROR: len1: %d, len2: %d, len: %d\n", len1, len2,
+		   strlen(quotedStr));
+	puts(quotedStr);
+
+	ScanQuotableString(quotedStr, &end, recoveredStr, &len2, delim);
+	if (len2 != strlen(recoveredStr) || strcmp(tests[i], recoveredStr))
+	    printf("ERROR: len2: %d, len: %d\n", len2,
+		   strlen(recoveredStr));
+    }
+}
+#endif
+
+
+UnixPrefEntry::
+~UnixPrefEntry()
+{
+    if (prefix)	   delete[] prefix;
+    if (key)	   delete[] key;
+    if (separator) delete[] separator;
+    if (value)	   delete[] value;
+    if (suffix)	   delete[] suffix;
+}
+
 
 UnixPrefs::
 UnixPrefs()
-     : m_prefsFilePath(0), m_saveEnable(false), m_changed(false)
+     : m_prefsFilePath(0), m_errorLineNumber(0),
+       m_saveEnable(true), m_changed(false)
 {
     const char *suffix = "/.freeamp_prefs";
     char *homeDir = getenv("HOME");
 
     if (!homeDir)
+    {
+	m_saveEnable = false;
 	return;
+    }
 
     // Compute pathname of preferences file
     m_prefsFilePath = new char[strlen(homeDir) + strlen(suffix) + 1];
@@ -76,41 +358,93 @@ UnixPrefs()
     if (!prefsFile)
     {
 	if (errno == ENOENT)
-	{
-	    m_saveEnable = true;
 	    SetDefaults();
-	}
 	return;
     }
 
-    m_saveEnable = true;
 
+    UnixPrefEntry *entry = new UnixPrefEntry;
     char buffer[1024];
-    char dummy;
+    char *p;
+    int lineNumber = 0;
 
-    while (fgets(buffer, sizeof(buffer), prefsFile))
-	if (buffer[0])		// Skip blank lines
+    while (fgets(buffer, sizeof(buffer) - 1, prefsFile))
+    {
+	lineNumber++;
+
+	p = buffer;
+	while (*p && isspace(*p))
+	    p++;
+
+	if (*p == '#')
 	{
-	    // Strip trailing newline if any
-	    int i = strlen(buffer) - 1;
-	    if (buffer[i] == '\n')
-		buffer[i] = '\0';
-	    m_lines.AddItem(strdup(buffer));
+	    // No data on this line, skip to the end of the comment
+	    while (*p)
+		p++;
 	}
+
+	if (p > buffer)
+	    AppendToString(&entry->prefix, buffer, p - buffer);
+
+	if (*p)
+	{
+	    char *end;
+	    char *out;
+	    int32 length;
+
+	    entry->key = ReadQuotableString(p, (const char **)&end, ":#");
+	    if (entry->key && !m_ht.Value(entry->key))
+		m_ht.Insert(entry->key, entry);
+	    else if (!m_errorLineNumber)
+		m_errorLineNumber = lineNumber;
+	    p = end;
+
+	    while (*p && isspace(*p))
+		p++;
+	    if (*p == ':')
+		p++;
+	    else if (!m_errorLineNumber)
+		m_errorLineNumber = lineNumber;
+	    while (*p && isspace(*p))
+		p++;
+
+	    AppendToString(&entry->separator, end, p - end);
+
+	    entry->value = ReadQuotableString(p, (const char **)&end, "#");
+	    if (!entry->value && !m_errorLineNumber)
+		m_errorLineNumber = lineNumber;
+	    p = end;
+
+	    length = strlen(p);
+	    if (p[length - 1] != '\n')
+	    {
+		p[length++] = '\n';
+		p[length] = '\0';
+	    }
+	    AppendToString(&entry->suffix, p, length);
+
+	    m_entries.AddItem(entry);
+	    entry = new UnixPrefEntry;
+	}
+    }
+
+    if (entry->prefix)
+	m_entries.AddItem(entry);
+    else
+	delete entry;
+
+    if (m_errorLineNumber)
+	m_saveEnable = false;
+
     fclose(prefsFile);
-    m_lines.SortItems(CompareLines);
+
+    // Test(this);
 }
 
 UnixPrefs::
 ~UnixPrefs()
 {
     Save();
-
-    int32 numLines = m_lines.CountItems();
-    int32 i;
-
-    for (i = 0; i < numLines; i++)
-	free(m_lines.ItemAt(i));
 
     delete[] m_prefsFilePath;
 }
@@ -121,6 +455,9 @@ SetDefaults()
 {
     // set install directory value
     SetPrefString(kInstallDirPref, UNIX_LIBDIR);
+
+    // set default freeamp library path value
+    SetPrefString(kLibraryPathPref, kDefaultLibraryPath);
     
     // set default ui value
     SetPrefString(kUIPref, kDefaultUI);
@@ -131,6 +468,9 @@ SetDefaults()
     // set default pmo value
     SetPrefString(kPMOPref, kDefaultPMO);
 
+    // set default ALSA device
+    SetPrefString(kALSADevicePref, kDefaultALSADevice);
+    
     Preferences::SetDefaults();
 }
 
@@ -140,6 +480,10 @@ Save()
 {
     if (!m_saveEnable || !m_changed)
 	return kError_NoErr;
+
+    // XXX: We should check the modification date of the file,
+    //      and refuse to save if it's been modified since we
+    //      read it.
 
     m_changed = false;
 
@@ -166,13 +510,31 @@ Save()
 
 	m_mutex.Acquire();
 		
-	int32 numLines = m_lines.CountItems();
+	int32 numEntries = m_entries.CountItems();
 	int32 i;
+	UnixPrefEntry *entry;
 	
-	for (i = 0; i < numLines; i++)
+	for (i = 0; i < numEntries; i++)
 	{
-	    fputs(m_lines.ItemAt(i), prefsFile);
-	    putc('\n', prefsFile);
+	    entry = m_entries.ItemAt(i);
+	    if (entry->prefix)
+		fputs(entry->prefix, prefsFile);
+	    if (entry->key && entry->separator && entry->value)
+	    {
+		char *outStr;
+		
+		outStr = WriteQuotableString(entry->key, ":#");
+	        fputs(outStr, prefsFile);
+		delete[] outStr;
+
+		fputs(entry->separator, prefsFile);
+
+		outStr = WriteQuotableString(entry->value, "#");
+	        fputs(outStr, prefsFile);
+		delete[] outStr;
+	    }
+	    if (entry->suffix)
+		fputs(entry->suffix, prefsFile);
 	}
 	
 	m_mutex.Release();
@@ -203,35 +565,6 @@ Save()
     return kError_NoErr;
 }
 
-bool
-UnixPrefs::
-FindPref(const char *pref, int32 *index)
-{
-    int32 lo = 0, hi = m_lines.CountItems();
-
-    while (lo < hi)
-    {
-	int32 pivot = (lo + hi) / 2;
-	char *p = m_lines.ItemAt(pivot);
-	int i = 0;
-
-	while (tolower(pref[i]) == tolower(p[i]) && pref[i])
-	    i++;
-
-	if (pref[i] == '\0' && p[i] == '=')
-	{
-	    *index = pivot;
-	    return true;
-	}
-	else if (tolower(pref[i]) < tolower(p[i]))
-	    hi = pivot;
-	else
-	    lo = pivot + 1;
-    }
-    *index = lo;
-    return false;
-}
-
 Preferences *
 UnixPrefs::
 ComponentPrefs(const char *componentName)
@@ -243,19 +576,21 @@ Error
 UnixPrefs::
 GetPrefString(const char* pref, char* buf, uint32* len)
 {
+    UnixPrefEntry *entry;
     int32 index;
 
     m_mutex.Acquire();
 	
     buf[0] = '\0';
-    if (!FindPref(pref, &index))
+    entry = m_ht.Value(pref);
+    if (!entry || !entry->value)
     {
 	*len = 0;
 	m_mutex.Release();
 	return kError_NoErr;	// XXX: Should this return an error?
     }
 
-    char *value = m_lines.ItemAt(index) + strlen(pref) + 1;
+    char *value = entry->value;
     uint32 value_len = strlen(value) + 1;
 
     if (value_len > *len)
@@ -274,25 +609,26 @@ Error
 UnixPrefs::
 SetPrefString(const char* pref, const char* buf)
 {
-    int32 prefLen = strlen(pref);
-    int32 bufLen = strlen(buf);
-    char *newLine = (char *) malloc(prefLen + bufLen + 2);
-    int32 index;
-
-    memcpy(newLine, pref, prefLen);
-    newLine[prefLen] = '=';
-    memcpy(newLine + prefLen + 1, buf, bufLen);
-    newLine[prefLen + bufLen + 1] = '\0';
+    UnixPrefEntry *entry;
 
     m_mutex.Acquire();
 
-    if (FindPref(pref, &index))
+    entry = m_ht.Value(pref);
+    if (entry)
     {
-	free(m_lines.ItemAt(index));
-	m_lines.SetItemAt(newLine, index);
+	delete[] entry->value;
+	entry->value = 0;
     }
     else
-	m_lines.AddItem(newLine, index);
+    {
+	entry = new UnixPrefEntry;
+	AppendToString(&entry->key, pref, strlen(pref));
+	AppendToString(&entry->separator, ": ", 2);
+	AppendToString(&entry->suffix, "\n", 1);
+	m_entries.AddItem(entry);
+	m_ht.Insert(pref, entry);
+    }
+    AppendToString(&entry->value, buf, strlen(buf));
 
     m_changed = true;
 
@@ -307,10 +643,10 @@ UnixPrefs::
 GetLibDirs()
 {
     if (!m_libDirs) {
-	m_libDirs = new char[1024];
-	strcpy(m_libDirs,".:~/.freeamp:");
-	strcat(m_libDirs,UNIX_LIBDIR);
-	strcat(m_libDirs,"/freeamp");
+    	uint32 size = 1024;
+	m_libDirs = new char[size];
+
+	GetPrefString(kLibraryPathPref, m_libDirs, &size);
     }
     return m_libDirs;
 }
@@ -319,7 +655,7 @@ LibDirFindHandle *
 UnixPrefs::
 GetFirstLibDir(char *path, uint32 *len)
 {
-    // if no FREEAMP_PATH, libdirs = ~/.freeamp : @lib_installdir@/freeamp : .
+    // if no FREEAMP_PATH, use kLibraryPathPref
     // if FREEAMP_PATH, then its FREEAMP_PATH
     char *pEnv = getenv("FREEAMP_PATH");
     char *pPath = NULL;

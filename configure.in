@@ -30,6 +30,8 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_ISC_POSIX
 AC_PROG_RANLIB
+AC_CHECK_PROGS(PERL, perl)
+AC_CHECK_PROGS(NASM, nasm)
 
 dnl Checks for libraries.
 
@@ -325,6 +327,7 @@ have_alsa="false"
 AM_CONDITIONAL(AM_HAVE_ALSA, test "$have_alsa" = "true")
 AM_CONDITIONAL(AM_MP3_PROF, test "$mp3prof" = "true")
 
+AM_CONDITIONAL(AM_HAVE_NASM, test -n "$NASM")
 AM_CONDITIONAL(AM_HAVE_WIN32, test "$host_os" = "windowsnt")
 AM_CONDITIONAL(AM_HAVE_LINUX, test "$host_os" = "linux")
 AM_CONDITIONAL(AM_HAVE_X86, expr "$host_cpu" : "i.86$" > /dev/null)

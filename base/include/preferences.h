@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.1.2.2 1999/04/19 18:58:09 elrod Exp $
+	$Id: preferences.h,v 1.1.2.3 1999/04/20 19:23:15 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PREFERENCES_H
@@ -29,9 +29,11 @@ ____________________________________________________________________________*/
 
 // preferences
 extern const char* kInstallDirPref;
+extern const char* kLibraryPathPref;
 extern const char* kUIPref;
 extern const char* kTextUIPref;
 extern const char* kPMOPref;
+extern const char* kALSADevicePref;
 extern const char* kOpenSaveDirPref;
 extern const char* kStayOnTopPref;
 extern const char* kLiveInTrayPref;

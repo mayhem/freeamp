@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.1.2.2 1999/04/19 18:58:09 elrod Exp $
+	$Id: preferences.cpp,v 1.1.2.3 1999/04/20 19:23:15 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -28,9 +28,11 @@ ____________________________________________________________________________*/
 
 // preferences
 const char* kInstallDirPref = "InstallDirectory";
+const char* kLibraryPathPref = "LibraryPath";
 const char* kUIPref = "UI";
-const char* kTextUIPref = "UIText";
+const char* kTextUIPref = "TextUI";
 const char* kPMOPref = "PMO";
+const char* kALSADevicePref = "ALSADevice";
 const char* kOpenSaveDirPref = "OpenSaveDirectory";
 const char* kStayOnTopPref = "StayOnTop";
 const char* kLiveInTrayPref = "LiveInTray";

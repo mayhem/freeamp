@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: alsapmo.h,v 1.4.2.1 1999/04/16 08:14:44 mhw Exp $
+	$Id: alsapmo.h,v 1.4.2.2 1999/04/20 19:23:18 mhw Exp $
 ____________________________________________________________________________*/
 
 
@@ -35,7 +35,7 @@ ____________________________________________________________________________*/
 /*  You can use -a <soundcard #>:<device #>... */
 /*  For example: mpg123 -a 1:0 aaa.mpg         */
 /*               mpg123 -a guspnp:1 aaa.mpg    */
-#define ALSA_DEVICE "1:0"
+//#define ALSA_DEVICE "1:0"	// No longer used; now a preference
 
 /* system headers */
 #include <stdlib.h>

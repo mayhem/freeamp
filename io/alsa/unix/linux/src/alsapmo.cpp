@@ -23,7 +23,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.7.2.1 1999/04/16 08:14:45 mhw Exp $
+        $Id: alsapmo.cpp,v 1.7.2.2 1999/04/20 19:23:19 mhw Exp $
 
  *  You can use -a <soundcard #>:<device #>...
  *  For example: mpg123 -a 1:0 aaa.mpg
@@ -43,6 +43,7 @@ ____________________________________________________________________________*/
 /* project headers */
 #include <config.h>
 #include "alsapmo.h"
+#include "facontext.h"
 #include "log.h"
 
 #define DB printf("%s:%d\n", __FILE__, __LINE__);
@@ -279,18 +280,13 @@ Error AlsaPMO::Init(OutputInfo* info) {
         PropValue *pv = NULL, *pProp;
         int        iNewSize = iDefaultBufferSize;
         Error      result;
+	uint32	   deviceNameSize = 128;
 
-        m_propManager->GetProperty("ALSA-device",&pv);
-        if (pv) {
-            const char *pChar = ((StringPropValue *)pv)->GetString();
-            if (pChar) {
-                ai->device = strdup(pChar);
-            } else {
-                ai->device=strdup(ALSA_DEVICE);
-            }
-        } else {
-            ai->device=strdup(ALSA_DEVICE);  // use default
-        }
+	ai->device = (char *) malloc(deviceNameSize);
+	m_context->prefs->GetPrefString(kALSADevicePref, ai->device,
+					&deviceNameSize);
+	// cerr << "Using ALSA device: " << ai->device << endl;
+
         m_iDataSize = info->max_buffer_size;
         m_propManager->GetProperty("OutputBuffer", &pProp);
         if (pProp)

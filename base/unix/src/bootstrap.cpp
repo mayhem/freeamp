@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.17.4.1 1999/04/16 08:14:44 mhw Exp $
+	$Id: bootstrap.cpp,v 1.17.4.2 1999/04/20 19:23:16 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -65,9 +65,17 @@ int main(int argc, char **argv) {
     //testBuffer();
     //testHashTable();
     //exit(1);
+
     FAContext *context = new FAContext;
-    context->prefs = new UnixPrefs();
+    UnixPrefs *unixPrefs = new UnixPrefs();
+
+    int errLine = unixPrefs->GetErrorLineNumber();
+    if (errLine)
+    	cerr << "ERROR parsing line " << errLine << " of ~/.freeamp_prefs\n";
+
+    context->prefs = unixPrefs;
     context->log = new LogFile("freeamp.log");
+
     Registrar *registrar= new Registrar();
     LMCRegistry *lmc;
     PMIRegistry *pmi;

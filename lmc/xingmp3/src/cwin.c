@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cwin.c,v 1.3 1999/03/01 10:40:59 mhw Exp $
+	$Id: cwin.c,v 1.3.4.1 1999/04/20 19:23:23 mhw Exp $
 ____________________________________________________________________________*/
 
 /****  cwin.c  ***************************************************
@@ -35,6 +35,9 @@ portable C
 /*-------------------------------------------------------------------------*/
 void window(float *vbuf, int vb_ptr, short *pcm)
 {
+#ifdef ASM_X86
+   window_mpg_asm(vbuf, vb_ptr, pcm);
+#else
    int i, j;
    int si, bx;
    float *coef;
@@ -99,6 +102,7 @@ void window(float *vbuf, int vb_ptr, short *pcm)
 	 tmp = -32768;
       *pcm++ = tmp;
    }
+#endif
 }
 
 
@@ -107,6 +111,9 @@ void window(float *vbuf, int vb_ptr, short *pcm)
 #ifndef ASM_WINDOW_DUAL
 void window_dual(float *vbuf, int vb_ptr, short *pcm)
 {
+#ifdef ASM_X86
+   window_dual_asm(vbuf, vb_ptr, pcm);
+#else
    int i, j;			/* dual window interleaves output */
    int si, bx;
    float *coef;
@@ -174,12 +181,16 @@ void window_dual(float *vbuf, int vb_ptr, short *pcm)
       *pcm = tmp;
       pcm += 2;
    }
+#endif
 }
 #endif	/* ndef ASM_WINDOW_DUAL */
 /*------------------------------------------------------------*/
 /*------------------- 16 pt window ------------------------------*/
 void window16(float *vbuf, int vb_ptr, short *pcm)
 {
+#ifdef ASM_X86
+   window16_asm(vbuf, vb_ptr, pcm);
+#else
    int i, j;
    unsigned char si, bx;
    float *coef;
@@ -246,10 +257,14 @@ void window16(float *vbuf, int vb_ptr, short *pcm)
 	 tmp = -32768;
       *pcm++ = tmp;
    }
+#endif
 }
 /*--------------- 16 pt dual window (interleaved output) -----------------*/
 void window16_dual(float *vbuf, int vb_ptr, short *pcm)
 {
+#ifdef ASM_X86
+   window16_dual_asm(vbuf, vb_ptr, pcm);
+#else
    int i, j;
    unsigned char si, bx;
    float *coef;
@@ -319,10 +334,14 @@ void window16_dual(float *vbuf, int vb_ptr, short *pcm)
       *pcm = tmp;
       pcm += 2;
    }
+#endif
 }
 /*------------------- 8 pt window ------------------------------*/
 void window8(float *vbuf, int vb_ptr, short *pcm)
 {
+#ifdef ASM_X86
+   window8_asm(vbuf, vb_ptr, pcm);
+#else
    int i, j;
    int si, bx;
    float *coef;
@@ -389,10 +408,14 @@ void window8(float *vbuf, int vb_ptr, short *pcm)
 	 tmp = -32768;
       *pcm++ = tmp;
    }
+#endif
 }
 /*--------------- 8 pt dual window (interleaved output) -----------------*/
 void window8_dual(float *vbuf, int vb_ptr, short *pcm)
 {
+#ifdef ASM_X86
+   window8_dual_asm(vbuf, vb_ptr, pcm);
+#else
    int i, j;
    int si, bx;
    float *coef;
@@ -462,5 +485,6 @@ void window8_dual(float *vbuf, int vb_ptr, short *pcm)
       *pcm = tmp;
       pcm += 2;
    }
+#endif
 }
 /*------------------------------------------------------------*/

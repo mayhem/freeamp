@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigmain.cpp,v 1.12 2001/01/02 03:47:16 ijr Exp $
+        $Id: sigmain.cpp,v 1.13 2001/01/12 00:41:08 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -116,7 +116,7 @@ void submit_metadata(MetaData *pmetaData)
    int    ret;
    char   *args[11];
    char    temp[255];
-   int     i, proxyPort;
+   int     i;
    string  proxyServer;
 
    if (pmetaData == NULL)

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.43 2000/10/12 23:05:49 robert Exp $
+	$Id: config.h.in,v 1.44 2001/01/12 00:41:08 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -71,7 +71,7 @@ ____________________________________________________________________________*/
 #undef HAVE_FREETYPE_H
 #undef HAVE_FREETYPE
 #undef HAVE_LIBVORBIS 
-#undef HAVE_ID3V2
+#undef HAVE_ZLIB
 
 #undef USING_GDKPIXBUF
 

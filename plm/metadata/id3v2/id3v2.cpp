@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.30 2000/11/02 12:49:09 robert Exp $
+	$Id: id3v2.cpp,v 1.31 2001/01/12 00:41:08 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -37,16 +37,12 @@ ____________________________________________________________________________*/
 #include <strings.h>
 #endif
 
-#include "config.h"
+#include "id3config.h"
 #include "errors.h"
 #include "utility.h"
 #include "debug.h"
 
-
-#ifdef HAVE_ID3V2
-#include <id3.h>
-#endif
-
+#include "id3.h"
 #include "id3v2.h"
 
 const int iDataFieldLen = 1024;

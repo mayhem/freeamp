@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.22 1998/10/30 01:04:23 elrod Exp $
+	$Id: xinglmc.cpp,v 1.23 1998/10/30 23:42:50 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -243,7 +243,7 @@ XingLMC()
     m_bsBuffer = NULL;
     m_bsBufPtr = m_bsBuffer;
     m_bsBuffer = new unsigned char[BS_BUFBYTES];
-
+	m_pcmBuffer = NULL;
     m_frameCounter = 0;
     m_frameWaitTill = 0;
     actually_decode = 0;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.33.2.3 2000/05/09 15:24:29 robert Exp $
+   $Id: Window.cpp,v 1.33.2.4 2000/05/09 15:38:07 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -276,6 +276,7 @@ void Window::AddAdornment(Window *pAdornment, Pos &oPos)
 {
     IncUsageRef();
     pAdornment->SetAsAdornment(true);
+    pAdornment->SetAdornmentParent(this);
     m_oAdornments.push_back(pAdornment);
     m_oAdornmentPos.push_back(oPos);
     DecUsageRef();
@@ -632,16 +633,16 @@ void Window::HandleMouseMove(Pos &oScreenPos)
        else
        {
            SetWindowPosition(oActualPos);
-           for(j = m_oAdornments.begin(), i = m_oAdornmentPos.begin(); 
-               j != m_oAdornments.end(); j++, i++)
-           {
-               (*j)->GetWindowPosition(oNewPos);
-               oNewPos.x1 = oActualPos.x1 + i->x; 
-               oNewPos.y1 = oActualPos.y1 + i->y;
-               oNewPos.x2 = oActualPos.x2 + i->x; 
-               oNewPos.y2 = oActualPos.y2 + i->y;
-               (*j)->SetWindowPosition(oNewPos);
-           }
+           //for(j = m_oAdornments.begin(), i = m_oAdornmentPos.begin(); 
+           //    j != m_oAdornments.end(); j++, i++)
+          // {
+          //     (*j)->GetWindowPosition(oNewPos);
+          //     oNewPos.x1 = oActualPos.x1 + i->x; 
+          //     oNewPos.y1 = oActualPos.y1 + i->y;
+          //     oNewPos.x2 = oActualPos.x2 + i->x; 
+          //     oNewPos.y2 = oActualPos.y2 + i->y;
+          //     (*j)->SetWindowPosition(oNewPos);
+          // }
        }
 
        DecUsageRef();
@@ -1023,7 +1024,10 @@ Error Window::SetWindowPosition(Rect &oWindowRect)
        oNewPos.y1 = oPos.y1 + i->y;
        oNewPos.x2 = oPos.x2 + i->x; 
        oNewPos.y2 = oPos.y2 + i->y;
+       printf("Set adorn to %d %d\n", oNewPos.x1, oNewPos.y1);
        (*j)->SetWindowPosition(oNewPos);
     }
     DecUsageRef();
+
+    return kError_NoErr;
 }

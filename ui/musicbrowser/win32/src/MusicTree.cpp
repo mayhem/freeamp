@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.18 1999/11/16 03:49:28 elrod Exp $
+        $Id: MusicTree.cpp,v 1.19 1999/11/16 04:24:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -479,9 +479,41 @@ HTREEITEM MusicBrowserUI::FindAlbum(HTREEITEM artistItem, const AlbumList* album
     return result;
 }
 
-void MusicBrowserUI::MusicCatalogItemAdded(const ArtistList* artist,
-                                           const AlbumList* album,
-                                           const PlaylistItem* item)
+void MusicBrowserUI::MusicCatalogPlaylistAdded(string item)
+{
+    // put it under playlists
+    if(TreeView_GetChild(m_hMusicCatalog, m_hPlaylistItem))
+    {
+        TV_INSERTSTRUCT sInsert;
+        TreeData        oCrossRef;
+        MetaData        oData;
+        char            szBase[MAX_PATH];
+
+        _splitpath((char *)item.c_str(), NULL, NULL, szBase, NULL);  
+
+        sInsert.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_CHILDREN |
+                            TVIF_SELECTEDIMAGE | TVIF_PARAM; 
+
+        oCrossRef.m_iLevel = 1;
+
+        oCrossRef.m_oPlaylistName = string(szBase);
+        oCrossRef.m_oPlaylistPath = item;
+
+        sInsert.item.pszText = szBase;
+        sInsert.item.cchTextMax = strlen(szBase);
+        sInsert.item.iImage = 0;
+        sInsert.item.iSelectedImage = 0;
+        sInsert.item.cChildren= 0;
+        sInsert.item.lParam = m_oTreeIndex.Add(oCrossRef);
+        sInsert.hInsertAfter = TVI_SORT;
+        sInsert.hParent = m_hPlaylistItem;
+        TreeView_InsertItem(m_hMusicCatalog, &sInsert);
+    }
+}
+
+void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
+                                            const AlbumList* album,
+                                            const PlaylistItem* item)
 {
     const MetaData meta = item->GetMetaData();
 
@@ -649,7 +681,6 @@ void MusicBrowserUI::MusicCatalogItemAdded(const ArtistList* artist,
         sInsert.hParent = m_hAllItem;
         TreeView_InsertItem(m_hMusicCatalog, &sInsert);
     }
-
 }
 
 void MusicBrowserUI::AddAllTrackURLs(vector<string>* urls)

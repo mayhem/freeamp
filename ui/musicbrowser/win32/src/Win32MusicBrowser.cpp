@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.23 1999/11/16 03:49:28 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.24 1999/11/16 04:24:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -206,7 +206,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
         {
             MusicCatalogTrackAddedEvent* pie = (MusicCatalogTrackAddedEvent*)event;
 
-            MusicCatalogItemAdded(pie->Artist(), pie->Album(), pie->Item());
+            MusicCatalogTrackAdded(pie->Artist(), pie->Album(), pie->Item());
             
             break; 
         }
@@ -222,7 +222,8 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
         case INFO_MusicCatalogPlaylistAdded:
         {
             MusicCatalogPlaylistAddedEvent* pie = (MusicCatalogPlaylistAddedEvent*)event;
-
+            
+            MusicCatalogPlaylistAdded(pie->Item());
             
             break; 
         }

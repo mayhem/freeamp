@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.18 1998/10/24 06:38:24 elrod Exp $
+	$Id: main.cpp,v 1.19 1998/11/06 21:05:11 jdw Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -72,7 +72,6 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     registrar->InitializeRegistry(ui, prefs);
 
     delete registrar;
-    delete prefs;
 
     // create the player
 	Player *player = Player::GetPlayer();
@@ -91,6 +90,9 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     // __argc and __argv are magical variables provided for us
     // in MS's STDLIB.H file. 
     player->SetArgs(__argc, __argv);
+
+    // player needs prefs for InstallDir information
+    player->SetPreferences(prefs);
 
     // kick things off... player is now in charge!
     player->Run();

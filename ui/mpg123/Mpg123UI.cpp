@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.6 1998/11/02 02:34:59 jdw Exp $
+	$Id: Mpg123UI.cpp,v 1.7 1998/11/06 21:05:11 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -202,7 +202,7 @@ void Mpg123UI::DisplayStuff() {
 void Mpg123UI::SetArgs(int argc, char **argv) {
     PlayList *pl = new PlayList();
     char *pc = NULL;
-
+    int addedStuff = 0;
     for(int i=1;i<argc;i++) {
 	pc = argv[i];
 	if (pc[0] == '-') {
@@ -318,76 +318,36 @@ void Mpg123UI::SetArgs(int argc, char **argv) {
 		    pl->SetOrder(PlayList::ORDER_RANDOM);
 		    //cout << "Random Play" << endl;
 		    break;
+		case 'u':
+		case 'U':
+		    i++;
+		    // the -ui to select the UI
+		    break;
 		default:
-		    cout << "Unknown option:  " << pc << endl;
+		    //cout << "Unknown option:  " << pc << endl;
 		    break;
 	    }
 	} else {
 	    //ut << "Adding: " <<argv[i] << endl;
 	    pl->Add(argv[i],0);
+	    addedStuff++;
 	}
     }
 
+    if (addedStuff) {
 
-    pl->SetFirst();
-    pl->SetSkip(skipFirst);
-    Event *e = new SetPlayListEvent(pl);
-    m_playerEQ->AcceptEvent(e);
-    e = new Event(CMD_Play);
-    m_playerEQ->AcceptEvent(e);
+	pl->SetFirst();
+	pl->SetSkip(skipFirst);
+	Event *e = new SetPlayListEvent(pl);
+	m_playerEQ->AcceptEvent(e);
+	e = new Event(CMD_Play);
+	m_playerEQ->AcceptEvent(e);
+    } else {
+	m_playerEQ->AcceptEvent(new Event(CMD_QuitPlayer));
+    }
 }
 
 void Mpg123UI::SetTarget(EventQueue *eq) {
     m_playerEQ = eq;
 }
 
-#if 0
-
-void Mpg123UI::SetRef(UIRef ui) {
-
-}
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-
-    void SetArgs(UI *ref, int32 c, char **v) {
-	UserInterface *ui = (UserInterface *)ref->ref;
-	ui->SetArgs(c,v);
-    }
-    
-    int32 AcceptEvent(UI *ref,Event *e) {
-	UserInterface *ui = (UserInterface *)ref->ref;
-	return ui->AcceptEvent(e);
-    }
-    
-    void SetTarget(UI *ref, EventQueue *eq) {
-	UserInterface *ui = (UserInterface *)ref->ref;
-	ui->SetTarget(eq);
-    }
-	
-    void Cleanup(UI *ref) {
-	UserInterface *ui = (UserInterface *)ref->ref;
-	delete ui;
-    }
-
-void Initialize(UI *ref)
-{
-    if(ref)
-    {
-        UserInterface *ui = new Mpg123UI();
-        ref->ref = ui;
-
-	ref->SetArgs = SetArgs;
-	ref->AcceptEvent = AcceptEvent;
-	ref->SetTarget = SetTarget;
-	ref->Cleanup = Cleanup;
-    }
-}
-
-#ifdef __cplusplus
-	   }
-#endif
-
-#endif

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.2 1998/10/22 04:29:12 jdw Exp $
+	$Id: preferences.h,v 1.3 1998/11/06 21:05:10 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -54,13 +54,15 @@ class Preferences {
     Error GetNextLibDir(HANDLE hLibDirFind,char *path, uint32 *len);
     Error GetLibDirClose(HANDLE hLibDirFind);
 
+    static const char *GetLibDirs();
+
  protected:
     Error GetPrefString(const char* pref, char* buf, uint32* len);
     Error SetPrefString(const char* pref, char* buf);
 
  private:
 //     HKEY   m_prefsKey;
-	
+    static char *m_libDirs;
 };
 
 #endif /* _PREFERENCES_H */

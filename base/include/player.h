@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.18 1998/10/27 02:28:43 jdw Exp $
+	$Id: player.h,v 1.19 1998/11/06 21:05:10 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -37,7 +37,7 @@ ____________________________________________________________________________*/
 #include "pmiregistry.h"
 #include "pmoregistry.h"
 #include "uiregistry.h"
-
+#include "preferences.h"
 
 #include "lmc.h"
 
@@ -62,6 +62,7 @@ class Player : public EventQueue {
 
     void Run();
     void SetArgs(int32 argc, char** argv);
+    void SetPreferences(Preferences *);
     void SetTerminationSemaphore(Semaphore *);
     void testQueue();
     static void EventServiceThreadFunc(void *);
@@ -80,6 +81,7 @@ class Player : public EventQueue {
 
 
  private:
+    Preferences*            m_prefs;
     Semaphore*              m_pTermSem;
     static Player*          m_thePlayer;
     Semaphore*              m_eventSem;

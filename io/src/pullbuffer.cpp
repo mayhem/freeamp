@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.22 1999/04/26 22:56:01 robert Exp $
+   $Id: pullbuffer.cpp,v 1.23 1999/04/27 08:44:54 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -206,7 +206,7 @@ Error PullBuffer::Resize(size_t iNewSize,
        if (m_bReadOpPending || m_bWriteOpPending)
        {
            m_pMutex->Release();
-		   usleep(10000);
+		     usleep(10000);
            continue;
        }
        break;

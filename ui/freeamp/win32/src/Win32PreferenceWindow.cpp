@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.55 2000/08/21 08:52:24 ijr Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.56 2000/08/24 13:08:30 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -2717,8 +2717,23 @@ void Win32PreferenceWindow::LoadThemeListBox(HWND hwnd)
     	index = SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_ADDSTRING,
                            0, (LPARAM)(*i).first.c_str());
 
-        if ((*i).first == m_proposedValues.currentTheme)
-            SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_SETCURSEL, index, 0);
+        if ((*i).first == m_proposedValues.currentTheme) 
+            SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_SETCURSEL, index, 0); 
+		else {
+			char *temps = new char[(*i).second.size() + 1];
+			strcpy(temps, (*i).second.c_str());
+			char *name = strrchr(temps, '.');
+			if (name) 
+				*name = '\0';
+			name = strrchr(temps, '\\'); 
+			if (name) {
+				name++;
+				if (name && *name) {
+					if (!strcmp(name, m_proposedValues.currentTheme.c_str())) 
+						SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_SETCURSEL, index, 0);
+				}
+			}
+		}
     }                      
      
     EnableWindow(GetDlgItem(hwnd, IDC_DELETETHEME), 0);

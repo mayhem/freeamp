@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.14 1998/11/09 10:35:55 jdw Exp $
+	$Id: playlist.h,v 1.15 1998/11/25 01:26:37 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -155,17 +155,17 @@ public:
 
 
 class PlayListManager {
-public:
-
  public:
     PlayListManager(EventQueue *);
     ~PlayListManager();
     void Add(char *,int);
-	Error RemoveAll();
+    Error RemoveAll();
     void SetSkip(int32 f) { m_skipNum = f; } // logical media units to skip at beginning
     int32 GetSkip() { return m_skipNum; }
 
     void AcceptEvent(Event *);
+
+    bool NextIsSame();
 
     PlayListItem *GetCurrent();
     void SetFirst();

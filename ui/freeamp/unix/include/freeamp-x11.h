@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-x11.h,v 1.6 1998/11/22 23:50:07 jdw Exp $
+	$Id: freeamp-x11.h,v 1.7 1998/11/25 01:26:38 jdw Exp $
 ____________________________________________________________________________*/
 // FreeAmpUI.h
 
@@ -42,7 +42,6 @@ ____________________________________________________________________________*/
 #include "fawindow.h"
 #include "windowhash.h"
 
-
 class FreeAmpUI : public UserInterface {
  public:
     FreeAmpUI();
@@ -56,9 +55,15 @@ class FreeAmpUI : public UserInterface {
 
     EventQueue *m_playerEQ;
  private:
+    bool m_initialized;
+    int32 m_oldLcdState;
+    int32 m_volume;
+
     FAMainWindow *m_mainWindow;
     FADialWindow *m_volumeWindow;
+    static void VolumeDialFunction(void *,int32);
     FADialWindow *m_seekWindow;
+    static void SeekDialFunction(void *,int32);
     FADumbWindow *m_lcdUpperWindow;
     FALcdWindow *m_lcdWindow;
     FADumbWindow *m_playListDrawerWindow;

@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.35 1998/11/12 20:22:08 jdw Exp $
+	$Id: xinglmc.cpp,v 1.36 1998/11/25 01:26:38 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -260,7 +260,7 @@ Error XingLMC::InitDecoder() {
 	    info.bits_per_sample = decinfo.bits;
 	    info.number_of_channels = decinfo.channels;
 	    info.samples_per_second = decinfo.samprate;
-	    cout << "sampersec : " << decinfo.samprate;
+//	    cout << "sampersec : " << decinfo.samprate;
 	    info.max_buffer_size = (info.number_of_channels * 2 * 1152) << 2;
 //	    info.max_buffer_size = PCM_BUFBYTES;
 	    Error error = m_output->Init(&info);
@@ -405,7 +405,7 @@ void XingLMC::DecodeWork() {
 	    float totalTime = (float)((double)m_frameCounter * (double)tpf);
 	    int32 hours = (int32)(totalTime/3600);
 	    int32 minutes = ((int32)totalTime - hours) / 60;
-        int32 seconds = (int32)totalTime - hours*3600 - minutes*60;
+	    int32 seconds = (int32)totalTime - hours*3600 - minutes*60;
 	    MediaTimeInfoEvent *pmtpi = new MediaTimeInfoEvent(hours,minutes,seconds,0,totalTime,m_frameCounter);
 	    if (m_target) {
 		m_target->AcceptEvent(pmtpi);
@@ -470,6 +470,7 @@ void XingLMC::DecodeWork() {
 		Error error = m_output->Write(nwrite,m_pcmBuffer,m_pcmBufBytes);
 		
 		if (error != kError_NoErr) {
+		    //cerr << "lmc error: " << (int)m_target << endl;
 		    if (m_target) m_target->AcceptEvent(new LMCErrorEvent(this,(Error)lmcError_OutputWriteFailed));
 		    return;
 		}
@@ -492,6 +493,7 @@ void XingLMC::DecodeWork() {
 	out_bytes += m_pcmBufBytes;
 	m_pcmBufBytes = 0;
     }
+    //cout << "lmc done: " << (int)m_target << endl;
     if (m_target) m_target->AcceptEvent(new Event(INFO_DoneOutputting));
     return;
 }

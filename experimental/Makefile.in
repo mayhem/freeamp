@@ -1,6 +1,6 @@
 # Freeamp master Makefile
 # blown into bits and reconstructed by dogcow
-# $Id: Makefile.in,v 1.8 1999/04/26 21:52:14 dogcow Exp $
+# $Id: Makefile.in,v 1.9 1999/04/28 21:36:12 dogcow Exp $
 
 SHELL = /bin/sh
 
@@ -55,7 +55,7 @@ CFLAGS = -Wall @CFLAGS@ -D_REENTRANT
 OSDEP = @OSDEP@
 OSINC = @OSINC@
 FPIC = @FPIC@
-LINKMOD = gcc -shared $(LDFLAGS)
+LINKMOD = @LINKMOD@ $(LDFLAGS)
 
 OSDEPOBJ = @OSDEPOBJ@
 

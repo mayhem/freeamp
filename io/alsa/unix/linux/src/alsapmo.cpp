@@ -23,7 +23,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.14 1999/04/27 08:44:53 robert Exp $
+        $Id: alsapmo.cpp,v 1.15 1999/04/27 16:25:23 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -271,9 +271,10 @@ Error AlsaPMO::Init(OutputInfo* info) {
 Error AlsaPMO::Reset(bool user_stop) {
 
     if (user_stop) 
-    {
         snd_pcm_drain_playback(ai->handle);
-    }
+    else
+        snd_pcm_flush_playback(ai->handle);
+
     return kError_NoErr;
 }
 

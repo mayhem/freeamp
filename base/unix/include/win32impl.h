@@ -11,6 +11,11 @@ class FILETIME {
     int32 dwHighDateTime;
 };
 
+#define FILE_ATTRIBUTE_DIRECTORY        0x00000010L
+#define FILE_ATTRIBUTE_NORMAL           0x00000080L
+/* Not in Win32, but something is needed to indicate a symlink */
+#define FILE_ATTRIBUTE_SYMLINK          0x00000040L
+
 class WIN32_FIND_DATA {
  public:
     int32 dwFileAttributes;
@@ -38,9 +43,6 @@ bool FindClose(HANDLE hFindFile);
 HINSTANCE LoadLibrary(char *lpLibFileName);
 bool FreeLibrary(HMODULE hLibModule);
 FARPROC GetProcAddress(HMODULE hModule, char *lpProcName);
-
-
-
 
 
 #endif

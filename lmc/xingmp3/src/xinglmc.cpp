@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.98.2.1 1999/08/16 21:51:52 elrod Exp $
+   $Id: xinglmc.cpp,v 1.98.2.2 1999/08/18 04:18:08 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -267,23 +267,16 @@ Error XingLMC::GetHeadInfo()
    return (Error)lmcError_DecodeFailed;
 }
 
-/*
- * Quick function to determine if this LMC can handle a file, by looking at
- * the file extension.  This might be better done by a hashtable outside of
- * the LMC, but this is good for now. - ijr
- */
-bool XingLMC::CanHandleExt(char *ext)
+List<char *> *XingLMC::GetExtensions(void)
 {
-   bool ret = false;
-   if (!strncasecmp(ext, "MP3", 3))
-      ret = true;
-   else if (!strncasecmp(ext, "MP2", 3))
-      ret = true;
-   else if (!strncasecmp(ext, "MP1", 3))
-      ret = true;
-   else if (!strncasecmp(ext, "MPG", 3))
-      ret = true;
-   return ret;
+   List<char *> *extList = new List<char *>();
+
+   extList->AddItem("MP3");
+   extList->AddItem("MP2");
+   extList->AddItem("MP1");
+   extList->AddItem("MPG");
+
+   return extList;
 }
 
 Error XingLMC::CanDecode()

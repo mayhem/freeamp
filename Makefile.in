@@ -1,10 +1,18 @@
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.30 1999/08/07 18:31:00 dogcow Exp $
+# $Id: Makefile.in,v 1.30.2.1 1999/08/18 04:18:06 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = @FPIC@ for plugins.
 
 include config/Makefile.header
+
+GDBMOBJ  = lib/gdbm/bucket.o lib/gdbm/falloc.o lib/gdbm/findkey.o
+GDBMOBJ += lib/gdbm/gdbmclose.o lib/gdbm/gdbmdelete.o lib/gdbm/gdbmerrno.o
+GDBMOBJ += lib/gdbm/gdbmexists.o lib/gdbm/gdbmfdesc.o lib/gdbm/gdbmfetch.o
+GDBMOBJ += lib/gdbm/gdbmopen.o lib/gdbm/gdbmreorg.o lib/gdbm/gdbmseq.o
+GDBMOBJ += lib/gdbm/gdbmsetopt.o lib/gdbm/gdbmstore.o lib/gdbm/gdbmsync.o
+GDBMOBJ += lib/gdbm/global.o lib/gdbm/hash.o lib/gdbm/update.o
+GDBMOBJ += lib/gdbm/version.o
 
 FREEAMPunixOBJ  = base/unix/src/bootstrap.o base/unix/src/unixprefs.o
 FREEAMPunixOBJ += base/unix/src/win32impl.o
@@ -31,10 +39,12 @@ FREEAMPOBJ =  base/src/hashtable.o base/src/log.o base/src/player.o
 FREEAMPOBJ += base/src/playlist.o base/src/propimpl.o base/src/registrar.o
 FREEAMPOBJ += base/src/registry.o base/src/thread.o io/src/eventbuffer.o
 FREEAMPOBJ += base/src/prefixprefs.o base/src/preferences.o
+FREEAMPOBJ += base/src/musicsearch.o 
 FREEAMPOBJ += io/src/pmiregistry.o io/src/pmoregistry.o
 FREEAMPOBJ += io/src/pullbuffer.o io/src/streambuffer.o io/src/tstream.o
 FREEAMPOBJ += lmc/src/lmcregistry.o ui/src/uiregistry.o
 FREEAMPOBJ += $(FREEAMP$(HOST_OS)OBJ)
+FREEAMPOBJ += $(GDBMOBJ)
 #FREEAMPOBJ += $(OSDEPOBJ)
 
 all: freeamp plugins

@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.49 1999/08/07 18:31:00 dogcow Exp $
+dnl $Id: configure.in,v 1.49.2.1 1999/08/18 04:18:07 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -40,6 +40,16 @@ dnl Checks for libraries.
 dnl Checks for header files.
 AC_STDC_HEADERS
 AC_HAVE_HEADERS(unistd.h io.h pthread.h errno.h)
+
+dnl Checks for gdbm
+
+AC_ST_BLKSIZE
+AC_OFF_T
+AC_HAVE_FUNCS(rename ftruncate flock fsync)
+AC_CONST
+AC_HAVE_HEADERS(sys/file.h string.h stdlib.h memory.h fcntl.h)
+
+dnl end checks for gdbm
 
 x11="true"
 

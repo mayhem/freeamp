@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.33 1999/08/06 07:18:34 elrod Exp $
+   $Id: xinglmc.h,v 1.33.2.1 1999/08/18 04:18:08 ijr Exp $
 
 ____________________________________________________________________________*/
 
@@ -92,30 +92,31 @@ class     XingLMC:public LogicalMediaConverter
    virtual Error SetEQData(float *);
    virtual Error SetEQData(bool);
 
-   virtual bool CanHandleExt(char *ext);
+   virtual List<char *> *GetExtensions(void);
+   
  private:
 
    static void          DecodeWorkerThreadFunc(void *);
    void                 DecodeWork();
-	Error                BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
-                             bool bBufferUp = true);
-	Error                BlockingBeginRead(void *&pBuffer, 
+   Error                BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
+                                  bool bBufferUp = true);
+   Error                BlockingBeginRead(void *&pBuffer, 
                                           unsigned int iBytesNeeded);
-	Error                AdvanceBufferToNextFrame();
-	Error                GetHeadInfo();
+   Error                AdvanceBufferToNextFrame();
+   Error                GetHeadInfo();
 
    PhysicalMediaInput  *m_pPmi;
    PhysicalMediaOutput *m_pPmo;
 
    int                  m_iMaxWriteSize;
    int32                m_frameBytes, m_iBufferUpInterval, m_iBufferSize;
-	MPEG_HEAD            m_sMpegHead;
-	int32                m_iBitRate;
+   MPEG_HEAD            m_sMpegHead;
+   int32                m_iBitRate;
    bool                 m_bBufferingUp;
    Thread              *m_decoderThread;
 
    int32                m_frameCounter;
-	time_t               m_iBufferUpdate;
+   time_t               m_iBufferUpdate;
    char                *m_szUrl;
    const char          *m_szError;
    AUDIO                m_audioMethods; 

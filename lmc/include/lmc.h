@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.23 1999/07/21 19:24:50 ijr Exp $
+	$Id: lmc.h,v 1.23.4.1 1999/08/18 04:18:08 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
@@ -52,7 +52,7 @@ class LogicalMediaConverter : public PipelineUnit
     virtual Error SetEQData(float *) = 0;
     virtual Error SetEQData(bool) = 0;
     
-    virtual bool CanHandleExt(char *ext) = 0;
+    virtual List<char *> *GetExtensions(void) = 0;
 
     protected:
 

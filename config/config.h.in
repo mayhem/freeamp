@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.14 1999/04/22 08:24:01 mhw Exp $
+	$Id: config.h.in,v 1.14.8.1 1999/08/18 04:18:07 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -34,6 +34,23 @@ ____________________________________________________________________________*/
 #define HAVE_UNISTD_H 0
 #define HAVE_IO_H 0
 #define HAVE_ERRNO_H 0
+
+/* gdbm stuff */
+
+#undef const
+#undef HAVE_ST_BLKSIZE
+#undef off_t
+#undef HAVE_RENAME
+#undef HAVE_FTRUNCATE
+#undef HAVE_FLOCK
+#undef HAVE_FSYNC
+#undef HAVE_SYS_FILE_H
+#undef HAVE_STRING_H
+#undef HAVE_STDLIB_H
+#undef HAVE_MEMORY_H
+#undef HAVE_FCNTL_H
+
+/* end gdbm stuff */
 
 #define HAVE_BASELINUXTHREADS 0
 #define HAVE_ENHLINUXTHREADS 0

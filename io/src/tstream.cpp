@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.9.2.1 1999/08/14 07:01:36 elrod Exp $
+   $Id: tstream.cpp,v 1.9.2.2 1999/08/18 04:18:07 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -251,7 +251,7 @@ void TitleStreamServer::WorkerThread(void)
    fd_set          sSet; 
    struct timeval  sTv; 
    int             iRet;
-   int             iStructSize;
+   socklen_t       iStructSize;
 
    for(; !m_bExit; ) 
    {

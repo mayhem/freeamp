@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.42 1999/07/21 19:24:50 ijr Exp $
+        $Id: player.h,v 1.42.4.1 1999/08/18 04:18:07 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -40,6 +40,7 @@ ____________________________________________________________________________*/
 #include "preferences.h"
 #include "properties.h"
 #include "propimpl.h"
+#include "musicsearch.h"
 
 #include "lmc.h"
 
@@ -80,6 +81,9 @@ class Player : public EventQueue, Properties, PropertyWatcher
    virtual RegistryItem *ChooseLMC(char *szUrl, char *szTitle = NULL);
    virtual RegistryItem *ChoosePMI(char *szUrl, char *szTitle = NULL);
 
+   bool    IsSupportedExtension(char *ext);
+   char *GetExtension(char *title);
+      
    // Properties
    virtual Error GetProperty(const char *, PropValue **);
    virtual Error SetProperty(const char *, PropValue *);
@@ -104,8 +108,6 @@ class Player : public EventQueue, Properties, PropertyWatcher
    FAContext *m_context;
 
  private:
-   char *GetExtension(char *title);
-   
    // These are event loop handling functions
    void DoneOutputting(Event *pEvent) ;
    void Stop(Event *pEvent);
@@ -174,9 +176,11 @@ class Player : public EventQueue, Properties, PropertyWatcher
 
     List < char *>*m_argUIList;
 
-   int32     m_argc;
-   char    **m_argv;
+    int32     m_argc;
+    char    **m_argv;
 
+    HashTable<RegistryItem *> *m_lmcExtensions;
+    MusicSearch *m_musicSearch;
 };
 
 #endif // _PLAYER_H_

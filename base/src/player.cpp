@@ -18,12 +18,13 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.1 1999/08/16 18:37:17 elrod Exp $
+        $Id: player.cpp,v 1.133.2.2 1999/08/18 04:18:07 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <ctype.h>
 
 #include "config.h"
 #include "event.h"
@@ -42,7 +43,6 @@ ____________________________________________________________________________*/
 #include "facontext.h"
 #include "log.h"
 #include "pmo.h"
-
 
 #define DB printf("%s:%d\n", __FILE__, __LINE__);
 
@@ -92,7 +92,11 @@ EventQueue()
    m_pmiRegistry = NULL;
    m_pmoRegistry = NULL;
    m_uiRegistry = NULL;
-
+   
+   m_lmcExtensions = NULL;
+   m_musicSearch = NULL;
+   // m_musicSearch = new MusicSearch("/tmp/dbase");
+ 
    m_pmo = NULL;
    m_lmc = NULL;
    m_ui = NULL;
@@ -157,6 +161,8 @@ Player::
    TYPICAL_DELETE(m_pmiRegistry);
    TYPICAL_DELETE(m_pmoRegistry);
    TYPICAL_DELETE(m_uiRegistry);
+   TYPICAL_DELETE(m_lmcExtensions);
+   TYPICAL_DELETE(m_musicSearch);
 }
 
 void      
@@ -592,7 +598,30 @@ RegisterLMCs(LMCRegistry * registry)
       delete    m_lmcRegistry;
    }
 
+   if (m_lmcExtensions)
+      delete m_lmcExtensions;
+
+   m_lmcExtensions = new HashTable<RegistryItem *>();
+
    m_lmcRegistry = registry;
+
+   RegistryItem *lmc_item;
+   LogicalMediaConverter *lmc;
+   int iItems = registry->GetNumItems();
+
+   for (int iLoop = 0; iLoop < iItems; iLoop++)
+   {
+      lmc_item = registry->GetItem(iLoop);
+
+      lmc = (LogicalMediaConverter *)lmc_item->InitFunction()(m_context);
+      List<char *> *extList = lmc->GetExtensions();
+
+      for (int iextLoop = 0; iextLoop < extList->CountItems(); iextLoop++)
+           m_lmcExtensions->Insert(extList->ItemAt(iextLoop), lmc_item);
+
+      delete extList;
+      delete lmc;
+   }
 
    m_lmcMutex->Release();
 
@@ -754,44 +783,46 @@ GetExtension(char *title)
       temp_ext = temp_ext + 1;
       ext_return = new char [strlen(temp_ext) + 1];
       strcpy(ext_return, temp_ext);
+      char *p = ext_return;
+      while (*p) {
+         *p = toupper(*p);
+         p++;
+      }
    }
    return ext_return;
+}
+
+bool
+Player::
+IsSupportedExtension(char *ext)
+{
+   RegistryItem *lmc_item = m_lmcExtensions->Value(ext);
+
+   if (lmc_item)
+       return true;
+   return false;
 }
 
 RegistryItem *
 Player::
 ChooseLMC(char *szUrl, char *szTitle)
 {
-   LogicalMediaConverter *lmc;
-   RegistryItem *lmc_item, *ret = NULL;
-   int       iLoop;
-   int       iItems;
+   RegistryItem *lmc_item = NULL;
    char     *iExt;
 
-   iItems = m_lmcRegistry->GetNumItems();
 
    iExt = GetExtension(szUrl);
    if (!iExt)
-      return ret;
+      return lmc_item;
 
-   for (iLoop = 0; iLoop < iItems; iLoop++)
-   {
-      lmc_item = m_lmcRegistry->GetItem(iLoop);
-
-      lmc = (LogicalMediaConverter *) lmc_item->InitFunction()(m_context);
-      if (lmc->CanHandleExt(iExt))
-      {
-         ret = lmc_item;
-         delete lmc;
-
-         break;
-      }
-      delete lmc;
-   }
+   lmc_item = m_lmcExtensions->Value(iExt);
 
    delete iExt;
 
-   return ret;
+   if (lmc_item)
+      fprintf(stderr, "found plugin..\n");
+
+   return lmc_item;
 }
 
 RegistryItem *

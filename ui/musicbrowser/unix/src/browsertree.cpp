@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.13 2000/06/02 13:37:13 ijr Exp $
+        $Id: browsertree.cpp,v 1.14 2000/06/02 15:47:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -196,9 +196,14 @@ static gint nocase_compare(GtkCList *clist, gconstpointer ptr1,
 {
     char *text1 = NULL;
     char *text2 = NULL;
+    TreeData *data1 = NULL;
+    TreeData *data2 = NULL;
 
     GtkCListRow *row1 = (GtkCListRow *) ptr1;
     GtkCListRow *row2 = (GtkCListRow *) ptr2;
+
+    data1 = (TreeData *)row1->data;
+    data2 = (TreeData *)row2->data;
 
     switch (row1->cell[clist->sort_column].type) {
         case GTK_CELL_TEXT:
@@ -228,6 +233,13 @@ static gint nocase_compare(GtkCList *clist, gconstpointer ptr1,
     if (!text1)
         return -1;
 
+    if (data1->type == kTreeTrack && data2->type == kTreeTrack) {
+        uint32 tnum1 = data1->track->GetMetaData().Track();
+        uint32 tnum2 = data2->track->GetMetaData().Track();
+        if (tnum1 == tnum2)
+            return strcasecmp(text1, text2);
+        return (tnum1 < tnum2);
+    }
     return strcasecmp (text1, text2);
 }
 

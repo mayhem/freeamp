@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.h,v 1.1.2.2 1999/08/30 06:48:09 elrod Exp $
+	$Id: m3u.h,v 1.1.2.3 1999/08/31 08:15:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_M3U_H
@@ -44,10 +44,12 @@ class M3U : public PlaylistFormat {
 
     virtual Error GetSupportedFormats(PlaylistFormatInfo* info, uint32 index);
     virtual Error ReadPlaylist(char* url, vector<PlaylistItem*>* items,
-                                callback_function function = NULL);
+                                PLMCallBackFunction function = NULL,
+                                void* cookie = NULL);
     virtual Error WritePlaylist(char* url, PlaylistFormatInfo* format, 
                                 vector<PlaylistItem*>* items,
-                                callback_function function = NULL); 
+                                PLMCallBackFunction function = NULL,
+                                void* cookie = NULL); 
 
  private:
      FAContext* m_context;

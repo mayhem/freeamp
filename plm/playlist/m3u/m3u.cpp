@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.1.2.2 1999/08/30 22:35:21 ijr Exp $
+	$Id: m3u.cpp,v 1.1.2.3 1999/08/31 08:15:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -86,7 +86,8 @@ Error M3U::GetSupportedFormats(PlaylistFormatInfo* info, uint32 index)
 }
 
 Error M3U::ReadPlaylist(char* url, vector<PlaylistItem*>* list,
-                        callback_function function)
+                        PLMCallBackFunction function,
+                        void* cookie)
 {
     Error result = kError_InvalidParam;
 
@@ -184,7 +185,8 @@ Error M3U::ReadPlaylist(char* url, vector<PlaylistItem*>* list,
 
 Error M3U::WritePlaylist(char* url, PlaylistFormatInfo* format, 
                          vector<PlaylistItem*>* list,
-                         callback_function function)
+                         PLMCallBackFunction function,
+                         void* cookie)
 {
     Error result = kError_InvalidParam;
 

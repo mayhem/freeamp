@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.4 1999/08/31 04:47:17 ijr Exp $
+	$Id: pmp300.cpp,v 1.1.2.5 1999/08/31 08:15:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -44,6 +44,8 @@ typedef struct DeviceInfoStruct {
 DeviceInfoStruct devices[] = {
     {"Diamond", "Rio PMP-300", kConnection_Parallel}
 };
+
+const uint32 ports[] = { 0x378, 0x278, 0x03BC };
 
 #define kNumDevices (sizeof(devices)/sizeof(DeviceInfoStruct))
 
@@ -198,72 +200,84 @@ Error PMP300::GetDeviceInfo(DeviceInfo* device)
 {
     Error result = kError_InvalidParam;
 
-    if(!strcasecmp(device->GetDevice(), devices[0].device))
+    assert(device);
+
+    if(device)
     {
         result = kError_DeviceNotFound;
 
-        uint32 ports[] = { 0x378, 0x278, 0x03BC };
-        CRio rio;
-        bool rioPresent = false;
+        if(!strcasecmp(device->GetDevice(), devices[0].device))
+        {
+            CRio rio;
+            bool rioPresent = false;
 
-        if(device->GetPortAddress() && 
-           rio.Set(device->GetPortAddress()) && 
-           rio.CheckPresent())
-        {
-            rioPresent = true;
-        }
-        else // brute force it...
-        {
-            for(uint32 count = 0; count < sizeof(ports); count++)
+            if(device->GetPortAddress() && 
+               rio.Set(device->GetPortAddress()) && 
+               rio.CheckPresent())
             {
-                if(rio.Set(ports[count]) && rio.CheckPresent())
+                rioPresent = true;
+            }
+            else // brute force it...
+            {
+                for(uint32 count = 0; count < sizeof(ports); count++)
                 {
-                    device->SetPortAddress(ports[count]);
-                    rioPresent = true;
-                    break;
+                    if(rio.Set(ports[count]) && rio.CheckPresent())
+                    {
+                        device->SetPortAddress(ports[count]);
+                        rioPresent = true;
+                        break;
+                    }
                 }
             }
-        }
 
-        if(rioPresent)
-        {
-            if( rio.RxDirectory() )
-	        {
-		        CDirBlock& cDirBlock = rio.GetDirectoryBlock();
-                CDirHeader& cDirHeader = cDirBlock.m_cDirHeader;
-
-                uint32 numEntries, totalMem, usedMem; 
-
-                numEntries = cDirHeader.m_usCountEntry;
-                totalMem = ((long)cDirHeader.m_usCount32KBlockAvailable * CRIO_SIZE_32KBLOCK);
-                usedMem = ((long)cDirHeader.m_usCount32KBlockUsed * CRIO_SIZE_32KBLOCK);
-
-                rio.UseExternalFlash( true );
-
+            if(rioPresent)
+            {
                 if( rio.RxDirectory() )
 	            {
-                    CDirBlock& cDirBlock = rio.GetDirectoryBlock();
+		            CDirBlock& cDirBlock = rio.GetDirectoryBlock();
                     CDirHeader& cDirHeader = cDirBlock.m_cDirHeader;
 
-                    numEntries += cDirHeader.m_usCountEntry;
-                    totalMem += ((long)cDirHeader.m_usCount32KBlockAvailable * CRIO_SIZE_32KBLOCK);
-                    usedMem += ((long)cDirHeader.m_usCount32KBlockUsed * CRIO_SIZE_32KBLOCK);
-                }
+                    uint32 numEntries, totalMem, usedMem; 
 
-                device->SetNumEntries(numEntries);
-                device->SetCapacity(totalMem, usedMem);
-	        }
+                    numEntries = cDirHeader.m_usCountEntry;
+                    totalMem = ((long)cDirHeader.m_usCount32KBlockAvailable * CRIO_SIZE_32KBLOCK);
+                    usedMem = ((long)cDirHeader.m_usCount32KBlockUsed * CRIO_SIZE_32KBLOCK);
 
-            result = kError_NoErr;
+                    rio.UseExternalFlash( true );
+
+                    if( rio.RxDirectory() )
+	                {
+                        CDirBlock& cDirBlock = rio.GetDirectoryBlock();
+                        CDirHeader& cDirHeader = cDirBlock.m_cDirHeader;
+
+                        numEntries += cDirHeader.m_usCountEntry;
+                        totalMem += ((long)cDirHeader.m_usCount32KBlockAvailable * CRIO_SIZE_32KBLOCK);
+                        usedMem += ((long)cDirHeader.m_usCount32KBlockUsed * CRIO_SIZE_32KBLOCK);
+                    }
+
+                    device->SetNumEntries(numEntries);
+                    device->SetCapacity(totalMem, usedMem);
+	            }
+
+                result = kError_NoErr;
+            }
         }
-
     }
 
     return result;
 }
 
+static BOOL rioCallback(int pos, int count, void* cookie)
+{
+    BOOL result = false;
+
+
+    return result;
+}
+
 Error PMP300::InitializeDevice(DeviceInfo* device, 
-                               callback_function function)
+                               PLMCallBackFunction function,
+                               void* cookie)
 {
     Error result = kError_InvalidParam;
 
@@ -271,7 +285,37 @@ Error PMP300::InitializeDevice(DeviceInfo* device,
 
     if(device)
     {
-       
+        result = kError_DeviceNotFound;
+
+        if(!strcasecmp(device->GetDevice(), devices[0].device))
+        {
+            CRio rio;
+            bool rioPresent = false;
+
+            if(device->GetPortAddress() && 
+               rio.Set(device->GetPortAddress()) && 
+               rio.CheckPresent())
+            {
+                rioPresent = true;
+            }
+            else // brute force it...
+            {
+                for(uint32 count = 0; count < sizeof(ports); count++)
+                {
+                    if(rio.Set(ports[count]) && rio.CheckPresent())
+                    {
+                        device->SetPortAddress(ports[count]);
+                        rioPresent = true;
+                        break;
+                    }
+                }
+            }
+
+            if(rioPresent)
+            {
+                //rio.Initialize(true, bVerbose ? ProgressCallback : NULL)
+            }
+        }
     }
 
     return result;
@@ -281,7 +325,8 @@ Error PMP300::InitializeDevice(DeviceInfo* device,
 
 Error PMP300::ReadPlaylist(DeviceInfo* device, 
                            vector<PlaylistItem*>* list,
-                           callback_function function)
+                           PLMCallBackFunction function,
+                           void* cookie)
 {
     Error result = kError_InvalidParam;
 
@@ -290,8 +335,37 @@ Error PMP300::ReadPlaylist(DeviceInfo* device,
 
     if(device && list)
     {
-       
+        result = kError_DeviceNotFound;
 
+        if(!strcasecmp(device->GetDevice(), devices[0].device))
+        {
+            CRio rio;
+            bool rioPresent = false;
+
+            if(device->GetPortAddress() && 
+               rio.Set(device->GetPortAddress()) && 
+               rio.CheckPresent())
+            {
+                rioPresent = true;
+            }
+            else // brute force it...
+            {
+                for(uint32 count = 0; count < sizeof(ports); count++)
+                {
+                    if(rio.Set(ports[count]) && rio.CheckPresent())
+                    {
+                        device->SetPortAddress(ports[count]);
+                        rioPresent = true;
+                        break;
+                    }
+                }
+            }
+
+            if(rioPresent)
+            {
+
+            }
+        }
     }
 
     return result;
@@ -299,7 +373,8 @@ Error PMP300::ReadPlaylist(DeviceInfo* device,
 
 Error PMP300::WritePlaylist(DeviceInfo* device, 
                             vector<PlaylistItem*>* list,
-                            callback_function function)
+                            PLMCallBackFunction function,
+                            void* cookie)
 {
     Error result = kError_InvalidParam;
 
@@ -308,7 +383,37 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
 
     if(device && list)
     {
-        
+        result = kError_DeviceNotFound;
+
+        if(!strcasecmp(device->GetDevice(), devices[0].device))
+        {
+            CRio rio;
+            bool rioPresent = false;
+
+            if(device->GetPortAddress() && 
+               rio.Set(device->GetPortAddress()) && 
+               rio.CheckPresent())
+            {
+                rioPresent = true;
+            }
+            else // brute force it...
+            {
+                for(uint32 count = 0; count < sizeof(ports); count++)
+                {
+                    if(rio.Set(ports[count]) && rio.CheckPresent())
+                    {
+                        device->SetPortAddress(ports[count]);
+                        rioPresent = true;
+                        break;
+                    }
+                }
+            }
+
+            if(rioPresent)
+            {
+
+            }
+        }       
     }
 
     return result;
@@ -318,7 +423,8 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
 Error PMP300::DownloadSong(DeviceInfo* device, 
                            PlaylistItem* item,
                            char* url,
-                           callback_function function)
+                           PLMCallBackFunction function,
+                           void* cookie)
 
 {
     Error result = kError_InvalidParam;
@@ -329,7 +435,37 @@ Error PMP300::DownloadSong(DeviceInfo* device,
 
     if(device && url && item)
     {
-        
+        result = kError_DeviceNotFound;
+
+        if(!strcasecmp(device->GetDevice(), devices[0].device))
+        {
+            CRio rio;
+            bool rioPresent = false;
+
+            if(device->GetPortAddress() && 
+               rio.Set(device->GetPortAddress()) && 
+               rio.CheckPresent())
+            {
+                rioPresent = true;
+            }
+            else // brute force it...
+            {
+                for(uint32 count = 0; count < sizeof(ports); count++)
+                {
+                    if(rio.Set(ports[count]) && rio.CheckPresent())
+                    {
+                        device->SetPortAddress(ports[count]);
+                        rioPresent = true;
+                        break;
+                    }
+                }
+            }
+
+            if(rioPresent)
+            {
+
+            }
+        }   
     }
 
     return result;

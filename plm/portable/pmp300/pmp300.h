@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.h,v 1.1.2.3 1999/08/30 12:23:21 elrod Exp $
+	$Id: pmp300.h,v 1.1.2.4 1999/08/31 08:15:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMP300_H
@@ -50,20 +50,24 @@ class PMP300 : public PortableDevice {
     virtual Error GetDeviceInfo(DeviceInfo* device);
 
     virtual Error InitializeDevice(DeviceInfo* device, 
-                                   callback_function function = NULL);
+                                   PLMCallBackFunction function = NULL,
+                                   void* cookie = NULL);
 
     virtual Error ReadPlaylist(DeviceInfo* device, 
                                vector<PlaylistItem*>* items,
-                               callback_function function = NULL);
+                               PLMCallBackFunction function = NULL,
+                               void* cookie = NULL);
 
     virtual Error WritePlaylist(DeviceInfo* device, 
                                 vector<PlaylistItem*>* items,
-                                callback_function function = NULL);
+                                PLMCallBackFunction function = NULL,
+                                void* cookie = NULL);
 
     virtual Error DownloadSong(DeviceInfo* device, 
                                PlaylistItem* item,
                                char* url,
-                               callback_function function = NULL);
+                               PLMCallBackFunction function = NULL,
+                               void* cookie = NULL);
 
  private:
      FAContext* m_context;

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.88 1999/03/08 02:16:47 robert Exp $
+        $Id: player.cpp,v 1.89 1999/03/08 14:30:51 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1103,7 +1103,7 @@ void Player::HandleMediaInfo(Event *pEvent)
 
    pmvi = (MediaInfoEvent *)pEvent;
    pmvi->m_indexOfSong = m_plm->Current() + 1;         // zero based
-   pmvi->m_totalSongs = m_plm->Total();
+   pmvi->m_totalSongs = m_plm->CountItems();
 
    SendToUI(pEvent);
 

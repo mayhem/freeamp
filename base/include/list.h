@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: list.h,v 1.4 1999/03/08 12:08:29 elrod Exp $
+	$Id: list.h,v 1.5 1999/03/08 14:31:24 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LIST_H_
@@ -450,7 +450,9 @@ RemoveList(List<T> &list)
 
     for(int32 i = 0; i < list.CountItems(); i++) 
     {
-	    if(!RemoveItem(list.ItemAt(i))) 
+        T foo = list.ItemAt(i);
+
+	    if(!RemoveItem(foo)) 
         {
 	        result = false; // let them know some were not removed
 	    }
@@ -468,7 +470,9 @@ DeleteList(List<T> &list)
 
     for(int32 i = 0; i < list.CountItems(); i++) 
     {
-	    if(!DeleteItem(list.ItemAt(i))) 
+        T foo = list.ItemAt(i);
+
+	    if(!DeleteItem(foo)) 
         {
 	        result = false; // let them know some were not deleted
 	    }

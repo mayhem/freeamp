@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.17 1999/03/08 12:08:30 elrod Exp $
+	$Id: freeampui.h,v 1.18 1999/03/08 14:31:24 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -96,7 +96,7 @@ class FreeAmpUI : public UserInterface {
     void Notify(int32 command, LPNMHDR notifyMsgHdr);
     void KeyDown(int32 keyCode);
     void DropFiles(HDROP dropHandle);
-
+    void CancelMode();
 
  protected:
     static void ui_thread_function(void*);
@@ -179,6 +179,7 @@ class FreeAmpUI : public UserInterface {
 	int32			    m_height;
 
     View*               m_captureView;
+    View*               m_mouseView;
 
     BitmapView*         m_backgroundView;
     BitmapView*         m_playlistBackView;

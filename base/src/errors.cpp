@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.cpp,v 1.4 1999/11/20 10:53:39 ijr Exp $
+	$Id: errors.cpp,v 1.5 1999/12/29 01:11:54 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -92,6 +92,8 @@ const char* ErrorString[] = {
     "Duplicate database item", //                   kError_DuplicateItem = 65,
     "The requested item was not found", //          kError_ItemNotFound = 66,
     "The requested file was not found", //          kError_HTTPFileNotFound  = 67,
+    "Failed to initialize your CD-ROM", //          kError_CDInitFailed = 68;
+    "Cannot play CD track",             //          kError_InvalidTrack = 69,
 
     "kError_LastError", //            = 9999
 };

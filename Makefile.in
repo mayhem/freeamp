@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.45 1999/12/22 17:23:14 ijr Exp $
+# $Id: Makefile.in,v 1.46 1999/12/29 01:11:54 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -94,6 +94,8 @@ DIRECTORIES += ui/freeamp/tools ui/freeamp/unix ui/irman ui/lcd ui/musicbrowser
 DIRECTORIES += ui/freeamp/src ui/freeamp/tools/src ui/freeamp/unix/src
 DIRECTORIES += ui/musicbrowser/unix ui/mpg123
 DIRECTORIES += ui/irman/src ui/lcd/src ui/musicbrowser/unix/src ui/ncurses
+DIRECTORIES += update update/unix lmc/cd lmc/cd/src io/cd io/cd/unix 
+DIRECTORIES += io/cd/unix/src
 
 dirs:
 	for p in $(DIRECTORIES); do \

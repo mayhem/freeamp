@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.13 1999/12/17 19:36:02 robert Exp $
+        $Id: pmo.cpp,v 1.14 1999/12/29 01:11:54 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */

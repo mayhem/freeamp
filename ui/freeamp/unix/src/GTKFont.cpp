@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.12 1999/12/18 01:53:56 ijr Exp $
+   $Id: GTKFont.cpp,v 1.13 1999/12/29 01:11:54 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <sys/stat.h>
@@ -204,10 +204,26 @@ Error GTKFont::AddFont(string &oFontFile)
     if (ext)
         oFontDest += string(".") + string(ext);
 
+/*    WIN32_FIND_DATA find;
+    HANDLE          handle;
+
+    handle = FindFirstFile((char *)oFontFile.c_str(), &find);
+    if (handle != INVALID_HANDLE_VALUE) {
+        do {
+            if (!strncasecmp(filename, find.cFileName, strlen(filename)))
+                cout << "found..\n";
+        }
+        while (FindNextFile(handle, &find));
+        FindClose(handle);
+    }
+*/
     orig = fopen(oFontFile.c_str(), "r");
+
     if (!orig) 
         return kError_FileNotFound;
+
     dest = fopen(oFontDest.c_str(), "w");
+
     if (!dest) {
         fclose(orig);
         return kError_FileNotFound;

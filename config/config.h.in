@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.20 1999/12/21 20:31:43 robert Exp $
+	$Id: config.h.in,v 1.21 1999/12/29 01:11:54 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -44,6 +44,20 @@ ____________________________________________________________________________*/
 #define HAVE_UNISTD_H 0
 #define HAVE_IO_H 0
 #define HAVE_ERRNO_H 0
+
+/* cdaudio stuff */
+#undef HAVE_GETMNTENT
+#undef STDC_HEADERS
+#undef IRIX_CDAUDIO
+#undef HAVE_GETMNTINFO
+#undef HAVE_LINUX_CDROM_H
+#undef HAVE_IO_CAM_CDROM_H
+#undef HAVE_LINUX_UCDROM_H
+#undef HAVE_MNTENT_H
+#undef HAVE_SYS_CDIO_H
+#undef HAVE_SYS_MOUNT_H
+#undef HAVE_SYS_MNTENT_H
+#undef HAVE_SYS_UCRED_H
 
 /* gdbm stuff */
 

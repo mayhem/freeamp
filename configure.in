@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.68 1999/12/17 21:53:08 ijr Exp $
+dnl $Id: configure.in,v 1.69 1999/12/29 01:11:54 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-1999 EMusic.com
 dnl
@@ -34,6 +34,14 @@ AC_PROG_RANLIB
 AC_PROG_INSTALL
 AC_CHECK_PROGS(PERL, perl)
 AC_CHECK_PROGS(NASM, nasm)
+
+dnl libcdaudio stuff
+AC_HEADER_STDC
+AC_CHECK_HEADERS(linux/cdrom.h linux/ucdrom.h sys/cdio.h io/cam/cdrom.h mntent.h sys/mntent.h sys/ucred.h sys/mount.h)
+AC_CHECK_FUNCS(getmntinfo)
+AC_FUNC_GETMNTENT
+
+AC_C_CONST
 
 dnl Checks for libraries.
 
@@ -92,6 +100,9 @@ case "$host_os" in
     CFLAGS="$CFLAGS -Wno-multichar -Wno-ctor-dtor-privacy"
     LINKMOD='g++ -nostart -Xlinker -soname=${@F} freeamp'
     isunix="false"
+    ;;
+  irix*)
+    AC_DEFINE(IRIX_CDAUDIO)
     ;;
   linux*)
     AC_DEFINE(HAVE_LINUX)

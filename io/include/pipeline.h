@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.23 1999/06/28 23:09:21 robert Exp $
+	$Id: pipeline.h,v 1.1 1999/06/28 23:09:21 robert Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PMI_H_
-#define _PMI_H_
+#ifndef _PIPELINE_H_
+#define _PIPELINE_H_
 
 /* system headers */
 #include <stdlib.h>
@@ -37,41 +37,53 @@ ____________________________________________________________________________*/
 #error Must have unistd.h or io.h!
 #endif // HAVE_UNISTD_H
 
+
 /* project headers */
-#include "pipeline.h"
+#include "semaphore.h"
+#include "mutex.h"
 #include "config.h"
 #include "errors.h"
-#include "eventdata.h"
+#include "facontext.h"
+#include "event.h"
+#include "properties.h"
+#include "pullbuffer.h"
 
-#define SEEK_FROM_START		SEEK_SET
-#define SEEK_FROM_CURRENT	SEEK_CUR
-#define SEEK_FROM_END		SEEK_END
-
-class PhysicalMediaInput : public PipelineUnit
+class PipelineUnit
 {
 public:
-            PhysicalMediaInput(FAContext *context) :
-                  PipelineUnit(context) { };
-    virtual ~PhysicalMediaInput() { }
+            PipelineUnit(FAContext *);
+    virtual ~PipelineUnit();
 
-    virtual Error Prepare(PullBuffer *&pInputBuffer, 
-                          bool bStartThread = true) = 0;
-    virtual Error Seek(int32 & rtn, int32 offset, int32 origin)
-                  { return kError_FileSeekNotSupported; };
-	 virtual Error GetID3v1Tag(unsigned char *pTag)
-	               {return kError_GotDefaultMethod;}
-	 virtual bool  CanHandle(char *szUrl, char *szTitle)
-	               {return false;}
-    virtual Error GetLength(size_t &iSize)
-                  { return kError_FileSeekNotSupported; };
-	 virtual bool  IsStreaming(void)
-	               {return false;}
+    virtual void  Pause(void);
+    virtual void  Resume(void);
+    virtual void  Wake(void);
+    virtual void  Clear(void);
 
-    virtual Error SetTo(char* url) = 0;
-    virtual Error Close(void) = 0;
-    virtual const char* Url(void) const = 0;
+    virtual void  SetPropManager(Properties *);
+    virtual void  SetTarget(EventQueue *target);
+    virtual void  SetInputBuffer(PullBuffer *pBuffer);
 
-    protected:
+    virtual void  ReportError(const char *szError);
+    virtual void  DebugPrint(void);
+
+protected:
+
+    virtual bool  Sleep(void);
+
+    Semaphore             *m_pSleepSem;
+    Semaphore             *m_pPauseSem;
+    Mutex                 *m_pMutex;
+
+    EventQueue            *m_pTarget;
+    PullBuffer            *m_pOutputBuffer; 
+    PullBuffer            *m_pInputBuffer;
+    Properties            *m_pPropManager;
+    bool                   m_bPause, m_bExit;
+    FAContext             *m_pContext;
+
+private:
+ 
+    bool                   m_bSleeping;
 };
 
-#endif /* _PMI_H_ */
+#endif /* _PMO_H_ */

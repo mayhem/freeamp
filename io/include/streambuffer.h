@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: streambuffer.h,v 1.5 1999/04/21 04:20:49 elrod Exp $
+   $Id: streambuffer.h,v 1.6 1999/06/28 23:09:24 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _STREAMBUFFER_H_
@@ -41,7 +41,6 @@ class StreamBuffer : public PullBuffer
 			    FAContext *context);
       virtual ~StreamBuffer(void);
 
-//      virtual  Error    BeginRead  (void *&pBuffer, size_t &iBytesNeeded);
       virtual  Error    BeginWrite (void *&pBuffer, size_t &iBytesNeeded);
 
       virtual  bool     IsBufferingUp(int iBytesNeeded);

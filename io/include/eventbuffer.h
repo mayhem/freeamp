@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: eventbuffer.h,v 1.2 1999/04/21 04:20:49 elrod Exp $
+   $Id: eventbuffer.h,v 1.3 1999/06/28 23:09:20 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTBUFFER_H_
@@ -53,7 +53,6 @@ class EventBuffer : public PullBuffer
       virtual  Event     *GetEvent(void);
       virtual  Event     *PeekEvent(void);
       virtual  Error      BeginRead(void *&pBuffer, size_t &iNumBytes);
-      virtual  Error      BeginWrite(void *&pBuffer, size_t &iNumBytes);
 
     protected:
      

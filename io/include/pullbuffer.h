@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.13 1999/04/21 04:20:49 elrod Exp $
+   $Id: pullbuffer.h,v 1.14 1999/06/28 23:09:23 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PULLBUFFER_H_
@@ -33,10 +33,6 @@ ____________________________________________________________________________*/
 
 class FAContext;
 
-// Notes:
-//   If the number of requested bytes are not in the buffer at the
-//   beginning of a BeginRead call, the call will block. To get out
-//   of this block, set EOS to true, and signal the reader semaphore.
 class PullBuffer
 {
     public:
@@ -50,8 +46,7 @@ class PullBuffer
       virtual  Error    BeginWrite (void *&pBuffer, size_t &iBytesToWrite);
       virtual  Error    EndWrite   (size_t iNumBytesWritten);
 
-      virtual  Error    BeginRead  (void *&pBuffer, size_t &iBytesNeeded,
-                                    bool bBlock = true);
+      virtual  Error    BeginRead  (void *&pBuffer, size_t &iBytesNeeded);
       virtual  Error    EndRead    (size_t iBytesUsed);
 
       virtual  Error    DiscardBytes();
@@ -84,7 +79,6 @@ class PullBuffer
       int32      GetReadIndex();
 
       FAContext *m_context;
-      Semaphore *m_pWriteSem, *m_pReadSem;
       Mutex     *m_pMutex;
       bool       m_bExit;
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: propimpl.h,v 1.3 1999/03/07 07:29:45 elrod Exp $
+	$Id: propimpl.h,v 1.4 1999/06/28 23:09:17 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PROPIMPL_H_
@@ -45,7 +45,7 @@ class PropertiesImpl : public Properties {
     Mutex m_lock;
  public:
     PropertiesImpl();
-    ~PropertiesImpl();
+    virtual ~PropertiesImpl();
     virtual Error GetProperty(const char *, PropValue **);
     virtual Error SetProperty(const char *, PropValue *);
     virtual Error RegisterPropertyWatcher(const char *, PropertyWatcher *);

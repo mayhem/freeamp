@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.38 1999/04/01 17:02:56 elrod Exp $
+	$Id: playlist.h,v 1.39 1999/06/28 23:09:16 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -57,7 +57,7 @@ class PlayListItem {
         m_DisplayString = NULL;
     }
 
-    ~PlayListItem() 
+    virtual ~PlayListItem() 
     {
 	    if (m_mie) 
         {
@@ -264,7 +264,7 @@ public:
 class PlayListManager {
  public:
     PlayListManager(EventQueue *);
-    ~PlayListManager();
+    virtual ~PlayListManager();
     // logical media units to skip at beginning
     // helps us get past id3v2 tags
     void SetSkip(int32 f) { m_skipNum = f; } 

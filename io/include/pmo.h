@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.17 1999/04/26 00:51:46 robert Exp $
+	$Id: pmo.h,v 1.18 1999/06/28 23:09:22 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -39,11 +39,17 @@ ____________________________________________________________________________*/
 
 
 /* project headers */
+#include "semaphore.h"
+#include "pipeline.h"
+#include "mutex.h"
 #include "eventdata.h"
 #include "config.h"
 #include "errors.h"
 #include "properties.h"
 #include "volume.h"
+#include "facontext.h"
+#include "lmc.h"
+#include "pmi.h"
 
 #define MAXCHANNELS		2
 
@@ -57,44 +63,34 @@ typedef struct OutputInfo
 
 }OutputInfo;
 
-class PhysicalMediaOutput
+class EventBuffer;
+class PullBuffer;
+
+class PhysicalMediaOutput : public PipelineUnit
 {
 public:
-            PhysicalMediaOutput() { m_target = NULL; }
-    virtual ~PhysicalMediaOutput() { }
-    virtual Error Init(OutputInfo* /*info*/){ return kError_GotDefaultMethod; }
+            PhysicalMediaOutput(FAContext *context);
+    virtual ~PhysicalMediaOutput();
+
+    virtual Error Init(OutputInfo* /*info*/) = 0;
     virtual VolumeManager *GetVolumeManager() = 0;
 
-    virtual Error BeginWrite(void *&pBuffer, size_t &iBytesToWrite)
-        { return kError_GotDefaultMethod; };
-    virtual Error EndWrite  (size_t iNumBytesWritten)
-        { return kError_GotDefaultMethod; };
-    virtual Error AcceptEvent(Event *)
-        { return kError_GotDefaultMethod; };
-    virtual int32 GetBufferPercentage()
-	               {return 0;};
-                 
-    virtual Error SetTarget(EventQueue *target)
-                  {m_target = target; return kError_NoErr; }
-    virtual Error Pause(){ return kError_GotDefaultMethod;}
-    virtual Error Resume(){ return kError_GotDefaultMethod; }
-    virtual Error Break(){ return kError_GotDefaultMethod; }
-    virtual Error Clear(){ return kError_GotDefaultMethod; }
-    virtual void  WaitToQuit(){ };
-    virtual const char *GetErrorString(int32) { return NULL; }
-    virtual Error SetPropManager(Properties *) = 0;
-    virtual void  ReportError(const char *szError)
-                  {
-                     assert(m_target);
+    virtual Error Reset(bool bUserReset) = 0;
+    virtual void  Pause(void);
+    virtual Error ChangePosition(int32);
 
-                     m_target->AcceptEvent(new LMCErrorEvent(szError));
-                  };
+    virtual void  SetLMC(LogicalMediaConverter *pLMC);
+    virtual void  SetPMI(PhysicalMediaInput *pPMI);
+    virtual Error SetTo(char *url);  
+
+    virtual const char *GetErrorString(int32) { return NULL; };
 
 protected:
 
-    EventQueue *m_target;
+    virtual bool  WasteTime();
+
+    PhysicalMediaInput    *m_pPmi;
+    LogicalMediaConverter *m_pLmc;
 };
 
 #endif /* _PMO_H_ */
-
-

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: streambuffer.cpp,v 1.9 1999/04/21 04:20:54 elrod Exp $
+   $Id: streambuffer.cpp,v 1.10 1999/06/28 23:09:34 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -57,57 +57,6 @@ bool StreamBuffer::DidDiscardBytes()
 
    return bRet;
 }
-
-#if 0
-Error StreamBuffer::BeginRead(void *&pBuffer, size_t &iBytesNeeded)
-{
-   Error eRet;
-
-   m_pStreamMutex->Acquire();
- 
-   if (m_bPause)
-	{
-		 m_pStreamMutex->Release();
-	    eRet = PullBuffer::BeginRead(pBuffer, iBytesNeeded);
-
-		 return eRet;
-   }
-
-   if (m_bBufferingUp)
-	{
-	    if (GetNumBytesInBuffer() < (GetBufferSize() >> 1))
-		 {
-		     eRet = kError_BufferingUp;
-	        m_pStreamMutex->Release();
-
-			  return eRet;
-		 }
-
-		 m_bBufferingUp = false;
-	}
-  
-   if (GetNumBytesInBuffer() < iBytesNeeded && !IsEndOfStream())
-	{
-       printf("bytes in buffer: %d needed %d size: %d\n", 
-            GetNumBytesInBuffer(), iBytesNeeded, GetBufferSize());
-       if (IsEndOfStream())
-           eRet = kError_InputUnsuccessful;
-		 else
-		 {
-		     m_bBufferingUp = true;
-		     eRet = kError_BufferingUp;
-       }
-
-		 m_pStreamMutex->Release();
-
-		 return eRet;
-   }
-
-	m_pStreamMutex->Release();
-
-   return PullBuffer::BeginRead(pBuffer, iBytesNeeded);
-}
-#endif
 
 Error StreamBuffer::BeginWrite(void *&pBuffer, size_t &iBytesNeeded)
 {

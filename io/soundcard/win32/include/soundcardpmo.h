@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.19 1999/10/19 07:13:05 elrod Exp $
+	$Id: soundcardpmo.h,v 1.20 1999/11/10 01:28:01 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -64,6 +64,7 @@ public:
     Error         Write(void *pBuffer);
 	void          Pause(void);
 	void          Resume(void);
+	void          Clear(void);
 	bool          WaitForDrain(void);
 
  private:

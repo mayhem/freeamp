@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.43 1999/10/19 07:13:05 elrod Exp $
+   $Id: soundcardpmo.cpp,v 1.44 1999/11/10 01:28:02 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -303,6 +303,14 @@ void SoundCardPMO::Resume(void)
 	   waveOutRestart(m_hwo);
 	
 	PhysicalMediaOutput::Resume();
+}
+
+void SoundCardPMO::Clear(void)
+{
+	if (m_initialized)
+	   waveOutReset(m_hwo);
+	
+	PhysicalMediaOutput::Clear();
 }
 
 Error SoundCardPMO::Reset(bool user_stop)

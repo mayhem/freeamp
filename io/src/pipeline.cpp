@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pipeline.cpp,v 1.6 1999/10/20 23:39:27 robert Exp $
+        $Id: pipeline.cpp,v 1.7 1999/11/10 01:28:03 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -37,6 +37,7 @@ ____________________________________________________________________________*/
 #include "eventbuffer.h"
 #include "facontext.h"
 #include "log.h"
+#include "debug.h"
 
 #define DB printf("%s:%d\n", __FILE__, __LINE__); 
 

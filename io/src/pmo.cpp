@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.9 1999/10/20 23:39:28 robert Exp $
+        $Id: pmo.cpp,v 1.10 1999/11/10 01:28:04 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -141,7 +141,7 @@ void PhysicalMediaOutput::PreBuffer(void)
 
 bool PhysicalMediaOutput::WasteTime()
 {
-    usleep(10000);
+    usleep(1000);
 
     return m_bExit || m_bPause;
 }       
@@ -159,6 +159,7 @@ Error PhysicalMediaOutput::ChangePosition(int32 position)
    m_pLmc->Pause();
    m_pPmi->Pause();
 
+   Clear();
    m_pLmc->Clear();
    m_pPmi->Clear();
 

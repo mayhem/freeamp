@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.13 1999/10/01 08:23:00 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.14 1999/10/01 08:30:56 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -130,10 +130,11 @@ int32 DownloadUI::AcceptEvent(Event* event)
 
             case CMD_ToggleDownloadUI:
             {
-                OutputDebugString("INFO_ToggleDownloadUI\r\n");
+                BOOL visible = IsWindowVisible(m_hwnd);
+                ShowWindow(m_hwnd, (visible ? SW_HIDE: SW_SHOW));
 
-                ShowWindow(m_hwnd, 
-                    (IsWindowVisible(m_hwnd)? SW_HIDE: SW_SHOW));
+                if(!visible)
+                    SetForegroundWindow(m_hwnd);
                 
                 break;
             }

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.h,v 1.4 1998/10/20 23:01:03 elrod Exp $
+	$Id: xinglmc.h,v 1.5 1998/10/26 18:26:37 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -38,6 +38,12 @@ ____________________________________________________________________________*/
 #include "thread.h"
 #include "mutex.h"
 #include "queue.h"
+#include "semaphore.h"
+
+extern "C" {
+#include "mhead.h"
+#include "port.h"
+	   }
 
 #define BS_BUFBYTES 60000U
 #define PCM_BUFBYTES 60000U
@@ -47,6 +53,14 @@ typedef enum {
     XING_Pause,
     XING_Resume
 } XingCommand;
+
+typedef struct {
+    int (*decode_init) (MPEG_HEAD * h, int framebytes_arg,
+			int reduction_code, int transform_code,
+			int convert_code, int freq_limit);
+    void (*decode_info) (DEC_INFO * info);
+    IN_OUT(*decode) (unsigned char *bs, short *pcm);
+} AUDIO;
 
 
 class XingLMC : public LogicalMediaConverter {
@@ -77,6 +91,9 @@ private:
     int32 bs_fill();
     void bs_clear();
 private:
+    int32                   m_frameWaitTill;
+    Semaphore *             m_pauseSemaphore;
+    AUDIO                   m_audioMethods;
     EventQueueRef           m_target;
     Mutex*                  m_seekMutex;
     Queue<XingCommand*>*    m_xcqueue;

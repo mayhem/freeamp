@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: localfileinput.cpp,v 1.6 1998/10/27 22:25:59 jdw Exp $
+	$Id: localfileinput.cpp,v 1.7 1998/10/27 23:28:47 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -186,7 +186,9 @@ Close(void)
 	return kError_NoErr;
 }
 
-
+const char *LocalFileInput::GetErrorString(int32 error) {
+    return NULL;
+}
 
 
 

@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.19 1998/10/27 22:26:00 jdw Exp $
+	$Id: xinglmc.cpp,v 1.20 1998/10/27 23:28:47 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -351,7 +351,7 @@ void XingLMC::DecodeWork() {
 	    XingCommand *xc = m_xcqueue->Read();
 	    switch (*xc) {
 		case XING_Stop: 
-		    if (m_target) m_target->AcceptEvent(new Event(INFO_DoneOutputting));
+		    //if (m_target) m_target->AcceptEvent(new Event(INFO_DoneOutputting));
 		    return;
 		case XING_Pause:
 		    m_output->Pause();

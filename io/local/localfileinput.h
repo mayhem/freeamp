@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: localfileinput.h,v 1.4 1998/10/27 21:40:13 jdw Exp $
+	$Id: localfileinput.h,v 1.5 1998/10/27 23:28:47 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LOCALFILEINPUT_H_
@@ -41,7 +41,7 @@ public:
 	virtual Error SetTo(char* url);
 	virtual Error Close(void);
 	virtual const char* Url(void) const { return m_path; }
-	
+	virtual const char *GetErrorString(int32);
 private:
 	int m_fd;
 	char* m_path;

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.6 1998/10/27 21:40:13 jdw Exp $
+	$Id: pmi.h,v 1.7 1998/10/27 23:28:46 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -56,6 +56,7 @@ public:
     virtual Error SetTo(char* url) = 0;
     virtual Error Close(void) = 0;
     virtual const char* Url(void) const = 0;
+    virtual const char *GetErrorString(int32) = 0;
 };
 
 #endif /* _PMI_H_ */

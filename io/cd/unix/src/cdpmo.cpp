@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.1.2.1 2000/01/02 00:59:35 ijr Exp $
+        $Id: cdpmo.cpp,v 1.1.2.2 2000/01/02 02:25:25 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -59,8 +59,6 @@ CDPMO::CDPMO(FAContext *context) :
    sentData = false;
    trackDone = false;
 
-   m_lock = new Mutex();
-   
    if (!m_pBufferThread)
    {
       m_pBufferThread = Thread::CreateThread();
@@ -78,8 +76,6 @@ CDPMO::~CDPMO()
       m_pBufferThread->Join();
       delete m_pBufferThread;
    }
-
-   delete m_lock;
 
    if (m_properlyInitialized)
        Reset(true);
@@ -117,11 +113,10 @@ int32 CDPMO::GetVolume()
 
 Error CDPMO::SetTo(const char *url)
 {
-   m_lock->Acquire();
-   if (IsError(Init(NULL))) {
-       m_lock->Release();
+   OutputInfo blah;
+
+   if (IsError(Init(&blah))) 
        return kError_CDInitFailed;
-   }
 
    char *tracknumber = strrchr(url, '/');
 
@@ -140,24 +135,35 @@ Error CDPMO::SetTo(const char *url)
    m_properlyInitialized = true;
 }
 
-Error CDPMO::Init(OutputInfo * info)
+Error CDPMO::Init(OutputInfo *info)
 {
    char device[256];
    uint32 len = 256;
+
    if (IsError(m_pContext->prefs->GetCDDevicePath(device, &len)))
        return (Error)pmoError_DeviceOpenFailed;
 
    m_cdDesc = cd_init_device(device);
 
-   if (m_cdDesc < 0)
+   if (m_cdDesc < 0) {
+       if (info)
+           ReportError("Cannot open the CD-ROM device.  Please make sure that "
+                       "the CD Device preference is set properly.");
        return (Error)pmoError_DeviceOpenFailed;
+   }
 
    struct disc_info disc;
-   if (cd_stat(m_cdDesc, &disc, false) < 0)
+   if (cd_stat(m_cdDesc, &disc, false) < 0) {
+       if (info)
+           ReportError("There is no disc in the CD-ROM drive.");
        return kError_NoDiscInDrive;
+   }
    
-   if (!disc.disc_present)
+   if (!disc.disc_present) {
+       if (info)
+           ReportError("There is no disc in the CD-ROM drive.");
        return kError_NoDiscInDrive;
+   }
 
    cd_stat(m_cdDesc, &disc);
 
@@ -180,21 +186,16 @@ uint32 CDPMO::GetCDDBDiscID(void)
    bool closeWhenDone = false;
    uint32 retvalue = 0;
    if (m_cdDesc < 0) {
-       m_lock->Acquire();
-       if (IsError(Init(NULL))) {
-           m_lock->Release();
+       if (IsError(Init(NULL)))
            return 0;
-       }
 
        closeWhenDone = true;
    }
 
    retvalue = cddb_discid(m_cdDesc);
 
-   if (closeWhenDone) {
+   if (closeWhenDone) 
        cd_finish(m_cdDesc);
-       m_lock->Release();
-   }
 
    return retvalue;
 }
@@ -204,11 +205,8 @@ char *CDPMO::GetcdindexDiscID(void)
    bool closeWhenDone = false;
    char *retvalue = NULL;
    if (m_cdDesc < 0) {
-       m_lock->Acquire();
-       if (IsError(Init(NULL))) {
-           m_lock->Release();
+       if (IsError(Init(NULL))) 
            return NULL;
-       }
 
        closeWhenDone = true;
    }
@@ -220,10 +218,8 @@ char *CDPMO::GetcdindexDiscID(void)
        retvalue = NULL;
    }
 
-   if (closeWhenDone) {
+   if (closeWhenDone) 
        cd_finish(m_cdDesc);
-       m_lock->Release();
-   }
 
    return retvalue;
 }
@@ -233,11 +229,8 @@ uint32 CDPMO::GetNumTracks(void)
    bool closeWhenDone = false;
    uint32 retvalue = 0;
    if (m_cdDesc < 0) {
-       m_lock->Acquire();
-       if (IsError(Init(NULL))) {
-           m_lock->Release();
+       if (IsError(Init(NULL))) 
            return 0;
-       }
  
        closeWhenDone = true;
    }
@@ -250,10 +243,8 @@ uint32 CDPMO::GetNumTracks(void)
        }
    }
        
-   if (closeWhenDone) {
+   if (closeWhenDone) 
        cd_finish(m_cdDesc);
-       m_lock->Release();
-   }
 
    return retvalue;
 }

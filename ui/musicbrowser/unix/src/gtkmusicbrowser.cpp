@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.48.2.1 2000/01/02 00:59:35 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.48.2.2 2000/01/02 02:25:26 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -27,6 +27,8 @@ ____________________________________________________________________________*/
 #include <gdk/gdkkeysyms.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+#include <algorithm>
 #include <iostream>
 
 #include "utility.h"
@@ -1061,15 +1063,16 @@ void GTKMusicBrowser::RegenerateCDTree(void)
     gtk_clist_freeze(GTK_CLIST(musicBrowserTree));
 
     if (row->children) {
-        GtkCTreeNode *child = row->children;
         while (row->children) {
             GtkCTreeNode *todelete = row->children;
             gtk_ctree_remove_node(musicBrowserTree, todelete);
         }
     }
 
-    while (CDTracks->size() > 0) {
-        CDTracks->erase(CDTracks->begin());
+    if (CDTracks->size() > 0) { 
+        while (CDTracks->size() > 0) {
+            CDTracks->erase(CDTracks->begin());
+        }
     }
 
     char url[40];
@@ -1098,7 +1101,11 @@ void GTKMusicBrowser::RegenerateCDTree(void)
 
         CDTracks->push_back(newitem);
     }
-    m_plm->RetrieveMetaData(CDTracks);
+    vector<PlaylistItem *> *metalist = 
+                                   new vector<PlaylistItem *>(CDTracks->size());
+
+    copy(CDTracks->begin(), CDTracks->end(), metalist->begin());
+    m_plm->RetrieveMetaData(metalist);
 
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
 }
@@ -2761,7 +2768,7 @@ int32 GTKMusicBrowser::AcceptEvent(Event *e)
                     RegenerateCDTree();
                     gdk_threads_leave();
                 }
-                else if (!m_initialized)
+                else if (m_initialized)
                     scheduleCDredraw = true;
             }
             break; }

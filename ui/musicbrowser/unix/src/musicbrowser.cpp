@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.18.2.1 2000/01/02 00:59:36 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.18.2.2 2000/01/02 02:25:26 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -89,6 +89,8 @@ static int musicbrowser_timeout(MusicBrowserUI *p)
     p->SetRunning();
     if (p->doQuitNow)
         gtk_main_quit();
+
+    return TRUE;
 }
 
 void MusicBrowserUI::DoCDCheck(void)
@@ -110,7 +112,10 @@ void MusicBrowserUI::DoCDCheck(void)
     pmo = (PhysicalMediaOutput *)pmo_item->InitFunction()(m_context);
     pmo->SetPropManager((Properties *)(m_context->player));
 
-    pmo->Init(NULL);
+    if (IsError(pmo->Init(NULL))) {
+        CDInfoEvent *cie = new CDInfoEvent(0, 0, "");
+        m_playerEQ->AcceptEvent(cie);
+    }
 
     delete pmo;
 }
@@ -118,6 +123,8 @@ void MusicBrowserUI::DoCDCheck(void)
 static int cd_check_timeout(MusicBrowserUI *p)
 {
     p->DoCDCheck();
+
+    return TRUE;
 }
 
 void MusicBrowserUI::GTKEventService(void)

@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.h,v 1.1.2.1 2000/01/02 00:59:35 ijr Exp $
+        $Id: cdpmo.h,v 1.1.2.2 2000/01/02 02:25:25 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDPMO_H_
@@ -77,8 +77,6 @@ class CDPMO:public PhysicalMediaOutput
    int           m_track;
    bool          sentData;
    bool          trackDone;
-   Mutex        *m_lock;
-   bool          stop;
 };
 
 #endif /* _SOUNDCARDPMO_H_ */

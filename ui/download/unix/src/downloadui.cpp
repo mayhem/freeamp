@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.10 1999/12/17 05:09:33 ijr Exp $
+        $Id: downloadui.cpp,v 1.10.2.1 2000/01/02 02:25:26 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -83,6 +83,8 @@ static int download_timeout(DownloadUI *p)
     p->SetRunning();
     if (p->doQuitNow)
         gtk_main_quit();
+
+    return TRUE;
 }
 
 void DownloadUI::GTKEventService(void)

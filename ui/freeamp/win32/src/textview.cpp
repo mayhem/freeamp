@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: textview.cpp,v 1.3 1999/03/15 09:16:04 elrod Exp $
+	$Id: textview.cpp,v 1.4 1999/03/18 20:37:32 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -69,6 +69,7 @@ View(hwnd, parent, viewRegion)
                             m_fontBitmap->BitsPerPixel());
 
     m_textLength = Width();
+    m_bitmapLength = m_textLength;
 
     m_text = NULL;
 
@@ -261,9 +262,18 @@ SetText(char* text)
 
     EnterCriticalSection(&m_criticalSection);
 
-    if(textLength > m_textLength)
+    if(!(m_flags & TextType_Wiggle))
     {
-        m_textLength = textLength;
+        m_wiggle = false;
+    }
+
+    m_offset = 0;
+
+    m_textLength = textLength;
+
+    if(textLength > m_bitmapLength)
+    {
+        m_bitmapLength = textLength;
 
         if(m_textBitmap)
         {
@@ -272,7 +282,7 @@ SetText(char* text)
 
         // create new bitmap
         m_textBitmap = new DIB;
-        m_textBitmap->Create(   textLength, 
+        m_textBitmap->Create(   m_bitmapLength, 
                                 m_fontHeight, 
                                 m_fontBitmap->BitsPerPixel());
     }

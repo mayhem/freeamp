@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: textview.h,v 1.1 1999/03/03 09:03:41 elrod Exp $
+	$Id: textview.h,v 1.2 1999/03/18 20:37:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _TEXTVIEW_H_
@@ -90,6 +90,7 @@ class TextView : public View {
 
     char*               m_text;
     int32               m_textLength;
+    int32               m_bitmapLength;
 
     Thread*             m_thread;
     CRITICAL_SECTION    m_criticalSection;

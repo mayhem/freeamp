@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.4 1999/03/18 08:52:37 elrod Exp $
+	$Id: utility.cpp,v 1.5 1999/03/18 20:37:32 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -146,8 +146,8 @@ DetermineControlRegions(DIB* bitmap,
                 else
                 {
                     scanning = false;
-                    // regions are non-inclusive of their bottom & right edges
-                    // so need to add one
+                    // regions are non-inclusive of their bottom
+                    // & right edges so need to add one
                     scanline = CreateRectRgn(start, y, x, y + 1);
 
                     CombineRgn( controlRegions[scanIndex],
@@ -243,7 +243,7 @@ FileOpenDialog(HWND hwndParent,
 					        OFN_EXPLORER;
     ofn.nFileOffset       = 0;
     ofn.nFileExtension    = 0;
-    ofn.lpstrDefExt       = "MP*";
+    ofn.lpstrDefExt       = "MP3";
     ofn.lCustData         = 0;
     ofn.lpfnHook          = NULL;
     ofn.lpTemplateName    = NULL;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadformat.h,v 1.2 1999/10/19 07:12:45 elrod Exp $
+	$Id: downloadformat.h,v 1.3 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_FORMAT_H_
@@ -43,12 +43,14 @@ class DownloadFormat {
 
  public:
 
-    DownloadFormat(FAContext *context) {}
+    DownloadFormat(FAContext *context) { m_context = context; }
     virtual ~DownloadFormat() {}
 
     virtual Error GetSupportedFormats(DownloadFormatInfo* info, uint32 index) = 0;
     virtual Error ReadDownloadFile(const char* url, vector<DownloadItem*>* items) = 0;
-    
+
+ protected:
+    FAContext *m_context;   
 };
 
 typedef DownloadFormat* DownloadFormatRef;

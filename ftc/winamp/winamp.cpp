@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: winamp.cpp,v 1.4 2000/06/12 13:13:10 ijr Exp $
+   $Id: winamp.cpp,v 1.5 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <string>
@@ -51,7 +51,6 @@ extern "C"
 
 Winamp::Winamp(FAContext *context):ThemeFormat(context)
 {
-    m_context = context;
 }
 
 Winamp::~Winamp()

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-	$Id: esoundpmo.cpp,v 1.15 2000/05/07 17:06:23 robert Exp $
+	$Id: esoundpmo.cpp,v 1.16 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -392,7 +392,7 @@ void EsounDPMO::WorkerThread(void)
       }
 
       iRet = write(audio_fd, pBuffer, m_iDataSize);
-      if (iRet < 0) 
+      if ((int)iRet < 0) 
       {
           m_pInputBuffer->EndRead(0);
           ReportError("Could not write sound data to EsounD.");

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.h,v 1.2 1999/10/25 07:13:54 elrod Exp $
+	$Id: misc.h,v 1.3 2000/06/21 13:34:37 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MISC_H
@@ -54,7 +54,6 @@ class Misc : public MetaDataFormat
 
  private:
 
-    FAContext* m_context;
     Registry  m_lmcReg;
     Registry  m_pmiReg;
     ExtensionMap m_extensions;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pls.h,v 1.1 1999/11/10 23:34:36 robert Exp $
+	$Id: pls.h,v 1.2 2000/06/21 13:34:37 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLS_H
@@ -55,8 +55,6 @@ class PLS : public PlaylistFormat {
 
      void AddItem(vector<PlaylistItem*>* list, char *entry, 
 	              char *title, int32 len, char *root);
-
-     FAContext* m_context;
 };
 
 

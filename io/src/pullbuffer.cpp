@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.39 2000/05/06 12:05:49 ijr Exp $
+   $Id: pullbuffer.cpp,v 1.40 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -418,7 +418,6 @@ Error PullBuffer::EndRead(size_t iBytesUsed)
 {
    assert(m_pPullBuffer != NULL);
    assert(iBytesUsed <= m_iBytesToRead);
-   assert(iBytesUsed >= 0);
    assert(iBytesUsed <= m_iBytesInBuffer);
 
    m_pMutex->Acquire();

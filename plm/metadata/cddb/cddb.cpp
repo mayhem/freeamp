@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb.cpp,v 1.5 2000/04/04 02:18:56 ijr Exp $
+	$Id: cddb.cpp,v 1.6 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -47,7 +47,6 @@ extern "C"
 
 CDDB::CDDB(FAContext* context):MetaDataFormat(context)
 {
-    m_context = context;
     use_cddb_message = true;
     parse_disc_artist = true;
     parse_track_artist = true;

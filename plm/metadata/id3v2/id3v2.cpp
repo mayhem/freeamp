@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.13 2000/06/06 10:30:11 robert Exp $
+	$Id: id3v2.cpp,v 1.14 2000/06/21 13:34:37 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -189,7 +189,6 @@ extern "C"
 
 ID3v2::ID3v2(FAContext* context):MetaDataFormat(context)
 {
-    m_context = context;
 }
 
 ID3v2::~ID3v2()

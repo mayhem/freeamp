@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: themeformat.h,v 1.1 2000/03/15 23:00:03 ijr Exp $
+   $Id: themeformat.h,v 1.2 2000/06/21 13:34:37 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_THEME_FORMAT_H
@@ -39,11 +39,13 @@ class ThemeFormat
 {
     public:
 
-        ThemeFormat(FAContext *context) {}
+        ThemeFormat(FAContext *context) { m_context = context; }
         virtual ~ThemeFormat() {}
 
         virtual bool IsSupportedFormat(string &oDir) = 0;
         virtual Error ConvertToNative(string &oDir) = 0;
+    protected:
+        FAContext *m_context;
 };
 
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.208 2000/06/21 13:28:24 elrod Exp $
+        $Id: player.cpp,v 1.209 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1188,7 +1188,7 @@ IsSupportedExtension(const char *ext)
 
 RegistryItem *
 Player::
-ChooseLMC(const char *szUrl, char *szTitle)
+ChooseLMC(const char *szUrl)
 {
    RegistryItem *lmc_item = NULL;
    char     *iExt;

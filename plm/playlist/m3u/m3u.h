@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.h,v 1.2 1999/10/19 07:13:13 elrod Exp $
+	$Id: m3u.h,v 1.3 2000/06/21 13:34:37 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_M3U_H
@@ -50,9 +50,6 @@ class M3U : public PlaylistFormat {
                                 vector<PlaylistItem*>* items,
                                 PLMCallBackFunction function = NULL,
                                 void* cookie = NULL); 
-
- private:
-     FAContext* m_context;
 };
 
 

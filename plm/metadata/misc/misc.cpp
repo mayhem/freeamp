@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.cpp,v 1.7 2000/05/24 17:08:34 ijr Exp $
+	$Id: misc.cpp,v 1.8 2000/06/21 13:34:37 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -53,8 +53,6 @@ extern "C"
 
 Misc::Misc(FAContext* context):MetaDataFormat(context)
 {
-    m_context = context;
-
     Registrar registrar;
 
     registrar.SetSubDir("plugins");

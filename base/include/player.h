@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.54 2000/06/05 16:43:34 robert Exp $
+        $Id: player.h,v 1.55 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -82,7 +82,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     void      testQueue();
     static void EventServiceThreadFunc(void *);
     virtual Error AcceptEvent(Event *);
-    virtual RegistryItem *ChooseLMC(const char *szUrl, char *szTitle = NULL);
+    virtual RegistryItem *ChooseLMC(const char *szUrl);
     virtual RegistryItem *ChoosePMI(const char *szUrl, char *szTitle = NULL);
 
     bool    IsSupportedExtension(const char *ext);

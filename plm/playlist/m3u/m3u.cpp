@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.13 2000/06/13 20:24:31 ijr Exp $
+	$Id: m3u.cpp,v 1.14 2000/06/21 13:34:37 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -58,7 +58,6 @@ extern "C"
 
 M3U::M3U(FAContext* context):PlaylistFormat(context)
 {
-    m_context = context;
 }
 
 M3U::~M3U()

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.49 2000/06/21 08:12:19 ijr Exp $
+   $Id: Theme.cpp,v 1.50 2000/06/21 13:34:37 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -499,8 +499,12 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            m_oLastError = string("the <Bitmap> tag needs a File attribute");
            return kError_ParseError;
        }        
+ 
+       if (IsRelative(oAttrMap["File"].c_str()))
+           oCompleteFile = m_oThemePath + oAttrMap["File"];
+       else
+           oCompleteFile = oAttrMap["File"];
 
-       oCompleteFile = m_oThemePath + oAttrMap["File"];
        eRet = pBitmap->LoadBitmapFromDisk(oCompleteFile);
        if (eRet != kError_NoErr)
        {

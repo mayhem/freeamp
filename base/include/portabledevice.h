@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portabledevice.h,v 1.3 1999/12/02 22:06:50 elrod Exp $
+	$Id: portabledevice.h,v 1.4 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PORTABLE_DEVICE_H_
@@ -103,7 +103,7 @@ class PortableDevice {
  
  public:
 
-    PortableDevice(FAContext *context) {}
+    PortableDevice(FAContext *context) { m_context = context; }
     virtual ~PortableDevice() {}
 
     virtual Error GetSupportedDevices(DeviceInfo* device, uint32 index) = 0;
@@ -133,6 +133,8 @@ class PortableDevice {
                                const char* url,
                                PLMCallBackFunction function = NULL,
                                void* cookie = NULL) = 0;
+  protected:
+     FAContext *m_context;
 };
 
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlistformat.h,v 1.2 1999/10/19 07:12:45 elrod Exp $
+	$Id: playlistformat.h,v 1.3 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_FORMAT_H_
@@ -43,7 +43,7 @@ class PlaylistFormat {
 
  public:
 
-    PlaylistFormat(FAContext *context) {}
+    PlaylistFormat(FAContext *context) { m_context = context; }
     virtual ~PlaylistFormat() {}
 
     virtual Error GetSupportedFormats(PlaylistFormatInfo* info, uint32 index) = 0;
@@ -55,6 +55,8 @@ class PlaylistFormat {
                                 vector<PlaylistItem*>* items,
                                 PLMCallBackFunction function = NULL,
                                 void* cookie = NULL) = 0;
+  protected:
+    FAContext *m_context;
 };
 
 typedef PlaylistFormat* PlaylistFormatRef;

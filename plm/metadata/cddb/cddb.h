@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb.h,v 1.4 2000/05/24 17:08:34 ijr Exp $
+	$Id: cddb.h,v 1.5 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDDB_H
@@ -51,7 +51,6 @@ class CDDB : public MetaDataFormat {
     virtual MetaDataOrder Order() { return MetaDataOrder_Low; }
 
  private:
-    FAContext        *m_context;
     unsigned long     m_discid;
     int               m_total_tracks;
     struct disc_info *m_discinfo;

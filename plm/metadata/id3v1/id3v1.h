@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.h,v 1.3 1999/10/25 00:15:29 elrod Exp $
+	$Id: id3v1.h,v 1.4 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_ID3V1_H
@@ -46,8 +46,6 @@ class ID3v1 : public MetaDataFormat {
     virtual MetaDataOrder Order() { return MetaDataOrder_Medium; }
 
  private:
-     FAContext* m_context;
-
      void KillTrailingSpaces(char* string);
 };
 

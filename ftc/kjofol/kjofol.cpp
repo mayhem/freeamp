@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: kjofol.cpp,v 1.4 2000/06/21 08:12:19 ijr Exp $
+   $Id: kjofol.cpp,v 1.5 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -70,7 +70,6 @@ static char timefontmap[] =
 
 KJofol::KJofol(FAContext *context):ThemeFormat(context)
 {
-    m_context = context;
 }
 
 KJofol::~KJofol()
@@ -321,6 +320,8 @@ void KJofol::ParseRCFile(string rcfile, string windowname, bool dock)
             haswinshade = true;
         }
         else if (!strncasecmp(left, "Playlist", 8)) {
+        }
+        else if (!strcasecmp(left, "About")) {
         }
         else
             cout << "don't understand: " << line << endl;

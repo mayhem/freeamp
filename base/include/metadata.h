@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: metadata.h,v 1.6 2000/02/29 10:01:57 elrod Exp $
+	$Id: metadata.h,v 1.7 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_METADATA_H_
@@ -162,12 +162,15 @@ typedef enum MetaDataOrder {
 
 class MetaDataFormat {
  public:
-    MetaDataFormat(FAContext *context) {}
+    MetaDataFormat(FAContext *context) { m_context = context; }
     virtual ~MetaDataFormat() {}
 
     virtual bool ReadMetaData(const char* url, MetaData* metadata) = 0;
     virtual bool WriteMetaData(const char* url, const MetaData& metadata) = 0;
     virtual MetaDataOrder Order() = 0;
+
+ protected:
+    FAContext *m_context;
 };
 
 

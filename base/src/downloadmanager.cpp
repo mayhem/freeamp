@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.33 2000/06/09 13:29:00 robert Exp $
+	$Id: downloadmanager.cpp,v 1.34 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -718,7 +718,7 @@ Error DownloadManager::Download(DownloadItem* item)
                 static unsigned long ip;
                 static char *addr_ptr[2] = {(char*)&ip, NULL};
 
-                if((ip = inet_addr(server)) < 0) 
+                if((int)(ip = inet_addr(server)) < 0) 
                     result =  kError_CantFindHost;
                 else
                 {

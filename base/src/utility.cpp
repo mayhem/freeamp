@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: utility.cpp,v 1.29 2000/06/12 18:41:38 robert Exp $
+    $Id: utility.cpp,v 1.30 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -737,7 +737,7 @@ bool CopyFile(const char *pExistingFileName,
     for(;;)
     {
         iRet = fread(szBuffer, 1, iCopyBufferSize, fpSrc);
-        if (iRet < 0)
+        if ((int)iRet < 0)
         {
             fclose(fpDest);
             fclose(fpSrc);

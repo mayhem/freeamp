@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.3 1999/12/02 22:06:52 elrod Exp $
+	$Id: pmp300.cpp,v 1.4 2000/06/21 13:34:37 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -119,8 +119,6 @@ class PlaylistItemCompare {
 
 PMP300::PMP300(FAContext* context):PortableDevice(context)
 {
-    m_context = context;
-
 #ifdef WIN32
     OSVERSIONINFO osid;
 

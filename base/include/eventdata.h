@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.58 2000/05/25 10:48:29 elrod Exp $
+        $Id: eventdata.h,v 1.59 2000/06/21 13:34:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -234,7 +234,7 @@ class     MediaInfoEvent:public Event
       m_childEvents = new vector<Event *>;
    }
 
-   MediaInfoEvent(MediaInfoEvent &other)
+   MediaInfoEvent(MediaInfoEvent &other):Event(other)
    {
       m_copy = true;
       m_type = other.m_type;

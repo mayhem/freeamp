@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.h,v 1.2 1999/10/19 07:13:13 elrod Exp $
+	$Id: pmp300.h,v 1.3 2000/06/21 13:34:37 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMP300_H
@@ -70,8 +70,6 @@ class PMP300 : public PortableDevice {
                                PLMCallBackFunction function = NULL,
                                void* cookie = NULL);
 
- private:
-     FAContext* m_context;
 };
 
 

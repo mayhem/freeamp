@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.235 2000/09/11 06:39:38 ijr Exp $
+        $Id: player.cpp,v 1.236 2000/09/19 11:12:31 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1778,7 +1778,9 @@ GetVolume(Event *pEvent)
     if (m_pmo) 
     {
        m_pmo->GetVolume(left, right);
-       SendToUI(new VolumeEvent(INFO_VolumeInfo,left, right));
+       Event *e = new VolumeEvent(INFO_VolumeInfo, left, right);
+       SendToUI(e);
+       delete e;
     }   
 }
 
@@ -1855,8 +1857,10 @@ Play(Event *pEvent)
             CreatePMO(pItem, pEvent);
        }   
 
-       if (!m_pmo) 
+       if (!m_pmo)  {
+          delete pEvent;
           return;
+       }
     }
 
     if (pEvent->Type() == CMD_PlayPaused)

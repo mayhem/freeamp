@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.64 2000/09/18 14:21:01 ijr Exp $
+        $Id: eventdata.h,v 1.65 2000/09/19 11:12:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -135,15 +135,13 @@ class ErrorMessageEvent:public Event
 class     BrowserMessageEvent:public Event
 {
    private:
-   char     *m_info;
+   char *m_info;
 
    public:
    virtual ~ BrowserMessageEvent()
    {
-      if (m_info)
-      {
-         delete [] m_info;
-      }
+       if (m_info)
+           delete [] m_info;
    }
    BrowserMessageEvent()
    {

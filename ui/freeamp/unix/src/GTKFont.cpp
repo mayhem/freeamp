@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.19 2000/06/22 15:27:18 elrod Exp $
+   $Id: GTKFont.cpp,v 1.20 2000/09/19 11:12:32 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <sys/stat.h>
@@ -98,7 +98,10 @@ GTKFont::GTKFont(FAContext *context, string &oName, string &oFace,
         FindClose(handle);
     }
 
-    ttfbase = FreeampDir(NULL) + string("/fonts");
+    char *fadir = FreeampDir(NULL);
+    ttfbase = string(fadir) + string("/fonts");
+    delete [] fadir;
+
     if (-1 == stat(ttfbase.c_str(), &st))
         mkdir(ttfbase.c_str(), 0755);
 
@@ -185,7 +188,9 @@ Error GTKFont::AddFont(string &oFontFile)
     struct stat st;
     string tempfile;
 
-    oFontDest = FreeampDir(NULL) + string ("/fonts");
+    char *fadir = FreeampDir(NULL);
+    oFontDest = string(fadir) + string ("/fonts");
+    delete [] fadir;
 
     if (-1 == stat(oFontDest.c_str(), &st))
         mkdir(oFontDest.c_str(), 0755);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: eventbuffer.h,v 1.7 2000/02/06 01:03:39 robert Exp $
+   $Id: eventbuffer.h,v 1.8 2000/09/19 11:12:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTBUFFER_H_
@@ -60,7 +60,7 @@ class EventBuffer : public PullBuffer
     protected:
      
       Queue <BufferEvent *> *m_pQueue;
-	  uint32                 m_iBytesInUse;
+      uint32                 m_iBytesInUse;
 };
 
 #endif

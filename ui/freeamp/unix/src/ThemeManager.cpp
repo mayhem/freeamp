@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.18 2000/06/22 15:27:18 elrod Exp $
+   $Id: ThemeManager.cpp,v 1.19 2000/09/19 11:12:32 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -119,7 +119,9 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
         FindClose(handle);
     }
 
-    oThemeBasePath = FreeampDir(NULL) + string("/themes");
+    char *fadir = FreeampDir(NULL);
+    oThemeBasePath = string(fadir) + string("/themes");
+    delete [] fadir;
 
     struct stat st;
     if (-1 == stat(oThemeBasePath.c_str(), &st))
@@ -196,7 +198,10 @@ Error ThemeManager::AddTheme(string &oThemeFile, bool bRename)
     bool   bRenameFailed = false;
     char fcopy[_MAX_PATH], *filename = NULL, *ext = NULL;
 
-    oThemeDest = FreeampDir(NULL) + string("/themes");
+    char *fadir = FreeampDir(NULL);
+    oThemeDest = string(fadir) + string("/themes");
+    delete [] fadir;
+
     if (bRename)
     {
         ThemeZip oZip;

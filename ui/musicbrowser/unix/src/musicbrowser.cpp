@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: musicbrowser.cpp,v 1.41 2000/08/15 20:53:07 ijr Exp $
+    $Id: musicbrowser.cpp,v 1.42 2000/09/19 11:12:32 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -62,8 +62,10 @@ Error MusicBrowserUI::Init(int32 startup_level)
 
     m_playerEQ = m_context->target;
 
-    string URL = string("file://") + FreeampDir(NULL) +
+    char *fadir = FreeampDir(NULL);
+    string URL = string("file://") + string(fadir) +
                  string("/currentlist.m3u");
+    delete [] fadir;
     mainBrowser = new GTKMusicBrowser(m_context, this, URL);
 
     return kError_NoErr;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.cpp,v 1.18 2000/09/15 09:42:09 ijr Exp $
+        $Id: browsermenu.cpp,v 1.19 2000/09/19 11:12:32 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -191,9 +191,12 @@ static void saveas_list(GTKMusicBrowser *p, guint action, GtkWidget *w)
             if (temp[i] == '/')
                 temp[i] = '_';
 
-        string name = FreeampDir(NULL) + string("/") + string(temp) +
+        char *fadir = FreeampDir(NULL);
+        string name = string(fadir) + string("/") + string(temp) +
                       string(".m3u");
         p->m_currentListName = string(name);
+
+        delete [] fadir;
 
         p->SaveCurrentPlaylist();
     }

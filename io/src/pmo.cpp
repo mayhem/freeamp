@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.18 2000/07/31 19:51:39 ijr Exp $
+        $Id: pmo.cpp,v 1.19 2000/09/19 11:12:32 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -68,6 +68,13 @@ PhysicalMediaOutput::~PhysicalMediaOutput()
 
     m_pPauseSem->Signal();
     m_pSleepSem->Signal();
+
+   //Debug_v("Clear PMO");
+   Clear();
+   //Debug_v("Clear LMC");
+   m_pLmc->Clear();
+   //Debug_v("Clear PMI");
+   m_pPmi->Clear();
 
     delete m_pLmc;
     delete m_pPmi;

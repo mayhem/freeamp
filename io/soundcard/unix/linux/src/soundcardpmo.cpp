@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.45 2000/08/30 09:20:53 ijr Exp $
+        $Id: soundcardpmo.cpp,v 1.46 2000/09/19 11:12:31 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -398,7 +398,6 @@ void SoundCardPMO::WorkerThread(void)
               }
           }
           delete pEvent;
-
           continue;
       }
 
@@ -459,7 +458,7 @@ void SoundCardPMO::WorkerThread(void)
     
               if (pEvent->Type() == PMO_Info) 
                   HandleTimeInfoEvent((PMOTimeInfoEvent *)pEvent);
-    
+
               if (pEvent->Type() == PMO_Quit) 
               {
                   delete pEvent;

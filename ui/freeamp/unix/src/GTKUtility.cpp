@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.14 2000/08/30 13:45:31 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.15 2000/09/19 11:12:32 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "config.h"
@@ -170,6 +170,7 @@ void InitializeGTK(FAContext *context)
 
     if (gtkThread)
         return;
+
     context->gtkLock.Acquire();
     if (!context->gtkInitialized) {
         context->gtkInitialized = true;
@@ -212,6 +213,7 @@ void ShutdownGTK(void)
         weAreGTK = false;
         doQuitNow = true;
         gtkThread->Join();
+        delete gtkThread;
         gtkThread = NULL;
     }
 }

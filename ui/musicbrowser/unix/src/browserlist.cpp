@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browserlist.cpp,v 1.13 2000/09/01 10:57:59 ijr Exp $
+        $Id: browserlist.cpp,v 1.14 2000/09/19 11:12:32 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -507,6 +507,8 @@ static void list_drag_rec_internal(GtkWidget *widget, GdkDragContext *context,
 
                 g_dataset_remove_data(context, "gtk-clist-drag-dest"); 
                 gtk_drag_finish(context, TRUE, FALSE, time);
+
+                delete newlist;
             }
         }
     }

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.22 2000/09/18 19:54:33 ijr Exp $
+        $Id: apsinterface.cpp,v 1.23 2000/09/19 11:12:31 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -109,6 +109,11 @@ APSInterface::~APSInterface()
     {
         delete m_pYpClient;
         m_pYpClient = NULL;
+    }
+    if (m_pSLClient != NULL)
+    {
+        delete m_pSLClient;
+        m_pSLClient = NULL;
     }
     if (m_pMutex != NULL) 
     {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.112 2000/09/18 20:10:05 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.113 2000/09/19 11:12:32 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1640,6 +1640,8 @@ GTKMusicBrowser::~GTKMusicBrowser(void)
         if (stream_timer)
             m_context->timerManager->StopTimer(stream_timer);
     }
+    delete mbSelections;
+    delete CDTracks;
 }
 
 void GTKMusicBrowser::ShowMusicBrowser(void)
@@ -2010,6 +2012,7 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
             GeneratePlaylistEvent *gpe = (GeneratePlaylistEvent *)e;
 
             vector<PlaylistItem *> seed;
+            gdk_threads_enter();
             if (gpe->Item()) {
                 PlaylistItem plTemp(gpe->Item()->URL().c_str(),
                                     &(gpe->Item()->GetMetaData()));
@@ -2017,7 +2020,8 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
                 GenPlaylist(&seed);
             }
             else
-                GenPlaylist(NULL);
+                GenPlaylist(&seed);
+            gdk_threads_leave();
             break; }
         case INFO_UnsignaturedTracksExist: {
             if (m_context->catalog->GetNumNeedingSigs() > 0) {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.10.2.1.2.2 2000/04/08 23:42:20 robert Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.10.2.1.2.2.2.1 2000/06/02 15:33:24 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -608,9 +608,8 @@ Error DownloadManager::Download(DownloadItem* item)
     assert(item);
     if(item)
     {
-        char hostname[kMaxHostNameLen + 1];
-        char localname[kMaxHostNameLen + 1];
-        char proxyname[kMaxURLLen + 1];
+        char hostname[kMaxHostNameLen + 1] = {0x00};
+        char proxyname[kMaxURLLen + 1] = {0x00};
         unsigned short port;
         struct sockaddr_in  addr;
         struct hostent      host;
@@ -650,16 +649,22 @@ Error DownloadManager::Download(DownloadItem* item)
 
             m_context->prefs->GetUseProxyServer(&useProxy);
 
-            length = sizeof(proxyname);
-            m_context->prefs->GetProxyServerAddress(proxyname, &length);
-
             if(useProxy)
             {
-                numFields = sscanf(proxyname, 
-                                   "http://%[^:/]:%hu", hostname, &port);
-                strncpy(proxyname, item->SourceURL().c_str(), kMaxURLLen);
-                proxyname[kMaxURLLen - 1] = 0;
-                file = proxyname;
+                char proxy[kMaxURLLen + 1] = {0x00};
+
+                length = sizeof(proxy);
+                m_context->prefs->GetProxyServerAddress(proxy, &length);
+
+                numFields = sscanf(proxy, 
+                                   "http://%[^:/]:%hu", proxyname, &port);
+
+                sscanf(item->SourceURL().c_str(), 
+                               "http://%[^:/]", hostname);
+
+                //strncpy(proxyname, item->SourceURL().c_str(), kMaxURLLen);
+                //proxyname[kMaxURLLen - 1] = 0;
+                file = (char*)item->SourceURL().c_str();
             }
             else
             {
@@ -686,11 +691,12 @@ Error DownloadManager::Download(DownloadItem* item)
         // get hostname
         if(IsntError(result))
         {
+            char* server = (*proxyname ? proxyname : hostname);
             struct hostent* hostByName;
             struct hostent  hostByIP;
 
             //*m_debug << "gethostbyname: " << hostname << endl;
-            hostByName = gethostbyname(hostname);
+            hostByName = gethostbyname(server);
 
             // On some stacks a numeric IP address
             // will not parse with gethostbyname.  
@@ -701,7 +707,7 @@ Error DownloadManager::Download(DownloadItem* item)
                 static unsigned long ip;
                 static char *addr_ptr[2] = {(char*)&ip, NULL};
 
-                if((ip = inet_addr(hostname)) < 0) 
+                if((ip = inet_addr(server)) < 0) 
                     result =  kError_CantFindHost;
                 else
                 {
@@ -758,8 +764,6 @@ Error DownloadManager::Download(DownloadItem* item)
 
             if(IsntError(result))
             {
-                gethostname(localname, kMaxHostNameLen);    
-
                 const char* kHTTPQuery = "GET %s HTTP/1.1\n"
                                          "Host: %s\n"
                                          "Accept: */*\n" 
@@ -774,13 +778,13 @@ Error DownloadManager::Download(DownloadItem* item)
                 // we got from the server
                 char* query = new char[ strlen(kHTTPQuery) + 
                                         strlen(file) +
-                                        strlen(localname) +
+                                        strlen(hostname) +
                                         strlen(FREEAMP_VERSION)+
                                         (item->GetBytesReceived() ? (strlen(kRange) + 256): 0 ) +
                                         (item->SourceCookie().size() ? (item->SourceCookie().size() + strlen(kCookie)): 0) +
                                         2];
             
-                sprintf(query, kHTTPQuery, file, localname, FREEAMP_VERSION);
+                sprintf(query, kHTTPQuery, file, hostname, FREEAMP_VERSION);
 
                 // do we need to request a range?
                 if(item->GetBytesReceived())

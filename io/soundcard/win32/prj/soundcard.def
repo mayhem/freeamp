@@ -1,7 +1,0 @@
-;soundcard.def : Declares the module parameters for the DLL.
-
-LIBRARY      "soundcard"
-DESCRIPTION  'SoundCard Output Library'
-
-EXPORTS
-	Initialize

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.17 2000/01/18 20:40:39 ijr Exp $
+	$Id: utility.cpp,v 1.18 2000/02/06 08:59:16 hiro Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -453,7 +453,38 @@ void ToLower(char *s)
        *p = tolower(*p);
 }      
 
-#ifndef WIN32
+#ifdef WIN32
+#elif __BEOS__
+
+#include <be/app/Roster.h>
+#include <be/be_apps/NetPositive/NetPositive.h>
+
+void LaunchBrowser(char* url)
+{
+    status_t err;
+
+    BMessenger netpositive(B_NETPOSITIVE_APP_SIGNATURE, -1, &err);
+    if (err == B_OK)
+    {
+        BMessage msg(B_NETPOSITIVE_OPEN_URL);
+        msg.AddString("be:url", url);
+        err = netpositive.SendMessage(&msg);
+        if (err < B_OK)
+        {
+            printf("error sending msg to netpositive: %s\n", strerror(err));
+        }
+    }
+    else
+    {
+        const char *browser = "NetPositive";
+        char *command = new char[strlen(browser) + strlen(url) + 10];
+        sprintf(command, "%s \"%s\" &", browser, url);
+        system(command);
+        delete[] command;
+    }
+}
+
+#else
 void LaunchBrowser(char* url)
 {
     char         url2[_MAX_PATH];

@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: beosprefs.cpp,v 1.7 1999/12/10 04:25:35 elrod Exp $
+        $Id: beosprefs.cpp,v 1.8 2000/02/06 08:59:16 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -636,12 +636,12 @@ GetPrefString(const char* pref, char* buf, uint32* len)
         m_mutex.Release();
         return kError_NoPrefValue;
     }
-
     char *value = entry->value;
     uint32 value_len = strlen(value) + 1;
 
     if (value_len > *len)
     {
+        *len = value_len;
         m_mutex.Release();
         return kError_BufferTooSmall;
     }

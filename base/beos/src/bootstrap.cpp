@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.7 1999/12/10 04:25:35 elrod Exp $
+	$Id: bootstrap.cpp,v 1.8 2000/02/06 08:59:16 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -71,12 +71,12 @@ int main(int argc, char **argv) {
     lmc = new Registry();
 
 //    registrar->SetSubDir("lmc");
-    registrar->SetSubDir("");
+    registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.lmc");
     registrar->InitializeRegistry(lmc,context->prefs);
 
 //    registrar->SetSubDir("io");
-    registrar->SetSubDir("");
+    registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.pmi");
     pmi = new Registry;
     registrar->InitializeRegistry(pmi,context->prefs);
@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
 
 
 //    registrar->SetSubDir("ui");
-    registrar->SetSubDir("");
+    registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.ui");
     ui = new Registry;
     registrar->InitializeRegistry(ui,context->prefs);

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: musicbrowser.cpp,v 1.40 2000/07/31 19:51:40 ijr Exp $
+    $Id: musicbrowser.cpp,v 1.41 2000/08/15 20:53:07 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -126,6 +126,9 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
         case INFO_PlaylistCurrentItemInfo:
         case INFO_PlaylistItemsUpdated:
         case INFO_PlaylistItemMoved:
+        case INFO_UnsignaturedTracksExist:
+        case INFO_SignaturingStarted:
+        case INFO_SignaturingStopped:
         case INFO_CDDiscStatus: 
         case INFO_PrefsChanged: {
             mainBrowser->AcceptEvent(event);

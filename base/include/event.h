@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.52 2000/07/31 19:51:38 ijr Exp $
+	$Id: event.h,v 1.53 2000/08/15 20:53:07 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -152,5 +152,9 @@ class EventQueue {
 #define CMD_GenerateSignature        85 // sent by the MC to tell the player to generate a signature
 #define INFO_AudioSignatureGenerated 86 // sent by the signature.pmo generation algo.
 #define CMD_GeneratePlaylist         87 // sent to the MC to generate an APL playlist
+#define INFO_UnsignaturedTracksExist 88 // sent by MC to UIs to prompt user to generate signatures
+#define INFO_SignaturingStarted      89 // sent by player to inform UIs of signaturing status
+#define INFO_SignaturingStopped      90 // sent by player to inform UIs of signaturing status
+#define CMD_KillSigThread            91 // sent by MC to player to kill signaturing thread
 #endif // _EVENT_H_
 

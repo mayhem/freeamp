@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.49 2000/08/01 17:29:19 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.50 2000/08/15 20:53:07 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -224,6 +224,9 @@ class GTKMusicBrowser {
     bool relatableExpanded;
     bool streamExpanded;
  
+    bool m_sigsExist;
+    bool m_sigsStart;
+
     GtkWidget *NewPixmap(char **data);
 
     GtkStyle *normStyle;
@@ -269,7 +272,10 @@ class GTKMusicBrowser {
     void SetRepeatType(RepeatMode mode);
     void SetShuffleType(bool shuffled);
     bool CheckEmptyDatabase(void);
-    
+  
+    void AskSignatureDialog(void);  
+    void AskOptIn(bool inMain = true);
+
   public:
 
     vector<PlaylistItem *> *GetTreeSelection(void);
@@ -330,6 +336,8 @@ class GTKMusicBrowser {
     void AddStreamToFavs(void);
     void AddPLStreamToFavs(void);
     void AddNewStream(void);
+
+    void HandleSignature(void);
 };
 
 #endif

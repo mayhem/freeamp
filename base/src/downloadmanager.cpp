@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.12 1999/12/10 07:16:41 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.13 1999/12/13 13:17:35 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -35,6 +35,7 @@ ____________________________________________________________________________*/
 #ifdef WIN32
 #include <io.h>
 #else
+#undef socklen_t
 #include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.2 2000/04/10 22:56:50 elrod Exp $
+   $Id: Http.cpp,v 1.3 2000/04/14 22:45:59 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -388,43 +388,47 @@ Error Http::Download(const string &url, bool fileDownload)
                         if(cp - buffer < (int)total)
                         {
                             if (fileDownload)
-                               wcount = WriteToFile((unsigned char *)cp, 
+                               wcount = WriteToFile((unsigned char *)cp,
                                                     total - (cp - buffer));
                             else
-                               wcount = WriteToBuffer((unsigned char *)cp, 
+                               wcount = WriteToBuffer((unsigned char *)cp,
                                                       total - (cp-buffer));
+                            bytesReceived = total - (cp - buffer);
                         }
                     }
 
                     do
                     {
-                    
-                        err = Recv(s, buffer, bufferSize, 0, count);
+                        err = Recv(s, buffer,
+                                   min(bufferSize, fileSize - bytesReceived),
+                                   0, count);
                         if (IsError(err))
                             result = kError_UserCancel;
-                        else 
+                        else
                            if(count > 0)
                            {
                                if (fileDownload)
                                   wcount = WriteToFile((unsigned char *)buffer,
                                                        (unsigned int)count);
                                else
-                                  wcount = WriteToBuffer((unsigned char *)buffer, 
+                                  wcount = WriteToBuffer((unsigned char *)buffer
+,
                                                        (unsigned int)count);
                                bytesReceived += count;
                                Progress(bytesReceived, fileSize);
                            }
 
-                        if(count < 0) 
+                        if(count < 0)
                             result = kError_IOError;
-                        
+
                         if(wcount < 0)
                             result = kError_WriteFile;
 
-                    }while(count > 0 && IsntError(result) && 
-                           !m_exit && wcount >= 0);
-                
-                break;
+                    }while(count > 0 && IsntError(result) &&
+                           !m_exit && wcount >= 0 &&
+                           (int)bytesReceived != fileSize);
+
+                break;   
                 }
 
                 // 3xx: Redirection - Further action must be taken in order to

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.16 1999/11/05 01:19:42 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.17 1999/11/06 17:41:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -1049,7 +1049,8 @@ void FreeAmpTheme::PostWindowCreate(void)
     pProp = new Int32PropValue((int)((Win32Window *)m_pWindow)->GetWindowHandle());
     m_pContext->props->SetProperty("MainWindow", pProp);
 #endif
-    m_pWindow->SetTitle(string(BRANDING));
+    string winTitle = string(BRANDING);
+    m_pWindow->SetTitle(winTitle);
 }
 
 void FreeAmpTheme::ShowHelp(void)

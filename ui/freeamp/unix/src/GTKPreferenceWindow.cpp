@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.18 1999/12/17 03:23:23 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.19 1999/12/17 21:53:08 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1353,7 +1353,7 @@ void GTKPreferenceWindow::AddThemeEvent(const char *newpath)
     string newThemeFile = newpath;
     Error err = m_pThemeMan->AddTheme(newThemeFile);
 
-    if (IsntError(err)) {
+    if (IsError(err)) {
         MessageDialog oBox(m_pContext);
         string        oErr, oMessage;
 

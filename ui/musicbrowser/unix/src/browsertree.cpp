@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.27 2000/09/14 11:00:22 ijr Exp $
+        $Id: browsertree.cpp,v 1.28 2000/09/15 09:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -146,6 +146,7 @@ vector<PlaylistItem *> *GTKMusicBrowser::GetTreeSelection(void)
             for (; j != list->m_trackList->end(); j++) {
                 PlaylistItem *item = new PlaylistItem(*(PlaylistItem *)*j);
                 newlist->push_back(item);
+cout << "adding " << item->URL() << endl;
             }
             break; }
         case kTreeCD:

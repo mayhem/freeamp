@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.81 2000/09/15 08:11:42 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.82 2000/09/15 09:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -786,8 +786,7 @@ void MusicCatalog::SetDatabase(const char *path)
         RePopulateFromDatabase();
         if (m_timeout == 0)
             PruneDatabase(true, true);
-        else
-            Sort();
+        Sort();
     }
 }
 

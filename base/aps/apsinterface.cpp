@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.19 2000/09/11 06:41:35 ijr Exp $
+        $Id: apsinterface.cpp,v 1.20 2000/09/15 09:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -91,7 +91,7 @@ APSInterface::APSInterface(char *profilePath, const char* pIP,
     m_pYpClient->SetAddress(m_strIP.c_str(), nAPSYPPort);
     m_nMetaFailures = 0;
 
-    m_pSigClient = new SigClient;
+    m_pSigClient = new SigClient; 
     m_pSigClient->SetAddress(m_sigIP.c_str(), nAPSSigPort);
 
     m_pSLClient = new SoundsLikeClient;

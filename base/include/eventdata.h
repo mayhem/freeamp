@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.65 2000/09/19 11:12:31 ijr Exp $
+        $Id: eventdata.h,v 1.66 2000/11/13 22:49:18 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -1040,6 +1040,17 @@ class MissingFileEvent:public Event
    { m_type = INFO_FileNotFound; m_item = item; }
    virtual ~ MissingFileEvent(){ }
    PlaylistItem *Item() const{ return m_item; }
+};
+
+class CDNotFoundEvent:public Event
+{
+ private:
+   string m_submitUrl;
+ public:
+   CDNotFoundEvent(const string &url)
+   { m_type = INFO_CDNotFound; m_submitUrl = url; }
+   virtual ~ CDNotFoundEvent(){ }
+   const string &URL() const{ return m_submitUrl; }
 };
 
 #endif /* _EVENTDATA_H_ */

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: mbcd.cpp,v 1.9 2000/10/26 22:18:12 robert Exp $
+    $Id: mbcd.cpp,v 1.10 2000/11/13 22:49:19 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -231,8 +231,13 @@ bool MusicBrainzCD::LookupCD(void)
     
         if (mb_GetNumItems(o) == 0)
         {
+           char url[MAX_PATH];
+
+           mb_GetWebSubmitURL(o, url, MAX_PATH);
            m_context->target->AcceptEvent(new 
                      BrowserMessageEvent("CD not found."));
+           m_context->target->AcceptEvent(new 
+                     CDNotFoundEvent(string(url)));
            delete db;
            return false;
         }  

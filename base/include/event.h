@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.54 2000/08/21 08:05:22 ijr Exp $
+	$Id: event.h,v 1.55 2000/11/13 22:49:18 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -157,5 +157,6 @@ class EventQueue {
 #define INFO_SignaturingStarted      90 // sent by player to inform UIs of signaturing status
 #define INFO_SignaturingStopped      91 // sent by player to inform UIs of signaturing status
 #define CMD_KillSigThread            92 // sent by MC to player to kill signaturing thread
+#define INFO_CDNotFound              93 // sent by mbcd plugin to musicbrowser 
 #endif // _EVENT_H_
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: missingfileui.h,v 1.3 2000/05/11 18:14:02 ijr Exp $
+        $Id: missingfileui.h,v 1.4 2000/05/12 06:29:08 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MISSINGFILEUI_H_
@@ -40,7 +40,7 @@ class MissingFileUI {
  
     void SetFunc(int func);
     void EnableEntry(bool enable);
-    void ChangeTextEntry(const char *entry, bool set = false);
+    void ChangeTextEntry(const char *text, bool set = false);
 
  protected:
     FAContext *m_context;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.52 2000/05/08 12:59:12 elrod Exp $
+        $Id: player.h,v 1.53 2000/05/12 06:29:08 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -50,7 +50,7 @@ typedef enum
 {
    PlayerState_Paused = 1,
    PlayerState_Playing,
-   PlayerState_Stopped,
+   PlayerState_Stopped
 }
 PlayerState;
 

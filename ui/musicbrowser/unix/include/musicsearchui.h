@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicsearchui.h,v 1.2 1999/11/08 02:22:49 ijr Exp $
+        $Id: musicsearchui.h,v 1.3 1999/11/29 08:56:12 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICSEARCHUI_H_
@@ -51,12 +51,13 @@ class musicsearchUI {
     bool searchInProgress;
     bool searchDone;
     bool m_main;
+    bool done;
 
+    GtkWidget *m_window;
  protected:
     FAContext *m_context;
 
  private:
-    GtkWidget *m_window;
     GtkWidget *m_searchButton;
     GtkWidget *textEntry;
     GtkWidget *browseButton;

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.53 2000/02/01 23:32:11 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.54 2000/02/02 20:59:17 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -122,12 +122,6 @@ SoundCardPMO::~SoundCardPMO()
    m_pSleepSem->Signal();
    m_pPauseSem->Signal();
 
-   if (m_pBufferThread)
-   {
-      m_pBufferThread->Join();
-      delete m_pBufferThread;
-   }
-  
    if (m_initialized)
    {
       mixerClose(m_hmixer);
@@ -148,6 +142,11 @@ SoundCardPMO::~SoundCardPMO()
 
       delete m_wavehdr_array;
       delete m_wfex;
+   }
+   if (m_pBufferThread)
+   {
+      m_pBufferThread->Join();
+      delete m_pBufferThread;
    }
    if (g_pHeaderMutex)
    {

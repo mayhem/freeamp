@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.61 2000/01/14 20:44:17 elrod Exp $
+        $Id: Dialog.cpp,v 1.62 2000/01/19 19:14:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -822,7 +822,7 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
 
     HBITMAP bmp;
     
-    hList = ImageList_Create(16, 16, ILC_COLOR24|ILC_MASK, 9, 0);
+    hList = ImageList_Create(16, 16, ILC_COLOR24|ILC_MASK, 10, 0);
 
     bmp = LoadBitmap(g_hinst, MAKEINTRESOURCE(IDB_CATALOG));
     ImageList_AddMasked(hList, bmp, RGB(255,255,0));
@@ -848,6 +848,9 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     bmp = LoadBitmap(g_hinst, MAKEINTRESOURCE(IDB_PORTABLE));
     ImageList_AddMasked(hList, bmp, RGB(255,0,0));
     DeleteObject(bmp);
+    bmp = LoadBitmap(g_hinst, MAKEINTRESOURCE(IDB_STREAMS));
+    ImageList_AddMasked(hList, bmp, RGB(255,0,0));
+    DeleteObject(bmp);
     bmp = LoadBitmap(g_hinst, MAKEINTRESOURCE(IDB_WIREDPLANET));
     ImageList_AddMasked(hList, bmp, RGB(255,0,0));
     DeleteObject(bmp);
@@ -860,6 +863,7 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     bmp = LoadBitmap(g_hinst, MAKEINTRESOURCE(IDB_BUSY));
     ImageList_AddMasked(hList, bmp, RGB(255,0,0));
     DeleteObject(bmp);
+    
 
     TreeView_SetImageList(m_hMusicView, hList, TVSIL_NORMAL); 
     

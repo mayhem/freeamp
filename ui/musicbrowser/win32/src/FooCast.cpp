@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: FooCast.cpp,v 1.2 2000/01/13 01:04:13 elrod Exp $
+        $Id: FooCast.cpp,v 1.3 2000/01/19 19:14:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -44,8 +44,8 @@ FooCast::FooCast(HWND hwndTree, HTREEITEM parentItem):
 
     insert.item.pszText = kBusy;
     insert.item.cchTextMax = lstrlen(insert.item.pszText);
-    insert.item.iImage = 11;
-    insert.item.iSelectedImage = 11;
+    insert.item.iImage = 12;
+    insert.item.iSelectedImage = 12;
     insert.item.cChildren= 0;
     insert.item.lParam = NULL;
     insert.hInsertAfter = TVI_LAST;

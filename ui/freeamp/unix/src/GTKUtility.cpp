@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.5 1999/12/16 16:59:53 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.6 2000/02/16 02:20:47 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <string>
@@ -90,6 +90,7 @@ void InitializeGTK(FAContext *context)
         context->gtkLock.Acquire();
         running = context->gtkRunning;
         context->gtkLock.Release();
+        usleep(50);
     }
 }
 

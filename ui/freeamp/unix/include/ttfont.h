@@ -18,11 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ttfont.h,v 1.3 1999/12/09 19:36:37 ijr Exp $
+   $Id: ttfont.h,v 1.4 2000/02/16 02:20:47 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TTFONT__H_
 #define INCLUDED_TTFONT__H_
+
+#include "config.h"
+#include "mutex.h"
 
 #include <gdk/gdk.h>
 #ifdef HAVE_FREETYPE_FREETYPE_H

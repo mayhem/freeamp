@@ -18,11 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.6 2000/02/08 20:03:16 robert Exp $
+   $Id: Control.h,v 1.7 2000/02/16 02:20:47 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
 #define INCLUDED_CONTROL_H__
+
+#include "config.h"
 
 // The debugger can't handle symbols more than 255 characters long.
 // STL often creates symbols longer than that.

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: queue.h,v 1.7 1999/10/19 07:12:46 elrod Exp $
+        $Id: queue.h,v 1.8 2000/02/16 02:20:46 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_QUEUE_H_
@@ -168,7 +168,7 @@ template<class T> bool Queue<T>::IsEmpty() {
 
 template<class T> void Queue<T>::GetLock() {
     assert(m_myLock);
-    m_myLock->Acquire(WAIT_FOREVER);
+    m_myLock->Acquire();
     return;
 }
 

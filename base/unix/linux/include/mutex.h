@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mutex.h,v 1.4 1999/10/19 07:12:48 elrod Exp $
+	$Id: mutex.h,v 1.5 2000/02/16 02:20:47 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef MUTEX_H
@@ -30,18 +30,25 @@ ____________________________________________________________________________*/
 class Mutex {
 
 public:
-	Mutex(bool createOwned = false);
-	~Mutex();
+         Mutex(bool createOwned = false);
+        ~Mutex();
 
-	bool Acquire(long timeout = WAIT_FOREVER);
-	void Release();
-	void DumpMutex(void);
+#ifdef DEBUG_MUTEXES
+    bool __Acquire(char *filename, int line, long timeout = WAIT_FOREVER);
+#define Acquire() __Acquire(__FILE__, __LINE__)
+    void __Release(char *filename, int line);
+#define Release() __Release(__FILE__, __LINE__)
+#else
+    bool Acquire(long timeout = WAIT_FOREVER);
+    void Release();
+#endif
+    void DumpMutex(void);
 
  private:
-	pthread_mutex_t m_mutex;
-   pthread_cond_t  m_tCond;
-   int             m_iBusy;
-	pthread_t       m_tOwner;
+    pthread_mutex_t m_mutex;
+    pthread_cond_t  m_tCond;
+    int             m_iBusy;
+    pthread_t       m_tOwner;
 };
 
 #endif /* MUTEX_H */

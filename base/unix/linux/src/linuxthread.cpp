@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: linuxthread.cpp,v 1.7 1999/10/19 07:12:48 elrod Exp $
+	$Id: linuxthread.cpp,v 1.8 2000/02/16 02:20:47 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -107,7 +107,7 @@ void
 linuxThread::
 Suspend()
 {
-    m_suspendMutex->Acquire(WAIT_FOREVER);
+    m_suspendMutex->Acquire();
     if (!m_suspended) {
 	pthread_kill(m_threadHandle, SIGSTOP);
 	m_suspended = true;
@@ -119,7 +119,7 @@ void
 linuxThread::
 Resume()
 {
-    m_suspendMutex->Acquire(WAIT_FOREVER);
+    m_suspendMutex->Acquire();
     if (m_suspended) {
 	pthread_kill(m_threadHandle, SIGCONT);
 	m_suspended = false;

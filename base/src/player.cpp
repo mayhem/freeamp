@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.175 2000/02/16 00:44:08 robert Exp $
+        $Id: player.cpp,v 1.176 2000/02/16 02:20:46 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1010,7 +1010,7 @@ void
 Player::
 GetUIManipLock()
 {
-   m_uiManipLock->Acquire(WAIT_FOREVER);
+   m_uiManipLock->Acquire();
 }
 
 void 

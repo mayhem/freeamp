@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-       $Id: ttfont.cpp,v 1.3 2000/02/04 16:13:43 ijr Exp $
+       $Id: ttfont.cpp,v 1.4 2000/02/16 02:20:47 ijr Exp $
  ____________________________________________________________________________*/ 
 
 /*
@@ -49,7 +49,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ttfont.h"
-#include "mutex.h"
 
 
 Mutex ttfLock;

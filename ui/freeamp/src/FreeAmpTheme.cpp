@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.115 2000/05/24 11:28:46 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.116 2000/05/24 16:28:49 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -514,7 +514,7 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
             (PlaylistCurrentItemInfoEvent *)e;
  
          if (m_pContext->plm->GetCurrentIndex() != kInvalidIndex)
-             UpdateMetaData(pInfo->Item());
+             UpdateMetaData(m_pContext->plm->GetCurrentItem());
          break;
       }
 

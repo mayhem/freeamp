@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.54 2000/02/29 10:01:57 elrod Exp $
+	$Id: playlist.h,v 1.55 2000/04/25 00:00:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -268,7 +268,7 @@ class PlaylistManager {
     // This function searches the items in the playlist
     // and updates the metadata if the tracks are the
     // same (matched based on URL)
-    Error UpdateTrackMetaData(PlaylistItem* updatedTrack);
+    Error UpdateTrackMetaData(PlaylistItem* updatedTrack, bool writeToDisk = false);
 
     // Functions for sorting
     Error Sort(PlaylistSortKey key, PlaylistSortType type = kPlaylistSortType_Ascending);

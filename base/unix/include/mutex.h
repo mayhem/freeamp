@@ -1,7 +1,7 @@
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
-	Portions copyright (C) 1998-1999 EMusic.com
+	Portions copyright (C) 1998-2000 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mutex.h,v 1.3 1999/10/19 07:12:48 elrod Exp $
+	$Id: mutex.h,v 1.2 2000/05/06 12:05:48 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef MUTEX_H
@@ -27,22 +27,49 @@ ____________________________________________________________________________*/
 
 #define WAIT_FOREVER -1
 
+#ifdef DEBUG_MUTEXES
+#include <vector>
+#include <string>
+using namespace std;
+
+typedef struct TraceRef {
+    string file;
+    int    line;
+};
+
+typedef struct MutexInfo {
+    void               *address;
+    TraceRef           *owner;
+    vector<TraceRef *> *waits;
+};  
+#endif
+
 class Mutex {
 
 public:
-	Mutex(bool createOwned = false);
-	~Mutex();
+         Mutex(bool createOwned = false);
+        ~Mutex();
 
+#ifdef DEBUG_MUTEXES
+    bool __Acquire(char *name, int line, long timeout = WAIT_FOREVER);
+#define Acquire() __Acquire(__FILE__, __LINE__)
+    void DumpAllMutexes(void);
+#else
+    bool Acquire(long timeout = WAIT_FOREVER);
+#endif
 
-	bool Acquire(long timeout = WAIT_FOREVER);
-	void Release();
-	void DumpMutex(void);
+    void Release(void);
+    void DumpMutex(void);
 
  private:
-	pthread_mutex_t m_mutex;
-	pthread_cond_t m_tCond;
-	int m_iBusy;
-	pthread_t m_tOwner;
+    pthread_mutex_t m_mutex;
+    pthread_cond_t  m_tCond;
+    int             m_iBusy;
+    pthread_t       m_tOwner;
+
+#ifdef DEBUG_MUTEXES
+    MutexInfo      *m_info;
+#endif
 };
 
 #endif /* MUTEX_H */

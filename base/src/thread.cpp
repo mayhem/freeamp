@@ -18,18 +18,16 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: thread.cpp,v 1.8 2000/03/30 05:48:46 elrod Exp $
+	$Id: thread.cpp,v 1.9 2000/05/06 12:05:48 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
 #include "thread.h"
 
-#ifdef __LINUX__
-    #include "linuxthread.h"
+#if defined(__LINUX__) || defined(solaris)
+    #include "pthreadthread.h"
 #elif WIN32
     #include "win32thread.h"
-#elif defined(solaris)
-    #include "solaristhread.h"
 #elif defined(__BEOS__)
     #include "beosthread.h"
 #else
@@ -42,12 +40,10 @@ ____________________________________________________________________________*/
 Thread* Thread::CreateThread()
 {
     Thread* thread = NULL;
-#ifdef __linux__
-    thread = new linuxThread();
+#if defined(__linux__) || defined(solaris)
+    thread = new pthreadThread();
 #elif defined(WIN32)
     thread = new win32Thread();
-#elif defined(solaris)
-    thread = new solarisThread();
 #elif defined(__BEOS__)
     thread = new beosThread();
 #else

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.25 2000/03/25 04:33:02 ijr Exp $
+	$Id: bootstrap.cpp,v 1.26 2000/05/06 12:05:49 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -74,6 +74,18 @@ union semun
 };
 #endif
 
+#if defined(solaris)
+
+#include <poll.h>
+
+extern "C" {
+int usleep(unsigned int usec)
+{
+    return poll(NULL, 0, usec/1000+1);
+}
+}
+#endif
+
 int main(int argc, char **argv) 
 {
     FAContext *context = new FAContext;
@@ -97,6 +109,10 @@ int main(int argc, char **argv)
 
     bool allow_mult = false;
     context->prefs->GetAllowMultipleInstances(&allow_mult);
+
+#if defined(solaris)
+    allow_mult = true;
+#endif
 
     if (!allow_mult) {
         iCmdSem = semget(tSemKey, 1, IPC_CREAT | 0666);

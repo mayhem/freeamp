@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998-1999 EMusic.com
+	Portions Copyright (C) 1998-2000 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,43 +18,47 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.cpp,v 1.2 1999/10/19 07:12:48 elrod Exp $
+	$Id: pthreadthread.h,v 1.2 2000/05/06 12:05:48 ijr Exp $
 ____________________________________________________________________________*/
 
-
-#include "config.h"
+#ifndef INCLUDED_PTHREAD_THREAD_H
+#define INCLUDED_PTHREAD_THREAD_H
 
 #include <pthread.h>
-#include <iostream.h>
+#include "thread.h"
 
-#include "semaphore.h"
+#include "mutex.h"
 
 
-Semaphore::Semaphore(int cnt) {
-    count = cnt;
-    pthread_mutex_init(&mutex,NULL);
-    pthread_cond_init(&cond,NULL);
-}
+class pthreadThread : public Thread{
 
-Semaphore::~Semaphore() {
-    pthread_mutex_destroy(&mutex);
-    pthread_cond_destroy(&cond);
-}
+public:
+	pthreadThread();
+       ~pthreadThread();
 
-void Semaphore::Wait() {
-    //decrement the semaphore
-    pthread_mutex_lock(&mutex);
-    count--;
-    while (count <=0) {
-	pthread_cond_wait(&cond,&mutex);
-    }
-    pthread_mutex_unlock(&mutex);
-}
 
-void Semaphore::Signal() {
-    // increment the semaphore
-    pthread_mutex_lock(&mutex);
-    count++;
-    pthread_mutex_unlock(&mutex);
-    pthread_cond_signal(&cond);
-}
+	virtual bool Create(thread_function function, void* arg);
+	virtual void Destroy();
+	virtual void Suspend();
+	virtual void Resume();
+	virtual void Join();
+	virtual uint32 GetPriority() const;
+	virtual uint32 SetPriority(uint32 priority);
+
+	static void *internalThreadFunction(void *);
+	void *InternalThreadFunction();
+
+private:
+	pthread_t       m_threadHandle;
+	unsigned	m_threadId;
+	bool            m_suspended;
+	Mutex          *m_suspendMutex;
+	thread_function m_function;
+	void           *m_arg;
+};
+
+#endif /* _LINUX_THREAD_H */
+
+
+
+

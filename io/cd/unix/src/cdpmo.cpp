@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.7 2000/05/04 11:30:36 robert Exp $
+        $Id: cdpmo.cpp,v 1.8 2000/05/06 12:05:49 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -58,13 +58,6 @@ CDPMO::CDPMO(FAContext *context) :
    m_cdDesc = -1;
    sentData = false;
    trackDone = false;
-
-   if (!m_pBufferThread)
-   {
-      m_pBufferThread = Thread::CreateThread();
-      assert(m_pBufferThread);
-      m_pBufferThread->Create(CDPMO::StartWorkerThread, this);
-   }
 }
 
 CDPMO::~CDPMO()
@@ -129,6 +122,13 @@ Error CDPMO::SetTo(const char *url)
 
    if (m_track < 1 || m_track > MAX_TRACKS)
        return kError_InvalidTrack;
+
+   if (!m_pBufferThread)
+   {
+      m_pBufferThread = Thread::CreateThread();
+      assert(m_pBufferThread);
+      m_pBufferThread->Create(CDPMO::StartWorkerThread, this);
+   }
 
    cd_play_track(m_cdDesc, m_track, m_track);
 

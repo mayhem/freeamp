@@ -18,13 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: timer.cpp,v 1.4 2000/04/06 22:36:41 ijr Exp $
+	$Id: timer.cpp,v 1.5 2000/05/06 12:05:48 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
 #include "timer.h"
 
-#ifdef __linux__
+#if defined(__linux__) || defined(solaris)
 #include <unistd.h>
 #define GoToSleep(x) usleep(x*1000)
 #elif defined(WIN32)
@@ -52,6 +52,7 @@ Timer::~Timer()
     {
         m_thread->Resume();
         m_semaphore.Wait();
+        m_thread->Join();
     }
 }
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.38 2000/04/28 00:42:54 robert Exp $
+   $Id: pullbuffer.cpp,v 1.39 2000/05/06 12:05:49 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -69,7 +69,8 @@ PullBuffer::~PullBuffer(void)
       delete m_pPullBuffer;
 
    delete m_pMutex;
-   delete m_pName;
+   if (m_pName)
+       delete m_pName;
 }
 
 void PullBuffer::SetName(char *name)

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.218 2000/08/04 23:28:55 ijr Exp $
+        $Id: player.cpp,v 1.219 2000/08/05 01:25:11 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -95,7 +95,7 @@ EventQueue()
     m_APSInterface = new APSInterface(m_faDir);
     m_context->aps = m_APSInterface;
 
-    delete m_faDir;
+    delete [] m_faDir;
 
     // cout << "Creating player..." << endl;
     m_eventSem = new Semaphore();

@@ -20,7 +20,7 @@
 #	along with this program; if not, write to the Free Software
 #	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #	
-#	$Id: x86gas.s,v 1.4 1999/03/04 01:06:00 mhw Exp $
+#	$Id: x86gas.s,v 1.5 1999/03/04 01:34:50 mhw Exp $
 #
 
 .extern wincoef
@@ -59,14 +59,14 @@ window_dual:	#%% proc
 	addl $64,%esi		# si += 64
 	addl $4,%ecx		# Advance coef pointer
 	andl %edi,%esi		# si &= 511
-	faddp			# Add to sum
+	faddp %st,%st(1)	# Add to sum
 	
 	flds (%ecx)		# Push *coef
 	fmuls (%ebp,%ebx,4)	# Multiply by vbuf[bx]
 	addl $64,%ebx		# bx += 64
 	addl $4,%ecx		# Advance coef pointer
 	andl %edi,%ebx		# bx &= 511
-	fsubrp			# Subtract from sum
+	fsubrp %st,%st(1)	# Subtract from sum
 .endr
 
 	decb %dl		# --j
@@ -107,7 +107,7 @@ window_dual:	#%% proc
 	addl $64,%ebx		# bx += 64
 	addl $4,%ecx		# Increment coef pointer
 	andl %edi,%ebx		# bx &= 511
-	faddp			# Add to sum
+	faddp %st,%st(1)	# Add to sum
 .endr
 	
 	decb %dl		# --j
@@ -149,14 +149,14 @@ window_dual:	#%% proc
 	addl $64,%esi		# si += 64
 	subl $4,%ecx		# Back up coef pointer
 	andl %edi,%esi		# si &= 511
-	faddp			# Add to sum
+	faddp %st,%st(1)	# Add to sum
 	
 	flds (%ecx)		# Push *coef
 	fmuls (%ebp,%ebx,4)	# Multiply by vbuf[bx]
 	addl $64,%ebx		# bx += 64
 	subl $4,%ecx		# Back up coef pointer
 	andl %edi,%ebx		# bx &= 511
-	faddp			# Add to sum
+	faddp %st,%st(1)	# Add to sum
 .endr
 
 	decb %dl		# --j
@@ -235,9 +235,9 @@ fdct32:		#%% proc
 	flds (%edi,%edx)	# push x[p]
 	fld %st(1)		# Duplicate top two stack entries
 	fld %st(1)
-	faddp
+	faddp %st,%st(1)
 	fstps (%esi,%edx)	# f[p] = x[p] + x[q]
-	fsubp
+	fsubp %st,%st(1)
 	fmuls (%ebp,%edx)
 	fstps (%ebx,%edx)	# f2[p] = coef[p] * (x[p] - x[q])
 	addl $4,%edx		# p += 4
@@ -248,9 +248,9 @@ fdct32:		#%% proc
 	flds (%edi,%edx)	# push x[p]
 	fld %st(1)		# Duplicate top two stack entries
 	fld %st(1)
-	faddp
+	faddp %st,%st(1)
 	fstps (%esi,%edx)	# f[p] = x[p] + x[q]
-	fsubp
+	fsubp %st,%st(1)
 	fmuls (%ebp,%edx)
 	fstps (%ebx,%edx)	# f2[p] = coef[p] * (x[p] - x[q])
 	addl $4,%edx		# p += 4

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: drawplayer.cpp,v 1.13 1998/11/09 00:48:35 elrod Exp $
+	$Id: drawplayer.cpp,v 1.14 1998/11/09 02:01:32 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1321,7 +1321,7 @@ LRESULT WINAPI MainWndProc( HWND hwnd,
 
 
             SetTimer(hwnd, 0x00, 100, NULL);
-            //SetTimer(hwnd, 0x01, 200, NULL);
+            SetTimer(hwnd, 0x01, 200, NULL);
 			break;
 		}
 

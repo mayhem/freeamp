@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: ToolBarButton.cpp,v 1.1 2000/03/24 01:18:41 hiro Exp $
+        $Id: ToolBarButton.cpp,v 1.2 2000/07/13 04:20:43 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "ToolBarButton.h"
@@ -60,7 +60,7 @@ ToolBarButton::Draw( BRect updateRect )
 
     MovePenTo( 0.5 * ( bounds.Width() - m_bitmapEnabledOn->Bounds().Width() ),
                bounds.top + MARGIN );
-    SetDrawingMode( B_OP_OVER );
+    SetDrawingMode( B_OP_ALPHA );
     DrawBitmap( m_bitmapEnabledOn );
 
     // Label.
@@ -69,6 +69,7 @@ ToolBarButton::Draw( BRect updateRect )
     MovePenTo( bounds.left + MARGIN, bounds.bottom - MARGIN );
     SetHighColor( 0, 0, 0, 255 );
     DrawString( Label() );
+	SetDrawingMode( B_OP_COPY );
 }
 
 void

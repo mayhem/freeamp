@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dialview.h,v 1.1 1999/03/03 09:03:40 elrod Exp $
+	$Id: dialview.h,v 1.2 1999/03/15 09:16:03 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _DialView_H_
@@ -57,6 +57,9 @@ class DialView : public View {
     virtual void LeftButtonUp(int32 x, int32 y, int32 modifiers);
 
     virtual void Invoke(void);
+
+    int32 Position() const { return m_position; }
+    void SetPosition(int32 position);
 
  protected:
     

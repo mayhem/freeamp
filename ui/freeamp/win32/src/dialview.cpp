@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dialview.cpp,v 1.3 1999/03/15 02:00:46 elrod Exp $
+	$Id: dialview.cpp,v 1.4 1999/03/15 09:16:03 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -113,16 +113,26 @@ MouseMove(int32 x, int32 y, int32 modifiers)
 
         delta = m_clickPoint.y - y;
 
-        if(delta > 0) // dial up
+        /*char buffer[256];
+        wsprintf(buffer,"delta = %d\r\n", delta);
+        OutputDebugString(buffer);*/
+
+        m_position = delta;
+
+        if(delta >= 0) // dial up
         {
-            m_position += delta;
+            m_offset = m_position % 5 * Width();
         }
         else if(delta < 0) // dial down
         {
-            m_position += delta;
+            m_offset = (4 - (abs(m_position) % 5)) * Width();
         }
 
-        m_offset = abs(m_position % 5) * Width();
+        /*char buffer[256];
+        wsprintf(buffer,"offset = %d\r\n", m_offset);
+        OutputDebugString(buffer);*/
+
+        //m_offset = abs(m_position % 5) * Width();
 
         /*if(y == 0 || y == Height() - 1)
             SetCursorPos(m_screenPoint.x, m_screenPoint.y);*/
@@ -170,7 +180,7 @@ LeftButtonDown(int32 x, int32 y, int32 modifiers)
     ShowCursor(FALSE);
 
     MapWindowPoints(Window(), HWND_DESKTOP, (LPPOINT)&rect, 2);
-    //ClipCursor(&rect);
+    ClipCursor(&rect);
 
     NMHDR nmhdr;
 
@@ -206,6 +216,27 @@ DialView::
 Invoke()
 {
     PostMessage(Window(), WM_COMMAND, (WPARAM)m_command, (LPARAM) this);
+}
+
+void
+DialView::
+SetPosition(int position)
+{
+    if(position != m_position)
+    {
+        m_position = position;
+
+        if(m_position >= 0) // dial up
+        {
+            m_offset = m_position % 5 * Width();
+        }
+        else if(m_position < 0) // dial down
+        {
+            m_offset = (4 - (abs(m_position) % 5)) * Width();
+        }
+
+        Invalidate();
+    }
 }
 
 void 

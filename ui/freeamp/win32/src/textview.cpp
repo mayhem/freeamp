@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: textview.cpp,v 1.2 1999/03/14 07:14:53 elrod Exp $
+	$Id: textview.cpp,v 1.3 1999/03/15 09:16:04 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -251,7 +251,10 @@ SetText(char* text)
     // that will hold the pre-rendered string
     for(i = 0; m_text[i]; i++)
     {
-        textLength += m_fontWidths[m_text[i] - 32];
+        if(m_text[i] < 127 && m_text[i] > 31)
+            textLength += m_fontWidths[m_text[i] - 32];
+        else
+            textLength += m_fontWidths[63 - 32];
     }
 
     m_needToScroll = (textLength > Width());
@@ -278,16 +281,30 @@ SetText(char* text)
     // render the string
     for(i = 0; m_text[i]; i++)
     {
+        int32 y;
+        int32 width;
+
+        if(m_text[i] < 127 && m_text[i] > 31)
+        {
+            y = (m_text[i] - 32)*m_fontHeight;
+            width = m_fontWidths[m_text[i] - 32];
+        }
+        else
+        {
+            y = (63 - 32)*m_fontHeight;
+            width = m_fontWidths[63 - 32];
+        }
+
         Renderer::Copy( m_textBitmap,
                         offset, 
                         0,     
-                        m_fontWidths[m_text[i] - 32],   
+                        width,   
                         m_fontHeight,
                         m_fontBitmap,    
                         0,
-                        (m_text[i] - 32)*m_fontHeight);
+                        y);
 
-        offset += m_fontWidths[m_text[i] - 32];
+        offset += width;
     }
 
     // see if we need to pad bitmap out to view length

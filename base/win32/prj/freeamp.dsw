@@ -108,9 +108,6 @@ Package=<4>
     Project_Dep_Name rmp
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name simple
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name soundcard
     End Project Dependency
     Begin Project Dependency
@@ -127,6 +124,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name zlib
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pmp300
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name musicbrowser

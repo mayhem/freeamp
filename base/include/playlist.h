@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.21 1999/10/17 05:40:09 ijr Exp $
+	$Id: playlist.h,v 1.40.4.22 1999/10/18 05:35:24 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -301,6 +301,8 @@ class PlaylistManager {
 
     static void metadata_thread_function(void* arg);
     void MetaDataThreadFunction(vector<PlaylistItem*>* list);
+
+    void InternalSetCurrentIndex(uint32 index);
 
 
  private:

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.5 1999/10/25 12:50:31 hiro Exp $
+	$Id: soundcardpmo.h,v 1.6 1999/11/04 22:59:38 hiro Exp $
 ____________________________________________________________________________*/
 
 
@@ -105,13 +105,13 @@ private:
 	media_raw_audio_format	m_format;
 	BSoundPlayer *			m_player;
 	Mutex					m_lock;
-//	Mutex					m_pauseMutex;
 	size_t					m_dataSize;
 	Semaphore				m_eventSem;
 	BLocker					m_pauseLock;
     int32                   m_bytesPerSample;
     int32                   m_lastFrame;
     int64                   m_totalBytesWritten;
+    Event*                  m_event;
 #if DEBUG_SAVE_PCM
 	FILE*					m_pcmSaveFile;
 #endif

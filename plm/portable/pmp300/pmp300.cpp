@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.10 1999/09/02 21:37:33 elrod Exp $
+	$Id: pmp300.cpp,v 1.1.2.11 1999/09/03 08:31:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <direct.h>
 
 using namespace std;
 
@@ -531,6 +532,14 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                 uint32 externalTotal = 0, internalTotal = 0, usedMem; 
                 uint32 count, index;
                 char* path = new char[_MAX_PATH];
+                char* tempPath = new char[_MAX_PATH];
+                uint32 length = _MAX_PATH;
+
+                // get a temp path
+                m_context->prefs->GetInstallDirectory(tempPath, &length);
+                strcat(tempPath, tmpnam(NULL));
+
+                mkdir(tempPath);
 
                 // first get current state of device
                 // we break our lists into internal and 
@@ -581,7 +590,7 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                         {
                             struct stat st;
 
-                            uint32 length = _MAX_PATH;
+                            length = _MAX_PATH;
 
                             URLToFilePath(item->URL().c_str(), path, &length);
 
@@ -651,11 +660,58 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                                    PlaylistItemCompare(item)) == newInternal.end())
                         {
                             // need to delete it
-                            if(find(newExternal.begin(), 
-                                newExternal.end(), item) != newExternal.end())
+                            vector<PlaylistItem*>::iterator position;
+
+                            if((position = find_if(newExternal.begin(), 
+                                                   newExternal.end(), 
+                                                   PlaylistItemCompare(item))) != newExternal.end())
                             {
                                 // need to download it to temp file first
+                                // and then upload it to other card
+                                // in the next stage...
 
+                                string itemPath = item->URL();
+                                string downloadPath = tempPath;
+                                downloadPath += DIR_MARKER_STR;
+
+                                downloadPath.insert(downloadPath.size(), 
+                                                    itemPath, 
+                                                    itemPath.rfind('/') + 1, 
+                                                    itemPath.size());
+
+                                RioProgressStruct ps;
+
+                                memset(&ps, 0x00, sizeof(ps));
+
+                                ps.function = function;
+                                ps.cookie = cookie;
+                                ps.item = item;
+
+                                if(!rioInternal.RxFile(downloadPath.c_str(), rioProgress, &ps))
+                                {
+                                    if(function)
+                                    {
+                                        PLMEvent event;
+    
+                                        event.type = kPLMEvent_Error;
+                                        event.data.errorData.errorCode = rioInternal.GetErrorID();
+                                        event.eventString = "Download failed, ";
+                                        event.eventString += rioInternal.GetErrorStr();
+
+                                        function(&event, cookie);
+                                    }
+
+                                    if(rioInternal.GetErrorID() == CRIO_ERROR_INTERRUPTED)
+                                        result = kError_UserCancel;
+                                    else
+                                        result = kError_UnknownErr;
+                                    break;
+                                }
+
+                                length = _MAX_PATH;
+                                FilePathToURL(downloadPath.c_str(), path, &length);
+
+                                (*position)->SetURL(path);
                             }
 
                             string::size_type pos = item->URL().rfind("/") + 1;
@@ -697,13 +753,59 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                                        PlaylistItemCompare(item)) == newExternal.end())
                             {
                                 // need to delete it
-                                if(find(newInternal.begin(), 
-                                    newInternal.end(), item) != newInternal.end())
+
+                                vector<PlaylistItem*>::iterator position;
+
+                                if((position = find_if(newInternal.begin(), 
+                                                    newInternal.end(), 
+                                                    PlaylistItemCompare(item))) != newInternal.end())
                                 {
                                     // need to download it to temp file first
                                     // and then upload it to other card
                                     // in the next stage...
+                                    
+                                    string itemPath = item->URL();
+                                    string downloadPath = tempPath;
+                                    downloadPath += DIR_MARKER_STR;
 
+                                    downloadPath.insert(downloadPath.size(), 
+                                                        itemPath, 
+                                                        itemPath.rfind('/') + 1, 
+                                                        itemPath.size());
+
+                                    RioProgressStruct ps;
+
+                                    memset(&ps, 0x00, sizeof(ps));
+
+                                    ps.function = function;
+                                    ps.cookie = cookie;
+                                    ps.item = item;
+
+                                    if(!rioExternal.RxFile(downloadPath.c_str(), rioProgress, &ps))
+                                    {
+                                        if(function)
+                                        {
+                                            PLMEvent event;
+        
+                                            event.type = kPLMEvent_Error;
+                                            event.data.errorData.errorCode = rioExternal.GetErrorID();
+                                            event.eventString = "Download failed, ";
+                                            event.eventString += rioExternal.GetErrorStr();
+
+                                            function(&event, cookie);
+                                        }
+
+                                        if(rioInternal.GetErrorID() == CRIO_ERROR_INTERRUPTED)
+                                            result = kError_UserCancel;
+                                        else
+                                            result = kError_UnknownErr;
+                                        break;
+                                    }
+
+                                    length = _MAX_PATH;
+                                    FilePathToURL(downloadPath.c_str(), path, &length);
+
+                                    (*position)->SetURL(path);
                                 }
 
                                 string::size_type pos = item->URL().rfind("/") + 1;
@@ -737,21 +839,23 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                 // if all is well we add new files
                 // to each card
                 if(IsntError(result))
-                {
+                {                 
                     // remove NULLs caused by deletes
-                    remove_if(origInternal.begin(), 
-                              origInternal.end(), 
-                              bind2nd(equal_to<PlaylistItem*>(), NULL));
+                    origInternal.erase(
+                        remove(origInternal.begin(), 
+                               origInternal.end(), 
+                               (PlaylistItem*)NULL), 
+                        origInternal.end());
 
-                    remove_if(origExternal.begin(), 
-                              origExternal.end(), 
-                              bind2nd(equal_to<PlaylistItem*>(), NULL));
+                    origExternal.erase(
+                        remove(origExternal.begin(), 
+                               origExternal.end(), 
+                               (PlaylistItem*)NULL), 
+                        origExternal.end());
 
                     // sync deletes back to the cards
                     rioInternal.TxDirectory();
                     rioExternal.TxDirectory();
-
-                    count = origInternal.size();
 
                     if(function)
                     {
@@ -771,7 +875,7 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
 
                         if(item->URL().find("file://") != string::npos)
                         {
-                            uint32 length = _MAX_PATH;
+                            length = _MAX_PATH;
 
                             URLToFilePath(item->URL().c_str(), path, &length);
 
@@ -804,7 +908,7 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                                 break;
                             }
 
-                            origInternal.push_back(item);
+                            origInternal.push_back(new PlaylistItem(*item));
                         }
                     }
 
@@ -818,7 +922,7 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
 
                             if(item->URL().find("file://") != string::npos)
                             {
-                                uint32 length = _MAX_PATH;
+                                length = _MAX_PATH;
 
                                 URLToFilePath(item->URL().c_str(), path, &length);
 
@@ -851,7 +955,7 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                                     break;
                                 }
 
-                                origExternal.push_back(item);
+                                origExternal.push_back(new PlaylistItem(*item));
                             }
                         }
                     }
@@ -919,6 +1023,52 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                     function(&event, cookie);
                 }
 
+                // clean up
+                length = _MAX_PATH;
+                FilePathToURL(tempPath, path, &length);
+                strcpy(tempPath, path);
+
+                count = origInternal.size();
+
+                for(index = 0; index < count; index++)
+                {
+                    PlaylistItem* item = origInternal[index];
+
+                    if(item->URL().find(tempPath) != string::npos)
+                    {
+                        length = _MAX_PATH;
+
+                        URLToFilePath(item->URL().c_str(), path, &length);
+
+                        remove(path);
+                    }
+
+                    delete item;
+                }
+
+                count = origExternal.size();
+
+                for(index = 0; index < count; index++)
+                {
+                    PlaylistItem* item = origExternal[index];
+
+                    if(item->URL().find(tempPath) != string::npos)
+                    {
+                        length = _MAX_PATH;
+
+                        URLToFilePath(item->URL().c_str(), path, &length);
+
+                        remove(path);
+                    }
+
+                    delete item;
+                }
+ 
+                
+                URLToFilePath(tempPath, path, &length);
+                rmdir(path);
+
+                delete [] tempPath;
                 delete [] path;
             }
         }       
@@ -953,8 +1103,76 @@ Error PMP300::DownloadSong(DeviceInfo* device,
 
             if(rioPresent)
             {
-                result = kError_FeatureNotSupported;
+                char* path = new char[_MAX_PATH];
+                uint32 length = _MAX_PATH;
 
+                URLToFilePath(url, path, &length);
+
+                string itemPath = item->URL();
+                string downloadPath = path;
+
+                downloadPath.replace(downloadPath.rfind(DIR_MARKER) + 1, 
+                                     downloadPath.size(), 
+                                     itemPath, 
+                                     itemPath.rfind('/') + 1, 
+                                     itemPath.size());
+                
+                RioProgressStruct ps;
+
+                memset(&ps, 0x00, sizeof(ps));
+
+                ps.function = function;
+                ps.cookie = cookie;
+                ps.item = item;
+
+                result = kError_NoErr;
+
+                rio.RxDirectory();
+
+                if(!rio.RxFile(downloadPath.c_str(), rioProgress, &ps))
+                {
+                    result = kError_UnknownErr;
+
+                    if(rio.GetErrorID() == CRIO_ERROR_FILENOTFOUND)
+                    {
+                        rio.UseExternalFlash(true);
+                        rio.RxDirectory();
+
+                        if(rio.RxFile(downloadPath.c_str(), rioProgress, &ps))
+                        {
+                            result = kError_NoErr;
+                        }
+                    }                   
+                }
+
+                if(IsntError(result))
+                {
+                    if(downloadPath != path)
+                    {
+                        if(rename(downloadPath.c_str(), path))
+                        {
+                            result = kError_FileNoAccess;
+                        }
+                    }
+                }
+                else
+                {
+                    if(function)
+                    {
+                        PLMEvent event;
+
+                        event.type = kPLMEvent_Error;
+                        event.data.errorData.errorCode = rio.GetErrorID();
+                        event.eventString = "Download failed, ";
+                        event.eventString += rio.GetErrorStr();
+
+                        function(&event, cookie);
+                    }
+
+                    if(rio.GetErrorID() == CRIO_ERROR_INTERRUPTED)
+                        result = kError_UserCancel;
+                }
+                
                 if(function)
                 {
                     PLMEvent event;
@@ -963,6 +1181,8 @@ Error PMP300::DownloadSong(DeviceInfo* device,
 
                     function(&event, cookie);
                 }
+
+                delete [] path;
             }
         }   
     }

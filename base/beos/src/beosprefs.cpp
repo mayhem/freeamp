@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: beosprefs.cpp,v 1.9 2000/03/18 07:01:10 hiro Exp $
+        $Id: beosprefs.cpp,v 1.10 2000/07/10 04:19:06 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -505,6 +505,14 @@ SetDefaults()
         string tempdir = FreeampDir(NULL);
         tempdir += "/MyMusic";
         SetPrefString(kSaveMusicDirPref, tempdir.c_str());
+    }
+
+    size = sizeof(buf);
+    if (GetPrefString(kWatchThisDirectoryPref, buf, &size) == kError_NoPrefValue)
+    {
+        string tempdir = FreeampDir(NULL);
+        tempdir += "/MyMusic";
+        SetPrefString(kWatchThisDirectoryPref, tempdir.c_str());
     }
 
     Preferences::SetDefaults();

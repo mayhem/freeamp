@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.62 2000/01/04 19:07:47 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.63 2000/01/10 19:38:52 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -62,12 +62,12 @@ void WorkerThreadStart(void* arg);
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
-const char *szWelcomeMsg = "Welcome to the "BRANDING" Player!";
+const char *szWelcomeMsg = "Welcome to "the_BRANDING"!";
 const char *szParseError = "Parsing the Theme description failed. Cause: ";
 const char *szCantFindHelpError = "Cannot find the help files. Please make "
                                   "sure that the help files are properly "
                                   "installed, and you are not running "
-                                  BRANDING" from the build directory.";
+                                  the_BRANDING" from the build directory.";
 const char *szKeepThemeMessage = "Would you like to keep this theme?";
 const int iVolumeChangeIncrement = 10;
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.9 1999/12/11 23:50:26 hiro Exp $
+	$Id: soundcardpmo.cpp,v 1.10 2000/01/10 19:38:52 elrod Exp $
 ____________________________________________________________________________*/
 
 #define DEBUG 0
@@ -251,7 +251,7 @@ SoundCardPMO::Init( OutputInfo* info )
 
 	if ( m_player->InitCheck() < B_NO_ERROR )
 	{
-		PRINT(( "SoundPlayerPMO::Init:error constructing BSOundPlayer\n" ));
+		PRINT(( "SoundPlayerPMO::Init:error constructing BSoundPlayer\n" ));
 		return kError_InitFailed;
 	}
 

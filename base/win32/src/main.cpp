@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.40 1999/12/17 11:20:29 elrod Exp $
+	$Id: main.cpp,v 1.41 2000/01/10 19:38:52 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -59,7 +59,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
     runOnceMutex = CreateMutex(	NULL,
 							    TRUE,
-							    BRANDING " Should Only Run One Time!");
+							    The_BRANDING" Should Only Run One Time!");
 
     if(GetLastError() == ERROR_ALREADY_EXISTS)
     {
@@ -401,7 +401,7 @@ const char* kMimeTypes[] = {
 };
 
 const char* kOpenCommand = "\\shell\\open\\command";
-const char* kNotifyStolen = "Music files normally associated with " BRANDING "\r\n"
+const char* kNotifyStolen = "Music files normally associated with "the_BRANDING "\r\n"
                             "have been associated with another application.\r\n"
                             "Do you want to reclaim these music files?";
 

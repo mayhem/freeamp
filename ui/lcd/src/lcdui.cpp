@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.11 1999/12/16 02:37:56 ijr Exp $
+	$Id: lcdui.cpp,v 1.12 2000/01/10 19:38:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -148,12 +148,12 @@ Error LcdUI::Init(int32 startupType) {
     sock_send_string(m_sock, "widget_add FA songname scroller\n");
     sock_send_string(m_sock, "widget_add FA timeline string\n");
     sock_send_string(m_sock, "widget_add FA artist scroller\n");
-    sock_send_string(m_sock, "widget_set FA songname 1 1 20 1 h 2 {Welcome To "BRANDING"}\n");
+    sock_send_string(m_sock, "widget_set FA songname 1 1 20 1 h 2 {Welcome To "the_BRANDING"!"}\n");
     sock_send_string(m_sock, "widget_set FA timeline 1 4 {total       00:00:00}\n");
     sock_send_string(m_sock, "widget_del FA heartbeat\n");
     //sock_send_string(m_sock, "screen_set FA priority 32\n");
 #else 
-    lcd.string(1,1," Welcome To "BRANDING);
+    lcd.string(1,1," Welcome To "the_BRANDING"!");
     lcd.flush();
 #endif
     m_lcdLock->Release();

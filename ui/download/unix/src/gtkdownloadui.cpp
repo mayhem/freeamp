@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.7 1999/12/17 05:09:33 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.8 2000/01/10 19:38:52 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -269,7 +269,7 @@ void DownloadUI::ShowHelp(void)
         LaunchBrowser((char *)oHelpFile.c_str());
     else {
         GTKMessageDialog oBox;
-        string oMessage("Cannot find the help files. Please make sure that the help files are properly installed, and you are not running "BRANDING" from the build directory.");
+        string oMessage("Cannot find the help files. Please make sure that the help files are properly installed, and you are not running "the_BRANDING" from the build directory.");
         oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk, true);
     }
 }

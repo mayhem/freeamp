@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.49 2000/01/05 20:12:13 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.50 2000/01/10 19:38:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -186,7 +186,7 @@ void show_help(GTKMusicBrowser *p, guint action, GtkWidget *w)
         LaunchBrowser((char *)oHelpFile.c_str());
     else {
         GTKMessageDialog oBox;
-        string oMessage("Cannot find the help files. Please make sure that the help files are properly installed, and you are not running "BRANDING" from the build directory.");
+        string oMessage("Cannot find the help files. Please make sure that the help files are properly installed, and you are not running "the_BRANDING" from the build directory.");
         oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk, true);
     }
 }

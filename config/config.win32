@@ -18,13 +18,20 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.17 1999/12/21 20:31:44 robert Exp $
+	$Id: config.win32,v 1.18 2000/01/10 19:38:52 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
 #define CONFIG_H
 
+// name of player
 #define BRANDING "FreeAmp"
+
+// name of player + "The" and "the" if it is needed for your player name. for 
+// example, Welcome to FreeAmp does not need the "the" but Welcome to the 
+// EMusic Player does in order to read well.
+#define The_BRANDING "FreeAmp"
+#define the_BRANDING "FreeAmp"
 #define BRANDING_URL "http://www.freeamp.org"
 #define BRANDING_UPDATE_SERVER "fatman.freeamp.org"
 #define BRANDING_UPDATE_PATH "/update/freeamp/"

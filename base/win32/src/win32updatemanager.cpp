@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.5 1999/12/12 22:54:40 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.6 2000/01/10 19:38:52 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -102,10 +102,10 @@ Error Win32UpdateManager::UpdateComponents(UMCallBackFunction function,
         int32 response;
 
         response = MessageBox(NULL, 
-                              BRANDING" needs to close down and restart in order to replace components\r\n"
+                              The_BRANDING" needs to close down and restart in order to replace components\r\n"
                               "which are being used. If you do not wish to quit the application you\r\n"
                               "can choose \"Cancel\" and update again at a later time.",
-                              "Restart "BRANDING"?", 
+                              "Restart "the_BRANDING"?", 
                               MB_OKCANCEL|MB_ICONQUESTION|MB_SETFOREGROUND);
 
         if(response == IDOK)

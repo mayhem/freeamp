@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.115 1999/12/14 17:01:10 robert Exp $
+   $Id: xinglmc.cpp,v 1.116 2000/01/10 19:38:52 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -98,7 +98,7 @@ const int iInitialFrameSize = iMaxFrameSize * iNumSanityCheckFrames;
 
 const char *szFailRead = "Cannot read MP3 data from input plugin.";
 const char *szFailWrite = "Cannot write audio data to output buffer.";
-const char *szCannotDecode = BRANDING" cannot play this file/stream. This file/stream may be corrupted.";
+const char *szCannotDecode = The_BRANDING" cannot play this file/stream. This file/stream may be corrupted.";
 
 XingLMC::XingLMC(FAContext *context) :
          LogicalMediaConverter(context)

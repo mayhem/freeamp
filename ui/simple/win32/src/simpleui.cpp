@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.22 1999/10/19 07:13:32 elrod Exp $
+	$Id: simpleui.cpp,v 1.23 2000/01/10 19:38:53 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -607,7 +607,7 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
 
             m_ui->ReadPreferences();
 
-            m_ui->SetTrayTooltip("Welcome to "BRANDING);
+            m_ui->SetTrayTooltip("Welcome to "the_BRANDING);
 
 			result = TRUE;
 

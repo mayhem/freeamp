@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.3 1999/10/21 02:29:51 elrod Exp $
+	$Id: main.cpp,v 1.4 2000/01/10 19:38:53 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -33,7 +33,7 @@ ____________________________________________________________________________*/
 #include "win32prefs.h"
 #include "updatemanager.h"
 
-const char* kMessage = "An instance of "BRANDING" is currently running. Please "
+const char* kMessage = "An instance of "the_BRANDING" is currently running. Please "
                        "close the application before continuing the update.";
 
 void MoveFiles(const char* src, const char* dest);
@@ -54,7 +54,7 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     {
         int32 result;
 
-        result = MessageBox(NULL, kMessage, "Updating "BRANDING, MB_RETRYCANCEL);
+        result = MessageBox(NULL, kMessage, "Updating "the_BRANDING, MB_RETRYCANCEL);
 
         if(result == IDCANCEL)
         {

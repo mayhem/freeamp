@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKMessageDialog.cpp,v 1.8 2000/01/18 20:40:39 ijr Exp $
+   $Id: GTKMessageDialog.cpp,v 1.9 2000/06/02 15:30:29 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <gtk/gtk.h>
@@ -97,7 +97,8 @@ MessageDialogReturnEnum MessageDialog::
 
     int iRet = 0;
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_modal(GTK_WINDOW(window), TRUE);
+    if (InEventLoop)
+        gtk_window_set_modal(GTK_WINDOW(window), TRUE);
     gtk_signal_connect(GTK_OBJECT(window), "destroy",
                        GTK_SIGNAL_FUNC(message_destroy), (gpointer)InEventLoop);
     gtk_signal_connect(GTK_OBJECT(window), "delete_event",
@@ -195,7 +196,7 @@ MessageDialogReturnEnum MessageDialog::
 
     if (!InEventLoop) {
         gdk_threads_leave();
-        while (iRet == 0)
+        while (iRet == 0) 
             usleep(20);
     }
     else {

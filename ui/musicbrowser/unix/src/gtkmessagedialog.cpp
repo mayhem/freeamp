@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: gtkmessagedialog.cpp,v 1.4 2000/01/16 20:07:42 ijr Exp $
+   $Id: gtkmessagedialog.cpp,v 1.5 2000/06/02 15:30:29 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <gtk/gtk.h>
@@ -122,7 +122,8 @@ MessageDialogReturnEnum GTKMessageDialog::
                              bool inMain)
 {
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_modal(GTK_WINDOW(window), TRUE);
+    if (inMain)
+        gtk_window_set_modal(GTK_WINDOW(window), TRUE);
     gtk_signal_connect(GTK_OBJECT(window), "destroy",
                        GTK_SIGNAL_FUNC(message_destroy), (gpointer)inMain);
     gtk_window_set_title(GTK_WINDOW(window), oTitle.c_str());

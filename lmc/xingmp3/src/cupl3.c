@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupl3.c,v 1.4 1999/01/25 23:00:36 robert Exp $
+	$Id: cupl3.c,v 1.5 1999/03/23 19:51:44 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cupL3.c  ***************************************************
@@ -879,6 +879,12 @@ IN_OUT L3audio_decode_MPEG2(unsigned char *bs, unsigned char *pcm)
       buf_ptr1 = side_info.main_data_begin;
    }
    nbytes = padframebytes - side_bytes - crcbytes;
+   // RAK: This is no bueno. :-(
+	if (nbytes < 0 || nbytes > NBUF)
+	{
+	    in_out.in_bytes = 0;
+		 return in_out;
+   }
    memmove(buf + buf_ptr1, bs + side_bytes + crcbytes, nbytes);
    buf_ptr1 += nbytes;
 /*-----------------------*/

@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.69 1999/03/19 23:23:17 robert Exp $
+   $Id: xinglmc.cpp,v 1.70 1999/03/23 19:51:45 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -409,9 +409,9 @@ Error XingLMC::GetHeadInfo()
               int       iFrameBytes, iBitRate;
             
               iFrameBytes = head_info3(((unsigned char *)pBuffer) + 
-                                       m_frameBytes + iForward,
-                                       iNumBytes - (m_frameBytes + iForward), 
-                                       &sHead, &iBitRate, &iForward);
+                                    m_frameBytes + iForward + m_sMpegHead.pad,
+                                    iNumBytes - (m_frameBytes + iForward), 
+                                    &sHead, &iBitRate, &iForward);
               if (m_input)
                  m_input->EndRead(0);
 
@@ -959,6 +959,10 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
    if (bBufferUp && iInPercent < 10 && iOutPercent < 10)
    {
        int iBufferUpBytes;
+
+       assert(m_iBufferSize > 0);
+       assert(m_iBufferUpInterval > 0);
+       assert(m_iBitRate > 0);
 
        iBufferUpBytes = (m_iBitRate * m_iBufferUpInterval * 1000) / 8192;
        if (iBufferUpBytes > m_iBufferSize)

@@ -24,7 +24,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.32 2000/10/19 14:37:13 robert Exp $
+        $Id: alsapmo.cpp,v 1.33 2000/10/19 17:04:10 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -534,6 +534,7 @@ void AlsaPMO::WorkerThread(void)
           iRet = snd_pcm_write(m_handle,pBuffer,m_iDataSize);
           if (iRet == -EAGAIN)
           {
+               CheckForBufferUp();
                WasteTime();
                continue;
           }

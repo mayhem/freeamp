@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.56 2000/01/13 01:04:13 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.57 2000/01/14 09:16:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -234,6 +234,7 @@ class MusicBrowserUI : public UserInterface
 
     // Functions in PlaylistView.cpp
     void  PlaylistListItemAdded(const PlaylistItem* item);
+    void  PlaylistListItemsAdded(const vector<PlaylistItem*>* items);
     void  PlaylistListItemUpdated(const PlaylistItem* item);
     void  PlaylistListItemMoved(const PlaylistItem* item, 
                                 uint32 oldIndex, uint32 newIndex);

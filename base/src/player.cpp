@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.168 2000/01/10 19:38:52 elrod Exp $
+        $Id: player.cpp,v 1.169 2000/01/14 09:16:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1835,6 +1835,7 @@ ServiceEvent(Event * pC)
         case INFO_PlaylistRepeat:
         case INFO_PlaylistUpdated:
         case INFO_PlaylistItemAdded:
+        case INFO_PlaylistItemsAdded:
         case INFO_PlaylistItemRemoved:
         case INFO_PlaylistItemMoved:
         case INFO_PlaylistSorted:

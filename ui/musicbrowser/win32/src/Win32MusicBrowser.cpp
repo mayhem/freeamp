@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.41 2000/01/13 01:04:13 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.42 2000/01/14 09:16:22 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -477,6 +477,28 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             break; 
         }
 
+        case INFO_PlaylistItemsAdded:
+        {
+            PlaylistItemsAddedEvent* pie = (PlaylistItemsAddedEvent*)event;
+
+            if(pie->Manager() == m_oPlm)
+                PlaylistListItemsAdded(pie->Items());
+            else
+            {
+                vector<MusicBrowserUI *>::iterator i;
+
+                for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+                {
+                    if((*i)->PLManager() == pie->Manager())
+                    {
+                        (*i)->PlaylistListItemsAdded(pie->Items());
+                        break;
+                    }
+                }
+            }
+            
+            break; 
+        }
 
         case INFO_PlaylistItemAdded:
         {

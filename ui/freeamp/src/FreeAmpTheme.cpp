@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.47 1999/12/14 13:26:17 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.48 1999/12/14 14:47:42 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1038,7 +1038,7 @@ void FreeAmpTheme::UpdateTimeDisplay(int iCurrentSeconds)
     
     if (m_eTimeDisplayState == kTimeRemaining && m_iTotalSeconds >= 0)
     {    
-        iSeconds = m_iTotalSeconds - iCurrentSeconds;
+        iSeconds = m_iTotalSeconds - iCurrentSeconds - 1;
         if (iSeconds > 3600)
             sprintf(szText, "-%d:%02d:%02d", 
                     iSeconds / 3600,

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.27 1999/12/10 07:16:41 elrod Exp $
+        $Id: localfileinput.cpp,v 1.28 1999/12/14 14:47:40 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -302,7 +302,10 @@ void LocalFileInput::SkipID3v2Tag(void)
         return;
 
     if (strncmp(sHead.tag, "ID3", 3))
+    {
+        fseek(m_fpFile, 0, SEEK_SET);
         return;
+    }    
 
     if (sHead.versionMajor != supportedVersion)
         return;

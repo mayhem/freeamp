@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.h,v 1.2 1998/10/20 20:04:14 elrod Exp $
+	$Id: simpleui.h,v 1.3 1998/10/27 08:35:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SIMPLE_UI_H_
@@ -42,7 +42,7 @@ class SimpleUI : public UserInterface {
     SimpleUI();
     ~SimpleUI();
 
-    virtual void SetTarget(EventQueueRef);
+    virtual void SetTarget(EventQueue*);
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int32,char **);
 
@@ -66,7 +66,7 @@ class SimpleUI : public UserInterface {
 
  private:
     Thread*         m_uiThread;
-    EventQueueRef   m_target;
+    EventQueue*     m_target;
 
     HWND            m_hwnd;
     HWND            m_hwndPlay;

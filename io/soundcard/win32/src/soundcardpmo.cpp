@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.9 1998/10/22 06:07:39 elrod Exp $
+	$Id: soundcardpmo.cpp,v 1.10 1998/10/27 08:35:07 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -31,6 +31,15 @@ ____________________________________________________________________________*/
 #include "SoundCardPMO.h"
 
 HANDLE MCISemaphore;
+
+extern "C" {
+
+PhysicalMediaOutput* Initialize() 
+{
+    return new SoundCardPMO();
+}
+
+}
 
 static 
 void 
@@ -262,51 +271,12 @@ void
 SoundCardPMO::
 Pause()
 {
-     //waveOutPause(m_hwo);
+     waveOutPause(m_hwo);
 }
 
 void 
 SoundCardPMO::
 Resume()
 {
-    //waveOutRestart(m_hwo);
-}
-
-
-void 
-SoundCardPMO::
-Clear()
-{
-	waveOutReset(m_hwo);
-
-	/*if(m_initialized)
-	{
-		uint32 i;
-
-		for(i = 0; i < 3; i++) 
-		{
-			LPWAVEHDR temp = m_wavehdr_array[i];
-
-			if ((temp->dwUser) && (i < 2))
-			{
-				WaitForSingleObject(MCISemaphore, 10000);
-			}
-
-			temp->dwUser = 0;
-
-			for(uint32 j = 0; j < m_data_size; j++)
-			{
-				temp->lpData[j] = (char) 0;
-			}
-		}
-
-		// Reset m_buffer pointers
-		for(i = 0; i < m_channels; i++)
-		{
-			m_buffer[i] = i * m_channels;
-		}
-
-		// Force the m_buffers to m_fillup before playing.
-		m_fillup = m_buffer_count = 0;
-	}*/
+    waveOutRestart(m_hwo);
 }

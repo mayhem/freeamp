@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.7 1998/10/20 08:49:46 elrod Exp $
+	$Id: pmo.h,v 1.8 1998/10/27 08:35:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -62,7 +62,6 @@ public:
 	virtual int32 Write(void * /* pBuffer */, int32 /* bufflength */) { return -1; }
     virtual void Pause(){}
     virtual void Resume(){}
-	virtual void Clear(){ }
 };
 
 #ifdef __cplusplus

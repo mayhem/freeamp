@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.36 1998/10/27 05:44:09 jdw Exp $
+	$Id: player.cpp,v 1.37 1998/10/27 08:35:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -45,7 +45,9 @@ Player *Player::GetPlayer() {
     return m_thePlayer;
 }
 
-Player::Player() {
+Player::
+Player():
+EventQueue() {
     //cout << "Creating player..." << endl;
     m_eventSem = new Semaphore();
     m_eventQueue = new Queue<Event *>();
@@ -286,26 +288,29 @@ void Player::Run(){
         RegistryItem* item = NULL;
 		UserInterface *ui = NULL;
         int32 i = 0;
-	int32 uisActivated = 0;
+	    int32 uisActivated = 0;
+
         while(item = m_uiRegistry->GetItem(i++))
         {
             if(!CompareNames(item->Name(),name))
             {
-		m_ui = (UserInterface *)item->InitFunction()();
+		        m_ui = (UserInterface *)item->InitFunction()();
 		
-		m_ui->SetTarget((EventQueue *)this);
+		        m_ui->SetTarget((EventQueue *)this);
 		
                 m_ui->SetArgs(m_argc, m_argv);
 		
                 RegisterActiveUI(m_ui);
-		uisActivated++;
+		        uisActivated++;
+                break;
             }
         }
-	if (!uisActivated) {
-	    cerr << "No UI's to initialize!!!" << endl;
-	    Event *e = new Event(CMD_QuitPlayer);
-	    AcceptEvent(e);
-	}
+
+	    if (!uisActivated) {
+	        cerr << "No UI's to initialize!!!" << endl;
+	        Event *e = new Event(CMD_QuitPlayer);
+	        AcceptEvent(e);
+	    }
     }
 
     delete [] name;

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.5 1998/10/27 03:06:18 jdw Exp $
+	$Id: soundcardpmo.cpp,v 1.6 1998/10/27 08:35:07 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -173,8 +173,6 @@ int32 SoundCardPMO::Write(void *pBuffer,int32 length) {
     }
     return actual;
 }
-
-void SoundCardPMO::Clear() { }
 
 
 

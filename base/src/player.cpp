@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.72 1999/01/25 23:00:14 robert Exp $
+        $Id: player.cpp,v 1.73 1999/01/28 20:55:18 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -359,8 +359,6 @@ void Player::Run(){
     uint32 len = 256;
     Error error = kError_NoErr;
     int32 uisActivated = 0;
-    m_eventServiceThread = Thread::CreateThread();
-    m_eventServiceThread->Create(Player::EventServiceThreadFunc,this);
 
     // which ui should we instantiate first??
     if(m_argUIvector->NumElements() == 0)
@@ -442,8 +440,12 @@ void Player::Run(){
          AcceptEvent(e);
          e = new Event(INFO_ReadyToDieUI);
          AcceptEvent(e);
-      }
-   }
+	}
+    }
+    m_eventServiceThread = Thread::CreateThread();
+    m_eventServiceThread->Create(Player::EventServiceThreadFunc,this);
+    
+
 
    delete[]name;
 }

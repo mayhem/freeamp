@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.1.2.7 1999/10/01 19:55:54 elrod Exp $
+	$Id: downloadui.h,v 1.1.2.8 1999/10/02 19:50:40 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -71,10 +71,10 @@ class DownloadUI : public UserInterface {
     static void UIThreadFunc(void *);
 
     uint32 CalcStringEllipsis(HDC hdc, string& displayString, int32 columnWidth);
-
-    FAContext*		m_context;
+    void UpdateOverallProgress();
 
  private:
+    FAContext*		    m_context;
     Semaphore*          m_uiSemaphore;
     PlaylistManager*    m_plm;
     Preferences*        m_prefs;

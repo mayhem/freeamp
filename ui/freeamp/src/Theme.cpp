@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.27 1999/10/17 06:37:57 ijr Exp $
+   $Id: Theme.cpp,v 1.1.2.28 1999/10/17 15:54:15 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -205,7 +205,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
 
                 oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
             }
-        
+       
             m_pThemeMan->GetDefaultTheme(oFile);
             eRet = oZip.DecompressThemeZip(oFile, oTempPath);
             if (IsError(eRet))

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.54 2000/05/09 13:22:41 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.55 2000/05/12 13:30:14 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -44,6 +44,7 @@ using namespace std;
 #include "Win32MusicBrowser.h"
 #include "debug.h"
 #include "eventdata.h"
+#include "MissingFileDialog.h"
 
 HINSTANCE g_hinst = NULL;
 const int iSpacer = 15;
@@ -369,6 +370,18 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
 {
     switch(event->Type()) 
     {
+        case INFO_FileNotFound: 
+        {
+            MissingFileEvent* mfe = (MissingFileEvent*)event;
+            
+            MissingFileDialog* mf= new MissingFileDialog(m_context, 
+                                                         m_hWnd, 
+                                                         mfe->Item());
+            mf->Show();
+
+            break; 
+        }
+
         case INFO_CDDiscStatus:
         {
             CDInfoEvent* cie = (CDInfoEvent*)event;

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: soundcardpmo.h,v 1.28 2000/09/20 10:17:54 robert Exp $
+    $Id: soundcardpmo.h,v 1.29 2000/11/01 14:22:45 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -84,7 +84,7 @@ public:
 
     Thread         *m_pBufferThread;
     int             m_iOutputBufferSize, m_iBaseTime, m_iBytesPerSample;
-    int             m_iHead, m_iTail, m_iOffset;
+    int             m_iHead, m_iTail, m_iOffset, m_iLastTime;
     
     string          m_oDstLineName, m_oVolumeControlName;
     DWORD           m_dwMinimum, m_dwMaximum, m_dwVolumeControlID;

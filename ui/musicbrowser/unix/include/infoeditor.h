@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.h,v 1.3 2000/06/05 17:47:01 ijr Exp $
+        $Id: infoeditor.h,v 1.4 2000/06/06 09:47:53 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_INFOEDITOR_H_
@@ -76,6 +76,12 @@ class infoeditorUI {
      bool track_change;
 
      PlaylistManager *m_plm;
+
+     void BuildLists();
+
+     GList *gartistlist;
+     GList *galbumlist;
+     GList *ggenrelist;
 };
 
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.1.2.6 1999/10/01 15:22:33 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.1.2.7 1999/10/02 18:09:08 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -60,6 +60,7 @@ class MusicBrowserUI : public UserInterface {
 
  private:
     bool isVisible;
+    bool weAreGTK;
     void UpdatePlaylistList(void);
     void UpdateCatalog(void);
    

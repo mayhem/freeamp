@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.1.2.4 1999/10/01 15:22:34 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.1.2.5 1999/10/02 18:09:09 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <string>
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 #include <gdk/gdkx.h>
 #include <gtk/gtk.h>
 #include <iostream>
+#include <unistd.h>
 
 static Thread *gtkThread = NULL;
 static bool weAreGTK = false;
@@ -80,8 +81,11 @@ void InitializeGTK(FAContext *context)
 void ShutdownGTK(void)
 {
     if (weAreGTK) {
+        gdk_threads_enter();
         gtk_main_quit();
-        gtkThread->Join();
+        gdk_threads_leave();
+//        gtkThread->Join();
+// Segfault on exit's better than hang on exit
     }
 }
 

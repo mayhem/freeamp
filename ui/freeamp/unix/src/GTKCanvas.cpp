@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.1.2.10 1999/10/02 16:52:11 ijr Exp $
+   $Id: GTKCanvas.cpp,v 1.1.2.11 1999/10/02 18:09:09 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -145,6 +145,8 @@ Error GTKCanvas::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec
 void GTKCanvas::Paint(Rect &oRect)
 {
     GtkWidget *w = m_pParent->GetWindow();
+    if (!w->window)
+        return;
     gdk_threads_enter();
     if (!shape_set) {
         shape_set = true;

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.18 1999/10/02 15:57:45 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.19 1999/10/02 18:09:08 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -242,7 +242,7 @@ lib/zlib/lib/libzlib.a: $(ZLIBOBJ)
 	$(LIBMOD) $@ $(ZLIBOBJ)
 
 depend:
-	makedepend -fMakefile-plugins -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(LFIOBJ) $(THEMEUIOBJ) $(MUSICBROWSEROBJ) $(HTTPOBJ) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(GTKUIOBJ) $(FREEAMPUIOBJ) $(XINGLMCOBJ) $(PMP300OBJ) $(M3UOBJ) $(ID3V1OBJ) $(ID3V2OBJ) | sed -e 's,\.o,.cpp,g'`
+	makedepend -fMakefile-plugins -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(LFIOBJ) $(THEMEUIOBJ) $(MUSICBROWSEROBJ) $(HTTPOBJ) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(GTKUIOBJ) $(FREEAMPUIOBJ) $(XINGLMCOBJ) $(PMP300OBJ) $(M3UOBJ) $(ID3V1OBJ) $(ID3V2OBJ) | sed -e 's,\.o,.cpp,g' | sed -e 's,\.doh,.cpp,g'`
  
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 

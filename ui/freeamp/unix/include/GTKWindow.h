@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.1.2.7 1999/10/02 16:52:10 ijr Exp $
+   $Id: GTKWindow.h,v 1.1.2.8 1999/10/02 18:09:09 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKWINDOW__H_
@@ -63,6 +63,7 @@ class GTKWindow : public Window
 
       GtkWidget *mainWindow;
       int gtkTimer;
+      bool quitLoop;
       bool initialized;
 };
 

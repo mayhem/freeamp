@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.11 1999/10/01 15:22:33 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.12 1999/10/02 18:09:08 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h" 
@@ -83,6 +83,7 @@ void MusicBrowserUI::GTKEventService(void)
     LoadPlaylist((char *)lastPlaylist.c_str());
 
     bool init = false;
+    weAreGTK = false;
 
     m_context->gtkLock.Acquire();
     if (!m_context->gtkInitialized) {
@@ -95,6 +96,7 @@ void MusicBrowserUI::GTKEventService(void)
         g_thread_init(NULL);
         gtk_init(&m_argc, &m_argv);
         gdk_rgb_init();
+        weAreGTK = true;
         gtk_main();
     }
 }
@@ -104,9 +106,11 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
     
     switch (event->Type()) {
         case CMD_Cleanup: {
-            gdk_threads_enter();
-            gtk_main_quit();
-            gdk_threads_leave();
+            if (weAreGTK) {
+                gdk_threads_enter();
+                gtk_main_quit();
+                gdk_threads_leave();
+            }
 
             gtkThread->Join();
             

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.9 1999/10/02 15:57:45 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.10 1999/10/02 18:09:08 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -297,7 +297,7 @@ void set_current_index_internal(GtkWidget *widget, int row, int column,
 
 void quit_menu()
 {
-    gtk_main_quit();
+    localui->ToggleVisEvent();
 }
 
 void sort_playlist_internal(int column, MusicBrowserUI *p, PlaylistSortType type                            = PlaylistSortType_Ascending)

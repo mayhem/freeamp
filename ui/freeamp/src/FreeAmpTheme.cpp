@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.28 1999/10/02 00:40:13 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.29 1999/10/02 18:09:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -142,10 +142,10 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
    eRet = LoadTheme(oThemeFile);
    if (IsError(eRet))					   
    {
-	   MessageDialog oBox;
-   	   string        oErr, oMessage(szParseError);
+       MessageDialog oBox;
+       string        oErr, oMessage(szParseError);
 
-   	   GetErrorString(oErr);
+       GetErrorString(oErr);
        oMessage += oErr;
        oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
    }
@@ -154,14 +154,12 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
 
 Error FreeAmpTheme::Close(void)
 {
-	Theme::Close();
+    Theme::Close();
     
     m_uiThread->Join();
-
 #ifndef WIN32
     ShutdownGTK();
 #endif
-
     return kError_NoErr;
 }
 
@@ -551,12 +549,12 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    }
    if (oControlName == string("ReloadTheme") && eMesg == CM_Pressed)
    {
-   	   ReloadTheme();
+       ReloadTheme();
        return kError_NoErr;
    }
    if (oControlName == string("Shuffle") && eMesg == CM_Pressed)
    {
-   	   int iState = 0;
+       int iState = 0;
        string oStatus;
 
        m_pWindow->ControlIntValue(oControlName, false, iState);
@@ -681,16 +679,16 @@ void FreeAmpTheme::ReloadTheme(void)
     m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
     SetDefaultFont(string(szTemp));
 
-	eRet = LoadTheme(oThemeFile);
-	if (IsError(eRet))					   
-	{
+    eRet = LoadTheme(oThemeFile);
+    if (IsError(eRet))					   
+    {
         MessageDialog oBox;
-		string        oErr, oMessage(szParseError);
+	string        oErr, oMessage(szParseError);
 
-		GetErrorString(oErr);
-	    oMessage += oErr;
-	    oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
-	}
+	GetErrorString(oErr);
+        oMessage += oErr;
+        oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
+    }	
 }
 
 void FreeAmpTheme::SetVolume(int iVolume)

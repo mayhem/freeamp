@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.16 1999/10/01 20:56:02 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.17 1999/10/02 18:09:09 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -127,7 +127,7 @@ Error Theme::LoadTheme(string &oFile)
     string oCompleteFile;
     Error  eRet;
 
-	if (m_pWindow)
+    if (m_pWindow)
     {
        oCompleteFile = m_oThemePath + oFile;
        eRet = Parse::ParseFile(oCompleteFile);
@@ -141,8 +141,8 @@ Error Theme::LoadTheme(string &oFile)
        if (IsError(eRet))
           return eRet;
 
-	   m_bReloadTheme = true;
-	   Theme::Close();
+       m_bReloadTheme = true;
+       Theme::Close();
        m_oReloadFile = oFile;
        
        return kError_NoErr;
@@ -206,7 +206,7 @@ Error Theme::Run(Pos &oWindowPos)
         if (m_oReloadWindow == string(""))   
             m_pWindow->GetName(m_oReloadWindow);   
 
-		InitWindow();
+	InitWindow();
 
     	eRet = m_pWindow->Run(oWindowPos);
         if (IsError(eRet))
@@ -216,10 +216,10 @@ Error Theme::Run(Pos &oWindowPos)
            break;
            
         if (m_bReloadTheme)
-        {   
+        { 
             m_bReloadTheme = false;
 
- 	        ClearWindows();
+            ClearWindows();
             ClearBitmaps();
             m_pWindow = NULL;
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.10 1999/10/02 16:52:11 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.11 1999/10/02 18:09:09 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -77,7 +77,6 @@ GTKWindow::GTKWindow(Theme *pTheme, string &oName)
 
 GTKWindow::~GTKWindow(void)
 {
-    Close();
     delete m_pCanvas;
     m_pCanvas = NULL;
 }
@@ -135,7 +134,8 @@ Error GTKWindow::Run(Pos &oPos)
  
     initialized = true;
 
-    while (mainWindow) 
+    quitLoop = false;
+    while (!quitLoop) 
        sleep(1);
     return kError_NoErr;
 }
@@ -149,7 +149,9 @@ Error GTKWindow::Close(void)
 {
     Rect oRect;
     Pos oPos;
-    
+   
+    if (!mainWindow)
+        return kError_NoErr;
     gtk_timeout_remove(gtkTimer);
     GetWindowPosition(oRect);
     oPos.x = oRect.x1;
@@ -157,7 +159,7 @@ Error GTKWindow::Close(void)
     SaveWindowPos(oPos);
     gtk_widget_destroy(mainWindow);
     gdk_flush();
-    mainWindow = NULL;
+    quitLoop = true;
     return kError_NoErr;
 }
 
@@ -226,6 +228,8 @@ Error GTKWindow::SetWindowPosition(Rect &oWindowRect)
 
 Error GTKWindow::GetWindowPosition(Rect &oWindowRect) 
 {
+    if (!mainWindow->window)
+        return kError_NoErr;
     gdk_window_get_position(mainWindow->window, &oWindowRect.x1, 
                             &oWindowRect.y1);
     return kError_NoErr;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb_proto.cpp,v 1.1 2000/02/20 04:16:16 ijr Exp $
+	$Id: cddb_proto.cpp,v 1.2 2000/02/24 05:32:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -940,8 +940,7 @@ int CDDB::cddb_read_disc_data(struct disc_data *outdata)
 
     if (cddb_read_data(outdata) < 0) 
         cddb_generate_unknown_entry(outdata);
-    else 
-        cddb_write_data(outdata);
+    cddb_write_data(outdata);
 
     return 0;
 }

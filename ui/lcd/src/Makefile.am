@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.1 1998/12/14 03:30:11 jdw Exp $
+##      $Id: Makefile.am,v 1.2 1999/01/18 17:28:56 jdw Exp $
 ##
 ############################################################################
 
@@ -30,7 +30,8 @@ PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
 
 
 
-FILES = MtxOrb.c lcdui.cpp lcd.c drv_base.c
+# FILES = MtxOrb.c lcdui.cpp lcd.c drv_base.c
+FILES = lcdui.cpp sockets.c
 MYLIBS = libfaui.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 

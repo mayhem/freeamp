@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.h,v 1.2 1998/12/14 19:58:30 jdw Exp $
+	$Id: lcdui.h,v 1.3 1999/01/18 17:28:56 jdw Exp $
 ____________________________________________________________________________*/
 // LcdUI.h
 
@@ -49,6 +49,9 @@ class LcdUI : public UserInterface {
     static void keyboardServiceFunction(void *);
     virtual ~LcdUI();
  private:
+
+    int32 m_sock;
+
     int32 m_startupType;
     int32 m_argc;
     char **m_argv;

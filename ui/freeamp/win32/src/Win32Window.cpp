@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.32.2.2.6.1 2000/03/29 01:43:16 elrod Exp $
+   $Id: Win32Window.cpp,v 1.32.2.2.6.2 2000/04/10 22:17:21 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -40,6 +40,7 @@ ____________________________________________________________________________*/
 #include "Win32Bitmap.h"
 #include "Median.h"
 #include "resource.h"
+#include "utility.h"
 #include "debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
@@ -670,6 +671,7 @@ void Win32Window::DropFiles(HDROP dropHandle)
     int32 count;
     char  file[MAX_PATH + 1];
     vector<string> oFileList;
+    char* extension = NULL;
 
     if (m_bMindMeldInProgress)
     {
@@ -688,6 +690,15 @@ void Win32Window::DropFiles(HDROP dropHandle)
                         i,
                         file,
                         sizeof(file));
+
+        extension = strrchr(file, '.');
+        if(extension && strcasecmp(extension, ".lnk") == 0)
+        { 
+            string link = string(file);
+            ResolveLink(link);
+            strcpy(file, link.c_str());
+        }
+                        
         oFileList.push_back(string(file));
     }
     

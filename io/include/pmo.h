@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.5 1998/10/16 19:35:34 elrod Exp $
+	$Id: pmo.h,v 1.6 1998/10/16 19:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -76,7 +76,7 @@ typedef struct PMO{
 }PMO, *PMORef;
 
 #ifdef __cplusplus
-// extern "C" 
+} // extern "C" 
 #endif
 
 #endif /* _PMO_H_ */

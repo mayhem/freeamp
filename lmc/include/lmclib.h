@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmclib.h,v 1.5 1998/10/16 19:35:34 elrod Exp $
+	$Id: lmclib.h,v 1.6 1998/10/16 19:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMCLIB_H_
@@ -50,7 +50,7 @@ bool ChangePosition(LMCRef ref, int32 pos);
 void Cleanup(LMCRef ref);
 
 #ifdef __cplusplus
-// extern "C"
+} // extern "C"
 #endif
 
 #endif /* _LMCLIB_H_ */

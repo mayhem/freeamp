@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmilib.h,v 1.3 1998/10/16 19:35:34 elrod Exp $
+	$Id: pmilib.h,v 1.4 1998/10/16 19:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMILIB_H_
@@ -43,7 +43,7 @@ const char* Url(PMIRef ref);
 void Cleanup(PMIRef ref);
 
 #ifdef __cplusplus
-// extern "C"
+} // extern "C"
 #endif
 
 #endif /* _PMILIB_H_ */

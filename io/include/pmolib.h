@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmolib.h,v 1.3 1998/10/16 19:35:34 elrod Exp $
+	$Id: pmolib.h,v 1.4 1998/10/16 19:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMOLIB_H_
@@ -42,7 +42,7 @@ void Clear(PMORef ref);
 void Cleanup(PMORef ref);
 
 #ifdef __cplusplus
-// extern "C"
+} // extern "C"
 #endif
 
 #endif /* _PMOLIB_H_ */

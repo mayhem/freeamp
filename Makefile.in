@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.83 2001/01/05 21:59:58 robert Exp $
+# $Id: Makefile.in,v 1.84 2001/01/11 22:34:07 robert Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -96,7 +96,7 @@ FREEAMPPOSTLINK = $($(OSTYPE)FREEAMPPOSTLINK)
 # hack hack hack
 DIRECTORIES  = base base/beos base/beos/src base/src base/unix base/unix/src 
 DIRECTORIES += dlm dlm/rmp io io/alsa io/alsa/unix
-DIRECTORIES += io/alsa/unix/linux io/alsa/unix/linux/src io/esound
+DIRECTORIES += io/alsa/unix/linux io/alsa/unix/linux/src io/esound io/arts/src
 DIRECTORIES += io/esound/src io/http io/local io/obs io/src io/soundcard
 DIRECTORIES += io/soundcard/beos io/soundcard/unix io/soundcard/beos
 DIRECTORIES += io/soundcard/unix/$(UNIX_AUDIO_API) 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.57 2001/01/05 21:59:59 robert Exp $
+        $Id: preferences.cpp,v 1.58 2001/01/11 22:34:08 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -99,6 +99,7 @@ const char* kCloseDLMOnCompletePref = "CloseDLMOnComplete";
 const char* kPerformDBCheckPref = "PerformDBCheck";
 const char* kPlaylistHeaderColumnsPref = "PlaylistHeaderColumns";
 const char* kAdvancedRelatablePref = "UseAdvancedRelatableFeatures";
+const char* kMetadataDisplayPref = "DisplayMetadata";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -169,6 +170,7 @@ const bool  kDefaultCloseDLMOnComplete = false;
 const bool kDefaultPerformDBCheck = true;
 const char* kDefaultPlaylistHeaderColumns = "Title|Artist|Album|Time|Genre";
 const bool kDefaultAdvancedRelatable = false;
+const bool kDefaultMetadataDisplay = 1;
 
 Error
 Preferences::
@@ -405,6 +407,9 @@ SetDefaults()
         kError_NoPrefValue)
         SetPrefBoolean(kAdvancedRelatablePref, kDefaultAdvancedRelatable);
     return kError_NoErr;
+
+    if (GetPrefInt32(kMetadataDisplayPref, &dummyInt) == kError_NoPrefValue)
+        SetPrefInt32(kMetadataDisplayPref, kDefaultMetadataDisplay);
 }
 
 Error

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.36 2001/01/08 12:54:22 skx Exp $
+   $Id: FreeAmpTheme.h,v 1.37 2001/01/11 22:34:08 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -45,6 +45,13 @@ enum TimeDisplayState
 {
     kNormal,
     kTimeRemaining
+};
+
+enum TitleDisplayState
+{
+    kName = 0,
+    kNameArtist = 1,
+    kNameArtistAlbum = 2
 };
 
 enum FreeAmpMenuCommand
@@ -117,10 +124,11 @@ class FreeAmpTheme : public UserInterface, public Theme
         bool             m_bPaused, m_bInOptions, m_bPlayShown;
         bool             m_bShowBuffers, m_bBufferingUp;
         string           m_oCurrentWindow, m_oTitle, m_oStreamInfo, m_oHeadlineUrl;
-        string           m_themeCache;
-        TimeDisplayState m_eTimeDisplayState;
-        UpdateManager   *m_pUpdateMan;
-        Equalizer       *m_eq;
+        TimeDisplayState      m_eTimeDisplayState;
+        TitleDisplayState     m_eTitleDisplayState;
+        string                m_themeCache;
+        UpdateManager        *m_pUpdateMan;
+        Equalizer            *m_eq;
         SignatureDisplayState m_sigState;
 };
 

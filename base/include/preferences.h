@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.45 2001/01/05 21:59:59 robert Exp $
+	$Id: preferences.h,v 1.46 2001/01/11 22:34:08 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -101,6 +101,7 @@ extern const char* kPerformDBCheckPref;
 extern const char* kWAVOutputPathPref;
 extern const char* kPlaylistHeaderColumnsPref;
 extern const char* kAdvancedRelatablePref;
+extern const char* kMetadataDisplayPref;
 
 extern const int32 kDefaultWatchThisDirTimeout;
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSWindow.cpp,v 1.9 2000/02/09 16:58:15 hiro Exp $
+   $Id: BeOSWindow.cpp,v 1.10 2000/03/01 04:41:38 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #define DEBUG 0
@@ -80,7 +80,7 @@ BeOSWindow::VulcanMindMeld( Window* other )
     else
     {
         windowAlreadyRunning = true;
-        m_mainWindow->Lock();
+        assert( m_mainWindow->Lock() );
         m_mainWindow->RemoveChild( m_mainWindow->ChildAt( 0 ) );
         m_mainWindow->Unlock();
     }
@@ -91,7 +91,9 @@ BeOSWindow::VulcanMindMeld( Window* other )
     // set the root view
     m_canvasView = ((BeOSCanvas*)GetCanvas())->GetBView();
     assert( m_canvasView );
+    assert( m_mainWindow->Lock() );
     m_mainWindow->AddChild( m_canvasView );
+    m_mainWindow->Unlock();
 
     GetCanvas()->GetBackgroundRect( rect );
     m_mainWindow->ResizeTo( rect.x2 - rect.x1 - 1, rect.y2 - rect.y1 - 1 );
@@ -123,8 +125,8 @@ BeOSWindow::Run( Pos& oWindowPos )
     Init();
 
     m_mainWindow->WaitForQuit( &brect );
-    oWindowPos.x = brect.left;
-    oWindowPos.y = brect.top;
+    oWindowPos.x = int(brect.left);
+    oWindowPos.y = int(brect.top);
 
     return kError_NoErr;
 }

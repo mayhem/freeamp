@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSPreferenceWindow.cpp,v 1.3 2000/02/15 11:36:41 hiro Exp $
+   $Id: BeOSPreferenceWindow.cpp,v 1.4 2000/03/01 04:41:38 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSPreferenceWindow.h"
@@ -28,15 +28,10 @@ ____________________________________________________________________________*/
 #include "PrefWindow.h"
 #include "PrefView.h"
 #endif
-
-#if DEBUG
 #include <be/support/Debug.h>
+
 #define CHECK_POINT CHECK_POINT_MSG("")
 #define CHECK_POINT_MSG(a) PRINT(( "File:%s Line:%d :%s\n", __FILE__, __LINE__, a ))
-#else
-#define CHECK_POINT (void)
-#define CHECK_POINT_MSG(a) (void)
-#endif
 
 BeOSPreferenceWindow::BeOSPreferenceWindow( FAContext* context,
                                             ThemeManager* themeMan )

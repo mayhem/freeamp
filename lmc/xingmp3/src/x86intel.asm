@@ -26,7 +26,7 @@
 ;	along with this program; if not, write to the Free Software
 ;	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ;
-;	$Id: x86intel.asm,v 1.18 1999/04/21 04:20:56 elrod Exp $
+;	$Id: x86intel.asm,v 1.18.36.1 2000/10/10 17:21:14 robert Exp $
 ;	Generated from Id: x86gas.s,v 1.9 1999/03/05 08:58:18 mhw Exp $
 ;
 

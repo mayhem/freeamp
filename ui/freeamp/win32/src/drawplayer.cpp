@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: drawplayer.cpp,v 1.20 1998/11/09 10:35:56 jdw Exp $
+	$Id: drawplayer.cpp,v 1.21 1998/11/09 11:06:03 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2160,7 +2160,9 @@ LRESULT WINAPI MainWndProc( HWND hwnd,
 							if (g_ui->m_plm->GetRepeat() != REPEAT_NOT) {
 								g_ui->m_target->AcceptEvent(new Event(CMD_PrevMediaPiece));
 							} else {
-								g_ui->m_target->AcceptEvent(new Event(CMD_Play));
+								if (g_buttonStateArray[kPlayControl].shown == FALSE) {
+									g_ui->m_target->AcceptEvent(new Event(CMD_Play));
+								}
 							}
 						}
 					} else {

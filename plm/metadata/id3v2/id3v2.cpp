@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.1.2.3 1999/10/02 08:47:43 robert Exp $
+	$Id: id3v2.cpp,v 1.1.2.4 1999/10/02 17:06:27 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -177,7 +177,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     }
 
     fclose(inFile);
-    return result;
+    return true;
 }
 
 bool ID3v2::WriteMetaData(const char* url, const MetaData& metadata)

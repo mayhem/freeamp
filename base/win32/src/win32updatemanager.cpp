@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.6.2.4.4.1.2.2 2000/04/10 00:05:12 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.6.2.4.4.1.2.3 2000/04/11 17:05:03 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -305,10 +305,14 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
                                                         "you have chosen to use another theme.";
                         const char* kThemeHowToDescription = "The Theme HowTo describes how to create new themes which can be used to change "
                                                              "the default look of "the_BRANDING".";
+                        const char* kChangesDescription = "The Changes file describes what has been changed between each version "
+                                                          "of "the_BRANDING".";
+
 
                         if(!strcasecmp(findData.cFileName, BRANDING_HELP_FILE) ||
                            !strcasecmp(findData.cFileName, BRANDING_DEFAULT_THEME) ||
-                           !strcasecmp(findData.cFileName, "ThemeHowTo.txt"))
+                           !strcasecmp(findData.cFileName, "ThemeHowTo.txt") ||
+                           !strcasecmp(findData.cFileName, "Changes.txt"))
                         {
                             UpdateItem* item = new UpdateItem;
 
@@ -337,6 +341,10 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
                             else if(!strcasecmp(findData.cFileName, "ThemeHowTo.txt"))
                             {
                                 item->SetFileDescription(string(kThemeHowToDescription));
+                            }
+                            else if(!strcasecmp(findData.cFileName, "Changes.txt"))
+                            {
+                                item->SetFileDescription(string(kChangesDescription));
                             }
 
                             AddItem(item);

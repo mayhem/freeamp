@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.9 1999/09/21 03:17:43 dogcow Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.10 1999/09/21 03:24:09 dogcow Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -30,11 +30,15 @@ ____________________________________________________________________________*/
 #include <sys/socket.h>
 #include <netdb.h>
 #include <arpa/inet.h>
+#define SOCKET int
+#define closesocket(z) close(z)
 #endif
 
 #include <assert.h>
 #include <iostream>
 #include <algorithm>
+#include <stdio.h>
+#include <unistd.h>
 
 #include "config.h"
 #include "facontext.h"
@@ -488,7 +492,7 @@ Error DownloadManager::Download(DownloadItem* item)
         struct sockaddr_in  addr;
         struct hostent      host;
         SOCKET s;
-        char* file;
+        char* file = "";
         
 
         result = kError_ProtocolNotSupported;

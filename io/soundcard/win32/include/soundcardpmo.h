@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.1 1998/10/14 06:11:27 elrod Exp $
+	$Id: soundcardpmo.h,v 1.2 1998/10/14 07:10:54 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -28,11 +28,11 @@ ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
+#include <windows.h>
 
 /* project headers */
-#include <config.h>
+#include "config.h"
 #include "pmo.h"
-#include "buffer.h"
 
 
 #define BIT_SELECT  0x1f
@@ -49,7 +49,6 @@ public:
     
     virtual bool Init(OutputInfo* info);
     virtual bool Reset(bool user_stop);
-    virtual void Append(uint32 channel, int16 value);
     virtual int32 Write();
     virtual int32 WriteThis(void *,int32);
     virtual void Clear();

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.2 1998/10/14 06:11:26 elrod Exp $
+	$Id: pmo.h,v 1.3 1998/10/14 07:10:54 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -27,8 +27,6 @@ ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
-
-#include <config.h>
 
 
 #if HAVE_UNISTD_H
@@ -61,7 +59,6 @@ public:
 	virtual ~PhysicalMediaOutput() { }
 	virtual bool Init(OutputInfo* /*info*/){ return false; }
 	virtual bool Reset(bool /*user_stop*/){ return false; }
-	virtual void Append(uint32 /*channel*/, int16 /*value*/) { }
 	virtual int32 Write() { return -1; }
 	virtual int32 WriteThis(void * /* pBuffer */, int32 /* bufflength */) { return -1; }
 	virtual void Clear(){ }

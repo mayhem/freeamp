@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mediavitalinfo.h,v 1.1 1998/10/13 11:30:59 elrod Exp $
+	$Id: mediavitalinfo.h,v 1.2 1998/10/14 07:10:54 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _MEDIA_VITAL_INFO_H_
@@ -32,7 +32,7 @@ ____________________________________________________________________________*/
 
 class MediaTimePositionInfo {
  public:
-    MediaTimePositionInfo(int32 s,int32 f) {
+    MediaTimePositionInfo(float s,int32 f) {
 	    seconds = s; frame = f;
     }
     float seconds;

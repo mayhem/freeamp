@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: soundcardpmo.cpp,v 1.2 1998/10/14 07:10:54 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -68,7 +68,7 @@ Mutex SoundCardPMO::refcountMutex;
 
 int SoundCardPMO::refCount = 0; 
 
-bool SoundCardPMO::Initialize(OutputInfo* info) {
+bool SoundCardPMO::Init(OutputInfo* info) {
     //cout << "initialize..." << endl;
 //    cout << "OI: bits_per_sample: " << info->bits_per_sample << endl;
 //    cout << "OI: number_of_channels: " << info->number_of_channels << endl;

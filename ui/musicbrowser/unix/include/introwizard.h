@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: introwizard.h,v 1.5 2000/07/31 19:51:40 ijr Exp $
+        $Id: introwizard.h,v 1.6 2000/08/18 11:47:44 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_INTROWIZARD_H_
@@ -51,15 +51,20 @@ class IntroWizardUI {
     void GoToPage1();
     void GoToPage2();
     void GoToPage3();
+    void GoToPage4();
     void DeleteEvent();
     void Close();
-    
+   
+    void CheckCreateProfile();
+
     unsigned int page;
     
     bool custom;
     bool searchInProgress;
     bool searchDone;
     bool done;
+
+    bool skipRelatableTwo;
 
     GtkWidget *m_window;
     
@@ -75,14 +80,18 @@ class IntroWizardUI {
     GtkWidget *browseButton;
     GtkWidget *buttonLabel;
 
+    GtkWidget *profileEntry;
+    
     GtkWidget *page1;
     GtkWidget *page2;
     GtkWidget *page3;
-    
+    GtkWidget *page4;
+   
     string searchPath;
 
     GtkWidget *IntroPage(void);
     GtkWidget *RelatablePage(void);
+    GtkWidget *RelatableTwoPage(void);
     GtkWidget *SearchPage(void);
 
     MusicBrowserUI *m_parent;

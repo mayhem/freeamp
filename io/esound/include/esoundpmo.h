@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: esoundpmo.h,v 1.4 1999/07/19 22:22:21 ijr Exp $
+        $Id: esoundpmo.h,v 1.5 1999/08/10 14:38:46 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef _ESOUNDDPMO_H_
@@ -62,7 +62,9 @@ class EsounDPMO:public PhysicalMediaOutput
      void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
 
      bool         m_properlyInitialized;
-     int   audio_fd;
+     int          audio_fd, mixer_fd, stream_id;
+     char         stream_name[ESD_NAME_MAX];
+     char        *m_espeaker;
      OutputInfo  *myInfo;
      Thread      *m_pBufferThread;
      int          m_iBytesPerSample;

@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.12 1999/08/06 08:42:14 dogcow Exp $
+        $Id: unixprefs.cpp,v 1.13 1999/08/10 14:38:46 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -57,6 +57,7 @@ const char*  kDefaultUI = "freeamp.ui";
 const char*  kDefaultTextUI = "freeampcmd.ui";
 const char*  kDefaultPMO = "soundcard.pmo";
 const char*  kDefaultALSADevice = "1:1";
+const char*  kDefaultESOUNDHost = "localhost";
 
 
 class LibDirFindHandle {
@@ -504,7 +505,12 @@ SetDefaults()
     size = sizeof(buf);
     if (GetPrefString(kALSADevicePref, buf, &size) == kError_NoPrefValue)
         SetPrefString(kALSADevicePref, kDefaultALSADevice);
-    
+   
+    // set default ESD host
+    size = sizeof(buf); 
+    if (GetPrefString(kESOUNDHostPref, buf, &size) == kError_NoPrefValue)
+        SetPrefString(kESOUNDHostPref, kDefaultESOUNDHost);
+
     Preferences::SetDefaults();
 
     return kError_NoErr;

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.49 1999/12/14 17:01:11 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.50 1999/12/15 07:27:00 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1084,7 +1084,7 @@ void FreeAmpTheme::UpdateMetaData(const PlaylistItem *pItem)
         
         m_oTitle = pItem->GetMetaData().Title();
         if (pItem->GetMetaData().Artist().length() > 0)
-           m_oTitle += string(" -- ") + pItem->GetMetaData().Artist();
+           m_oTitle += string(" - ") + pItem->GetMetaData().Artist();
 
         oText = string(BRANDING": ") + m_oTitle;
         m_pWindow->SetTitle(oText);

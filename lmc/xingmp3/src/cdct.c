@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cdct.c,v 1.11 1999/10/19 07:13:08 elrod Exp $
+	$Id: cdct.c,v 1.12 2000/01/19 22:20:30 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  cdct.c  ***************************************************
@@ -43,6 +43,8 @@ portable C
 #ifdef ASM_X86
 extern void fdct32_asm(float*a, float*b);
 extern void fdct32_dual_asm(float*a, float*b);
+#elif defined(ASM_X86_OLD)
+extern void asm_fdct32(float *in, float *out);
 #endif /* ASM_X86 */
 
 float coef32[31];	/* 32 pt dct coefs */

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pipeline.cpp,v 1.10 1999/12/10 07:16:41 elrod Exp $
+        $Id: pipeline.cpp,v 1.11 2000/01/19 22:20:30 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -181,5 +181,5 @@ void PipelineUnit::DebugPrint(void)
     printf("[%c %c %ld]", 
         m_bSleeping ? 'S' : 'W',
         m_bPause ? 'P' : 'R',
-        m_pOutputBuffer->GetBufferPercentage());
+        (long int)m_pOutputBuffer->GetBufferPercentage());
 }

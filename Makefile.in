@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.46 1999/12/29 01:11:54 ijr Exp $
+# $Id: Makefile.in,v 1.47 2000/01/19 22:20:29 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -65,7 +65,7 @@ FREEAMPOBJ += base/src/prefixprefs.o base/src/preferences.o
 FREEAMPOBJ += base/src/debug.o base/src/utility.o base/src/database.o 
 FREEAMPOBJ += base/src/downloadmanager.o base/src/errors.o
 FREEAMPOBJ += io/src/pullbuffer.o io/src/streambuffer.o io/src/tstream.o
-FREEAMPOBJ += base/src/undomanager.o base/src/updatemanager.o
+FREEAMPOBJ += base/src/undomanager.o #base/src/updatemanager.o
 FREEAMPOBJ += $(FREEAMP$(HOST_OS)OBJ)
 FREEAMPOBJ += lib/gdbm/lib/libfagdbm.a lib/xml/lib/libfaxml.a 
 FREEAMPOBJ += lib/zlib/lib/libzlib.a

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.7 1999/12/16 16:59:53 ijr Exp $
+	$Id: downloadui.h,v 1.8 2000/01/19 22:20:30 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -94,6 +94,7 @@ class DownloadUI : public UserInterface {
     GtkWidget *m_PauseButton;
     GtkWidget *m_CancelButton;
     GtkWidget *m_ResumeButton;
+    GtkWidget *m_ResumeLabel;
     GtkWidget *m_CloseButton;
     GtkWidget *m_hwndProgress;
     GtkWidget *m_helpButton;

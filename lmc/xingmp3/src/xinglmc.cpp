@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.86 1999/07/02 19:05:10 robert Exp $
+   $Id: xinglmc.cpp,v 1.87 1999/07/05 23:11:20 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -762,7 +762,7 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
        printf("Buffering up...           \n");
        for(; !m_bExit;)
        {
-           sleep(1);
+           usleep(1000);
            iInPercent = m_pInputBuffer->GetBufferPercentage();
            iOutPercent = m_pOutputBuffer->GetBufferPercentage();
   	        printf("Input: %3d%% Output: %3d%%\r", iInPercent, iOutPercent);

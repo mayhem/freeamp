@@ -18,13 +18,12 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.4 1999/07/02 19:05:07 robert Exp $
+        $Id: pmo.cpp,v 1.5 1999/07/05 23:11:18 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
 #include <iostream.h>
-#include <sys/ioctl.h>
 #include <fcntl.h>
 //#include <sys/soundcard.h>
 #include <errno.h>
@@ -41,7 +40,6 @@ ____________________________________________________________________________*/
 #include "facontext.h"
 #include "log.h"
 
-#define DB printf("%s:%d\n", __FILE__, __LINE__);
 
 PhysicalMediaOutput::PhysicalMediaOutput(FAContext *context) :
                      PipelineUnit(context)
@@ -129,7 +127,7 @@ void PhysicalMediaOutput::Resume(void)
 
 bool PhysicalMediaOutput::WasteTime()
 {
-    usleep(50000);
+    usleep(10000);
 
     return m_bExit || m_bPause;
 }       

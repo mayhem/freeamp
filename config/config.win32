@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.8 1999/04/26 02:50:23 elrod Exp $
+	$Id: config.win32,v 1.9 1999/07/05 23:11:08 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -50,7 +50,7 @@ ____________________________________________________________________________*/
 #define __BIG_ENDIAN    4321
 #define __PDP_ENDIAN    3412
 #define __BYTE_ORDER    __LITTLE_ENDIAN
-#define usleep(x) Sleep(x/1000)
+#define usleep(x) ::Sleep(x/1000)
 #define strcasecmp(a,b) stricmp(a,b)
 #endif
 

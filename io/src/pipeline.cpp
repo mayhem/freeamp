@@ -18,13 +18,12 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pipeline.cpp,v 1.3 1999/07/02 19:05:06 robert Exp $
+        $Id: pipeline.cpp,v 1.4 1999/07/05 23:11:17 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
 #include <iostream.h>
-#include <sys/ioctl.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
@@ -33,6 +32,7 @@ ____________________________________________________________________________*/
 
 /* project headers */
 #include <config.h>
+#include "pipeline.h"
 #include "pullbuffer.h"
 #include "eventbuffer.h"
 #include "facontext.h"

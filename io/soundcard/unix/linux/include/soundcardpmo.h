@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.2 1998/10/17 18:26:11 jdw Exp $
+	$Id: soundcardpmo.h,v 1.3 1998/10/17 20:45:26 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -30,7 +30,6 @@ ____________________________________________________________________________*/
 /* project headers */
 #include <config.h>
 #include "pmo.h"
-#include "buffer.h"
 
 
 #define BIT_SELECT  0x1f

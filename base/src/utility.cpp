@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.23 2000/05/24 17:08:33 ijr Exp $
+	$Id: utility.cpp,v 1.24 2000/06/08 12:53:09 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -590,9 +590,15 @@ void FindMusicFiles(const char* rootPath,
 
     // next find all the directories in this directory and
     // and run the queries on them
+#ifdef WIN32
     findPath.replace(pos, 
                      findPath.size() - pos, 
                      "*.*");
+#else
+    findPath.replace(pos,
+                     findPath.size() - pos,
+                     "*");
+#endif
 
     findFileHandle = FindFirstFile((char *)findPath.c_str(), &findData);
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.91 2000/06/07 10:24:36 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.92 2000/06/08 12:53:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -602,7 +602,7 @@ void GTKMusicBrowser::CreatePlaylist(void)
 
 void GTKMusicBrowser::DeleteListEvent(void)
 {
-    if (m_lastindex == kInvalidIndex)
+    if (m_plm->CountItems() == 0)
         return;
 
     m_plm->RemoveAll();

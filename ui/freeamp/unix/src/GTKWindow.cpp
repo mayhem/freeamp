@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.34 2000/05/24 17:08:34 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.35 2000/06/08 12:53:09 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -455,7 +455,7 @@ void GTKWindow::DropFiles(char *filename)
     if (filename) {
         char *filereturn = new char[strlen(filename) + 1];
         strcpy(filereturn, filename);
-        char *temp = strtok(filename, "\n");
+        char *temp = strtok(filereturn, "\n");
         do {
             char *realname = strchr(temp, ':');
             realname++;

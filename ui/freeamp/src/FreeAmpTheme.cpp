@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.47 1999/10/18 01:56:33 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.48 1999/10/18 23:37:35 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -56,7 +56,7 @@ extern    "C"
 {
    UserInterface *Initialize(FAContext * context)
    {
-	  Debug_v("##Clear");
+	  //Debug_v("##Clear");
       return new FreeAmpTheme(context);
    }
 }
@@ -190,7 +190,16 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          break;
       }   
       case INFO_DoneOutputting:
+      {
+         string oTime("0:00:00");
+         
+         m_iSeekPos = 0;
+         m_iTotalSeconds = 0;
+         m_pWindow->ControlIntValue(string("Seek"), true, m_iSeekPos);
+         m_pWindow->ControlStringValue(string("Time"), true, oTime);
+         
          break;
+      }   
       case INFO_MediaInfo:
       {
          MediaInfoEvent *info = (MediaInfoEvent *) e;
@@ -460,6 +469,12 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    {
    	   int iState = 0;
 
+       if (m_pContext->plm->CountItems() == 0)
+       {
+           m_pContext->target->AcceptEvent(new Event(CMD_ToggleMusicBrowserUI));
+           return kError_NoErr;
+       }
+
        m_pWindow->ControlIntValue(oControlName, false, iState);
        if (iState == 0)
        {
@@ -627,8 +642,8 @@ void FreeAmpTheme::InitControls(void)
     else    
         m_pWindow->ControlStringValue(string("Title"), true, m_oTitle);
         
-    oWelcome = "Current time";
-    m_pWindow->ControlStringValue(string("TimeType"), true, oWelcome);
+    //oWelcome = "Current time";
+    //m_pWindow->ControlStringValue(string("TimeType"), true, oWelcome);
 }
 
 // This function gets called after the window object is created,

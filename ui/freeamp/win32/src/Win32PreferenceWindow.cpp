@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.24 1999/12/14 19:10:11 elrod Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.25 1999/12/16 00:28:40 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -454,7 +454,8 @@ void Win32PreferenceWindow::SavePrefsValues(Preferences* prefs,
     prefs->SetLogPerformance(values->logPerformance);
 
     prefs->SetThemeDefaultFont(values->defaultFont.c_str());
-    m_pThemeMan->UseTheme(m_oThemeList[values->currentTheme]);
+    if (m_oThemeList[values->currentTheme].length() > 0)
+       m_pThemeMan->UseTheme(m_oThemeList[values->currentTheme]);
 
     prefs->SetCheckForUpdates(values->checkForUpdates);
     prefs->SetSaveMusicDirectory(values->saveMusicDirectory.c_str());
@@ -2938,15 +2939,24 @@ bool Win32PreferenceWindow::PrefAdvancedProc(HWND hwnd,
                                 TBM_SETPOS, 
                                 (WPARAM) TRUE,                   
                                 (LPARAM) 5);
+                    m_proposedValues.decoderThreadPriority = 5;
                     
                     Edit_LimitText(hwndInput, 4);
                     Edit_SetText(hwndInput, "64");
+                    m_proposedValues.inputBufferSize = 64;
                     
                     Edit_LimitText(hwndOutput, 4);
                     Edit_SetText(hwndOutput, "512");
+                    m_proposedValues.outputBufferSize = 512;
                     
                     Edit_LimitText(hwndPrebuffer, 2);
                     Edit_SetText(hwndPrebuffer, "0");
+                    m_proposedValues.preBufferLength = 0;
+                    
+                    if(m_proposedValues != m_currentValues)
+                        PropSheet_Changed(GetParent(hwnd), hwnd);
+                    else
+                        PropSheet_UnChanged(GetParent(hwnd), hwnd);
                 
                     break;
                 }

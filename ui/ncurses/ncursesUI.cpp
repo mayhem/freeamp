@@ -269,14 +269,14 @@ Error ncursesUI::AcceptEvent(Event *e) {
                     showInfo();
                     move(2, 0);
                     addstr("Title  : ");
-                    if (md.Title().c_str()[0] != '\0')
-		        addstr((char *)md.Title().c_str());
+                    if (md.PeekTitle()[0] != '\0')
+		        addstr((char *)md.PeekTitle());
 		    else
                         addstr(pmvi->m_filename);
                     addstr("\nArtist : ");
-                    addstr((char *)md.Artist().c_str());
+                    addstr((char *)md.PeekArtist());
                     addstr("\nAlbum  : ");
-                    addstr((char *)md.Album().c_str());
+                    addstr((char *)md.PeekAlbum());
                     addstr("\nYear   : ");
                     if (md.Year() != 0)
 		    {
@@ -284,7 +284,7 @@ Error ncursesUI::AcceptEvent(Event *e) {
 		    	addstr(buf);
                     }
                     addstr("\nGenre  : ");
-                    addstr((char *)md.Genre().c_str());
+                    addstr((char *)md.PeekGenre());
                     addstr("\nTrack  : ");
                     if (md.Track() != 0)
                     {
@@ -292,7 +292,7 @@ Error ncursesUI::AcceptEvent(Event *e) {
                         addstr(buf);
                     }
                     addstr("\nComment: ");
-                    addstr((char *)md.Comment().c_str());
+                    addstr((char *)md.PeekComment());
                     addstr("\n");
                     refresh();
 

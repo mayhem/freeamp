@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.18 2000/07/31 19:51:40 ijr Exp $
+	$Id: lcdui.cpp,v 1.18.6.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream>
@@ -339,7 +339,7 @@ Error LcdUI::AcceptEvent(Event *e) {
                     md = pItem->GetMetaData();
 
 
-		   //cout << "artist" << (char *)md.Artist().c_str() << endl;
+		   //cout << "artist" << (char *)md.PeekArtist() << endl;
 
 
 		    //cout << "writing lcd" << endl;
@@ -356,33 +356,33 @@ Error LcdUI::AcceptEvent(Event *e) {
 		    if (foo) foo++; else foo = pmvi->m_filename;
 #if LCDPROC_4
 
-                    if (md.Title().c_str()[0] == '\0')        // check id3 title, if not exists print filename, else title
+                    if (md.PeekTitle()[0] == '\0')        // check id3 title, if not exists print filename, else title
 		    {
 		    	sprintf(bar,"widget_set FA songname 1 1 20 3 h 2 {%s}\n",foo);
 		    	sock_send_string(m_sock,bar);
 		    } else
 		    {
-		    	sprintf(bar,"widget_set FA songname 1 1 20 3 h 2 {%s}\n",(char *)md.Title().c_str());
+		    	sprintf(bar,"widget_set FA songname 1 1 20 3 h 2 {%s}\n",(char *)md.PeekTitle());
 		    	sock_send_string(m_sock,bar);
 		    }
 
-                    if (md.Album().c_str()[0] == '\0')        // check id3 album, if not exists clear line, else print album
+                    if (md.PeekAlbum()[0] == '\0')        // check id3 album, if not exists clear line, else print album
                     {
 			sprintf(bar,"widget_set FA album 1 2 20 1 h 2 { }\n");
                         sock_send_string(m_sock,bar);
 		    } else
 		    {
-		    	sprintf(bar,"widget_set FA album 1 2 20 1 h 2 {%s}\n",(char *)md.Album().c_str());
+		    	sprintf(bar,"widget_set FA album 1 2 20 1 h 2 {%s}\n",(char *)md.PeekAlbum());
 		    	sock_send_string(m_sock,bar);
 		    }
 
-                    if (md.Album().c_str()[0] == '\0')        
+                    if (md.PeekAlbum()[0] == '\0')        
 		    {
                         sprintf(bar,"widget_set FA artist 1 3 20 1 h 3 { }\n");
                         sock_send_string(m_sock,bar);
 		    } else
 		    {
-		    	sprintf(bar,"widget_set FA artist 1 3 20 1 h 3 {%s}\n",(char *)md.Artist().c_str());
+		    	sprintf(bar,"widget_set FA artist 1 3 20 1 h 3 {%s}\n",(char *)md.PeekArtist());
 		    	sock_send_string(m_sock,bar);
 		    }
 

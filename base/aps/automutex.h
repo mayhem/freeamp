@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: automutex.h,v 1.1 2000/07/31 19:51:38 ijr Exp $
+        $Id: automutex.h,v 1.1.6.1 2000/09/28 13:13:27 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -56,3 +56,4 @@ private:
 };
 
 #endif
+

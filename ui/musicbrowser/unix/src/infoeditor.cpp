@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.17 2000/09/21 20:43:38 ijr Exp $
+        $Id: infoeditor.cpp,v 1.17.4.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -115,7 +115,7 @@ void infoeditorUI::DoApplyInfoEdit(void)
 
         newmeta.SetTime(oldmeta.Time());
         newmeta.SetSize(oldmeta.Size());
-        newmeta.SetGUID(oldmeta.GUID().c_str());
+        newmeta.SetGUID(oldmeta.PeekGUID());
 
         if (newmeta != oldmeta) {
             (*i)->SetMetaData(&newmeta);
@@ -178,7 +178,7 @@ void infoeditorUI::MBClick(void)
        uuid_t1 uu;
 
        memset(uu, '\0', 17 * sizeof(unsigned char));
-       strncpy((char *)uu, firstdata.GUID().c_str(), 16);
+       strncpy((char *)uu, firstdata.PeekGUID(), 16);
        uuid_ascii(uu, ascii_uuid);
 
        url += ascii_uuid;
@@ -288,8 +288,8 @@ void infoeditorUI::DisplayInfo(void)
    m_titleEntry = gtk_entry_new();
    if (m_listsize > 1) 
       gtk_entry_set_text(GTK_ENTRY(m_titleEntry), "<Multiple Tracks Selected>");
-   else if (firstdata.Title().c_str())
-      gtk_entry_set_text(GTK_ENTRY(m_titleEntry), firstdata.Title().c_str());
+   else if (firstdata.PeekTitle())
+      gtk_entry_set_text(GTK_ENTRY(m_titleEntry), firstdata.PeekTitle());
    gtk_signal_connect(GTK_OBJECT(m_titleEntry), "changed",
                       GTK_SIGNAL_FUNC(text_changed_event), this);
    gtk_table_attach_defaults(GTK_TABLE(table), m_titleEntry, 1, 3, 0, 1);
@@ -313,8 +313,8 @@ void infoeditorUI::DisplayInfo(void)
    m_albumEntry = GTK_COMBO(combo)->entry;
    if (!m_albums)
       gtk_entry_set_text(GTK_ENTRY(m_albumEntry), "<Multiple Albums Selected>");
-   else if (firstdata.Album().c_str())
-      gtk_entry_set_text(GTK_ENTRY(m_albumEntry), firstdata.Album().c_str());
+   else if (firstdata.PeekAlbum())
+      gtk_entry_set_text(GTK_ENTRY(m_albumEntry), firstdata.PeekAlbum());
    gtk_signal_connect(GTK_OBJECT(m_albumEntry), "changed",
                       GTK_SIGNAL_FUNC(text_changed_event), this);
    gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 3, 1, 2);
@@ -333,8 +333,8 @@ void infoeditorUI::DisplayInfo(void)
    m_artistEntry = GTK_COMBO(combo)->entry;
    if (!m_artists) 
       gtk_entry_set_text(GTK_ENTRY(m_artistEntry), "<Multiple Artists Selected>");
-   else if (firstdata.Artist().c_str())
-      gtk_entry_set_text(GTK_ENTRY(m_artistEntry), firstdata.Artist().c_str());
+   else if (firstdata.PeekArtist())
+      gtk_entry_set_text(GTK_ENTRY(m_artistEntry), firstdata.PeekArtist());
    gtk_signal_connect(GTK_OBJECT(m_artistEntry), "changed",
                       GTK_SIGNAL_FUNC(text_changed_event), this);
    gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 3, 2, 3);
@@ -373,8 +373,8 @@ void infoeditorUI::DisplayInfo(void)
    m_genreEntry = GTK_COMBO(combo)->entry;
    if (!m_genres) 
       gtk_entry_set_text(GTK_ENTRY(m_genreEntry), "<Multiple Genres Selected>");
-   else if (firstdata.Genre().c_str())
-      gtk_entry_set_text(GTK_ENTRY(m_genreEntry), firstdata.Genre().c_str());
+   else if (firstdata.PeekGenre())
+      gtk_entry_set_text(GTK_ENTRY(m_genreEntry), firstdata.PeekGenre());
    gtk_signal_connect(GTK_OBJECT(m_genreEntry), "changed",
                       GTK_SIGNAL_FUNC(text_changed_event), this);
    gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 3, 3, 4);
@@ -415,8 +415,8 @@ void infoeditorUI::DisplayInfo(void)
    m_commentEntry = gtk_entry_new();
    if (m_listsize > 1)
       gtk_entry_set_text(GTK_ENTRY(m_commentEntry), "<Multiple Tracks Selected>");
-   else if (firstdata.Comment().c_str())
-      gtk_entry_set_text(GTK_ENTRY(m_commentEntry), firstdata.Comment().c_str());
+   else if (firstdata.PeekComment())
+      gtk_entry_set_text(GTK_ENTRY(m_commentEntry), firstdata.PeekComment());
    gtk_signal_connect(GTK_OBJECT(m_commentEntry), "changed",
                       GTK_SIGNAL_FUNC(text_changed_event), this);
    gtk_table_attach_defaults(GTK_TABLE(table), m_commentEntry, 1, 5, 4, 5);

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: downloadui.cpp,v 1.27 2000/08/24 12:25:33 ijr Exp $
+    $Id: downloadui.cpp,v 1.27.4.1 2000/09/28 13:13:28 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -875,7 +875,7 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
             string displayString;
 
-            if(dli->GetMetaData().Title().size())
+            if(dli->GetMetaData().Title_length())
                 displayString = dli->GetMetaData().Title();
             else
                 displayString = dli->DestinationFile();

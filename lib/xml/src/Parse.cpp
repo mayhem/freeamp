@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.9 2000/09/28 08:08:01 ijr Exp $
+   $Id: Parse.cpp,v 1.9.2.1 2000/09/28 13:13:28 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -60,7 +60,7 @@ EntityDefs pEntities[] =
 
 Parse::Parse(void)
 {
-	m_oLastError = string("");
+    m_oLastError = string("");
     m_iErrorLine = 1;
     m_fpFile = NULL;
 }
@@ -93,14 +93,14 @@ Error Parse::ParseString(const string &oXML)
 {
     m_uScanOffset = 0;
     m_oXML = oXML;
-
+    assert(m_oXML.size()==oXML.size());
     return DoParse();
 }
 
 int Parse::Scanf(const char *szFormat, char *szData)
 {
     char *szCustomFormat;
-    int   iRet, iOffset;
+    int   iRet=0, iOffset=0;
 
     if (m_fpFile)
         return fscanf(m_fpFile, szFormat, szData);
@@ -157,18 +157,21 @@ Error Parse::DoParse(void)
         {
             if (Eof())
                break;
+            iRet = Scanf(" %4095[^<]", szData);
 
-		      iRet = Scanf(" %4095[^<]", szData);
             if (iRet < 1)
-		      {
-		        m_oLastError = string("Unrecognized characters found");
+            {
+                m_oLastError = string("Unrecognized characters found");
                 bError = true;
                 break;
             }
             m_iErrorLine += CountNewlines(szData);
+
             oData = string(szData);
             UnXMLize(oData);
+
             eRet = PCData(oData);
+
             if (IsError(eRet))
             {
                 bError = true;
@@ -184,25 +187,24 @@ Error Parse::DoParse(void)
         iRet = Scanf("%[\n\t \r]", szElementName);
         if (iRet > 0)
     	    m_iErrorLine += CountNewlines(szElementName);
-
         iTemp = 0;
         sscanf(szElement, " /%254[A-Za-z0-9:_]%n", szElementName, &iTemp);
         if (iTemp > 0)
         {
             oElementName = szElementName;
             eRet = EndElement(oElementName);
+
             if (IsError(eRet))
                bError = true;
 
             continue;
         }
-
         if (sscanf(szElement, "%[!-]", szDummy))
         {
             continue;
         }
-        
-		  iOffset = 0;
+
+        iOffset = 0;
         int iRet = sscanf(szElement, " %254[A-Za-z0-9:_] %n", szElementName, &iOffset);
         oElementName = szElementName;
         if (iOffset == 0)
@@ -210,7 +212,6 @@ Error Parse::DoParse(void)
 
         oAttrMap.clear();
         bEmptyTag = false;
-
         for(;;)
         {
 #ifdef __QNX__
@@ -258,10 +259,10 @@ cout << szElement << endl;
             eRet = BeginElement(oElementName, oAttrMap);
             if (bEmptyTag && !IsError(eRet))
             eRet = EndElement(oElementName);
-
             if (IsError(eRet))
             bError = true;
         }
+
     }
 
     delete szElement;
@@ -274,7 +275,6 @@ cout << szElement << endl;
     {
         return kError_ParseError;
     }
-
     return kError_NoErr;
 }
 
@@ -324,3 +324,4 @@ void Parse::UnXMLize(string &oData)
         }    
     }    
 }
+

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.8 2000/07/31 19:51:38 ijr Exp $
+	$Id: facontext.h,v 1.8.6.1 2000/09/28 13:13:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FACONTEXT_H_
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 #include "preferences.h"
 #include "log.h"
 #include "mutex.h"
+#include "charstore.h"
 
 static const int32 c_majorVersion = 1;
 static const int32 c_minorVersion = 0;
@@ -62,6 +63,7 @@ class FAContext
           aps(0),
           //updateManager(0),
           player(0),
+          charstore(new HashStore()),
 #ifdef HAVE_GTK
 	  gtkInitialized(false),
           gtkRunning(false),
@@ -72,10 +74,12 @@ class FAContext
     
     ~FAContext()
     {
-	    if (log)
-	        delete log;
-	    if (prefs)
-	        delete prefs;
+        if (log)
+            delete log;
+        if (prefs)
+            delete prefs;
+        if (charstore)
+            delete charstore;
     }
 
     bool CompatibleVersion() { return majorVersion == c_majorVersion; }
@@ -92,6 +96,7 @@ class FAContext
     //UpdateManager *updateManager;
     TimerManager *timerManager;
     Player *player;
+    HashStore *charstore;
 #ifdef HAVE_GTK
     Mutex gtkLock;
     bool gtkInitialized;

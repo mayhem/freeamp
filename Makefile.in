@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.77 2000/09/28 11:33:09 ijr Exp $
+# $Id: Makefile.in,v 1.77.2.1 2000/09/28 13:13:27 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -65,7 +65,8 @@ APSOBJ += base/aps/apsplaylist.o base/aps/gencrc.o base/aps/hosttonet.o
 APSOBJ += base/aps/nettohost.o base/aps/comsocket.o base/aps/apsconvert.o
 APSOBJ += base/aps/YPClient.o base/aps/uuid.o
 
-FREEAMPOBJ =  base/src/log.o base/src/player.o base/src/musiccatalog.o
+FREEAMPOBJ = base/src/charstore.o base/src/metadata.o
+FREEAMPOBJ +=  base/src/log.o base/src/player.o base/src/musiccatalog.o
 FREEAMPOBJ += base/src/playlist.o base/src/propimpl.o base/src/registrar.o
 FREEAMPOBJ += base/src/registry.o base/src/thread.o io/src/eventbuffer.o
 FREEAMPOBJ += base/src/prefixprefs.o base/src/preferences.o
@@ -186,7 +187,7 @@ uninstall-docs:
 	${RM} -rf $(DESTDIR)$(datadir)/freeamp/help
 
 depend:
-	makedepend -- $(DEFS) -I/usr/include/g++-3 $(INCLUDES) $(CFLAGS) -- `echo $(FREEAMPOBJ) | sed -e 's,\.o,.cpp,g'`
+	makedepend -- $(DEFS) -I/usr/include/g++-3 -I/usr/include/g++-2 $(INCLUDES) $(CFLAGS) -- `echo $(FREEAMPOBJ) | sed -e 's,\.o,.cpp,g'`
 	+$(PIMAKE) depend
 
 Makefile: $(srcdir)/Makefile.in $(srcdir)/Makefile-plugins.in

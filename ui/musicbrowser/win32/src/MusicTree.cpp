@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.72 2000/09/27 12:16:40 elrod Exp $
+        $Id: MusicTree.cpp,v 1.72.4.1 2000/09/28 13:13:30 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -264,7 +264,7 @@ void MusicBrowserUI::FillTracks(TV_ITEM *pItem)
         string title = ost.str();
 
         if(metadata.Title() == string(" ") ||
-            metadata.Title().length() == 0)
+            metadata.Title_length() == 0)
             insert.item.pszText = "Unknown";
         else    
             insert.item.pszText = (char *)(title.c_str());
@@ -318,8 +318,8 @@ void MusicBrowserUI::RefreshCDList(vector<PlaylistItem*>* trackList)
 
         metadata = (*track)->GetMetaData();        
 
-        if(metadata.Title().size())
-            insert.item.pszText = (char*)(metadata.Title().c_str());
+        if(metadata.Title_length())
+            insert.item.pszText = (char*)(metadata.PeekTitle());
         else
         {
             ost << "CD Audio Track " << trackNumber;
@@ -345,9 +345,9 @@ void MusicBrowserUI::RefreshCDList(vector<PlaylistItem*>* trackList)
 
     if(trackList->size())
     {
-        CD = (metadata.Album().size() ? metadata.Album() : "Unknown Album");
+        CD = (metadata.Album_length() ? metadata.Album() : "Unknown Album");
         CD += " by ";
-        CD += (metadata.Artist().size() ? metadata.Artist() : "Unknown Artist");
+        CD += (metadata.Artist_lenth() ? metadata.Artist() : "Unknown Artist");
     }
     else
     {
@@ -412,12 +412,12 @@ void MusicBrowserUI::FillAllTracks()
                 metadata = (*track)->GetMetaData();
             
                 if(metadata.Title() == string(" ") || 
-                   metadata.Title().length() == 0)
+                   metadata.Title_length() == 0)
                    insert.item.pszText = "Unknown";
                 else    
-                    insert.item.pszText = (char *)(metadata.Title().c_str());
+                    insert.item.pszText = (char *)(metadata.PeekTitle());
                     
-                insert.item.cchTextMax = metadata.Title().length();
+                insert.item.cchTextMax = metadata.Title_length();
                 insert.item.iImage = 4;
                 insert.item.iSelectedImage = 4;
                 insert.item.cChildren= 0;
@@ -454,12 +454,12 @@ void MusicBrowserUI::FillAllTracks()
         metadata = (*track)->GetMetaData();
 
         if (metadata.Title() == string(" ") || 
-            metadata.Title().length() == 0)
+            metadata.Title_length() == 0)
             insert.item.pszText = "Unknown";
         else    
-            insert.item.pszText = (char *)(metadata.Title().c_str());
+            insert.item.pszText = (char *)(metadata.PeekTitle());
             
-        insert.item.cchTextMax = metadata.Title().length();
+        insert.item.cchTextMax = metadata.Title_length();
         insert.item.iImage = 4;
         insert.item.iSelectedImage = 4;
         insert.item.cChildren= 0;
@@ -498,12 +498,12 @@ void MusicBrowserUI::FillUncatTracks()
         metadata = (*track)->GetMetaData();
 
         if (metadata.Title() == string(" ") || 
-            metadata.Title().length() == 0)
+            metadata.Title_length() == 0)
             insert.item.pszText = "Unknown";
         else    
-            insert.item.pszText = (char *)(metadata.Title().c_str());
+            insert.item.pszText = (char *)(metadata.PeekTitle());
             
-        insert.item.cchTextMax = metadata.Title().length();
+        insert.item.cchTextMax = metadata.Title_length();
         insert.item.iImage = 4;
         insert.item.iSelectedImage = 4;
         insert.item.cChildren= 0;
@@ -585,7 +585,7 @@ void MusicBrowserUI::FillRelatable()
 
         data.m_pStream = stream;
 
-        insert.item.pszText = (char*)stream->GetMetaData().Title().c_str();
+        insert.item.pszText = (char*)stream->GetMetaData().PeekTitle();
         insert.item.cchTextMax = strlen(insert.item.pszText);
         insert.item.iImage = 8;
         insert.item.iSelectedImage = 8;
@@ -625,7 +625,7 @@ void MusicBrowserUI::FillFavorites()
 
         data.m_pStream = stream;
 
-        insert.item.pszText = (char*)stream->GetMetaData().Title().c_str();
+        insert.item.pszText = (char*)stream->GetMetaData().PeekTitle();
         insert.item.cchTextMax = strlen(insert.item.pszText);
         insert.item.iImage = 8;
         insert.item.iSelectedImage = 8;
@@ -1381,7 +1381,7 @@ void MusicBrowserUI::MusicCatalogStreamAdded(const PlaylistItem* item)
 
         data.m_pStream = stream;
 
-        insert.item.pszText = (char*)stream->GetMetaData().Title().c_str();
+        insert.item.pszText = (char*)stream->GetMetaData().PeekTitle();
         insert.item.cchTextMax = strlen(insert.item.pszText);
         insert.item.iImage = 8;
         insert.item.iSelectedImage = 8;
@@ -1452,12 +1452,12 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
             metadata = item->GetMetaData();
 
             if (metadata.Title() == string(" ") || 
-                metadata.Title().length() == 0)
+                metadata.Title_length() == 0)
                 insert.item.pszText = "Unknown";
             else    
-                insert.item.pszText = (char *)(metadata.Title().c_str());
+                insert.item.pszText = (char *)(metadata.PeekTitle());
         
-            insert.item.cchTextMax = metadata.Title().length();
+            insert.item.cchTextMax = metadata.Title_length();
             insert.item.iImage = 4;
             insert.item.iSelectedImage = 4;
             insert.item.cChildren= 0;
@@ -1510,7 +1510,7 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
                     string title = ost.str();
                 
                     if(metadata.Title() == string(" ") ||
-                       metadata.Title().length() == 0)
+                       metadata.Title_length() == 0)
                         insert.item.pszText = "Unknown";
                     else    
                         insert.item.pszText = (char *)(title.c_str());
@@ -1518,10 +1518,10 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
 
 
                     /*if (metadata.Title() == string(" ") || 
-                        metadata.Title().length() == 0)
+                        metadata.Title_length() == 0)
                         insert.item.pszText = "Unknown";
                     else    
-                        insert.item.pszText = (char *)(metadata.Title().c_str());*/
+                        insert.item.pszText = (char *)(metadata.PeekTitle());*/
     
                     insert.item.cchTextMax = strlen(insert.item.pszText);
                     insert.item.iImage = 4;
@@ -1721,12 +1721,12 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
             metadata = item->GetMetaData();
 
             if (metadata.Title() == string(" ") || 
-                metadata.Title().length() == 0)
+                metadata.Title_length() == 0)
                 insert.item.pszText = "Unknown";
             else    
-                insert.item.pszText = (char *)(metadata.Title().c_str());
+                insert.item.pszText = (char *)(metadata.PeekTitle());
 
-            insert.item.cchTextMax = metadata.Title().length();
+            insert.item.cchTextMax = metadata.Title_length();
             insert.item.iImage = 4;
             insert.item.iSelectedImage = 4;
             insert.item.cChildren= 0;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.cpp,v 1.9 2000/09/28 08:08:01 ijr Exp $
+	$Id: id3v1.cpp,v 1.9.2.1 2000/09/28 13:13:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -286,7 +286,7 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                             KillTrailingSpaces(buffer);
                             // simple test to see if we have "more" data
                             // would be nice if we can test for "better" data
-                            if(strlen(buffer) > metadata->Artist().size())
+                            if(strlen(buffer) > metadata->Artist_length())
                                 metadata->SetArtist(buffer);
 
                             strncpy(buffer, id3.v1_0.album, 30);
@@ -294,7 +294,7 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                             KillTrailingSpaces(buffer);
                             // simple test to see if we have "more" data
                             // would be nice if we can test for "better" data
-                            if(strlen(buffer) > metadata->Album().size())
+                            if(strlen(buffer) > metadata->Album_length())
                                 metadata->SetAlbum(buffer);
 
                             strncpy(buffer, id3.v1_0.title, 30);
@@ -302,7 +302,7 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                             KillTrailingSpaces(buffer);
                             // simple test to see if we have "more" data
                             // would be nice if we can test for "better" data
-                            if(strlen(buffer) > metadata->Title().size())
+                            if(strlen(buffer) > metadata->Title_length())
                                 metadata->SetTitle(buffer);
 
                             strncpy(buffer, id3.v1_0.year,4);
@@ -316,7 +316,7 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                             KillTrailingSpaces(buffer);
                             // simple test to see if we have "more" data
                             // would be nice if we can test for "better" data
-                            if(strlen(buffer) > metadata->Comment().size())
+                            if(strlen(buffer) > metadata->Comment_length())
                                 metadata->SetComment(buffer);
 
                             if( id3.v1_1.zero == 0x00 &&
@@ -331,14 +331,14 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
                             {
                                 // simple test to see if we have "more" data
                                 // would be nice if we can test for "better" data
-                                if(strlen(buffer) > metadata->Genre().size())
+                                if(strlen(buffer) > metadata->Genre_length())
                                     metadata->SetGenre(genre_strings[id3.v1_0.genre]);
                             }
                             else
                             {
                                 // simple test to see if we have "more" data
                                 // would be nice if we can test for "better" data
-                                if(!metadata->Genre().size())
+                                if(!metadata->Genre_length())
                                     metadata->SetGenre("{unknown}");
 
                             }

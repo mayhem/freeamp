@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: FavoriteDialog.cpp,v 1.2 2000/06/12 16:13:55 robert Exp $
+    $Id: FavoriteDialog.cpp,v 1.2.8.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -111,9 +111,9 @@ BOOL FavoriteDialog::DialogProc(HWND hwnd,
 
             if(m_item)
             {
-                SetWindowText(hwndName, m_item->GetMetaData().Title().c_str());
+                SetWindowText(hwndName, m_item->GetMetaData().PeekTitle());
                 SetWindowText(hwndURL, m_item->URL().c_str());
-                SetWindowText(hwndDescription, m_item->GetMetaData().Comment().c_str());
+                SetWindowText(hwndDescription, m_item->GetMetaData().PeekComment());
             }
             
             SetFocus(hwndName);

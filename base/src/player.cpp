@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.241 2000/09/28 08:08:00 ijr Exp $
+        $Id: player.cpp,v 1.241.2.1 2000/09/28 13:13:28 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -185,6 +185,8 @@ Player(FAContext *context) : EventQueue()
         MKDIR(tempDir);
     }
 
+    MetaData::SetCharStore(m_context->charstore);
+
     m_musicCatalog = new MusicCatalog(m_context);
     m_context->catalog = m_musicCatalog;
 
@@ -216,7 +218,7 @@ Player(FAContext *context) : EventQueue()
     m_context->timerManager->StartTimer(&m_syncTimer, synclog_timer, 180, this);
 }
 
-#define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }
+#define TYPICAL_DELETE(x) /* printf("deleting...\n"); */ if (x) { delete x; x = NULL; }
 
 Player::
 ~Player()
@@ -665,6 +667,8 @@ Run()
    Error     error = kError_NoErr;
    int32     uisActivated = 0;
    bool      bValue;
+
+   MetaData::SetCharStore(m_context->charstore);
 
    m_context->prefs->GetPrefBoolean(kUseDebugLogPref, &bValue);
    if (bValue)
@@ -1718,7 +1722,7 @@ DoneOutputting(Event *pEvent)
    if (item)
    {
       MetaData mdata = (MetaData)item->GetMetaData();
-      if (mdata.GUID().size() == 16) {
+      if (mdata.GUID_length() == 16) {
           mdata.AddPlayCount();
           item->SetMetaData(&mdata);
           m_plm->UpdateTrackMetaData(item);

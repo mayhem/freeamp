@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.16 2000/09/28 08:08:02 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.16.2.1 2000/09/28 13:13:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -95,10 +95,10 @@ void DownloadUI::UpdateInfo(void)
         return;
     }
 
-    gtk_label_set_text(GTK_LABEL(artist), dli->GetMetaData().Artist().c_str());
-    gtk_label_set_text(GTK_LABEL(album), dli->GetMetaData().Album().c_str());
-    gtk_label_set_text(GTK_LABEL(title), dli->GetMetaData().Title().c_str());
-    gtk_label_set_text(GTK_LABEL(genre), dli->GetMetaData().Genre().c_str());
+    gtk_label_set_text(GTK_LABEL(artist), dli->GetMetaData().PeekArtist());
+    gtk_label_set_text(GTK_LABEL(album), dli->GetMetaData().PeekAlbum());
+    gtk_label_set_text(GTK_LABEL(title), dli->GetMetaData().PeekTitle());
+    gtk_label_set_text(GTK_LABEL(genre), dli->GetMetaData().PeekGenre());
     gtk_label_set_text(GTK_LABEL(playlist), dli->PlaylistName().c_str());
     gtk_label_set_text(GTK_LABEL(name), dli->DestinationFile().c_str());
     float total;

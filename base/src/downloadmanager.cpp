@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.39 2000/09/28 08:08:00 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.39.2.1 2000/09/28 13:13:27 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1367,11 +1367,11 @@ void DownloadManager::SaveResumableDownloadItems()
                         ost << strlen(num) << kDatabaseDelimiter;
 
                     // metadata lengths
-                    ost << metadata.Artist().size() << kDatabaseDelimiter;
-                    ost << metadata.Album().size() << kDatabaseDelimiter;
-                    ost << metadata.Title().size() << kDatabaseDelimiter;
-                    ost << metadata.Comment().size() << kDatabaseDelimiter;
-                    ost << metadata.Genre().size() << kDatabaseDelimiter;
+                    ost << metadata.Artist_length() << kDatabaseDelimiter;
+                    ost << metadata.Album_length() << kDatabaseDelimiter;
+                    ost << metadata.Title_length() << kDatabaseDelimiter;
+                    ost << metadata.Comment_length() << kDatabaseDelimiter;
+                    ost << metadata.Genre_length() << kDatabaseDelimiter;
 
                     sprintf(num, "%ld", (long int)metadata.Year());
                     ost << strlen(num) << kDatabaseDelimiter;

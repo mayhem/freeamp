@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.60 2000/06/22 15:27:17 elrod Exp $
+	$Id: main.cpp,v 1.60.8.1 2000/09/28 13:13:28 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -202,7 +202,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
     // clean up our act
     delete player;
-	delete context;
+    delete context;
     delete thread;
 
     CloseHandle(runOnceMutex);
@@ -288,11 +288,11 @@ bool SendCommandLineToRealJukebox()
 						{
 							MetaData metadata = (*dliIter)->GetMetaData();
 
-							if(	strcasecmp("mp3", metadata.FormatExtension().c_str()) &&
-								strcasecmp("mp2", metadata.FormatExtension().c_str()) &&
-								strcasecmp("mp1", metadata.FormatExtension().c_str()) &&
-								strcasecmp("m3u", metadata.FormatExtension().c_str()) &&
-								strcasecmp("pls", metadata.FormatExtension().c_str()) )
+							if(	strcasecmp("mp3", metadata.PeekFormatExtension()) &&
+								strcasecmp("mp2", metadata.PeekFormatExtension()) &&
+								strcasecmp("mp1", metadata.PeekFormatExtension()) &&
+								strcasecmp("m3u", metadata.PeekFormatExtension()) &&
+								strcasecmp("pls", metadata.PeekFormatExtension()) )
 							{
                                 bool rjFound = false;
 

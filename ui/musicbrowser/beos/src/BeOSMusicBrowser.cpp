@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: BeOSMusicBrowser.cpp,v 1.6 2000/07/17 22:31:03 hiro Exp $
+        $Id: BeOSMusicBrowser.cpp,v 1.6.8.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "BeOSMusicBrowser.h"
@@ -616,7 +616,7 @@ BeOSMusicBrowser::EditCatalogItem( CatalogItem* item )
                                 ti->Item() );
             editor->Show();
             const MetaData& md = ti->Item()->GetMetaData();
-            PRINT(( "%s, %s, %s\n", md.Artist().c_str(), md.Album().c_str(), md.Title().c_str() ));
+            PRINT(( "%s, %s, %s\n", md.PeekArtist(), md.PeekAlbum(), md.PeekTitle() ));
             break;
         }
         default:

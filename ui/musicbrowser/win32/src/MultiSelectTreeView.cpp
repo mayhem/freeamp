@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.25 2000/09/27 12:16:40 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.25.4.1 2000/09/28 13:13:30 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -175,7 +175,7 @@ void MusicBrowserUI::EditItemLabel(HWND hwnd, HTREEITEM item)
 
             tv_item.mask = TVIF_HANDLE | TVIF_TEXT;
             tv_item.hItem = item;
-            tv_item.pszText = (char*)treedata->m_pTrack->GetMetaData().Title().c_str();
+            tv_item.pszText = (char*)treedata->m_pTrack->GetMetaData().PeekTitle();
             tv_item.cchTextMax = strlen(tv_item.pszText);
 
             TreeView_SetItem(hwnd, &tv_item);        

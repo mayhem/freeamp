@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.86 2000/09/22 07:12:42 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.86.4.1 2000/09/28 13:13:28 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -49,11 +49,13 @@ using namespace std;
 #include "utility.h"
 #include "pmo.h"
 #include "debug.h"
+#include "tracer.h"
 
 #define METADATABASE_VERSION 1
 
 MusicCatalog::MusicCatalog(FAContext *context, char *databasepath)
 {
+    assert(context);
     m_database = NULL;
     m_context = context;
     m_plm = context->plm;
@@ -303,7 +305,7 @@ PlaylistItem *MusicCatalog::GetPlaylistItemFromURL(const char *url)
         return retitem;
 
     m_catMutex->Acquire();
-    if ((meta->Artist().size() == 0) || (meta->Artist() == " ")) {
+    if ((meta->Artist_length() == 0) || (meta->Artist() == " ")) {
         vector<PlaylistItem *>::iterator i = m_unsorted->begin();
         for (; i != m_unsorted->end(); i++)
             if ((*i)->URL() == url)
@@ -364,13 +366,13 @@ Error MusicCatalog::RemoveSong(const char *url)
     MetaData *meta = ReadMetaDataFromDatabase(url);
     if (!meta)
         return kError_ItemNotFound;
-
+    _you_are_here;
     string strGUID = meta->GUID();
 
     m_database->Remove(url);
-
+    _you_are_here;
     m_catMutex->Acquire();
-    if ((meta->Artist().size() == 0) || (meta->Artist() == " ")) {
+    if ((meta->Artist_length() == 0) || (meta->Artist() == " ")) {
         vector<PlaylistItem *>::iterator i = m_unsorted->begin();
         for (; i != m_unsorted->end(); i++)
             if ((*i)->URL() == url)
@@ -388,7 +390,7 @@ Error MusicCatalog::RemoveSong(const char *url)
         vector<PlaylistItem *>           *trList;
         vector<PlaylistItem *>::iterator  k;
         bool                              found = false;
-        
+
         i = m_artistList->begin();
         for (; i != m_artistList->end() && !found; i++) 
         {
@@ -423,9 +425,9 @@ Error MusicCatalog::RemoveSong(const char *url)
             }
         }
     }
-
+    _you_are_here;
     delete meta;
-
+    _you_are_here;
     if ((strGUID.size() != 0) && (m_guidTable->size() != 0)) {
         multimap<string, string, less<string> >::iterator i;
         i = m_guidTable->find(strGUID);
@@ -460,7 +462,7 @@ Error MusicCatalog::AddStream(const char *url)
 
     m_catMutex->Acquire();
 
-    if (meta->GUID().size() > 0) 
+    if (meta->GUID_length() > 0) 
         m_guidTable->insert(multimap<string, string, less<string> >
                             ::value_type(meta->GUID(), url));
 
@@ -491,6 +493,7 @@ bool MusicCatalog::CaseCompare(string s1, string s2)
 
 void MusicCatalog::GenerateSignature(PlaylistItem *track)
 {
+    assert(track);
     string url = track->URL();
     m_sigs->insert(url);
 }
@@ -523,7 +526,7 @@ Error MusicCatalog::AddSong(const char *url)
 
     m_catMutex->Acquire();
 
-    if (meta->GUID().size() > 0) {
+    if (meta->GUID_length() > 0) {
         generated = true;
         m_guidTable->insert(multimap<string, string, less<string> >
                             ::value_type(meta->GUID(), url));
@@ -531,7 +534,7 @@ Error MusicCatalog::AddSong(const char *url)
     else 
         GenerateSignature(newtrack);
 
-    if ((meta->Artist().size() == 0) || (meta->Artist() == " ")) {
+    if ((meta->Artist_length() == 0) || (meta->Artist() == " ")) {
         vector<PlaylistItem *>::iterator i = m_unsorted->begin();
         if (!generated)
             GenerateSignature(newtrack);
@@ -548,12 +551,12 @@ Error MusicCatalog::AddSong(const char *url)
     }
     else {
         bool changed = false;
-        if (meta->Album() == " " || meta->Album().size() == 0) {
+        if (meta->Album() == " " || meta->Album_length() == 0) {
             string unknownstr = string("Unknown");
             meta->SetAlbum(unknownstr.c_str());
             changed = true;
         }
-        if (meta->Title() == " " || meta->Title().size() == 0) {
+        if (meta->Title() == " " || meta->Title_length() == 0) {
             string unknownstr = string("Unknown");
             meta->SetTitle(unknownstr.c_str());
             changed = true;
@@ -740,8 +743,9 @@ Error MusicCatalog::RePopulateFromDatabase()
     m_catMutex->Acquire(); 
     char *key = m_database->NextKey(NULL);
     Error err = kError_NoErr;
-
+  
     while (key) {
+        cerr << key;
         err = Add(key);
 
         if (IsError(err)) {
@@ -950,6 +954,7 @@ void MusicCatalog::DoSearchPaths(vector<string> &pathList, bool bSendMessages)
 
 void MusicCatalog::DoSearchMusic(char *path, bool bSendMessages)
 {
+    assert(path);
     WIN32_FIND_DATA find;
     HANDLE handle;
     string search = path;
@@ -1068,7 +1073,7 @@ void MusicCatalog::DoSearchMusic(char *path, bool bSendMessages)
                     if (!tempdata || !m_addImmediately) {
                         MetaData newmdata = (MetaData)plist->GetMetaData();
                         if (tempdata)
-                            newmdata.SetGUID(tempdata->GUID().c_str());
+                            newmdata.SetGUID(tempdata->PeekGUID());
 
                         WriteMetaDataToDatabase(tempurl, newmdata);
                     }
@@ -1092,6 +1097,7 @@ void MusicCatalog::WriteMetaDataToDatabase(const char *url,
                                            const MetaData metadata,
                                            MetadataStorageType type)
 {
+    assert(url);
     if (!m_database->Working())
         return;
 
@@ -1108,15 +1114,15 @@ void MusicCatalog::WriteMetaDataToDatabase(const char *url,
     ost.append("11");
     ost.append(kDatabaseDelimiter);
 
-    sprintf(num, "%ld%s", (long int)metadata.Artist().size(), kDatabaseDelimiter);
+    sprintf(num, "%ld%s", (long int)metadata.Artist_length(), kDatabaseDelimiter);
     ost.append(num);
-    sprintf(num, "%ld%s", (long int)metadata.Album().size(), kDatabaseDelimiter);
+    sprintf(num, "%ld%s", (long int)metadata.Album_length(), kDatabaseDelimiter);
     ost.append(num);
-    sprintf(num, "%ld%s", (long int)metadata.Title().size(), kDatabaseDelimiter);
+    sprintf(num, "%ld%s", (long int)metadata.Title_length(), kDatabaseDelimiter);
     ost.append(num);
-    sprintf(num, "%ld%s", (long int)metadata.Comment().size(), kDatabaseDelimiter);
+    sprintf(num, "%ld%s", (long int)metadata.Comment_length(), kDatabaseDelimiter);
     ost.append(num);
-    sprintf(num, "%ld%s", (long int)metadata.Genre().size(), kDatabaseDelimiter);
+    sprintf(num, "%ld%s", (long int)metadata.Genre_length(), kDatabaseDelimiter);
     ost.append(num);
     sprintf(temp, "%ld", (long int)metadata.Year());
     sprintf(num, "%ld%s", (long int)strlen(temp), kDatabaseDelimiter);
@@ -1133,7 +1139,7 @@ void MusicCatalog::WriteMetaDataToDatabase(const char *url,
     sprintf(temp, "%ld", (long int)metadata.PlayCount());
     sprintf(num, "%ld%s", (long int)strlen(temp), kDatabaseDelimiter);
     ost.append(num);
-    sprintf(num, "%ld%s", (long int)metadata.GUID().size(), kDatabaseDelimiter);
+    sprintf(num, "%ld%s", (long int)metadata.GUID_length(), kDatabaseDelimiter);
     ost.append(num);
 
     ost.append(metadata.Artist());
@@ -1154,10 +1160,10 @@ void MusicCatalog::WriteMetaDataToDatabase(const char *url,
     ost.append(metadata.GUID());
     ost.append("\0");
 
-    if (metadata.GUID().size() > 0)
+    if (metadata.GUID_length() > 0)
         if (GetFilename(metadata.GUID()).size() == 0) 
             m_guidTable->insert(multimap<string, string, less<string> >
-                                ::value_type(metadata.GUID().c_str(), url));
+                                ::value_type(metadata.PeekGUID(), url));
          
     m_database->Insert(url, (char *)ost.c_str());
 
@@ -1256,16 +1262,17 @@ MetaData *MusicCatalog::ReadMetaDataFromDatabase(const char *url)
     delete [] fieldLength;
     delete [] dbasedata;
 
-    if (metadata->GUID().size() > 0)
+    if (metadata->GUID_length() > 0)
         if (GetFilename(metadata->GUID()).size() == 0)
             m_guidTable->insert(multimap<string, string, less<string> >
-                                ::value_type(metadata->GUID().c_str(), url));
+                                ::value_type(metadata->PeekGUID(), url));
 
     return metadata;
 }
 
 Error MusicCatalog::AcceptEvent(Event *e)
 {
+    assert(e);
     switch (e->Type()) {
         case INFO_MusicCatalogTrackRemoved: {
             if (m_inUpdateSong) {
@@ -1379,7 +1386,7 @@ Error MusicCatalog::AcceptEvent(Event *e)
                     data = new MetaData;
 
                 if (data->GUID() != "") { 
-                    if (strncmp(data->GUID().c_str(), GUID.c_str(), 16)) 
+                    if (strncmp(data->PeekGUID(), GUID.c_str(), 16)) 
                         cout << "ERROR! " << url << " has 2 GUIDs!\n";
                 }
                 data->SetGUID(GUID.c_str());

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.117 2000/09/28 08:08:03 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.117.2.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -48,7 +48,7 @@ using namespace std;
 
 #include "aps.h"
 #include "apsplaylist.h"
-
+#include "tracer.h"
 void GTKMusicBrowser::HandleSignature(void)
 {
     if (m_sigsStart) {
@@ -159,7 +159,7 @@ void GTKMusicBrowser::SubmitPlaylist(void)
         
         // Assumes that GUID's are set properly in meta structures
         for (i = items->begin(); i != items->end(); i++)
-            InputPlaylist.Insert((*i)->GetMetaData().GUID().c_str(),
+            InputPlaylist.Insert((*i)->GetMetaData().PeekGUID(),
                                  (*i)->URL().c_str());
 
         pInterface->APSSubmitPlaylist(&InputPlaylist);
@@ -237,7 +237,7 @@ void GTKMusicBrowser::GenSLPlaylist(vector<PlaylistItem *> *seed, float fMax)
         vector<PlaylistItem *>::iterator i;
 
         for (i = seed->begin(); i != seed->end(); i++)
-            seedList.Insert((*i)->GetMetaData().GUID().c_str(), 
+            seedList.Insert((*i)->GetMetaData().PeekGUID(), 
                             (*i)->URL().c_str());
     }
     nResponse = m_context->aps->APSGetSoundsLike(&seedList,
@@ -345,7 +345,7 @@ void GTKMusicBrowser::GenPlaylist(vector<PlaylistItem *> *seed)
         vector<PlaylistItem *>::iterator i;
 
         for (i = seed->begin(); i != seed->end(); i++) 
-            InputPlaylist.Insert((*i)->GetMetaData().GUID().c_str(),
+            InputPlaylist.Insert((*i)->GetMetaData().PeekGUID(),
                                  (*i)->URL().c_str());
 
         nResponse = m_context->aps->APSGetPlaylist(&InputPlaylist, 
@@ -738,6 +738,7 @@ void GTKMusicBrowser::CreateExpanded(void)
 
 void set_label_menu(GtkWidget *w, gchar *newtitle)
 {
+    _nullChk(w);
     if (GTK_IS_ACCEL_LABEL(GTK_OBJECT(w))) {
         gtk_label_set_text(&(GTK_ACCEL_LABEL(w)->label), newtitle);
     }
@@ -745,7 +746,10 @@ void set_label_menu(GtkWidget *w, gchar *newtitle)
 
 void GTKMusicBrowser::UpdatePlayPause(void)
 {
+    _show_args2(pauseState,stopState);
+    _nullChk(menuFactory);
     GtkWidget *w = gtk_item_factory_get_widget(menuFactory, "/Controls/Play");
+    _nullChk(w);
     if (pauseState) 
         gtk_container_foreach(GTK_CONTAINER(w), set_label_menu, (gpointer)"Pause");
     else
@@ -755,6 +759,7 @@ void GTKMusicBrowser::UpdatePlayPause(void)
         gtk_widget_set_sensitive(w, FALSE);
     else
         gtk_widget_set_sensitive(w, TRUE);
+    _message("end of func\n");
 }
 
 void GTKMusicBrowser::ExpandCollapseEvent(void)
@@ -1175,9 +1180,11 @@ void GTKMusicBrowser::SetClickState(ClickState newState)
 
 void GTKMusicBrowser::DeletePlaylistItem(uint32 loc)
 {
+    _show_args1(loc);
     bool stopped = false;
     if (master) {
         if (loc == m_playingindex) {
+            _you_are_here;
             m_context->target->AcceptEvent(new Event(CMD_Stop));
             stopped = true;
         }
@@ -1185,15 +1192,18 @@ void GTKMusicBrowser::DeletePlaylistItem(uint32 loc)
             m_playingindex--;
 
         if (stopped && (m_plm->CountItems() - 1 > loc)) {
+            _you_are_here;
             m_plm->SetCurrentIndex(loc + 1);
             m_context->target->AcceptEvent(new Event(CMD_Play));
         }
     }
     m_plm->RemoveItem(loc);
+    _message("end func\n");
 }
 
 void GTKMusicBrowser::DeleteEvent(void)
 {
+    _you_are_here;
     if (GetClickState() == kContextPlaylist) {
         set<uint32>::reverse_iterator i = m_plSelected.rbegin();
         for (; i != m_plSelected.rend(); i++)
@@ -1651,7 +1661,7 @@ GTKMusicBrowser::~GTKMusicBrowser(void)
 
 void GTKMusicBrowser::ShowMusicBrowser(void)
 {
-    
+    _show_args0();
     gdk_threads_enter();
     isVisible = true;
     if (m_initialized)
@@ -1733,6 +1743,7 @@ void GTKMusicBrowser::Close(bool inMain)
 
 Error GTKMusicBrowser::AcceptEvent(Event *e)
 {
+    _nullChk(e);
     switch (e->Type()) {
         case INFO_PrefsChanged: {
             if (m_initialized && isVisible) {
@@ -1769,6 +1780,7 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
             }
             break; }
         case INFO_Playing: {
+            _show_args4(e->Type(),pauseState,stopState,master);
             pauseState = 1;
             stopState = 0;
             if (master) {
@@ -1779,6 +1791,7 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
             pauseState = 0;
             break; }
         case INFO_Stopped: {
+            _show_args4(e->Type(),pauseState,stopState,master);
             stopState = 1;
             pauseState = 0;
             if (master) {
@@ -1789,6 +1802,7 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
             pauseState = 1;
             break; }
         case INFO_Paused: {
+            _show_args4(e->Type(),pauseState,stopState,master);
             pauseState = 0;
             stopState = 0;
             if (master) {
@@ -1946,14 +1960,17 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
             }
             break; }
         case INFO_PlaylistItemRemoved: {
+            _show_args1(e->Type());
             if (m_initialized) {
                 PlaylistItemRemovedEvent *pire = (PlaylistItemRemovedEvent *)e;
+                _nullChk(pire);
                 if (pire->Manager() == m_plm) {
                     gdk_threads_enter();
                     RemovePlaylistItems((vector<uint32>*)pire->Indices());
                     gdk_threads_leave();
                 }
             }
+            _message("end case\n");
             break; }
         case INFO_PlaylistItemsUpdated: {
             PlaylistItemsUpdatedEvent *piue = (PlaylistItemsUpdatedEvent *)e;

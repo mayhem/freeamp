@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.cpp,v 1.12 2000/09/28 08:08:02 ijr Exp $
+	$Id: misc.cpp,v 1.12.2.1 2000/09/28 13:13:28 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -140,7 +140,7 @@ bool Misc::ReadMetaData(const char* url, MetaData* metadata)
     }
 
     // do we need to come up with a name?
-    if(!strncasecmp(url, "file://", 7) && !metadata->Title().size())
+    if(!strncasecmp(url, "file://", 7) && !metadata->Title_length())
     {
         char* temp = new char[strlen(url) + 1];
 
@@ -170,11 +170,11 @@ bool Misc::ReadMetaData(const char* url, MetaData* metadata)
 
         delete [] temp;
     }
-    else if(!strncasecmp(url, "http://", 7) && !metadata->Title().size())
+    else if(!strncasecmp(url, "http://", 7) && !metadata->Title_length())
     {
         metadata->SetTitle("HTTP Stream");
     }
-    else if(!strncasecmp(url, "rtp://", 6) && !metadata->Title().size())
+    else if(!strncasecmp(url, "rtp://", 6) && !metadata->Title_length())
     {
         metadata->SetTitle("RTP Stream");
     }

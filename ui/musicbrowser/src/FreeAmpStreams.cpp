@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: FreeAmpStreams.cpp,v 1.3 2000/09/25 12:52:16 ijr Exp $
+	$Id: FreeAmpStreams.cpp,v 1.3.4.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -60,7 +60,6 @@ Error FreeAmpStreams::ParseStreamXML(const string &xml,
     m_list = &list;
     result = ParseString(xml);
     m_list = NULL;
-
     return result;
 }
 
@@ -90,9 +89,10 @@ Error FreeAmpStreams::BeginElement(string &oElement, AttrMap &oAttrMap)
         else
             return kError_YouScrewedUp;
     }
-    if (oElement == string("Stream"))
+    else if (oElement == string("Stream"))
     {
         delete m_info;
+        m_info = NULL;
         m_info = new FreeAmpStreamInfo();
     }
 
@@ -136,7 +136,6 @@ Error FreeAmpStreams::PCData(string &data)
     {
         m_info->m_maxUsers = atoi(data.c_str());
     }
-        
     m_curElement = string("");
 
     return kError_NoErr;
@@ -147,7 +146,6 @@ Error FreeAmpStreams::EndElement(string &oElement)
 {
     char *pPtr;
     int   iOffset;
-
     if (oElement == string("Stream"))
     {
         m_info->m_treePath = m_treePath;
@@ -155,8 +153,7 @@ Error FreeAmpStreams::EndElement(string &oElement)
         delete m_info;
         m_info = NULL;
     }
-
-    if (oElement == string("Service"))
+    else if (oElement == string("Service"))
     {
         pPtr = strrchr(m_treePath.c_str(), '/');
         if (pPtr == NULL)

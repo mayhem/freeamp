@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.20 2000/09/28 08:08:02 ijr Exp $
+	$Id: id3v2.cpp,v 1.20.2.1 2000/09/28 13:13:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -408,13 +408,13 @@ bool ID3v2::WriteMetaData(const char* url, const MetaData& metadata)
     {
         pFrame = ID3Frame_NewID(ID3FID_TITLE);
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_SetASCII(pField, (char *)metadata.Title().c_str());
+        ID3Field_SetASCII(pField, (char *)metadata.PeekTitle());
         ID3Tag_AttachFrame(pTag, pFrame);
     }
     else
     {
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_SetASCII(pField, (char *)metadata.Title().c_str());
+        ID3Field_SetASCII(pField, (char *)metadata.PeekTitle());
     }
    
     pFrame = ID3Tag_FindFrameWithID(pTag, ID3FID_ALBUM);
@@ -422,13 +422,13 @@ bool ID3v2::WriteMetaData(const char* url, const MetaData& metadata)
     {
         pFrame = ID3Frame_NewID(ID3FID_ALBUM);
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_SetASCII(pField, (char *)metadata.Album().c_str());
+        ID3Field_SetASCII(pField, (char *)metadata.PeekAlbum());
         ID3Tag_AttachFrame(pTag, pFrame);
     }
     else
     {
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_SetASCII(pField, (char *)metadata.Album().c_str());
+        ID3Field_SetASCII(pField, (char *)metadata.PeekAlbum());
     }
 
     pFrame = ID3Tag_FindFrameWithID(pTag, ID3FID_LEADARTIST);
@@ -436,13 +436,13 @@ bool ID3v2::WriteMetaData(const char* url, const MetaData& metadata)
     {
         pFrame = ID3Frame_NewID(ID3FID_LEADARTIST);
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_SetASCII(pField, (char *)metadata.Artist().c_str());
+        ID3Field_SetASCII(pField, (char *)metadata.PeekArtist());
         ID3Tag_AttachFrame(pTag, pFrame);
     }
     else
     {
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_SetASCII(pField, (char *)metadata.Artist().c_str());
+        ID3Field_SetASCII(pField, (char *)metadata.PeekArtist());
     }
 
     pFrame = ID3Tag_FindFrameWithID(pTag, ID3FID_COMMENT);
@@ -450,13 +450,13 @@ bool ID3v2::WriteMetaData(const char* url, const MetaData& metadata)
     {
         pFrame = ID3Frame_NewID(ID3FID_COMMENT);
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_SetASCII(pField, (char *)metadata.Comment().c_str());
+        ID3Field_SetASCII(pField, (char *)metadata.PeekComment());
         ID3Tag_AttachFrame(pTag, pFrame);
     }
     else
     {
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_SetASCII(pField, (char *)metadata.Comment().c_str());
+        ID3Field_SetASCII(pField, (char *)metadata.PeekComment());
     }
 
     sprintf(dummy, "%d", metadata.Time() * 1000);
@@ -519,7 +519,7 @@ bool ID3v2::WriteMetaData(const char* url, const MetaData& metadata)
         ID3Field_SetASCII(pField, dummy);
     }
 
-    sprintf(dummy, "(12)%s", metadata.Genre().c_str());
+    sprintf(dummy, "(12)%s", metadata.PeekGenre());
     pFrame = ID3Tag_FindFrameWithID(pTag, ID3FID_CONTENTTYPE);
     if (!pFrame)
     {

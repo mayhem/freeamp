@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: musicbrowser.cpp,v 1.42 2000/09/19 11:12:32 ijr Exp $
+    $Id: musicbrowser.cpp,v 1.42.4.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -30,6 +30,8 @@ ____________________________________________________________________________*/
 #include "pmo.h"
 
 #include <algorithm>
+#include "tracer.h"
+
 using namespace std;
 
 extern "C" {
@@ -66,6 +68,7 @@ Error MusicBrowserUI::Init(int32 startup_level)
     string URL = string("file://") + string(fadir) +
                  string("/currentlist.m3u");
     delete [] fadir;
+    fadir=NULL;
     mainBrowser = new GTKMusicBrowser(m_context, this, URL);
 
     return kError_NoErr;
@@ -73,15 +76,17 @@ Error MusicBrowserUI::Init(int32 startup_level)
 
 Error MusicBrowserUI::AcceptEvent(Event *event)
 {
+    _nullChk(event);
     switch (event->Type()) {
         case CMD_Cleanup: {
             mainBrowser->Close(false);
             delete mainBrowser;
-
+            mainBrowser=NULL;
             while (browserWindows.size() > 0) {
                 browserWindows[0]->Close(false);
                 delete browserWindows[0];
                 browserWindows.erase(browserWindows.begin());
+                browserWindows[0]=NULL;
             }
 
             gdk_threads_enter();
@@ -115,6 +120,7 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             }
             break; }
         case CMD_ToggleMusicBrowserUI: {
+            _show_args1(mainBrowser->Visible());
             if (mainBrowser->Visible())
                 mainBrowser->Close();
             else
@@ -140,7 +146,7 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             break; }
         case INFO_PlaylistItemAdded:
         case INFO_PlaylistItemsAdded:
-        case INFO_PlaylistItemRemoved:
+        case INFO_PlaylistItemRemoved: // XXX DEBUG
         case INFO_PlaylistRepeat:
         case INFO_PlaylistShuffle:
         case INFO_PlaylistSorted:
@@ -159,13 +165,15 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 mainBrowser->AcceptEvent(event);
             vector<GTKMusicBrowser *>::iterator i = browserWindows.begin();
             for (; i != browserWindows.end(); i++)
+            {   _nullChk(*i);
                 if ((*i)->Visible())
-                    (*i)->AcceptEvent(event);
+                    (*i)->AcceptEvent(event);}
             break; }
         case INFO_FileNotFound: {
             MissingFileEvent *mfe = (MissingFileEvent *)event;
             
             MissingFileUI *mfui = new MissingFileUI(m_context, mfe->Item());
+            _nullChk(mfui);
             mfui->Run();
 
             break; }
@@ -192,6 +200,7 @@ void MusicBrowserUI::WindowClose(GTKMusicBrowser *oldUI)
 
     if (loc != browserWindows.end()) {
         delete *loc;
+        (*loc)=NULL;
         browserWindows.erase(loc);
     }
 }

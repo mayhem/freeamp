@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: TrackItem.h,v 1.1 2000/03/24 01:18:41 hiro Exp $
+        $Id: TrackItem.h,v 1.1.14.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_TRACK_ITEM_H__
@@ -46,9 +46,9 @@ public:
     virtual void    PrintToStream( void ) const;
 
     PlaylistItem*   Item( void ) const { return m_item; }
-    const char*     Artist( void ) const { return m_item->GetMetaData().Artist().c_str(); }
-    const char*     Album( void ) const { return m_item->GetMetaData().Album().c_str(); }
-    const char*     Title( void ) const { return m_item->GetMetaData().Title().c_str(); }
+    const char*     Artist( void ) const { return m_item->GetMetaData().PeekArtist(); }
+    const char*     Album( void ) const { return m_item->GetMetaData().PeekAlbum(); }
+    const char*     Title( void ) const { return m_item->GetMetaData().PeekTitle(); }
     const char*     URL( void ) const { return m_item->URL().c_str(); }
     bool            IsMyMusicItem( void ) const { return m_myMusic; }
     void            SetCurrentlyPlaying( bool flag );

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.cpp,v 1.22 2000/09/25 12:52:16 ijr Exp $
+        $Id: browsermenu.cpp,v 1.22.4.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -42,18 +42,24 @@ ____________________________________________________________________________*/
 #include "../res/down_pic.xpm"
 #include "../res/trash_pic.xpm"
 
-
 static void add_tool(GtkWidget *widget, GTKMusicBrowser *p)
 {
+    
     p->SetClickState(kContextPlaylist);
     FileSelector *filesel = new FileSelector("Add a Track");
+    
     filesel->SetExtended();
     if (filesel->Run()) {
+        
+        
         char *returnpath = filesel->GetReturnPath();
+        
         char *ext = p->GetContext()->player->GetExtension(returnpath);
         uint32 length = strlen(returnpath) + 10;
         char *tempurl = new char[length];
+        
         if (IsntError(FilePathToURL(returnpath, tempurl, &length))) {
+            
             if (ext && p->GetContext()->plm->IsSupportedPlaylistFormat(ext)) {
                 string tobeloaded = tempurl;
                 p->LoadPlaylist(tobeloaded);
@@ -65,8 +71,10 @@ static void add_tool(GtkWidget *widget, GTKMusicBrowser *p)
                     char *first= strtok(filereturn, "\n");
 
                     while ((temp = strtok(NULL, "\n"))) {
-                        if (ext)
+                        if (ext) {
                             delete [] ext;
+                            ext = NULL;
+                        }
                         ext = p->GetContext()->player->GetExtension(temp);
                         if (ext &&
                             p->GetContext()->player->IsSupportedExtension(ext)) 
@@ -75,30 +83,40 @@ static void add_tool(GtkWidget *widget, GTKMusicBrowser *p)
                             p->m_lastindex++;
                         }
                     }
-                    if (ext)
+                    if (ext) {
                         delete [] ext;
+                        ext = NULL;
+                    }
                     ext = p->GetContext()->player->GetExtension(first);
                     if (ext &&
-                        p->GetContext()->player->IsSupportedExtension(ext))
+                        p->GetContext()->player->IsSupportedExtension(ext)) 
+                    {
                         p->AddTrackPlaylistEvent(first);
+                    }
                 }
                 delete [] filereturn;
+                filereturn=NULL;
             }
         }
         delete [] tempurl;
+        tempurl=NULL;
         delete [] ext;
+        ext=NULL;
     }
     delete filesel;
+    filesel=NULL;
 }
 
 static void move_up_tool(GtkWidget *widget, GTKMusicBrowser *p)
 {
+    
     p->MoveUpEvent();
     p->SetClickState(kContextPlaylist);
 }
 
 static void move_down_tool(GtkWidget *widget, GTKMusicBrowser *p)
 {
+    
     p->MoveDownEvent();
     p->SetClickState(kContextPlaylist);
 }
@@ -106,44 +124,60 @@ static void move_down_tool(GtkWidget *widget, GTKMusicBrowser *p)
 static void import_tool(GtkWidget *w, GTKMusicBrowser *p)
 {
     FileSelector *filesel = new FileSelector("Import a Track or Playlist into My Music");
+    
     if (filesel->Run()) {
+                
         FAContext *m_context = p->GetContext();
+        
+        
         char *returnpath = filesel->GetReturnPath();
+        
         char *ext = m_context->player->GetExtension(returnpath);
         uint32 length = strlen(returnpath) + 10;
         char *tempurl = new char[length];
+        
 
         if (IsntError(FilePathToURL(returnpath, tempurl, &length))) {
+            
             if (ext && m_context->plm->IsSupportedPlaylistFormat(ext))
                 p->ImportPlaylist(tempurl);
             else if (ext && m_context->player->IsSupportedExtension(ext)) {
                 PlaylistItem *plist = new PlaylistItem(tempurl);
+                
+                
                 m_context->plm->RetrieveMetaData(plist);
 
                 while (plist->GetState() != kPlaylistItemState_Normal)
                     usleep(5);
 
+                
                 m_context->catalog->WriteMetaDataToDatabase(tempurl,
                                                           plist->GetMetaData());
 
                 m_context->catalog->AddSong(tempurl);
 
                 delete plist;
+                plist=NULL;
             }
         }
         delete [] tempurl;
+        tempurl=NULL;
         delete ext;
+        ext=NULL;
     }
     delete filesel;
+    filesel=NULL;
 }
 
 static void remove_tool(GtkWidget *w, GTKMusicBrowser *p)
 {
+    
     p->DeleteEvent();
 }
 
 static void edit_tool(GtkWidget *w, GTKMusicBrowser *p)
 {
+    
     p->PopUpInfoEditor();
 }
 
@@ -154,6 +188,7 @@ static void infoedit(GTKMusicBrowser *p, guint action, GtkWidget *w)
 
 static void new_plist(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
+    
     p->SaveCurrentPlaylist();
 
     p->CreateNewEditor(NULL);
@@ -166,12 +201,15 @@ static void new_plist_tool(GtkWidget *w, GTKMusicBrowser *p)
 
 static void open_list(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
+    
     p->SaveCurrentPlaylist();
 
     FileSelector *filesel = new FileSelector("Open a Playlist from Disk");
+    
     if (filesel->Run())
         p->CreateNewEditor(filesel->GetReturnPath());
     delete filesel;
+    filesel=NULL;
 }
 
 static void saveas_list(GTKMusicBrowser *p, guint action, GtkWidget *w)
@@ -194,9 +232,11 @@ static void saveas_list(GTKMusicBrowser *p, guint action, GtkWidget *w)
         char *fadir = FreeampDir(NULL);
         string name = string(fadir) + string("/") + string(temp) +
                       string(".m3u");
+        
         p->m_currentListName = string(name);
 
         delete [] fadir;
+        fadir=NULL;
 
         p->SaveCurrentPlaylist();
     }
@@ -204,6 +244,7 @@ static void saveas_list(GTKMusicBrowser *p, guint action, GtkWidget *w)
 
 static void save_list(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
+    
     if (p->m_currentListName.length() == 0) {
         saveas_list(p, action, w);
     }
@@ -224,23 +265,30 @@ static void import_list(GTKMusicBrowser *p, guint action, GtkWidget *w)
 static void export_list(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
     FileSelector *filesel = new FileSelector("Export This Playlist to Disk");
-    if (filesel->Run())
+    
+    if (filesel->Run()) {
+        
         p->SaveCurrentPlaylist(filesel->GetReturnPath());
+    }
     delete filesel;
+    filesel=NULL;
 }
 
 static void music_search(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
+    
     p->StartMusicSearch();
 }
 
 static void quit_menu(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
+    
     p->ToggleVisEvent();
 }
 
 static void add_track_mb(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
+    
     if (p->GetClickState() == kContextBrowser) {
         vector<PlaylistItem *> *newlist = p->GetTreeSelection();
         p->AddTracksPlaylistEvent(newlist, true);
@@ -255,10 +303,12 @@ static void add_track_tool(GtkWidget *w, GTKMusicBrowser *p)
 static void add_track(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {   
     FileSelector *filesel = new FileSelector("Add a Track");
+    
     filesel->SetExtended();
     if (filesel->Run()) {
         char *filereturn = strdup_new(filesel->GetReturnPath());
         if (filereturn) {
+            
             char *temp;
             char *first;
             first = strtok(filereturn, "\n");
@@ -269,8 +319,10 @@ static void add_track(GTKMusicBrowser *p, guint action, GtkWidget *w)
             p->AddTrackPlaylistEvent(first);
        }
        delete filereturn;
+       filereturn=NULL;
     }
     delete filesel;
+    filesel=NULL;
 }
 
 bool GTKMusicBrowser::AskToDelete(string url)
@@ -297,17 +349,22 @@ bool GTKMusicBrowser::AskToDelete(string url)
     }
 
     delete [] filename;
-
+    filename=NULL;
     return retvalue;
 }
 
 static void delete_sel(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
+    
     string urlToDel;
  
     if (p->GetClickState() == kContextPlaylist) {
-        set<uint32>::reverse_iterator i = p->m_plSelected.rbegin();
-        for (; i != p->m_plSelected.rend(); i++) {
+        
+        
+        set<uint32> local_plSelected(p->m_plSelected);
+        set<uint32>::iterator i = local_plSelected.begin();
+        for (; i != local_plSelected.end(); i++) {
+            
             urlToDel = p->GetContext()->plm->ItemAt(*i)->URL();
 
             if (p->AskToDelete(urlToDel)) 
@@ -318,6 +375,9 @@ static void delete_sel(GTKMusicBrowser *p, guint action, GtkWidget *w)
         vector<TreeData *> local_mbSelections(*(p->mbSelections));
         vector<TreeData *>::iterator i = local_mbSelections.begin();
         for (; i != local_mbSelections.end(); i++) {
+            
+            
+            
             TreeNodeType type = (*i)->type;
             
             if (type == kTreePlaylist) 
@@ -326,12 +386,17 @@ static void delete_sel(GTKMusicBrowser *p, guint action, GtkWidget *w)
                 urlToDel = (*i)->track->URL();
             else if (type == kTreeArtist) {
                 ArtistList *list = (*i)->artist;
+                
+                
                 vector<AlbumList *>::reverse_iterator j = 
-                                                 list->m_albumList->rbegin();
+                    list->m_albumList->rbegin();
                 for (; j != list->m_albumList->rend(); j++) {
+                    
+                    
                     vector<PlaylistItem *>::reverse_iterator k = 
-                                                    (*j)->m_trackList->rbegin();
+                        (*j)->m_trackList->rbegin();
                     for (; k != (*j)->m_trackList->rend(); k++) {
+                        
                         urlToDel = (*k)->URL();
                         if (p->AskToDelete(urlToDel))
                             p->GetContext()->catalog->RemoveSong(urlToDel.c_str());
@@ -340,9 +405,12 @@ static void delete_sel(GTKMusicBrowser *p, guint action, GtkWidget *w)
             }
             else if (type == kTreeAlbum) {
                 AlbumList *list = (*i)->album;
+                
+                
                 vector<PlaylistItem *>::reverse_iterator j = 
-                                                   list->m_trackList->rbegin();
+                    list->m_trackList->rbegin();
                 for (; j != list->m_trackList->rend(); j++) {
+                    
                     urlToDel = (*j)->URL();
                     if (p->AskToDelete(urlToDel))
                         p->GetContext()->catalog->RemoveSong(urlToDel.c_str());
@@ -637,7 +705,6 @@ void GTKMusicBrowser::CreateMenu(GtkWidget *topbox)
 
     int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
 
-
     GtkAccelGroup *accel_group;
     GtkWidget *separator;
 
@@ -659,6 +726,8 @@ void GTKMusicBrowser::CreateMenu(GtkWidget *topbox)
 
 void GTKMusicBrowser::SetToolbarType(void)
 {
+    
+    
     bool useText, useImages;
     m_context->prefs->GetPrefBoolean(kShowToolbarTextLabelsPref, &useText);
     m_context->prefs->GetPrefBoolean(kShowToolbarImagesPref, &useImages);
@@ -673,8 +742,10 @@ void GTKMusicBrowser::SetToolbarType(void)
 
 void GTKMusicBrowser::CreateToolbar(GtkWidget *vbox)
 {
+    
     toolbar = gtk_toolbar_new(GTK_ORIENTATION_HORIZONTAL,
-                                         GTK_TOOLBAR_BOTH);
+                              GTK_TOOLBAR_BOTH);
+    
     gtk_toolbar_set_button_relief(GTK_TOOLBAR(toolbar), GTK_RELIEF_NONE);
     gtk_toolbar_set_space_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_SPACE_LINE);
 

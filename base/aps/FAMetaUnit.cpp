@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: FAMetaUnit.cpp,v 1.1 2000/07/31 19:51:38 ijr Exp $
+        $Id: FAMetaUnit.cpp,v 1.1.6.1 2000/09/28 13:13:27 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -63,13 +63,13 @@ uint32 FAMetaUnit::FillData(MetaData* pMetaData, const char* pczURL )
     if ((pMetaData == NULL) || ( pczURL == NULL)) 
         return APS_PARAMERROR;
 
-    SetAlbum(pMetaData->Album().c_str());
-    SetArtist(pMetaData->Artist().c_str());
-    SetTitle(pMetaData->Title().c_str());
-    SetGenre(pMetaData->Genre().c_str());
-    SetComment(pMetaData->Comment().c_str());
+    SetAlbum(pMetaData->PeekAlbum());
+    SetArtist(pMetaData->PeekArtist());
+    SetTitle(pMetaData->PeekTitle());
+    SetGenre(pMetaData->PeekGenre());
+    SetComment(pMetaData->PeekComment());
     SetFilename(pczURL);
-    SetGUID(pMetaData->GUID().c_str());
+    SetGUID(pMetaData->PeekGUID());
     SetLength(pMetaData->Time());
     SetPlayCount(pMetaData->PlayCount());
     SetTrack(pMetaData->Track());
@@ -86,13 +86,13 @@ uint32 FAMetaUnit::FillData(PlaylistItem* pPlayItem)
 
     MetaData mdTemp = pPlayItem->GetMetaData();
 
-    SetAlbum(mdTemp.Album().c_str());
-    SetArtist(mdTemp.Artist().c_str());
-    SetTitle(mdTemp.Title().c_str());
-    SetGenre(mdTemp.Genre().c_str());
-    SetComment(mdTemp.Comment().c_str());
+    SetAlbum(mdTemp.PeekAlbum());
+    SetArtist(mdTemp.PeekArtist());
+    SetTitle(mdTemp.PeekTitle());
+    SetGenre(mdTemp.PeekGenre());
+    SetComment(mdTemp.PeekComment());
     SetFilename(pPlayItem->URL().c_str());
-    SetGUID(mdTemp.GUID().c_str());
+    SetGUID(mdTemp.PeekGUID());
     SetLength(mdTemp.Time());
     SetPlayCount(mdTemp.PlayCount());
     SetTrack(mdTemp.Track());
@@ -112,7 +112,6 @@ uint32 FAMetaUnit::GetMetaData(MetaData *pMetaData)
     pMetaData->SetTitle(Title().c_str());
     pMetaData->SetGenre(Genre().c_str());
     pMetaData->SetComment(Comment().c_str());
-    pMetaData->SetGenre(Genre().c_str());
     pMetaData->SetGUID(GUID().c_str());
     pMetaData->SetPlayCount(PlayCount());
     pMetaData->SetTime(Length());

@@ -18,13 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: metadata.h,v 1.8 2000/07/31 19:51:38 ijr Exp $
+	$Id: metadata.h,v 1.8.6.1 2000/09/28 13:13:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_METADATA_H_
 #define INCLUDED_METADATA_H_
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -36,43 +37,142 @@ using namespace std;
 
 
 class MetaData {
-
- public:
-
+public:
+    static HashStore *m_store;  // CEK
     MetaData()
     {
-        m_year = 0;
-        m_track = 0;
-        m_time = 0;
-        m_size = 0;
+        m_artist    = NULL;
+        m_album     = NULL;
+        m_title     = NULL;
+        m_genre     = NULL;
+        m_comment   = NULL;
+        m_extension = NULL;
+        m_guid      = NULL;
+        m_store->set_entry(&m_artist,    NULL);
+        m_store->set_entry(&m_album,     NULL);
+        m_store->set_entry(&m_title,     NULL);
+        m_store->set_entry(&m_genre,     NULL);
+        m_store->set_entry(&m_comment,   NULL);
+        m_store->set_entry(&m_extension, NULL);
+        m_store->set_entry(&m_guid,      NULL);
+        m_year      = 0;
+        m_track     = 0;
+        m_time      = 0;
+        m_size      = 0;
         m_playcount = 0;
     }
 
-    virtual ~MetaData(){}
+    MetaData(const MetaData& other) 
+    {
+        m_artist    = NULL;
+        m_album     = NULL;
+        m_title     = NULL;
+        m_genre     = NULL;
+        m_comment   = NULL;
+        m_extension = NULL;
+        m_guid      = NULL;
+        m_store->set_entry(&m_artist,    other.m_artist);
+        m_store->set_entry(&m_album,     other.m_album);
+        m_store->set_entry(&m_title,     other.m_title);
+        m_store->set_entry(&m_genre,     other.m_genre);
+        m_store->set_entry(&m_comment,   other.m_comment);
+        m_store->set_entry(&m_extension, other.m_extension);
+        m_store->set_entry(&m_guid,      other.m_guid);
+        m_year      = other.m_year;
+        m_track     = other.m_track;
+        m_time      = other.m_time;
+        m_size      = other.m_size;
+        m_playcount = other.m_playcount;
+    }
 
-    Error SetArtist(const char* artist){ m_artist = string(artist); return kError_NoErr;}
-    Error GetArtist(char* buf, uint32* len) { return SetBuffer(buf, m_artist.c_str(), len); }
-    const string& Artist() const { return m_artist; }
+    virtual ~MetaData()
+    {
+        cerr << "\n~Metadata\n";
+        // unref to free memory and balance the books
+        m_store->unref(m_artist);
+        m_store->unref(m_album);
+        m_store->unref(m_title);
+        m_store->unref(m_genre);
+        m_store->unref(m_comment);
+        m_store->unref(m_extension);
+        m_store->unref(m_guid);
+    }
 
-    Error SetAlbum(const char* album) { m_album = string(album); return kError_NoErr; }
-    Error GetAlbum(char* buf, uint32* len) { return SetBuffer(buf, m_album.c_str(), len); }
-    const string& Album() const { return m_album; }
+    // I hate assignment operators...but the program expects it
+    MetaData& operator=(const MetaData& other) 
+    {
+        m_store->set_entry(&m_artist,    other.m_artist);
+        m_store->set_entry(&m_album,     other.m_album);
+        m_store->set_entry(&m_title,     other.m_title);
+        m_store->set_entry(&m_genre,     other.m_genre);
+        m_store->set_entry(&m_comment,   other.m_comment);
+        m_store->set_entry(&m_extension, other.m_extension);
+        m_store->set_entry(&m_guid,      other.m_guid);
+        m_year      = other.m_year;
+        m_track     = other.m_track;
+        m_time      = other.m_time;
+        m_size      = other.m_size;
+        m_playcount = other.m_playcount;
+        return *this; 
+    }
 
-    Error SetTitle(const char* title){ m_title = string(title); return kError_NoErr; }
-    Error GetTitle(char* buf, uint32* len) { return SetBuffer(buf, m_title.c_str(), len); }
-    const string& Title() const { return m_title; }
+    static void SetCharStore(HashStore* store)
+    {
+        assert(store);
+        if (!m_store)
+        {
+            m_store = store;
+        }
+        cerr << "MetaData::SetCharStore: m_store. Currently:" << endl << *m_store << endl;
+    }
 
-    Error SetComment(const char* comment){ m_comment = string(comment); return kError_NoErr; }
-    Error GetComment(char* buf, uint32* len) { return SetBuffer(buf, m_comment.c_str(), len); }
-    const string& Comment() const { return m_comment; }
+    Error SetArtist(const char* artist){ 
+            m_store->set_entry(&m_artist,artist);
+            return kError_NoErr;}
+    Error GetArtist(char* buf, uint32* len) const { return SetBuffer(buf, m_artist, len); }
+    const char* PeekArtist() const { return m_artist; }
+    const string Artist() const { return m_artist; }
+    size_t Artist_length() const { return (m_artist?strlen(m_artist):0); }
 
-    Error SetGenre(const char* genre) { m_genre = string(genre); return kError_NoErr; }
-    Error GetGenre(char* buf, uint32* len) { return SetBuffer(buf, m_genre.c_str(), len); }
-    const string& Genre() const { return m_genre; }
+    Error SetAlbum(const char* album) { 
+        m_store->set_entry(&m_album,album);
+        return kError_NoErr; }
+    Error GetAlbum(char* buf, uint32* len) const { return SetBuffer(buf, m_album, len); }
+    const char* PeekAlbum() const { return m_album; }
+    const string Album() const { return m_album; }
+    size_t Album_length() const { return (m_album?strlen(m_album):0); }
 
-	Error SetFormatExtension(const char* extension){ m_extension = string(extension); return kError_NoErr; }
-    Error GetFormatExtension(char* buf, uint32* len) { return SetBuffer(buf, m_extension.c_str(), len); }
-    const string& FormatExtension() const { return m_extension; }
+    Error SetTitle(const char* title){ 
+        m_store->set_entry(&m_title,title);
+        return kError_NoErr; }
+    Error GetTitle(char* buf, uint32* len) const { return SetBuffer(buf, m_title, len); }
+    const char* PeekTitle() const { return m_title; }
+    const string Title() const { return m_title; }
+    size_t Title_length() const { return (m_title?strlen(m_title):0); }
+
+    Error SetComment(const char* comment){ 
+        m_store->set_entry(&m_comment,comment);
+        return kError_NoErr; }
+    Error GetComment(char* buf, uint32* len) const { return SetBuffer(buf, m_comment, len); }
+    const char* PeekComment() const { return m_comment; }
+    const string Comment() const { return m_comment; }
+    size_t Comment_length() const { return (m_comment?strlen(m_comment):0); }
+
+    Error SetGenre(const char* genre) { 
+        m_store->set_entry(&m_genre,genre);
+        return kError_NoErr; }
+    Error GetGenre(char* buf, uint32* len) const { return SetBuffer(buf, m_genre, len); }
+    const char* PeekGenre() const { return m_genre; }
+    const string Genre() const { return m_genre; }
+    size_t Genre_length() const { return (m_genre?strlen(m_genre):0); }
+
+    Error SetFormatExtension(const char* extension){ 
+        m_store->set_entry(&m_extension,extension);
+        return kError_NoErr; }
+    Error GetFormatExtension(char* buf, uint32* len) const { return SetBuffer(buf, m_extension, len); }
+    const char* PeekFormatExtension() const { return m_extension; }
+    const string FormatExtension() const { return m_extension; }
+    size_t FormatExtension_length() const { return (m_extension?strlen(m_extension):0); }
 
     Error SetYear(uint32 year) { m_year = year; return kError_NoErr;}
     uint32 Year() const { return m_year; }
@@ -86,9 +186,13 @@ class MetaData {
     Error SetSize(uint32 bytes){ m_size = bytes; return kError_NoErr;}
     uint32 Size() const { return m_size; }
 
-    Error SetGUID(const char *guid) { m_guid = guid; return kError_NoErr; }
-    Error GetGUID(char *buf, uint32 *len) { return SetBuffer(buf, m_guid.c_str(), len); }
-    const string& GUID() const { return m_guid; }
+    Error SetGUID(const char *guid) { 
+        m_store->set_entry(&m_guid,guid);
+        return kError_NoErr; }
+    Error GetGUID(char *buf, uint32 *len) { return SetBuffer(buf, m_guid, len); }
+    const char* PeekGUID() const { return m_guid; }
+    const string GUID() const { return m_guid; }
+    size_t GUID_length() const { return (m_guid?strlen(m_guid):0); }
 
     Error SetPlayCount(uint32 playcount) { m_playcount = playcount; return kError_NoErr; }
     uint32 PlayCount() const { return m_playcount; }
@@ -98,16 +202,16 @@ class MetaData {
     {
         bool result = false;
 
-        result = ( m_artist == data.m_artist &&
-                   m_album == data.m_album &&
-                   m_title == data.m_title &&
-                   m_genre == data.m_genre &&
-                   m_comment == data.m_comment &&
+        result = ( compare(m_artist,data.m_artist) &&
+                   compare(m_album,data.m_album) &&
+                   compare(m_title,data.m_title) &&
+                   compare(m_genre,data.m_genre) &&
+                   compare(m_comment,data.m_comment) &&
                    m_year == data.m_year &&
                    m_track == data.m_track &&
                    m_time == data.m_time &&
                    m_size == data.m_size &&
-		   m_extension == data.m_extension);
+		   compare(m_extension,data.m_extension) );
 
         return result;
     }
@@ -115,21 +219,29 @@ class MetaData {
     bool operator!=(const MetaData& data) const
     {
 	    return !(*this == data);
-    }
- 
- protected:
-    Error SetBuffer(char* dest, const char* src, uint32* len)
+    } 
+
+    static bool compare(const char* a, const char* b) 
     {
-        Error result = kError_InvalidParam;
+        if (a&&b)
+            return (0==strcmp(a,b));
+        if ((!a) && (!b))
+            return true;
+        return false;
+    }
 
+    ostream& print_stream(ostream& out);
+    friend ostream& operator<< (ostream& out, MetaData& metadata);
+
+protected:
+    static Error SetBuffer(char* dest, const char* src, uint32* len) 
+    {
         assert(dest);
-        assert(src);
         assert(len);
-
-        if(dest && src)
+        Error result = kError_InvalidParam;
+        if(src)
         {
             uint32 srclen = strlen(src) + 1;
-
             if(*len >= srclen)
             {
                 strcpy(dest, src);
@@ -139,22 +251,33 @@ class MetaData {
             {
                 result = kError_BufferTooSmall;
             }
-
             *len = srclen;
+        } 
+        else 
+        {
+            uint32 srclen = 1;
+            if (*len >= srclen)
+            {
+                dest[0] = 0;
+                result = kError_NoErr;
+            }
+            else
+            {
+                result = kError_BufferTooSmall;
+            }
+            *len=srclen;
         }
-
         return result;
     }
 
- private:
-  
-    string m_artist;
-    string m_album;
-    string m_title;
-    string m_genre;
-    string m_comment;
-    string m_extension;
-    string m_guid;
+private:
+    char * m_artist;
+    char * m_album;
+    char * m_title;
+    char * m_genre;
+    char * m_comment;
+    char * m_extension;
+    char * m_guid;
     uint32 m_year;
     uint32 m_track;
     uint32 m_time;

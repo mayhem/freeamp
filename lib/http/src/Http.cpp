@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.14 2000/09/28 08:08:01 ijr Exp $
+   $Id: Http.cpp,v 1.14.2.1 2000/09/28 13:13:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -83,8 +83,11 @@ Http::Http(FAContext *context)
 
 Http::~Http(void)
 {
-    if (m_buffer)
+    if ((void*)m_buffer)
+    {
        delete m_buffer;
+       m_buffer = NULL;
+    }
 
     if (m_file)
         fclose(m_file);
@@ -128,28 +131,30 @@ int Http::WriteToBuffer(unsigned char *buffer, unsigned int size)
     {
         m_bufferSize = kBufferSize;
         m_buffer = new unsigned char[m_bufferSize];
+        assert(m_buffer);
     }
     if (m_bytesInBuffer + size > m_bufferSize)
     {
         unsigned char *pTemp;
 
-        m_bufferSize += (kBufferSize < size) ? kBufferSize : kBufferSize + size;
+        m_bufferSize += (kBufferSize < size) ? (kBufferSize) : (kBufferSize + size);
         pTemp = new unsigned char[m_bufferSize];
 
+        assert(m_bufferSize > m_bytesInBuffer);
         memcpy(pTemp, m_buffer, m_bytesInBuffer);
+
         delete m_buffer;
         m_buffer = pTemp;
     }
-
+    assert(m_bufferSize > m_bytesInBuffer+size);
     memcpy(m_buffer + m_bytesInBuffer, buffer, size);
-    m_bytesInBuffer += size;
 
+    m_bytesInBuffer += size;
     return size;
 }
 
 int Http::WriteToFile(unsigned char *buffer, unsigned int size)
 {
-
     if (m_file == NULL)
     {
         m_file = fopen(m_destPath.c_str(), "wb");
@@ -194,7 +199,7 @@ Error Http::Download(const string &url, bool fileDownload)
             numFields = sscanf(proxyname, 
                                "http://%[^:/]:%hu", hostname, &port);
 
-            strcpy(proxyname, url.c_str());
+            strncpy(proxyname, url.c_str(),length);
             file = proxyname;
         }
         else
@@ -219,7 +224,7 @@ Error Http::Download(const string &url, bool fileDownload)
     // get hostname
     if(IsntError(result))
     {
-        struct hostent* hostByName;
+        struct hostent* hostByName=NULL;
         struct hostent  hostByIP;
 
         //*m_debug << "gethostbyname: " << hostname << endl;
@@ -255,7 +260,14 @@ Error Http::Download(const string &url, bool fileDownload)
     if(IsntError(result))
     {
         memset(&addr, 0x00, sizeof(struct sockaddr_in));
+
+        int temp=sizeof(struct sockaddr_in);
+        if (temp < host.h_length)
+        {
+            exit(13);
+        }
         memcpy(&addr.sin_addr, host.h_addr, host.h_length);
+
         addr.sin_family= host.h_addrtype;
         addr.sin_port= htons(port); 
 
@@ -274,6 +286,7 @@ Error Http::Download(const string &url, bool fileDownload)
         int   ret;
         
         err = Connect(s, (struct sockaddr*)&addr, ret);
+
         if (IsError(err))
             result = kError_UserCancel;
             
@@ -287,31 +300,38 @@ Error Http::Download(const string &url, bool fileDownload)
             const char* kHTTPQuery = "GET %s HTTP/1.1\r\n"
                                      "Host: %s\r\n"
                                      "Accept: */*\r\n" 
-                                     "User-Agent: FreeAmp/%s\r\n";
+                                     "User-Agent: FreeAmp/%s\r\n\r\n";
 
             // the magic 256 is enough for a time field that
             // we got from the server
-            char* query = new char[ strlen(kHTTPQuery) + 
-                                    strlen(file) +
-                                    strlen(localname) +
-                                    strlen(FREEAMP_VERSION)+
-                                    2];
-        
-            sprintf(query, kHTTPQuery, file, localname, FREEAMP_VERSION);
-            strcat(query, "\r\n");
-
-            int count;
-
-            err = Send(s, query, strlen(query), 0, count);
-            if (IsError(err))
-                result = kError_UserCancel; 
-
-            if(count != (int)strlen(query))
+            size_t sizeof_query=strlen(kHTTPQuery)+strlen(file)+
+                strlen(localname)+strlen(FREEAMP_VERSION)+2;
+            int snprintf_return=0;
+            char* query = new char[sizeof_query];
+            snprintf_return=snprintf(query, sizeof_query,kHTTPQuery, file, localname, FREEAMP_VERSION);
+            if (0>=snprintf_return)
             {
-                result = kError_IOError;
+                err=kError_UnknownErr;
             }
+            if (strlen(query)>=sizeof_query)
+            {
+                err=kError_UnknownErr;
+            }
+            if (IsntError(err))
+            {
+                int count;
+                
+                err = Send(s, query, strlen(query), 0, count);
+                if (IsError(err))
+                    result = kError_UserCancel; 
 
+                if(count != (int)strlen(query))
+                {
+                    result = kError_IOError;
+                }
+            }
             delete [] query;
+            query=NULL;
         }
     }
 
@@ -324,10 +344,11 @@ Error Http::Download(const string &url, bool fileDownload)
         uint32 total = 0;
 
         buffer = (char*)malloc(bufferSize);
-
-        result = kError_OutOfMemory;
-
-        if(buffer)
+        if (!buffer)
+        {
+            result = kError_OutOfMemory;
+        }
+        else
         {
             Error err;
             result = kError_NoErr;
@@ -337,16 +358,13 @@ Error Http::Download(const string &url, bool fileDownload)
                 if(total >= bufferSize - 1)
                 {
                     bufferSize *= 2;
-
                     buffer = (char*) realloc(buffer, bufferSize);
-
                     if(!buffer)
                     {
                         result = kError_OutOfMemory;
                         break;
                     }
                 }
-
                 err = Recv(s, buffer + total, bufferSize - total - 1, 0, count);
                 if (IsError(err))
                     result = kError_UserCancel;
@@ -366,10 +384,9 @@ Error Http::Download(const string &url, bool fileDownload)
         {
             uint32 returnCode = atoi(buffer+9);
             buffer[total] = 0x00;
-            //cout << buffer << endl;
+            // cout << buffer << endl;
 
-            //cout << returnCode << endl;
-
+            // cout << returnCode << endl;
             switch(buffer[9])
             {
                 // 1xx: Informational - Request received, continuing process
@@ -387,7 +404,6 @@ Error Http::Download(const string &url, bool fileDownload)
 
                     int32 fileSize = GetContentLengthFromHeader(buffer);
 
-
                     result = kError_NoErr;
                     int wcount = 0;
 
@@ -401,11 +417,15 @@ Error Http::Download(const string &url, bool fileDownload)
                         if(cp - buffer < (int)total)
                         {
                             if (fileDownload)
-                               wcount = WriteToFile((unsigned char *)cp,
-                                                    total - (cp - buffer));
+                            {
+                                wcount = this->Http::WriteToFile((unsigned char *)cp,
+                                                     total - (cp - buffer));
+                            }
                             else
-                               wcount = WriteToBuffer((unsigned char *)cp,
-                                                      total - (cp-buffer));
+                            {
+                                wcount = this->Http::WriteToBuffer((unsigned char *)cp,
+                                                       total - (cp-buffer));
+                            }
                             bytesReceived = total - (cp - buffer);
                         }
                     }
@@ -426,12 +446,16 @@ Error Http::Download(const string &url, bool fileDownload)
                            if(count > 0)
                            {
                                if (fileDownload)
+                               {
                                   wcount = WriteToFile((unsigned char *)buffer,
                                                        (unsigned int)count);
+                               }
                                else
+                               {
                                   wcount = WriteToBuffer((unsigned char *)buffer
 ,
                                                        (unsigned int)count);
+                               }
                                bytesReceived += count;
                                Progress(bytesReceived, fileSize);
                            }
@@ -445,7 +469,6 @@ Error Http::Download(const string &url, bool fileDownload)
                     }while(count > 0 && IsntError(result) &&
                            !m_exit && wcount >= 0 &&
                            (int)bytesReceived != fileSize);
-
                 break;   
                 }
 
@@ -471,13 +494,14 @@ Error Http::Download(const string &url, bool fileDownload)
 
                         if (305 == returnCode) // proxy
                         {
-                            char* proxy = new char[strlen(cp) + 
-                                                   strlen(url.c_str()) + 1];
+                            size_t sizeof_proxy=strlen(cp) + strlen(url.c_str()) + 1;
+                            char* proxy = new char[sizeof_proxy];
 
-                            sprintf(proxy, "%s%s", cp, url.c_str());
+                            snprintf(proxy, sizeof_proxy, "%s%s", cp, url.c_str());
 
                             result = Download(string(proxy), fileDownload);
                             delete [] proxy;
+                            proxy=NULL;
                         }
                         else // redirect of some type
                         {
@@ -525,13 +549,18 @@ Error Http::Download(const string &url, bool fileDownload)
                     result = kError_UnknownServerError;
                     break;
                 }
+                default:
+                {
+                    break;
+                }
             }
-
         }
 
         // cleanup
-        if(buffer)
+        if(buffer) {
             free(buffer);            
+            buffer=NULL;
+        }
     }
 
     // cleanup

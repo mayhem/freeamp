@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.cpp,v 1.18 2000/09/15 11:12:27 ijr Exp $
+        $Id: EditTrackInfoDialog.cpp,v 1.18.4.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -141,7 +141,7 @@ BOOL EditTrackInfoDialog::DialogProc(HWND hwnd,
             set<string>::iterator i;
 
             // track name
-            Edit_SetText(hwndTitle, m_editMetaData->Title().c_str());
+            Edit_SetText(hwndTitle, m_editMetaData->PeekTitle());
 
             // track number
             if(m_editMetaData->Track() == -1)
@@ -183,7 +183,7 @@ BOOL EditTrackInfoDialog::DialogProc(HWND hwnd,
             }
 
             // track comment
-            Edit_SetText(hwndComment, m_editMetaData->Comment().c_str());
+            Edit_SetText(hwndComment, m_editMetaData->PeekComment());
 
             // location
             Edit_SetText(hwndLocation, m_location);
@@ -212,7 +212,7 @@ BOOL EditTrackInfoDialog::DialogProc(HWND hwnd,
                 }
             }
 
-            ComboBox_SetText(hwndArtist, m_editMetaData->Artist().c_str());
+            ComboBox_SetText(hwndArtist, m_editMetaData->PeekArtist());
 
             // add albums
             for(i = albums.begin(); i != albums.end(); i++)
@@ -237,7 +237,7 @@ BOOL EditTrackInfoDialog::DialogProc(HWND hwnd,
                 }
             }
 
-            ComboBox_SetText(hwndAlbum, m_editMetaData->Album().c_str());
+            ComboBox_SetText(hwndAlbum, m_editMetaData->PeekAlbum());
 
             // add genres
             for(i = genres.begin(); i != genres.end(); i++)
@@ -262,7 +262,7 @@ BOOL EditTrackInfoDialog::DialogProc(HWND hwnd,
                 }
             }
 
-            ComboBox_SetText(hwndGenre, m_editMetaData->Genre().c_str());
+            ComboBox_SetText(hwndGenre, m_editMetaData->PeekGenre());
   
             break;
         }      
@@ -297,7 +297,7 @@ BOOL EditTrackInfoDialog::DialogProc(HWND hwnd,
                         uuid_t1 uu;
 
                         memset(uu, '\0', 17 * sizeof(unsigned char));
-                        strncpy((char *)uu, m_editMetaData->GUID().c_str(), 16);
+                        strncpy((char *)uu, m_editMetaData->PeekGUID(), 16);
                         uuid_ascii(uu, ascii_uuid);
 
                         url += ascii_uuid;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: InfoEditor.cpp,v 1.1 2000/03/24 01:18:41 hiro Exp $
+        $Id: InfoEditor.cpp,v 1.1.14.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "InfoEditor.h"
@@ -71,13 +71,13 @@ InfoEditor::InfoEditor( BRect frame, const char* title, PlaylistItem* item,
     rect.InsetBy( GRID_UNIT, GRID_UNIT );
 
     ctrls.push_back( add_text_control( root, &rect, "Title", "Song Title:",
-                                       md.Title().c_str(), &labelWidth ) );
+                                       md.PeekTitle(), &labelWidth ) );
     maxLabelWidth = MAX( maxLabelWidth, labelWidth );
     ctrls.push_back( add_text_control( root, &rect, "Artist", "Artist:",
-                                       md.Artist().c_str(), &labelWidth ) );
+                                       md.PeekArtist(), &labelWidth ) );
     maxLabelWidth = MAX( maxLabelWidth, labelWidth );
     ctrls.push_back( add_text_control( root, &rect, "Album", "Album:",
-                                       md.Album().c_str(), &labelWidth ) );
+                                       md.PeekAlbum(), &labelWidth ) );
     maxLabelWidth = MAX( maxLabelWidth, labelWidth );
     char buf[10];
     uint32 val = md.Year() > 9999 ? 0 : md.Year();
@@ -86,7 +86,7 @@ InfoEditor::InfoEditor( BRect frame, const char* title, PlaylistItem* item,
                                        buf, &labelWidth ) );
     maxLabelWidth = MAX( maxLabelWidth, labelWidth );
     ctrls.push_back( add_text_control( root, &rect, "Genre", "Genre:",
-                                       md.Genre().c_str(), &labelWidth ) );
+                                       md.PeekGenre(), &labelWidth ) );
     maxLabelWidth = MAX( maxLabelWidth, labelWidth );
     val = md.Track() > 32765 ? 0 : md.Track();
     sprintf( buf, "%ld", val );

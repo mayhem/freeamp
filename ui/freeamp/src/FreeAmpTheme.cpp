@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.146 2000/09/28 08:08:02 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.146.2.1 2000/09/28 13:13:29 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1812,13 +1812,13 @@ void FreeAmpTheme::UpdateTimeDisplay(int iCurrentSeconds)
 
 void FreeAmpTheme::UpdateMetaData(const PlaylistItem *pItem)
 {
-    if (pItem->GetMetaData().Title().length() > 0 || 
-        pItem->GetMetaData().Artist().length() > 0)
+    if (pItem->GetMetaData().Title_length() > 0 || 
+        pItem->GetMetaData().Artist_length() > 0)
     {
         string oText;
         
         m_oTitle = pItem->GetMetaData().Title();
-        if (pItem->GetMetaData().Artist().length() > 0)
+        if (pItem->GetMetaData().Artist_length() > 0)
            m_oTitle += string(" - ") + pItem->GetMetaData().Artist();
 
         oText = string(BRANDING": ") + m_oTitle;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.h,v 1.8.14.1 2000/05/11 18:55:58 robert Exp $
+   $Id: Win32Bitmap.h,v 1.8.14.2 2000/05/11 22:03:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32BITMAP_H__
@@ -48,6 +48,9 @@ class Win32Bitmap : public Bitmap
      virtual Error MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
                                 Rect &oDestRect);
      virtual bool  IsPosVisible(Pos &oPos);
+     virtual Error BlitRectMaskBitmap(Bitmap *pSrcBitmap, Rect &oSrcRect, 
+                                      Rect &oDestRect);
+     virtual Error   MakeTransparent(Rect &oRect); 
      virtual Bitmap *Clone(void);
 
      HBITMAP       GetBitmapHandle(void);
@@ -67,7 +70,7 @@ class Win32Bitmap : public Bitmap
      HBITMAP     m_hBitmap;
      HBITMAP     m_hMaskBitmap;
      int32       m_iHeight, m_iWidth;
-     void       *m_pBitmapData, m_pMaskBitmapData;
+     void       *m_pBitmapData, *m_pMaskBitmapData;
      HPALETTE    m_hPal;
 };
 

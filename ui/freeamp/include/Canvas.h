@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.h,v 1.2.16.1 2000/05/11 18:55:58 robert Exp $
+   $Id: Canvas.h,v 1.2.16.2 2000/05/11 22:03:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CANVAS_H__
@@ -41,7 +41,7 @@ enum AlignEnum
 
 // This class must keep an internal bitmap of the current display image
 // and then paint from that image in response to paint events.
-class Panel;
+struct Panel;
 class Canvas
 {
     public:

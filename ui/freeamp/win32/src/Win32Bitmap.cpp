@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.12.14.1 2000/05/11 18:55:58 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.12.14.2 2000/05/11 22:03:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <assert.h>
@@ -70,7 +70,18 @@ Win32Bitmap::Win32Bitmap(int iWidth, int iHeight, const string &oName)
 
        m_hBitmap = CreateDIBSection(hDc, &sBitmapInfo, DIB_RGB_COLORS, 
                                     (void **)&m_pBitmapData, NULL, NULL);
-       sBitmapInfo.bmiHeader.biBitCount = 1;
+
+       sBitmapInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER); 
+       sBitmapInfo.bmiHeader.biWidth = iWidth; 
+       sBitmapInfo.bmiHeader.biHeight = iHeight; 
+       sBitmapInfo.bmiHeader.biPlanes = 1; 
+       sBitmapInfo.bmiHeader.biCompression = BI_RGB; 
+       sBitmapInfo.bmiHeader.biSizeImage = 0; 
+       sBitmapInfo.bmiHeader.biXPelsPerMeter = 0; 
+       sBitmapInfo.bmiHeader.biYPelsPerMeter = 0; 
+       sBitmapInfo.bmiHeader.biClrUsed = 0; 
+       sBitmapInfo.bmiHeader.biClrImportant = 0; 
+	   sBitmapInfo.bmiHeader.biBitCount = 1;
        m_hMaskBitmap = CreateDIBSection(hDc, &sBitmapInfo, DIB_RGB_COLORS, 
                                     (void **)&m_pMaskBitmapData, NULL, NULL);
    }       
@@ -460,19 +471,20 @@ void Win32Bitmap::SetPalette(HPALETTE hPal)
    m_hPal = hPal;
 }
 
-Win32Bitmap *Win32Bitmap::Clone(void)
+Bitmap *Win32Bitmap::Clone(void)
 {
    Win32Bitmap *pTemp;
    Rect         oRect;
 
-   pTemp = new Win32Bitmap(m_iWidth, m_iHeight, m_oName);
+   pTemp = new Win32Bitmap(m_iWidth, m_iHeight, m_oBitmapName);
    pTemp->m_oTransColor = m_oTransColor;
    pTemp->m_bHasTransColor = m_bHasTransColor;
    oRect.x1 = oRect.y1 = 0;
    oRect.x2 = m_iWidth;
    oRect.y2 = m_iHeight;
    pTemp->BlitRect(this, oRect, oRect);
-   pTemp->BlitRectMaskBitmap(this, oRect, oRect);
+   //pTemp->BlitRectMaskBitmap(this, oRect, oRect);
+   CreateMaskBitmap();
 
    return pTemp;
 }
@@ -481,7 +493,6 @@ Error Win32Bitmap::MakeTransparent(Rect &oRect)
 {
    HDC    hRootDC, hDC;
    RECT   sRect;
-   HBRUSH hBrush;
  
    if (m_hMaskBitmap == NULL)
       return kError_UnknownErr;
@@ -496,7 +507,7 @@ Error Win32Bitmap::MakeTransparent(Rect &oRect)
    sRect.bottom = oRect.y2;
    
    SelectObject(hDC, m_hMaskBitmap);
-   FillRect(hDC, &sRect, GetStockObject(BLACK_BRUSH));
+   FillRect(hDC, &sRect, (HBRUSH)GetStockObject(WHITE_BRUSH));
    DeleteDC(hDC);
 
    return kError_NoErr;

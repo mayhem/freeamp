@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.5 1998/10/23 00:41:04 jdw Exp $
+	$Id: preferences.cpp,v 1.6 1998/10/23 21:45:30 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <unistd.h>
@@ -74,7 +74,10 @@ HANDLE Preferences::GetFirstLibDir(char *path, uint32 *len) {
 //	cout << "Using env: " << pEnv << endl;
 	pPath = strdup(pEnv);
     } else {
-	pPath = strdup(".:~/.freeamp:/usr/local/lib/freeamp");
+	pPath = new char[1024];
+	strcpy(pPath,".:~/.freeamp:");
+	strcat(pPath,UNIX_LIBDIR);
+	strcat(pPath,"/freeamp");
 //	cout << "Using default: " << pPath << endl;
     }
     pEnv = pPath;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.5 1998/10/23 00:41:04 jdw Exp $
+	$Id: cmdlineUI.cpp,v 1.6 1998/10/23 21:45:30 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -104,8 +104,6 @@ void cmdlineUI::keyboardServiceFunction(void *pclcio) {
 	    case '-': {
 		Event *e = new Event(CMD_PrevMediaPiece);
 		pMe->m_playerEQ->AcceptEvent(pMe->m_playerEQ,e);
-		e = new Event(CMD_Play);
-		pMe->m_playerEQ->AcceptEvent(pMe->m_playerEQ,e);
 		break;
 	    }
 	    case '=':
@@ -113,8 +111,6 @@ void cmdlineUI::keyboardServiceFunction(void *pclcio) {
 	    case 'n':
 	    case 'N': {
 		Event *e = new Event(CMD_NextMediaPiece);
-		pMe->m_playerEQ->AcceptEvent(pMe->m_playerEQ,e);
-		e = new Event(CMD_Play);
 		pMe->m_playerEQ->AcceptEvent(pMe->m_playerEQ,e);
 		break; }
 	    case 'q':

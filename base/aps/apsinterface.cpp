@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.12 2000/08/18 09:48:12 ijr Exp $
+        $Id: apsinterface.cpp,v 1.13 2000/08/19 12:46:43 sward Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -176,14 +176,16 @@ int APSInterface::APSFillMetaData(APSMetaData* pmetaData)
     ret = o.Query(string(MBExchangeMetadata), &args);
     if (!ret)
     {
-         o.GetQueryError(error);
-         return APS_NETWORKERROR;
+        o.GetQueryError(error);
+	m_pSema->Signal();
+        return APS_NETWORKERROR;
     }
 
     // This query should always return one item
     if (o.GetNumItems() == 0)
     {
-        return APS_GENERALERROR;
+	m_pSema->Signal();
+	return APS_GENERALERROR;
     }
 
     // Now start the data extraction process.

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.53 2000/05/04 10:54:56 robert Exp $
+        $Id: eventdata.h,v 1.54 2000/05/08 13:56:54 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -957,6 +957,17 @@ class ShowPreferencesEvent:public Event
    { m_type = CMD_ShowPreferences; m_page = page; }
    int32 GetDefaultPage() const{ return m_page; }
    virtual ~ ShowPreferencesEvent(){ }
+};
+
+class MissingFileEvent:public Event
+{
+ private:
+   string m_url;
+ public:
+   MissingFileEvent(const string &url)
+   { m_type = INFO_FileNotFound; m_url = url; }
+   virtual ~ MissingFileEvent(){ }
+   const string &URL() const{ return m_url; }
 };
 
 #endif /* _EVENTDATA_H_ */

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.194 2000/05/08 12:59:12 elrod Exp $
+        $Id: player.cpp,v 1.195 2000/05/08 13:56:54 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1360,6 +1360,16 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
    lmc = NULL;
 
    error = pmo->SetTo(pc->URL().c_str());
+   // If this is a missing file, then just bail out -- the 
+   // pmo that was created will have sent a missing file event
+   // that will notify the user
+   if (error == kError_FileNotFound)
+   {
+      m_plm->GotoNextItem();
+      AcceptEvent(new Event(CMD_Play));
+      goto epilogue;
+   }
+
    if (IsError(error))
    {
       char szErr[1024];
@@ -1922,6 +1932,7 @@ ServiceEvent(Event * pC)
         case INFO_StatusMessage:
         case INFO_BrowserMessage:
         case INFO_ErrorMessage:
+        case INFO_FileNotFound:
         case INFO_StreamInfo:
         case INFO_PlaylistShuffle:
         case INFO_PlaylistRepeat:
@@ -2071,41 +2082,3 @@ void Player::CDTimer()
     delete pmo;
 }
 
-/*
-   void Player::testQueue() {
-   Event *pC;
-
-   pC = m_eventQueue->Read();
-   if (pC) {
-   cout << "testQueue: First failed!!" << endl;
-   } else {
-   cout << "testQueue: First succeded!!" << endl;
-   }
-   cout << "testQueue: IsEmpty(): " << m_eventQueue->IsEmpty() << endl;
-
-   pC = new Event(CMD_Play);
-   AcceptEvent(pC);
-   pC = new Event(CMD_Play);
-   AcceptEvent(pC);
-   pC = new Event(CMD_NextMediaPiece);
-   AcceptEvent(pC);
-
-   pC = m_eventQueue->Read();
-   cout << "testQueue: " << pC->GetEvent() << endl;
-   delete pC;
-   pC = m_eventQueue->Read();
-   cout << "testQueue: " << pC->GetEvent() << endl;
-   delete pC;
-   cout << "testQueue: IsEmpty(): " << m_eventQueue->IsEmpty() << endl;
-   pC = m_eventQueue->Read();
-   cout << "testQueue: " << pC->GetEvent() << endl;
-   delete pC;
-   pC = m_eventQueue->Read();
-   if (pC) {
-   cout << "testQueue: Failed!!!" << endl;
-   } else {
-   cout << "testQueue: Final Succeeded!!" << endl;
-   }
-   cout << "testQueue: IsEmpty(): " << m_eventQueue->IsEmpty() << endl;
-   }
- */

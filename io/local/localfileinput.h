@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.h,v 1.20 2000/04/28 00:42:54 robert Exp $
+        $Id: localfileinput.h,v 1.21 2000/05/08 13:56:54 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_LOCALFILEINPUT_H_
@@ -26,6 +26,7 @@ ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
+#include <string>
 
 /* project headers */
 #include "thread.h"
@@ -72,6 +73,7 @@ class LocalFileInput:public PhysicalMediaInput
    bool            m_bLoop;
    size_t          m_iFileSize;
    Thread        *m_pBufferThread; 
+   string          m_url;
 };
 
 #endif /* _LOCALFILEINPUT_H_ */

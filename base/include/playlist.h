@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.49 1999/12/02 22:06:50 elrod Exp $
+	$Id: playlist.h,v 1.50 1999/12/04 00:29:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -215,7 +215,7 @@ class PlaylistManager {
     const PlaylistItem* GetCurrentItem();
     
     Error SetCurrentIndex(uint32 index);
-    uint32 GetCurrentIndex() const;
+    uint32 GetCurrentIndex();
 
     Error GotoNextItem(bool userAction = false);
     Error GotoPreviousItem(bool userAction = false);

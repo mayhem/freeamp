@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.46 1999/12/03 21:07:56 elrod Exp $
+        $Id: Dialog.cpp,v 1.47 1999/12/04 00:29:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -1494,7 +1494,11 @@ void MusicBrowserUI::UpdateButtonMenuStates()
         if(treeSelect != m_hNewPlaylistItem && treeSelect != m_hAllItem &&
            treeSelect != m_hCatalogItem && treeSelect != m_hUncatItem &&
            treeSelect != m_hPlaylistItem && treeSelect != m_hPortableItem &&
-           treeSelect != m_hNewPortableItem)
+           m_hPlaylistItem != TreeView_GetParent(m_hMusicCatalog, treeSelect) &&
+           treeSelect != m_hNewPortableItem &&
+           !IsItemSelected(m_hCatalogItem) &&
+           !IsItemSelected(m_hUncatItem) &&
+           !IsItemSelected(m_hAllItem))
         {
             EnableMenuItem(hMenu, ID_EDIT_EDITINFO, MF_ENABLED);
             SendMessage(m_hToolbar, TB_ENABLEBUTTON, 

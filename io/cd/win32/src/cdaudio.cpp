@@ -20,7 +20,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-        $Id: cdaudio.cpp,v 1.2 2000/03/22 00:06:48 ijr Exp $
+        $Id: cdaudio.cpp,v 1.3 2000/03/30 04:05:37 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -169,13 +169,20 @@ cd_poll(string cd_desc, struct disc_status *status)
    mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
 
    char *colon = strchr(mciReturn, ':');
-   colon++;
 
-   status->status_track_time.minutes = atoi(colon);
-   status->status_track_time.seconds = atoi(colon + 3);
-   status->status_track_time.frames = atoi(colon + 6);
-   status->status_current_track = atoi(mciReturn);
-
+   if (colon && colon++) {
+      status->status_track_time.minutes = atoi(colon);
+      status->status_track_time.seconds = atoi(colon + 3);
+      status->status_track_time.frames = atoi(colon + 6);
+      status->status_current_track = atoi(mciReturn);
+   }
+   else {
+      status->status_track_time.minutes = 0;
+	  status->status_track_time.seconds = 0;
+	  status->status_track_time.frames = 0;
+	  status->status_current_track = 0;
+   }
+  
    sprintf(mciCommand, "set %s time format msf wait", cd_desc.c_str());
    mciSendString(mciCommand, mciReturn, sizeof(mciReturn), NULL);
 

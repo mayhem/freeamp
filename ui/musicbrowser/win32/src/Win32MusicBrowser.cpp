@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.52 2000/03/30 08:57:09 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.53 2000/05/08 14:08:52 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -145,8 +145,10 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
        if(!m_plm->CountItems())
        {
             bool savePlaylist = true;
+            uint32 index = 0;
 
             m_context->prefs->GetSaveCurrentPlaylistOnExit(&savePlaylist);
+            m_context->prefs->GetSavedPlaylistPosition(&index);
 
             if(savePlaylist)
             {
@@ -169,7 +171,10 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
                 m_autoPlayHack = true;
 
                 if(m_initialCount)
+                {
                     m_plm->AddItems(&items);
+                    m_plm->SetCurrentIndex(index);
+                }
             }           
        }
     }
@@ -352,6 +357,7 @@ void MusicBrowserUI::SaveCurrentPlaylist()
         FilePathToURL(path, url, &length);
 
         m_plm->WritePlaylist(url);
+        m_context->prefs->SetSavedPlaylistPosition(m_plm->GetCurrentIndex());
     }
 }
 

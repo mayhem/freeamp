@@ -2,7 +2,7 @@
         
         FreeAmp - The Free MP3 Player
 
-        Portions Copyright (C) 1998 GoodNoise
+        Portions Copyright (C) 1998-1999 EMusic.com
 
         This program is free software; you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.22.2.6 1999/10/04 00:28:54 robert Exp $
+        $Id: obsinput.cpp,v 1.22.2.7 1999/10/17 05:40:18 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */

@@ -2,7 +2,7 @@
    
    FreeAmp - The Free MP3 Player
 
-   Portions Copyright (C) 1998 GoodNoise
+   Portions Copyright (C) 1998-1999 EMusic.com
    Portions Copyright (C) 1997 Jeff Tsay (ctsay@pasteur.eecs.berkeley.edu)
 
    This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.42.4.1 1999/10/09 18:53:46 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.42.4.2 1999/10/17 05:40:19 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.1.2.4 1999/10/17 00:18:49 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.1.2.5 1999/10/17 05:40:09 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -80,8 +80,13 @@ void MusicCatalog::AddPlaylist(const char *path)
          if ((*i) == path)
              found = true;
     
-    if (!found)
-        m_playlists->push_back(path);
+    if (!found) {
+        string tempstr = path;
+        if (tempstr.find("currentlist.m3u") < tempstr.length()) 
+            m_playlists->insert(0, path);
+        else
+            m_playlists->push_back(path);
+    }
 }
 
 void MusicCatalog::AddSong(const char *path)
@@ -157,8 +162,13 @@ void MusicCatalog::AddOneFromDatabase(char *key)
     if (!data)
         return;
 
-    if (!strncmp("P", data, 1)) 
-        m_playlists->push_back(key);
+    if (!strncmp("P", data, 1)) {
+        string tempstr = key;
+        if (tempstr.find("currentlist.m3u") < tempstr.length())
+            m_playlists->insert(0, key); 
+        else  
+            m_playlists->push_back(key);
+    }
     else if (!strncmp("M", data, 1)) 
         AddSong(key);
 }
@@ -220,6 +230,8 @@ void MusicBrowser::SetDatabase(const char *path)
         delete m_database;
         m_database = NULL;
     }
+
+    PruneDatabase();
 
     if (m_database)
         m_catalog->PopulateFromDatabase();

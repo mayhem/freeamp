@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.h,v 1.1.2.1 1999/08/29 20:24:38 elrod Exp $
+	$Id: id3v1.h,v 1.1.2.2 1999/10/17 05:40:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_ID3V1_H

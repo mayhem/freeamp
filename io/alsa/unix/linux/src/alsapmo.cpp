@@ -1,9 +1,10 @@
 /*____________________________________________________________________________
         
         FreeAmp - The Free MP3 Player
-        Driver for Advanced Linux Sound Architecture, http://alsa.jcu.cz
+        Driver for Advanced Linux Sound Architecture 
+              http://www.alsa-project.org
  
-        Portions Copyright (C) 1998 GoodNoise
+        Portions Copyright (C) 1998-1999 EMusic.com
 
         alsapmo.cpp by Fleischer Gabor <flocsy@usa.net>
         uses code by Anders Semb Hermansen <ahermans@vf.telia.no>
@@ -23,7 +24,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.20.4.1 1999/09/09 01:25:35 ijr Exp $
+        $Id: alsapmo.cpp,v 1.20.4.2 1999/10/17 05:40:11 ijr Exp $
 
 ____________________________________________________________________________*/
 

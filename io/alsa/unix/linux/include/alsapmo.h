@@ -1,7 +1,7 @@
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
-	Portions copyright (C) 1998 GoodNoise
+	Portions copyright (C) 1998-1999 EMusic.com
 
 	alsapmo.h by Gabor Fleischer <flocsy@usa.net>
 
@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: alsapmo.h,v 1.9.4.2 1999/09/09 02:42:07 elrod Exp $
+	$Id: alsapmo.h,v 1.9.4.3 1999/10/17 05:40:11 ijr Exp $
 ____________________________________________________________________________*/
 
 

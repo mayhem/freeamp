@@ -2,6 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
+        Portions Copyright (C) 1999 EMusic.com
 	Copyright (C) 1999 Mark H. Weaver <mhw@netris.org>
 
 	This program is free software; you can redistribute it and/or modify
@@ -18,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.3.8.9 1999/10/16 21:22:30 ijr Exp $
+	$Id: facontext.h,v 1.3.8.10 1999/10/17 05:40:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FACONTEXT_H_

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.11 1999/10/17 05:06:31 robert Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.12 1999/10/17 05:40:23 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -110,7 +110,7 @@ void MusicBrowserUI::GTKEventService(void)
     string lastPlaylist = FreeampDir(m_context->prefs);
     lastPlaylist += "/currentlist.m3u";
 
-    LoadPlaylist((char *)lastPlaylist.c_str());
+    LoadToMaster(lastPlaylist);
 
     weAreGTK = false;
     m_context->gtkLock.Acquire();
@@ -412,7 +412,7 @@ void MusicBrowserUI::SaveCurrentPlaylist(char *path)
     if (path)
         m_currentListName = path;
 
-    if (m_currentListName == "")
+    if (m_currentListName.length() == 0)
         return;
 
     char *ext = strrchr(m_currentListName.c_str(), '.');
@@ -444,26 +444,11 @@ void MusicBrowserUI::ImportPlaylist(char *path)
 {
     if (!path)
         return;
-//    m_context->browser->m_catalog->AddPlaylist(path);
+    m_context->browser->m_catalog->AddPlaylist(path);
     UpdateCatalog();
-}
-
-void MusicBrowserUI::LoadPlaylist(char *path)
-{
-    Error err;
-
-    if (!path)
-        return;
-
-    err = m_plm->ReadPlaylist(path);
-    if (err == kError_NoErr) {
-        m_currentListName = path;
-        if (m_initialized) {
-            gdk_threads_enter();
-            UpdatePlaylistList();
-            gdk_threads_leave();
-        }
-    }
+    UpdateCombo();
+    string Path = path;
+    LoadPlaylist(Path);
 }
 
 void MusicBrowserUI::ReadPlaylist(char *path, vector<PlaylistItem *> *plist)

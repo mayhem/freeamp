@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Copyright (C) 1998 GoodNoise
+	Copyright (C) 1998 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: jdw.h,v 1.1 1998/10/14 02:58:00 elrod Exp $
+	$Id: jdw.h,v 1.1.12.1 1999/10/17 05:40:20 ijr Exp $
 ____________________________________________________________________________*/
 
 /* LOL */

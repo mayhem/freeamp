@@ -302,7 +302,7 @@ int32 ncursesUI::AcceptEvent(Event *e) {
                         titleStart = 0;
                         titleDir = -1;
                         move( 0, 6 );
-                        color_set(7, NULL);
+                        //color_set(7, NULL);
                         attron(A_REVERSE);
                         for (int i = 6; i < COLS - 7; i++)
                             addch(title[i-6]);
@@ -311,7 +311,7 @@ int32 ncursesUI::AcceptEvent(Event *e) {
                     else
                     {
                         move(0, (COLS / 2) - ( strlen(title) ) / 2 );
-                        color_set(7, NULL);
+                        //color_set(7, NULL);
                         attron(A_REVERSE);
                         addstr(title);
                         attroff(A_REVERSE);
@@ -358,7 +358,7 @@ int32 ncursesUI::AcceptEvent(Event *e) {
                     else
                         titleStart--;
                     move( 0, 6 );
-                    color_set(7, NULL);
+                    //color_set(7, NULL);
                     attron(A_REVERSE);
                     for (i = 6; i < COLS - 7; i++)
                         addch(title[i-6+titleStart]);
@@ -469,7 +469,7 @@ void ncursesUI::processSwitch(char *pc) {
 
 void ncursesUI::showInfo() {
     move(0,0);
-    color_set(7, NULL);
+    //color_set(7, NULL);
     attron(A_REVERSE);
     for (int i=0; i < COLS; i++)
         addstr(" ");
@@ -477,7 +477,7 @@ void ncursesUI::showInfo() {
     addstr("Freeamp" FREEAMP_VERSION);
     attroff(A_REVERSE);
 //    refresh();
-    color_set(7, NULL);
+    //color_set(7, NULL);
     move(LINES - 4 ,0);
     addstr(" press h for keystroke help ");
 /*

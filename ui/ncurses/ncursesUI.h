@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	Portions Copyright (C) 1998-1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
     this is a hacked up version of cmdlineUI.h
 	
-	$Id: ncursesUI.h,v 1.1.4.6 1999/09/09 03:58:14 elrod Exp $
+	$Id: ncursesUI.h,v 1.1.4.7 1999/10/17 05:40:23 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_NCURSESUI_H_

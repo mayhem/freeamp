@@ -2,7 +2,7 @@
         
         FreeAmp - The Free MP3 Player
 
-        Portions Copyright (C) 1998-1999 GoodNoise
+        Portions Copyright (C) 1998-1999 EMusic.com
         Portions Copyright (C) 1999 Mark H. Weaver <mhw@netris.org>
 
         This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.13.2.7 1999/10/16 21:22:30 ijr Exp $
+        $Id: unixprefs.cpp,v 1.13.2.8 1999/10/17 05:40:11 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"

@@ -5,7 +5,7 @@
         MP3 Decoder originally Copyright (C) 1995-1997 Xing Technology
         Corp.  http://www.xingtech.com
 
-   Portions Copyright (C) 1998 GoodNoise
+   Portions Copyright (C) 1998-1999 EMusic.com
    Portions Copyright (C) 1998 "Michael Bruun Petersen" <mbp@image.dk>
 
    This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.98.2.4 1999/08/30 08:43:34 elrod Exp $
+   $Id: xinglmc.cpp,v 1.98.2.5 1999/10/17 05:40:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32

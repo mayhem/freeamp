@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.68 1999/01/22 06:02:50 jdw Exp $
+	$Id: player.cpp,v 1.69 1999/01/23 00:22:25 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -967,6 +967,9 @@ Error Player::RegisterPropertyWatcher(const char *pProp, PropertyWatcher *pPropW
     return m_props.RegisterPropertyWatcher(pProp, pPropWatch);
 }
 
+Error Player::RemovePropertyWatcher(const char *pProp, PropertyWatcher *pPropWatch) {
+    return m_props.RemovePropertyWatcher(pProp, pPropWatch);
+}
 /*
 void Player::testQueue() {
     Event *pC;

@@ -18,9 +18,9 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.5 1999/01/23 00:22:26 jdw Exp $
+##      $Id: Makefile.am,v 1.1 1999/01/23 00:22:26 jdw Exp $
 ##
 ############################################################################
 
-SUBDIRS = local http src soundcard alsa
+SUBDIRS = src
 

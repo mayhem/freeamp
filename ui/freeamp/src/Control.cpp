@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.15 2000/06/02 22:03:52 robert Exp $
+   $Id: Control.cpp,v 1.16 2000/06/05 14:20:25 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -267,17 +267,10 @@ void Control::BlitFrame(ControlStateEnum eFrame, int iState, Rect *pRect,
         iState = 0;
 
     if (m_oStateBitmapRect[iState].find(eFrame) == 
-        m_oStateBitmapRect[iState].end()) {
-        if (eFrame == CS_DisabledMO && 
-           m_oStateBitmapRect[iState].find(CS_Disabled) != 
-           m_oStateBitmapRect[iState].end())
-            m_oStateBitmapRect[iState][eFrame] = 
-                                    m_oStateBitmapRect[iState][CS_Disabled]; 
-        else
-            m_oStateBitmapRect[iState][eFrame] = 
+        m_oStateBitmapRect[iState].end()) 
+        m_oStateBitmapRect[iState][eFrame] = 
                                     m_oStateBitmapRect[iState][CS_Normal];
-    }
- 
+
     oFrameRect = m_oStateBitmapRect[iState][eFrame];
 
     oFrameRect.x2++;
@@ -411,12 +404,4 @@ void Control::GetTip(string &oTip)
 bool Control::WantsTimingMessages(void)
 {
     return m_bWantsTimingMessages;
-}
-
-void Control::Move(Pos &oPos)
-{
-    m_oRect.x1 += oPos.x;
-    m_oRect.y1 += oPos.y;
-    m_oRect.x2 += oPos.x;
-    m_oRect.y2 += oPos.y;
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.8 2000/06/02 22:03:53 robert Exp $
+   $Id: GTKBitmap.cpp,v 1.9 2000/06/05 14:20:26 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -64,7 +64,7 @@ GTKBitmap::GTKBitmap(string &oName)
     m_height = 0;
 }
 
-GTKBitmap::GTKBitmap(int iWidth, int iHeight, const string &oName) 
+GTKBitmap::GTKBitmap(int iWidth, int iHeight, string &oName) 
           :Bitmap(oName)
 {
     m_oBitmapName = oName;

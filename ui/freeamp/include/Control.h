@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.15 2000/06/02 22:03:52 robert Exp $
+   $Id: Control.h,v 1.16 2000/06/05 14:20:25 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -149,7 +149,6 @@ class Control
       virtual bool WantsTimingMessages(void);
       virtual bool UseToDragWindow(void) { return false; };
       virtual void Init(void) = 0;
-      virtual void Move(Pos &oPos);
       virtual void AcceptTransition(ControlTransitionEnum eTrans,
                                     Pos *pMousePos = NULL);
 

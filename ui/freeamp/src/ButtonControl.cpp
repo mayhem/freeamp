@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.12 2000/06/02 22:03:52 robert Exp $
+   $Id: ButtonControl.cpp,v 1.13 2000/06/05 14:20:25 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -168,7 +168,7 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
        }
        if (m_pPanelToToggle)
        {
-           m_pPanelToToggle->OpenPanel(!m_pPanelToToggle->IsOpen());
+           m_pPanelToToggle->m_bIsOpen = !m_pPanelToToggle->m_bIsOpen;
            m_pParent->SendControlMessage(this, CM_TogglePanel);
            return;
        }

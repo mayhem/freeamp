@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.38.4.3 1999/05/20 01:22:03 dogcow Exp $
+dnl $Id: configure.in,v 1.38.4.4 1999/05/24 21:48:34 dogcow Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -262,11 +262,17 @@ AC_ARG_ENABLE(gtk,
               [case "${enableval}" in
 		yes) gtk="true" ;;
 		no)  gtk="false" ;;
-		*) AC_MSG_ERROR(bad value ${enableval} for --enable-gtk) ;;
+		*) gtk="true";
+		   EXTRALIBS="$EXTRALIBS $enableval";
+		   ;;
 	      esac])
 
-#if test "$gtk" = "true"; then
-dnl ****
+if test "$gtk" = "true"; then
+  AC_MSG_RESULT("Enabling GTK UI")
+  EXTRALIBS="$EXTRALIBS -lgtk"
+  OSDEPPLUGINS="$OSDEPPLUGINS plugins/gtk.ui"
+fi
+
 dnl Check for GTK+
 dnl ****
 #AM_PATH_GTK(1.0.6	, echo "             GTK+ compilation enabled", 
@@ -278,6 +284,24 @@ dnl                   AC_MSG_ERROR(GTK+ distribution not found.)
 
 #AM_CONDITIONAL(AM_ENABLE_GTK, test "$gtk" = "true")
 
+
+esound="false"
+AC_ARG_WITH(esound,
+[  --with-esound           Enable esound pmo],
+[ case "${withval}" in
+  no)  ;;
+  yes) esound="true"
+       ;;
+  *)   esound="true"
+       EXTRALIBS="$EXTRALIBS -L$withval"
+       ;; 
+  esac])
+
+if test "$esound" = "true"; then
+  AC_MSG_RESULT("Enabling esound PMO")
+  EXTRALIBS="$EXTRALIBS -lesound"
+  OSDEPPLUGINS="$OSDEPPLUGINS plugins/esound.pmo"
+fi
 
 mp3prof="false"
 
@@ -302,7 +326,7 @@ mitpth="false"
 ltr="false"
 
 if test "$host_os" = "solaris"; then
-  AC_MSG_RESULT([This is solaris; using solaris threads.])
+  AC_MSG_RESULT([Enabling Solaris threads.])
 elif test "$host_os" = "beos"; then
   AC_MSG_RESULT([This is BeOS; using BeOS threads.])
 else
@@ -393,10 +417,9 @@ if test "$isunix" = "false" -o "$x11" = "false"; then
   AC_MSG_WARN([not compiling freeamp-$host_os ui plugin])
 else
   OSDEPPLUGINS="$OSDEPPLUGINS $FAUIPLUGIN";
-  XPMLIB="-lXpm"
+  EXTRALIBS="-lXpm"
 fi
 
-AC_SUBST(XPMLIB)
 
 dnl ****
 dnl Check for alsa
@@ -418,6 +441,7 @@ if test "$isunix" = "false" -a "$x11" = "true"; then
   AC_MSG_RESULT([compiling alsa soundcard plugin])
 fi
 
+AC_SUBST(EXTRALIBS)
 AC_SUBST(OSDEPPLUGINS)
 
 if expr "$host_cpu" : "i.86$" > /dev/null; then
@@ -431,6 +455,7 @@ if expr "$host_cpu" : "i.86$" > /dev/null; then
     AC_DEFINE(ASM_X86_OLD)
   fi
 fi
+
 
 AC_SUBST(XINGASM)
 

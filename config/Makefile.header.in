@@ -1,6 +1,6 @@
 # Freeamp Makefile header 
 # contains all the compiler-related configure-extracted vars
-# $Id: Makefile.header.in,v 1.1.2.2 1999/05/17 23:58:43 dogcow Exp $
+# $Id: Makefile.header.in,v 1.1.2.3 1999/05/24 21:48:34 dogcow Exp $
 
 SHELL = /bin/sh
 
@@ -70,7 +70,8 @@ DEFS = -I. -I$(srcdir) -I./config -DUNIX_LIBDIR=\"$(libdir)\" -D$(HOST_OS)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 X_CFLAGS = @X_CFLAGS@
-X_LIBS = @X_LIBS@ -lX11 -lXext @XPMLIB@
+X_LIBS = @X_LIBS@ -lX11 -lXext
+EXTRALIBS = @EXTRALIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 
@@ -111,5 +112,5 @@ CXXLINK = $(CXXLD) $(CXXFLAGS) $(LDFLAGS) $(RELOC) -o $@
 
 @SET_MAKE@
 
-PIMAKE = $(MAKE) $(MAKEFLAGS) -f Makefile-plugins
+PIMAKE = $(MAKE) -$(MAKEFLAGS) -f Makefile-plugins
 

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.24.4.4 1999/05/21 03:35:52 dogcow Exp $
+# $Id: Makefile.in,v 1.24.4.5 1999/05/24 21:48:34 dogcow Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = @FPIC@ for plugins.
@@ -41,7 +41,7 @@ all: freeamp plugins
 
 freeamp: $(FREEAMPOBJ) $(freeamp_DEPENDENCIES)
 	@rm -f freeamp
-	$(CXXLINK) $(FREEAMPOBJ) $(LDFLAGS) -ldl -lpthread $(X_LIBS) $(X_EXTRA_LIBS)
+	$(CXXLINK) $(FREEAMPOBJ) $(LDFLAGS) -ldl -lpthread $(X_LIBS) $(X_EXTRA_LIBS) $(EXTRALIBS)
 
 clean: freeamp-clean plugins-clean
 

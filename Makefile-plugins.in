@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.1.2.4 1999/05/24 21:13:46 dogcow Exp $
+# $Id: Makefile-plugins.in,v 1.1.2.5 1999/05/24 21:48:33 dogcow Exp $
 
 RELOC = @FPIC@
 
@@ -85,7 +85,7 @@ plugins/soundcard-$(HOST_OS).pmo: $(SCPMOOBJ)
 	$(LINKMOD) -o $@ $(SCPMOOBJ)
 
 # esound
-ESNDOBJ = io/esound/src/esdvolume.0 io/esound/src/esoundpmo.o
+ESNDOBJ = io/esound/src/esdvolume.o io/esound/src/esoundpmo.o
 
 plugins/esound.pmo: $(ESNDOBJ)
 	$(LINKMOD) -o $@ $(ESNDOBJ)
@@ -117,6 +117,11 @@ IRMANUIOBJ += ui/irman/src/irfunc.o ui/irman/src/irio.o
 
 plugins/irman-$(HOST_OS).ui: $(IRMANUIOBJ)
 	$(LINKMOD) -o $@ $(IRMANUIOBJ)
+
+GTKUIOBJ = ui/gtk/freeamp-gtk.o
+
+plugins/gtk.ui: $(GTKUIOBJ)
+	$(LINKMOD) -o $@ $(GTKUIOBJ)
 
 # The studly X11 freeamp interface
 FREEAMPUIOBJ = ui/freeamp/unix/src/freeamp.o ui/freeamp/unix/src/windowhash.o

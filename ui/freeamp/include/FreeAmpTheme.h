@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.28 2000/05/04 10:54:57 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.29 2000/05/04 12:03:38 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -97,8 +97,8 @@ class FreeAmpTheme : public UserInterface, public Theme
 
         FAContext       *m_pContext;
         int              m_iCurrentSeconds, m_iTotalSeconds, m_iSeekSeconds;
-        float			 m_fSecondsPerFrame;
-        int              m_iStartupType, m_iVolume, m_iBalance;
+        float			    m_fSecondsPerFrame;
+        int              m_iStartupType, m_iVolume, m_iBalance, m_iMuteVolume;
         int              m_iSeekPos, m_iFramesSinceSeek;
         Thread          *m_uiThread, *m_pUpdateThread;
         Thread          *m_pOptionsThread;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.45 2000/06/22 18:53:10 elrod Exp $
+   $Id: Window.cpp,v 1.46 2000/07/10 16:26:00 hiro Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -765,7 +765,7 @@ void Window::VolumeChanged(void)
 void Window::GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight, 
                                 Rect &oNewRect)
 {
-    int  iSizeX, iSizeY;
+    int32 iSizeX, iSizeY;
  
     oNewRect = oOldRect;
     oNewRect.x2 = oNewRect.x1 + iNewWidth;

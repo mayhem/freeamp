@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.133 2000/06/22 18:53:10 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.134 2000/07/10 16:26:00 hiro Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -574,7 +574,7 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
              char   szText[64];
              
              sprintf(szText, "Buffering up [%d%%]", 
-                min(info->GetInputPercent()*2, 100));
+                min(info->GetInputPercent()*2, (int32)100));
              oDesc = string(szText);
              m_pWindow->ControlStringValue(oControl, true, oDesc);
              m_bBufferingUp = true;

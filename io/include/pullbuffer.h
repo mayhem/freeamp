@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.15 1999/07/02 01:13:36 robert Exp $
+   $Id: pullbuffer.h,v 1.16 1999/07/13 00:55:30 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PULLBUFFER_H_
@@ -80,6 +80,8 @@ class PullBuffer
       bool       m_bExit;
 
     private:
+
+      void Check(void);
 
       int32          m_iReadIndex, m_iWriteIndex;
       bool           m_bEOS;

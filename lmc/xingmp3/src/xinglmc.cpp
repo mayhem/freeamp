@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.90 1999/07/09 00:50:40 robert Exp $
+   $Id: xinglmc.cpp,v 1.91 1999/07/13 00:55:32 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -552,7 +552,7 @@ void XingLMC::DecodeWork()
       ((EventBuffer *)m_pOutputBuffer)->AcceptEvent(
              new PMOTimeInfoEvent(m_frameCounter));
 
-      // TODO: This loop needs to be termined after 64k worth of data..
+      // TODO: This loop needs to be terminated after 64k worth of data..
       for(; !m_bExit; )
 		{
           if (m_bPause)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Panel.h,v 1.2 2000/06/10 18:47:28 robert Exp $
+   $Id: Panel.h,v 1.3 2000/08/08 22:06:12 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_PANEL__H_
@@ -77,7 +77,7 @@ class Panel
       void    SetPanelBitmap(Bitmap *pBitmap) { m_pPanelBitmap = pBitmap; };
       Bitmap *GetPanelBitmap(void) { return m_pPanelBitmap; };
       void    TogglePanelPos(void);
-      void    SetParentWindow(Window *pWin) { m_pWindow = pWin; };
+      void    SetParentWindow(Window *pWin);
       Window *GetParentWindow(void) { return m_pWindow; };
 
       void    SetOnOpenHide(Panel *pPanel);

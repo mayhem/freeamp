@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.37 2000/03/17 01:29:32 robert Exp $
+        $Id: preferences.cpp,v 1.38 2000/03/20 20:50:13 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -107,7 +107,7 @@ const char *kDefaultMainWindowPos = "-1,-1";
 const char *kDefaultWindowMode = "MainWindow";
 #ifdef WIN32
 const char *kDefaultThemeDefaultFont = "Arial";
-const char *kDefaultCDDevicePath = "";
+const char *kDefaultCDDevicePath = "cdaudio";
 #else
 const char *kDefaultThemeDefaultFont = "Helvetica";
 const char *kDefaultCDDevicePath = "/dev/cdrom";

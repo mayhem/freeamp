@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.15 2000/02/29 10:02:01 elrod Exp $
+   $Id: ThemeManager.cpp,v 1.16 2000/03/20 20:50:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -112,7 +112,7 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
 
     m_pContext->prefs->GetInstallDirectory(dir, &len);
     oThemeBasePath = string(dir) + "\\themes";
-    oThemePath = oThemeBasePath + string("\\*.fat");    
+    oThemePath = oThemeBasePath + string("\\*.*");    
 
     handle = FindFirstFile(oThemePath.c_str(), &find);
     if(handle == INVALID_HANDLE_VALUE)
@@ -133,12 +133,19 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
         {
             // fine... use the filename instead.
             ptr = strrchr(find.cFileName, '.');
-            if (ptr)
+            if (ptr) {
                *ptr = 0;
-            oThemeFileMap[find.cFileName] = oThemeFile;
+               ptr++;
+			}
+            if (ptr && *ptr) {
+                if (!strcasecmp("fat", ptr) || !strcasecmp("zip", ptr) ||
+                    !strcasecmp("wsz", ptr))
+                    oThemeFileMap[find.cFileName] = oThemeFile;
+            }
         }
     }
     while(FindNextFile(handle, &find));
+    FindClose(handle);
 
     return kError_NoErr;
 }

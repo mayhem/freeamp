@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.9.4.7 2000/03/05 23:43:00 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.9.4.7.4.1 2000/04/10 19:49:13 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -37,7 +37,7 @@ static const char *szEMusicText =
    "The Download Manager enables you to download music from the downloadable "
    "page at the EMusic site and other sites that support RMP/"
    "RealJukebox downloads.";
-static const char *szEMusicURLText = "Go to my downloadables at EMusic";
+static const char *szEMusicURLText = "Go to your EMusic Collection page";
 static const char *szEMusicURL = "https://secure.emusic.com/perl/secure/downloadables.pl";
 
 static const char *szFreeAmpText =

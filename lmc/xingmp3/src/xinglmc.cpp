@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.21 1998/10/30 00:54:29 elrod Exp $
+	$Id: xinglmc.cpp,v 1.22 1998/10/30 01:04:23 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -341,7 +341,8 @@ void XingLMC::DecodeWork() {
 	    float totalTime = (float)((double)m_frameCounter * (double)tpf);
 	    int32 hours = (int32)(totalTime/3600);
 	    int32 minutes = ((int32)totalTime - hours) / 60;
-	    MediaTimeInfoEvent *pmtpi = new MediaTimeInfoEvent(hours,minutes,totalTime,0,totalTime,m_frameCounter);
+        int32 seconds = totalTime - hours*3600 - minutes*60;
+	    MediaTimeInfoEvent *pmtpi = new MediaTimeInfoEvent(hours,minutes,seconds,0,totalTime,m_frameCounter);
 	    if (m_target) {
 		m_target->AcceptEvent(pmtpi);
 	    }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pthreadthread.h,v 1.4 2000/05/25 18:21:24 ijr Exp $
+	$Id: pthreadthread.h,v 1.5 2000/06/14 09:05:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PTHREAD_THREAD_H
@@ -59,6 +59,7 @@ private:
 	thread_function m_function;
 	void           *m_arg;
 	Semaphore       m_semaphore;
+        Semaphore       m_exitSem;
 };
 
 #endif /* _LINUX_THREAD_H */

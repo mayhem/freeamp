@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.206 2000/06/05 19:19:20 ijr Exp $
+        $Id: player.cpp,v 1.207 2000/06/14 09:05:40 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -239,7 +239,6 @@ Player::
     }
 
     TYPICAL_DELETE(m_musicCatalog);
-    TYPICAL_DELETE(m_plm);
     TYPICAL_DELETE(m_uiManipLock);
     TYPICAL_DELETE(m_lmcMutex);
     TYPICAL_DELETE(m_pmiMutex);
@@ -251,6 +250,7 @@ Player::
     TYPICAL_DELETE(m_uiRegistry);
     TYPICAL_DELETE(m_lmcExtensions);
     TYPICAL_DELETE(m_context->timerManager);
+    TYPICAL_DELETE(m_plm);
 }
 
 void      

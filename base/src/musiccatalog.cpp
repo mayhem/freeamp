@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.62 2000/06/06 10:21:07 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.63 2000/06/14 09:05:40 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -57,6 +57,7 @@ MusicCatalog::MusicCatalog(FAContext *context, char *databasepath)
     m_plm = context->plm;
     m_mutex = new Mutex();
     m_catMutex = new Mutex();
+    m_timerMutex = new Mutex();
     m_inUpdateSong = false;
     m_addImmediately = false;
     m_artistList = new vector<ArtistList *>;
@@ -88,6 +89,7 @@ MusicCatalog::~MusicCatalog()
 
     m_mutex->Acquire();
     m_catMutex->Acquire();
+    m_timerMutex->Acquire();
 
     if(m_watchTimer)
         m_context->timerManager->StopTimer(m_watchTimer);
@@ -102,6 +104,7 @@ MusicCatalog::~MusicCatalog()
     delete m_playlists;
     delete m_mutex;
     delete m_catMutex;
+    delete m_timerMutex;
 }
 
 class comp_catalog {
@@ -1130,6 +1133,13 @@ void MusicCatalog::watch_timer(void *arg)
 
 void MusicCatalog::WatchTimer(void)
 {
+#ifndef DEBUG_MUTEXES
+    if (!m_timerMutex->Acquire(0)) {
+#else
+    if (!m_timerMutex->__Acquire(__FILE__, __LINE__, 0)) {
+#endif
+        return;
+    }
     char *watchDir = new char[_MAX_PATH];
     uint32 length = _MAX_PATH;
 
@@ -1147,4 +1157,6 @@ void MusicCatalog::WatchTimer(void)
     SearchMusic(searchPaths, false);
 
     delete [] watchDir;
+
+    m_timerMutex->Release();
 }

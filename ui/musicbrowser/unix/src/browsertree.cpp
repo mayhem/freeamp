@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.4 2000/03/23 06:18:40 ijr Exp $
+        $Id: browsertree.cpp,v 1.5 2000/03/24 02:28:32 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -46,7 +46,6 @@ FAContext *BADContext = NULL;
 
 void kill_treedata(TreeData *dead)
 {
-cout << "deleting junk\n";
     delete dead;
 }
 

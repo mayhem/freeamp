@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.1 1998/10/09 00:07:09 jdw Exp $
+##      $Id: Makefile.am,v 1.2 1998/10/11 19:30:08 jdw Exp $
 ##
 ############################################################################
 
@@ -30,12 +30,12 @@ MYLIBS =
 TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 else
 FILES = localfileinput.cpp
-MYLIBS = libfaio.a
+MYLIBS = libfaiolocal.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 endif
 
 noinst_LIBRARIES = $(MYLIBS)
-libfaio_a_SOURCES = $(FILES)
+libfaiolocal_a_SOURCES = $(FILES)
 
 INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS)
 CXXFLAGS = $(EXTRA_CXXFLAGS) -D__@target_os@__

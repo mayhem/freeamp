@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.1 1998/10/09 00:07:09 jdw Exp $
+##      $Id: Makefile.am,v 1.2 1998/10/11 19:30:08 jdw Exp $
 ##
 ############################################################################
 
@@ -30,15 +30,16 @@ MYLIBS =
 TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 else
 FILES = CommandLineCIO.cpp cmdlinecoo.cpp Mpg123UI.cpp
-MYLIBS = libfaui.a
+MYLIBS = libfauicmdline.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 endif
 
 noinst_LIBRARIES = $(MYLIBS)
-libfaui_a_SOURCES = $(FILES)
+libfauicmdline_a_SOURCES = $(FILES)
 
 INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/lmc/include -I@top_srcdir@/io/include
 CXXFLAGS = $(EXTRA_CXXFLAGS) -D__@target_os@__
+
 
 
 

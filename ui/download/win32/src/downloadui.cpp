@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.18.2.2.2.1 2000/03/02 22:09:04 elrod Exp $
+	$Id: downloadui.cpp,v 1.18.2.2.2.2 2000/03/03 23:28:50 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -55,6 +55,20 @@ static const int32 kPostPadding = 5;
 static const int32 kMinProgressWidth = 3;
 static const int32 kTotalPadding = kPrePadding + kElementPadding + kPostPadding;
 
+static const char *szEMusicText = 
+   "The Download Manager enables you to download music from the downloadable "
+   "page at the EMusic site and other sites that support RMP/"
+   "RealJukebox downloads.";
+static const char *szEMusicURLText = "Go to my downloadables at EMusic";
+static const char *szEMusicURL = "https://secure.emusic.com/perl/secure/downloadables.pl";
+
+static const char *szFreeAmpText = 
+   "The Download Manager enables you to download music from sites that "
+   "support the RMP or RealJukebox download format. To try it check "
+   "out the free music at:";
+   
+static const char *szFreeAmpURLText = "http://www.emusic.com/music/free.html";
+static const char *szFreeAmpURL = "http://www.emusic.com/music/free.html";
 
 HINSTANCE g_hInstance = NULL;
 
@@ -568,6 +582,17 @@ BOOL DownloadUI::InitDialog()
     UpdateOverallProgress();*/
 
     m_handCursor = LoadCursor(g_hInstance, MAKEINTRESOURCE(IDC_HAND));
+
+    if (strcasecmp(BRANDING_COMPANY, "EMusic") == 0)
+    {
+       SetWindowText(GetDlgItem(m_hwnd, IDC_DLMTEXT), szEMusicText);
+       SetWindowText(GetDlgItem(m_hwnd, IDC_FREETRACKS), szEMusicURLText);
+    }
+    else
+    {
+       SetWindowText(GetDlgItem(m_hwnd, IDC_DLMTEXT), szFreeAmpText);
+       SetWindowText(GetDlgItem(m_hwnd, IDC_FREETRACKS), szFreeAmpURLText);
+    }
 
     m_uiSemaphore->Signal();
     return TRUE;
@@ -1997,16 +2022,12 @@ LRESULT DownloadUI::FreeTracksWndProc(HWND hwnd,
 
             if(PtInRect(&m_urlRect, pt))
             {
-                char url[256];
-
-                GetWindowText(hwnd, url, sizeof(url));
-
-                ShellExecute(hwnd, 
-                             "open", 
-                             url, 
-                             NULL, 
-                             NULL, 
-                             SW_SHOWNORMAL);
+                if (strcasecmp(BRANDING_COMPANY, "EMusic") == 0)
+                    ShellExecute(hwnd, "open", szEMusicURL, NULL, 
+                                 NULL, SW_SHOWNORMAL);
+                else
+                    ShellExecute(hwnd, "open", szFreeAmpURL, NULL, 
+                                 NULL, SW_SHOWNORMAL);
             }
                 
 			break;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.20.2.4 2000/02/28 01:51:13 robert Exp $
+	$Id: bootstrap.cpp,v 1.20.2.4.2.1 2000/03/03 23:28:49 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -218,11 +218,15 @@ int main(int argc, char **argv)
                     {
                         if (i == 0)
                         {
-                            if (strcmp("fat", pPtr + strlen(pPtr) - 3) == 0)
+                            if (strcmp("fat", pPtr + strlen(pPtr) - 3) == 0 ||
+                                strcmp("rmp", pPtr + strlen(pPtr) - 3) == 0)
                                bPlay = false;
 
                             if (bPlay) 
+                            {
+                                context->target->AcceptEvent(new Event(CMD_Stop));
                                 context->plm->RemoveAll();
+                            }    
                         }
 
                         pP->HandleSingleArg(pPtr);

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.16 1998/11/09 08:55:47 jdw Exp $
+	$Id: event.h,v 1.17 1998/11/10 07:58:01 jdw Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -54,6 +54,7 @@ class EventQueue {
 #define CMD_NextMediaPiece      3  // set pointer in playlist to next mediapiece (no arg)
 #define CMD_PrevMediaPiece      4  // set pointer in playlist to prev mediapiece (no arg)
 #define CMD_Pause               5  // pause current play (no arg)
+#define CMD_PlayPaused			6  // play, but start in the 'paused' mode
 #define CMD_QuitPlayer          7  // tells player to quit (no arg)
 #define CMD_Cleanup             8  // player tells modules to cleanup and get ready for termination (no arg)
 //#define CMD_Terminate           9  // is sent by player to COOs, and the DummyCOO makes the main thread delete player and exit (no arg)

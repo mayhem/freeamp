@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cwin.c,v 1.1 1998/10/14 02:50:36 elrod Exp $
+	$Id: cwin.c,v 1.2 1998/11/10 07:58:02 jdw Exp $
 ____________________________________________________________________________*/
 
 /****  cwin.c  ***************************************************
@@ -100,6 +100,9 @@ void window(float *vbuf, int vb_ptr, short *pcm)
       *pcm++ = tmp;
    }
 }
+
+
+
 /*------------------------------------------------------------*/
 void window_dual(float *vbuf, int vb_ptr, short *pcm)
 {

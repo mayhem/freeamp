@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: drawplayer.cpp,v 1.30 1998/11/10 06:19:56 elrod Exp $
+	$Id: drawplayer.cpp,v 1.31 1998/11/10 07:58:02 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2099,6 +2099,7 @@ LRESULT WINAPI MainWndProc( HWND hwnd,
 									sizeof(szFile));
 
 			g_ui->m_plm->RemoveAll();
+			g_ui->m_target->AcceptEvent(new Event(CMD_Stop));
 			for(int32 i = 0; i < count; i++)
 			{
 				DragQueryFile(	hDrop,

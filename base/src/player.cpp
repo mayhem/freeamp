@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.100 1999/03/18 03:44:35 elrod Exp $
+        $Id: player.cpp,v 1.101 1999/03/18 04:34:22 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -896,6 +896,8 @@ void Player::DoneOutputting(Event *pEvent)
        SEND_NORMAL_EVENT(INFO_Stopped);
    }
 
+   SEND_NORMAL_EVENT(INFO_DoneOutputting);
+
    if (m_plm->HasAnotherSong())
    {
       AcceptEvent(new Event(CMD_NextMediaPiece));
@@ -910,7 +912,10 @@ void Player::DoneOutputting(Event *pEvent)
       }
    }
    else
+   {
       m_plm->SetFirst();
+      SEND_NORMAL_EVENT(INFO_PlayListDonePlay);
+   }
    
    delete pEvent;
 }

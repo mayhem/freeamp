@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.18 1999/09/15 22:19:50 elrod Exp $
+	$Id: playlist.h,v 1.40.4.19 1999/10/15 22:52:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -206,10 +206,10 @@ class PlaylistManager {
     // Functions for adding items to playlist       
     Error AddItem(const char* url);
     Error AddItem(const char* url, uint32 index);
-    Error AddItem(PlaylistItem* item);
-    Error AddItem(PlaylistItem* item, uint32 index);
-    Error AddItems(vector<PlaylistItem*>* list);
-    Error AddItems(vector<PlaylistItem*>* list, uint32 index);
+    Error AddItem(PlaylistItem* item, bool queryForMetaData = true);
+    Error AddItem(PlaylistItem* item, uint32 index, bool queryForMetaData = true);
+    Error AddItems(vector<PlaylistItem*>* list, bool queryForMetaData = true);
+    Error AddItems(vector<PlaylistItem*>* list, uint32 index, bool queryForMetaData = true);
 
     // Functions for removing items from playlist
     Error RemoveItem(PlaylistItem* item);

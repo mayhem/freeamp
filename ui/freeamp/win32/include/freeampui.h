@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.6 1998/11/07 02:39:04 jdw Exp $
+	$Id: freeampui.h,v 1.7 1998/11/09 06:18:55 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -78,15 +78,6 @@ class FreeAmpUI : public UserInterface {
     Thread*         m_uiThread;
 
     HWND            m_hwnd;
-    HWND            m_hwndPlay;
-	HWND            m_hwndStop;
-	HWND            m_hwndPause;
-	HWND            m_hwndNext;
-	HWND            m_hwndLast;
-	HWND            m_hwndSlider;
-    HWND            m_hwndCurrent;
-    HWND            m_hwndTotal;
-	HWND            m_hwndStatus;
 
     
 };

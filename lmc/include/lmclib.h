@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmclib.h,v 1.6 1998/10/16 19:42:07 elrod Exp $
+	$Id: lmclib.h,v 1.7 1998/10/19 07:51:44 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMCLIB_H_
@@ -36,10 +36,10 @@ extern "C" {
 
 void Initialize(LMCRef ref);
 
-void Init(LMCRef ref);
+void InitDecoder(LMCRef ref);
 void SetPMI(LMCRef ref, PMIRef);
 void SetPMO(LMCRef ref, PMORef);
-void SetInfoEventQueue(LMCRef ref, EventQueue*);
+void SetTarget(LMCRef ref, EventQueue*);
 
 bool Decode(LMCRef ref);
 void Stop(LMCRef ref);

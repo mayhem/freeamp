@@ -18,26 +18,33 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dummyui.h,v 1.1 1998/10/19 04:52:03 elrod Exp $
+	$Id: dummyui.h,v 1.2 1998/10/19 07:51:44 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _DUMMY_COO_H_
-#define _DUMMY_COO_H_
+#ifndef _DUMMY_UI_H_
+#define _DUMMY_UI_H_
 
 #include "ctrlobj.h"
 #include "player.h"
 #include "semaphore.h"
 
-class DummyCOO : public UserInterface {
+class DummyUI : public UserInterface {
  public:
+    virtual void SetTarget(EventQueue* eq);
     virtual int32 AcceptEvent(Event *);
     virtual void  SetArgs(int32 i, char **c) { return; }
-    DummyCOO(Semaphore*);
-    virtual ~DummyCOO();
+    virtual void SetRef(UIRef ref){ m_ref = ref;}
+
+    static int32 AcceptEventStub(UIRef pUI, Event *pe);
+    static void Cleanup(UIRef pUI);
+
+    DummyUI(Semaphore*);
+    virtual ~DummyUI();
 
  private:
     Semaphore*      m_termSemaphore;
     EventQueueRef   m_target;
+    UIRef           m_ref;
 
 };
 

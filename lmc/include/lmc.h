@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.6 1998/10/16 19:42:07 elrod Exp $
+	$Id: lmc.h,v 1.7 1998/10/19 07:51:44 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
@@ -42,8 +42,8 @@ class LogicalMediaConverter {
 
     virtual void SetPMI(PMIRef) = 0;
     virtual void SetPMO(PMORef) = 0;
-    virtual void SetInfoEventQueue(EventQueue *) = 0;
-    virtual void Init() = 0;
+    virtual void SetTarget(EventQueue *) = 0;
+    virtual void InitDecoder() = 0;
 };
 
 #ifdef __cplusplus
@@ -53,11 +53,11 @@ extern "C" {
 typedef struct LMC{
     void*   ref;
 
-    void    (*Init)              (struct LMC*);
+    void    (*InitDecoder)       (struct LMC*);
 
     void    (*SetPMI)            (struct LMC*, PMIRef);
     void    (*SetPMO)            (struct LMC*, PMORef);
-    void    (*SetInfoEventQueue) (struct LMC*, EventQueue*);
+    void    (*SetTarget) (struct LMC*, EventQueueRef);
 
     bool    (*Decode)            (struct LMC*);
     void    (*Stop)              (struct LMC*);

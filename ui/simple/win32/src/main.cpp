@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.1 1998/10/16 21:56:42 elrod Exp $
+	$Id: main.cpp,v 1.2 1998/10/19 07:51:45 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -29,38 +29,15 @@ ____________________________________________________________________________*/
 #include <iostream.h>
 
 /* Project Includes */
-//#include "player.h"
-//#include "playlist.h"
 #include "event.h"
 #include "about.h"
 #include "resource.h"
 
-#define kSong1 "c:\\local\\mpegs\\311 - Beautiful Disaster.mp3"
-#define kSong2 "c:\\local\\mpegs\\311 - Jackolantern\'s Weather.mp3"
-
-static bool g_scrolling = false;
 
 BOOL CALLBACK MainProc(	HWND hwnd, 
 						UINT msg, 
 						WPARAM wParam, 
 						LPARAM lParam ); 
-
-/*int APIENTRY WinMain(	HINSTANCE hInstance, 
-						HINSTANCE hPrevInstance,
-		 				LPSTR lpszCmdLine, 
-						int cmdShow)
-{
-	
-	InitCommonControls();
-
-	DialogBoxParam(	hInstance, 
-					MAKEINTRESOURCE(IDD_PLAYER),
-					NULL,
-					MainProc,
-					(LPARAM)lpszCmdLine);
-
-	return 0;
-}*/
 
 
 BOOL CALLBACK MainProc(	HWND hwnd, 

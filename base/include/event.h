@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.6 1998/10/19 00:09:04 elrod Exp $
+	$Id: event.h,v 1.7 1998/10/19 07:51:44 elrod Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -47,10 +47,25 @@ class Event {
  
 };
 
-class EventQueue {
+/*class EventQueue {
  public:
     virtual int32 AcceptEvent(Event *) = 0;
-};
+};*/
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct EventQueue{
+    void*   ref;
+    int32   (*AcceptEvent)  (struct EventQueue*, Event*);
+
+}EventQueue, *EventQueueRef;
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
 
 #define CMD_Stop                1  // stop current play  (no arg)
 #define CMD_Play                2  // Play current media piece from beginning (no arg)

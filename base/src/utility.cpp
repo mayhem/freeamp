@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.2.2.8 1999/09/24 00:16:12 elrod Exp $
+	$Id: utility.cpp,v 1.2.2.9 1999/10/01 04:49:21 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -78,6 +78,26 @@ char *FreeampDir(Preferences *pref)
 
 #else
 
+#ifdef __BEOS__
+
+#include <be/storage/FindDirectory.h>
+#include <be/storage/Path.h>
+
+char *FreeampDir(Preferences *pref)
+{
+    BPath prefPath;
+    assert(find_directory(B_USER_SETTINGS_DIRECTORY, &prefPath) == B_NO_ERROR);
+    prefPath.Append( "freeamp.org" );
+
+    char *path = prefPath.Path();
+    char *s = new char[strlen(path) + 1];
+    strcpy(s, path);
+
+    return s;
+}
+
+#else
+
 #include <stdlib.h>
 
 char *FreeampDir(Preferences *prefs)
@@ -98,6 +118,7 @@ char *FreeampDir(Preferences *prefs)
 
     return s;
 }
+#endif
 #endif    
 
 const char* protocol = "file://";

@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: beosprefs.cpp,v 1.5.2.2 1999/09/28 01:01:51 hiro Exp $
+        $Id: beosprefs.cpp,v 1.5.2.3 1999/10/01 04:49:21 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -739,7 +739,9 @@ GetNextLibDir(LibDirFindHandle *hLibDirFind, char *path, uint32 *len)
     if (hLibDirFind) {
         hLibDirFind->m_current++;
         char *pPath = (*hLibDirFind->m_pLibDirs)[hLibDirFind->m_current];
-        if (pPath) {
+        if ( pPath &&
+             hLibDirFind->m_current < (int32)hLibDirFind->m_pLibDirs->size() )
+        {
             strncpy(path,pPath,*len);
             *len = strlen(pPath);
 //          cout << "returning next: " << path << endl;

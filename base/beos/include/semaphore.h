@@ -1,3 +1,4 @@
+
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
@@ -18,6 +19,32 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.2 1998/10/20 03:16:05 elrod Exp $
+	$Id: semaphore.h,v 1.1 1999/02/10 09:32:23 elrod Exp $
 ____________________________________________________________________________*/
 
+
+
+#ifndef _SEMAPHORE_H_
+#define _SEMAPHORE_H_
+
+#include <kernel/OS.h>
+#include "mutex.h"
+
+class Semaphore
+{
+public:
+			Semaphore( int cnt = 1 );
+			Semaphore( const char* name, int cnt = 1);
+			~Semaphore();
+    void	Wait();
+    bool	Wait( long timeout );
+    void	Signal();
+
+protected:
+
+private:
+	int		count;
+	sem_id	mutex;
+};
+
+#endif // _SEMAPHORE_H_

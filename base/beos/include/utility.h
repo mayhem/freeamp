@@ -1,9 +1,7 @@
-
 /*____________________________________________________________________________
 	
-	FreeAmp - The Free MP3 Player
-
-	Portions Copyright (C) 1998 GoodNoise
+	FreeAMP - The Free MP3 Player
+	Portions copyright (C) 1998 GoodNoise
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -19,28 +17,16 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: decoder_speed.cpp,v 1.3 1998/10/14 17:11:11 jdw Exp $
+	$Id: utility.h,v 1.1 1999/02/10 09:32:23 elrod Exp $
 ____________________________________________________________________________*/
 
+#ifndef _UTILITY_H_
+#define _UTILITY_H_
 
-#include <iostream.h>
+#include "config.h"
+#include "errors.h"
 
-#include "lmc/xingmp3/include/xinglmc.h"
-#include "base/unix/linux/include/soundcardpmo.h"
-#include "io/local/localfileinput.h"
-
+Error GetInstallDirectory(char* path, int32 len);
 
 
-int main(int argc, char **argv) {
-    if (argc == 0) return 255;
-    cout << "Playing " << argv[1] << " for testing..." << endl;
-    LocalFileInput *pLFI = new LocalFileInput(argv[1]);
-    SoundCardPMO *pSCO = new SoundCardPMO();
-    XingLMC *myLMC = new XingLMC();
-    myLMC->SetPMI(pLFI);
-    myLMC->SetPMO(pSCO);
-    myLMC->Init();
-    myLMC->DecodeWork();
-    delete myLMC;
-    return 0;
-}
+#endif // _UTILITY_H_

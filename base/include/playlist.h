@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.17 1999/02/11 15:32:13 jdw Exp $
+	$Id: playlist.h,v 1.18 1999/02/28 00:21:25 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -182,8 +182,8 @@ class PlayListManager {
 
     PlayListItem *GetCurrent();
     void SetFirst();
-    void SetNext();
-    void SetPrev();
+    void SetNext(bool bUserAction = false);
+    void SetPrev(bool bUserAction = false);
 
     int32 Current() const {return m_current;}
     int32 Total() const {return m_pOrderList->NumElements();}

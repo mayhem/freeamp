@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: obsbuffer.cpp,v 1.5 1999/02/13 01:35:41 robert Exp $
+   $Id: obsbuffer.cpp,v 1.6 1999/02/28 00:21:31 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -70,14 +70,11 @@ ObsBuffer::ObsBuffer(size_t iBufferSize, size_t iOverFlowSize,
 ObsBuffer::~ObsBuffer(void)
 {
     m_bExit = true;
-    g_Log->Log(LogInput, "obsbuffer dtor sleep\n");
     m_pWriteSem->Signal();
     m_pReadSem->Signal();
-    g_Log->Log(LogInput, "obsbuffer dtor wake\n");
 
     if (m_pBufferThread)
     {
-       g_Log->Log(LogInput, "obsbuffer dtor join\n");
        m_pBufferThread->Join();
        delete m_pBufferThread;
     }
@@ -98,7 +95,7 @@ Error ObsBuffer::Open(void)
     int    iReuse=0;
     char   szAddr[100];
 
-    iRet = sscanf(m_szUrl, "obs://%[^:]:%d", szAddr, &iPort);
+    iRet = sscanf(m_szUrl, "rtp://%[^:]:%d", szAddr, &iPort);
     if (iRet < 2)
         return (Error)obsError_BadUrl;
 

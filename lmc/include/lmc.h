@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.14 1999/01/25 23:00:34 robert Exp $
+	$Id: lmc.h,v 1.15 1999/02/28 00:21:34 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
@@ -36,7 +36,7 @@ class MediaInfoEvent;
 class LogicalMediaConverter {
  public:
     virtual ~LogicalMediaConverter() {}
-    virtual Error Decode() = 0;
+    virtual Error Decode(int32 iSkipNumFrames = 0) = 0;
     virtual Error Stop() = 0;
     virtual Error Pause() = 0;
     virtual Error Resume() = 0;
@@ -45,7 +45,7 @@ class LogicalMediaConverter {
 
     virtual bool CanDecode() = 0;
     virtual bool IsStreaming() = 0;
-    virtual Error ExtractMediaInfo(MediaInfoEvent **) = 0;
+    virtual Error ExtractMediaInfo() = 0;
 
     virtual Error SetPMI(PhysicalMediaInput *) = 0;
     virtual Error SetPMO(PhysicalMediaOutput *) = 0;

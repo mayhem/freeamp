@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.18 1999/01/31 18:44:43 jdw Exp $
+   $Id: xinglmc.h,v 1.19 1999/02/28 00:21:35 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -91,7 +91,7 @@ class     XingLMC:public LogicalMediaConverter
 
    virtual ~ XingLMC();
 
-   virtual Error Decode();
+   virtual Error Decode(int iSkipNumFrames = 0);
    virtual Error Stop();
    virtual Error Pause();
    virtual Error Resume();
@@ -100,7 +100,7 @@ class     XingLMC:public LogicalMediaConverter
 
    virtual bool  CanDecode();
    virtual bool  IsStreaming();
-   virtual Error ExtractMediaInfo(MediaInfoEvent **);
+   virtual Error ExtractMediaInfo();
 
    virtual Error SetPMI(PhysicalMediaInput *);
    virtual Error SetPMO(PhysicalMediaOutput *);

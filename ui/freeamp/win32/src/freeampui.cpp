@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.61 1999/04/28 00:52:48 elrod Exp $
+	$Id: freeampui.cpp,v 1.62 1999/06/07 07:01:33 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2849,12 +2849,19 @@ SetArgs(int32 argc, char** argv)
 
             handle = FindFirstFile( arg, &data);
 
+            // find long filename for item
             if(handle != INVALID_HANDLE_VALUE)
             {
                 m_plm->AddItem(data.cFileName,0);
 
                 FindClose(handle);
             }
+            else
+            {
+                // probably a URL... should do more checking though
+                m_plm->AddItem(arg,0);
+            }
+      
 
             count++;
 	    }

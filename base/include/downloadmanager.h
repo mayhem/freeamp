@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.8 1999/09/20 18:23:34 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.9 1999/09/20 20:08:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -37,6 +37,7 @@ using namespace std;
 
 #include "errors.h"
 #include "mutex.h"
+#include "semaphore.h"
 #include "thread.h"
 #include "metadata.h"
 #include "registry.h"
@@ -280,6 +281,9 @@ class DownloadManager {
 
     Thread* m_downloadThread;
     bool m_runDownloadThread;
+
+    Semaphore m_queueSemaphore;
+    Mutex m_quitMutex;
 
 };
 

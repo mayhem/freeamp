@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.5 1999/09/20 18:23:34 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.6 1999/09/20 20:08:47 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 #endif
 
 #include <assert.h>
+#include <iostream>
 
 #include "config.h"
 #include "facontext.h"
@@ -78,7 +79,6 @@ DownloadManager::DownloadManager(FAContext* context)
     if(m_downloadThread)
     {
         m_downloadThread->Create(download_thread_function, this);
-        m_downloadThread->Suspend();
     }
 }
 
@@ -90,7 +90,9 @@ DownloadManager::~DownloadManager()
     //uint32 count = 0;
 
     m_runDownloadThread = false;
-    m_downloadThread->Resume();
+    m_queueSemaphore.Signal();
+
+    m_quitMutex.Acquire();
 
     size = m_itemList.size();
 
@@ -329,6 +331,8 @@ Error DownloadManager::QueueDownload(DownloadItem* item)
 
     if(item)
     {
+        //cout << "Queue item: " << item->SourceURL() << endl;
+
         if(item->GetState() != kDownloadItemState_Downloading &&
            item->GetState() != kDownloadItemState_Done &&
            item->GetState() != kDownloadItemState_Queued)
@@ -337,7 +341,7 @@ Error DownloadManager::QueueDownload(DownloadItem* item)
 
             m_queueList.push_back(item);
 
-            m_downloadThread->Resume();
+            m_queueSemaphore.Signal();
 
             result = kError_NoErr;
         }
@@ -376,8 +380,6 @@ Error DownloadManager::CancelDownload(DownloadItem* item, bool allowResume)
             }
 
             m_queueList.push_back(item);
-
-            m_downloadThread->Resume();
 
             result = kError_NoErr;
         }
@@ -567,7 +569,7 @@ DownloadItem* DownloadManager::GetNextQueuedItem()
 
         m_queueList.pop_front();
 
-
+        cout << "Queue count: " << m_queueList.size() << endl;
     }
 
     return result;
@@ -581,7 +583,7 @@ Error DownloadManager::Download(DownloadItem* item)
 
     if(item)
     {
-
+        cout << "Downloading item: " << item->SourceURL() << endl;
     }
 
     return result;
@@ -589,7 +591,7 @@ Error DownloadManager::Download(DownloadItem* item)
 
 void DownloadManager::CleanUpDownload(DownloadItem* item)
 {
-
+    cout << "Cleaning item: " << item->SourceURL() << endl;
 }
 
 Error DownloadManager::SubmitToDatabase(DownloadItem* item)
@@ -600,7 +602,7 @@ Error DownloadManager::SubmitToDatabase(DownloadItem* item)
 
     if(item)
     {
-
+        cout << "Submitting item: " << item->SourceURL() << endl;
     }
 
     return result;
@@ -608,8 +610,12 @@ Error DownloadManager::SubmitToDatabase(DownloadItem* item)
 
 void DownloadManager::DownloadThreadFunction()
 {
+    m_quitMutex.Acquire();
+
     while(m_runDownloadThread)
     {
+        m_queueSemaphore.Wait();
+
         DownloadItem* item = GetNextQueuedItem();
         Error result;
 
@@ -637,9 +643,11 @@ void DownloadManager::DownloadThreadFunction()
 
             item->SetDownloadError(result);
         }
-
-        m_downloadThread->Suspend();
     }
+
+    cout << "Exiting download thread..." << endl;
+
+    m_quitMutex.Release();
 }
 
 void DownloadManager::download_thread_function(void* arg)

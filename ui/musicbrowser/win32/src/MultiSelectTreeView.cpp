@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.13 2000/01/14 06:16:28 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.14 2000/02/07 04:44:02 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -790,7 +790,7 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
         case WM_SETFOCUS:
         case WM_KILLFOCUS:
         {
-            UpdateButtonMenuStates();
+            UpdateButtonStates();
             InvalidateRect(hwnd, NULL, TRUE);
             break;
         }

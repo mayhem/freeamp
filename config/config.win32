@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.23 2000/01/21 09:51:03 elrod Exp $
+	$Id: config.win32,v 1.24 2000/02/07 04:44:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -78,6 +78,10 @@ ____________________________________________________________________________*/
 #endif
 
 #ifdef WIN32
+#define STRICT
+#include <windows.h>
+#include <windowsx.h>
+
 #define __LITTLE_ENDIAN 1234
 #define __BIG_ENDIAN    4321
 #define __PDP_ENDIAN    3412

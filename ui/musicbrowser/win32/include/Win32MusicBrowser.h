@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.58 2000/01/14 20:44:17 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.59 2000/02/07 04:44:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -183,7 +183,8 @@ class MusicBrowserUI : public UserInterface
     void   AddToolbarButtons(bool textLabels, bool images);
     void   ToggleVisEvent();
     void   SetTitles();
-    void   UpdateButtonMenuStates();
+    void   UpdateMenuStates();
+    void   UpdateButtonStates();
     void   MoveControls(int iPixelsToMove);
     bool   CreateMainDialog();
     Error  CloseMainDialog();

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.42 2000/01/14 09:16:22 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.43 2000/02/07 04:44:02 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -331,11 +331,11 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
             {
                 (*i)->AddToolbarButtons(useTextLabels, useImages);
-                (*i)->UpdateButtonMenuStates();
+                (*i)->UpdateButtonStates();
             }
 
             AddToolbarButtons(useTextLabels, useImages);
-            UpdateButtonMenuStates();
+            UpdateButtonStates();
 
             /*if(TreeView_GetChild(m_hMusicView, m_hPortableItem) != NULL)
             {    

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.cpp,v 1.1.2.2 1999/08/29 20:45:26 elrod Exp $
+	$Id: id3v1.cpp,v 1.1.2.3 1999/08/30 04:51:51 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -332,6 +332,8 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
 
                             cout << "genre: " << "{unknown}" << endl;
                         }
+
+                        result = true;
                     }
 
                     cout << endl;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: npfreeamp.c,v 1.1.2.1 2000/03/01 22:59:59 robert Exp $
+	$Id: npfreeamp.c,v 1.1.2.2 2000/03/02 00:00:24 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -340,7 +340,6 @@ NPP_NewStream(NPP instance,
     
     strcat(This->szFreeAmpExe, "\\");
     strcat(This->szFreeAmpExe, BRANDING_EXE_FILE);
-    Debug_v("exe: '%s'", This->szFreeAmpExe);
     
     RegCloseKey(hKey);
 
@@ -472,9 +471,10 @@ NPP_DestroyStream(NPP instance, NPStream *stream, NPError reason)
         sInfo.cb = sizeof(STARTUPINFO);
         
         if (bImport)
-           sprintf(szArgs, "%s -import %s", This->szFreeAmpExe, This->szTargetFile);
+           sprintf(szArgs, "%s -import \"%s\"", This->szFreeAmpExe, This->szTargetFile);
         else   
-           sprintf(szArgs, "%s -delete %s", This->szFreeAmpExe, This->szTargetFile);
+           sprintf(szArgs, "%s -delete \"%s\"", This->szFreeAmpExe, This->szTargetFile);
+        //sprintf(szArgs, "%s \"%s\"", This->szFreeAmpExe, This->szTargetFile);
            
         bRet = CreateProcess(NULL, szArgs, NULL, NULL, FALSE,
                          CREATE_NEW_PROCESS_GROUP, NULL, NULL, &sInfo, &sProcess);
@@ -750,6 +750,9 @@ PlatformSetWindow( PluginInstance* This, NPWindow* window )
 
     SendMessage(This->fPlatform.hImportWnd, BM_SETCHECK, 1, 0);
     SendMessage(This->fPlatform.hDeleteWnd, BM_SETCHECK, 0, 0);
+
+    //EnableWindow(This->fPlatform.hDeleteWnd, FALSE);
+    //EnableWindow(This->fPlatform.hImportWnd, FALSE);
 
 	InvalidateRect( This->fPlatform.fhWnd, NULL, TRUE );
 	UpdateWindow( This->fPlatform.fhWnd );

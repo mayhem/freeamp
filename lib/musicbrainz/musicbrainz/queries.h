@@ -18,7 +18,7 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-     $Id: queries.h,v 1.10 2000/10/27 12:00:22 robert Exp $
+     $Id: queries.h,v 1.11 2000/10/31 10:04:09 robert Exp $
 
 ----------------------------------------------------------------------------*/
 #ifndef _QUERIES_H_
@@ -78,7 +78,7 @@
 
 // Item selectors for queries that return a list of items
 #define MB_SelectExchangedData    "/rdf:RDF/rdf:Description"
-
+#define MB_SelectExchangedAlbum   "/rdf:RDF/rdf:Description/DC:Relation/rdf:Description"
 // Item selectors for lyric queries
 #define MB_SelectTrackInfo        "/rdf:RDF/rdf:Description"
 #define MB_SelectLyricInfo        "/rdf:RDF/rdf:Description/MM:SyncEvents/rdf:Description"

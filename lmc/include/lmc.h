@@ -19,10 +19,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.2 1998/10/13 21:53:29 jdw Exp $
+	$Id: lmc.h,v 1.3 1998/10/14 02:23:40 elrod Exp $
 ____________________________________________________________________________*/
-
-// lmc.h
 
 #ifndef _LMC_H_
 #define _LMC_H_

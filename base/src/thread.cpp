@@ -18,11 +18,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: thread.cpp,v 1.2 1998/10/14 00:31:24 jdw Exp $
+	$Id: thread.cpp,v 1.3 1998/10/14 02:23:40 elrod Exp $
 ____________________________________________________________________________*/
-#ifdef WIN32
-#include <process.h>
-#endif
 
 #include "config.h"
 #include "thread.h"

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.4 1998/10/13 23:58:10 elrod Exp $
+	$Id: player.h,v 1.5 1998/10/14 02:23:39 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -40,7 +40,6 @@ ____________________________________________________________________________*/
 
 
 #include "lmc.h"
-#include "xinglmc.h"
 
 typedef enum {
     STATE_Paused = 1,

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.c,v 1.3 1999/10/24 19:41:35 ijr Exp $
+        $Id: browsermenu.c,v 1.4 1999/10/25 03:30:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -67,7 +67,7 @@ void CreateMenuItems(GtkItemFactory *item_factory, void *p)
 
      {"/_Edit",                 NULL,           0,         0, "<Branch>" },
      {"/_Edit/Add Track",       NULL,           add_track, 0, 0 },
-     {"/_Edit/Edit Track\\Playlist info", NULL,  infoedit,  0, 0 },
+     {"/_Edit/Edit Track Information\\Playlist", NULL,  infoedit,  0, 0 },
      {"/_Edit/Remove Track\\Playlist", NULL,     delete_sel,0, 0 },
      {"/_Edit/Remove Track\\Playlist From Disk", NULL, realdelete_sel, 0, 0},
      {"/_Edit/sep3",            NULL,           0,         0, "<Separator>" },

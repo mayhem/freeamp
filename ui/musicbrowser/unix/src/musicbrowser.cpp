@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.3 1999/10/24 19:41:35 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.4 1999/10/25 03:30:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -39,6 +39,7 @@ UserInterface *Initialize(FAContext *context) {
 MusicBrowserUI::MusicBrowserUI(FAContext *context)
 {
     m_context = context;
+    searching = NULL;
 }
 
 MusicBrowserUI::~MusicBrowserUI()
@@ -108,6 +109,8 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 gtk_main_quit();
                 gdk_threads_leave();
             }
+            if (searching)
+                delete searching;
             gtkThread->Join();
             m_playerEQ->AcceptEvent(new Event(INFO_ReadyToDieUI));
             break; }
@@ -117,6 +120,8 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             vector<GTKMusicBrowser *>::iterator i = browserWindows.begin();
             for (; i != browserWindows.end(); i++)
                 (*i)->AcceptEvent(event);
+            if (searching)
+                searching->AcceptEvent(event);
             break; }
         case CMD_TogglePlaylistUI: {
             if (mainBrowser->Visible())
@@ -152,4 +157,16 @@ void MusicBrowserUI::WindowClose(GTKMusicBrowser *oldUI)
 
     if (loc != browserWindows.end())
         browserWindows.erase(loc);
+}
+
+void MusicBrowserUI::StartSearch(void)
+{
+    if (searching)
+        return;
+
+    searching = new musicsearchUI(m_context);
+
+    searching->Show();
+
+    searching = NULL;
 }

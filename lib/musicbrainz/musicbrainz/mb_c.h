@@ -18,7 +18,7 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-     $Id: mb_c.h,v 1.11 2000/10/27 12:00:22 robert Exp $
+     $Id: mb_c.h,v 1.12 2000/11/15 13:26:37 robert Exp $
 
 ----------------------------------------------------------------------------*/
 #ifndef _MB_C_H_
@@ -40,10 +40,16 @@ typedef void * trm_t;
 /* The interface to the main MusicBrainz object */
 musicbrainz_t mb_New           (void);
 void      mb_Delete            (musicbrainz_t o);
+
 int       mb_SetServer         (musicbrainz_t o, char *serverAddr, 
                                 short serverPort);
 int       mb_SetProxy          (musicbrainz_t o, char *serverAddr, 
                                 short serverPort);
+#ifdef WIN32
+void      mb_WSAInit           (musicbrainz_t o);
+void      mb_WSAStop           (musicbrainz_t o);
+#endif 
+
 int       mb_SetDevice         (musicbrainz_t o, char *device);
 void      mb_UseUTF8           (musicbrainz_t o, int useUTF8);
 

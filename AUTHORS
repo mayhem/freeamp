@@ -19,7 +19,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.50 2000/10/27 10:32:28 robert Exp $
+        $Id: AUTHORS,v 1.51 2000/11/08 17:06:56 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -172,3 +172,6 @@ Michael Rich <istan@alltel.net>
 
 "Mark Spencer" <markster@linux-support.net>
 * tweaked the xing decoder to be reentrant
+
+"Phester (Wes Koop)" <phester@home.com>
+* FreeAmp theme changes for 2.1 (You rule!!)

@@ -205,11 +205,13 @@ dnl probably Sun CC.
     
 esac  
 
-OSINC="-Ibase/unix/$host_os/include -Ibase/unix/include"
+dnl the following is to so that the right includes (and only the right
+dnl includes) are added in at compile time.
+OSINC="-Ibase/unix/$host_os/include -Ibase/unix/include -Iui/freeamp/unix/include -Iui/freeamp/unix/res"
 OSDEP="unix/$host_os"
 
 if test "$isunix" = "false"  ; then
-  OSINC="-Ibase/$host_os/include"
+  OSINC="-Ibase/$host_os/include -Iui/freeamp/$host_os"
   OSDEP="$host_os"
 fi
 

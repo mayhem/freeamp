@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.23.2.2 2000/05/09 15:24:29 robert Exp $
+   $Id: Window.h,v 1.23.2.3 2000/05/10 14:34:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -59,10 +59,6 @@ class Window
       virtual ~Window(void);
 
       void    GetName(string &oName);
-      void    AddAdornment(Window *pAdornment, Pos &oPos);
-      void    SetAsAdornment(bool bAdorn);
-      void    SetAdornmentParent(Window *pParent);
-      bool    IsAdornment(void);
       Canvas *GetCanvas(void);
       void    AddControl(Control *pControl);
       void    ClearControls(void);
@@ -73,6 +69,14 @@ class Window
 
       virtual void SetStayOnTop(bool bStay);
       virtual void SetLiveInToolbar(bool bLive);
+
+      // Functions for controlling if a window is an adornment
+      void    AddAdornment(Window *pAdornment, Pos &oPos);
+      void    SetAsAdornment(bool bAdorn);
+      void    SetAdornmentParent(Window *pParent);
+      bool    IsAdornment(void);
+      void    ToggleVisibility(void);
+      bool    GetAdornmentOffset(Window *pAdorn, Pos &oPos);
 
       // The following functions are designed to give access to the 
       // controls via the control's name. 
@@ -165,8 +169,9 @@ class Window
       Control                  *m_pCaptureControl;
       Pos                       m_oMovePos;
       bool                      m_bStayOnTop, m_bLiveInToolbar;
-      bool                      m_bIsVulcanMindMeldHost, m_bIsAdornment;
-      Rect                      m_oMoveStart;
+      bool                      m_bIsVulcanMindMeldHost;
+      bool                      m_bIsAdornmentVisible, m_bIsAdornment;
+      Rect                      m_oMoveStart, m_oAdornmentMovePos;
       int32                     m_iDesktopWidth, m_iDesktopHeight;
       bool                      m_bMindMeldInProgress, m_bTimerEnabled;
       Mutex                    *m_pUsageMutex;

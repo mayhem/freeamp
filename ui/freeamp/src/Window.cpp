@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.33.2.4 2000/05/09 15:38:07 robert Exp $
+   $Id: Window.cpp,v 1.33.2.5 2000/05/10 14:34:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -37,6 +37,15 @@ ____________________________________________________________________________*/
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 const int iDesktopSnapAmount = 10;
+
+// Adornment todo:
+//  - Under unix when the adornment window is toggled it flashes from
+//    its original position to its new position
+//  - Adornments are not taken into account for snapping to desktop
+//    or reload positions
+//  - Adornment z order gets messed up by clicking on the adornment
+//  - Adornment persistence
+//  - UNIX: not show adornment windows in toolbar
 
 Window::Window(Theme *pTheme, string &oName)
 {
@@ -59,6 +68,7 @@ Window::Window(Theme *pTheme, string &oName)
     m_pUsageSem = new Semaphore();
     m_iUsageCount = 0;
     m_bIsAdornment = false;
+    m_bIsAdornmentVisible = false;
     m_pAdornmentParent = NULL;
 }
 
@@ -211,9 +221,17 @@ Error Window::VulcanMindMeld(Window *pOther)
         m_oControls.push_back(*i);
     }    
 
+    // Clean up current adornments
+    for(k = m_oAdornments.begin(); k != m_oAdornments.end(); k++)
+    {
+        (*k)->Close();
+    }    
+
     m_oAdornments.clear();
+    m_oAdornmentPos.clear();
     for(k = pOther->m_oAdornments.begin(); k != pOther->m_oAdornments.end(); k++)
     {
+        (*k)->SetAdornmentParent(this);
         m_oAdornments.push_back(*k);
     }    
 
@@ -250,11 +268,10 @@ void Window::Init(void)
         (*i)->SetParent(this);
         (*i)->Init();
     }    
-        
-    m_pTheme->InitControls();    
-
     for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
         (*j)->Init();
+
+    m_pTheme->InitControls();    
     
     DecUsageRef();
 }
@@ -577,10 +594,9 @@ void Window::HandleMouseMove(Pos &oScreenPos)
 
     if (m_bWindowMove)
     {
-       vector<Window *>::iterator  j;
-       vector<Pos>::iterator       i;
-       Rect                        oActualPos, oNewPos;
+       Rect oActualPos, oOrigPos;
 
+       oOrigPos = m_oMoveStart;
        m_oMoveStart.x1 += (oScreenPos.x - m_oMovePos.x);
        m_oMoveStart.x2 += (oScreenPos.x - m_oMovePos.x);
        m_oMoveStart.y1 += (oScreenPos.y - m_oMovePos.y);
@@ -618,33 +634,19 @@ void Window::HandleMouseMove(Pos &oScreenPos)
                oActualPos.y2 = m_iDesktopHeight;           
            }
        }       
-
-       m_oMovePos = oScreenPos;
        
        if (m_bIsAdornment)
        {
-           m_pAdornmentParent->GetWindowPosition(oNewPos);
-           oNewPos.x1 += oActualPos.x1 - m_oMoveStart.x1;
-           oNewPos.y1 += oActualPos.y1 - m_oMoveStart.y1;
-           oNewPos.x2 += oActualPos.x2 - m_oMoveStart.x2;
-           oNewPos.y2 += oActualPos.y2 - m_oMoveStart.y2;
-           m_pAdornmentParent->SetWindowPosition(oNewPos);
+           m_oAdornmentMovePos.x1 += oScreenPos.x - m_oMovePos.x;
+           m_oAdornmentMovePos.y1 += oScreenPos.y - m_oMovePos.y;
+           m_oAdornmentMovePos.x2 += oScreenPos.x - m_oMovePos.x;
+           m_oAdornmentMovePos.y2 += oScreenPos.y - m_oMovePos.y;
+           m_pAdornmentParent->SetWindowPosition(m_oAdornmentMovePos);
        }
        else
-       {
            SetWindowPosition(oActualPos);
-           //for(j = m_oAdornments.begin(), i = m_oAdornmentPos.begin(); 
-           //    j != m_oAdornments.end(); j++, i++)
-          // {
-          //     (*j)->GetWindowPosition(oNewPos);
-          //     oNewPos.x1 = oActualPos.x1 + i->x; 
-          //     oNewPos.y1 = oActualPos.y1 + i->y;
-          //     oNewPos.x2 = oActualPos.x2 + i->x; 
-          //     oNewPos.y2 = oActualPos.y2 + i->y;
-          //     (*j)->SetWindowPosition(oNewPos);
-          // }
-       }
 
+       m_oMovePos = oScreenPos;
        DecUsageRef();
        
        return; 
@@ -771,6 +773,8 @@ void Window::HandleMouseLButtonDown(Pos &oScreenPos)
        
     GetWindowPosition(m_oMoveStart);
     m_oMovePos = oScreenPos;
+    if (m_bIsAdornment)
+        m_pAdornmentParent->GetWindowPosition(m_oAdornmentMovePos);
 
     if (IsError(GetDesktopSize(m_iDesktopWidth, m_iDesktopHeight)))
        m_iDesktopWidth = m_iDesktopHeight = 0;
@@ -1010,24 +1014,59 @@ Error Window::SetWindowPosition(Rect &oWindowRect)
 {
     vector<Window *>::iterator  j;
     vector<Pos>::iterator       i;
-    Rect                        oNewPos, oPos;
+    Rect                        oNewPos;
 
     if (m_bIsAdornment)
        return kError_NoErr;
 
     IncUsageRef();
-    GetWindowPosition(oPos);
     for(j = m_oAdornments.begin(), i = m_oAdornmentPos.begin(); 
         j != m_oAdornments.end(); j++, i++)
     {
-       oNewPos.x1 = oPos.x1 + i->x; 
-       oNewPos.y1 = oPos.y1 + i->y;
-       oNewPos.x2 = oPos.x2 + i->x; 
-       oNewPos.y2 = oPos.y2 + i->y;
-       printf("Set adorn to %d %d\n", oNewPos.x1, oNewPos.y1);
+       oNewPos.x1 = oWindowRect.x1 + i->x; 
+       oNewPos.y1 = oWindowRect.y1 + i->y;
+       oNewPos.x2 = oWindowRect.x2 + i->x; 
+       oNewPos.y2 = oWindowRect.y2 + i->y;
        (*j)->SetWindowPosition(oNewPos);
     }
     DecUsageRef();
 
     return kError_NoErr;
 }
+
+void Window::ToggleVisibility(void)
+{
+    if (!m_bIsAdornment)
+        return;
+
+    if (m_bIsAdornmentVisible)
+        Hide();
+    else
+    {
+        Rect oRect;
+
+        Show();
+        m_pAdornmentParent->GetWindowPosition(oRect);
+        m_pAdornmentParent->SetWindowPosition(oRect);
+    }
+    m_bIsAdornmentVisible = !m_bIsAdornmentVisible;
+}
+
+#if 0
+bool Window::GetAdornmentOffset(Window *pAdorn, Pos &oPos)
+{
+    vector<Window *>::iterator  j;
+    vector<Pos>::iterator       i;
+
+    for(j = m_oAdornments.begin(), i = m_oAdornmentPos.begin(); 
+        j != m_oAdornments.end(); j++, i++)
+    {
+        if (pAdorn == *j)
+        {
+            oPos = *i;
+            return true;
+        }
+    }
+    return false;
+}
+#endif

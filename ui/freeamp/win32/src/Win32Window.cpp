@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.34.2.2 2000/05/09 15:24:29 robert Exp $
+   $Id: Win32Window.cpp,v 1.34.2.3 2000/05/10 14:34:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -387,7 +387,8 @@ Error Win32Window::Run(Pos &oPos)
         if (hRgn)
             SetWindowRgn(m_hWnd, hRgn, false);
 
-        ShowWindow( m_hWnd, SW_NORMAL);
+        if (!m_bIsAdornment || m_bIsAdornmenVisible)
+            ShowWindow( m_hWnd, SW_NORMAL);
         if (m_bStayOnTop)
             SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
         

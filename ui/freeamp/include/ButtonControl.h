@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.h,v 1.4.2.1 2000/05/09 09:58:28 robert Exp $
+   $Id: ButtonControl.h,v 1.4.2.2 2000/05/10 14:34:49 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BUTTONCONTROL_H__
@@ -36,7 +36,7 @@ ____________________________________________________________________________*/
 using namespace std;
 
 #include "Control.h"
-
+class Window;
 class ButtonControl : public Control
 {
     public:
@@ -46,7 +46,7 @@ class ButtonControl : public Control
       virtual ~ButtonControl(void);
 
       virtual void SetTargetWindow(string &oWindow);
-      virtual void SetAdornmentWindow(string &oWindow);
+      virtual void SetAdornmentWindow(Window *pWindow);
 
       void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
       virtual void Init(void);
@@ -55,7 +55,8 @@ class ButtonControl : public Control
       
     private:
 
-	  string m_oTargetWindow;
+	  string  m_oTargetWindow;
+     Window *m_pAdornmentWindow;
 };
 
 #endif

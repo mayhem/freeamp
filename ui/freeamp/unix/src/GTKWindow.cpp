@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.31.2.2 2000/05/09 15:24:29 robert Exp $
+   $Id: GTKWindow.cpp,v 1.31.2.3 2000/05/10 14:34:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -211,7 +211,8 @@ Error GTKWindow::Run(Pos &oPos)
     ((GTKCanvas *)GetCanvas())->Paint(oRect);
 
     gdk_threads_enter();
-    gtk_widget_show(mainWindow);
+    if (!m_bIsAdornment || m_bIsAdornmentVisible)
+       gtk_widget_show(mainWindow);
     gdk_flush(); 
     gtkTimer = gtk_timeout_add(250, do_timeout, this);
     gdk_threads_leave();

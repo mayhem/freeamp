@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.39.2.2 2000/05/09 15:24:29 robert Exp $
+   $Id: Theme.cpp,v 1.39.2.3 2000/05/10 14:34:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1052,6 +1052,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 
     if (oElement == string("ShowAdornment"))
     {
+       Window *pAdornment;
+
        if (m_pCurrentControl == NULL || m_eCurrentControl != eButtonControl)
        {
            m_oLastError = string("The <ShowAdornment> tag must be inside of a "
@@ -1065,7 +1067,15 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_ParseError;
        }        
 
-       ((ButtonControl *)m_pCurrentControl)->SetAdornmentWindow(oAttrMap["Name"]);
+       pAdornment = FindWindow(oAttrMap["Name"]);
+       if (pAdornment == NULL)
+       {
+           m_oLastError = string("Undefined adorment window: ") +
+                          oAttrMap["Name"] + string(" (Make sure that"
+                          "the window is defined before it is used)");
+           return kError_InvalidParam;
+       }
+       ((ButtonControl *)m_pCurrentControl)->SetAdornmentWindow(pAdornment);
        
        return kError_NoErr;
      }

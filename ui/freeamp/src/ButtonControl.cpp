@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.9.2.1 2000/05/09 09:58:28 robert Exp $
+   $Id: ButtonControl.cpp,v 1.9.2.2 2000/05/10 14:34:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -56,11 +56,13 @@ static TransitionInfo pTransitions[] =
 ButtonControl::ButtonControl(Window *pWindow, string &oName) :
                Control(pWindow, oName, pTransitions)
 {
+   m_pAdornmentWindow = NULL;
 }
 
 ButtonControl::ButtonControl(Window *pWindow, string &oName, string &oUrl) :
                Control(pWindow, oName, pTransitions)
 {
+   m_pAdornmentWindow = NULL;
    m_oValue = oUrl;
 }
 
@@ -139,11 +141,11 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
           break;
        case CT_Hide:
        {
-       	  Rect oRect = m_oRect;
+          Rect oRect = m_oRect;
           pCanvas = m_pParent->GetCanvas();
           pCanvas->Erase(oRect);
           pCanvas->Invalidate(oRect);
-       	  break;
+          break;
        }   
 
        default:
@@ -153,16 +155,7 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
     if (m_eCurrentState == CS_MouseOver && 
         eTrans == CT_MouseLButtonUp)
     {    
-       if (m_oTargetWindow.length() == 0)
-       {
-           if (m_oName == "ReloadTheme")
-           {
-              m_pParent->SendControlMessage(this, CM_Pressed);
-              return;
-           }   
-           m_pParent->SendControlMessage(this, CM_Pressed);
-       }    
-       else 
+       if (m_oTargetWindow.length())
        {   
            m_oMutex.Acquire();
            m_oValue = m_oTargetWindow;
@@ -171,6 +164,17 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
            m_pParent->SendControlMessage(this, CM_ChangeWindow);
            return;
        }
+       if (m_pAdornmentWindow)
+       {
+           m_pAdornmentWindow->ToggleVisibility();
+           return;
+       }
+       if (m_oName == "ReloadTheme")
+       {
+           m_pParent->SendControlMessage(this, CM_Pressed);
+           return;
+       }   
+       m_pParent->SendControlMessage(this, CM_Pressed);
     }       
 
     BlitFrame(m_eCurrentState);
@@ -185,7 +189,7 @@ bool ButtonControl::PosInControl(Pos &oPos)
     bRet = m_oRect.IsPosInRect(oPos);
     if (bRet && m_pBitmap)
     {
-    	Pos oLocalPos;
+        Pos oLocalPos;
         
         oLocalPos.x = (oPos.x - m_oRect.x1) + 
                       m_oStateBitmapRect[0][m_eCurrentState].x1;
@@ -208,9 +212,10 @@ void ButtonControl::SetTargetWindow(string &oWindow)
     m_oMutex.Release();
 }
 
-void ButtonControl::SetAdornmentWindow(string &oWindow)
+void ButtonControl::SetAdornmentWindow(Window *pWindow)
 {
     m_oMutex.Acquire();
+    m_pAdornmentWindow = pWindow;
     m_oMutex.Release();
 }
 

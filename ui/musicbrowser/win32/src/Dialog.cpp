@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.92 2000/08/30 13:45:31 ijr Exp $
+        $Id: Dialog.cpp,v 1.93 2000/09/01 16:20:45 sward Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -1200,6 +1200,10 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     CheckForCD();
 
     m_initialized = true;
+	
+	// UGLY hack to fix threading issue with win98 osr2 creating blank my music tree
+    m_context->target->AcceptEvent(new Event(INFO_MusicCatalogCleared));
+
 }
 
 void MusicBrowserUI::AddToolbarButtons(bool textLabels, bool images)

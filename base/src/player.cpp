@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.196 2000/05/08 16:39:00 robert Exp $
+        $Id: player.cpp,v 1.197 2000/05/15 17:36:36 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1104,6 +1104,9 @@ Error
 Player::
 AcceptEvent(Event * e)
 {
+   if (!m_eventQueue)
+       return kError_YouScrewedUp;
+
    m_eventQueue->Write(e);
    m_eventSem->Signal();
    return kError_NoErr;
@@ -2059,6 +2062,9 @@ void Player::CDTimer()
     Registry *pmoRegistry = m_context->player->GetPMORegistry();
     RegistryItem *pmo_item = NULL;
     int32 i = 0;
+
+    if (!pmoRegistry)
+        return;
 
     while(NULL != (pmo_item = pmoRegistry->GetItem(i++))) 
     {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: timer.cpp,v 1.7 2000/05/08 13:58:53 ijr Exp $
+	$Id: timer.cpp,v 1.8 2000/05/15 17:36:36 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -136,6 +136,9 @@ void TimerManager::ThreadFunction()
 
 	for(; i != m_list.end(); i++)
 	{
+                if (!(*i)->function)
+                    continue;
+
 		(*i)->ticks++;
 
 		if((*i)->duration && (*i)->ticks >= (*i)->duration)

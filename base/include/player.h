@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.60 2000/08/21 08:05:22 ijr Exp $
+        $Id: player.h,v 1.61 2000/08/21 12:26:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -187,6 +187,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     Mutex    *m_pmiMutex;
     Mutex    *m_pmoMutex;
     Mutex    *m_uiMutex;
+    Mutex    *m_sigStopMutex;
 
     Semaphore *m_signatureSem;
 

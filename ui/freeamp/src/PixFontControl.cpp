@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: PixFontControl.cpp,v 1.4 2000/03/17 01:24:19 ijr Exp $
+   $Id: PixFontControl.cpp,v 1.5 2000/03/17 23:19:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -148,10 +148,9 @@ void PixFontControl::BlitLetter(char letter, Rect oDestRect)
 
     srcRect.x1 = m_lettermap[letter].col * m_LetterWidth; 
     srcRect.y1 = m_lettermap[letter].row * m_LetterHeight;
-    srcRect.x2 = srcRect.x1 + m_LetterWidth + 1;
-    srcRect.y2 = srcRect.y1 + m_LetterHeight + 1;
+    srcRect.x2 = srcRect.x1 + m_LetterWidth - 1;
+    srcRect.y2 = srcRect.y1 + m_LetterHeight;
 
-    oDestRect.x2++;
     oDestRect.y2++;
 
     m_pParent->GetCanvas()->MaskBlitRect(m_pBitmap, srcRect, oDestRect);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.17 2000/03/16 07:24:59 ijr Exp $
+   $Id: Theme.h,v 1.18 2000/03/17 23:19:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -57,6 +57,7 @@ enum ControlTypeEnum
     eDialControl,
     eMultiStateControl,
     ePixFontControl,
+    ePixTimeControl,
     
     eUndefinedControl
 };

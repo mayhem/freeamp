@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.10.2.1.2.2.2.1 2000/06/02 15:33:24 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.10.2.1.2.2.2.2 2000/06/09 14:27:50 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -34,11 +34,11 @@ ____________________________________________________________________________*/
 
 #include "downloadmanager.h"
 
-#if defined(unix) || defined(__BEOS__)
+#if defined(unix) || defined(__BEOS__) || defined(_BSD_SOURCE)
 #define SOCKET int
 #endif
 
-#if defined(unix)
+#if defined(unix) || defined(_BSD_SOURCE)
 #include <arpa/inet.h>
 #define closesocket(x) close(x)
 #define O_BINARY 0
@@ -213,16 +213,24 @@ Error DownloadManager::AddItem(const char* url, const char* filename)
 Error DownloadManager::AddItem(DownloadItem* item)
 {
     Error result = kError_InvalidParam;
+    vector<DownloadItem*>::iterator j;
+
     m_mutex.Acquire();
 
     assert(item);
 
     if(item)
     {
-        m_itemList.push_back(item);
-        SendItemAddedMessage(item);
-        QueueDownload(item);
+        for(j = m_itemList.begin(); j != m_itemList.end(); j++)
+           if ((*j)->SourceURL() == item->SourceURL())
+               break;
 
+        if (j == m_itemList.end())
+        {
+            m_itemList.push_back(item);
+            SendItemAddedMessage(item);
+            QueueDownload(item);
+        }
         result = kError_NoErr;
     }
 
@@ -233,22 +241,25 @@ Error DownloadManager::AddItem(DownloadItem* item)
 Error DownloadManager::AddItems(vector<DownloadItem*>* list)
 {
     Error result = kError_InvalidParam;
+    vector<DownloadItem*>::iterator i, j;
     m_mutex.Acquire();
 
     assert(list);
 
     if(list)
     {
-        m_itemList.insert( m_itemList.end(),
-                            list->begin(), 
-                            list->end());
-
-        uint32 count = list->size();
-
-        for(uint32 i = 0; i < count; i++)
+        for(i = list->begin(); i != list->end(); i++)
         {
-            SendItemAddedMessage((*list)[i]);
-            QueueDownload((*list)[i]);
+            for(j = m_itemList.begin(); j != m_itemList.end(); j++)
+                if ((*i)->SourceURL() == (*j)->SourceURL())
+                    break;
+
+            if (j == m_itemList.end())
+            {
+                m_itemList.push_back(*i);
+                SendItemAddedMessage(*i);
+                QueueDownload(*i);
+            }
         }
 
         result = kError_NoErr;
@@ -764,15 +775,13 @@ Error DownloadManager::Download(DownloadItem* item)
 
             if(IsntError(result))
             {
-                const char* kHTTPQuery = "GET %s HTTP/1.1\n"
-                                         "Host: %s\n"
-                                         "Accept: */*\n" 
-                                         "User-Agent: FreeAmp/%s\n";
-
-                const char* kRange = "Range: bytes=%lu-\n";
-                const char* kIfRange = "If-Range: %s\n";
-
-                const char* kCookie = "Cookie: %s\n";
+                const char* kHTTPQuery = "GET %s HTTP/1.1\r\n"
+                                         "Host: %s\r\n"
+                                         "Accept: */*\r\n" 
+                                         "User-Agent: FreeAmp/%s\r\n";
+                const char* kRange = "Range: bytes=%lu-\r\n";
+                const char* kIfRange = "If-Range: %s\r\n";
+                const char* kCookie = "Cookie: %s\r\n";
 
                 // the magic 256 is enough for a time field that
                 // we got from the server
@@ -822,16 +831,6 @@ Error DownloadManager::Download(DownloadItem* item)
                 }
             
                 strcat(query, "\n");
-
-                // Quick hack to save the query for debug
-                //FILE *f;
-                //f = fopen("c:\\temp\\foo.txt", "w");
-                //if (f)
-                //{
-                //   fwrite(query, 1, strlen(query), f);
-                //   fclose(f);
-                //}   
-                
                 int count;
 
                 err = Send(s, query, strlen(query), 0, count, item);
@@ -987,7 +986,10 @@ Error DownloadManager::Download(DownloadItem* item)
                                        item->SetBytesReceived(count + item->GetBytesReceived());
                                        SendProgressMessage(item);
                                    }
-
+if (item->GetBytesReceived() > 900000 && 
+    item->GetBytesReceived() < 902000 && 
+    rand() % 2)
+     result = kError_IOError;
                                 if(count < 0) 
                                     result = kError_IOError;
                                 
@@ -1258,7 +1260,8 @@ void DownloadManager::DownloadThreadFunction()
             else
             {
                 item->SetState(kDownloadItemState_Error);
-                CleanUpDownload(item);
+                if (result != kError_IOError)
+                    CleanUpDownload(item);
             }
 
             item->SetDownloadError(result);
@@ -1330,12 +1333,16 @@ void DownloadManager::SaveResumableDownloadItems()
 
                 if(item && 
                   (item->GetState() == kDownloadItemState_Paused ||
-                   item->GetState() == kDownloadItemState_Queued))
+                   item->GetState() == kDownloadItemState_Queued ||
+                   item->GetState() == kDownloadItemState_Error))
                 {
                     ostringstream ost;
                     char num[256];
                     const char* kDatabaseDelimiter = " ";
                     MetaData metadata = item->GetMetaData();
+
+                    if (item->GetState() == kDownloadItemState_Error)
+                       item->SetState(kDownloadItemState_Queued);
 
                     // write out the number of elements we have
                     ost << 16 << kDatabaseDelimiter;

@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.105 1999/11/12 02:36:24 robert Exp $
+   $Id: xinglmc.cpp,v 1.106 1999/11/13 14:43:34 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -348,12 +348,12 @@ Error XingLMC::ExtractMediaInfo()
       return kError_OutOfMemory;
 
    /*LEAK*/MpegInfoEvent *mie = new MpegInfoEvent(totalFrames,
-                       (float)(fMsPerFrame / 1000), m_frameBytes,
-                       m_iBitRate, samprate, layer,
-                       (m_sMpegHead.sync == 2) ? 3 : (m_sMpegHead.id) ? 1 : 2,
-                       (m_sMpegHead.mode == 0x3 ? 1 : 2), 
+                  (float)(fMsPerFrame / 1000), m_frameBytes,
+                  (m_pXingHeader) ? 0 : m_iBitRate, samprate, layer,
+                  (m_sMpegHead.sync == 2) ? 3 : (m_sMpegHead.id) ? 1 : 2,
+                  (m_sMpegHead.mode == 0x3 ? 1 : 2), 
 					   m_sMpegHead.original, m_sMpegHead.prot,
-                       m_sMpegHead.emphasis, m_sMpegHead.mode, 
+                  m_sMpegHead.emphasis, m_sMpegHead.mode, 
 					   m_sMpegHead.mode_ext);
 
    if (mie)

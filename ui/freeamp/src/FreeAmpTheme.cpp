@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.30 1999/11/13 13:03:20 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.31 1999/11/13 14:43:35 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -380,10 +380,15 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          char           text[100];
 
          m_fSecondsPerFrame = info->GetSecondsPerFrame();
-         sprintf(text, "%dkbps %dkhz %s", 
-               info->GetBitRate() / 1000,
-               info->GetSampleRate() / 1000, 
-               info->GetChannels() ? "Stereo" : "Mono");
+         if (info->GetBitRate() == 0)
+              sprintf(text, "VBR %dkhz %s", 
+                   info->GetSampleRate() / 1000, 
+                   info->GetChannels() ? "Stereo" : "Mono");
+         else
+              sprintf(text, "%dkbps %dkhz %s", 
+                   info->GetBitRate() / 1000,
+                   info->GetSampleRate() / 1000, 
+                   info->GetChannels() ? "Stereo" : "Mono");
 
          m_oStreamInfo = text;
          m_pWindow->ControlStringValue("StreamInfo", true, m_oStreamInfo);

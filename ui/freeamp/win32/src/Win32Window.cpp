@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.10 1999/10/04 00:29:05 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.11 1999/10/09 18:53:16 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -211,8 +211,6 @@ Win32Window::Win32Window(Theme *pTheme, string &oName)
 
 Win32Window::~Win32Window(void)
 {
-    delete m_pCanvas;
-    m_pCanvas = NULL;
 }
 
 Error Win32Window::Run(Pos &oPos)
@@ -225,8 +223,6 @@ Error Win32Window::Run(Pos &oPos)
     int      iMaxX, iMaxY;
 
 	m_oWindowPos = oPos;
-
-	m_pCanvas->Init();
 
     memset(&wc, 0x00, sizeof(WNDCLASS));
 
@@ -307,6 +303,31 @@ Error Win32Window::Run(Pos &oPos)
 void Win32Window::Init(void)
 {
 	Window::Init();
+    ((Win32Canvas *)m_pCanvas)->SetParent(this);
+}
+
+Error Win32Window::VulcanMindMeld(Window *pOther)
+{
+    HRGN     hRgn;
+    Error    eRet;
+    Rect     oRect;
+    
+    eRet = Window::VulcanMindMeld(pOther);
+    if (IsError(eRet))
+       return eRet;
+       
+    m_pCanvas->GetBackgroundRect(oRect);   
+    SetWindowPos(m_hWnd, NULL, 0, 0, oRect.Width(), oRect.Height(),
+                 SWP_NOZORDER|SWP_NOMOVE);
+    
+    hRgn = ((Win32Canvas *)m_pCanvas)->GetMaskRgn(); 
+    if (hRgn)
+        SetWindowRgn(m_hWnd, hRgn, false);
+
+	InvalidateRect(m_hWnd, NULL, false);
+    UpdateWindow(m_hWnd);
+
+    return kError_NoErr;
 }
 
 void Win32Window::SaveWindowPos(Pos &oPos)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.14 1999/10/04 00:28:58 robert Exp $
+   $Id: Window.h,v 1.1.2.15 1999/10/09 18:52:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -89,6 +89,11 @@ class Window
       // This init call is made after the window is created
       virtual void  Init(void);
       virtual void  TimerEvent(void);
+      
+      // VulcanMinkMeld is called when this window should 'become' the
+      // other window. 
+	  virtual Error VulcanMindMeld(Window *pOther);
+              void  VulcanMindMeldHost(bool bIsHost);
 
       // Run handles OS dependent messages and calls the functions below
       // or passes the messages on to child controls
@@ -118,14 +123,12 @@ class Window
       vector<Control *>         m_oControls;
       ControlMap                m_oControlMap;
       Canvas                   *m_pCanvas;
-      Mutex                     m_oMutex;
-      Semaphore                 m_oSleepSem;
       bool                      m_bExit, m_bMouseButtonDown;
       Theme                    *m_pTheme;
-      Rect                      m_oRect;
       Control                  *m_pMouseInControl, *m_pCaptureControl;
       Pos                       m_oMovePos;
       bool                      m_bStayOnTop, m_bLiveInToolbar;
+      bool                      m_bIsVulcanMindMeldHost;
       Rect                      m_oMoveStart;
 };
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.38 1999/10/07 07:15:55 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.39 1999/10/09 18:52:57 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -61,6 +61,7 @@ extern    "C"
 }
 
 FreeAmpTheme::FreeAmpTheme(FAContext * context)
+             :Theme(context)
 {
    m_pContext = context;
    m_iCurrentSeconds = 0;
@@ -81,7 +82,6 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
 #endif
 
    LoadFreeAmpTheme();
-   SelectWindow(m_oCurrentWindow);
 }
 
 FreeAmpTheme::~FreeAmpTheme()
@@ -95,7 +95,8 @@ Error FreeAmpTheme::Init(int32 startup_type)
    m_iStartupType = startup_type;
    ParseArgs();
 
-   Run();
+   m_uiThread = Thread::CreateThread();
+   m_uiThread->Create(WorkerThreadStart, this);
 
    return kError_NoErr;
 }
@@ -119,14 +120,6 @@ void FreeAmpTheme::WorkerThread(void)
    m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
 }
 
-Error FreeAmpTheme::Run(void)
-{
-    m_uiThread = Thread::CreateThread();
-    m_uiThread->Create(WorkerThreadStart, this);
-   
-    return kError_NoErr;
-}
-
 void WorkerThreadStart(void* arg)
 {
     FreeAmpTheme* ui = (FreeAmpTheme*)arg;
@@ -137,18 +130,17 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
 {
    char          szTemp[255];
    uint32        iLen = 255;
-   string        oThemePath, oThemeFile("theme.xml");
+   string        oThemePath;
    Error         eRet;
 
    m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
    oThemePath = szTemp;
-   SetThemePath(oThemePath);
   
    iLen = 255; 
    m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
    SetDefaultFont(string(szTemp));
- 
-   eRet = LoadTheme(oThemeFile);
+
+   eRet = LoadTheme(oThemePath, m_oCurrentWindow);
    if (IsError(eRet))					   
    {
        MessageDialog oBox;
@@ -174,50 +166,6 @@ Error FreeAmpTheme::Close(void)
 
 void FreeAmpTheme::ParseArgs()
 {
-    char* arg = NULL;
-
-
-    /*
-    for (int32 i = 1; i < m_pContext->argc; i++)
-    {
-       arg = m_pContext->argv[i];
-
-       if (arg[0] == '-')
-       {
-          switch (arg[1])
-          {
-          case 's':
-             shuffle = true;
-             break;
-          case 'p':
-             autoplay = true;
-             break;
-          }
-       }
-       else
-       {
-          if (m_iStartupType == PRIMARY_UI)
-          {
-          	 char *szTemp = new char[strlen(arg) + 1];
-             strcpy(szTemp, arg);
-             
-             m_pContext->plm->AddItem(szTemp, 0);
-          }
-       }
-    }
-    if (m_iStartupType == PRIMARY_UI)
-    {
-        arg = m_pContext->argv[i];
-        if (arg[0] == '-')
-        {
- 
-        }
-        else
-        {
-  
-        }
-    }
-    */
 }
 
 int32 FreeAmpTheme::AcceptEvent(Event * e)
@@ -257,8 +205,8 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          bool   bSet = true;
 
          pFoo = (pFoo ? ++pFoo : info->m_filename);
-         oText = string(pFoo);
-         m_pWindow->ControlStringValue(oName, true, oText);
+         m_oTitle = string(pFoo);
+         m_pWindow->ControlStringValue(oName, true, m_oTitle);
          oText = string("FreeAmp: ") + string(pFoo);
          m_pWindow->SetTitle(oText);
 
@@ -539,19 +487,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    }
    if (oControlName == string("Options") && eMesg == CM_Pressed)
    {
-       PreferenceWindow *pWindow;
-       
-#ifdef WIN32
-       pWindow = new Win32PreferenceWindow(m_pContext);
-#elif defined(__BEOS__)
-       pWindow = new BeOSPreferenceWindow(m_pContext);
-#else
-       pWindow = new GTKPreferenceWindow(m_pContext);
-#endif       
-       if (pWindow->Show(m_pWindow))
-       	  ReloadTheme();
-       delete pWindow;
-       
+   	   ShowOptions();
 
        return kError_NoErr;
    }
@@ -563,7 +499,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    if (eMesg == CM_ChangeWindow)
    {
        m_pWindow->ControlStringValue(oControlName, false, m_oCurrentWindow);
-       SelectWindow(m_oCurrentWindow);
+       SwitchWindow(m_oCurrentWindow);
    
        return kError_NoErr;
    }
@@ -659,10 +595,9 @@ void FreeAmpTheme::InitControls(void)
     
     // Set the Play/Pause buttons
     iState = m_bPlayShown ? 0 : 1;
-    Debug_v("Setting to state %d on line %d", iState, __LINE__);
     m_pWindow->ControlIntValue(string("Play"), true, iState);
     
-    if (m_oTitle == string(""))
+    if (m_oTitle.length() == 0)
         m_pWindow->ControlStringValue(string("Title"), true, oWelcome);
     else    
         m_pWindow->ControlStringValue(string("Title"), true, m_oTitle);
@@ -693,13 +628,12 @@ void FreeAmpTheme::ReloadTheme(void)
 
     m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
     oThemePath = szTemp;
-    SetThemePath(oThemePath);
 
     iLen = 255;
     m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
     SetDefaultFont(string(szTemp));
 
-    eRet = LoadTheme(oThemeFile);
+    eRet = LoadTheme(oThemePath, m_oCurrentWindow);
     if (IsError(eRet))					   
     {
         MessageDialog oBox;
@@ -770,5 +704,27 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
      case 'D':
         m_pContext->target->AcceptEvent(new Event(CMD_ToggleDownloadUI));
         break;
+        
+     case 'e':
+     case 'E':
+     	ShowOptions();
+        break;
     }
+}
+
+void FreeAmpTheme::ShowOptions(void)
+{
+    PreferenceWindow *pWindow;
+       
+#ifdef WIN32
+    pWindow = new Win32PreferenceWindow(m_pContext, m_pThemeMan);
+#elif defined(__BEOS__)
+    pWindow = new BeOSPreferenceWindow(m_pContext, m_pThemeMan);
+#else
+    pWindow = new GTKPreferenceWindow(m_pContext, m_pThemeMan);
+#endif       
+    if (pWindow->Show(m_pWindow))
+    	  ReloadTheme();
+          
+    delete pWindow;
 }

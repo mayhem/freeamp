@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.1.2.3 1999/10/05 19:08:30 robert Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.1.2.4 1999/10/09 18:53:15 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -90,20 +90,16 @@ PrefPage5Callback(HWND hwnd,
 	return g_pCurrentPrefWindow->PrefPage5Proc(hwnd, msg, wParam, lParam);
 }          
 
-Win32PreferenceWindow::Win32PreferenceWindow(FAContext *context) :
-     PreferenceWindow(context)
+Win32PreferenceWindow::Win32PreferenceWindow(FAContext *context,
+                                             ThemeManager *pThemeMan) :
+     PreferenceWindow(context, pThemeMan)
 {     
 	g_pCurrentPrefWindow = this;
 }
 
 Win32PreferenceWindow::~Win32PreferenceWindow(void)
 {
-    vector<string *>::iterator i;
-    
 	g_pCurrentPrefWindow = NULL;
-
-    for(i = m_oThemeList.begin(); i != m_oThemeList.end(); i++)
-    	delete (*i);
 } 
 
 bool Win32PreferenceWindow::Show(Window *pWindow)
@@ -222,7 +218,7 @@ void Win32PreferenceWindow::GetPrefsValues(Preferences* prefs,
     
     size = 64;
     prefs->GetThemeDefaultFont(values->defaultFont, &size);
-    m_oThemeMan.GetCurrentTheme(values->currentTheme);
+    m_pThemeMan->GetCurrentTheme(values->currentTheme);
 }
 
 void Win32PreferenceWindow::SavePrefsValues(Preferences* prefs, 
@@ -253,7 +249,7 @@ void Win32PreferenceWindow::SavePrefsValues(Preferences* prefs,
     prefs->SetLogPerformance(values->logPerformance);
 
     prefs->SetThemeDefaultFont(values->defaultFont);
-    m_oThemeMan.UseTheme(currentValues.currentTheme);
+    m_pThemeMan->UseTheme(m_oThemeList[currentValues.currentTheme]);
 }
 
 bool Win32PreferenceWindow::PrefPage1Proc(HWND hwnd, 
@@ -1518,25 +1514,22 @@ bool Win32PreferenceWindow::PrefPage4Proc(HWND hwnd,
 
 void Win32PreferenceWindow::LoadThemeListBox(HWND hwnd)
 {
-	int                        iLoop;
-    vector<string *>::iterator i;
+	int                           iLoop;
+    map<string, string>::iterator i;
 
 	currentValues.listboxIndex = -1;
-	m_oThemeMan.GetCurrentTheme(currentValues.currentTheme);
+	m_pThemeMan->GetCurrentTheme(currentValues.currentTheme);
 
-    for(i = m_oThemeList.begin(); i != m_oThemeList.end(); i++)
-    	delete (*i);
     m_oThemeList.clear();    
     SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_RESETCONTENT, 0, 0);
 
-    m_oThemeMan.GetThemeList(m_oThemeList);
-        
+    m_pThemeMan->GetThemeList(m_oThemeList);
     for(iLoop = 0, i = m_oThemeList.begin(); 
         i != m_oThemeList.end(); i++, iLoop++)
     {
     	SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_ADDSTRING,
-                           0, (LPARAM)(*i)->c_str());
-        if (*(*i) == currentValues.currentTheme)
+                           0, (LPARAM)(*i).first.c_str());
+        if ((*i).first == currentValues.currentTheme)
             currentValues.listboxIndex = iLoop;
     }                      
     
@@ -1580,11 +1573,15 @@ bool Win32PreferenceWindow::PrefPage5Proc(HWND hwnd,
                     
                     iIndex = SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_GETCURSEL, 0, 0);
                     if (iIndex >= 0)
-                        EnableWindow(GetDlgItem(hwnd, IDC_DELETETHEME), iIndex >= 0);
-                        
-                    SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, 
-                                       LB_GETTEXT, iIndex, 
-                                       (LPARAM)szCurSel);
+                    {
+                        SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, 
+                                           LB_GETTEXT, iIndex, 
+                                           (LPARAM)szCurSel);
+                        if (strcasecmp(szCurSel, "freeamp"))                   
+                           EnableWindow(GetDlgItem(hwnd, IDC_DELETETHEME), 1);
+                        else   
+                           EnableWindow(GetDlgItem(hwnd, IDC_DELETETHEME), 0);
+                    }    
                     currentValues.currentTheme = string(szCurSel);
                     if (iIndex != currentValues.listboxIndex || 
                         currentValues.fontChanged)
@@ -1620,7 +1617,7 @@ bool Win32PreferenceWindow::PrefPage5Proc(HWND hwnd,
                         string       oThemeName(sOpen.lpstrFile);
                         Error        eRet;
                         
-                        eRet = m_oThemeMan.AddTheme(oThemeName);
+                        eRet = m_pThemeMan->AddTheme(oThemeName);
                         if (IsError(eRet))
                             MessageBox(hwnd, "Could not add theme.", "Add Theme", MB_OK);
                         else    
@@ -1635,17 +1632,20 @@ bool Win32PreferenceWindow::PrefPage5Proc(HWND hwnd,
                     int          iIndex;
                     string       oMesg, oThemeName;
                     Error        eRet;
+                    char         szCurSel[256];
+                    
                     
                     iIndex = SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_GETCURSEL, 0, 0);
+                    SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, 
+                                       LB_GETTEXT, iIndex, 
+                                       (LPARAM)szCurSel);
                     
-                       break;
-
-                    oThemeName = *m_oThemeList[iIndex];
+                    oThemeName = szCurSel;
                     oMesg = string("Are you sure you want to delete theme ") +
                             oThemeName + string("?");
                     if (MessageBox(hwnd, oMesg.c_str(), "Confirm Delete", MB_YESNO) == IDYES)        
                     {
-                        eRet = m_oThemeMan.DeleteTheme(oThemeName);
+                        eRet = m_pThemeMan->DeleteTheme(m_oThemeList[oThemeName]);
                         if (IsError(eRet))
                             MessageBox(hwnd, "Could not delete theme.", "Delete Theme", MB_OK);
                         LoadThemeListBox(hwnd);

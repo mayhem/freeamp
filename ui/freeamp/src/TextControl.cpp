@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.1.2.11 1999/09/29 09:02:59 robert Exp $
+   $Id: TextControl.cpp,v 1.1.2.12 1999/10/09 18:52:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -44,6 +44,7 @@ TextControl::TextControl(Window *pWindow, string &oName) :
 {
 	m_pFont = NULL;
 	m_iMarqueePos = 0;
+    m_bStyleSet = false;
 }
 
 void TextControl::SetStyle(Font *pFont, string &oAlign, 
@@ -63,7 +64,14 @@ void TextControl::SetStyle(Font *pFont, string &oAlign,
        m_eAlign = eCenter;
     else   
        m_eAlign = eLeft;
+
+    m_bStyleSet = true;
 }
+
+bool TextControl::StyleHasBeenSet(void)
+{
+    return m_bStyleSet;
+}      
 
 TextControl::~TextControl(void)
 {
@@ -100,6 +108,7 @@ void TextControl::TextChanged(void)
     
 	m_iMarqueePos = 0;
     pCanvas = m_pParent->GetCanvas();
+
     pCanvas->Erase(m_oRect);
     iRet = pCanvas->RenderText(m_oRect.Height(), m_oRect, 
                                m_oValue, m_eAlign, 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.h,v 1.1.2.1 1999/10/01 06:12:58 robert Exp $
+   $Id: ThemeZip.h,v 1.1.2.2 1999/10/09 18:52:52 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEMEZIP_H__
@@ -48,11 +48,13 @@ class ThemeZip
                                       vector<string *> &oFileList);
       virtual  Error DecompressThemeZip(const string &oSrcFile,
                                         const string &oDestPath);
+      virtual  Error CleanupThemeZip(void);                                  
 
     protected:
      
     private:
 
+	  vector<string> m_oCreatedFiles;
 };
 
 #endif

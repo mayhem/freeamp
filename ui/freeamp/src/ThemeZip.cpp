@@ -18,19 +18,21 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.1.2.3 1999/10/04 17:57:59 ijr Exp $
+   $Id: ThemeZip.cpp,v 1.1.2.4 1999/10/09 18:53:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
+#include "zlib.h"
 #include "config.h"
 #ifdef WIN32
 #include <winsock.h>
+#define unlink(a) _unlink(a)
 #else
 #undef socklen_t
 #include <netinet/in.h>
 #endif
-#include "zlib.h"
 #include "ThemeZip.h"
+#include "debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
@@ -84,11 +86,9 @@ Error ThemeZip::CompressThemeZip(const string &oDestFile,
        char *pPtr;
 
        oFile = *(*i);
-       printf("File: %s\n", oFile.c_str());
        pPtr = strrchr(oFile.c_str(), DIR_MARKER);
        if (pPtr)
            oFile.erase(0, ((int)pPtr - (int)oFile.c_str()) + 1);
-       printf("File: %s\n", oFile.c_str());
 
        pIn = fopen((*i)->c_str(), "rb");
        if (pIn == NULL)
@@ -167,6 +167,11 @@ Error ThemeZip::DecompressThemeZip(const string &oSrcFile,
    int     iMajor, iMinor, iNumFiles, i;
    string  oFile;
 
+   if (oSrcFile.length() == 0)
+      return kError_FileNotFound;
+
+   m_oCreatedFiles.clear();
+
    pIn = gzopen(oSrcFile.c_str(), "rb");
    if (pIn == NULL)
        return kError_FileNotFound;
@@ -227,11 +232,13 @@ Error ThemeZip::DecompressThemeZip(const string &oSrcFile,
            delete pBuffer;
            return kError_FileNotFound;
        }
+       m_oCreatedFiles.push_back(oFile);
 
        if (gzread(pIn, &iNetworkInt, sizeof(int32)) != sizeof(int32))
        {
            fclose(pOut);
            gzclose(pIn);
+           CleanupThemeZip();
            return kError_ReadFile;
        }
        iSize = ntohl(iNetworkInt); 
@@ -245,6 +252,7 @@ Error ThemeZip::DecompressThemeZip(const string &oSrcFile,
                gzclose(pIn);
                fclose(pOut);
                delete pBuffer;
+               CleanupThemeZip();
                return kError_ReadFile;
            }
            iWrite = fwrite(pBuffer, 1, iBlock, pOut);
@@ -253,6 +261,7 @@ Error ThemeZip::DecompressThemeZip(const string &oSrcFile,
                gzclose(pIn);
                fclose(pOut);
                delete pBuffer;
+               CleanupThemeZip();
                return kError_WriteFile;
            }
 
@@ -265,6 +274,19 @@ Error ThemeZip::DecompressThemeZip(const string &oSrcFile,
 
    return kError_NoErr;
 }
+
+Error ThemeZip::CleanupThemeZip(void)
+{
+   vector<string>::iterator i;
+   
+   for(i = m_oCreatedFiles.begin(); i != m_oCreatedFiles.end(); i++)
+   {
+   	   if (unlink((*i).c_str()))
+           return kError_Unlink;
+   }        
+
+   return kError_NoErr;
+}      
 
 #if 0
 void main(int argc, char **argv)

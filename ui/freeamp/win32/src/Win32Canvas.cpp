@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.1.2.11 1999/10/01 20:56:10 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.1.2.12 1999/10/09 18:53:14 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -39,6 +39,11 @@ Win32Canvas::~Win32Canvas(void)
 {
    delete m_pBufferBitmap;
 }
+
+void Win32Canvas::SetParent(Win32Window *pParent)
+{
+   m_pParent = pParent;
+}   
 
 void Win32Canvas::Init(void)
 {

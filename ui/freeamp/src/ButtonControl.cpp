@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.1.2.9 1999/09/27 02:02:29 robert Exp $
+   $Id: ButtonControl.cpp,v 1.1.2.10 1999/10/09 18:52:54 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -103,6 +103,7 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
        {   
            m_oValue = m_oTargetWindow;
            m_pParent->SendControlMessage(this, CM_ChangeWindow);
+           return;
        }
     }       
 

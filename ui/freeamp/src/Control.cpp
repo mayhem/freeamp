@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.1.2.12 1999/10/01 20:56:00 robert Exp $
+   $Id: Control.cpp,v 1.1.2.13 1999/10/09 18:52:56 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -145,6 +145,11 @@ void Control::AcceptTransition(ControlTransitionEnum eTrans, Pos *pPos)
             return;
         }
     }
+}
+
+void Control::SetParent(Window *pParent)
+{
+	m_pParent = pParent;
 }
 
 void Control::SetRect(Rect &oRect)

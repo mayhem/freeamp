@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.h,v 1.1.2.1 1999/10/05 19:08:21 robert Exp $
+   $Id: ThemeManager.h,v 1.1.2.2 1999/10/09 18:52:51 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEMEMANAGER_H__
@@ -32,8 +32,9 @@ ____________________________________________________________________________*/
 #endif
 
 #include <string>
-#include <vector>
+#include <map>
 #include <errors.h>
+#include "facontext.h"
 
 using namespace std;
 
@@ -41,10 +42,11 @@ class ThemeManager
 {
     public:
 
-               ThemeManager(void);
+               ThemeManager(FAContext *pContext);
       virtual ~ThemeManager(void);
 
-	  virtual Error GetThemeList   (vector<string *> &oThemeFileList);
+      virtual Error GetDefaultTheme(string &oThemePath);
+	  virtual Error GetThemeList   (map<string, string> &oThemeFileList);
       virtual Error UseTheme       (string &oThemeFile);
       virtual Error AddTheme       (string &oThemeFile);
       virtual Error DeleteTheme    (string &oThemeFile);
@@ -54,7 +56,8 @@ class ThemeManager
     
     private:
 
-	  string m_oCurrentTheme;
+	  string     m_oCurrentTheme;
+      FAContext *m_pContext;
 };
 
 #endif

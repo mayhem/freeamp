@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: PreferenceWindow.h,v 1.1.2.2 1999/10/01 20:55:57 robert Exp $
+   $Id: PreferenceWindow.h,v 1.1.2.3 1999/10/09 18:52:48 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_PREFERENCEWINDOW_H__
@@ -33,14 +33,19 @@ ____________________________________________________________________________*/
 
 #include "facontext.h"
 #include "Window.h"
+#include "ThemeManager.h"
 #include "debug.h"
 
 class PreferenceWindow
 {
     public:
 
-               PreferenceWindow(FAContext *context)
-                 { m_pContext = context; };
+               PreferenceWindow(FAContext *context, 
+                                ThemeManager *pThemeMan)
+                 { 
+                     m_pContext = context; 
+                     m_pThemeMan = pThemeMan;
+                 };
       virtual ~PreferenceWindow(void) 
                  { ; };
       
@@ -48,7 +53,8 @@ class PreferenceWindow
 
 	protected:
     
-      FAContext *m_pContext;
+      FAContext    *m_pContext;
+      ThemeManager *m_pThemeMan;
 };
 
 #endif

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.1.2.3 1999/10/05 19:08:24 robert Exp $
+   $Id: Win32PreferenceWindow.h,v 1.1.2.4 1999/10/09 18:53:09 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -31,7 +31,9 @@ ____________________________________________________________________________*/
 #pragma warning(disable:4786)
 #endif
 
-//using namespace std;
+#include <map>
+
+using namespace std;
 
 #include "config.h"
 #include "PreferenceWindow.h"
@@ -39,7 +41,6 @@ ____________________________________________________________________________*/
 #include "log.h"
 #include "registrar.h"
 #include "resource.h"
-#include "ThemeManager.h"
 
 typedef struct PrefsStruct 
 {
@@ -93,7 +94,8 @@ class Win32PreferenceWindow : public PreferenceWindow
 {
     public:
 
-               Win32PreferenceWindow(FAContext *context);
+               Win32PreferenceWindow(FAContext *context,
+                                     ThemeManager *pThemeMan);
       virtual ~Win32PreferenceWindow(void); 
       
       virtual  bool Show(Window *pParent);
@@ -135,8 +137,7 @@ class Win32PreferenceWindow : public PreferenceWindow
       PrefsStruct  originalValues;
       PrefsStruct  currentValues;
     
-      vector<string *> m_oThemeList;
-      ThemeManager     m_oThemeMan;
+      map<string, string> m_oThemeList;
 };
 
 #endif

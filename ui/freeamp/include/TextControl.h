@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.h,v 1.1.2.10 1999/09/29 09:02:55 robert Exp $
+   $Id: TextControl.h,v 1.1.2.11 1999/10/09 18:52:49 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TEXTCONTROL_H__
@@ -39,6 +39,7 @@ class TextControl : public Control
 	  virtual void SetStyle(Font *pFont, string &oAlign, 
                             Color &oColor, bool bBold,
                             bool bItalic, bool bUnderline);
+      virtual bool StyleHasBeenSet(void);                      
 
       void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
       virtual void Init(void);
@@ -54,6 +55,7 @@ class TextControl : public Control
       bool       m_bBold, m_bItalic, m_bUnderline;
       Font      *m_pFont;
       int        m_iMarqueePos;
+      bool       m_bStyleSet;
 };
 
 #endif

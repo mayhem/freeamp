@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.1.2.15 1999/10/04 00:28:57 robert Exp $
+   $Id: Theme.h,v 1.1.2.16 1999/10/09 18:52:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -37,10 +37,12 @@ ____________________________________________________________________________*/
 
 using namespace std;
 
+#include "facontext.h"
 #include "Parse.h"
 #include "Window.h"
 #include "Bitmap.h"
 #include "Font.h"
+#include "ThemeManager.h"
 
 typedef map<string, string, less<string> > AttrMap;
 
@@ -59,14 +61,13 @@ class Theme : public Parse
 {
     public:
 
-               Theme(void);
+               Theme(FAContext *context);
       virtual ~Theme(void);
 
-      virtual Error SelectWindow(const string &oWindowName); 
+      virtual Error SwitchWindow(const string &oWindowName); 
       virtual Error Run(Pos &oWindowPos); 
       virtual Error Close(void);
-      virtual void  SetThemePath(string &oPath);
-      virtual Error LoadTheme(string &oFile);
+      virtual Error LoadTheme(string &oFile, string &oWindowName);
       virtual Error HandleControlMessage(string &oControlName, 
                                          ControlMessageEnum eMesg) = 0;
       virtual void  HandleKeystroke(unsigned char cKey) = 0;
@@ -76,11 +77,14 @@ class Theme : public Parse
 
     protected:
      
+      virtual void  SetThemePath(string &oPath);
       virtual Error BeginElement(string &oElement, AttrMap &oAttrMap);  
       virtual Error PCData(string &oData);
       virtual Error EndElement(string &oElement);
+      ThemeManager *m_pThemeMan;
       string        m_oThemePath;
       Window       *m_pWindow;
+      FAContext    *m_pContext;
       
 
     private:

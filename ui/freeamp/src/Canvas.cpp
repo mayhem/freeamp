@@ -18,10 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.1.2.7 1999/09/28 22:59:35 robert Exp $
+   $Id: Canvas.cpp,v 1.1.2.8 1999/10/09 18:52:55 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "Canvas.h"
+#include "Debug.h"
 
 Canvas::Canvas(void)
 {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.17.2.6 1999/10/05 19:08:20 robert Exp $
+        $Id: preferences.cpp,v 1.17.2.7 1999/10/09 18:54:38 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -673,6 +673,20 @@ Preferences::
 SetThemeDefaultFont(char* font)
 {
     return SetPrefString(kThemeDefaultFontPref, font);
+}
+
+Error
+Preferences::
+GetThemePath(char* path, uint32* len)
+{
+    return GetPrefString(kThemePathPref, path, len);
+}
+
+Error
+Preferences::
+SetThemePath(char* path)
+{
+    return SetPrefString(kThemePathPref, path);
 }
 
 LibDirFindHandle *

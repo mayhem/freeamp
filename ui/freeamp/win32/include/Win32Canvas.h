@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.h,v 1.1.2.9 1999/09/29 00:38:25 robert Exp $
+   $Id: Win32Canvas.h,v 1.1.2.10 1999/10/09 18:53:08 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32CANVAS_H__
@@ -38,6 +38,7 @@ class Win32Canvas : public Canvas
               Win32Canvas(Win32Window *pParent);
      virtual ~Win32Canvas(void);
 
+			 void  SetParent(Win32Window *pParent);
 	 virtual void  Init(void);
      virtual int   RenderText(int iFontHeight, Rect &oClipRect, 
                               string &oText, AlignEnum eAlign,

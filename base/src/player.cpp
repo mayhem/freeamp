@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.35 1999/10/08 07:50:30 ijr Exp $
+        $Id: player.cpp,v 1.133.2.36 1999/10/09 18:54:37 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1251,8 +1251,10 @@ GetVolume(Event *pEvent)
 
     delete pEvent;
     if (m_pmo) 
+    {
        iVolume = m_pmo->GetVolume();
-    SendToUI(new VolumeEvent(INFO_VolumeInfo,iVolume));
+       SendToUI(new VolumeEvent(INFO_VolumeInfo,iVolume));
+    }   
 }
 
 void

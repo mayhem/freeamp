@@ -144,6 +144,10 @@ LINK32=link.exe
 # SUBTRACT BASE LINK32 /profile
 # ADD LINK32 gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /out:"freeamp.exe" /pdbtype:sept /libpath:"..\..\..\lib\gdbm"
 # SUBTRACT LINK32 /profile
+# Begin Special Build Tool
+SOURCE=$(InputPath)
+PostBuild_Cmds=mkdir themes	copy   ..\..\..\themes\freeamp.fat themes
+# End Special Build Tool
 
 !ENDIF 
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.11.2.7 1999/10/05 19:08:17 robert Exp $
+	$Id: preferences.h,v 1.11.2.8 1999/10/09 18:54:36 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -185,6 +185,10 @@ class Preferences {
 
     Error GetThemeDefaultFont(char* font, uint32* len);
     Error SetThemeDefaultFont(char* font);
+
+    Error GetThemePath(char*path, uint32* len);
+    Error SetThemePath(char*path);
+    
 };
 
 #endif /* _PREFERENCES_H */

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.1.2.10 1999/10/04 00:28:56 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.1.2.11 1999/10/09 18:52:47 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -30,6 +30,7 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "playlist.h"
 #include "Theme.h"
+#include "ThemeManager.h"
 
 class FreeAmpTheme : public UserInterface, public Theme
 {
@@ -39,7 +40,6 @@ class FreeAmpTheme : public UserInterface, public Theme
         virtual ~FreeAmpTheme();
 
         virtual int32 AcceptEvent(Event * e);
-		virtual Error Run(void);
         virtual Error Close(void);
         virtual Error Init(int32 startup_type);
         virtual void  LoadFreeAmpTheme(void);
@@ -49,6 +49,7 @@ class FreeAmpTheme : public UserInterface, public Theme
                                            ControlMessageEnum eMesg);
         virtual void  InitControls(void);
         virtual void  InitWindow(void);
+                void  ShowOptions(void);
 
         void  WorkerThread(void);
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.1.2.13 1999/10/04 00:29:01 robert Exp $
+   $Id: Window.cpp,v 1.1.2.14 1999/10/09 18:53:03 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -41,21 +41,54 @@ Window::Window(Theme *pTheme, string &oName)
     m_pCanvas = NULL;
     m_pMouseInControl = NULL;
     m_pCaptureControl = NULL;
+    m_bIsVulcanMindMeldHost = false;
 }
 
 Window::~Window(void)
 {
-	ClearControls();
+	if (!m_bIsVulcanMindMeldHost)
+    {
+       ClearControls();
+       delete m_pCanvas;
+    }   
+}
+
+void Window::VulcanMindMeldHost(bool bHost)
+{
+    m_bIsVulcanMindMeldHost = bHost;
+}
+
+Error Window::VulcanMindMeld(Window *pOther)
+{
+	m_oName = pOther->m_oName;
+    m_pTheme = pOther->m_pTheme;
+
+    m_bMouseButtonDown = pOther->m_bMouseButtonDown;
+    m_bStayOnTop = pOther->m_bLiveInToolbar;
     
-    delete m_pCanvas;
+    m_pMouseInControl = NULL;
+    m_pCaptureControl = NULL;
+    m_oControls = pOther->m_oControls;
+    m_oControlMap = pOther->m_oControlMap;
+
+    m_pCanvas = pOther->m_pCanvas;
+    
+    Init();   
+    
+    return kError_NoErr;
 }
 
 void Window::Init(void)
 {
     vector<Control *>::iterator i;
 
+	m_pCanvas->Init();
+
     for(i = m_oControls.begin(); i != m_oControls.end(); i++)
+    {
+        (*i)->SetParent(this);
         (*i)->Init();
+    }    
         
     m_pTheme->InitControls();    
 }

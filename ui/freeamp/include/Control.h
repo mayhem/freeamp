@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.1.2.11 1999/10/01 20:55:55 robert Exp $
+   $Id: Control.h,v 1.1.2.12 1999/10/09 18:52:46 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -115,6 +115,7 @@ class Control
                        TransitionInfo *pTransitions);
       virtual ~Control(void);
  
+      void  SetParent(Window *pParent);
       void  SetRect(Rect &oRect);
       void  SetBitmap(Bitmap *pBitmap, Rect &oBitmapRect);
       void  GetName(string &oName);

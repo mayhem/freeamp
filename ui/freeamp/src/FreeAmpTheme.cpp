@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.120 2000/06/01 15:45:38 ksteinbe Exp $
+   $Id: FreeAmpTheme.cpp,v 1.121 2000/06/02 22:03:52 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -942,7 +942,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        return kError_NoErr;
    }
    
-   if (strncmp(oControlName.c_str(), "Eq", 2) == 0 && eMesg == CM_SliderUpdate)
+   if (eMesg == CM_SliderUpdate && strncmp(oControlName.c_str(), "Eq", 2) == 0)
    {
        string oName("Info"), oDesc;
        char   szText[20];

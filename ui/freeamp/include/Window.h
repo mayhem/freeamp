@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.27 2000/05/24 17:08:34 ijr Exp $
+   $Id: Window.h,v 1.28 2000/06/02 22:03:52 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -40,34 +40,14 @@ ____________________________________________________________________________*/
 using namespace std;
 
 #include "Bitmap.h"
+#include "Panel.h"
 #include "Control.h"
 #include "Canvas.h"
 #include "thread.h"
 #include "semaphore.h"
 #include "mutex.h"
 
-typedef multimap<string, Control *> ControlMap;
-typedef multimap<string, Control *>::iterator ControlMapIterator;
-
 class Theme;
-
-struct Panel
-{
-    Panel() 
-    { 
-        memset(&m_oOpenRect, 0, sizeof(Rect));
-        memset(&m_oClosedRect, 0, sizeof(Rect));
-        memset(&m_oOffset, 0, sizeof(Pos));
-        m_pOpenBitmap = m_pClosedBitmap = NULL;
-        m_bIsOpen = false;
-    };
-    string  m_oName;
-    Rect    m_oOpenRect, m_oClosedRect;
-    Pos     m_oOffset;
-    Bitmap *m_pOpenBitmap, *m_pClosedBitmap;
-    bool    m_bIsOpen;
-};
-
 class Window
 {
     public:
@@ -77,7 +57,6 @@ class Window
 
       void    GetName(string &oName);
       Canvas *GetCanvas(void);
-      void    AddControl(Control *pControl);
       void    ClearControls(void);
       void    Keystroke(unsigned char cKey);
       bool    MenuCommand(uint32 uCommand);
@@ -171,8 +150,6 @@ class Window
      
       string                    m_oName;
       vector<Panel *>           m_oPanels;
-      vector<Control *>         m_oControls;
-      ControlMap                m_oControlMap;
       Canvas                   *m_pCanvas;
       bool                      m_bExit, m_bWindowMove, m_bLButtonDown;
       Theme                    *m_pTheme;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.14 2000/03/16 08:57:20 ijr Exp $
+   $Id: Control.cpp,v 1.15 2000/06/02 22:03:52 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -411,4 +411,12 @@ void Control::GetTip(string &oTip)
 bool Control::WantsTimingMessages(void)
 {
     return m_bWantsTimingMessages;
+}
+
+void Control::Move(Pos &oPos)
+{
+    m_oRect.x1 += oPos.x;
+    m_oRect.y1 += oPos.y;
+    m_oRect.x2 += oPos.x;
+    m_oRect.y2 += oPos.y;
 }

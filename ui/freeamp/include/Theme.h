@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.19 2000/05/14 21:20:46 robert Exp $
+   $Id: Theme.h,v 1.20 2000/06/02 22:03:52 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -111,7 +111,6 @@ class Theme : public Parse
       void    ClearWindows(void);
       void    ClearBitmaps(void);
       void    ClearFonts(void);
-      void    ClearPanels(void);
 
       void    ConvertForeignFormat(string &oDir);
       ForeignTheme    *m_pForeignThemes;

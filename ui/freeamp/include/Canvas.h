@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.h,v 1.4 2000/05/15 09:34:41 robert Exp $
+   $Id: Canvas.h,v 1.5 2000/06/02 22:03:52 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CANVAS_H__
@@ -73,9 +73,10 @@ class Canvas
 
     protected:
 
-     Bitmap *m_pBGBitmap, *m_pMaskBitmap, *m_pCompleteBGBitmap;
+     Bitmap *m_pBGBitmap, *m_pMaskBitmap;
      Rect    m_oBGRect;
      string  m_oDefaultFont;
+     bool    m_bDeleteBitmap;
 };
 
 #endif

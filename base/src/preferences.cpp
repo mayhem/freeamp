@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.31 1999/12/17 23:53:16 robert Exp $
+        $Id: preferences.cpp,v 1.32 2000/01/14 02:44:12 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -72,6 +72,7 @@ const char* kSaveCurrentPlaylistOnExitPref = "SaveCurrentPlaylistOnExit";
 const char* kViewMusicBrowserPref = "ViewMusicBrowser";
 const char* kWindowModePref = "WindowMode";
 const char* kWelcomePref = "Welcome";
+const char* kPlayImmediatelyPref = "PlayImmediately";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -120,6 +121,7 @@ const bool kDefaultShowToolbarImages = true;
 const bool kDefaultSaveCurrentPlaylistOnExit = false;
 const bool kDefaultViewMusicBrowser = true;
 const bool kDefaultWelcome = true;
+const bool kDefaultPlayImmediately = true;
 
 Error
 Preferences::
@@ -273,6 +275,8 @@ SetDefaults()
     if (GetPrefBoolean(kWelcomePref, &dummyBool) == kError_NoPrefValue)
         SetPrefBoolean(kWelcomePref, kDefaultWelcome);
 
+    if (GetPrefBoolean(kPlayImmediatelyPref, &dummyBool) == kError_NoPrefValue)
+        SetPrefBoolean(kPlayImmediatelyPref, kDefaultPlayImmediately);
 
     return kError_NoErr;
 }
@@ -924,6 +928,20 @@ SetViewMusicBrowser(bool value)
     return SetPrefBoolean(kViewMusicBrowserPref, value);
 }
 
+
+Error
+Preferences::
+GetPlayImmediately(bool* value)
+{
+    return GetPrefBoolean(kPlayImmediatelyPref, value);
+}
+
+Error
+Preferences::
+SetPlayImmediately(bool value)
+{
+    return SetPrefBoolean(kPlayImmediatelyPref, value);
+}
 
 LibDirFindHandle *
 Preferences::

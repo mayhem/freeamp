@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.10 1999/11/23 19:13:39 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.11 1999/11/20 10:53:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -61,7 +61,7 @@ class GTKMusicBrowser {
 
     void ShowPlaylist(void);
     void ShowMusicBrowser(void);
-    void Close(void);
+    void Close(bool inMain = true);
  
     bool Visible(void) { return isVisible; }
     int32 AcceptEvent(Event *e);
@@ -79,7 +79,7 @@ class GTKMusicBrowser {
     void UpdateCatalog(void);
 
     int pauseState;
-    int playState;
+    int stopState;
 
  protected:
     FAContext *m_context;
@@ -159,7 +159,8 @@ class GTKMusicBrowser {
     void MoveItemEvent(int source, int dest);
     void AddTrackPlaylistEvent(char *path);
     void AddTrackPlaylistEvent(PlaylistItem *newitem);
-    void AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist);
+    void AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist, 
+                                bool end = false);
     void PlayEvent();
     void StartMusicSearch(bool runMain = true);
     void SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType type);
@@ -171,7 +172,7 @@ class GTKMusicBrowser {
     void CreateNewEditor(char *playlisturl);
 
     void ShowOptions(void);
-    void PauseMenu(void);
+    void StopMenu(void);
     void PlayMenu(void);
     void NextMenu(void);
     void PrevMenu(void);

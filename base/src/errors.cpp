@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.cpp,v 1.3 1999/11/20 10:16:36 elrod Exp $
+	$Id: errors.cpp,v 1.4 1999/11/20 10:53:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -78,7 +78,7 @@ const char* ErrorString[] = {
     "An I/O error occurred", //                     kError_IOError = 51,
     "There was an unknown server error", //         kError_UnknownServerError = 52,
     "A bad HTTP request was made", //               kError_BadHTTPRequest = 53,
-    "Acess is not authorized", //                   kError_AccessNotAuthorized = 54,
+    "Access is not authorized", //                  kError_AccessNotAuthorized = 54,
     "Access is forbidden", //                       kError_AccessForbidden = 55,  
     "The requested range is not acceptable", //     kError_RangeNotExceptable = 56,
     "kError_WriteFile", //            = 57,

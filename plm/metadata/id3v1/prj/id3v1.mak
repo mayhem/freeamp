@@ -31,6 +31,10 @@ NULL=
 NULL=nul
 !ENDIF 
 
+CPP=cl.exe
+MTL=midl.exe
+RSC=rc.exe
+
 !IF  "$(CFG)" == "id3v1 - Win32 Release"
 
 OUTDIR=.\Release
@@ -48,6 +52,7 @@ ALL : ".\id3v1.mdf"
 
 CLEAN :
 	-@erase "$(INTDIR)\id3v1.obj"
+	-@erase "$(INTDIR)\id3v1.res"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(OUTDIR)\id3v1.exp"
 	-@erase "$(OUTDIR)\id3v1.lib"
@@ -56,7 +61,6 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP=cl.exe
 CPP_PROJ=/nologo /MD /W3 /GX /O2 /I "..\..\\" /I "..\..\..\include" /I\
  "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
  "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
@@ -65,40 +69,8 @@ CPP_PROJ=/nologo /MD /W3 /GX /O2 /I "..\..\\" /I "..\..\..\include" /I\
  /c 
 CPP_OBJS=.\Release/
 CPP_SBRS=.
-
-.c{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-MTL=midl.exe
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
-RSC=rc.exe
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\id3v1.res" /d "NDEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\id3v1.bsc" 
 BSC32_SBRS= \
@@ -112,7 +84,8 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
 DEF_FILE= \
 	".\id3v1.def"
 LINK32_OBJS= \
-	"$(INTDIR)\id3v1.obj"
+	"$(INTDIR)\id3v1.obj" \
+	"$(INTDIR)\id3v1.res"
 
 ".\id3v1.mdf" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -146,6 +119,7 @@ ALL : ".\id3v1.mdf"
 
 CLEAN :
 	-@erase "$(INTDIR)\id3v1.obj"
+	-@erase "$(INTDIR)\id3v1.res"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(OUTDIR)\id3v1.exp"
@@ -157,7 +131,6 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP=cl.exe
 CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\\" /I "..\..\..\include" /I\
  "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
  "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
@@ -166,40 +139,8 @@ CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\\" /I "..\..\..\include" /I\
  /c 
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
-
-.c{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-MTL=midl.exe
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
-RSC=rc.exe
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\id3v1.res" /d "_DEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\id3v1.bsc" 
 BSC32_SBRS= \
@@ -213,7 +154,8 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
 DEF_FILE= \
 	".\id3v1.def"
 LINK32_OBJS= \
-	"$(INTDIR)\id3v1.obj"
+	"$(INTDIR)\id3v1.obj" \
+	"$(INTDIR)\id3v1.res"
 
 ".\id3v1.mdf" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -247,6 +189,7 @@ ALL : ".\id3v1.mdf"
 
 CLEAN :
 	-@erase "$(INTDIR)\id3v1.obj"
+	-@erase "$(INTDIR)\id3v1.res"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(OUTDIR)\id3v1.exp"
 	-@erase "$(OUTDIR)\id3v1.lib"
@@ -255,7 +198,6 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP=cl.exe
 CPP_PROJ=/nologo /MD /W3 /GX /O2 /I "..\..\\" /I "..\..\..\include" /I\
  "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
  "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
@@ -264,40 +206,8 @@ CPP_PROJ=/nologo /MD /W3 /GX /O2 /I "..\..\\" /I "..\..\..\include" /I\
  /c 
 CPP_OBJS=.\Release/
 CPP_SBRS=.
-
-.c{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-MTL=midl.exe
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
-RSC=rc.exe
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\id3v1.res" /d "NDEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\id3v1.bsc" 
 BSC32_SBRS= \
@@ -311,7 +221,8 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
 DEF_FILE= \
 	".\id3v1.def"
 LINK32_OBJS= \
-	"$(INTDIR)\id3v1.obj"
+	"$(INTDIR)\id3v1.obj" \
+	"$(INTDIR)\id3v1.res"
 
 ".\id3v1.mdf" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -345,6 +256,7 @@ ALL : ".\id3v1.mdf"
 
 CLEAN :
 	-@erase "$(INTDIR)\id3v1.obj"
+	-@erase "$(INTDIR)\id3v1.res"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(OUTDIR)\id3v1.exp"
@@ -356,7 +268,6 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP=cl.exe
 CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\\" /I "..\..\..\include" /I\
  "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
  "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
@@ -365,6 +276,40 @@ CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\\" /I "..\..\..\include" /I\
  /c 
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
+MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\id3v1.res" /d "_DEBUG" 
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\id3v1.bsc" 
+BSC32_SBRS= \
+	
+LINK32=link.exe
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
+ advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
+ odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
+ /pdb:"$(OUTDIR)\id3v1.pdb" /debug /machine:I386 /def:".\id3v1.def"\
+ /out:"id3v1.mdf" /implib:"$(OUTDIR)\id3v1.lib" /pdbtype:sept 
+DEF_FILE= \
+	".\id3v1.def"
+LINK32_OBJS= \
+	"$(INTDIR)\id3v1.obj" \
+	"$(INTDIR)\id3v1.res"
+
+".\id3v1.mdf" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+    $(LINK32) @<<
+  $(LINK32_FLAGS) $(LINK32_OBJS)
+<<
+
+SOURCE=$(InputPath)
+DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
+
+ALL : $(DS_POSTBUILD_DEP)
+
+$(DS_POSTBUILD_DEP) : ".\id3v1.mdf"
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                           ..\..\..\..\base\win32\prj\plugins
+	copy id3v1.mdf  ..\..\..\..\base\win32\prj\plugins
+	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
+
+!ENDIF 
 
 .c{$(CPP_OBJS)}.obj::
    $(CPP) @<<
@@ -395,41 +340,6 @@ CPP_SBRS=.
    $(CPP) @<<
    $(CPP_PROJ) $< 
 <<
-
-MTL=midl.exe
-MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
-RSC=rc.exe
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\id3v1.bsc" 
-BSC32_SBRS= \
-	
-LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
- advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
- odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
- /pdb:"$(OUTDIR)\id3v1.pdb" /debug /machine:I386 /def:".\id3v1.def"\
- /out:"id3v1.mdf" /implib:"$(OUTDIR)\id3v1.lib" /pdbtype:sept 
-DEF_FILE= \
-	".\id3v1.def"
-LINK32_OBJS= \
-	"$(INTDIR)\id3v1.obj"
-
-".\id3v1.mdf" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
-    $(LINK32) @<<
-  $(LINK32_FLAGS) $(LINK32_OBJS)
-<<
-
-SOURCE=$(InputPath)
-DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
-
-ALL : $(DS_POSTBUILD_DEP)
-
-$(DS_POSTBUILD_DEP) : ".\id3v1.mdf"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                           ..\..\..\..\base\win32\prj\plugins
-	copy id3v1.mdf  ..\..\..\..\base\win32\prj\plugins
-	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
-
-!ENDIF 
 
 
 !IF "$(CFG)" == "id3v1 - Win32 Release" || "$(CFG)" == "id3v1 - Win32 Debug" ||\
@@ -503,6 +413,42 @@ DEP_CPP_ID3V1=\
 
 "$(INTDIR)\id3v1.obj" : $(SOURCE) $(DEP_CPP_ID3V1) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\res\id3v1.rc
+
+!IF  "$(CFG)" == "id3v1 - Win32 Release"
+
+
+"$(INTDIR)\id3v1.res" : $(SOURCE) "$(INTDIR)"
+	$(RSC) /l 0x409 /fo"$(INTDIR)\id3v1.res" /i\
+ "\Local\src\freeamp1.5\plm\metadata\id3v1\res" /d "NDEBUG" $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "id3v1 - Win32 Debug"
+
+
+"$(INTDIR)\id3v1.res" : $(SOURCE) "$(INTDIR)"
+	$(RSC) /l 0x409 /fo"$(INTDIR)\id3v1.res" /i\
+ "\Local\src\freeamp1.5\plm\metadata\id3v1\res" /d "_DEBUG" $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "id3v1 - Win32 NASM Release"
+
+
+"$(INTDIR)\id3v1.res" : $(SOURCE) "$(INTDIR)"
+	$(RSC) /l 0x409 /fo"$(INTDIR)\id3v1.res" /i\
+ "\Local\src\freeamp1.5\plm\metadata\id3v1\res" /d "NDEBUG" $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "id3v1 - Win32 NASM Debug"
+
+
+"$(INTDIR)\id3v1.res" : $(SOURCE) "$(INTDIR)"
+	$(RSC) /l 0x409 /fo"$(INTDIR)\id3v1.res" /i\
+ "\Local\src\freeamp1.5\plm\metadata\id3v1\res" /d "_DEBUG" $(SOURCE)
 
 
 !ENDIF 

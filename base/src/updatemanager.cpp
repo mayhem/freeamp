@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.1.2.3 1999/10/10 09:50:21 elrod Exp $
+	$Id: updatemanager.cpp,v 1.1.2.4 1999/10/11 06:06:31 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -57,14 +57,12 @@ typedef ostrstream ostringstream;
 #include <errno.h>
 #include <iostream>
 #include <algorithm>
-//#include <iterators>
 
 #include "config.h"
 #include "facontext.h"
 
 #include "errors.h"
 #include "updatemanager.h"
-#include "registrar.h"
 #include "utility.h"
 #include "event.h"
 #include "eventdata.h"

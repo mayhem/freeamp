@@ -62,7 +62,7 @@ VS_VERSION_INFO VERSIONINFO
 #else
  FILEFLAGS 0x0L
 #endif
- FILEOS 0x4L
+ FILEOS 0x40004L
  FILETYPE 0x1L
  FILESUBTYPE 0x0L
 BEGIN
@@ -72,12 +72,12 @@ BEGIN
         BEGIN
             VALUE "Comments", "For the latest version go to http://www.freeamp.org\0"
             VALUE "CompanyName", "FreeAmp Open Source Development Effort\0"
-            VALUE "FileDescription", "The Obsequiem Input plugin is an implementation of the RTP streaming  protocol and provides FreeAmp with an interface to Obsequiem MP3 Jukeboxes.\0"
+            VALUE "FileDescription", "The RMP Download plugin enable FreeAmp to read RMP files which allow it to download entire albums without having to click on each individual song file.\0"
             VALUE "FileVersion", "1.3\0"
             VALUE "InternalName", "FreeAmp\0"
-            VALUE "LegalCopyright", "Copyright © GoodNoise Corporation 1999\0"
-            VALUE "LegalTrademarks", "FreeAmp, GoodNoise\0"
-            VALUE "OriginalFilename", "obsinput.pmi\0"
+            VALUE "LegalCopyright", "http://www.gnu.org/copyleft/gpl.html\0"
+            VALUE "LegalTrademarks", "FreeAmp\0"
+            VALUE "OriginalFilename", "rmp.dlf\0"
             VALUE "ProductName", "FreeAmp\0"
             VALUE "ProductVersion", "1.3\0"
         END

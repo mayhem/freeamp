@@ -158,6 +158,9 @@ PostBuild_Cmds=copy update.exe  ..\..\..\base\win32\prj
 # Name "update - Win32 Debug"
 # Name "update - Win32 NASM Debug"
 # Name "update - Win32 NASM Release"
+# Begin Group "src"
+
+# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=..\main.cpp
@@ -170,5 +173,14 @@ SOURCE=..\..\..\base\src\preferences.cpp
 
 SOURCE=..\..\..\base\win32\src\win32prefs.cpp
 # End Source File
+# End Group
+# Begin Group "res"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\res\update.rc
+# End Source File
+# End Group
 # End Target
 # End Project

@@ -99,8 +99,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\toolbar.ui"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                                  ..\..\..\..\base\win32\prj\plugins
-	copy toolbar.ui                                    ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                                   ..\..\..\..\base\win32\prj\plugins
+	copy toolbar.ui                                     ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "toolbar - Win32 Debug"
@@ -169,8 +169,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\toolbar.ui"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                                  ..\..\..\..\base\win32\prj\plugins
-	copy toolbar.ui                                    ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                                   ..\..\..\..\base\win32\prj\plugins
+	copy toolbar.ui                                     ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "toolbar - Win32 NASM Debug"
@@ -239,8 +239,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\toolbar.ui"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                                  ..\..\..\..\base\win32\prj\plugins
-	copy toolbar.ui                                    ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                                   ..\..\..\..\base\win32\prj\plugins
+	copy toolbar.ui                                     ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "toolbar - Win32 NASM Release"
@@ -306,8 +306,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\toolbar.ui"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                                  ..\..\..\..\base\win32\prj\plugins
-	copy toolbar.ui                                    ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                                   ..\..\..\..\base\win32\prj\plugins
+	copy toolbar.ui                                     ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ENDIF 
@@ -423,11 +423,9 @@ DEP_CPP_TOOLB=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\include\utility.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
 	"..\toolbar.h"\
-	
-NODEP_CPP_TOOLB=\
-	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\Toolbar.obj" : $(SOURCE) $(DEP_CPP_TOOLB) "$(INTDIR)"

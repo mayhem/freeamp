@@ -60,8 +60,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                             ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
-    ..\..\..\..\base\win32\prj\plugins
+                              ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
+     ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 Debug"
@@ -92,8 +92,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                             ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
-    ..\..\..\..\base\win32\prj\plugins
+                              ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
+     ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Release"
@@ -125,8 +125,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                             ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
-    ..\..\..\..\base\win32\prj\plugins
+                              ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
+     ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Debug"
@@ -158,8 +158,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                             ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
-    ..\..\..\..\base\win32\prj\plugins
+                              ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
+     ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ENDIF 
@@ -170,6 +170,9 @@ PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
 # Name "pmp300 - Win32 Debug"
 # Name "pmp300 - Win32 NASM Release"
 # Name "pmp300 - Win32 NASM Debug"
+# Begin Group "src"
+
+# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=..\pmp300.cpp
@@ -190,5 +193,14 @@ SOURCE=..\..\..\..\base\src\utility.cpp
 
 SOURCE=..\..\..\..\base\win32\src\win32prefs.cpp
 # End Source File
+# End Group
+# Begin Group "res"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\res\pmp300.rc
+# End Source File
+# End Group
 # End Target
 # End Project

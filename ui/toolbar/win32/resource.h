@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
-// Used by freeamp.rc
+// Used by toolbar.rc
 //
 #define IDI_EXE_ICON                    101
 #define IDM_TRAY                        102

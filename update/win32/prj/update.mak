@@ -51,6 +51,7 @@ ALL : ".\update.exe"
 CLEAN :
 	-@erase "$(INTDIR)\main.obj"
 	-@erase "$(INTDIR)\preferences.obj"
+	-@erase "$(INTDIR)\update.res"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase ".\update.exe"
@@ -66,6 +67,7 @@ CPP_PROJ=/nologo /ML /W3 /GX /O2 /I "..\\" /I "..\..\include" /I "..\include"\
 CPP_OBJS=.\Release/
 CPP_SBRS=.
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\update.res" /d "NDEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\update.bsc" 
 BSC32_SBRS= \
@@ -78,6 +80,7 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
 LINK32_OBJS= \
 	"$(INTDIR)\main.obj" \
 	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\update.res" \
 	"$(INTDIR)\win32prefs.obj"
 
 ".\update.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -112,6 +115,7 @@ ALL : ".\update.exe"
 CLEAN :
 	-@erase "$(INTDIR)\main.obj"
 	-@erase "$(INTDIR)\preferences.obj"
+	-@erase "$(INTDIR)\update.res"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(INTDIR)\win32prefs.obj"
@@ -130,6 +134,7 @@ CPP_PROJ=/nologo /MLd /W3 /Gm /GX /Zi /Od /I "..\\" /I "..\..\include" /I\
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\update.res" /d "_DEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\update.bsc" 
 BSC32_SBRS= \
@@ -143,6 +148,7 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
 LINK32_OBJS= \
 	"$(INTDIR)\main.obj" \
 	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\update.res" \
 	"$(INTDIR)\win32prefs.obj"
 
 ".\update.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -182,6 +188,7 @@ CLEAN :
 	-@erase "$(INTDIR)\main.sbr"
 	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\preferences.sbr"
+	-@erase "$(INTDIR)\update.res"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(INTDIR)\win32prefs.obj"
@@ -203,6 +210,7 @@ CPP_PROJ=/nologo /MLd /W3 /Gm /GX /Zi /Od /I "..\\" /I "..\..\include" /I\
 CPP_OBJS=.\Debug/
 CPP_SBRS=.\Debug/
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\update.res" /d "_DEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\update.bsc" 
 BSC32_SBRS= \
@@ -224,6 +232,7 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
 LINK32_OBJS= \
 	"$(INTDIR)\main.obj" \
 	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\update.res" \
 	"$(INTDIR)\win32prefs.obj"
 
 ".\update.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -262,6 +271,7 @@ ALL : ".\update.exe"
 CLEAN :
 	-@erase "$(INTDIR)\main.obj"
 	-@erase "$(INTDIR)\preferences.obj"
+	-@erase "$(INTDIR)\update.res"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase ".\update.exe"
@@ -277,6 +287,7 @@ CPP_PROJ=/nologo /ML /W3 /GX /O2 /I "..\\" /I "..\..\include" /I "..\include"\
 CPP_OBJS=.\Release/
 CPP_SBRS=.
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\update.res" /d "NDEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\update.bsc" 
 BSC32_SBRS= \
@@ -289,6 +300,7 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
 LINK32_OBJS= \
 	"$(INTDIR)\main.obj" \
 	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\update.res" \
 	"$(INTDIR)\win32prefs.obj"
 
 ".\update.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -517,6 +529,42 @@ DEP_CPP_WIN32=\
 
 "$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\res\update.rc
+
+!IF  "$(CFG)" == "update - Win32 Release"
+
+
+"$(INTDIR)\update.res" : $(SOURCE) "$(INTDIR)"
+	$(RSC) /l 0x409 /fo"$(INTDIR)\update.res" /i\
+ "\Local\src\freeamp1.5\update\win32\res" /d "NDEBUG" $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "update - Win32 Debug"
+
+
+"$(INTDIR)\update.res" : $(SOURCE) "$(INTDIR)"
+	$(RSC) /l 0x409 /fo"$(INTDIR)\update.res" /i\
+ "\Local\src\freeamp1.5\update\win32\res" /d "_DEBUG" $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "update - Win32 NASM Debug"
+
+
+"$(INTDIR)\update.res" : $(SOURCE) "$(INTDIR)"
+	$(RSC) /l 0x409 /fo"$(INTDIR)\update.res" /i\
+ "\Local\src\freeamp1.5\update\win32\res" /d "_DEBUG" $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "update - Win32 NASM Release"
+
+
+"$(INTDIR)\update.res" : $(SOURCE) "$(INTDIR)"
+	$(RSC) /l 0x409 /fo"$(INTDIR)\update.res" /i\
+ "\Local\src\freeamp1.5\update\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ENDIF 

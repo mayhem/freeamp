@@ -93,6 +93,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
+	-@erase "$(INTDIR)\win32updatemanager.obj"
 	-@erase ".\freeamp.exe"
 	-@erase "..\..\..\Authors.txt"
 	-@erase "..\..\..\Changes.txt"
@@ -118,11 +119,11 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\freeamp.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=zlib.lib gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib\
- gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib\
- oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows\
- /incremental:no /pdb:"$(OUTDIR)\freeamp.pdb" /machine:I386 /out:"freeamp.exe"\
- /libpath:"..\..\..\lib\gdbm" /libpath:"..\..\..\lib\zlib" 
+LINK32_FLAGS=zlib.lib gdbm.lib version.lib winmm.lib wsock32.lib kernel32.lib\
+ user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib\
+ ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo\
+ /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\freeamp.pdb" /machine:I386\
+ /out:"freeamp.exe" /libpath:"..\..\..\lib\gdbm" /libpath:"..\..\..\lib\zlib" 
 LINK32_OBJS= \
 	"$(INTDIR)\database.obj" \
 	"$(INTDIR)\debug.obj" \
@@ -145,6 +146,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
+	"$(INTDIR)\win32updatemanager.obj" \
 	"..\..\..\dlm\rmp\prj\Release\rmp.lib" \
 	"..\..\..\io\dsound\win32\prj\Release\dsoundcard.lib" \
 	"..\..\..\io\http\win32\prj\Release\httpinput.lib" \
@@ -168,6 +170,25 @@ LINK32_OBJS= \
     $(LINK32) @<<
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
+
+SOURCE=$(InputPath)
+DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
+
+ALL : $(DS_POSTBUILD_DEP)
+
+$(DS_POSTBUILD_DEP) : "zlib - Win32 Release" "update - Win32 Release"\
+ "toolbar - Win32 Release" "id3v2 - Win32 Release" "download - Win32 Release"\
+ "rmp - Win32 Release" "theme - Win32 Release" "pmp300 - Win32 Release"\
+ "m3u - Win32 Release" "id3v1 - Win32 Release" "gdbm - Win32 Release"\
+ "dsoundcard - Win32 Release" "simple - Win32 Release"\
+ "obsinput - Win32 Release" "httpinput - Win32 Release"\
+ "freeampui - Win32 Release" "xing - Win32 Release" "soundcard - Win32 Release"\
+ "fileinput - Win32 Release" ".\portio.sys" "..\..\..\ReadMe.txt"\
+ "..\..\..\Copying.txt" "..\..\..\Changes.txt" "..\..\..\Authors.txt"\
+ ".\freeamp.exe"
+   IF NOT EXIST themes mkdir themes
+	copy   ..\..\..\themes\freeamp.fat themes
+	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
 
@@ -229,6 +250,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
+	-@erase "$(INTDIR)\win32updatemanager.obj"
 	-@erase "$(OUTDIR)\freeamp.pdb"
 	-@erase ".\freeamp.exe"
 	-@erase ".\freeamp.ilk"
@@ -256,11 +278,11 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\freeamp.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=zlib.lib gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib\
- gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib\
- oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows\
- /incremental:yes /pdb:"$(OUTDIR)\freeamp.pdb" /debug /machine:I386\
- /out:"freeamp.exe" /pdbtype:sept /libpath:"..\..\..\lib\gdbm"\
+LINK32_FLAGS=zlib.lib gdbm.lib version.lib winmm.lib wsock32.lib kernel32.lib\
+ user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib\
+ ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo\
+ /subsystem:windows /incremental:yes /pdb:"$(OUTDIR)\freeamp.pdb" /debug\
+ /machine:I386 /out:"freeamp.exe" /pdbtype:sept /libpath:"..\..\..\lib\gdbm"\
  /libpath:"..\..\..\lib\zlib" 
 LINK32_OBJS= \
 	"$(INTDIR)\database.obj" \
@@ -284,6 +306,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
+	"$(INTDIR)\win32updatemanager.obj" \
 	"..\..\..\dlm\rmp\prj\Debug\rmp.lib" \
 	"..\..\..\io\dsound\win32\prj\Debug\dsoundcard.lib" \
 	"..\..\..\io\http\win32\prj\Debug\httpinput.lib" \
@@ -307,6 +330,24 @@ LINK32_OBJS= \
     $(LINK32) @<<
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
+
+SOURCE=$(InputPath)
+DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
+
+ALL : $(DS_POSTBUILD_DEP)
+
+$(DS_POSTBUILD_DEP) : "zlib - Win32 Debug" "update - Win32 Debug"\
+ "toolbar - Win32 Debug" "id3v2 - Win32 Debug" "download - Win32 Debug"\
+ "rmp - Win32 Debug" "theme - Win32 Debug" "pmp300 - Win32 Debug"\
+ "m3u - Win32 Debug" "id3v1 - Win32 Debug" "gdbm - Win32 Debug"\
+ "dsoundcard - Win32 Debug" "simple - Win32 Debug" "obsinput - Win32 Debug"\
+ "httpinput - Win32 Debug" "freeampui - Win32 Debug" "xing - Win32 Debug"\
+ "soundcard - Win32 Debug" "fileinput - Win32 Debug" ".\portio.sys"\
+ "..\..\..\ReadMe.txt" "..\..\..\Copying.txt" "..\..\..\Changes.txt"\
+ "..\..\..\Authors.txt" ".\freeamp.exe"
+   IF NOT EXIST themes mkdir themes
+	copy   ..\..\..\themes\freeamp.fat themes
+	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
 
@@ -371,6 +412,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
+	-@erase "$(INTDIR)\win32updatemanager.obj"
 	-@erase ".\freeamp.exe"
 	-@erase "..\..\..\Authors.txt"
 	-@erase "..\..\..\Changes.txt"
@@ -396,11 +438,11 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\freeamp.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=zlib.lib gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib\
- gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib\
- oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows\
- /incremental:no /pdb:"$(OUTDIR)\freeamp.pdb" /machine:I386 /out:"freeamp.exe"\
- /libpath:"..\..\..\lib\gdbm" /libpath:"..\..\..\lib\zlib" 
+LINK32_FLAGS=zlib.lib gdbm.lib version.lib winmm.lib wsock32.lib kernel32.lib\
+ user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib\
+ ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo\
+ /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\freeamp.pdb" /machine:I386\
+ /out:"freeamp.exe" /libpath:"..\..\..\lib\gdbm" /libpath:"..\..\..\lib\zlib" 
 LINK32_OBJS= \
 	"$(INTDIR)\database.obj" \
 	"$(INTDIR)\debug.obj" \
@@ -423,6 +465,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
+	"$(INTDIR)\win32updatemanager.obj" \
 	"..\..\..\dlm\rmp\prj\Release\rmp.lib" \
 	"..\..\..\io\dsound\win32\prj\Release\dsoundcard.lib" \
 	"..\..\..\io\http\win32\prj\Release\httpinput.lib" \
@@ -446,6 +489,27 @@ LINK32_OBJS= \
     $(LINK32) @<<
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
+
+SOURCE=$(InputPath)
+DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
+
+ALL : $(DS_POSTBUILD_DEP)
+
+$(DS_POSTBUILD_DEP) : "zlib - Win32 NASM Release" "update - Win32 NASM Release"\
+ "toolbar - Win32 NASM Release" "id3v2 - Win32 NASM Release"\
+ "download - Win32 NASM Release" "rmp - Win32 NASM Release"\
+ "theme - Win32 NASM Release" "pmp300 - Win32 NASM Release"\
+ "m3u - Win32 NASM Release" "id3v1 - Win32 NASM Release"\
+ "gdbm - Win32 NASM Release" "dsoundcard - Win32 NASM Release"\
+ "simple - Win32 NASM Release" "obsinput - Win32 NASM Release"\
+ "httpinput - Win32 NASM Release" "freeampui - Win32 NASM Release"\
+ "xing - Win32 NASM Release" "soundcard - Win32 NASM Release"\
+ "fileinput - Win32 NASM Release" ".\portio.sys" "..\..\..\ReadMe.txt"\
+ "..\..\..\Copying.txt" "..\..\..\Changes.txt" "..\..\..\Authors.txt"\
+ ".\freeamp.exe"
+   IF NOT EXIST themes mkdir themes
+	copy   ..\..\..\themes\freeamp.fat themes
+	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
 
@@ -510,6 +574,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
+	-@erase "$(INTDIR)\win32updatemanager.obj"
 	-@erase "$(OUTDIR)\freeamp.pdb"
 	-@erase ".\freeamp.exe"
 	-@erase ".\freeamp.ilk"
@@ -537,11 +602,11 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\freeamp.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=zlib.lib gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib\
- gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib\
- oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows\
- /incremental:yes /pdb:"$(OUTDIR)\freeamp.pdb" /debug /machine:I386\
- /out:"freeamp.exe" /pdbtype:sept /libpath:"..\..\..\lib\gdbm"\
+LINK32_FLAGS=zlib.lib gdbm.lib version.lib winmm.lib wsock32.lib kernel32.lib\
+ user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib\
+ ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo\
+ /subsystem:windows /incremental:yes /pdb:"$(OUTDIR)\freeamp.pdb" /debug\
+ /machine:I386 /out:"freeamp.exe" /pdbtype:sept /libpath:"..\..\..\lib\gdbm"\
  /libpath:"..\..\..\lib\zlib" 
 LINK32_OBJS= \
 	"$(INTDIR)\database.obj" \
@@ -565,6 +630,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
+	"$(INTDIR)\win32updatemanager.obj" \
 	"..\..\..\dlm\rmp\prj\Debug\rmp.lib" \
 	"..\..\..\io\dsound\win32\prj\Debug\dsoundcard.lib" \
 	"..\..\..\io\http\win32\prj\Debug\httpinput.lib" \
@@ -605,7 +671,7 @@ $(DS_POSTBUILD_DEP) : "zlib - Win32 NASM Debug" "update - Win32 NASM Debug"\
  "soundcard - Win32 NASM Debug" "fileinput - Win32 NASM Debug" ".\portio.sys"\
  "..\..\..\ReadMe.txt" "..\..\..\Copying.txt" "..\..\..\Changes.txt"\
  "..\..\..\Authors.txt" ".\freeamp.exe"
-   mkdir themes
+   IF NOT EXIST themes mkdir themes
 	copy   ..\..\..\themes\freeamp.fat themes
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -1699,7 +1765,6 @@ DEP_CPP_UPDAT=\
 	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\updatemanager.h"\
@@ -1708,9 +1773,6 @@ DEP_CPP_UPDAT=\
 	"..\include\semaphore.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
-	
-NODEP_CPP_UPDAT=\
-	"..\..\include\win32impl.h"\
 	
 
 "$(INTDIR)\updatemanager.obj" : $(SOURCE) $(DEP_CPP_UPDAT) "$(INTDIR)"\
@@ -1736,7 +1798,6 @@ DEP_CPP_UPDAT=\
 	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\updatemanager.h"\
@@ -1768,7 +1829,6 @@ DEP_CPP_UPDAT=\
 	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\updatemanager.h"\
@@ -1777,9 +1837,6 @@ DEP_CPP_UPDAT=\
 	"..\include\semaphore.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
-	
-NODEP_CPP_UPDAT=\
-	"..\..\include\win32impl.h"\
 	
 
 "$(INTDIR)\updatemanager.obj" : $(SOURCE) $(DEP_CPP_UPDAT) "$(INTDIR)"\
@@ -1805,7 +1862,6 @@ DEP_CPP_UPDAT=\
 	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
-	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\updatemanager.h"\
@@ -1875,6 +1931,140 @@ DEP_CPP_UTILI=\
 	
 
 "$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\src\win32updatemanager.cpp
+
+!IF  "$(CFG)" == "freeamp - Win32 Release"
+
+DEP_CPP_WIN32=\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
+	"..\..\..\lib\zlib\include\zconf.h"\
+	"..\..\..\lib\zlib\include\zlib.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\event.h"\
+	"..\..\include\eventdata.h"\
+	"..\..\include\facontext.h"\
+	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
+	"..\..\include\playlist.h"\
+	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
+	"..\..\include\portabledevice.h"\
+	"..\..\include\preferences.h"\
+	"..\..\include\registry.h"\
+	"..\..\include\thread.h"\
+	"..\..\include\updatemanager.h"\
+	"..\..\include\utility.h"\
+	"..\include\mutex.h"\
+	"..\include\semaphore.h"\
+	"..\include\win32updatemanager.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+
+"$(INTDIR)\win32updatemanager.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
+
+DEP_CPP_WIN32=\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
+	"..\..\..\lib\zlib\include\zconf.h"\
+	"..\..\..\lib\zlib\include\zlib.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\event.h"\
+	"..\..\include\eventdata.h"\
+	"..\..\include\facontext.h"\
+	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
+	"..\..\include\playlist.h"\
+	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
+	"..\..\include\portabledevice.h"\
+	"..\..\include\preferences.h"\
+	"..\..\include\registry.h"\
+	"..\..\include\thread.h"\
+	"..\..\include\updatemanager.h"\
+	"..\..\include\utility.h"\
+	"..\include\mutex.h"\
+	"..\include\semaphore.h"\
+	"..\include\win32updatemanager.h"\
+	
+
+"$(INTDIR)\win32updatemanager.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
+
+DEP_CPP_WIN32=\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
+	"..\..\..\lib\zlib\include\zconf.h"\
+	"..\..\..\lib\zlib\include\zlib.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\event.h"\
+	"..\..\include\eventdata.h"\
+	"..\..\include\facontext.h"\
+	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
+	"..\..\include\playlist.h"\
+	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
+	"..\..\include\portabledevice.h"\
+	"..\..\include\preferences.h"\
+	"..\..\include\registry.h"\
+	"..\..\include\thread.h"\
+	"..\..\include\updatemanager.h"\
+	"..\..\include\utility.h"\
+	"..\include\mutex.h"\
+	"..\include\semaphore.h"\
+	"..\include\win32updatemanager.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+
+"$(INTDIR)\win32updatemanager.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
+
+DEP_CPP_WIN32=\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\xml\include\parse.h"\
+	"..\..\..\lib\zlib\include\zconf.h"\
+	"..\..\..\lib\zlib\include\zlib.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\event.h"\
+	"..\..\include\eventdata.h"\
+	"..\..\include\facontext.h"\
+	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
+	"..\..\include\playlist.h"\
+	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
+	"..\..\include\portabledevice.h"\
+	"..\..\include\preferences.h"\
+	"..\..\include\registry.h"\
+	"..\..\include\thread.h"\
+	"..\..\include\updatemanager.h"\
+	"..\..\include\utility.h"\
+	"..\include\mutex.h"\
+	"..\include\semaphore.h"\
+	"..\include\win32updatemanager.h"\
+	
+
+"$(INTDIR)\win32updatemanager.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
@@ -1991,56 +2181,56 @@ SOURCE=..\src\win32prefs.cpp
 
 !IF  "$(CFG)" == "freeamp - Win32 Release"
 
-DEP_CPP_WIN32=\
+DEP_CPP_WIN32P=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
 	"..\..\include\preferences.h"\
 	"..\include\win32prefs.h"\
 	
 
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32P) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
 
-DEP_CPP_WIN32=\
+DEP_CPP_WIN32P=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
 	"..\..\include\preferences.h"\
 	"..\include\win32prefs.h"\
 	
 
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32P) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
 
-DEP_CPP_WIN32=\
+DEP_CPP_WIN32P=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
 	"..\..\include\preferences.h"\
 	"..\include\win32prefs.h"\
 	
 
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32P) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
 
-DEP_CPP_WIN32=\
+DEP_CPP_WIN32P=\
 	"..\..\..\config\config.h"\
 	"..\..\include\errors.h"\
 	"..\..\include\preferences.h"\
 	"..\include\win32prefs.h"\
 	
 
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32P) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 

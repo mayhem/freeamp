@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.112 1999/04/21 04:18:57 elrod Exp $
+        $Id: player.cpp,v 1.113 1999/04/21 07:06:31 dogcow Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -469,10 +469,10 @@ Run()
       while (*name)
       {
          RegistryItem *item = NULL;
-         UserInterface *ui = NULL;
+//       UserInterface *ui = NULL;
          int32     i = 0;
 
-         while (item = m_uiRegistry->GetItem(i++))
+         while (NULL != (item = m_uiRegistry->GetItem(i++)))
          {
             if (!CompareNames(item->Name(), name))
             {
@@ -849,7 +849,7 @@ CreateLMC(PlayListItem * pc, Event * pC)
 
    int32 i = 0;
 
-   while(item = m_pmoRegistry->GetItem(i++))
+   while (NULL != (item = m_pmoRegistry->GetItem(i++)))
    {
         if(!strcmp(defaultPMO, item->Name()))
         {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.cpp,v 1.11 1998/12/12 22:36:39 jdw Exp $
+	$Id: fawindow.cpp,v 1.12 1998/12/13 20:04:22 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -66,6 +66,18 @@ void FAWindow::UnMapWindow() {
     m_mapped = false;
 }
 
+// taken from LessTif
+#define MWM_HINTS_DECORATIONS   (1L << 1)
+
+typedef struct {
+    int32 flags;
+    int32 functions;
+    int32 decorations;
+    int32 input_mode;
+    int32 status;
+} MotifWmHints, MwmHints;
+// end taken from LessTif
+
 FAMainWindow::FAMainWindow(Display *display, int32 screen_num,GC gc, Window parent,int32 x,int32 y,int32 w, int32 h) {
     m_display = display;
     m_screenNum = screen_num;
@@ -77,6 +89,17 @@ FAMainWindow::FAMainWindow(Display *display, int32 screen_num,GC gc, Window pare
     m_height = h;
     m_me = XCreateSimpleWindow(m_display,m_parent,m_xParent,m_yParent,m_width,m_height,0,BlackPixel(m_display,m_screenNum),WhitePixel(m_display,m_screenNum));
     //fprintf(stderr,"created main win\n");
+
+    // set MWM hint for no border decorations
+
+    Atom mwmhints;
+    MwmHints hints;
+
+    mwmhints = XInternAtom(m_display, "_MOTIF_WM_HINTS", false);
+    hints.decorations = 0;
+    hints.flags |= MWM_HINTS_DECORATIONS;
+    XChangeProperty(m_display, m_me, mwmhints, mwmhints, 32, PropModeReplace, (unsigned char *)&hints, 4);
+
 }
 
 FAMainWindow::~FAMainWindow() { }

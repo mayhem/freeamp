@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mbcd.h,v 1.2 2000/10/12 17:57:11 robert Exp $
+	$Id: mbcd.h,v 1.3 2000/10/12 20:57:02 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MBCD_H
@@ -38,6 +38,7 @@ using namespace std;
 #include "config.h"
 #include "errors.h"
 #include "metadata.h"
+#include "database.h"
 #include "musicbrainz/mb_c.h"
 
 class MusicBrainzCD : public MetaDataFormat {
@@ -52,6 +53,10 @@ class MusicBrainzCD : public MetaDataFormat {
  private:
 
     bool    LookupCD(void);
+    void    WriteToCache(Database *db, char *diskId, 
+                         vector<int> &trackLens, char *rdf);
+    bool    ReadFromCache(Database *db, char *diskId, 
+                         vector<int> &trackLens, string &rdf);
 
     musicbrainz_t o;
     vector<int> m_trackLens;

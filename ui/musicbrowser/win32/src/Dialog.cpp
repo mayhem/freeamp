@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.67.2.1.2.2 2000/03/06 23:04:17 elrod Exp $
+        $Id: Dialog.cpp,v 1.67.2.1.2.3 2000/03/06 23:11:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -978,7 +978,7 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     m_sMinSize.x = 500;
     m_sMinSize.y = 300;
 
-    if (m_pParent == NULL)
+    if(m_pParent == NULL)
     {
 //       string lastPlaylist = FreeampDir(m_context->prefs);
 //       lastPlaylist += "\\currentlist.m3u";
@@ -1010,7 +1010,10 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     UpdateTotalTime();
     
     if(m_pParent)
+    {
         ShowWindow(m_hWnd, SW_SHOW);
+        SetForegroundWindow(m_hWnd);
+    }
     else
     {
         bool viewMusicBrowser = true;

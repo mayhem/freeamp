@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.17 1999/10/02 08:46:47 robert Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.18 1999/10/02 15:57:45 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -110,13 +110,14 @@ plugins/esound.pmo: $(ESNDOBJ)
 MUSICBROWSEROBJ = ui/musicbrowser/unix/gtkmusicbrowser.o \
                   ui/musicbrowser/unix/musicbrowser.o \
                   ui/musicbrowser/unix/infoeditor.o \
-                  ui/musicbrowser/unix/fileselector.o
+                  ui/musicbrowser/unix/fileselector.o \
+                  ui/musicbrowser/unix/browsermenu.o
 
 plugins/musicbrowser.ui: $(MUSICBROWSEROBJ)
 	$(LINKMOD) -o $@ $(MUSICBROWSEROBJ) $(GTK_LIBS)
 
 # theme ui
-THEMEUIOBJ = ui/theme/src/Theme.do ui/theme/src/Bitmap.o \
+THEMEUIOBJ = ui/theme/src/Theme.doh ui/theme/src/Bitmap.o \
              ui/theme/src/Canvas.o ui/theme/src/SliderControl.o \
              ui/theme/src/Window.o ui/theme/src/ButtonControl.o \
              ui/theme/src/Control.o ui/theme/src/TextControl.o \
@@ -127,9 +128,6 @@ THEMEUIOBJ = ui/theme/src/Theme.do ui/theme/src/Bitmap.o \
              ui/theme/unix/src/GTKWindow.o ui/theme/unix/src/GTKBitmap.o \
              ui/theme/unix/src/GTKCanvas.o ui/theme/unix/src/GTKUtility.o \
              ui/theme/unix/src/GTKPreferenceWindow.o 
-
-ui/theme/src/Theme.do:
-	$(COMPILE) -O0 -c ui/theme/src/Theme.cpp -o ui/theme/src/Theme.do
 
 plugins/theme.ui: $(THEMEUIOBJ)
 	$(LINKMOD) -o $@ $(THEMEUIOBJ) $(GTK_LIBS) -Llib/zlib/lib -lzlib

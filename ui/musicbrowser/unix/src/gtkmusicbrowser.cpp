@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.8 1999/10/01 15:22:33 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.9 1999/10/02 15:57:45 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -30,6 +30,29 @@ ____________________________________________________________________________*/
 #include "utility.h"
 #include "gtkmusicbrowser.h"
 #include "fileselector.h"
+#include "browsermenu.h"
+
+extern "C" {
+void new_plist();
+void open_list();
+void save_list();
+void import_list();
+void export_list();
+void music_search();
+void quit_menu();
+void infoedit();
+void catalog_tog();
+void sort_random();
+void sort_location();
+void sort_time();
+void sort_genre();
+void sort_track();
+void sort_year();
+void sort_title();
+void sort_album();
+void sort_artist();
+void about();
+}
 
 /* evil, yes */
 MusicBrowserUI *localui = NULL;
@@ -352,7 +375,7 @@ void infoedit()
     localui->PopUpInfoEditor();
 }
 
-void new_list()
+void new_plist(void)
 {
     localui->SaveCurrentPlaylist();
     localui->DeleteListEvent();
@@ -399,53 +422,10 @@ void MusicBrowserUI::CreateMenu(GtkWidget *topbox)
     GtkAccelGroup *accel_group;
     GtkWidget *separator;
 
-    GtkItemFactoryEntry menu_items[] = {
-     {"/_File",                 NULL,           0,         0, "<Branch>" },
-     {"/File/tearoff1",         NULL,           0,         0, "<Tearoff>" },
-     {"/File/_New Playlist",    "<control>N",   new_list,  0, 0 },
-     {"/File/_Open Playlist",   "<control>O",   open_list, 0, 0 },
-     {"/File/_Save Playlist",   "<control>S",   save_list, 0, 0 },
-//     {"/File/_Import Playlist", "<control>I",   0,         0, 0 },
-//     {"/File/_Export Playlist", "<control>E",   0,         0, 0 },
-     {"/File/sep1",             NULL,           0,         0, "<Separator>" },
-     {"/File/Search for Music", NULL,           music_search, 0, 0 },
-     {"/File/sep2",             NULL,           0,         0, "<Separator>" },
-     {"/File/_Quit",            "<control>Q",   quit_menu, 0, 0 }, 
-
-     {"/_Edit",                 NULL,           0,         0, "<Branch>" },
-//     {"/_Edit/Cut",             "<control>X",   0,         0, 0 },
-//     {"/_Edit/_Copy",           "<control>C",   0,         0, 0 },
-//     {"/_Edit/_Paste",          "<control>V",   0,         0, 0 },
-//     {"/_Edit/_Delete",         "<control>D",   0,         0, 0 },
-//     {"/_Edit/sep3",            NULL,           0,         0, "<Separator>" },
-//     {"/_Edit/Undo",            "<control>Z",   0,         0, 0 },
-//     {"/_Edit/Redo",            NULL,           0,         0, 0 },
-//     {"/_Edit/sep4",            NULL,           0,         0, "<Separator>" },
-     {"/_Edit/Information Viewer", NULL,        infoedit,  0, 0 },
-     
-     {"/_View",                 NULL,           0,         0, "<Branch>" },
-     {"/_View/Music Catalog",   NULL,           catalog_tog, 0, "<CheckItem>" },
-
-     {"/_Sort",                 NULL,           0,         0, "<Branch>" },
-     {"/_Sort/Artist",          NULL,           sort_artist, 0, 0 },
-     {"/_Sort/Title",           NULL,           sort_title, 0, 0 },
-     {"/_Sort/Year",            NULL,           sort_year,  0, 0 },
-     {"/_Sort/Track Number",    NULL,           sort_track, 0, 0 },
-     {"/_Sort/Genre",           NULL,           sort_genre, 0, 0 },
-     {"/_Sort/Length",          NULL,           sort_time,  0, 0 },
-     {"/_Sort/Location",        NULL,           sort_location, 0, 0 },
-     {"/_Sort/Randomize",       NULL,           sort_random, 0, 0 },
-
-     {"/_Help",                 NULL,           0,          0, "<LastBranch>" },
-     {"/_Help/_About",          NULL,           about,      0, 0 },
-    };
-    
-    int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
-
     accel_group = gtk_accel_group_new();
     item_factory = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<blah>", 
                                         accel_group); 
-    gtk_item_factory_create_items(item_factory, nmenu_items, menu_items, NULL);
+    CreateMenuItems(item_factory);
     
     gtk_accel_group_attach(accel_group, GTK_OBJECT(musicBrowser));
     gtk_box_pack_start(GTK_BOX(topbox), gtk_item_factory_get_widget(

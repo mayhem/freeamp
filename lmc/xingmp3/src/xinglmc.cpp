@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.108 1999/11/15 19:36:05 robert Exp $
+   $Id: xinglmc.cpp,v 1.109 1999/11/15 21:17:54 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -246,7 +246,7 @@ Error XingLMC::GetHeadInfo()
        for(iFrame = 0, iOffset = 0; iFrame < iNumSanityCheckFrames; iFrame++)
        {
            m_frameBytes = head_info3(((unsigned char *)pBuffer) + iOffset,
-			                            iMaxFrameSize, &m_sMpegHead, 
+			                         iInitialFrameSize - iOffset, &m_sMpegHead, 
                                      (int*)&m_iBitRate, &iForward);
 
            iOffset += m_frameBytes + iForward + m_sMpegHead.pad;

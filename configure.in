@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.38.4.2 1999/05/17 23:58:42 dogcow Exp $
+dnl $Id: configure.in,v 1.38.4.3 1999/05/20 01:22:03 dogcow Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -236,13 +236,12 @@ OSDEP="unix/$host_os"
 if test "$isunix" = "false"  ; then
   OSINC="-Ibase/$host_os/include -Iui/freeamp/$host_os"
   OSDEP="$host_os"
-else
-  OSDEPSRC=`find base/unix/src \( -name '*.c' -o -name '*.cpp' \) -print`
+dnl else
+dnl  OSDEPSRC=`find base/unix/src \( -name '*.c' -o -name '*.cpp' \) -print`
 fi
 
-OSDEPSRC="$OSDEPSRC `find base/$OSDEP/src \( -name '*.c' -o		\
-					     -name '*.cpp' \) -print`"
-OSDEPOBJ=`echo $OSDEPSRC | sed -e 's,\.cp*,.o,g' | xargs echo`
+dnl OSDEPSRC="$OSDEPSRC `find base/$OSDEP/src \( -name '*.c' -o		\dnl 					     -name '*.cpp' \) -print`"
+dnl OSDEPOBJ=`echo $OSDEPSRC | sed -e 's,\.cp*,.o,g' | xargs echo`
 dnl I know. This is an abominable way to generate a dependency list.
 dnl it's either here or hardcoded in a Makefile, though.
 

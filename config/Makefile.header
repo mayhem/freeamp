@@ -1,7 +1,7 @@
 # Generated automatically from Makefile.header.in by configure.
 # Freeamp Makefile header 
 # contains all the compiler-related configure-extracted vars
-# $Id: Makefile.header,v 1.6.4.1 1999/05/17 23:58:43 dogcow Exp $
+# $Id: Makefile.header,v 1.6.4.2 1999/05/20 01:22:03 dogcow Exp $
 
 SHELL = /bin/sh
 
@@ -56,7 +56,7 @@ OSDEP = unix/solaris
 OSINC = -Ibase/unix/include -Ibase/unix/solaris/include -Iui/freeamp/unix/include -Iui/freeamp/unix/res
 LINKMOD = gcc -shared $(LDFLAGS)
 
-OSDEPOBJ = base/unix/src/bootstrap.o base/unix/src/unixprefs.o base/unix/src/win32impl.o base/unix/solaris/src/solaristhread.o base/unix/solaris/src/debug.o base/unix/solaris/src/mutex.o base/unix/solaris/src/semaphore.o base/unix/solaris/src/utility.o
+OSDEPOBJ = 
 
 INCLUDES = -Ibase/include -Iconfig -Iio/include -Iui/include -Ilmc/include $(OSINC) -Iio/soundcard/$(OSDEP)/include -Iui/lcd/include -Iui/irman/include -Ilmc/xingmp3/include
 CXXFLAGS = $(EXTRA_CXXFLAGS)
@@ -92,10 +92,10 @@ CXXLINK = $(CXXLD) $(CXXFLAGS) $(LDFLAGS) $(RELOC) -o $@
 .SUFFIXES: .S .c .cpp .o .s .asm .asm1
 
 .cpp.o:
-	$(CXXCOMPILE) -c $< -o $@
+	$(CXXCOMPILE) $(RELOC) -c $< -o $@
 
 .c.o:
-	$(COMPILE) -c $< -o $@
+	$(COMPILE) $(RELOC) -c $< -o $@
 
 .asm.asm1:
 	$(PERL) -pe 's/\b_//g' $< > $@

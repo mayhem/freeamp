@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.1.2.1 1999/05/17 23:59:17 dogcow Exp $
+# $Id: Makefile-plugins.in,v 1.1.2.2 1999/05/20 01:22:03 dogcow Exp $
 
 RELOC = @FPIC@
 
@@ -73,13 +73,18 @@ plugins/obsinput-$(HOST_OS).pmi: $(OBSPMI)
 #
 # PMO section
 
-# soundcardpmo is os-dependent, so have to fool with $(OSDEP)
-SCPMOOBJ = io/soundcard/$(OSDEP)/src/soundcardpmo.o
-SCPMOOBJ +=io/soundcard/$(OSDEP)/src/volume.o
+SCPMOsolarisOBJ = io/soundcard/unix/solaris/src/volume.o
+SCPMOlinuxOBJ = io/soundcard/unix/linux/src/ossvolume.o
+SCPMOOBJ = io/soundcard/$(OSDEP)/src/soundcardpmo.o $(SCPMO$(HOST_OS)OBJ)
 
 plugins/soundcard-$(HOST_OS).pmo: $(SCPMOOBJ)
 	$(LINKMOD) -o $@ $(SCPMOOBJ)
 
+# esound
+ESNDOBJ = io/esound/src/esdvolume.cpp io/esound/src/esoundpmo.cpp
+
+plugins/esound.pmo: $(ESNDOBJ)
+	$(LINKMOD) -o $@ $(ESNDOBJ)
 
 #
 # UI section
@@ -117,7 +122,6 @@ plugins/freeamp-$(HOST_OS).ui: $(FREEAMPUIOBJ)
 	$(LINKMOD) -o $@ $(FREEAMPUIOBJ) $(X_LIBS) $(X_EXTRA_LIBS)
 
 
-
 #
 # LMC section
 
@@ -132,26 +136,15 @@ XINGLMCOBJC = lmc/xingmp3/src/cdct.o lmc/xingmp3/src/cupl3.o \
   lmc/xingmp3/src/cwinm.o lmc/xingmp3/src/icdct.o lmc/xingmp3/src/mdct.o \
   lmc/xingmp3/src/uph.o lmc/xingmp3/src/cup.o lmc/xingmp3/src/dec8.o \
   lmc/xingmp3/src/isbt.o lmc/xingmp3/src/l3dq.o lmc/xingmp3/src/mhead.o \
-  lmc/xingmp3/src/upsf.o lmc/xingmp3/src/iwinm.o @XINGASM@
+  lmc/xingmp3/src/upsf.o lmc/xingmp3/src/iwinm.o
+
+XINGLMCOBJC += @XINGASM@
+#assembly lang code, if we need it
 
 XINGLMCOBJCXX=lmc/xingmp3/src/xinglmc.o
 
 XINGLMCOBJ = $(XINGLMCOBJC) $(XINGLMCOBJCXX)
 
-#the reason there are two dependencies lines:
-#the first one is to check if the file exists in plugins/;
-#the second is needed so that $@ will have the right entry for the
-# linux -Wl,-soname=gobbledegook.so stuff.
-
 plugins/xingmp3-$(HOST_OS).lmc: $(XINGLMCOBJ)
 	$(LINKMOD) -o $@ $(XINGLMCOBJ)
 
-#$(XINGLMCOBJC):
-#	$(COMPILE) $(FPIC) $(XINGDEF) -Ilmc/xingmp3/include -o $(*).o -c ${*:%.o=%}.c
-
-#$(XINGLMCOBJCXX):
-#	$(CXXCOMPILE) $(FPIC) $(XINGDEF) -Ilmc/xingmp3/include -c ${*:%.o=%}.cpp
-
-#the following does not work. dammit.
-#xingmp3-$(HOST_OS).lmc := CFLAGS = $(FPIC) -Ilmc/xingmp3/include @ISX86@
-#plugins/xingmp3-$(HOST_OS).lmc := CFLAGS = $(FPIC) -Ilmc/xingmp3/include @ISX86@

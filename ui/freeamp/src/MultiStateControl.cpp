@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MultiStateControl.cpp,v 1.8 2000/02/20 05:36:40 ijr Exp $
+   $Id: MultiStateControl.cpp,v 1.9 2000/05/15 09:34:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -36,6 +36,7 @@ ____________________________________________________________________________*/
 
 static TransitionInfo pTransitions[] =
 {
+    { CS_Normal,     CT_Show,             CS_Normal     }, 
     { CS_Normal,     CT_MouseEnter,       CS_MouseOver  },
     { CS_Normal,     CT_Disable,          CS_Disabled   },
     { CS_Normal,     CT_Hide,             CS_Hidden     },

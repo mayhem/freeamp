@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.12 2000/02/29 10:02:01 elrod Exp $
+   $Id: Win32Canvas.cpp,v 1.13 2000/05/15 09:34:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -365,3 +365,10 @@ void Win32Canvas::SetPalette(HPALETTE hPal)
    m_hPal = hPal;
 }
 
+void Win32Canvas::InitBackgrounds(vector<Panel *> *pPanels)
+{
+	Canvas::InitBackgrounds(pPanels);
+
+	if (m_pBufferBitmap)
+ 	   m_pBufferBitmap->BlitRect(m_pBGBitmap, m_oBGRect, m_oBGRect);
+}

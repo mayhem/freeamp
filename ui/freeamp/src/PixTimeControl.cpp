@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: PixTimeControl.cpp,v 1.1 2000/03/17 23:19:13 ijr Exp $
+   $Id: PixTimeControl.cpp,v 1.2 2000/05/15 09:34:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -30,6 +30,7 @@ ____________________________________________________________________________*/
 
 static TransitionInfo pTransitions[] =
 {  
+    { CS_Normal,    CT_Show,             CS_Normal    },
     { CS_Normal,    CT_SetValue,         CS_Normal    },
     { CS_Normal,    CT_Timer,            CS_Normal    },
     { CS_Normal,    CT_MouseEnter,       CS_MouseOver },
@@ -114,6 +115,7 @@ void PixTimeControl::Transition(ControlTransitionEnum  eTrans,
         case CT_MouseLeave:
             m_pParent->SendControlMessage(this, CM_MouseLeave);
             break;
+        case CT_Show:
         case CT_SetValue:
             TextChanged();
             break;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: DialControl.cpp,v 1.6 2000/02/08 20:03:16 robert Exp $
+   $Id: DialControl.cpp,v 1.7 2000/05/15 09:34:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 
 static TransitionInfo pTransitions[] =
 {  
+    { CS_Normal,     CT_Show,             CS_Normal     }, 
     { CS_Normal,     CT_MouseEnter,       CS_MouseOver  }, 
     { CS_Normal,     CT_Disable,          CS_Disabled   }, 
     { CS_Normal,     CT_Hide,             CS_Hidden     },
@@ -83,6 +84,10 @@ void DialControl::Transition(ControlTransitionEnum  eTrans,
            m_iLastPos = pMousePos->y;
            m_oMutex.Release();
            break;
+
+	   case CT_Show:
+		   Init();
+		   break;
 
        default:
           break;

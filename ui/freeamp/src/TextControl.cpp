@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.11 2000/03/28 01:34:54 elrod Exp $
+   $Id: TextControl.cpp,v 1.12 2000/05/15 09:34:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -31,6 +31,7 @@ ____________________________________________________________________________*/
 static TransitionInfo pTransitions[] =
 {  
     { CS_Normal,    CT_SetValue,         CS_Normal    },
+    { CS_Normal,    CT_Show,             CS_Normal    },
     { CS_Normal,    CT_Timer,            CS_Normal    },
     { CS_Normal,    CT_MouseEnter,       CS_MouseOver },
     { CS_MouseOver, CT_SetValue,         CS_MouseOver },
@@ -125,7 +126,9 @@ void TextControl::Transition(ControlTransitionEnum  eTrans,
         case CT_Timer:
             MarqueeText();
             break;
-
+        case CT_Show:
+            TextChanged();
+            break;
         default:
             break;
     }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.34 2000/05/14 21:20:46 robert Exp $
+   $Id: Window.cpp,v 1.35 2000/05/15 09:34:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -225,12 +225,18 @@ void Window::AddPanel(Panel *pPanel)
 
 void Window::PanelStateChanged(void)
 {
-    Rect oRect;
+    ControlMapIterator  i;
+    Rect                oRect;
 
     IncUsageRef();
     m_pCanvas->InitBackgrounds(&m_oPanels);
+    for (i = m_oControlMap.begin(); i != m_oControlMap.end(); i++)
+    {
+         i->second->AcceptTransition(CT_Show);
+    }        
     m_pCanvas->GetBackgroundRect(oRect);
     m_pCanvas->Invalidate(oRect);
+
     DecUsageRef();
 }
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.h,v 1.4 2000/01/04 19:07:50 robert Exp $
+   $Id: Win32Canvas.h,v 1.5 2000/05/15 09:34:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32CANVAS_H__
@@ -56,6 +56,7 @@ class Win32Canvas : public Canvas
      virtual void  Erase(Rect &oRect);
      virtual HRGN  GetMaskRgn(void);
 	 virtual void  SetPalette(HPALETTE hPal);
+     virtual void  InitBackgrounds(vector<Panel *> *pPanels);
      
     protected:
 

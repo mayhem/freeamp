@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.5 1999/11/11 07:46:53 elrod Exp $
+	$Id: updatemanager.cpp,v 1.6 1999/11/21 04:34:11 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -70,8 +70,8 @@ typedef ostrstream ostringstream;
 
 
 const char* kUpdateServer = "fatman.freeamp.org";
-const char* kUpdatePath = "/update/test/";
-const char* kUpdateFile = "/update/test/version_info.xml";
+const char* kUpdatePath = "/update/freeamp/";
+const char* kUpdateFile = "/update/freeamp/version_info.xml";
 const char* kUpdateRequest = "GET %s HTTP/1.0\n"
                              "Host: %s\n"
                              "User-Agent: "BRANDING"/%s\n"

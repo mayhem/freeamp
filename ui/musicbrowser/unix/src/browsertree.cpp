@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.5 2000/03/24 02:28:32 ijr Exp $
+        $Id: browsertree.cpp,v 1.6 2000/03/25 19:03:58 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -216,7 +216,11 @@ static gint nocase_compare(GtkCList *clist, gconstpointer ptr1,
 static gint TreeDataCompare(TreeData *a, TreeData *b)
 {
     bool retvalue = true;
-    if ((a->type == b->type) && (a->catalog == b->catalog) &&
+    if (!a && !b)
+        retvalue = false;
+    else if (!a || !b)
+        retvalue = true;
+    else if ((a->type == b->type) && (a->catalog == b->catalog) &&
         (a->artist == b->artist) && (a->album == b->album) &&
         (a->track == b->track) && (a->playlistname == b->playlistname))
         retvalue = false;

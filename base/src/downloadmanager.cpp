@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.23 1999/09/25 19:53:51 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.24 1999/09/25 20:53:10 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -38,10 +38,7 @@ ____________________________________________________________________________*/
 #include <unistd.h>
 #define SOCKET int
 #define closesocket(x) close(x)
-#define _O_BINARY 0
-#define _O_CREAT O_CREAT
-#define _O_RDWR O_RDWR
-#define _O_TRUNC O_TRUNC
+#define O_BINARY 0
 #endif
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -58,6 +55,8 @@ ____________________________________________________________________________*/
 #include "downloadmanager.h"
 #include "registrar.h"
 #include "utility.h"
+#include "event.h"
+#include "eventdata.h"
 
 DownloadManager::DownloadManager(FAContext* context)
 {
@@ -175,6 +174,7 @@ Error DownloadManager::AddItem(DownloadItem* item)
     if(item)
     {
         m_itemList.push_back(item);
+        SendItemAddedMessage(item);
         QueueDownload(item);
 
         result = kError_NoErr;
@@ -201,6 +201,7 @@ Error DownloadManager::AddItems(vector<DownloadItem*>* list)
 
         for(uint32 i = 0; i < count; i++)
         {
+            SendItemAddedMessage((*list)[i]);
             QueueDownload((*list)[i]);
         }
 
@@ -231,6 +232,7 @@ Error DownloadManager::QueueDownload(DownloadItem* item)
            item->GetState() != kDownloadItemState_Queued)
         {
             item->SetState(kDownloadItemState_Queued);
+            SendStateChangedMessage(item);
 
             m_queueList.push_back(item);
 
@@ -288,6 +290,8 @@ Error DownloadManager::CancelDownload(DownloadItem* item, bool allowResume)
             {
                 item->SetState(kDownloadItemState_Paused);
             }
+
+            SendStateChangedMessage(item);
 
             result = kError_NoErr;
         }
@@ -795,10 +799,10 @@ Error DownloadManager::Download(DownloadItem* item)
 
                         cout << destPath << endl;
 
-                        int openFlags = _O_BINARY|_O_CREAT|_O_RDWR;
+                        int openFlags = O_BINARY|O_CREAT|O_RDWR;
 
                         if(returnCode == 200) // always whole file
-                            openFlags |= _O_TRUNC;
+                            openFlags |= O_TRUNC;
 
                         int fd = open(destPath, openFlags);
 
@@ -821,6 +825,8 @@ Error DownloadManager::Download(DownloadItem* item)
                                 if(cp - buffer < total)
                                 {
                                     write(fd, cp, total - (cp - buffer));
+                                    item->SetBytesReceived(total - (cp - buffer) + item->GetBytesReceived());
+                                    SendProgressMessage(item);
                                 }
                             }
 
@@ -831,8 +837,8 @@ Error DownloadManager::Download(DownloadItem* item)
                                 if(count > 0)
                                 {
                                     write(fd, buffer, count);
-
                                     item->SetBytesReceived(count + item->GetBytesReceived());
+                                    SendProgressMessage(item);
                                 }
 
                                 if(count < 0)
@@ -841,7 +847,6 @@ Error DownloadManager::Download(DownloadItem* item)
                                 if(item->GetState() == kDownloadItemState_Cancelled ||
                                    item->GetState() == kDownloadItemState_Paused)
                                     result = kError_UserCancel;
-
 
                                 //cout << "bytes recvd:" << count << endl;
 
@@ -1025,6 +1030,8 @@ void DownloadManager::DownloadThreadFunction()
             }
 
             item->SetDownloadError(result);
+
+            SendStateChangedMessage(item);
         }
     }
 
@@ -1040,11 +1047,28 @@ void DownloadManager::download_thread_function(void* arg)
     dlm->DownloadThreadFunction();
 }
 
-void SendStateChangedMessage(DownloadItem* item)
-{
-    
+// Messaging functions
 
+void DownloadManager::SendItemAddedMessage(DownloadItem* item)
+{    
+    m_context->target->AcceptEvent(new DownloadItemAddedEvent(item));
 }
+
+void DownloadManager::SendItemRemovedMessage(DownloadItem* item)
+{    
+    m_context->target->AcceptEvent(new DownloadItemRemovedEvent(item));
+}
+
+void DownloadManager::SendStateChangedMessage(DownloadItem* item)
+{    
+    m_context->target->AcceptEvent(new DownloadItemNewStateEvent(item));
+}
+
+void DownloadManager::SendProgressMessage(DownloadItem* item)
+{    
+    m_context->target->AcceptEvent(new DownloadItemProgressEvent(item));
+}
+
 
 
 

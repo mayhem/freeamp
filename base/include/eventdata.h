@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.30.4.9 1999/09/25 01:29:59 elrod Exp $
+        $Id: eventdata.h,v 1.30.4.10 1999/09/25 20:53:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -576,6 +576,28 @@ public:
 };
 
 class DownloadItem;
+
+class DownloadItemAddedEvent : public Event {
+public:
+    DownloadItemAddedEvent(DownloadItem* item) 
+    { m_type = INFO_DownloadItemAdded; m_item = item; }
+	virtual ~DownloadItemAddedEvent() {}
+
+	DownloadItem* Item() { return m_item; }
+private:
+    DownloadItem* m_item;
+};
+
+class DownloadItemRemovedEvent : public Event {
+public:
+    DownloadItemRemovedEvent(DownloadItem* item) 
+    { m_type = INFO_DownloadItemRemoved; m_item = item; }
+	virtual ~DownloadItemRemovedEvent() {}
+
+	DownloadItem* Item() { return m_item; }
+private:
+    DownloadItem* m_item;
+};
 
 class DownloadItemNewStateEvent : public Event {
 public:

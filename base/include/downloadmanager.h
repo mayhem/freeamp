@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.11 1999/09/23 21:00:06 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.12 1999/09/25 20:53:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -273,6 +273,12 @@ class DownloadManager {
     Error Download(DownloadItem* item);
     void CleanUpDownload(DownloadItem* item);
     Error SubmitToDatabase(DownloadItem* item);
+
+    void SendItemAddedMessage(DownloadItem* item);
+    void SendItemRemovedMessage(DownloadItem* item);
+    void SendStateChangedMessage(DownloadItem* item);
+    void SendProgressMessage(DownloadItem* item);
+
 
  private:
 

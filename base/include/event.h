@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.28.4.5 1999/09/25 01:29:59 elrod Exp $
+	$Id: event.h,v 1.28.4.6 1999/09/25 20:53:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -110,8 +110,10 @@ class EventQueue {
 #define INFO_SearchMusicDone    49 // sent by the music search thread on completion
 #define INFO_BrowserMessage     50 // status updates sent to the music browser
 
-#define INFO_DownloadItemNewState 51 // sent by DownloadManager to UIs by way of Player so the UIs know that an item in the download manager has changed state
-#define INFO_DownloadItemProgress 52 // sent by DownloadManager to UIs by way of Player so the UIs know that progress has been made on a download
+#define INFO_DownloadItemAdded    51  // sent by DownloadManager to UIs by way of Player so the UIs know that an item has been added to the download manager
+#define INFO_DownloadItemRemoved  52  // sent by DownloadManager to UIs by way of Player so the UIs know that an item has been removed from the download manager
+#define INFO_DownloadItemNewState 53  // sent by DownloadManager to UIs by way of Player so the UIs know that an item in the download manager has changed state
+#define INFO_DownloadItemProgress 54  // sent by DownloadManager to UIs by way of Player so the UIs know that progress has been made on a download
 
 #endif // _EVENT_H_
 

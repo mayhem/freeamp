@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: downloadui.cpp,v 1.27 2000/08/24 12:25:33 ijr Exp $
+    $Id: downloadui.cpp,v 1.28 2001/01/18 17:30:55 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -156,7 +156,7 @@ DownloadUI::~DownloadUI()
         DeleteObject(m_progressBitmap);
 
     if(m_handCursor)
-        DeleteObject(m_handCursor);
+        DestroyCursor(m_handCursor);
 
     delete m_uiSemaphore;
     delete m_uiThread;

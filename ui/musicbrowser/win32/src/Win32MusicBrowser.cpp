@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.78 2001/01/10 20:08:58 ijr Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.79 2001/01/18 17:30:55 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -286,8 +286,8 @@ void MusicBrowserUI::Init()
 MusicBrowserUI::~MusicBrowserUI()
 {
     DeleteObject(m_splitterBrush);
-    DeleteObject(m_hSplitterCursor);
-    DeleteObject(m_hPointerCursor);
+    DestroyCursor(m_hSplitterCursor);
+    DestroyCursor(m_hPointerCursor);
 
     if(m_streamsTimer)
         m_context->timerManager->StopTimer(m_streamsTimer);

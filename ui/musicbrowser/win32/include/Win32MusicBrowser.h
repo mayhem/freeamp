@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.91 2001/01/05 20:12:24 robert Exp $
+        $Id: Win32MusicBrowser.h,v 1.92 2001/01/18 17:30:55 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -66,7 +66,7 @@ class FAContext;
 #define IDC_TOOLBAR        13001
 #define TOOLBAR_INDENT	   8
 
-#define ALBUM_COLUMN      "Album"
+#define ALBUM_COLUMN       "Album"
 #define ARTIST_COLUMN      "Artist"
 #define COMMENT_COLUMN     "Comment"
 #define GENRE_COLUMN       "Genre"
@@ -74,6 +74,7 @@ class FAContext;
 #define TIME_COLUMN        "Time"
 #define TITLE_COLUMN       "Title"
 #define YEAR_COLUMN        "Year"
+#define TRACK_COLUMN       "Track"
 
 bool operator<(const TreeData &A, const TreeData &b);
 bool operator==(const TreeData &A, const TreeData &b);

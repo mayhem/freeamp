@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.4 1998/10/15 13:33:51 elrod Exp $
+	$Id: lmc.h,v 1.5 1998/10/16 19:35:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
@@ -46,7 +46,9 @@ class LogicalMediaConverter {
     virtual void Init() = 0;
 };
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 typedef struct LMC{
     void*   ref;
@@ -67,6 +69,8 @@ typedef struct LMC{
 
 }LMC, *LMCRef;
 
-} //extern "C"
+#ifdef __cplusplus
+// extern "C"
+#endif
 
 #endif // _LMC_H_

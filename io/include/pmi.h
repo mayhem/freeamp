@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.3 1998/10/15 13:33:50 elrod Exp $
+	$Id: pmi.h,v 1.4 1998/10/16 19:35:34 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -57,7 +57,9 @@ public:
     virtual const char* Url(void) const = 0;
 };
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 typedef struct PMI {
     void*       ref;
@@ -71,6 +73,8 @@ typedef struct PMI {
 }PMI, *PMIRef;
 
 
-} // extern "C"
+#ifdef __cplusplus
+} //extern "C" 
+#endif
 
 #endif /* _PMI_H_ */

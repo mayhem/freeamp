@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmolib.h,v 1.2 1998/10/15 13:33:50 elrod Exp $
+	$Id: pmolib.h,v 1.3 1998/10/16 19:35:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMOLIB_H_
@@ -29,7 +29,9 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "pmo.h"
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 void Initialize(PMORef ref);
 
@@ -39,7 +41,9 @@ int32 Write(PMORef ref, void* buf, int32 len);
 void Clear(PMORef ref);
 void Cleanup(PMORef ref);
 
-} //extern "C"
+#ifdef __cplusplus
+// extern "C"
+#endif
 
 #endif /* _PMOLIB_H_ */
 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmilib.h,v 1.2 1998/10/15 13:33:50 elrod Exp $
+	$Id: pmilib.h,v 1.3 1998/10/16 19:35:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMILIB_H_
@@ -29,7 +29,9 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "pmi.h"
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 void Initialize(PMIRef ref);
 
@@ -40,7 +42,9 @@ bool Close(PMIRef ref);
 const char* Url(PMIRef ref);
 void Cleanup(PMIRef ref);
 
-} // extern "C"
+#ifdef __cplusplus
+// extern "C"
+#endif
 
 #endif /* _PMILIB_H_ */
 

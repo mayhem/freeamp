@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.12 1998/10/15 21:40:10 jdw Exp $
+	$Id: player.cpp,v 1.13 1998/10/16 19:35:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -447,6 +447,11 @@ int32 Player::ServiceEvent(Event *pC) {
 		        ReleaseCOManipLock();
 		        //cout << "released lock" << endl;
 		        delete e;
+
+                e = new Event(CMD_QuitPlayer);
+	            Player::GetPlayer()->AcceptEvent(e);
+                delete e;
+
             }
             return 0;
 		    break; 

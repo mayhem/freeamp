@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: uilib.h,v 1.2 1998/10/15 16:22:15 elrod Exp $
+	$Id: uilib.h,v 1.3 1998/10/16 19:35:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UILIB_H_
@@ -28,15 +28,21 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "ctrlobj.h"
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
-void Initialize(UIRef inputRef, UIRef outputRef);
+void Initialize(CIORef inputRef, CIORef outputRef);
 
-void SetTarget(UIRef ref, EventQueue* queue);
-int32 AcceptEvent(UIRef ref, Event* event);
-void Cleanup(LMCRef ref);
+void SetTarget(CIORef ref, EventQueue* queue);
+int32 AcceptEvent(CIORef ref, Event* event);
+void Cleanup(CIORef ref);
 
+#ifdef __cplusplus
 } //extern "C"
+#endif
+
+
 
 #endif /* _UILIB_H_ */
 

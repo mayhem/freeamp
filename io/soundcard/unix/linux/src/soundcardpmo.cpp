@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.30 1999/07/16 19:48:57 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.31 1999/07/20 22:55:23 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -303,11 +303,14 @@ void SoundCardPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
    iTotalTime = (m_iTotalBytesWritten - iDataInBuffer) /
                 (m_iBytesPerSample * myInfo->samples_per_second);
 
+
+   iTotalTime %= 86400;
+
    hours = iTotalTime / 3600;
    minutes = (iTotalTime / 60) % 60;
    seconds = iTotalTime % 60;
 
-   if (hours < 0 || hours > 23 ||
+   if (hours < 0 ||
        minutes < 0 || minutes > 59 || 
        seconds < 0 || seconds > 59)
       return;

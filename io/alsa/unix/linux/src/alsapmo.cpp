@@ -23,7 +23,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.19 1999/07/16 19:48:51 robert Exp $
+        $Id: alsapmo.cpp,v 1.20 1999/07/20 22:55:22 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -317,11 +317,13 @@ void AlsaPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
              ((long long)ainfo.stime.tv_usec / 10000);
    iTotalTime = ((llEnd - llStart) / 100) + m_iBaseTime;
 
+   iTotalTime %= 86400;
+
    hours = iTotalTime / 3600;
    minutes = (iTotalTime / 60) % 60;
    seconds = iTotalTime % 60;
 
-   if (hours < 0 || hours > 23 ||
+   if (hours < 0  ||
        minutes < 0 || minutes > 59 || 
        seconds < 0 || seconds > 59)
       return;

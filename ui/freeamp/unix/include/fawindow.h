@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.h,v 1.9 1998/12/12 22:36:39 jdw Exp $
+	$Id: fawindow.h,v 1.10 1999/07/20 22:55:24 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -151,6 +151,7 @@ class FALcdWindow : public FAWindow {
 
     bool BlitText(Drawable d, GC gc, int32 x, int32 y, const char *text, int32 font);
     void SetState(int32);
+    void UpdateTimeDisplay(int, int, int);
     void DrawIntroState(int32);
     void DrawVolumeState(int32);
     void DrawCurrentTimeState(int32);

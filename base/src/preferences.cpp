@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.12 1999/07/10 04:59:30 elrod Exp $
+        $Id: preferences.cpp,v 1.13 1999/07/20 22:55:20 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -67,7 +67,7 @@ const bool  kDefaultLogging = false;
 const bool  kDefaultSaveStreams = false;
 const char* kDefaultSaveStreamsDir = ".";
 const int32 kDefaultPreBuffer = 0;
-const char *kDefaultProxyHost = "proxy.yourdomain.com";
+const char *kDefaultProxyHost = "http://proxy.yourdomain.com:8080";
 const bool  kDefaultUseProxy = false;
 
 Error

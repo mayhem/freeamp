@@ -18,10 +18,9 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.68 2000/02/29 10:02:02 elrod Exp $
+        $Id: Dialog.cpp,v 1.69 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
-#define STRICT
 #include <windows.h>
 #include <windowsx.h>
 #include <sys/types.h>

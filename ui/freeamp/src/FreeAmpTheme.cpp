@@ -19,8 +19,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.91 2000/02/29 21:26:24 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.92 2000/03/01 03:49:29 elrod Exp $
 ____________________________________________________________________________*/
+
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786) 
+#endif
 
 #include <stdio.h> 
 #include <sys/types.h>
@@ -1549,7 +1556,7 @@ void FreeAmpTheme::UpdateThread()
         if(0 < DialogBoxParam(g_hinst, 
                               MAKEINTRESOURCE(IDD_UPDATEAVAILABLE),
                               NULL, 
-                              (int (__stdcall *)(void))::UpdateAvailableDlgProc, 
+                              ::UpdateAvailableDlgProc, 
                               (LPARAM) 0))
         {
             ShowOptions(4);

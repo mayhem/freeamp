@@ -18,11 +18,17 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.cpp,v 1.12 2000/02/15 21:37:10 elrod Exp $
+        $Id: EditTrackInfoDialog.cpp,v 1.13 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
+
 // system includes
-#define STRICT
 #include <windows.h>
 #include <windowsx.h>
 #include <shlobj.h>

@@ -18,14 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.h,v 1.8 1999/10/19 07:12:46 elrod Exp $
+	$Id: registry.h,v 1.9 2000/03/01 03:49:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_REGISTRY_H_
 #define INCLUDED_REGISTRY_H_
 
 #ifdef WIN32
-#define STRICT
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif

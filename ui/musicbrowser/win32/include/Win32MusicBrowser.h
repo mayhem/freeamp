@@ -18,19 +18,21 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.62 2000/02/16 22:49:36 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.63 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
 #define INCLUDED_WIN32MUSICBROWSER_H_
 
-#define STRICT
-#include <windows.h>
-#include <commctrl.h>
-
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
+
+#include <windows.h>
+#include <commctrl.h>
 
 #include <vector>
 #include <string>

@@ -18,10 +18,16 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.46 2000/02/16 22:49:37 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.47 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
-#define STRICT
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
+
 #include <windows.h>
 #include <windowsx.h>
 #include <sys/types.h>

@@ -18,10 +18,9 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.15 2000/02/16 21:34:45 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.16 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
-#define STRICT
 #include <windows.h>
 #include <windowsx.h>
 #include <sys/types.h>

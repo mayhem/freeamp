@@ -18,19 +18,14 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.h,v 1.2 2000/02/15 21:37:09 elrod Exp $
+        $Id: EditTrackInfoDialog.h,v 1.3 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EDITTRACKINFO_H_
 #define INCLUDED_EDITTRACKINFO_H_
 
-#define STRICT
 #include <windows.h>
 #include <commctrl.h>
-
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
 
 #include <vector>
 #include <string>

@@ -18,11 +18,10 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: SavePlaylistDialog.cpp,v 1.4 1999/12/03 21:07:57 elrod Exp $
+        $Id: SavePlaylistDialog.cpp,v 1.5 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
-#define STRICT
 #include <windows.h>
 #include <windowsx.h>
 #include <shlobj.h>

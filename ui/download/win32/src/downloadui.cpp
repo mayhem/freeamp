@@ -18,11 +18,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.19 2000/02/29 10:01:59 elrod Exp $
+	$Id: downloadui.cpp,v 1.20 2000/03/01 03:49:29 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
-#define STRICT
 #include <windows.h>
 #include <commctrl.h>
 #include <stdio.h>

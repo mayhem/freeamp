@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: hwin.c,v 1.5 1999/10/19 07:13:08 elrod Exp $
+	$Id: hwin.c,v 1.6 2000/03/01 03:49:29 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  hwin.c  ***************************************************
@@ -63,6 +63,7 @@ ARRAY36 *hwin_init_addr()
 #ifdef ASM_X86
 #ifdef _MSC_VER
 #pragma warning(disable: 4035)
+#pragma warning(disable:4716)
 #endif /* _MSC_VER */ 
 #endif /* ASM_X86 */
 

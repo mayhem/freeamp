@@ -18,17 +18,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.32 2000/02/29 10:02:01 elrod Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.33 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
-
-/* system headers */
-#define STRICT
-#include <windows.h>
-#include <windowsx.h>
-#include <shlobj.h>
-#include <commctrl.h>
-#include <stdlib.h>
-#include <assert.h>
 
 // The debugger can't handle symbols more than 255 characters long.
 // STL often creates symbols longer than that.
@@ -36,6 +27,14 @@ ____________________________________________________________________________*/
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
+
+/* system headers */
+#include <windows.h>
+#include <windowsx.h>
+#include <shlobj.h>
+#include <commctrl.h>
+#include <stdlib.h>
+#include <assert.h>
 
 #include <sstream>
 #include <set>

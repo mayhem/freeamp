@@ -18,11 +18,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.24 2000/02/09 21:21:28 elrod Exp $
+	$Id: simpleui.cpp,v 1.25 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
-#define STRICT
 #include <windows.h>
 #include <commctrl.h>
 #include <stdio.h>

@@ -17,11 +17,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.3 1999/10/19 07:13:32 elrod Exp $
+	$Id: main.cpp,v 1.4 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
-#define STRICT
 #include <windows.h>
 #include <commctrl.h>
 #include <stdio.h>

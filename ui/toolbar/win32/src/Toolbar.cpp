@@ -18,11 +18,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Toolbar.cpp,v 1.3 2000/02/09 21:21:29 elrod Exp $
+	$Id: Toolbar.cpp,v 1.4 2000/03/01 03:49:31 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
-#define STRICT
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <assert.h>

@@ -18,11 +18,10 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DropSource.cpp,v 1.5 1999/12/03 21:07:56 elrod Exp $
+        $Id: DropSource.cpp,v 1.6 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
 // system header files
-#define STRICT
 #include <windows.h>
 #include <commctrl.h>
 #include <stdio.h>

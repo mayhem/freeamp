@@ -18,11 +18,17 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EnumFormatEtc.cpp,v 1.2 1999/12/03 21:07:56 elrod Exp $
+        $Id: EnumFormatEtc.cpp,v 1.3 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
+
 // system header files
-#define STRICT
 #include <windows.h>
 #include <shlobj.h>
 

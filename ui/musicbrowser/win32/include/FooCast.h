@@ -18,19 +18,15 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: FooCast.h,v 1.1 1999/12/31 02:01:39 elrod Exp $
+        $Id: FooCast.h,v 1.2 2000/03/01 03:49:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FOOCAST_H_
 #define INCLUDED_FOOCAST_H_
 
-#define STRICT
 #include <windows.h>
 #include <commctrl.h>
 
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
 
 class FooCast {
  public:

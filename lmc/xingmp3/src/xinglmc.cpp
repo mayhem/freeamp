@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.91 1999/07/13 00:55:32 robert Exp $
+   $Id: xinglmc.cpp,v 1.92 1999/07/13 18:48:52 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -278,9 +278,6 @@ Error XingLMC::CanDecode()
       m_pContext->log->Error("CanDecode() called, with no PMI set.\n");
       return kError_PluginNotInitialized;
    }
-
-   if (!m_pPmi->IsStreaming())
-       m_pPmi->Seek(dummy, 0, SEEK_FROM_START);
 
    Err = GetHeadInfo();
    if (Err == kError_Interrupt)

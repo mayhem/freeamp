@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: CommandLineCIO.cpp,v 1.3 1998/10/13 22:09:05 jdw Exp $
+	$Id: CommandLineCIO.cpp,v 1.4 1998/10/14 00:31:24 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -58,7 +58,7 @@ CommandLineCIO::CommandLineCIO() {
     tcsetattr(stdinfd, TCSANOW, &rawTTY);
 
 
-    keyboardListenThread = new Thread();
+    keyboardListenThread = Thread::CreateThread();
     keyboardListenThread->Create(CommandLineCIO::keyboardServiceFunction,this);
     
     cout << endl << "Command Line Interface" << endl << endl;
@@ -80,7 +80,7 @@ CommandLineCIO::~CommandLineCIO() {
     }
 }
 
-void *CommandLineCIO::keyboardServiceFunction(void *pclcio) {
+void CommandLineCIO::keyboardServiceFunction(void *pclcio) {
     CommandLineCIO *pMe = (CommandLineCIO *)pclcio;
     char *pkey = new char[1];
     char chr;

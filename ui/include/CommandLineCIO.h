@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: CommandLineCIO.h,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: CommandLineCIO.h,v 1.2 1998/10/14 00:31:25 jdw Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -35,7 +35,7 @@ class CommandLineCIO : public CIO {
     CommandLineCIO();
     virtual int32 acceptCIOEvent(Event *);
     virtual void setArgs(int argc, char **argv);
-    static void *keyboardServiceFunction(void *);
+    static void keyboardServiceFunction(void *);
     ~CommandLineCIO();
  private:
     void processSwitch(char *);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.5 1999/12/07 18:08:54 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.6 1999/12/08 18:00:05 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -243,6 +243,8 @@ Error Win32Canvas::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestR
    return m_pBufferBitmap->MaskBlitRect(pSrcBitmap, oSrcRect, oDestRect);
 }
 
+static int iPaintCount = 0;
+
 void Win32Canvas::Paint(HDC hDC, Rect &oRect)
 {
    HDC   hMemDC;
@@ -263,6 +265,9 @@ void Win32Canvas::Paint(HDC hDC, Rect &oRect)
    }
    StretchBlt(hDC, oRect.x1, oRect.y1, oRect.Width(), oRect.Height(),
               hMemDC, oRect.x1, oRect.y1, oRect.Width(), oRect.Height(), SRCCOPY);
+
+   if (iPaintCount++ == 0)
+      m_pBufferBitmap->SaveBitmap("c:\\temp\\out.bmp");
 
    DeleteDC(hMemDC);       
 }

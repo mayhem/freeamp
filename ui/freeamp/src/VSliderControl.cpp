@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.cpp,v 1.1 1999/12/08 15:38:54 robert Exp $
+   $Id: VSliderControl.cpp,v 1.2 1999/12/08 18:00:00 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -56,7 +56,7 @@ VSliderControl::VSliderControl(Window *pWindow, string &oName) :
 {
      m_iRange = -1;
      m_iCurrentPos = 0;
-     m_oOrigin.x = -1;
+     m_oOrigin.y = -1;
      m_bIsDrag = false;
 };
 
@@ -67,7 +67,7 @@ VSliderControl::~VSliderControl(void)
 
 void VSliderControl::Init(void)
 {
-    m_iThumbHeight = m_oBitmapRect.Height() / 3;
+    m_iThumbHeight = m_oBitmapRect.Height();
     
     m_iRange = m_oRect.Height() - m_iThumbHeight;
 

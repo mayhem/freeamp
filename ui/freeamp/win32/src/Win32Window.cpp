@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.17 1999/12/07 18:08:56 robert Exp $
+   $Id: Win32Window.cpp,v 1.18 1999/12/08 18:00:06 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -402,7 +402,6 @@ void Win32Window::Paint(void)
     PAINTSTRUCT ps;
     HDC         hDc;
     Rect        oRect;
-
     
 	hDc = BeginPaint(m_hWnd, &ps);
     oRect.x1 = ps.rcPaint.left;

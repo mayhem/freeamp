@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mutex.h,v 1.2 1998/10/15 13:33:49 elrod Exp $
+	$Id: mutex.h,v 1.3 1999/05/24 17:38:11 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef MUTEX_H
@@ -33,14 +33,15 @@ public:
 	Mutex(bool createOwned = false);
 	~Mutex();
 
-
 	bool Acquire(long timeout = WAIT_FOREVER);
 	void Release();
 	void DumpMutex(void);
 
  private:
 	pthread_mutex_t m_mutex;
-	pthread_t myTid;
+   pthread_cond_t  m_tCond;
+   int             m_iBusy;
+	pthread_t       m_tOwner;
 };
 
 #endif /* MUTEX_H */

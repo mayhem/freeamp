@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.1.2.5 1999/09/09 02:42:10 elrod Exp $
+   $Id: Control.h,v 1.1.2.6 1999/09/17 20:30:47 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -47,8 +47,8 @@ enum ControlMessageEnum
     CM_Pressed,
     CM_MouseEnter,
     CM_MouseLeave,
+    CM_SliderUpdate,
     CM_ValueChanged,
-
 
     CM_LastValue
 };
@@ -67,6 +67,8 @@ enum ControlTransitionEnum
     CT_SetValue,
     CT_Timer,
 
+    CT_None,
+
     CT_LastTransition
 };
 
@@ -76,8 +78,12 @@ enum ControlStateEnum
     CS_MouseOver,
     CS_Pressed,
     CS_Disabled,
+    CS_DisabledMO,
     CS_Dragging,
     CS_Hidden,
+
+    CS_Any,			 // These states allow a transition message to be
+    CS_Same,		 // sent to the control without actually changing state.
 
     CS_LastState
 };
@@ -117,6 +123,7 @@ class Control
       Error IntValue(bool bSet, int &iValue);
       Error StringValue(bool bSet, string &oValue);
 
+      virtual void Init(void) = 0;
       virtual void AcceptTransition(ControlTransitionEnum eTrans,
                                     Pos *pMousePos = NULL);
 

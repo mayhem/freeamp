@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.1.2.4 1999/09/09 00:27:02 robert Exp $
+   $Id: TextControl.cpp,v 1.1.2.5 1999/09/17 20:31:01 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -33,14 +33,28 @@ static TransitionInfo pTransitions[] =
     { CS_LastState, CT_LastTransition,   CS_LastState } 
 };
 
-TextControl::TextControl(Window *pWindow, string &oName) :
+TextControl::TextControl(Window *pWindow, string &oName, 
+                         string &oAlign) :
              Control(pWindow, oName, pTransitions)
 {
+	strlwr((char *)oAlign.c_str());
+	if (oAlign == string("right"))
+       m_eAlign = eRight;
+    else   
+	if (oAlign == string("center"))
+       m_eAlign = eCenter;
+    else   
+       m_eAlign = eLeft;
 }
 
 TextControl::~TextControl(void)
 {
 
+}
+
+void TextControl::Init(void)
+{
+    TextChanged();
 }
 
 void TextControl::Transition(ControlTransitionEnum  eTrans,
@@ -63,5 +77,6 @@ void TextControl::TextChanged(void)
 
     pCanvas = m_pParent->GetCanvas();
     pCanvas->Erase(m_oRect);
-    pCanvas->RenderText(m_oRect.Height(), m_oRect, m_oValue); 
+    pCanvas->RenderText(m_oRect.Height(), m_oRect, 
+                        m_oValue, m_eAlign); 
 }

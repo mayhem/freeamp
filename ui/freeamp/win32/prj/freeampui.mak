@@ -878,6 +878,9 @@ InputPath=..\..\..\..\config\config.win32
 !ENDIF 
 
 SOURCE=..\src\control.cpp
+
+!IF  "$(CFG)" == "freeampui - Win32 Release"
+
 DEP_CPP_CONTR=\
 	"..\..\..\..\config\config.h"\
 	"..\include\control.h"\
@@ -887,6 +890,44 @@ DEP_CPP_CONTR=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
+
+DEP_CPP_CONTR=\
+	"..\..\..\..\config\config.h"\
+	"..\include\control.h"\
+	
+
+"$(INTDIR)\control.obj" : $(SOURCE) $(DEP_CPP_CONTR) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
+
+DEP_CPP_CONTR=\
+	"..\..\..\..\config\config.h"\
+	"..\include\control.h"\
+	
+
+"$(INTDIR)\control.obj" : $(SOURCE) $(DEP_CPP_CONTR) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
+
+DEP_CPP_CONTR=\
+	"..\..\..\..\config\config.h"\
+	"..\include\control.h"\
+	
+
+"$(INTDIR)\control.obj" : $(SOURCE) $(DEP_CPP_CONTR) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\src\controlinfo.cpp
 
@@ -1233,7 +1274,7 @@ DEP_RSC_FREEA=\
 
 "$(INTDIR)\freeamp.res" : $(SOURCE) $(DEP_RSC_FREEA) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\freeamp.res" /i\
- "\Local\src\freeamp1.5\ui\freeamp\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\ui\freeamp\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
@@ -1241,7 +1282,7 @@ DEP_RSC_FREEA=\
 
 "$(INTDIR)\freeamp.res" : $(SOURCE) $(DEP_RSC_FREEA) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\freeamp.res" /i\
- "\Local\src\freeamp1.5\ui\freeamp\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\ui\freeamp\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
@@ -1249,7 +1290,7 @@ DEP_RSC_FREEA=\
 
 "$(INTDIR)\freeamp.res" : $(SOURCE) $(DEP_RSC_FREEA) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\freeamp.res" /i\
- "\Local\src\freeamp1.5\ui\freeamp\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\ui\freeamp\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
@@ -1257,7 +1298,7 @@ DEP_RSC_FREEA=\
 
 "$(INTDIR)\freeamp.res" : $(SOURCE) $(DEP_RSC_FREEA) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\freeamp.res" /i\
- "\Local\src\freeamp1.5\ui\freeamp\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\ui\freeamp\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ENDIF 
@@ -1984,9 +2025,6 @@ NODEP_CPP_REGIS=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\src\registry.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_REGIST=\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\config\config.h"\
@@ -1996,44 +2034,6 @@ DEP_CPP_REGIST=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_REGIST=\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\registry.obj" : $(SOURCE) $(DEP_CPP_REGIST) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_REGIST=\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\registry.obj" : $(SOURCE) $(DEP_CPP_REGIST) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_REGIST=\
-	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\registry.obj" : $(SOURCE) $(DEP_CPP_REGIST) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\renderer.cpp
 
@@ -2927,9 +2927,6 @@ DEP_CPP_WIN32=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_WIN32T=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
@@ -2940,57 +2937,16 @@ DEP_CPP_WIN32T=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 !IF  "$(CFG)" == "freeampui - Win32 Release"
 
 "fileinput - Win32 Release" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 Release" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "fileinput - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 Release" RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -2998,12 +2954,12 @@ DEP_CPP_WIN32T=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
 
 "fileinput - Win32 Debug" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 Debug" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "fileinput - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak CFG="fileinput - Win32 Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -3011,12 +2967,12 @@ DEP_CPP_WIN32T=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
 
 "fileinput - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 NASM Debug" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "fileinput - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Debug" RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -3024,13 +2980,13 @@ DEP_CPP_WIN32T=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
 
 "fileinput - Win32 NASM Release" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Release" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "fileinput - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Release" RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -3040,12 +2996,12 @@ DEP_CPP_WIN32T=\
 !IF  "$(CFG)" == "freeampui - Win32 Release"
 
 "soundcard - Win32 Release" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 Release" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "soundcard - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 Release" RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -3053,12 +3009,12 @@ DEP_CPP_WIN32T=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
 
 "soundcard - Win32 Debug" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 Debug" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "soundcard - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak CFG="soundcard - Win32 Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -3066,12 +3022,12 @@ DEP_CPP_WIN32T=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
 
 "soundcard - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 NASM Debug" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "soundcard - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Debug" RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -3079,13 +3035,13 @@ DEP_CPP_WIN32T=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
 
 "soundcard - Win32 NASM Release" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Release" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "soundcard - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Release" RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -3095,12 +3051,12 @@ DEP_CPP_WIN32T=\
 !IF  "$(CFG)" == "freeampui - Win32 Release"
 
 "xing - Win32 Release" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 Release" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "xing - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 Release"\
  RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -3108,12 +3064,12 @@ DEP_CPP_WIN32T=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
 
 "xing - Win32 Debug" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 Debug" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "xing - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 Debug" RECURSE=1\
  
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -3121,12 +3077,12 @@ DEP_CPP_WIN32T=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
 
 "xing - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 NASM Debug" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "xing - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 NASM Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"
@@ -3134,12 +3090,12 @@ DEP_CPP_WIN32T=\
 !ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
 
 "xing - Win32 NASM Release" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 NASM Release" 
    cd "..\..\..\..\ui\freeamp\win32\prj"
 
 "xing - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 NASM Release"\
  RECURSE=1 
    cd "..\..\..\..\ui\freeamp\win32\prj"

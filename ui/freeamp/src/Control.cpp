@@ -18,12 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.1.2.4 1999/09/09 00:26:58 robert Exp $
+   $Id: Control.cpp,v 1.1.2.5 1999/09/17 20:30:56 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
 #include "Control.h"
 #include "Window.h"
+
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 // I HATE MICROSOFT   I HATE MICROSOFT   I HATE MICROSOFT   I HATE MICROSOFT
 bool operator<(const TransitionInfo &A, const TransitionInfo &b)
@@ -118,13 +120,17 @@ Error Control::StringValue(bool bSet, string &oValue)
 void Control::AcceptTransition(ControlTransitionEnum eTrans, Pos *pPos)
 {
     vector<TransitionInfo>::iterator i;
-
+    
     for(i = m_oTransitions.begin(); i != m_oTransitions.end(); i++)
     {
-        if ((*i).eState == m_eCurrentState && (*i).eAction == eTrans)   
+        if (((*i).eState == m_eCurrentState || (*i).eState == CS_Any) && 
+            (*i).eAction == eTrans)   
         {
-            m_eLastState = m_eCurrentState;
-            m_eCurrentState = (*i).eNextState;
+        	if ((*i).eNextState != CS_Same)
+            {
+                m_eLastState = m_eCurrentState;
+                m_eCurrentState = (*i).eNextState;
+            }    
             Transition(eTrans, pPos);
 
             return;
@@ -174,6 +180,8 @@ void Control::BlitFrame(int iFrame, int iNumFramesInBitmap, Rect *pRect)
 
     pCanvas = m_pParent->GetCanvas();
     pCanvas->BlitRect(m_pBitmap, oFrameRect, oDestRect);
+    pCanvas->Invalidate(oDestRect);
+    pCanvas->Update();
 }
 
 bool Control::PosInControl(Pos &oPos)

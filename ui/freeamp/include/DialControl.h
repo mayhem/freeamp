@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: DialControl.h,v 1.1.2.4 1999/09/09 02:42:10 elrod Exp $
+   $Id: DialControl.h,v 1.1.2.5 1999/09/17 20:30:48 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_DIALCONTROL_H__
@@ -34,6 +34,7 @@ class DialControl : public Control
       virtual ~DialControl(void);
 
       void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
+      virtual void Init(void);
 
     private:
 

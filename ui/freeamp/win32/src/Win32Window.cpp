@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.2 1999/09/08 23:26:40 elrod Exp $
+   $Id: Win32Window.cpp,v 1.1.2.3 1999/09/17 20:31:11 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -26,10 +26,156 @@ ____________________________________________________________________________*/
 #include "Win32Window.h"
 #include "Win32Canvas.h"
 
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
+
+const static char szAppName[] = "FreeAmp";
+HINSTANCE g_hinst = NULL;
+#define IDI_EXE_ICON 101
+
+
+INT WINAPI DllMain (HINSTANCE hInstance,
+                    ULONG ul_reason_being_called,
+                    LPVOID lpReserved)
+{
+	switch (ul_reason_being_called)
+	{
+		case DLL_PROCESS_ATTACH:
+			g_hinst = hInstance;
+	    	break;
+
+		case DLL_THREAD_ATTACH:
+		    break;
+
+		case DLL_THREAD_DETACH:
+		    break;
+
+		case DLL_PROCESS_DETACH:
+		    break;
+	}
+
+    return 1;                 
+}
+
+static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg, 
+                                  WPARAM wParam, LPARAM lParam )
+{
+    LRESULT result = 0;
+    Win32Window* ui = (Win32Window*)GetWindowLong(hwnd, GWL_USERDATA);
+
+    switch (msg)
+    {
+        case WM_CREATE:
+        {
+            // When we create the window we pass in a pointer to our
+            // UserInterface object...
+            // Tuck away the pointer in a safe place
+            
+            ui = (Win32Window*)((LPCREATESTRUCT)lParam)->lpCreateParams;
+
+            assert(ui != NULL);
+          
+            result = SetWindowLong(hwnd, GWL_USERDATA, (LONG)ui);
+            
+            ui->Init();
+            
+            break;
+        }
+
+		case WM_CLOSE:
+        {
+            Rect oRect;
+            Pos  oPos;
+            
+            ui->GetWindowPosition(oRect);
+            oPos.x = oRect.x1;
+            oPos.y = oRect.y1;
+            ui->SaveWindowPos(oPos);
+            PostQuitMessage(0);
+            break;
+        }    
+
+        case WM_DESTROY:
+            break;
+
+        case WM_PAINT:
+        {
+            PAINTSTRUCT ps;
+            HDC         hDc;
+            Rect        oRect;
+            
+        	hDc = BeginPaint(hwnd, &ps);
+            oRect.x1 = ps.rcPaint.left;
+            oRect.y1 = ps.rcPaint.top;
+            oRect.x2 = ps.rcPaint.right;
+            oRect.y2 = ps.rcPaint.bottom;
+            ((Win32Canvas *)(ui->GetCanvas()))->Paint(hDc, oRect);
+            EndPaint(hwnd, &ps);
+            
+            break;
+        }    
+        case WM_MOUSEMOVE:
+        {
+        	Pos oPos;
+            
+        	oPos.x = (int16)LOWORD(lParam);
+            oPos.y = (int16)HIWORD(lParam);  
+            //Debug_v("Mouse: %d, %d", oPos.x, oPos.y);
+            ui->HandleMouseMove(oPos);
+            break;
+        }		
+
+        case WM_NCMOUSEMOVE:
+        {
+            POINT pt;
+        	Pos oPos;
+
+            pt.x = (int16)LOWORD(lParam);
+            pt.y = (int16)HIWORD(lParam);
+
+            ScreenToClient(hwnd, &pt);
+            oPos.x = pt.x;
+            oPos.y = pt.y;
+            
+            ui->HandleMouseMove(oPos);
+            break;
+        }
+
+        case WM_LBUTTONDOWN:
+        {
+        	Pos oPos;
+            
+        	oPos.x = (int16)LOWORD(lParam);
+            oPos.y = (int16)HIWORD(lParam);  
+            ui->HandleMouseLButtonDown(oPos);
+            
+            break;
+        }
+
+        case WM_LBUTTONUP:
+        {
+        	Pos oPos;
+            
+        	oPos.x = (int16)LOWORD(lParam);
+            oPos.y = (int16)HIWORD(lParam);  
+            ui->HandleMouseLButtonUp(oPos);
+            
+            break;
+        }
+
+        default:
+            result = DefWindowProc( hwnd, msg, wParam, lParam );
+            break;
+
+    }
+
+    return result;
+}
+
+
 Win32Window::Win32Window(Theme *pTheme, string &oName)
             :Window(pTheme, oName)
 {
-    m_pCanvas = new Win32Canvas();
+    m_pCanvas = new Win32Canvas(this);
 }
 
 Win32Window::~Win32Window(void)
@@ -38,63 +184,166 @@ Win32Window::~Win32Window(void)
     m_pCanvas = NULL;
 }
 
-Error Win32Window::Run(void)
+Error Win32Window::Run(Pos &oPos)
 {
-    return kError_NoErr;
-}
+    WNDCLASS wc;
+    MSG      msg;
 
-Error Win32Window::Create(void)
-{
-    return kError_NoErr;
-}
+	m_oWindowPos = oPos;
 
-Error Win32Window::Destroy(void)
+	m_pCanvas->Init();
+
+    memset(&wc, 0x00, sizeof(WNDCLASS));
+
+    wc.style = CS_OWNDC|CS_DBLCLKS ;
+    wc.lpfnWndProc = MainWndProc;
+    wc.hInstance = g_hinst;
+    wc.hCursor = LoadCursor( NULL, IDC_ARROW );
+    wc.hIcon = LoadIcon( g_hinst, MAKEINTRESOURCE(IDI_EXE_ICON) );
+    wc.hbrBackground = NULL;
+    wc.lpszClassName = szAppName;
+
+
+    if( RegisterClass( &wc ) )    
+    {
+    	Rect oRect;
+        HRGN hRgn;
+
+        GetCanvas()->GetBackgroundRect(oRect);
+        m_hWnd = CreateWindow(szAppName, 
+                        szAppName,
+                        WS_POPUP | WS_VISIBLE | WS_SYSMENU, 
+                        m_oWindowPos.x, 
+                        m_oWindowPos.y, 
+                        oRect.Width(), 
+                        oRect.Height(),
+                        NULL, 
+                        NULL, 
+                        g_hinst, 
+                        this);
+
+        hRgn = ((Win32Canvas *)m_pCanvas)->GetMaskRgn(); 
+        if (hRgn)
+            SetWindowRgn(m_hWnd, hRgn, false);
+
+        if( m_hWnd )
+        {
+            ShowWindow( m_hWnd, SW_NORMAL );
+            UpdateWindow( m_hWnd );
+
+            while( GetMessage( &msg, NULL, 0, 0 ) )
+            {
+                TranslateMessage( &msg );
+                DispatchMessage( &msg );
+            }
+        }
+    }    
+
+	oPos = m_oWindowPos;
+
+    return kError_NoErr;
+}			
+
+void Win32Window::SaveWindowPos(Pos &oPos)
 {
+    m_oWindowPos = oPos;
+}									
+
+Error Win32Window::Close(void)
+{
+	SendMessage(m_hWnd, WM_CLOSE, 0, 0);
+
     return kError_NoErr;
 }
 
 Error Win32Window::Enable(void)
 {
-    return kError_NoErr;
+	return EnableWindow(m_hWnd, false) ? kError_NoErr : kError_InvalidParam;
 }
 
 Error Win32Window::Disable(void)
 {
-    return kError_NoErr;
+	return EnableWindow(m_hWnd, true) ? kError_NoErr : kError_InvalidParam;
 }
 
 Error Win32Window::Show(void)
 {
-    return kError_NoErr;
+	return ShowWindow(m_hWnd, SW_SHOWNORMAL) ? kError_NoErr : kError_InvalidParam;
 }
 
 Error Win32Window::Hide(void)
 {
-    return kError_NoErr;
+	return ShowWindow(m_hWnd, SW_HIDE) ? kError_NoErr : kError_InvalidParam;
 }
 
 Error Win32Window::SetTitle(string &oTitle)
 {
-    return kError_NoErr;
+	return SetWindowText(m_hWnd, oTitle.c_str()) ? kError_NoErr : kError_InvalidParam;
 }
 
 Error Win32Window::CaptureMouse(bool bCapture)
 {
-    return kError_NoErr;
+	if (bCapture)
+    {
+        SetCapture(m_hWnd);
+        return kError_NoErr;
+    }
+    else    
+        return ReleaseCapture() ? kError_NoErr : kError_InvalidParam;
 }
 
 Error Win32Window::HideMouse(bool bHide)
 {
-    return kError_NoErr;
+	return ShowCursor(!bHide) ? kError_NoErr : kError_InvalidParam;
 }
 
 Error Win32Window::SetMousePos(Pos &oPos)
 {
-    return kError_NoErr;
+	return SetCursorPos(oPos.x, oPos.y) ? kError_NoErr : kError_InvalidParam;
 }
 
 Error Win32Window::GetMousePos(Pos &oPos)
 {
+	POINT oPoint;
+    BOOL  bRet;
+    
+    bRet = GetCursorPos(&oPoint);
+    oPos.x = oPoint.x;
+    oPos.y = oPoint.y;
+    
+	return bRet ? kError_NoErr : kError_InvalidParam;
+}
+
+HWND Win32Window::GetWindowHandle(void)
+{
+	return m_hWnd;
+}
+
+Error Win32Window::SetWindowPosition(Rect &oWindowRect)
+{
+    MoveWindow(m_hWnd, oWindowRect.x1, oWindowRect.y1,
+                       oWindowRect.Width(), oWindowRect.Height(),
+                       true);
+    //Debug_v("Set: %d, %d, %d, %d",                    
+    //        oWindowRect.x1, oWindowRect.y2,
+    //        oWindowRect.Width(), oWindowRect.Height());
+                       
+    return kError_NoErr;
+}
+
+Error Win32Window::GetWindowPosition(Rect &oWindowRect)
+{
+	RECT sRect;
+    
+    GetWindowRect(m_hWnd, &sRect);
+    oWindowRect.x1 = sRect.left;
+    oWindowRect.x2 = sRect.right;
+    oWindowRect.y1 = sRect.top;
+    oWindowRect.y2 = sRect.bottom;
+    //Debug_v("Get: %d, %d, %d, %d",                    
+    //        oWindowRect.x1, oWindowRect.y2,
+    //        oWindowRect.Width(), oWindowRect.Height());
+
     return kError_NoErr;
 }
 

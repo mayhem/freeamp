@@ -18,12 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.1.2.4 1999/09/09 00:27:01 robert Exp $
+   $Id: SliderControl.cpp,v 1.1.2.5 1999/09/17 20:31:00 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "SliderControl.h"
 #include "Window.h"
+
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 // Bitmap Info:
 // Frame 0: Normal slider
@@ -32,17 +34,20 @@ ____________________________________________________________________________*/
 
 static TransitionInfo pTransitions[] =
 {  
-    { CS_Normal,    CT_MouseEnter,       CS_MouseOver }, 
-    { CS_Normal,    CT_Disable,          CS_Disabled  }, 
-    { CS_Normal,    CT_Hide,             CS_Hidden    },
-    { CS_MouseOver, CT_MouseLeave,       CS_Normal    }, 
-    { CS_MouseOver, CT_MouseLButtonDown, CS_Dragging  }, 
-    { CS_MouseOver, CT_Disable,          CS_Disabled  }, 
-    { CS_Dragging,  CT_MouseMove,        CS_Dragging  }, 
-    { CS_Dragging,  CT_MouseLButtonUp,   CS_MouseOver }, 
-    { CS_Disabled , CT_Enable,           CS_Normal    },
-    { CS_Hidden,    CT_Show,             CS_Normal    },
-    { CS_LastState, CT_LastTransition,   CS_LastState }
+    { CS_Normal,     CT_MouseEnter,       CS_MouseOver  }, 
+    { CS_Normal,     CT_Disable,          CS_Disabled   }, 
+    { CS_Normal,     CT_Hide,             CS_Hidden     },
+    { CS_MouseOver,  CT_MouseLeave,       CS_Normal     }, 
+    { CS_MouseOver,  CT_MouseLButtonDown, CS_Dragging   }, 
+    { CS_MouseOver,  CT_Disable,          CS_Disabled   }, 
+    { CS_Dragging,   CT_MouseMove,        CS_Dragging   }, 
+    { CS_Dragging,   CT_MouseLButtonUp,   CS_MouseOver  }, 
+    { CS_Disabled ,  CT_Enable,           CS_Normal     },
+    { CS_Disabled ,  CT_MouseEnter,       CS_DisabledMO },
+    { CS_DisabledMO, CT_MouseLeave,       CS_Disabled   },
+    { CS_Hidden,     CT_Show,             CS_Normal     },
+    { CS_Any,        CT_SetValue,         CS_Same       },
+    { CS_LastState,  CT_LastTransition,   CS_LastState  }
 };
 
 SliderControl::SliderControl(Window *pWindow, string &oName) :
@@ -50,6 +55,8 @@ SliderControl::SliderControl(Window *pWindow, string &oName) :
 {
      m_iRange = -1;
      m_iCurrentPos = 0;
+     m_oOrigin.x = -1;
+     m_bIsDrag = false;
 };
 
 SliderControl::~SliderControl(void)
@@ -57,34 +64,76 @@ SliderControl::~SliderControl(void)
 
 }
 
+void SliderControl::Init(void)
+{
+    Rect oRect;
+
+	m_iThumbWidth = m_oBitmapRect.Width() / 3;
+    m_iRange = m_oRect.Width() - m_iThumbWidth;
+
+    Transition(CT_None, NULL);
+}
+
 void SliderControl::Transition(ControlTransitionEnum  eTrans,
                                Pos                   *pPos)
 {
     Rect oRect;
 
-    oRect.x1 = m_iCurrentPos;
-    oRect.x2 = m_iCurrentPos + m_iThumbWidth;
-    oRect.y1 = m_oRect.y1;
-    oRect.y2 = m_oRect.y2;
-
     switch(eTrans)
     {
        case CT_MouseEnter:
-          m_pParent->SendControlMessage(this, CM_MouseEnter);
-          break;
+           m_pParent->SendControlMessage(this, CM_MouseEnter);
+           break;
        case CT_MouseLeave:
-          m_pParent->SendControlMessage(this, CM_MouseLeave);
+           m_pParent->SendControlMessage(this, CM_MouseLeave);
+           break;
+
+	   case CT_SetValue:
+       {
+       	   int iNewPos;	
+
+           iNewPos = (m_iValue * m_iRange) / 100;
+           if (iNewPos == m_iCurrentPos)
+               return;
+               
+           MoveThumb(m_iCurrentPos, iNewPos);
+           m_iCurrentPos = iNewPos;
+           return;
+       }   
 
        default:
           break;
     }  
 
-    if (m_eCurrentState != CS_Dragging && m_eLastState == CS_Dragging)
-    {
-        m_pParent->SetMousePos(m_oOrigin);
-        m_pParent->HideMouse(false);
-        m_pParent->EndMouseCapture();
-    }
+    oRect.x1 = m_oRect.x1 + m_iCurrentPos;
+    oRect.x2 = oRect.x1 + m_iThumbWidth;
+    oRect.y1 = m_oRect.y1;
+    oRect.y2 = m_oRect.y2;
+
+    if (m_eCurrentState != CS_Dragging && 
+        m_eLastState == CS_Dragging)
+    {    
+        if (m_oOrigin.x != -1)
+	    {
+	    	Rect oRect;
+	 
+	        m_oOrigin.x = m_oRect.x1 + m_iCurrentPos + (m_iThumbWidth / 2);
+	        m_pParent->GetWindowPosition(oRect);
+	        m_oOrigin.x += oRect.x1;
+	        m_oOrigin.y += oRect.y1;
+	        
+	        m_pParent->SetMousePos(m_oOrigin);
+	        m_pParent->EndMouseCapture();
+	        m_pParent->HideMouse(false);
+	        m_oOrigin.x = -1;
+	    }    
+        m_iValue = (m_iCurrentPos * 100) / m_iRange;
+        m_pParent->SendControlMessage(this, CM_ValueChanged);
+    }    
+
+    if (m_eCurrentState == CS_Dragging && 
+        m_eLastState != CS_Dragging)
+	   m_bIsDrag = oRect.IsPosInRect(*pPos);
 
     switch(m_eCurrentState)
     {
@@ -97,7 +146,10 @@ void SliderControl::Transition(ControlTransitionEnum  eTrans,
           break;
 
        case CS_Dragging:
-          HandleDrag(eTrans, pPos); 
+          if (m_bIsDrag)
+              HandleDrag(eTrans, pPos); 
+          else
+              HandleJump(eTrans, pPos);    
           break;
 
        case CS_Disabled:
@@ -109,43 +161,93 @@ void SliderControl::Transition(ControlTransitionEnum  eTrans,
     }
 }
 
+void SliderControl::HandleJump(ControlTransitionEnum  eTrans,
+                               Pos                   *pPos)
+{
+    int     iNewPos;
+    Rect    oRect;
+
+	iNewPos = pPos->x - m_oRect.x1 - (m_iThumbWidth / 2);
+    iNewPos = min(max(iNewPos, 0), m_iRange);
+    if (iNewPos == m_iCurrentPos)
+       return;
+
+	MoveThumb(m_iCurrentPos, iNewPos);
+
+    m_iCurrentPos = iNewPos;
+    m_oLastPos = *pPos;
+    
+	m_iValue = (m_iCurrentPos * 100) / m_iRange;
+    m_bIsDrag = true;
+}
+
 void SliderControl::HandleDrag(ControlTransitionEnum  eTrans,
                                Pos                   *pPos)
 {
-    Canvas *pCanvas;
     int     iDelta, iNewPos;
     Rect    oRect;
 
     // Is this the beginning of a drag?
-    if (m_eCurrentState != CS_Dragging)
+    if (m_oOrigin.x == -1)
     {
-        m_oOrigin = *pPos;
+        m_oLastPos = m_oOrigin = *pPos;
 
-        m_iRange = m_oRect.Width() - m_oBitmapRect.Width();
-        m_iThumbWidth = m_oBitmapRect.Width() / 3;
         m_pParent->HideMouse(true);
         m_pParent->StartMouseCapture(this);
 
         return;
     }
 
-    iDelta = pPos->x - m_oOrigin.x; 
-    iNewPos = max(min(m_iCurrentPos + iDelta, 0), m_iRange);
+	if (pPos->x < 0)
+        return;
 
+    iDelta = pPos->x - m_oLastPos.x; 
+    iNewPos = min(max(m_iCurrentPos + iDelta, 0), m_iRange);
+    
     if (iNewPos == m_iCurrentPos)
        return;
 
-    oRect.x1 = m_iCurrentPos;
-    oRect.x2 = m_iCurrentPos + m_iThumbWidth;
+	MoveThumb(m_iCurrentPos, iNewPos);
+
+    m_iCurrentPos = iNewPos;
+    m_oLastPos = *pPos;
+    
+	m_iValue = (m_iCurrentPos * 100) / m_iRange;
+    m_pParent->SendControlMessage(this, CM_SliderUpdate);
+}
+
+void SliderControl::MoveThumb(int iCurrentPos, int iNewPos)
+{
+    Canvas *pCanvas;
+    Rect    oRect;
+
+    oRect.x1 = m_oRect.x1 + iCurrentPos;
+    oRect.x2 = oRect.x1 + m_iThumbWidth;
     oRect.y1 = m_oRect.y1;
     oRect.y2 = m_oRect.y2;
 
     pCanvas = m_pParent->GetCanvas();
     pCanvas->Erase(oRect);
+    pCanvas->Invalidate(oRect);
 
-    oRect.x1 = iNewPos;
-    oRect.x2 = iNewPos + m_iThumbWidth;
-    BlitFrame(1, 3, &oRect);
+    oRect.x1 = m_oRect.x1 + iNewPos;
+    oRect.x2 = oRect.x1 + m_iThumbWidth;
+    switch(m_eCurrentState)
+    {
+       case CS_Normal:
+          BlitFrame(0, 3, &oRect);
+          break;
 
-    m_iCurrentPos = iNewPos;
+       case CS_Dragging:
+       case CS_MouseOver:
+          BlitFrame(1, 3, &oRect);
+          break;
+
+       case CS_Disabled:
+          BlitFrame(2, 3, &oRect);
+          break;
+
+       default:
+          break;
+    }
 }

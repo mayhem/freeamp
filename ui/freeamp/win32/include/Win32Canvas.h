@@ -18,32 +18,40 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.h,v 1.1.2.3 1999/09/09 02:42:10 elrod Exp $
+   $Id: Win32Canvas.h,v 1.1.2.4 1999/09/17 20:31:05 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32CANVAS_H__
 #define INCLUDED_WIN32CANVAS_H__
 
+#include <windows.h>
+#include <assert.h>
 #include "Types.h"
-#include "Bitmap.h"
 #include "Canvas.h"
+#include "Win32Window.h"
+#include "Win32Bitmap.h"
 
 class Win32Canvas : public Canvas
 {
     public:
 
-              Win32Canvas(void);
+              Win32Canvas(Win32Window *pParent);
      virtual ~Win32Canvas(void);
 
-     virtual Error RenderText(int iFontHeight, Rect &oClipRect, string &oText);
+	 virtual void  Init(void);
+     virtual Error RenderText(int iFontHeight, Rect &oClipRect, 
+                              string &oText, AlignEnum eAlign);
      virtual Error Invalidate(Rect &oRect);
      virtual Error Update(void);
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec);
-     virtual void  Paint(Rect &oRect);
+     virtual void  Paint(HDC hDC, Rect &oRect);
      virtual void  Erase(Rect &oRect);
+     virtual HRGN  GetMaskRgn(void);
 
     protected:
 
+	 Win32Bitmap *m_pBufferBitmap;
+     Win32Window *m_pParent;
 };
 
 #endif

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.1.2.2 1999/09/09 02:42:10 elrod Exp $
+   $Id: Win32Window.h,v 1.1.2.3 1999/09/17 20:31:06 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include <vector>
 #include <map>
 #include <deque>
+#include <windows.h>
 
 #include "Window.h"
 
@@ -40,9 +41,8 @@ class Win32Window : public Window
               Win32Window(Theme *pTheme, string &oName);
      virtual ~Win32Window(void);
 
-     virtual Error Run(void);
-     virtual Error Create(void);
-     virtual Error Destroy(void);
+     virtual Error Run(Pos &oWindowPos);
+     virtual Error Close(void);
      virtual Error Show(void);
      virtual Error Hide(void);
      virtual Error Enable(void);
@@ -52,9 +52,16 @@ class Win32Window : public Window
      virtual Error HideMouse(bool bHide);
      virtual Error SetMousePos(Pos &oPos);
      virtual Error GetMousePos(Pos &oPos);
+     virtual Error SetWindowPosition(Rect &oWindowRect);
+     virtual Error GetWindowPosition(Rect &oWindowRect);
+
+	 virtual HWND  GetWindowHandle(void);
+             void  SaveWindowPos(Pos &oPos);
 
     protected:
-     
+
+     HWND     m_hWnd;
+     Pos      m_oWindowPos;
 };
 
 #endif

@@ -18,26 +18,31 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.h,v 1.1.2.4 1999/09/09 02:42:10 elrod Exp $
+   $Id: TextControl.h,v 1.1.2.5 1999/09/17 20:30:51 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TEXTCONTROL_H__
 #define INCLUDED_TEXTCONTROL_H__
 
 #include "Control.h"
+#include "Canvas.h"
+
 
 class TextControl : public Control
 {
     public:
 
-               TextControl(Window *pWindow, string &oName);
+               TextControl(Window *pWindow, string &oName, 
+                           string &oAlign);
       virtual ~TextControl(void);
 
       void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
+      virtual void Init(void);
 
     private:
 
-      void TextChanged(void);
+      void      TextChanged(void);
+      AlignEnum	m_eAlign;
 };
 
 #endif

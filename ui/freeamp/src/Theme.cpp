@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
+   $Id: Theme.cpp,v 1.1.2.4 1999/09/17 20:31:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -43,6 +43,7 @@ const int iThemeVersionMinor = 0;
 
 Theme::Theme(void)
 {
+    m_pWindow = NULL;
     m_pCurrentWindow = NULL;
     m_pCurrentControl = NULL;
 }
@@ -61,9 +62,27 @@ Theme::~Theme(void)
     }
 }
 
+void Theme::SetThemePath(string &oThemePath)
+{
+#ifdef WIN32
+	m_oThemePath = oThemePath + string("\\");
+#else    
+	m_oThemePath = oThemePath + string("/");
+#endif
+}
+
+Error Theme::ParseFile(string &oFile)
+{
+    string oCompleteFile;
+    
+    oCompleteFile = m_oThemePath + oFile;
+    return Parse::ParseFile(oCompleteFile);
+}
+
 Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 {
-    Error eRet;
+    Error  eRet;
+    string oCompleteFile;
 
     if (oElement == string("Version"))
     {
@@ -104,7 +123,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        pBitmap = new Win32Bitmap(oAttrMap["Name"]);
 #endif
 
-       eRet = pBitmap->LoadBitmapFromDisk(oAttrMap["File"]);
+       oCompleteFile = m_oThemePath + oAttrMap["File"];
+       eRet = pBitmap->LoadBitmapFromDisk(oCompleteFile);
        if (eRet != kError_NoErr)
        {
            string oBitmapErr;
@@ -169,6 +189,33 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 
        return kError_NoErr;
     }
+    if (oElement == string("MaskBitmap"))
+    {
+       Canvas *pCanvas;
+       Bitmap *pBitmap;
+       Rect    oRect;
+
+       if (m_pCurrentWindow == NULL)
+       {
+           m_oLastError = string("<MaskBitmap> must occur inside "
+                                 "of a <Window> tag.");
+           return kError_InvalidParam;
+       }
+
+       pBitmap = FindBitmap(oAttrMap["Name"]);
+       if (pBitmap == NULL)
+       {
+           m_oLastError = string("Undefined bitmap ") + 
+                          oAttrMap["Name"] + 
+                          string("in tag <MaskBitmap>");
+           return kError_InvalidParam;
+       }
+
+       pCanvas = m_pCurrentWindow->GetCanvas();
+       pCanvas->SetMaskBitmap(pBitmap);
+
+       return kError_NoErr;
+    }
     if (oElement == string("Controls"))
     {
        if (m_pCurrentWindow == NULL)
@@ -229,7 +276,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        }
 
        m_pCurrentControl = new TextControl(m_pCurrentWindow,
-                                           oAttrMap["Name"]);
+                                           oAttrMap["Name"],
+                                           oAttrMap["Align"]);
        return kError_NoErr;
     }
 
@@ -297,7 +345,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 Error Theme::EndElement(string &oElement)
 {
     if (oElement == string("Bitmap") ||
-        oElement == string("BackgroundBitmap"))
+        oElement == string("BackgroundBitmap") ||
+        oElement == string("MaskBitmap"))
        return kError_NoErr;
 
     if (oElement == string("Controls"))
@@ -369,55 +418,45 @@ Error Theme::ParseRect(string &oRectstring, Rect &oRect)
     int iRet;
 
     iRet = sscanf(oRectstring.c_str(), " %d , %d , %d , %d",
-             &oRect.x1, &oRect.y2, &oRect.x2, &oRect.y2);
+             &oRect.x1, &oRect.y1, &oRect.x2, &oRect.y2);
 
     return (iRet == 4) ? kError_NoErr : kError_InvalidParam;
 }
 
-Error Theme::Run(string &oWindowName)
+Error Theme::SelectWindow(string &oWindowName)
 {
     vector<Window *>::iterator i;
     string                     oTemp;
 
     for(i = m_oWindows.begin(); i != m_oWindows.end(); i++)
     {
-       (*i)->GetName(oTemp);
-       if (oTemp == oWindowName)
-           return (*i)->Run();
+        (*i)->GetName(oTemp);
+        if (oTemp == oWindowName)
+        {
+            m_pWindow = *i;
+            return kError_NoErr;
+        }    
     }
 
     return kError_NotFound;
 }
 
-#if 0
-void main(int iArgc, char *pArgv[])
+Error Theme::Run(Pos &oWindowPos)
 {
-    Theme   oTheme;
-    Error   eRet;
-    string  oName("MainWindow");
+    return m_pWindow->Run(oWindowPos);
+}
 
-    assert(iArgc == 2);
+Error Theme::Close(string &oWindowName)
+{
+    vector<Window *>::iterator i;
+    string                     oTemp;
 
-    string  oFile = pArgv[1];
-    eRet = oTheme.Parse(oFile);
-    if (eRet != kError_NoErr)
+    for(i = m_oWindows.begin(); i != m_oWindows.end(); i++)
     {
-        switch(eRet)
-        { 
-           case kError_FileNotFound:
-               printf("File %s not found.\n", pArgv[1]);
-               break;
-           case kError_ParseError:
-               string oError;
-
-               oTheme.GetErrorString(oError);
-               printf("ParseError: %s\n", oError.c_str());
-               break;
-        }
+        (*i)->GetName(oTemp);
+        if (oTemp == oWindowName)
+            return (*i)->Close();
     }
 
-    eRet = oTheme.Run(oName);
-    if (IsError(eRet))
-        printf("Cannot find window MainWindow in %s\n", pArgv[1]);
+    return kError_NotFound;
 }
-#endif

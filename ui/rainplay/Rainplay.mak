@@ -730,6 +730,9 @@ DEP_CPP_ABOUT=\
 !ENDIF 
 
 SOURCE=.\active.cpp
+
+!IF  "$(CFG)" == "Rainplay - Win32 Release"
+
 DEP_CPP_ACTIV=\
 	".\active.h"\
 	".\cthread.h"\
@@ -737,6 +740,38 @@ DEP_CPP_ACTIV=\
 
 "$(INTDIR)\active.obj" : $(SOURCE) $(DEP_CPP_ACTIV) "$(INTDIR)"
 
+
+!ELSEIF  "$(CFG)" == "Rainplay - Win32 Debug"
+
+DEP_CPP_ACTIV=\
+	".\active.h"\
+	".\cthread.h"\
+	
+
+"$(INTDIR)\active.obj" : $(SOURCE) $(DEP_CPP_ACTIV) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Debug"
+
+DEP_CPP_ACTIV=\
+	".\active.h"\
+	".\cthread.h"\
+	
+
+"$(INTDIR)\active.obj" : $(SOURCE) $(DEP_CPP_ACTIV) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
+
+DEP_CPP_ACTIV=\
+	".\active.h"\
+	".\cthread.h"\
+	
+
+"$(INTDIR)\active.obj" : $(SOURCE) $(DEP_CPP_ACTIV) "$(INTDIR)"
+
+
+!ENDIF 
 
 SOURCE=.\BmpSize.cpp
 
@@ -1100,7 +1135,7 @@ DEP_CPP_RAINPLA=\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\metadata.h"\
-	"..\..\base\include\musicsearch.h"\
+	"..\..\base\include\musicbrowser.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
@@ -1135,8 +1170,6 @@ DEP_CPP_RAINPLA=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_RAINPLA=\
 	"..\..\base\include\gdbm_fa.h"\
@@ -1267,7 +1300,7 @@ DEP_CPP_RAINPLA=\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\metadata.h"\
-	"..\..\base\include\musicsearch.h"\
+	"..\..\base\include\musicbrowser.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
@@ -1302,8 +1335,6 @@ DEP_CPP_RAINPLA=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_RAINPLA=\
 	"..\..\base\include\gdbm_fa.h"\
@@ -1328,7 +1359,7 @@ DEP_CPP_RAINPLAY=\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\metadata.h"\
-	"..\..\base\include\musicsearch.h"\
+	"..\..\base\include\musicbrowser.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
@@ -1362,8 +1393,6 @@ DEP_CPP_RAINPLAY=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_RAINPLAY=\
 	"..\..\base\include\gdbm_fa.h"\
@@ -1492,7 +1521,7 @@ DEP_CPP_RAINPLAY=\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\metadata.h"\
-	"..\..\base\include\musicsearch.h"\
+	"..\..\base\include\musicbrowser.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
@@ -1526,8 +1555,6 @@ DEP_CPP_RAINPLAY=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_RAINPLAY=\
 	"..\..\base\include\gdbm_fa.h"\
@@ -1756,7 +1783,7 @@ DEP_CPP_EQDLG=\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\metadata.h"\
-	"..\..\base\include\musicsearch.h"\
+	"..\..\base\include\musicbrowser.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
@@ -1791,8 +1818,6 @@ DEP_CPP_EQDLG=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_EQDLG=\
 	"..\..\base\include\gdbm_fa.h"\
@@ -1926,7 +1951,7 @@ DEP_CPP_EQDLG=\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\metadata.h"\
-	"..\..\base\include\musicsearch.h"\
+	"..\..\base\include\musicbrowser.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
@@ -1961,8 +1986,6 @@ DEP_CPP_EQDLG=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_EQDLG=\
 	"..\..\base\include\gdbm_fa.h"\
@@ -1988,7 +2011,7 @@ DEP_CPP_PLAYLI=\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\metadata.h"\
-	"..\..\base\include\musicsearch.h"\
+	"..\..\base\include\musicbrowser.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
@@ -2023,8 +2046,6 @@ DEP_CPP_PLAYLI=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_PLAYLI=\
 	"..\..\base\include\gdbm_fa.h"\
@@ -2158,7 +2179,7 @@ DEP_CPP_PLAYLI=\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\metadata.h"\
-	"..\..\base\include\musicsearch.h"\
+	"..\..\base\include\musicbrowser.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
@@ -2193,8 +2214,6 @@ DEP_CPP_PLAYLI=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_PLAYLI=\
 	"..\..\base\include\gdbm_fa.h"\
@@ -2352,14 +2371,14 @@ DEP_CPP_VISUA=\
 !ENDIF 
 
 SOURCE=.\Preferences\optionsetupdlg.cpp
+
+!IF  "$(CFG)" == "Rainplay - Win32 Release"
+
 DEP_CPP_OPTIO=\
 	".\Preferences\optionsetupdlg.h"\
 	".\Rainplay.h"\
 	".\StdAfx.h"\
 	
-
-!IF  "$(CFG)" == "Rainplay - Win32 Release"
-
 CPP_SWITCHES=/nologo /G6 /MT /W3 /GX /O2 /Op /Ob2 /I "." /I ".\Equalizer" /I\
  ".\PlayList" /I ".\VisualView" /I ".\VisualView\Fft" /I ".\Preferences" /I\
  "..\..\base\win32\include" /I "..\..\lmc\include" /I "..\..\io\include" /I\
@@ -2375,6 +2394,11 @@ CPP_SWITCHES=/nologo /G6 /MT /W3 /GX /O2 /Op /Ob2 /I "." /I ".\Equalizer" /I\
 
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 Debug"
 
+DEP_CPP_OPTIO=\
+	".\Preferences\optionsetupdlg.h"\
+	".\Rainplay.h"\
+	".\StdAfx.h"\
+	
 CPP_SWITCHES=/nologo /G6 /MDd /W3 /Gm /Gi /GR /GX /Zi /Od /I "." /I\
  ".\Equalizer" /I ".\PlayList" /I ".\VisualView" /I ".\VisualView\Fft" /I\
  ".\Preferences" /I "..\..\base\win32\include" /I "..\..\lmc\include" /I\
@@ -2391,6 +2415,11 @@ CPP_SWITCHES=/nologo /G6 /MDd /W3 /Gm /Gi /GR /GX /Zi /Od /I "." /I\
 
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Debug"
 
+DEP_CPP_OPTIO=\
+	".\Preferences\optionsetupdlg.h"\
+	".\Rainplay.h"\
+	".\StdAfx.h"\
+	
 CPP_SWITCHES=/nologo /G6 /MDd /W3 /Gm /Gi /GR /GX /Zi /Od /I "." /I\
  ".\Equalizer" /I ".\PlayList" /I ".\VisualView" /I ".\VisualView\Fft" /I\
  ".\Preferences" /I "..\..\base\win32\include" /I "..\..\lmc\include" /I\
@@ -2407,6 +2436,11 @@ CPP_SWITCHES=/nologo /G6 /MDd /W3 /Gm /Gi /GR /GX /Zi /Od /I "." /I\
 
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
+DEP_CPP_OPTIO=\
+	".\Preferences\optionsetupdlg.h"\
+	".\Rainplay.h"\
+	".\StdAfx.h"\
+	
 CPP_SWITCHES=/nologo /G6 /MT /W3 /GX /O2 /Op /Ob2 /I "." /I ".\Equalizer" /I\
  ".\PlayList" /I ".\VisualView" /I ".\VisualView\Fft" /I ".\Preferences" /I\
  "..\..\base\win32\include" /I "..\..\lmc\include" /I "..\..\io\include" /I\
@@ -2613,12 +2647,12 @@ DEP_CPP_WIN32P=\
 !IF  "$(CFG)" == "Rainplay - Win32 Release"
 
 "fileinput - Win32 Release" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "fileinput - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 Release" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2626,12 +2660,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 Debug"
 
 "fileinput - Win32 Debug" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "fileinput - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak CFG="fileinput - Win32 Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2639,12 +2673,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Debug"
 
 "fileinput - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 NASM Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "fileinput - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Debug" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2652,13 +2686,13 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
 "fileinput - Win32 NASM Release" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "fileinput - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Release" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2668,12 +2702,12 @@ DEP_CPP_WIN32P=\
 !IF  "$(CFG)" == "Rainplay - Win32 Release"
 
 "soundcard - Win32 Release" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "soundcard - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 Release" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2681,12 +2715,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 Debug"
 
 "soundcard - Win32 Debug" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "soundcard - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak CFG="soundcard - Win32 Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2694,12 +2728,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Debug"
 
 "soundcard - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 NASM Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "soundcard - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Debug" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2707,13 +2741,13 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
 "soundcard - Win32 NASM Release" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "soundcard - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Release" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2723,12 +2757,12 @@ DEP_CPP_WIN32P=\
 !IF  "$(CFG)" == "Rainplay - Win32 Release"
 
 "xing - Win32 Release" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "xing - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 Release"\
  RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2736,12 +2770,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 Debug"
 
 "xing - Win32 Debug" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "xing - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 Debug" RECURSE=1\
  
    cd "..\..\..\..\ui\rainplay"
@@ -2749,12 +2783,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Debug"
 
 "xing - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 NASM Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "xing - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 NASM Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2762,12 +2796,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
 "xing - Win32 NASM Release" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 NASM Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "xing - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 NASM Release"\
  RECURSE=1 
    cd "..\..\..\..\ui\rainplay"

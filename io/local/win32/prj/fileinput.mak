@@ -561,7 +561,7 @@ SOURCE=..\res\local.rc
 
 "$(INTDIR)\local.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\local.res" /i\
- "\Local\src\freeamp1.5\io\local\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\local\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "fileinput - Win32 Debug"
@@ -569,7 +569,7 @@ SOURCE=..\res\local.rc
 
 "$(INTDIR)\local.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\local.res" /i\
- "\Local\src\freeamp1.5\io\local\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\local\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "fileinput - Win32 NASM Debug"
@@ -577,7 +577,7 @@ SOURCE=..\res\local.rc
 
 "$(INTDIR)\local.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\local.res" /i\
- "\Local\src\freeamp1.5\io\local\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\local\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "fileinput - Win32 NASM Release"
@@ -585,7 +585,7 @@ SOURCE=..\res\local.rc
 
 "$(INTDIR)\local.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\local.res" /i\
- "\Local\src\freeamp1.5\io\local\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\local\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ENDIF 
@@ -1005,6 +1005,9 @@ DEP_CPP_PMI_C=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\src\preferences.cpp
+
+!IF  "$(CFG)" == "fileinput - Win32 Release"
+
 DEP_CPP_PREFE=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
@@ -1015,6 +1018,47 @@ DEP_CPP_PREFE=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "fileinput - Win32 Debug"
+
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "fileinput - Win32 NASM Debug"
+
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "fileinput - Win32 NASM Release"
+
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\..\..\src\pullbuffer.cpp
 
@@ -1168,9 +1212,6 @@ NODEP_CPP_THREA=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
-
-!IF  "$(CFG)" == "fileinput - Win32 Release"
-
 DEP_CPP_WIN32=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
@@ -1181,47 +1222,6 @@ DEP_CPP_WIN32=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "fileinput - Win32 Debug"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "fileinput - Win32 NASM Debug"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "fileinput - Win32 NASM Release"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 
 !ENDIF 

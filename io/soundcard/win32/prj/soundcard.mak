@@ -153,8 +153,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\soundcard.pmo"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                 ..\..\..\..\base\win32\prj\plugins
-	copy soundcard.pmo                            ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\..\base\win32\prj\plugins
+	copy soundcard.pmo                             ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 Debug"
@@ -279,8 +279,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\soundcard.pmo"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                 ..\..\..\..\base\win32\prj\plugins
-	copy soundcard.pmo                            ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\..\base\win32\prj\plugins
+	copy soundcard.pmo                             ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Debug"
@@ -405,8 +405,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\soundcard.pmo"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                 ..\..\..\..\base\win32\prj\plugins
-	copy soundcard.pmo                            ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\..\base\win32\prj\plugins
+	copy soundcard.pmo                             ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Release"
@@ -528,8 +528,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\soundcard.pmo"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                 ..\..\..\..\base\win32\prj\plugins
-	copy soundcard.pmo                            ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\..\base\win32\prj\plugins
+	copy soundcard.pmo                             ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ENDIF 
@@ -1170,7 +1170,7 @@ SOURCE=..\res\soundcard.rc
 
 "$(INTDIR)\soundcard.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\soundcard.res" /i\
- "\Local\src\freeamp1.5\io\soundcard\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\soundcard\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 Debug"
@@ -1178,7 +1178,7 @@ SOURCE=..\res\soundcard.rc
 
 "$(INTDIR)\soundcard.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\soundcard.res" /i\
- "\Local\src\freeamp1.5\io\soundcard\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\soundcard\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Debug"
@@ -1186,7 +1186,7 @@ SOURCE=..\res\soundcard.rc
 
 "$(INTDIR)\soundcard.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\soundcard.res" /i\
- "\Local\src\freeamp1.5\io\soundcard\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\soundcard\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Release"
@@ -1194,7 +1194,7 @@ SOURCE=..\res\soundcard.rc
 
 "$(INTDIR)\soundcard.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\soundcard.res" /i\
- "\Local\src\freeamp1.5\io\soundcard\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\soundcard\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ENDIF 
@@ -1229,7 +1229,10 @@ DEP_CPP_SOUND=\
 	"..\..\..\include\pmo.h"\
 	"..\..\..\include\pmoevent.h"\
 	"..\..\..\include\pullbuffer.h"\
-	"..\include\soundcardpmo.h"\
+	"..\include\SoundCardPMO.h"\
+	
+NODEP_CPP_SOUND=\
+	"..\src\debug.hpp"\
 	
 
 "$(INTDIR)\soundcardpmo.obj" : $(SOURCE) $(DEP_CPP_SOUND) "$(INTDIR)"\
@@ -1265,7 +1268,10 @@ DEP_CPP_SOUND=\
 	"..\..\..\include\pmo.h"\
 	"..\..\..\include\pmoevent.h"\
 	"..\..\..\include\pullbuffer.h"\
-	"..\include\soundcardpmo.h"\
+	"..\include\SoundCardPMO.h"\
+	
+NODEP_CPP_SOUND=\
+	"..\..\..\..\base\include\debug.hpp"\
 	
 
 "$(INTDIR)\soundcardpmo.obj" : $(SOURCE) $(DEP_CPP_SOUND) "$(INTDIR)"\
@@ -1301,7 +1307,10 @@ DEP_CPP_SOUND=\
 	"..\..\..\include\pmo.h"\
 	"..\..\..\include\pmoevent.h"\
 	"..\..\..\include\pullbuffer.h"\
-	"..\include\soundcardpmo.h"\
+	"..\include\SoundCardPMO.h"\
+	
+NODEP_CPP_SOUND=\
+	"..\..\..\..\base\include\debug.hpp"\
 	
 
 "$(INTDIR)\soundcardpmo.obj" : $(SOURCE) $(DEP_CPP_SOUND) "$(INTDIR)"\
@@ -1337,7 +1346,10 @@ DEP_CPP_SOUND=\
 	"..\..\..\include\pmo.h"\
 	"..\..\..\include\pmoevent.h"\
 	"..\..\..\include\pullbuffer.h"\
-	"..\include\soundcardpmo.h"\
+	"..\include\SoundCardPMO.h"\
+	
+NODEP_CPP_SOUND=\
+	"..\src\debug.hpp"\
 	
 
 "$(INTDIR)\soundcardpmo.obj" : $(SOURCE) $(DEP_CPP_SOUND) "$(INTDIR)"\
@@ -1474,9 +1486,6 @@ DEP_CPP_WIN32=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
-
-!IF  "$(CFG)" == "soundcard - Win32 Release"
-
 DEP_CPP_WIN32T=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
@@ -1487,47 +1496,6 @@ DEP_CPP_WIN32T=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "soundcard - Win32 Debug"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Debug"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Release"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 
 !ENDIF 

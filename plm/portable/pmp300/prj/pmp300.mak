@@ -136,8 +136,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "riolib - Win32 Release" ".\pmp300.ppp"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                             ..\..\..\..\base\win32\prj\plugins
-	copy pmp300.ppp    ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                              ..\..\..\..\base\win32\prj\plugins
+	copy pmp300.ppp     ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 Debug"
@@ -249,8 +249,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "riolib - Win32 Debug" ".\pmp300.ppp"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                             ..\..\..\..\base\win32\prj\plugins
-	copy pmp300.ppp    ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                              ..\..\..\..\base\win32\prj\plugins
+	copy pmp300.ppp     ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Release"
@@ -358,8 +358,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "riolib - Win32 NASM Release" ".\pmp300.ppp"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                             ..\..\..\..\base\win32\prj\plugins
-	copy pmp300.ppp    ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                              ..\..\..\..\base\win32\prj\plugins
+	copy pmp300.ppp     ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Debug"
@@ -471,8 +471,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "riolib - Win32 NASM Debug" ".\pmp300.ppp"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                             ..\..\..\..\base\win32\prj\plugins
-	copy pmp300.ppp    ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                              ..\..\..\..\base\win32\prj\plugins
+	copy pmp300.ppp     ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ENDIF 
@@ -485,12 +485,12 @@ $(DS_POSTBUILD_DEP) : "riolib - Win32 NASM Debug" ".\pmp300.ppp"
 !IF  "$(CFG)" == "pmp300 - Win32 Release"
 
 "riolib - Win32 Release" : 
-   cd "\Local\src\freeamp1.5\plm\portable\pmp300\sba\prj"
+   cd "\FreeAmp\freeamp\plm\portable\pmp300\sba\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\riolib.mak CFG="riolib - Win32 Release" 
    cd "..\..\prj"
 
 "riolib - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\plm\portable\pmp300\sba\prj"
+   cd "\FreeAmp\freeamp\plm\portable\pmp300\sba\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\riolib.mak CFG="riolib - Win32 Release"\
  RECURSE=1 
    cd "..\..\prj"
@@ -498,12 +498,12 @@ $(DS_POSTBUILD_DEP) : "riolib - Win32 NASM Debug" ".\pmp300.ppp"
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 Debug"
 
 "riolib - Win32 Debug" : 
-   cd "\Local\src\freeamp1.5\plm\portable\pmp300\sba\prj"
+   cd "\FreeAmp\freeamp\plm\portable\pmp300\sba\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\riolib.mak CFG="riolib - Win32 Debug" 
    cd "..\..\prj"
 
 "riolib - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\plm\portable\pmp300\sba\prj"
+   cd "\FreeAmp\freeamp\plm\portable\pmp300\sba\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\riolib.mak CFG="riolib - Win32 Debug"\
  RECURSE=1 
    cd "..\..\prj"
@@ -511,12 +511,12 @@ $(DS_POSTBUILD_DEP) : "riolib - Win32 NASM Debug" ".\pmp300.ppp"
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Release"
 
 "riolib - Win32 NASM Release" : 
-   cd "\Local\src\freeamp1.5\plm\portable\pmp300\sba\prj"
+   cd "\FreeAmp\freeamp\plm\portable\pmp300\sba\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\riolib.mak CFG="riolib - Win32 NASM Release" 
    cd "..\..\prj"
 
 "riolib - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\plm\portable\pmp300\sba\prj"
+   cd "\FreeAmp\freeamp\plm\portable\pmp300\sba\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\riolib.mak\
  CFG="riolib - Win32 NASM Release" RECURSE=1 
    cd "..\..\prj"
@@ -524,12 +524,12 @@ $(DS_POSTBUILD_DEP) : "riolib - Win32 NASM Debug" ".\pmp300.ppp"
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Debug"
 
 "riolib - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp1.5\plm\portable\pmp300\sba\prj"
+   cd "\FreeAmp\freeamp\plm\portable\pmp300\sba\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\riolib.mak CFG="riolib - Win32 NASM Debug" 
    cd "..\..\prj"
 
 "riolib - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\plm\portable\pmp300\sba\prj"
+   cd "\FreeAmp\freeamp\plm\portable\pmp300\sba\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\riolib.mak CFG="riolib - Win32 NASM Debug"\
  RECURSE=1 
    cd "..\..\prj"
@@ -649,6 +649,9 @@ DEP_CPP_PMP30=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\src\preferences.cpp
+
+!IF  "$(CFG)" == "pmp300 - Win32 Release"
+
 DEP_CPP_PREFE=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
@@ -659,12 +662,51 @@ DEP_CPP_PREFE=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+!ELSEIF  "$(CFG)" == "pmp300 - Win32 Debug"
+
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Release"
+
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Debug"
+
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
 SOURCE=..\..\..\..\base\src\utility.cpp
 
 !IF  "$(CFG)" == "pmp300 - Win32 Release"
 
 DEP_CPP_UTILI=\
 	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\utility.h"\
 	"..\..\..\..\config\config.h"\
 	
@@ -689,6 +731,7 @@ DEP_CPP_UTILI=\
 
 DEP_CPP_UTILI=\
 	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\utility.h"\
 	"..\..\..\..\config\config.h"\
 	

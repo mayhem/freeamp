@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.h,v 1.1.2.5 1999/09/09 02:42:10 elrod Exp $
+   $Id: Canvas.h,v 1.1.2.6 1999/09/17 20:30:46 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CANVAS_H__
@@ -26,6 +26,13 @@ ____________________________________________________________________________*/
 
 #include "Types.h"
 #include "Bitmap.h"
+
+enum AlignEnum
+{
+    eLeft,
+    eCenter,
+    eRight
+};
 
 // This class must keep an internal bitmap of the current display image
 // and then paint from that image in response to paint events.
@@ -36,19 +43,25 @@ class Canvas
               Canvas(void);
      virtual ~Canvas(void);
 
-     void SetBackgroundRect(Rect &oRect);
-     void SetBackgroundBitmap(Bitmap *pBitmap);
 
-     virtual void  Paint(Rect &oPaintRect) = 0;
+
+     void SetBackgroundRect(Rect &oRect);
+     void GetBackgroundRect(Rect &oRect);
+     void SetBackgroundBitmap(Bitmap *pBitmap);
+     void SetMaskBitmap(Bitmap *pBitmap);
+     Bitmap *GetBackgroundBitmap(void);
+
+	 virtual void  Init(void) = 0;
      virtual void  Erase(Rect &oPaintRect) = 0;
-     virtual Error RenderText(int iFontHeight, Rect &oClipRect, string &oText) = 0;
+     virtual Error RenderText(int iFontHeight, Rect &oClipRect,
+                              string &oText, AlignEnum eAlign) = 0;
      virtual Error Invalidate(Rect &oRect) = 0;
      virtual Error Update(void) = 0;
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec) = 0;
 
     protected:
 
-     Bitmap *m_pBGBitmap;
+     Bitmap *m_pBGBitmap, *m_pMaskBitmap;
      Rect    m_oBGRect;
 };
 

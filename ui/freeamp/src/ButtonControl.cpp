@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.1.2.4 1999/09/09 00:26:57 robert Exp $
+   $Id: ButtonControl.cpp,v 1.1.2.5 1999/09/17 20:30:54 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -34,17 +34,20 @@ ____________________________________________________________________________*/
 
 static TransitionInfo pTransitions[] =
 {
-    { CS_Normal,    CT_MouseEnter,       CS_MouseOver },
-    { CS_Normal,    CT_Disable,          CS_Disabled  },
-    { CS_Normal,    CT_Hide,             CS_Hidden    },
-    { CS_MouseOver, CT_MouseLeave,       CS_Normal    },
-    { CS_MouseOver, CT_MouseLButtonDown, CS_Pressed   },
-    { CS_MouseOver, CT_Disable,          CS_Disabled  },
-    { CS_Pressed,   CT_MouseLButtonUp,   CS_MouseOver },
-    { CS_Pressed,   CT_Disable,          CS_Disabled  },
-    { CS_Disabled,  CT_Enable,           CS_Normal    },
-    { CS_Hidden,    CT_Show,             CS_Normal    },
-    { CS_LastState, CT_LastTransition,   CS_LastState }
+    { CS_Normal,     CT_MouseEnter,       CS_MouseOver  },
+    { CS_Normal,     CT_Disable,          CS_Disabled   },
+    { CS_Normal,     CT_Hide,             CS_Hidden     },
+    { CS_MouseOver,  CT_MouseLeave,       CS_Normal     },
+    { CS_MouseOver,  CT_MouseLButtonDown, CS_Pressed    },
+    { CS_MouseOver,  CT_Disable,          CS_Disabled   },
+    { CS_Pressed,    CT_MouseLButtonUp,   CS_MouseOver  },
+    { CS_Pressed,    CT_Disable,          CS_Disabled   },
+    { CS_Pressed,    CT_MouseLeave,       CS_Normal     },
+    { CS_Disabled,   CT_Enable,           CS_Normal     },
+    { CS_Disabled ,  CT_MouseEnter,       CS_DisabledMO },
+    { CS_DisabledMO, CT_MouseLeave,       CS_Disabled   },
+    { CS_Hidden,     CT_Show,             CS_Normal     },
+    { CS_LastState,  CT_LastTransition,   CS_LastState  }
 };
 
 ButtonControl::ButtonControl(Window *pWindow, string &oName) :
@@ -57,10 +60,14 @@ ButtonControl::~ButtonControl(void)
 
 }
 
+void ButtonControl::Init(void)
+{
+    BlitFrame(0, 4);
+}
+
 void ButtonControl::Transition(ControlTransitionEnum  eTrans,
                                Pos                   *pMousePos)
 {
-
     switch(eTrans)
     {
        case CT_MouseEnter:
@@ -73,6 +80,10 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
           break;
     }
 
+	if (m_eCurrentState == CS_MouseOver &&
+        eTrans == CT_MouseLButtonUp)
+       m_pParent->SendControlMessage(this, CM_Pressed);
+
     switch(m_eCurrentState)
     {
        case CS_Normal:
@@ -84,7 +95,6 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
           break;
 
        case CS_Pressed:
-          m_pParent->SendControlMessage(this, CM_Pressed);
           BlitFrame(2, 4);
           break;
 

@@ -579,7 +579,7 @@ SOURCE=..\res\dsound.rc
 
 "$(INTDIR)\dsound.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\dsound.res" /i\
- "\Local\src\freeamp1.5\io\dsound\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\dsound\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "dsoundcard - Win32 Debug"
@@ -587,7 +587,7 @@ SOURCE=..\res\dsound.rc
 
 "$(INTDIR)\dsound.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\dsound.res" /i\
- "\Local\src\freeamp1.5\io\dsound\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\dsound\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "dsoundcard - Win32 NASM Debug"
@@ -595,7 +595,7 @@ SOURCE=..\res\dsound.rc
 
 "$(INTDIR)\dsound.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\dsound.res" /i\
- "\Local\src\freeamp1.5\io\dsound\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\dsound\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "dsoundcard - Win32 NASM Release"
@@ -603,7 +603,7 @@ SOURCE=..\res\dsound.rc
 
 "$(INTDIR)\dsound.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\dsound.res" /i\
- "\Local\src\freeamp1.5\io\dsound\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\dsound\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ENDIF 
@@ -1372,66 +1372,22 @@ NODEP_CPP_THREA=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32prefs.cpp
+DEP_CPP_WIN32=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
 
 !IF  "$(CFG)" == "dsoundcard - Win32 Release"
 
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "dsoundcard - Win32 Debug"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "dsoundcard - Win32 NASM Debug"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "dsoundcard - Win32 NASM Release"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\win32prefs.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
 DEP_CPP_WIN32T=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
@@ -1442,6 +1398,47 @@ DEP_CPP_WIN32T=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "dsoundcard - Win32 Debug"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "dsoundcard - Win32 NASM Debug"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "dsoundcard - Win32 NASM Release"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 
 !ENDIF 

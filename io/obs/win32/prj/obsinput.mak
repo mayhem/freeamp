@@ -592,32 +592,32 @@ SOURCE=..\res\obs.rc
 
 
 "$(INTDIR)\obs.res" : $(SOURCE) "$(INTDIR)"
-	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i\
- "\Local\src\freeamp1.5\io\obs\win32\res" /d "NDEBUG" $(SOURCE)
+	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i "\FreeAmp\freeamp\io\obs\win32\res"\
+ /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "obsinput - Win32 Debug"
 
 
 "$(INTDIR)\obs.res" : $(SOURCE) "$(INTDIR)"
-	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i\
- "\Local\src\freeamp1.5\io\obs\win32\res" /d "_DEBUG" $(SOURCE)
+	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i "\FreeAmp\freeamp\io\obs\win32\res"\
+ /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Debug"
 
 
 "$(INTDIR)\obs.res" : $(SOURCE) "$(INTDIR)"
-	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i\
- "\Local\src\freeamp1.5\io\obs\win32\res" /d "_DEBUG" $(SOURCE)
+	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i "\FreeAmp\freeamp\io\obs\win32\res"\
+ /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Release"
 
 
 "$(INTDIR)\obs.res" : $(SOURCE) "$(INTDIR)"
-	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i\
- "\Local\src\freeamp1.5\io\obs\win32\res" /d "NDEBUG" $(SOURCE)
+	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i "\FreeAmp\freeamp\io\obs\win32\res"\
+ /d "NDEBUG" $(SOURCE)
 
 
 !ENDIF 
@@ -1029,6 +1029,9 @@ DEP_CPP_PMI_C=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\src\preferences.cpp
+
+!IF  "$(CFG)" == "obsinput - Win32 Release"
+
 DEP_CPP_PREFE=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
@@ -1039,6 +1042,47 @@ DEP_CPP_PREFE=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "obsinput - Win32 Debug"
+
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Debug"
+
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Release"
+
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\..\..\src\pullbuffer.cpp
 

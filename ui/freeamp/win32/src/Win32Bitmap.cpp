@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.1.2.3 1999/09/09 00:27:11 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.1.2.4 1999/09/17 20:31:09 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -28,20 +28,61 @@ Win32Bitmap::Win32Bitmap(string &oName)
           :Bitmap(oName)
 {
    m_oBitmapName = oName;
+   m_hBitmap = NULL;
+}
+
+Win32Bitmap::Win32Bitmap(int iWidth, int iHeight, string &oName)
+           :Bitmap(oName)
+{
+   HDC hDc;
+   
+   hDc = GetDC(NULL);
+   m_hBitmap = CreateCompatibleBitmap(hDc, iWidth, iHeight);
+   ReleaseDC(NULL, hDc);
 }
 
 Win32Bitmap::~Win32Bitmap(void)
 {
+   if (m_hBitmap)
+       DeleteObject(m_hBitmap);
 }
 
 Error Win32Bitmap::LoadBitmapFromDisk(string &oFile)
 {
+   m_hBitmap = (HBITMAP)LoadImage(NULL, oFile.c_str(), IMAGE_BITMAP,
+                                  0, 0, LR_LOADFROMFILE);
+   if (m_hBitmap == NULL)
+   	   return kError_LoadBitmapFailed;
+
    return kError_NoErr;
 }
 
-Error Win32Bitmap::BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
-                          Rect &oDestRect)
+HBITMAP Win32Bitmap::GetBitmapHandle(void)
 {
+   return m_hBitmap;
+}
+
+Error Win32Bitmap::BlitRect(Bitmap *pOther, Rect &oSrcRect, 
+                            Rect &oDestRect)
+{
+   HDC hRootDC, hSrcDC, hDestDC;
+   Win32Bitmap *pSrcBitmap = (Win32Bitmap *)pOther;
+   
+   hRootDC = GetDC(NULL);
+   hSrcDC = CreateCompatibleDC(hRootDC);
+   hDestDC = CreateCompatibleDC(hRootDC);
+   ReleaseDC(NULL, hRootDC);
+   
+   DeleteObject(SelectObject(hSrcDC, pSrcBitmap->m_hBitmap));
+   DeleteObject(SelectObject(hDestDC, m_hBitmap));
+
+   BitBlt(hDestDC, oDestRect.x1, oDestRect.y1, 
+          oDestRect.Width(), oDestRect.Height(),
+   	      hSrcDC, oSrcRect.x1, oSrcRect.y1, SRCCOPY);
+
+   DeleteDC(hSrcDC);
+   DeleteDC(hDestDC);
+
    return kError_NoErr;
 }
 

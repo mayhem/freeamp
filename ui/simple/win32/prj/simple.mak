@@ -1284,7 +1284,7 @@ DEP_RSC_SIMPLE=\
 
 "$(INTDIR)\simple.res" : $(SOURCE) $(DEP_RSC_SIMPLE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\simple.res" /i\
- "\Local\src\freeamp1.5\ui\simple\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\ui\simple\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "simple - Win32 Debug"
@@ -1292,7 +1292,7 @@ DEP_RSC_SIMPLE=\
 
 "$(INTDIR)\simple.res" : $(SOURCE) $(DEP_RSC_SIMPLE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\simple.res" /i\
- "\Local\src\freeamp1.5\ui\simple\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\ui\simple\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
@@ -1300,7 +1300,7 @@ DEP_RSC_SIMPLE=\
 
 "$(INTDIR)\simple.res" : $(SOURCE) $(DEP_RSC_SIMPLE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\simple.res" /i\
- "\Local\src\freeamp1.5\ui\simple\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\ui\simple\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
@@ -1308,7 +1308,7 @@ DEP_RSC_SIMPLE=\
 
 "$(INTDIR)\simple.res" : $(SOURCE) $(DEP_RSC_SIMPLE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\simple.res" /i\
- "\Local\src\freeamp1.5\ui\simple\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\ui\simple\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ENDIF 
@@ -1316,12 +1316,12 @@ DEP_RSC_SIMPLE=\
 !IF  "$(CFG)" == "simple - Win32 Release"
 
 "fileinput - Win32 Release" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 Release" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "fileinput - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 Release" RECURSE=1 
    cd "..\..\..\..\ui\simple\win32\prj"
@@ -1329,12 +1329,12 @@ DEP_RSC_SIMPLE=\
 !ELSEIF  "$(CFG)" == "simple - Win32 Debug"
 
 "fileinput - Win32 Debug" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 Debug" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "fileinput - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak CFG="fileinput - Win32 Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\simple\win32\prj"
@@ -1342,12 +1342,12 @@ DEP_RSC_SIMPLE=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
 
 "fileinput - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 NASM Debug" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "fileinput - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Debug" RECURSE=1 
    cd "..\..\..\..\ui\simple\win32\prj"
@@ -1355,13 +1355,13 @@ DEP_RSC_SIMPLE=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
 
 "fileinput - Win32 NASM Release" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Release" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "fileinput - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\local\win32\prj"
+   cd "\FreeAmp\freeamp\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Release" RECURSE=1 
    cd "..\..\..\..\ui\simple\win32\prj"
@@ -1371,12 +1371,12 @@ DEP_RSC_SIMPLE=\
 !IF  "$(CFG)" == "simple - Win32 Release"
 
 "soundcard - Win32 Release" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 Release" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "soundcard - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 Release" RECURSE=1 
    cd "..\..\..\..\ui\simple\win32\prj"
@@ -1384,12 +1384,12 @@ DEP_RSC_SIMPLE=\
 !ELSEIF  "$(CFG)" == "simple - Win32 Debug"
 
 "soundcard - Win32 Debug" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 Debug" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "soundcard - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak CFG="soundcard - Win32 Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\simple\win32\prj"
@@ -1397,12 +1397,12 @@ DEP_RSC_SIMPLE=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
 
 "soundcard - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 NASM Debug" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "soundcard - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Debug" RECURSE=1 
    cd "..\..\..\..\ui\simple\win32\prj"
@@ -1410,13 +1410,13 @@ DEP_RSC_SIMPLE=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
 
 "soundcard - Win32 NASM Release" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Release" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "soundcard - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
+   cd "\FreeAmp\freeamp\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Release" RECURSE=1 
    cd "..\..\..\..\ui\simple\win32\prj"
@@ -1426,12 +1426,12 @@ DEP_RSC_SIMPLE=\
 !IF  "$(CFG)" == "simple - Win32 Release"
 
 "xing - Win32 Release" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 Release" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "xing - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 Release"\
  RECURSE=1 
    cd "..\..\..\..\ui\simple\win32\prj"
@@ -1439,12 +1439,12 @@ DEP_RSC_SIMPLE=\
 !ELSEIF  "$(CFG)" == "simple - Win32 Debug"
 
 "xing - Win32 Debug" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 Debug" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "xing - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 Debug" RECURSE=1\
  
    cd "..\..\..\..\ui\simple\win32\prj"
@@ -1452,12 +1452,12 @@ DEP_RSC_SIMPLE=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
 
 "xing - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 NASM Debug" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "xing - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 NASM Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\simple\win32\prj"
@@ -1465,12 +1465,12 @@ DEP_RSC_SIMPLE=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
 
 "xing - Win32 NASM Release" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 NASM Release" 
    cd "..\..\..\..\ui\simple\win32\prj"
 
 "xing - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
+   cd "\FreeAmp\freeamp\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 NASM Release"\
  RECURSE=1 
    cd "..\..\..\..\ui\simple\win32\prj"

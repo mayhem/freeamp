@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.11.2.1 1999/09/09 02:42:00 elrod Exp $
+	$Id: preferences.h,v 1.11.2.2 1999/09/17 20:30:17 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -60,6 +60,8 @@ extern const char* kPreBufferPref;
 extern const char* kUseAlternateNICPref;
 extern const char* kAlternateNICAddressPref;
 extern const char* kUseTitleStreamingPref;  
+extern const char* kThemePath;
+extern const char* kMainWindowPos;
 
 class LibDirFindHandle;
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.17 1999/08/10 14:38:46 ijr Exp $
+        $Id: preferences.cpp,v 1.17.2.1 1999/09/17 20:30:19 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -53,6 +53,8 @@ const char* kPreBufferPref = "PreBuffer";
 const char* kUseAlternateNICPref = "UseAlternateNIC";  
 const char* kAlternateNICAddressPref = "AlternateNICAddress";  
 const char* kUseTitleStreamingPref = "UseTitleStreaming";  
+const char* kThemePath = "ThemePath";  
+const char* kMainWindowPos = "MainWindowPos";  
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -69,13 +71,15 @@ const int32 kDefaultStreamBufferInterval = 3;
 const int32 kDefaultDecoderThreadPriority = 4;
 const bool  kDefaultLogging = false;
 const bool  kDefaultSaveStreams = false;
-const char* kDefaultSaveStreamsDir = ".";
+const char *kDefaultSaveStreamsDir = ".";
 const int32 kDefaultPreBuffer = 0;
 const char *kDefaultProxyHost = "http://proxy.yourdomain.com:8080";
 const bool  kDefaultUseProxy = false;
 const bool  kDefaultUseNIC = false;
 const char *kDefaultNICAddress = "192.168.1.1";
 const bool  kDefaultUseTitleStreaming = true;
+const char *kDefaultThemePath = ".";  
+const char *kDefaultMainWindowPos = "100,100";  
 
 Error
 Preferences::
@@ -147,6 +151,16 @@ SetDefaults()
 
     if (GetPrefBoolean(kUseTitleStreamingPref, &dummyBool) == kError_NoPrefValue)
         SetPrefBoolean(kUseTitleStreamingPref, kDefaultUseTitleStreaming);
+
+    dummyInt = 255;
+    if (GetPrefString(kThemePath, dummyString, 
+        (uint32 *)&dummyInt) == kError_NoPrefValue)
+        SetPrefString(kThemePath, kDefaultThemePath);
+
+    dummyInt = 255;
+    if (GetPrefString(kMainWindowPos, dummyString, 
+        (uint32 *)&dummyInt) == kError_NoPrefValue)
+        SetPrefString(kMainWindowPos, kDefaultMainWindowPos);
 
     return kError_NoErr;
 }

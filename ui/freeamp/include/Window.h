@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.6 1999/09/09 02:42:10 elrod Exp $
+   $Id: Window.h,v 1.1.2.7 1999/09/17 20:30:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -80,13 +80,14 @@ class Window
 
      virtual Error StartMouseCapture(Control *);
      virtual Error EndMouseCapture(void);
-
+     
+     // This init call is made after the window is created
+     virtual void  Init(void);
 
       // Run handles OS dependent messages and calls the functions below
       // or passes the messages on to child controls
-      virtual Error Run(void) = 0;
-      virtual Error Create(void) = 0;
-      virtual Error Destroy(void) = 0;
+      virtual Error Run(Pos &oWindowPos) = 0;
+      virtual Error Close(void) = 0;
       virtual Error Show(void) = 0;
       virtual Error Hide(void) = 0;
       virtual Error Enable(void) = 0;
@@ -94,13 +95,16 @@ class Window
       virtual Error SetTitle(string &oTitle) = 0;
       virtual Error CaptureMouse(bool bCapture) = 0;
       virtual Error HideMouse(bool bHide) = 0;
+      
+      // Mouse position is in screen coordinates
       virtual Error SetMousePos(Pos &oMousePos) = 0;
       virtual Error GetMousePos(Pos &oMousePos) = 0;
+      virtual Error SetWindowPosition(Rect &oWindowRect) = 0;
+      virtual Error GetWindowPosition(Rect &oWindowRect) = 0;
 
     protected:
 
       Control *ControlFromPos(Pos &oPos);
-
      
       string                    m_oName;
       vector<Control *>         m_oControls;
@@ -108,9 +112,11 @@ class Window
       Canvas                   *m_pCanvas;
       Mutex                     m_oMutex;
       Semaphore                 m_oSleepSem;
-      bool                      m_bExit;
+      bool                      m_bExit, m_bMouseButtonDown;
       Theme                    *m_pTheme;
+      Rect                      m_oRect;
       Control                  *m_pMouseInControl, *m_pCaptureControl;
+      Pos                       m_oMovePos;
 };
 
 #endif

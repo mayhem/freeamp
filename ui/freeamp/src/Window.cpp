@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
+   $Id: Window.cpp,v 1.1.2.4 1999/09/17 20:31:03 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -31,6 +31,7 @@ Window::Window(Theme *pTheme, string &oName)
     m_oName = oName;
     m_bExit = false;
     m_pTheme = pTheme;
+	m_bMouseButtonDown = false;
 
     m_pCanvas = NULL;
     m_pMouseInControl = NULL;
@@ -49,6 +50,14 @@ Window::~Window(void)
 
     delete m_pCanvas;
     m_oMutex.Release();
+}
+
+void Window::Init(void)
+{
+    ControlMapIterator i;
+
+    for(i = m_oControlMap.begin(); i != m_oControlMap.end(); i++)
+        (*i).second->Init();
 }
 
 void Window::AddControl(Control *pControl)
@@ -123,16 +132,13 @@ Error Window::ControlStringValue(string &oTarget, bool bSet, string &oValue)
 }
 
 Error Window::SendControlMessage(Control *pControl, 
-                                ControlMessageEnum eMesg)
+                                 ControlMessageEnum eMesg)
 {
-    ControlMapIterator i;
-    string oControlName;
+	string oControlName;
+    
+    pControl->GetName(oControlName);
 
-    //i = find(m_oControlMap.begin(), m_oControlMap.end(), pControl);
-    //(i.first()).GetName(oControlName);
-
-    //return m_pTheme->HandleControlMessage(oControlName, eMesg);
-    return kError_InvalidParam;
+    return m_pTheme->HandleControlMessage(oControlName, eMesg);
 }
 
 Control *Window::ControlFromPos(Pos &oPos)
@@ -163,6 +169,26 @@ Error Window::EndMouseCapture(void)
 void Window::HandleMouseMove(Pos &oPos)
 {
     Control *pControl;
+
+	if (m_bMouseButtonDown)
+    {
+       Rect oRect;
+       Pos  oScreenPos;
+       
+       GetWindowPosition(oRect);
+       oScreenPos.x = oRect.x1 + oPos.x;
+       oScreenPos.y = oRect.y1 + oPos.y;
+
+       oRect.x1 += (oScreenPos.x - m_oMovePos.x);
+       oRect.x2 += (oScreenPos.x - m_oMovePos.x);
+       oRect.y1 += (oScreenPos.y - m_oMovePos.y);
+       oRect.y2 += (oScreenPos.y - m_oMovePos.y);
+       SetWindowPosition(oRect);
+
+       m_oMovePos = oScreenPos;
+       
+       return; 
+	}
 
     if (m_pCaptureControl)
     {
@@ -204,6 +230,7 @@ void Window::HandleMouseMove(Pos &oPos)
 void Window::HandleMouseLButtonDown(Pos &oPos)
 {
     Control *pControl;
+    Rect     oRect;
 
     if (m_pCaptureControl)
     {
@@ -218,6 +245,13 @@ void Window::HandleMouseLButtonDown(Pos &oPos)
        return;
     }
 
+	m_bMouseButtonDown = true;
+    CaptureMouse(true);
+       
+    GetWindowPosition(oRect);
+    m_oMovePos.x = oRect.x1 + oPos.x;
+    m_oMovePos.y = oRect.y1 + oPos.y;
+
     return;
 }
 
@@ -225,6 +259,14 @@ void Window::HandleMouseLButtonUp(Pos &oPos)
 {
     Control *pControl;
 
+	if (m_bMouseButtonDown)
+    {
+       m_bMouseButtonDown = false;
+       CaptureMouse(false);
+          
+       return; 
+	}
+    
     if (m_pCaptureControl)
     {
        m_pCaptureControl->AcceptTransition(CT_MouseLButtonUp, &oPos);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: DialControl.cpp,v 1.1.2.4 1999/09/09 00:26:59 robert Exp $
+   $Id: DialControl.cpp,v 1.1.2.5 1999/09/17 20:30:57 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -47,6 +47,10 @@ DialControl::DialControl(Window *pWindow, string &oName) :
 DialControl::~DialControl(void)
 {
 
+}
+
+void DialControl::Init(void)
+{
 }
 
 void DialControl::Transition(ControlTransitionEnum  eTrans,

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.14 1999/09/17 18:20:18 ijr Exp $
+        $Id: player.cpp,v 1.133.2.15 1999/09/17 20:30:18 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -44,7 +44,7 @@ ____________________________________________________________________________*/
 #include "pmo.h"
 #include "utility.h"
 
-#define DB printf("%s:%d\n", __FILE__, __LINE__);
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 Player   *Player::m_thePlayer = NULL;
 
@@ -1309,6 +1309,7 @@ Quit(Event *pEvent)
    // 1) Set "I'm already quitting flag" (or exit if its already Set)
    m_imQuitting = 1;
    // 2) Get CIO/COO manipulation lock
+
    GetUIManipLock();
    // 3) Count CIO/COO, put into m_quitWaitingFor.
    m_quitWaitingFor = m_uiList->size();

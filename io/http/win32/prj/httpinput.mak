@@ -585,7 +585,7 @@ SOURCE=..\res\http.rc
 
 "$(INTDIR)\http.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\http.res" /i\
- "\Local\src\freeamp1.5\io\http\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\http\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "httpinput - Win32 Debug"
@@ -593,7 +593,7 @@ SOURCE=..\res\http.rc
 
 "$(INTDIR)\http.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\http.res" /i\
- "\Local\src\freeamp1.5\io\http\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\http\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "httpinput - Win32 NASM Debug"
@@ -601,7 +601,7 @@ SOURCE=..\res\http.rc
 
 "$(INTDIR)\http.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\http.res" /i\
- "\Local\src\freeamp1.5\io\http\win32\res" /d "_DEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\http\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "httpinput - Win32 NASM Release"
@@ -609,7 +609,7 @@ SOURCE=..\res\http.rc
 
 "$(INTDIR)\http.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\http.res" /i\
- "\Local\src\freeamp1.5\io\http\win32\res" /d "NDEBUG" $(SOURCE)
+ "\FreeAmp\freeamp\io\http\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ENDIF 

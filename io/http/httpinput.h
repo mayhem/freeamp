@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.20 2000/03/28 01:34:54 elrod Exp $
+        $Id: httpinput.h,v 1.21 2000/05/25 12:58:23 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_HTTPINPUT_H_
@@ -26,6 +26,9 @@ ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
+#ifdef WIN32
+ #include <windows.h>
+#endif
 
 /* project headers */
 #include "config.h"
@@ -85,6 +88,10 @@ protected:
    static  void       StartWorkerThread(void *);
    void               LogError(char *);
    TitleStreamServer *m_pTitleStream;
+#ifdef WIN32
+   Error              Win32GetHostByName(char *szHostName, struct hostent *pHostInfo);
+#endif
+   Error              GetHostByName(char *szHostName, struct hostent *pResult);
 
 private:
 
@@ -97,6 +104,9 @@ private:
    char            m_szProxyHost[iMaxUrlLen];
    bool            m_bUseBufferReduction;
    int             m_uBytesReceived;
+#ifdef WIN32
+   HWND            m_hWnd;
+#endif
 };
 
 #endif /* _HTTPFILEINPUT_H_ */

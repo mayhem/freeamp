@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.3 1999/10/22 23:30:36 robert Exp $
+   $Id: Control.cpp,v 1.4 1999/11/01 19:06:10 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -158,6 +158,19 @@ void Control::SetRect(Rect &oRect)
     m_oRect = oRect;
 }
 
+void Control::GetRect(Rect &oRect)
+{
+    oRect = m_oRect;
+}
+
+void Control::SetPos(Pos &oPos)
+{
+    m_oRect.x1 = oPos.x;
+    m_oRect.y1 = oPos.y;
+    m_oRect.x2 = -1;
+    m_oRect.y2 = -1;
+}
+
 void Control::SetBitmap(Bitmap *pBitmap, Rect &oBitmapRect, bool bHoriz)
 {
     m_pBitmap = pBitmap;
@@ -203,9 +216,6 @@ void Control::BlitFrameHoriz(int iFrame, int iNumFramesInBitmap, Rect *pRect)
     oFrameRect.x2 = oFrameRect.x1 + iFrameWidth + 1;
     oFrameRect.y2++;
 
-    oDestRect.x2++;
-    oDestRect.y2++;
-
     pCanvas = m_pParent->GetCanvas();
     pCanvas->MaskBlitRect(m_pBitmap, oFrameRect, oDestRect);
     
@@ -229,9 +239,6 @@ void Control::BlitFrameVert(int iFrame, int iNumFramesInBitmap, Rect *pRect)
     oFrameRect.y1 += iFrame * iFrameHeight;
     oFrameRect.y2 = oFrameRect.y1 + iFrameHeight + 1;
     oFrameRect.x2++;
-
-    oDestRect.x2++;
-    oDestRect.y2++;
 
     pCanvas = m_pParent->GetCanvas();
     pCanvas->MaskBlitRect(m_pBitmap, oFrameRect, oDestRect);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.2 1999/10/19 07:13:26 elrod Exp $
+   $Id: Win32Canvas.cpp,v 1.3 1999/11/01 19:06:23 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -247,6 +247,16 @@ void Win32Canvas::Paint(HDC hDC, Rect &oRect)
    hMemDC = CreateCompatibleDC(hDC);
    
    DeleteObject(SelectObject(hMemDC, m_pBufferBitmap->GetBitmapHandle()));
+   
+//   if (GetDeviceCaps(hDC, RASTERCAPS) & RC_PALETTE)
+//   {
+//      HPALETTE hPal;
+//      
+//      hPal = m_pBufferBitmap->GetPaletteFromBackground(hDC);
+//      SelectPalette(hDC, hPal, true);
+//      RealizePalette(hDC);
+//      DeleteObject(hPal);
+//   }
    BitBlt(hDC, oRect.x1, oRect.y1, oRect.Width(), oRect.Height(),
           hMemDC, oRect.x1, oRect.y1, SRCCOPY);
    DeleteDC(hMemDC);       

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: DialControl.cpp,v 1.2 1999/10/19 07:13:17 elrod Exp $
+   $Id: DialControl.cpp,v 1.3 1999/11/01 19:06:11 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -60,19 +60,15 @@ void DialControl::Transition(ControlTransitionEnum  eTrans,
     switch(eTrans)
     {
        case CS_Normal:
-          printf("Normal state\n");
           break;
 
        case CS_MouseOver:
-          printf("Mouse over state\n");
           break;
 
        case CS_Dragging:
-          printf("Draggin state\n");
           break;
 
        case CS_Disabled:
-          printf("Disabled state\n");
           break;
 
        default:

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: ButtonControl.cpp,v 1.3 1999/11/01 19:06:09 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -58,6 +58,12 @@ ButtonControl::ButtonControl(Window *pWindow, string &oName) :
 {
 }
 
+ButtonControl::ButtonControl(Window *pWindow, string &oName, string &oUrl) :
+               Control(pWindow, oName, pTransitions)
+{
+   m_oValue = oUrl;
+}
+
 ButtonControl::~ButtonControl(void)
 {
 
@@ -65,7 +71,15 @@ ButtonControl::~ButtonControl(void)
 
 void ButtonControl::Init(void)
 {
-    BlitFrame(0, 4);
+    if (m_oRect.x2 == -1 && m_oRect.y2 == -1)
+    {
+        m_oRect.x2 = m_oRect.x1 + 
+                     (m_oBitmapRect.x2 - m_oBitmapRect.x1)/4;
+        m_oRect.y2 = m_oRect.y1 + 
+                     (m_oBitmapRect.y2 - m_oBitmapRect.y1);
+    }    
+
+    Transition(CT_None, NULL);
 }
 
 void ButtonControl::Transition(ControlTransitionEnum  eTrans,

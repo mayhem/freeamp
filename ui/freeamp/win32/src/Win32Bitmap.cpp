@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.3 1999/10/20 18:23:09 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.4 1999/11/01 19:06:22 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -249,3 +249,44 @@ Error Win32Bitmap::MaskBlitRect(Bitmap *pOther, Rect &oSrcRect,
    return kError_NoErr;
 }
 
+HPALETTE Win32Bitmap::GetPaletteFromBackground(HDC hDC)
+{
+   HPALETTE hPal;
+   BITMAP   sBitmap;
+   HDC      hMemDC;
+   int      nColors;
+   
+   GetObject(m_hBitmap, sizeof(sBitmap), &sBitmap);
+   
+   if (sBitmap.bmBitsPixel > 8)
+      return NULL;
+      
+   nColors = 1 << sBitmap.bmBitsPixel;   
+
+   RGBQUAD *pRGB = new RGBQUAD[sBitmap.bmBitsPixel];
+   hMemDC = CreateCompatibleDC(hDC);
+
+   SelectObject(hMemDC, m_hBitmap);
+   GetDIBColorTable(hMemDC, 0, nColors, pRGB );
+
+   UINT nSize = sizeof(LOGPALETTE) + (sizeof(PALETTEENTRY) * nColors);
+   LOGPALETTE *pLP = (LOGPALETTE *) new BYTE[nSize];
+
+   pLP->palVersion = 0x300;
+   pLP->palNumEntries = nColors;
+
+   for (int i=0; i < nColors; i++)
+   {
+       pLP->palPalEntry[i].peRed = pRGB[i].rgbRed;
+       pLP->palPalEntry[i].peGreen = pRGB[i].rgbGreen;
+       pLP->palPalEntry[i].peBlue = pRGB[i].rgbBlue;
+       pLP->palPalEntry[i].peFlags = 0;
+   }
+
+   hPal = CreatePalette(pLP);
+
+   delete[] pLP;
+   delete[] pRGB;
+
+   return hPal;
+}

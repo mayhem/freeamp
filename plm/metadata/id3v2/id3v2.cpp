@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.4 1999/10/21 17:45:40 elrod Exp $
+	$Id: id3v2.cpp,v 1.5 1999/11/01 19:05:59 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -173,6 +173,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
             frameData = new char[sFrame.size + 1];
             if (fread(frameData, 1, sFrame.size, inFile) != sFrame.size)
             {
+                delete frameData;
                 fclose(inFile);
                 return result;
             }

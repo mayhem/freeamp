@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.h,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: ButtonControl.h,v 1.3 1999/11/01 19:06:05 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BUTTONCONTROL_H__
@@ -42,6 +42,7 @@ class ButtonControl : public Control
     public:
 
                ButtonControl(Window *pParent, string &oName);
+               ButtonControl(Window *pParent, string &oName, string &oUrl);
       virtual ~ButtonControl(void);
 
       virtual void SetTargetWindow(string &oWindow);
@@ -49,7 +50,7 @@ class ButtonControl : public Control
       void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
       virtual void Init(void);
       virtual bool PosInControl(Pos &oPos);
-
+      
     private:
 
 	  string m_oTargetWindow;

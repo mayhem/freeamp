@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.3 1999/10/22 23:30:35 robert Exp $
+   $Id: Control.h,v 1.4 1999/11/01 19:06:06 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -115,19 +115,21 @@ class Control
                        TransitionInfo *pTransitions);
       virtual ~Control(void);
  
-      void  SetParent(Window *pParent);
-      void  SetRect(Rect &oRect);
-      void  SetBitmap(Bitmap *pBitmap, Rect &oBitmapRect, bool bHoriz = true);
-      void  GetName(string &oName);
-      void  SetDesc(const string &oDesc);
-      void  SetTip(const string &oTip);
-      void  GetDesc(string &oDesc);
-      void  GetTip(string &oTip);
+      virtual void  SetParent(Window *pParent);
+      virtual void  SetRect(Rect &oRect);
+      virtual void  GetRect(Rect &oRect);
+      virtual void  SetPos(Pos &oPos);
+      virtual void  SetBitmap(Bitmap *pBitmap, Rect &oBitmapRect, bool bHoriz = true);
+      virtual void  GetName(string &oName);
+      virtual void  SetDesc(const string &oDesc);
+      virtual void  SetTip(const string &oTip);
+      virtual void  GetDesc(string &oDesc);
+      virtual void  GetTip(string &oTip);
  
-      Error Show(bool bSet, bool &bShow);
-      Error Enable(bool bHide, bool &bEnable);
-      Error IntValue(bool bSet, int &iValue);
-      Error StringValue(bool bSet, string &oValue);
+      virtual Error Show(bool bSet, bool &bShow);
+      virtual Error Enable(bool bHide, bool &bEnable);
+      virtual Error IntValue(bool bSet, int &iValue);
+      virtual Error StringValue(bool bSet, string &oValue);
 
       virtual bool PosInControl(Pos &oPos);
       virtual bool WantsTimingMessages(void);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.28 1999/11/13 17:00:56 robert Exp $
+        $Id: obsinput.cpp,v 1.29 1999/11/18 02:06:41 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -56,6 +56,10 @@ ____________________________________________________________________________*/
 #include "log.h"
 #include "facontext.h"
 #include "debug.h"
+
+#ifdef WIN32
+#define IN_MULTICAST(a)  ((((uint32) (a)) & 0xf0000000) == 0xe0000000)
+#endif
 
 const int iMaxHostNameLen = 64;
 const int iGetHostNameBuffer = 1024;
@@ -208,15 +212,20 @@ Error ObsInput::Open(void)
     else
         m_pSin->sin_addr.s_addr = htonl(INADDR_ANY);
 
-    iRet = setsockopt(m_hHandle, SOL_SOCKET, SO_REUSEADDR, 
-                      (const char *)&iReuse, sizeof(int));
-    if (iRet < 0)
+    sMreq.imr_multiaddr.s_addr = inet_addr(szAddr);
+    sMreq.imr_interface.s_addr = htonl(INADDR_ANY);
+    if (IN_MULTICAST(ntohl(sMreq.imr_multiaddr.s_addr)))
     {
-       close(m_hHandle);
-       m_hHandle= -1;
-       ReportError("Cannot set socket options. Is TCP/IP networking properly installed?");
-       return (Error)obsError_CannotSetSocketOpts;
-    }
+        iRet = setsockopt(m_hHandle, SOL_SOCKET, SO_REUSEADDR, 
+                          (const char *)&iReuse, sizeof(int));
+        if (iRet < 0)
+        {
+           close(m_hHandle);
+           m_hHandle= -1;
+           ReportError("Cannot set socket options. Is TCP/IP networking properly installed?");
+           return (Error)obsError_CannotSetSocketOpts;
+        }
+    }    
 
     iRet = bind(m_hHandle, (struct sockaddr *)m_pSin, 
                 sizeof(struct sockaddr_in));
@@ -228,17 +237,18 @@ Error ObsInput::Open(void)
        return (Error)obsError_CannotBind;
     }
 
-    sMreq.imr_multiaddr.s_addr = inet_addr(szAddr);
-    sMreq.imr_interface.s_addr = htonl(INADDR_ANY);
-    iRet = setsockopt(m_hHandle, IPPROTO_IP, IP_ADD_MEMBERSHIP,
-                   (char *)&sMreq, sizeof(sMreq));
-    if (iRet < 0)
+    if (IN_MULTICAST(ntohl(sMreq.imr_multiaddr.s_addr)))
     {
-       close(m_hHandle);
-       m_hHandle= -1;
-       ReportError("Cannot set socket multicast options. Is TCP/IP networking properly installed?");
-       return (Error)obsError_CannotSetSocketOpts;
-    }
+        iRet = setsockopt(m_hHandle, IPPROTO_IP, IP_ADD_MEMBERSHIP,
+                       (char *)&sMreq, sizeof(sMreq));
+        if (iRet < 0)
+        {
+           close(m_hHandle);
+           m_hHandle= -1;
+           ReportError("Cannot set socket multicast options. Is TCP/IP networking properly installed?");
+           return (Error)obsError_CannotSetSocketOpts;
+        }
+    }    
 
     m_pContext->prefs->GetPrefBoolean(kUseTitleStreamingPref, &bUseTitleStreaming);
     if (bUseTitleStreaming)

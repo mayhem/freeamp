@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: log.cpp,v 1.4 1999/03/18 20:53:33 robert Exp $
+        $Id: log.cpp,v 1.5 1999/04/03 04:57:07 elrod Exp $
 ____________________________________________________________________________*/
 #include <stdio.h>
 #include <stdarg.h>
@@ -62,6 +62,19 @@ bool LogFile::Open(void)
        printf("Cannot open logfile freeamp.log\n");
 
     return m_fpLog != NULL;
+}
+
+bool LogFile::Close(void)
+{
+    if (m_fpLog == NULL)
+        return false;
+    else
+    {
+        fclose(m_fpLog);
+        m_fpLog = NULL;
+    }
+
+    return true;
 }
 
 void LogFile::AddLogLevel(int iLogLevelFlags)

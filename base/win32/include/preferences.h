@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.7 1999/04/01 17:02:57 elrod Exp $
+	$Id: preferences.h,v 1.8 1999/04/03 04:57:08 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -40,6 +40,7 @@ extern const char* kMinimizeToTrayPref;
 extern const char* kInputBufferSizePref;
 extern const char* kOutputBufferSizePref;
 extern const char* kStreamBufferIntervalPref;
+extern const char* kDecoderThreadPriorityPref;
 
 
 class Preferences {
@@ -88,6 +89,9 @@ class Preferences {
 
     Error GetStreamBufferInterval(int32* value);
     Error SetStreamBufferInterval(int32 value);
+
+    Error GetDecoderThreadPriority(int32* value);
+    Error SetDecoderThreadPriority(int32 value);
 
  protected:
     

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: log.h,v 1.3 1999/03/18 20:53:32 robert Exp $
+        $Id: log.h,v 1.4 1999/04/03 04:57:07 elrod Exp $
 ____________________________________________________________________________*/
 #ifndef __LOG_H__
 #define __LOG_H__
@@ -45,6 +45,7 @@ class LogFile
         virtual ~LogFile(void);
 
         bool     Open(void);
+        bool     Close(void);
         void     ClearLogLevel(void) 
                  { m_iLogLevelFlags = 0; };
         void     AddLogLevel(int iLogLevelFlags);

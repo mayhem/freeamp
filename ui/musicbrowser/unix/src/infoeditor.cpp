@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.16 2000/09/19 21:57:23 ijr Exp $
+        $Id: infoeditor.cpp,v 1.17 2000/09/21 20:43:38 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -167,7 +167,7 @@ void infoeditorUI::MBClick(void)
                         "Profile and signature your music collection.";
 
        GTKMessageDialog *dialog = new GTKMessageDialog();
-       dialog->Show(message.c_str(), caption.c_str(), kMessageOk);
+       dialog->Show(message.c_str(), caption.c_str(), kMessageOk, true);
 
        delete dialog;
    }

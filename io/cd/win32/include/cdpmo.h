@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.h,v 1.2 2000/03/30 22:40:44 elrod Exp $
+        $Id: cdpmo.h,v 1.3 2000/04/04 01:55:20 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDPMO_H_
@@ -36,6 +36,8 @@ using namespace std;
 #include "pmo.h"
 #include "pmoevent.h"
 #include "eventbuffer.h"
+
+#include "mutex.h"
 
 static const uint32 OBUFFERSIZE = 2 * 1152;
 
@@ -64,7 +66,7 @@ class CDPMO:public PhysicalMediaOutput
    virtual Error ChangePosition(int32);
    virtual Error SetTo(const char *url); 
 
-   virtual struct disc_info GetDiscInfo();
+   virtual struct disc_info *GetDiscInfo();
    virtual uint32  GetCDDBDiscID();
    virtual char   *GetcdindexDiscID();
 

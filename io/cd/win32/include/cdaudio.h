@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-        $Id: cdaudio.h,v 1.1 2000/03/20 20:50:13 ijr Exp $
+        $Id: cdaudio.h,v 1.2 2000/04/04 01:55:20 ijr Exp $
  ____________________________________________________________________________*/
 
 
@@ -127,8 +127,8 @@ int cd_pause(string cd_desc);
 int cd_resume(string cd_desc);
 int cd_set_volume(string cd_desc, struct disc_volume vol);
 int cd_get_volume(string cd_desc, struct disc_volume *vol);
-long unsigned cddb_direct_discid(struct disc_info disc);
+long unsigned cddb_direct_discid(struct disc_info *disc);
 long cddb_discid(string cd_desc);
-int cdindex_direct_discid(struct disc_info disc, char *discid, int len);
+int cdindex_direct_discid(struct disc_info *disc, char *discid, int len);
 int cdindex_discid(string cd_desc, char *discid, int len);
 #endif

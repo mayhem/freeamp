@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.71 1999/03/24 18:11:54 robert Exp $
+   $Id: xinglmc.cpp,v 1.72 1999/03/29 20:59:08 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -941,7 +941,7 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
 	bool   bBuffering = false;
 	int32  iInPercent, iOutPercent;
 
-   if (m_input && !m_input->IsStreaming())
+   if (m_input && (!m_input->IsStreaming() || m_iBitRate <= 0))
 	    return m_input->BeginRead(pBuffer, iBytesNeeded);
 
    iInPercent = m_input->GetBufferPercentage();
@@ -967,6 +967,8 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
        iBufferUpBytes = (m_iBitRate * m_iBufferUpInterval * 1000) / 8192;
        if (iBufferUpBytes > m_iBufferSize)
           iBufferUpBytes = (m_iBufferSize * 10) / 8;
+       //printf("iBufferUpBytes: %d Interval: %d bitrate: %d\n",
+       //   iBufferUpBytes, m_iBufferUpInterval, m_iBitRate);
 
        printf("Buffering up...           \n");
        for(; !m_bExit;)
@@ -976,7 +978,9 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
            iOutPercent = m_output->GetBufferPercentage();
   	        printf("Input: %3d%% Output: %3d%%\r", iInPercent, iOutPercent);
            fflush(stdout);
-
+           
+           //printf("In: %d Needed: %d               \n", 
+           //   m_input->GetNumBytesInBuffer(), iBufferUpBytes);
            if (m_input->GetNumBytesInBuffer() >= iBufferUpBytes)
               break;
        }

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.49.2.2.2.1.2.1 2000/03/27 20:11:01 elrod Exp $
+	$Id: main.cpp,v 1.49.2.2.2.1.2.1.2.1 2000/03/29 22:33:54 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -68,8 +68,24 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     // should we allow FreeAmp to run?
     struct stat st;
     char path[MAX_PATH];
+    char arg0[MAX_PATH];
 
     getcwd(path, sizeof(path));
+
+    strcpy(arg0, __argv[0]);
+    char* slash = strrchr(arg0, '\\');
+
+    if(slash)
+    {
+        *slash = 0x00;
+
+        if(strcasecmp(path, arg0))
+        {
+            chdir(arg0);
+            strcpy(path, arg0);
+        }
+    }
+
     strcat(path, "\\NeedToRebootForUpdate");
     if(!stat(path, &st))
     {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.1.2.11 1999/09/28 22:59:47 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.1.2.12 1999/10/01 20:56:09 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -100,6 +100,11 @@ void Win32Bitmap::CreateMaskBitmap(void)
    pInfo->bmiHeader.biPlanes = 1;
    pInfo->bmiHeader.biBitCount = 24;
    pInfo->bmiHeader.biCompression = BI_RGB;
+   pInfo->bmiHeader.biSizeImage = 0;
+   pInfo->bmiHeader.biXPelsPerMeter = 0;
+   pInfo->bmiHeader.biYPelsPerMeter = 0;
+   pInfo->bmiHeader.biClrUsed = 0;
+   pInfo->bmiHeader.biClrImportant = 0;
 
    pMaskInfo = (BITMAPINFO *)new char[sizeof(BITMAPINFOHEADER) + 
                                       64 * sizeof(RGBQUAD)];
@@ -109,6 +114,11 @@ void Win32Bitmap::CreateMaskBitmap(void)
    pMaskInfo->bmiHeader.biPlanes = 1;
    pMaskInfo->bmiHeader.biBitCount = 1;
    pMaskInfo->bmiHeader.biCompression = BI_RGB;
+   pMaskInfo->bmiHeader.biSizeImage = 0;
+   pMaskInfo->bmiHeader.biXPelsPerMeter = 0;
+   pMaskInfo->bmiHeader.biYPelsPerMeter = 0;
+   pMaskInfo->bmiHeader.biClrUsed = 0;
+   pMaskInfo->bmiHeader.biClrImportant = 0;
    pColorRefPtr = (COLORREF *)((char *)pMaskInfo) + sizeof(BITMAPINFOHEADER);
    pColorRefPtr[0] = RGB(0,0,0);
    pColorRefPtr[1] = RGB(255,255,255);
@@ -121,7 +131,11 @@ void Win32Bitmap::CreateMaskBitmap(void)
                         (sInfo.bmHeight - 1) - iLine, 1, 
                         pData, pInfo, DIB_RGB_COLORS);
        if (!iRet)
+       {
+          Debug_v("GetDIBits failed. Last Error: %d", GetLastError());
           break;
+       }   
+          
        memset(pMaskData, 0x00, (sInfo.bmWidth / 8) + 4);
    	   for(iCol = 0, pColorPtr = (Color *)pData; 
            iCol < sInfo.bmWidth; iCol++, pColorPtr++)
@@ -138,7 +152,15 @@ void Win32Bitmap::CreateMaskBitmap(void)
                         (sInfo.bmHeight - 1) - iLine, 1, 
                         pMaskData, pMaskInfo, DIB_RGB_COLORS);
        if (!iRet)
+       {
+          Debug_v("SetDIBits failed. Last Error: %d", GetLastError());
           break;
+       }   
+   }
+   if (iLine < sInfo.bmHeight)
+   {
+       DeleteObject(m_hMaskBitmap);
+       m_hMaskBitmap = NULL;
    }
 
    delete pData;
@@ -163,8 +185,8 @@ bool Win32Bitmap::IsPosVisible(Pos &oPos)
 
    hSaved = SelectObject(hMemDC, m_hMaskBitmap);
    sColor = GetPixel(hMemDC, oPos.x, oPos.y);
-   DeleteDC(hMemDC);
    SelectObject(hMemDC, hSaved);
+   DeleteDC(hMemDC);
    
    return sColor == 0;
 }

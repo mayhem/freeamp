@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.1.2.10 1999/09/29 00:38:26 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.1.2.11 1999/10/01 20:56:10 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -191,19 +191,30 @@ int Win32Canvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
 Error Win32Canvas::Invalidate(Rect &oRect)
 {
    RECT sRect;
+   HWND hWnd;
+   
+   hWnd = m_pParent->GetWindowHandle();
+   if (hWnd == NULL)
+      return kError_YouScrewedUp;
    
    sRect.left = oRect.x1;
    sRect.right = oRect.x2;
    sRect.top = oRect.y1;
    sRect.bottom = oRect.y2;
-   InvalidateRect(m_pParent->GetWindowHandle(), &sRect, FALSE);
+   InvalidateRect(hWnd, &sRect, FALSE);
 
    return kError_NoErr;
 }
 
 Error Win32Canvas::Update(void)
 {
-   UpdateWindow(m_pParent->GetWindowHandle());
+   HWND hWnd;
+   
+   hWnd = m_pParent->GetWindowHandle();
+   if (hWnd == NULL)
+      return kError_YouScrewedUp;
+   
+   UpdateWindow(hWnd);
 
    return kError_NoErr;
 }

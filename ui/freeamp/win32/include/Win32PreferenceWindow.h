@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.1.2.1 1999/09/29 20:12:43 robert Exp $
+   $Id: Win32PreferenceWindow.h,v 1.1.2.2 1999/10/01 20:56:05 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -120,7 +120,6 @@ class Win32PreferenceWindow : public PreferenceWindow
                                        Preferences* prefs);
     
     
-      FAContext   *m_pContext;
       PrefsStruct  originalValues;
       PrefsStruct  currentValues;
 };

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.1.2.1 1999/09/29 20:12:51 robert Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.1.2.2 1999/10/01 20:56:11 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -32,6 +32,8 @@ ____________________________________________________________________________*/
 
 #include "Win32PreferenceWindow.h"
 #include "Win32Window.h"
+
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 static Win32PreferenceWindow *g_pCurrentPrefWindow = NULL;
 
@@ -84,8 +86,10 @@ Win32PreferenceWindow::~Win32PreferenceWindow(void)
 
 bool Win32PreferenceWindow::Show(Window *pWindow)
 {
-     return DisplayPreferences(((Win32Window *)pWindow)->GetWindowHandle(), 
-                               m_pContext->prefs);
+	HWND hWnd;
+    
+    hWnd = ((Win32Window *)pWindow)->GetWindowHandle(); 
+    return DisplayPreferences(hWnd, m_pContext->prefs);
 }
 
 bool Win32PreferenceWindow::DisplayPreferences(HWND hwndParent, Preferences* prefs)
@@ -93,6 +97,7 @@ bool Win32PreferenceWindow::DisplayPreferences(HWND hwndParent, Preferences* pre
     bool result = false;
     PROPSHEETPAGE psp[4];
     PROPSHEETHEADER psh;
+	
     HINSTANCE hinst = (HINSTANCE)GetWindowLong(hwndParent, GWL_HINSTANCE);
 
     psp[0].dwSize = sizeof(PROPSHEETPAGE);

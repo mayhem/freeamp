@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.8 1999/09/29 20:12:52 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.9 1999/10/01 20:56:13 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -31,7 +31,9 @@ ____________________________________________________________________________*/
 
 const static char szAppName[] = "FreeAmp";
 HINSTANCE g_hinst = NULL;
+
 #define IDI_EXE_ICON 101
+#define UWM_TRAY  WM_USER + 666
 
 
 INT WINAPI DllMain (HINSTANCE hInstance,
@@ -185,6 +187,12 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
             break;
         }
 
+        case UWM_TRAY:
+        {
+            ui->TrayNotify(lParam);
+            break;
+        }
+
         default:
             result = DefWindowProc( hwnd, msg, wParam, lParam );
             break;
@@ -199,6 +207,7 @@ Win32Window::Win32Window(Theme *pTheme, string &oName)
             :Window(pTheme, oName)
 {
     m_pCanvas = new Win32Canvas(this);
+	m_hWnd = NULL;
 }
 
 Win32Window::~Win32Window(void)
@@ -244,25 +253,45 @@ Error Win32Window::Run(Pos &oPos)
     if (m_oWindowPos.y > iMaxY || m_oWindowPos.y + oRect.Height() < 0)
        m_oWindowPos.y = 0;
 
-    m_hWnd = CreateWindow(szAppName, 
-                    szAppName,
-                    WS_POPUP | WS_VISIBLE | WS_SYSMENU, 
-                    m_oWindowPos.x, 
-                    m_oWindowPos.y, 
-                    oRect.Width(), 
-                    oRect.Height(),
-                    NULL, 
-                    NULL, 
-                    g_hinst, 
-                    this);
-
-    hRgn = ((Win32Canvas *)m_pCanvas)->GetMaskRgn(); 
-    if (hRgn)
-        SetWindowRgn(m_hWnd, hRgn, false);
+    if (m_bLiveInToolbar)
+        m_hWnd = CreateWindowEx(WS_EX_TOOLWINDOW,
+                              szAppName, 
+                              szAppName,
+                              WS_POPUP | WS_VISIBLE | WS_SYSMENU, 
+                              m_oWindowPos.x, 
+                              m_oWindowPos.y, 
+                              oRect.Width(), 
+                              oRect.Height(),
+                              NULL, 
+                              NULL, 
+                              g_hinst, 
+                              this);
+    else                          
+        m_hWnd = CreateWindow(szAppName, 
+                              szAppName,
+                              WS_POPUP | WS_VISIBLE | WS_SYSMENU, 
+                              m_oWindowPos.x, 
+                              m_oWindowPos.y, 
+                              oRect.Width(), 
+                              oRect.Height(),
+                              NULL, 
+                              NULL, 
+                              g_hinst, 
+                              this);
 
     if( m_hWnd )
     {
-        ShowWindow( m_hWnd, SW_NORMAL );
+        hRgn = ((Win32Canvas *)m_pCanvas)->GetMaskRgn(); 
+        if (hRgn)
+            SetWindowRgn(m_hWnd, hRgn, false);
+
+        if (m_bLiveInToolbar)
+	        AddTrayIcon();
+
+        ShowWindow( m_hWnd, SW_NORMAL);
+        if (m_bStayOnTop)
+            SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+        
         UpdateWindow( m_hWnd );
 
         while( GetMessage( &msg, NULL, 0, 0 ) )
@@ -278,6 +307,11 @@ Error Win32Window::Run(Pos &oPos)
     return kError_NoErr;
 }			
 
+void Win32Window::Init(void)
+{
+	Window::Init();
+}
+
 void Win32Window::SaveWindowPos(Pos &oPos)
 {
     m_oWindowPos = oPos;
@@ -285,6 +319,9 @@ void Win32Window::SaveWindowPos(Pos &oPos)
 
 Error Win32Window::Close(void)
 {
+	if (m_bLiveInToolbar)       
+        RemoveTrayIcon();
+
 	SendMessage(m_hWnd, WM_CLOSE, 0, 0);
 
     return kError_NoErr;
@@ -387,3 +424,48 @@ Error Win32Window::Restore(void)
 
     return kError_NoErr;
 }
+
+void Win32Window::AddTrayIcon()
+{
+	NOTIFYICONDATA nid;
+	int rc;
+
+	// Fill out NOTIFYICONDATA structure
+	nid.cbSize = sizeof(NOTIFYICONDATA);	// sanitycheck
+	nid.hWnd = m_hWnd;					    // window to receive notifications
+	nid.uID = 1;							// application defined identifier for icon
+	nid.uFlags = NIF_MESSAGE |				// uCallbackMessage is valid, use it
+				 NIF_ICON |					// hIcon is valid, use it
+				 NIF_TIP;					// there is tooltip specified
+	nid.uCallbackMessage = UWM_TRAY;        // that's what we will receive in wndProc
+	nid.hIcon = LoadIcon( g_hinst, MAKEINTRESOURCE(IDI_EXE_ICON) );
+
+	strcpy(nid.szTip, szAppName);
+
+	rc = Shell_NotifyIcon(NIM_ADD, &nid);	// this adds the icon
+}
+
+void Win32Window::RemoveTrayIcon()
+{
+	NOTIFYICONDATA nid;
+	nid.cbSize = sizeof(NOTIFYICONDATA);
+	nid.hWnd = m_hWnd;
+	nid.uID = 1;
+	nid.uFlags = NIF_ICON;
+	nid.hIcon = NULL;
+
+	Shell_NotifyIcon(NIM_DELETE, &nid);
+}
+
+void Win32Window::TrayNotify(int32 notifyMessage)
+{
+    switch(notifyMessage)
+    {
+        case WM_LBUTTONUP:
+        {
+            ShowWindow( m_hWnd, SW_NORMAL);
+			SetForegroundWindow(m_hWnd);
+			break;
+        }
+	}
+}    

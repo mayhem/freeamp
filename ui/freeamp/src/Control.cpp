@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.1.2.11 1999/09/28 22:59:36 robert Exp $
+   $Id: Control.cpp,v 1.1.2.12 1999/10/01 20:56:00 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -197,6 +197,35 @@ void Control::BlitFrame(int iFrame, int iNumFramesInBitmap, Rect *pRect)
     pCanvas->Invalidate(oDestRect);
     pCanvas->Update();
 }
+
+void Control::BlitMultiStateFrame(int iFrame, int iNumFramesInBitmap,
+                                  int iRow, int iNumRowsInBitmap)  
+{
+    Canvas *pCanvas;
+    int     iFrameWidth, iFrameHeight;
+    Rect    oFrameRect, oDestRect;
+
+    oDestRect = m_oRect;
+
+    iFrameWidth = (m_oBitmapRect.Width() + 1) / iNumFramesInBitmap;
+    iFrameHeight = (m_oBitmapRect.Height() + 1) / iNumRowsInBitmap;
+
+    oFrameRect = m_oBitmapRect;
+    oFrameRect.x1 += iFrame * iFrameWidth;
+    oFrameRect.x2 = oFrameRect.x1 + iFrameWidth + 1;
+    oFrameRect.y1 += iRow * iFrameHeight;
+    oFrameRect.y2 = oFrameRect.y1 + iFrameHeight + 1;
+
+    oDestRect.x2++;
+    oDestRect.y2++;
+
+    pCanvas = m_pParent->GetCanvas();
+    pCanvas->MaskBlitRect(m_pBitmap, oFrameRect, oDestRect);
+    
+    pCanvas->Invalidate(oDestRect);
+    pCanvas->Update();
+}
+
 
 bool Control::PosInControl(Pos &oPos)
 {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.12 1999/10/01 15:22:33 ijr Exp $
+   $Id: Window.h,v 1.1.2.13 1999/10/01 20:55:59 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -58,6 +58,8 @@ class Window
 
       void    GetName(string &oName);
       Canvas *GetCanvas(void);
+      void    SetStayOnTop(bool bStay);
+      void    SetLiveInToolbar(bool bLive);
       void    AddControl(Control *pControl);
       void    ClearControls(void);
 
@@ -122,6 +124,7 @@ class Window
       Rect                      m_oRect;
       Control                  *m_pMouseInControl, *m_pCaptureControl;
       Pos                       m_oMovePos;
+      bool                      m_bStayOnTop, m_bLiveInToolbar;
       Rect                      m_oMoveStart;
 };
 

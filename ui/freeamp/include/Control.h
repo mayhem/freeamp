@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.1.2.10 1999/09/28 22:59:30 robert Exp $
+   $Id: Control.h,v 1.1.2.11 1999/10/01 20:55:55 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -148,6 +148,8 @@ class Control
       // Args: iFrame: Which frame to blit
       //       iNumFrames: how many frames in the x direction in the bitmap
       virtual void BlitFrame(int iFrame, int iNumFrames, Rect *pRect = NULL); 
+      virtual void BlitMultiStateFrame(int iFrame, int iNumFramesInBitmap,
+                                       int iRow, int iNumRowsInBitmap);  
 
       string                 m_oName, m_oDesc, m_oToolTip;
       Rect                   m_oRect, m_oBitmapRect;

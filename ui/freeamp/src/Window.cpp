@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.1.2.11 1999/10/01 15:22:34 ijr Exp $
+   $Id: Window.cpp,v 1.1.2.12 1999/10/01 20:56:03 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -35,6 +35,8 @@ Window::Window(Theme *pTheme, string &oName)
     m_bExit = false;
     m_pTheme = pTheme;
 	m_bMouseButtonDown = false;
+    m_bStayOnTop = false;
+    m_bLiveInToolbar = false;
 
     m_pCanvas = NULL;
     m_pMouseInControl = NULL;
@@ -342,3 +344,12 @@ void Window::TimerEvent(void)
     }        
 }
 
+void Window::SetStayOnTop(bool bStay)
+{
+    m_bStayOnTop = bStay;
+}
+
+void Window::SetLiveInToolbar(bool bLive)
+{
+    m_bLiveInToolbar = bLive;
+}

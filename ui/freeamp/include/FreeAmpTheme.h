@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.1.2.8 1999/09/29 00:38:22 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.1.2.9 1999/10/01 20:55:56 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -47,12 +47,15 @@ class FreeAmpTheme : public UserInterface, public Theme
         virtual Error HandleControlMessage(string &oControlName, 
                                            ControlMessageEnum eMesg);
         virtual void  InitControls(void);
+        virtual void  InitWindow(void);
 
         void  WorkerThread(void);
 
     protected:
 
-        void  ParseArgs();
+        void             ParseArgs();
+        void             ReloadTheme(void);
+        void             SetVolume(int iVolume);
 
         FAContext       *m_pContext;
         int              m_iCurrentSeconds, m_iTotalSeconds, m_iSeekSeconds;

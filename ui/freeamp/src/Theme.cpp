@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.15 1999/10/01 15:22:34 ijr Exp $
+   $Id: Theme.cpp,v 1.1.2.16 1999/10/01 20:56:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 #include "DialControl.h"
 #include "SliderControl.h"
 #include "TextControl.h"
+#include "MultiStateControl.h"
 #include "debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
@@ -56,6 +57,7 @@ Theme::Theme(void)
     m_pParsedFonts = m_pFonts = NULL;
 	m_bReloadTheme = false;
     m_bReloadWindow = false;
+    m_oReloadWindow = string("");
     m_eCurrentControl = eUndefinedControl;
 }
 
@@ -204,6 +206,8 @@ Error Theme::Run(Pos &oWindowPos)
         if (m_oReloadWindow == string(""))   
             m_pWindow->GetName(m_oReloadWindow);   
 
+		InitWindow();
+
     	eRet = m_pWindow->Run(oWindowPos);
         if (IsError(eRet))
             return eRet;
@@ -288,9 +292,20 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 #else
        pBitmap = new Win32Bitmap(oAttrMap["Name"]);
 #endif
-       eRet = ParseColor(oAttrMap["TransColor"], oColor);
-       if (eRet == kError_NoErr)
-           pBitmap->SetTransColor(oColor);
+
+	   if (oAttrMap.find("TransColor") != oAttrMap.end())
+       {
+           eRet = ParseColor(oAttrMap["TransColor"], oColor);
+           if (eRet == kError_NoErr)
+               pBitmap->SetTransColor(oColor);
+       }
+
+           
+	   if (oAttrMap.find("File") == oAttrMap.end())
+       {
+           m_oLastError = string("the <Bitmap> tag needs a File attribute");
+           return kError_ParseError;
+       }        
 
        oCompleteFile = m_oThemePath + oAttrMap["File"];
        eRet = pBitmap->LoadBitmapFromDisk(oCompleteFile);
@@ -315,6 +330,17 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     {
        Font *pFont;
 
+	   if (oAttrMap.find("Name") == oAttrMap.end())
+       {
+           m_oLastError = string("the <Font> tag needs a Name attribute");
+           return kError_ParseError;
+       }        
+	   if (oAttrMap.find("Face") == oAttrMap.end())
+       {
+           m_oLastError = string("the <Font> tag needs a Face attribute");
+           return kError_ParseError;
+       }        
+
 #ifndef WIN32
        pFont = new GTKFont(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
 #else
@@ -334,6 +360,11 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            m_oLastError = string("<Window> tags cannot be nested");
            return kError_InvalidParam;
        }
+	   if (oAttrMap.find("Name") == oAttrMap.end())
+       {
+           m_oLastError = string("the <Window> tag needs a Name attribute");
+           return kError_ParseError;
+       }        
 
 #ifndef WIN32
        m_pCurrentWindow = new GTKWindow(this, oAttrMap["Name"]);
@@ -356,6 +387,12 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
 
+	   if (oAttrMap.find("Name") == oAttrMap.end())
+       {
+           m_oLastError = string("the <BackgroundBitmap> tag needs a Name attribute");
+           return kError_ParseError;
+       }        
+
        pBitmap = FindBitmap(oAttrMap["Name"]);
        if (pBitmap == NULL)
        {
@@ -365,6 +402,12 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
 
+	   if (oAttrMap.find("Rect") == oAttrMap.end())
+       {
+           m_oLastError = string("the <BackgroundBitmap> tag needs a Rect attribute");
+           return kError_ParseError;
+       }        
+       
        eRet = ParseRect(oAttrMap["Rect"], oRect);
        if (eRet != kError_NoErr)
        {
@@ -398,6 +441,12 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
 
+	   if (oAttrMap.find("Name") == oAttrMap.end())
+       {
+           m_oLastError = string("the <ButtonControl> tag needs a Name attribute");
+           return kError_ParseError;
+       }        
+
        m_eCurrentControl = eButtonControl;
        m_pCurrentControl = new ButtonControl(m_pCurrentWindow, 
                                              oAttrMap["Name"]);
@@ -412,9 +461,42 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
 
+	   if (oAttrMap.find("Name") == oAttrMap.end())
+       {
+           m_oLastError = string("the <DialControl> tag needs a Name attribute");
+           return kError_ParseError;
+       }        
+
        m_eCurrentControl = eDialControl;
        m_pCurrentControl = new DialControl(m_pCurrentWindow, 
                                            oAttrMap["Name"]);
+       return kError_NoErr;
+    }
+
+    if (oElement == string("MultiStateControl"))
+    {
+       if (m_pCurrentControl)
+       {
+           m_oLastError = string("Controls cannot be nested");
+           return kError_InvalidParam;
+       }
+
+	   if (oAttrMap.find("Name") == oAttrMap.end())
+       {
+           m_oLastError = string("the <MultiStateControl> tag needs a Name attribute");
+           return kError_ParseError;
+       }        
+	   if (oAttrMap.find("NumStates") == oAttrMap.end())
+       {
+           m_oLastError = string("the <MultiStateControl> tag needs a NumStates attribute");
+           return kError_ParseError;
+       }        
+
+       m_eCurrentControl = eMultiStateControl;
+       m_pCurrentControl = new MultiStateControl(m_pCurrentWindow, 
+                                                 oAttrMap["Name"],
+                                                 atoi(oAttrMap["NumStates"].
+                                                 c_str()));
        return kError_NoErr;
     }
 
@@ -425,6 +507,11 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            m_oLastError = string("Controls cannot be nested");
            return kError_InvalidParam;
        }
+	   if (oAttrMap.find("Name") == oAttrMap.end())
+       {
+           m_oLastError = string("the <SliderControl> tag needs a Name attribute");
+           return kError_ParseError;
+       }        
 
        m_eCurrentControl = eSliderControl;
        m_pCurrentControl = new SliderControl(m_pCurrentWindow,
@@ -439,6 +526,11 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            m_oLastError = string("Controls cannot be nested");
            return kError_InvalidParam;
        }
+	   if (oAttrMap.find("Name") == oAttrMap.end())
+       {
+           m_oLastError = string("the <TextControl> tag needs a Name attribute");
+           return kError_ParseError;
+       }        
 
        m_eCurrentControl = eTextControl;
        m_pCurrentControl = new TextControl(m_pCurrentWindow,
@@ -451,6 +543,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     {
        Color  oColor(0, 0, 0);
        Font  *pFont;
+       bool   bBold = false, bItalic = false, bUnderline = false;
+       string oAlign("");
        
        if (m_pCurrentControl == NULL || m_eCurrentControl != eTextControl)
        {
@@ -458,6 +552,12 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
                                  "<TextControl> tag");
            return kError_InvalidParam;
        }
+
+	   if (oAttrMap.find("Font") == oAttrMap.end())
+       {
+           m_oLastError = string("the <Style> tag needs a Font attribute");
+           return kError_ParseError;
+       }        
 
        pFont = FindFont(oAttrMap["Font"]);
        if (pFont == NULL)
@@ -468,7 +568,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
        
-	   if (oAttrMap["Color"] != string(""))
+	   if (oAttrMap.find("Color") != oAttrMap.end() && 
+           oAttrMap["Color"] != string(""))
        {
            eRet = ParseColor(oAttrMap["Color"], oColor);
            if (eRet != kError_NoErr)
@@ -479,11 +580,18 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     	   }
        }
 
-       ((TextControl *)m_pCurrentControl)->SetStyle(pFont, 
-               oAttrMap["Align"], oColor,
-               strcasecmp(oAttrMap["Bold"].c_str(), "yes") == 0, 
-               strcasecmp(oAttrMap["Italic"].c_str(), "yes") == 0, 
-               strcasecmp(oAttrMap["Underline"].c_str(), "yes") == 0); 
+       if (oAttrMap.find("Bold") != oAttrMap.end())
+       	  bBold = strcasecmp(oAttrMap["Bold"].c_str(), "yes") == 0;
+       if (oAttrMap.find("Italic") != oAttrMap.end())
+       	  bItalic = strcasecmp(oAttrMap["Italic"].c_str(), "yes") == 0;
+       if (oAttrMap.find("Underline") != oAttrMap.end())
+       	  bUnderline = strcasecmp(oAttrMap["Underline"].c_str(), "yes") == 0;
+
+       if (oAttrMap.find("Align") != oAttrMap.end()) 
+          oAlign = oAttrMap["Align"]; 
+
+       ((TextControl *)m_pCurrentControl)->SetStyle(pFont, oAlign,
+               oColor, bBold, bItalic, bUnderline);
        
        return kError_NoErr;
 	}
@@ -496,6 +604,12 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
                                  "<ButtonControl> tag");
            return kError_InvalidParam;
        }
+
+       if (oAttrMap.find("Window") == oAttrMap.end())
+       {
+           m_oLastError = string("the <ChangeWindow> tag needs a Window attribute");
+           return kError_ParseError;
+       }        
 
        ((ButtonControl *)m_pCurrentControl)->SetTargetWindow(oAttrMap["Window"]);
        
@@ -514,6 +628,11 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
           return kError_InvalidParam;
        }
 
+       if (oAttrMap.find("Rect") == oAttrMap.end())
+       {
+           m_oLastError = string("the <Position> tag needs a Rect attribute");
+           return kError_ParseError;
+       }        
        eRet = ParseRect(oAttrMap["Rect"], oRect);
        if (eRet != kError_NoErr)
        {
@@ -537,6 +656,17 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
                                 "<XXXXControl> tag");
           return kError_InvalidParam;
        }
+
+       if (oAttrMap.find("Rect") == oAttrMap.end())
+       {
+           m_oLastError = string("the <ControlBitmap> tag needs a Rect attribute");
+           return kError_ParseError;
+       }        
+       if (oAttrMap.find("Name") == oAttrMap.end())
+       {
+           m_oLastError = string("the <ControlBitmap> tag needs a Name attribute");
+           return kError_ParseError;
+       }        
 
        eRet = ParseRect(oAttrMap["Rect"], oRect);
        if (eRet != kError_NoErr)
@@ -568,8 +698,10 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
           return kError_InvalidParam;
        }
 
-       m_pCurrentControl->SetDesc(oAttrMap["Desc"]);
-       m_pCurrentControl->SetTip(oAttrMap["Tip"]);
+	   if (oAttrMap.find("Desc") != oAttrMap.end())
+           m_pCurrentControl->SetDesc(oAttrMap["Desc"]);
+	   if (oAttrMap.find("Tip") != oAttrMap.end())
+           m_pCurrentControl->SetTip(oAttrMap["Tip"]);
        
        return kError_NoErr;
     }
@@ -618,6 +750,7 @@ Error Theme::EndElement(string &oElement)
     if (oElement == string("ButtonControl") ||
         oElement == string("DialControl") ||
         oElement == string("SliderControl") ||
+        oElement == string("MultiStateControl") ||
         oElement == string("TextControl")) 
     {
        m_pCurrentWindow->AddControl(m_pCurrentControl);

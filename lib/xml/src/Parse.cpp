@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.1.2.6 1999/10/01 15:22:33 ijr Exp $
+   $Id: Parse.cpp,v 1.1.2.7 1999/10/01 20:55:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -73,7 +73,7 @@ Error Parse::ParseFile(const string &oFile)
     {
     	m_iErrorLine += CountNewlines(szElement);
         
-        iRet = fscanf(fpFile, " < %2048[^>] >", szElement);
+        iRet = fscanf(fpFile, " < %1024[^>] >", szElement);
         if (iRet < 1)
         {
             if (feof(fpFile))
@@ -102,7 +102,7 @@ Error Parse::ParseFile(const string &oFile)
     	    m_iErrorLine += CountNewlines(szElementName);
 
         iTemp = 0;
-        sscanf(szElement, " /%255[A-Za-z0-9_]%n", szElementName, &iTemp);
+        sscanf(szElement, " /%254[A-Za-z0-9_]%n", szElementName, &iTemp);
         if (iTemp > 0)
         {
             oElementName = szElementName;
@@ -119,7 +119,7 @@ Error Parse::ParseFile(const string &oFile)
         }
         
 		iOffset = 0;
-        int iRet = sscanf(szElement, " %255[A-Za-z0-9_] %n", szElementName, &iOffset);
+        int iRet = sscanf(szElement, " %254[A-Za-z0-9_] %n", szElementName, &iOffset);
         oElementName = szElementName;
         if (iOffset == 0)
             iOffset = strlen(szElementName);
@@ -143,7 +143,7 @@ Error Parse::ParseFile(const string &oFile)
                 break;
 
             iRet = sscanf(szElement + iOffset, 
-                          " %255[A-Za-z0-9] = \"%255[^\"] \" %n", 
+                          " %254[A-Za-z0-9] = \"%254[^\"] \" %n", 
                           szAttr, szValue, &iTemp);
             if (iRet < 2 || iTemp == 0)
             {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.19 1999/03/05 06:34:14 elrod Exp $
+	$Id: freeampui.cpp,v 1.20 1999/03/06 03:45:00 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1183,7 +1183,7 @@ CreateControls()
                                     m_controlRegions[kPlaylistDisplayControl],
                                     MULTIPLE_SELECTION_LIST);
 
-    for(int32 count = 0; count < 9; count++)
+    /*for(int32 count = 0; count < 9; count++)
     {
         char buffer[256];
 
@@ -1193,7 +1193,7 @@ CreateControls()
                                 m_smallFontBitmap,
                                 10,
                                 smallFontWidth));
-    }
+    }*/
 
     /*m_playlistView->AddItem(new TestItem);
     m_playlistView->AddItem(new TestItem);
@@ -1340,7 +1340,7 @@ LoadBitmaps()
         m_scrollbarBitmap->Load(g_hinst, MAKEINTRESOURCE(IDB_SCROLLBAR));
     }
 
-    DIB test;
+    /*DIB test;
 
     test.Load(g_hinst, MAKEINTRESOURCE(IDB_CONTROL_MASK_MID));
 
@@ -1349,7 +1349,7 @@ LoadBitmaps()
     test.Pixel(0,0,&color);
     test.Pixel(136,0,&color);
     test.Pixel(34,26,&color);
-    test.Pixel(336,41,&color);
+    test.Pixel(336,41,&color);*/
 
 
     DeleteDC(bufferdc);
@@ -1550,6 +1550,7 @@ AcceptEvent(Event* event)
             case INFO_PlayListUpdated:
             {
                 //MessageBox(m_hwnd, "INFO_PlayListUpdated", "hey!", MB_OK);
+                UpdatePlayList();
                 break;
             }
             
@@ -1617,8 +1618,39 @@ SetArgs(int32 argc, char** argv)
 
 void
 FreeAmpUI::
-SetPlayListManager(PlayListManager *plm) {
+SetPlayListManager(PlayListManager *plm) 
+{
 	m_plm = plm;
+
+    UpdatePlayList();
+}
+
+void
+FreeAmpUI::
+UpdatePlayList() 
+{
+    assert(m_plm);
+    assert(m_playlistView);
+
+    if(m_plm && m_playlistView)
+    {
+        int32 i = 0;
+        PlayListItem* item;
+
+        while(item = m_plm->ItemAt(i++))
+        {
+            MediaInfoEvent* info = item->GetMediaInfo();
+
+            char buffer[256];
+
+            sprintf(buffer, "This is StringItem #%d", i);
+
+            m_playlistView->AddItem(new StringItem(buffer,
+                                    m_smallFontBitmap,
+                                    10,
+                                    smallFontWidth));
+        }
+    }
 }
 
 void

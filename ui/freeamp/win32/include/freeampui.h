@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.14 1999/03/05 06:34:14 elrod Exp $
+	$Id: freeampui.h,v 1.15 1999/03/06 03:45:00 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -105,6 +105,8 @@ class FreeAmpUI : public UserInterface {
     void DeleteRegions();
 
     void CreateControls();
+
+    void UpdatePlayList();
 
  public:
     Semaphore*          m_uiSemaphore;

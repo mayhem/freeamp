@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dib.cpp,v 1.2 1999/03/05 06:34:14 elrod Exp $
+	$Id: dib.cpp,v 1.3 1999/03/06 03:45:00 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -141,7 +141,7 @@ Create( uint32 width,
 
 bool 
 DIB::
-Load(HANDLE module, LPCTSTR resource)
+Load(HANDLE module, LPCTSTR resource) 
 {
     bool result = false;
     HRSRC rsrcHandle = NULL;

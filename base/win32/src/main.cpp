@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.37 1999/12/07 20:29:04 elrod Exp $
+	$Id: main.cpp,v 1.38 1999/12/08 02:11:40 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -396,6 +396,7 @@ const char* kMimeTypes[] = {
     "audio/mp3",
     "audio/mpegurl",
     "audio/scpls",
+    "application/vnd.rn-rn_music_package",
     NULL
 };
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.cpp,v 1.4 1999/12/06 13:29:50 ijr Exp $
+        $Id: EditTrackInfoDialog.cpp,v 1.5 1999/12/08 02:11:40 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -35,6 +35,7 @@ ____________________________________________________________________________*/
 #include "utility.h"
 #include "resource.h"
 #include "Win32MusicBrowser.h"
+#include "help.h"
 
 
 BOOL CALLBACK EditTrackInfoDlgProc(HWND hwnd,
@@ -299,6 +300,12 @@ BOOL MusicBrowserUI::EditTrackInfoDlgProc(HWND hwnd,
                             Edit_SetText((HWND)lParam, "Unknown");
                         }
                     }
+                    break;
+                }
+
+                case IDC_SHOWHELP:
+                {
+                    ShowHelp(Edit_Info);
                     break;
                 }
             }

@@ -59,8 +59,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                            ..\..\..\..\base\win32\prj\plugins	copy m3u.plf\
-   ..\..\..\..\base\win32\prj\plugins
+                             ..\..\..\..\base\win32\prj\plugins	copy m3u.plf\
+    ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "m3u - Win32 Debug"
@@ -91,8 +91,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                            ..\..\..\..\base\win32\prj\plugins	copy m3u.plf\
-   ..\..\..\..\base\win32\prj\plugins
+                             ..\..\..\..\base\win32\prj\plugins	copy m3u.plf\
+    ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "m3u - Win32 NASM Release"
@@ -124,8 +124,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                            ..\..\..\..\base\win32\prj\plugins	copy m3u.plf\
-   ..\..\..\..\base\win32\prj\plugins
+                             ..\..\..\..\base\win32\prj\plugins	copy m3u.plf\
+    ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "m3u - Win32 NASM Debug"
@@ -157,8 +157,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                            ..\..\..\..\base\win32\prj\plugins	copy m3u.plf\
-   ..\..\..\..\base\win32\prj\plugins
+                             ..\..\..\..\base\win32\prj\plugins	copy m3u.plf\
+    ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ENDIF 
@@ -179,6 +179,14 @@ SOURCE=..\m3u.cpp
 # Begin Source File
 
 SOURCE=.\m3u.def
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\base\src\preferences.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\base\src\utility.cpp
 # End Source File
 # End Group
 # Begin Group "res"

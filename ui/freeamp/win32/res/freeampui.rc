@@ -145,13 +145,13 @@ FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "FreeAmp is an Open Source effort to build the best digital audio player available.  In the interest of supporting the free software community, while at the same time fostering the growth of the online delivery of",
                     IDC_STATIC,3,24,227,24
-    LTEXT           "music, EMusic.com, THE Source for Downloadable Music, is funding both the FreeAmp.org domain and the efforts of the FreeAmp team. The FreeAmp team consists of: Mark B. Elrod, Robert Kaye, Brett Thomas, Jason Woodward, and Mark H. Weaver.",
+    LTEXT           "music, EMusic.com, THE Source for Downloadable Music, is funding both the FreeAmp.org domain and the efforts of the FreeAmp team. The FreeAmp team consists of: Mark B. Elrod, Robert Kaye, Brett Thomas, Jason Woodward, and Isaac Richards.",
                     IDC_STATIC,3,48,227,33
     LTEXT           "Other people have also contributed to FreeAmp:",
                     IDC_STATIC,3,83,227,9
     LTEXT           "FreeAmp is being released under the terms of the GPL. As is provided by the GPL, all of EMusic.com's and your efforts toward FreeAmp will be released back to the community at large.",
                     IDC_STATIC,3,122,227,25
-    LTEXT           "Alan Cutter, Gabor Fleischer, Jean-Michel HERVE, Hiromasa Kato, Michael Bruun Petersen, Sylvain Rebaud, The Snowblind Alliance, Tom Spindler, Valters Vingolds, and Bill Yuan.",
+    LTEXT           "Alan Cutter, Gabor Fleischer, Jean-Michel HERVE, Hiromasa Kato, Michael Bruun Petersen, Sylvain Rebaud, The Snowblind Alliance, Tom Spindler, Valters Vingolds, Bill Yuan, and Bill Bull.",
                     IDC_STATIC,3,92,227,24
     LTEXT           "version 2.0 beta 1",IDC_STATIC,98,14,36,8
     LTEXT           "FreeAmp",IDC_STATIC,102,5,29,8

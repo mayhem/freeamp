@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32prefs.cpp,v 1.7.4.3 1999/10/17 05:40:11 ijr Exp $
+	$Id: win32prefs.cpp,v 1.7.4.4 1999/10/19 02:21:57 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -28,7 +28,7 @@ ____________________________________________________________________________*/
 // location
 const HKEY  kMainKey = HKEY_CURRENT_USER;
 const char* kFreeAmpKey = "SOFTWARE\\FreeAmp";
-const char* kFreeAmpVersionKey = "FreeAmp v1.5";
+const char* kFreeAmpVersionKey = "FreeAmp v2.0";
 const char* kMainComponentKey = "Main";
 
 // default values

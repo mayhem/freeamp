@@ -59,7 +59,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST themes mkdir themes	copy\
-       ..\..\..\themes\freeamp.fat themes
+        ..\..\..\themes\freeamp.fat themes
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
@@ -92,7 +92,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST themes mkdir themes	copy\
-       ..\..\..\themes\freeamp.fat themes
+        ..\..\..\themes\freeamp.fat themes
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
@@ -126,7 +126,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST themes mkdir themes	copy\
-       ..\..\..\themes\freeamp.fat themes
+        ..\..\..\themes\freeamp.fat themes
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
@@ -162,7 +162,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST themes mkdir themes	copy\
-       ..\..\..\themes\freeamp.fat themes
+        ..\..\..\themes\freeamp.fat themes
 # End Special Build Tool
 
 !ENDIF 
@@ -222,15 +222,7 @@ SOURCE=..\..\src\thread.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\updatemanager.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\utility.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\win32updatemanager.cpp
 # End Source File
 # End Group
 # Begin Group "system"

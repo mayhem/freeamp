@@ -17,7 +17,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: YPClient.cpp,v 1.5 2000/09/22 10:49:59 ijr Exp $
+        $Id: YPClient.cpp,v 1.6 2000/09/22 16:42:46 sward Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -487,7 +487,7 @@ string& strCollectionID)
                                 nOffset += nBytes;
                         }
                         nBytes = nOffset;
-
+						nOffset = 0;
         FromBuffer(ResultList, &pBuffer[nOffset], nTemp);
         nOffset += nTemp;
                         nRes = 0;

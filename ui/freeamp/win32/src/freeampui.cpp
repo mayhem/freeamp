@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.12 1998/11/09 08:55:47 jdw Exp $
+	$Id: freeampui.cpp,v 1.13 1998/11/09 08:57:55 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -251,29 +251,46 @@ AcceptEvent(Event* event)
 			}
 
 			case INFO_ID3TagInfo:
-				{
-					ID3TagEvent *info = (ID3TagEvent *)event;
-					if (info->GetId3Tag().m_containsInfo) {
-						char foo[1024];
-						strncpy(foo,info->GetId3Tag().m_artist,sizeof(foo)-1);
-						//kill trailing spaces
-						char *pFoo = &(foo[strlen(foo)-1]);
-						while ((pFoo >= foo) && pFoo && (*pFoo == ' ')) {
-							*pFoo = '\0';
-							pFoo--;
-						}
-						strncat(foo," - ",sizeof(foo)-strlen(foo));
-						strncat(foo,info->GetId3Tag().m_songName,sizeof(foo)-strlen(foo));
-						// kill trailing spaces
-						pFoo = &(foo[strlen(foo)-1]);
-						while ((pFoo >= foo) && pFoo && (*pFoo == ' ')) {
-							*pFoo = '\0';
-							pFoo--;
-						}
-						strncpy(g_displayInfo.path,foo,sizeof(g_displayInfo.path)-1);
+			{
+				ID3TagEvent *info = (ID3TagEvent *)event;
+
+				if (info->GetId3Tag().m_containsInfo) 
+                {
+					char foo[1024];
+					strncpy(foo,info->GetId3Tag().m_artist,sizeof(foo)-1);
+					//kill trailing spaces
+					char *pFoo = &(foo[strlen(foo)-1]);
+
+					while ((pFoo >= foo) && pFoo && (*pFoo == ' ')) 
+                    {
+						*pFoo = '\0';
+						pFoo--;
 					}
-					break;
+
+					strncat(foo," - ",sizeof(foo)-strlen(foo));
+
+					strncat(foo,info->GetId3Tag().m_songName,sizeof(foo)-strlen(foo));
+					// kill trailing spaces
+					pFoo = &(foo[strlen(foo)-1]);
+
+					while ((pFoo >= foo) && pFoo && (*pFoo == ' ')) 
+                    {
+						*pFoo = '\0';
+						pFoo--;
+					}
+
+					strncpy(g_displayInfo.path,foo,sizeof(g_displayInfo.path)-1);
 				}
+
+                if(NeedToScroll())
+                    SetTimer(m_hwnd, 0x01, 200, NULL);
+                else
+                    KillTimer(m_hwnd, 0x01);
+                
+
+                UpdateDisplay(m_hwnd);
+				break;
+			}
 
             case INFO_MediaInfo: 
             {
@@ -290,6 +307,13 @@ AcceptEvent(Event* event)
 				g_displayInfo.scrollOffset = 0;
 				g_displayInfo.indexOfSong = info->m_indexOfSong;
 				g_displayInfo.totalSongs = info->m_totalSongs;
+
+                if(NeedToScroll())
+                    SetTimer(m_hwnd, 0x01, 200, NULL);
+                else
+                    KillTimer(m_hwnd, 0x01);
+
+                UpdateDisplay(m_hwnd);
 				break; 
             }
 
@@ -307,6 +331,7 @@ AcceptEvent(Event* event)
 				g_displayInfo.seconds = seconds;
 				g_displayInfo.frame = info->m_frame;
 
+                UpdateDisplay(m_hwnd);
 	            break; 
             }
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: drawplayer.cpp,v 1.18 1998/11/09 08:55:47 jdw Exp $
+	$Id: drawplayer.cpp,v 1.19 1998/11/09 08:57:55 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -117,6 +117,27 @@ static HCURSOR dialCursor, arrowCursor, currentCursor;
 static HPALETTE palette = NULL;
 
 
+bool NeedToScroll()
+{
+    int32 length = 0;
+    int32 i;
+    RECT rect;
+    bool result = false;
+
+    GetRgnBox(g_displayRegion, &rect);
+
+    // first determine length
+    for(i = 0; g_displayInfo.path[i]; i++)
+    {
+        length += smallFontWidth[g_displayInfo.path[i] - 32];
+    }
+
+    // see if we need to scroll 
+    if(length > rect.right - rect.left)
+        result = true;
+
+    return result;
+}
 
 static void DrawPlayer(HDC hdc, ControlInfo* state)
 {
@@ -1421,7 +1442,7 @@ LRESULT WINAPI MainWndProc( HWND hwnd,
 
 
             SetTimer(hwnd, 0x00, 100, NULL);
-            SetTimer(hwnd, 0x01, 200, NULL);
+            //SetTimer(hwnd, 0x01, 200, NULL);
 			break;
 		}
 

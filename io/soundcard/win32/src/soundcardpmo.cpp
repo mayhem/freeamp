@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.15 1998/11/03 00:05:21 jdw Exp $
+	$Id: soundcardpmo.cpp,v 1.16 1998/11/09 08:57:55 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -94,19 +94,12 @@ SoundCardPMO::
 
         memset(buf, 0x00, m_data_size);
 
-        //for(int32 i = 0; i < 5; i++)
-       // {
-            Write(wrote, buf, m_data_size);
-        //}
+        Write(wrote, buf, m_data_size);
 
         delete [] buf;
 
-        //while(waveOutClose(m_hwo) == WAVERR_STILLPLAYING)
-		//{
-		//	Sleep(SLEEPTIME);
-		//}
-		MMRESULT foo = waveOutReset(m_hwo);
-		while ((foo = waveOutClose(m_hwo)) == WAVERR_STILLPLAYING) {
+        while(waveOutClose(m_hwo) == WAVERR_STILLPLAYING) 
+		{
 			Sleep(SLEEPTIME);
 		}
 
@@ -122,6 +115,7 @@ SoundCardPMO::
 		delete [] m_wavehdr_array;
 		delete m_wfex;
 	}
+
 	if (m_pauseMutex) {
 		delete m_pauseMutex;
 		m_pauseMutex = NULL;
@@ -140,7 +134,7 @@ Init(OutputInfo* info)
 	m_channels				= info->number_of_channels;
 	m_data_size				= info->max_buffer_size;
 
-	m_num_headers			= 2;
+	m_num_headers			= 4;
 	m_hdr_size				= sizeof(WAVEHDR);
 	m_wavehdr_array			= new LPWAVEHDR[m_num_headers];
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.1.2.2 1999/09/22 18:58:21 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.1.2.3 1999/09/24 01:49:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -53,7 +53,8 @@ class musicbrowserUI : public UserInterface {
     
     PlaylistSortType m_playlistColumnSort;
     int m_playlistLastSort;
-     
+    string m_currentListName;
+
  protected:
     FAContext *m_context;
 
@@ -103,7 +104,7 @@ class musicbrowserUI : public UserInterface {
 
     GtkWidget *artistSubTree;
     GtkWidget *playlistSubTree;
-    
+  
   public:
     /* event callbacks */
 
@@ -121,6 +122,8 @@ class musicbrowserUI : public UserInterface {
     void StartMusicSearch();
     void SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType type);
     void PopUpInfoEditor();
+    void SaveCurrentPlaylist(char *path = NULL);
+    void LoadPlaylist(char *path);
 };
 
 #endif

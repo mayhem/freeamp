@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.h,v 1.1.2.4 1999/09/20 18:05:42 robert Exp $
+   $Id: GTKCanvas.h,v 1.1.2.5 1999/09/24 01:49:27 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKCANVAS_H__
@@ -37,10 +37,12 @@ class GTKCanvas : public Canvas
 
      virtual void  Init(void);
      virtual Error RenderText(int iFontHeight, Rect &oClipRect,
-                              string &oText, AlignEnum eAlign);
+                              string &oText, AlignEnum eAlign,
+			      const Color &oColor);
      virtual Error Invalidate(Rect &oRect);
      virtual Error Update(void);
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec);
+     virtual Error MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec);
      virtual void  Paint(Rect &oRect);
      virtual void  Erase(Rect &oRect);
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.19 1999/09/24 01:31:58 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.20 1999/09/24 01:49:27 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -41,6 +41,7 @@ ____________________________________________________________________________*/
 #define _O_BINARY 0
 #define _O_CREAT O_CREAT
 #define _O_RDWR O_RDWR
+#define _O_TRUNC O_TRUNC
 #endif
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -817,7 +818,8 @@ Error DownloadManager::Download(DownloadItem* item)
                             if(*cp == 0x20)
                                 cp++;
 
-                            for(char* end = cp; end < buffer + total; end++)
+                            char *end;
+                            for(end = cp; end < buffer + total; end++)
                                 if(*end=='\r' || *end == '\n') break;
 
                             *end = 0x00;

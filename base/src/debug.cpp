@@ -1,9 +1,9 @@
-#include <windows.h>
 #include <stdio.h>
 #include "debug.h"
 
 #ifdef WIN32
 
+#include <windows.h>
 /*-------------------------------------------------------------------------------*\
   Globals:
 \*-------------------------------------------------------------------------------*/
@@ -54,6 +54,8 @@ void Debug_v(char * format, ...)
 }
 
 #else
+
+#include <stdarg.h>
 
 void DebugInit_v(void)
 {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.1.2.4 1999/09/20 18:05:43 robert Exp $
+   $Id: GTKCanvas.cpp,v 1.1.2.5 1999/09/24 01:49:27 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -43,7 +43,8 @@ void GTKCanvas::Init(void)
 }
 
 Error GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect,
-                            string &oText, AlignEnum eAlign)
+                            string &oText, AlignEnum eAlign, 
+                            const Color &oColor)
 {
    return kError_NoErr;
 }
@@ -59,6 +60,11 @@ Error GTKCanvas::Update(void)
 }
 
 Error GTKCanvas::BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec)
+{
+   return kError_NoErr;
+}
+
+Error GTKCanvas::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec)
 {
    return kError_NoErr;
 }

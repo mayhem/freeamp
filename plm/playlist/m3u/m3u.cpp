@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.1.2.3 1999/08/31 08:15:30 elrod Exp $
+	$Id: m3u.cpp,v 1.1.2.4 1999/09/24 01:49:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -154,7 +154,7 @@ Error M3U::ReadPlaylist(char* url, vector<PlaylistItem*>* list,
                     // is the path relative?
                     if( !strncmp(entry, "..", 2) ||
                         (strncmp(entry + 1, ":\\", 2) &&
-                         strncmp(entry, "\\", 1)) &&
+                         strncmp(entry, DIR_MARKER_STR, 1)) &&
                         (strncmp(entry, "http://", 7) &&
                          strncmp(entry, "rtp://", 6)) )
                     {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.6 1999/09/23 02:09:55 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.7 1999/09/24 01:49:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h" 
@@ -39,6 +39,7 @@ musicbrowserUI::musicbrowserUI(FAContext *context)
     m_noStartUp = false;
     m_browserCreated = false;
     m_currentindex = 0;
+    m_currentListName = "";
     statusContext = 0;
 }
 
@@ -204,3 +205,50 @@ void musicbrowserUI::PopUpInfoEditor(void)
     infoedit->DisplayInfo();
 }
 
+void musicbrowserUI::SaveCurrentPlaylist(char *path)
+{
+    if (path)
+        m_currentListName = path;
+
+    if (m_currentListName == "")
+        return;
+
+    char *ext = strrchr(path, '.');
+    if (ext)
+        ext = ext + 1;
+    Error result = kError_NoErr;
+    int i = 0;
+    bool found = false;
+
+    PlaylistFormatInfo format;
+    while (ext && result == kError_NoErr) {
+        result = m_plm->GetSupportedPlaylistFormats(&format, i);
+        if (!strcmp(ext, format.GetExtension())) {
+            found = true;
+            break;
+        }
+        i++;
+    }
+    if (!found) {
+        m_plm->GetSupportedPlaylistFormats(&format, 0);
+        m_currentListName += "." ;
+        m_currentListName += format.GetExtension();
+    }
+
+    m_plm->WritePlaylist((char *)m_currentListName.c_str(), &format);
+}
+
+void musicbrowserUI::LoadPlaylist(char *path)
+{
+    Error err;
+
+    if (!path)
+        return;
+
+
+    err = m_plm->ReadPlaylist(path);
+    if (err == kError_NoErr) {
+        m_currentListName = path;
+        UpdatePlaylistList();
+    }
+}

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.cpp,v 1.7 1999/03/09 09:31:54 elrod Exp $
+	$Id: listview.cpp,v 1.8 1999/03/16 09:23:16 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -509,7 +509,27 @@ void
 ListView::
 LeftButtonDoubleClick(int32 x, int32 y, int32 modifiers)
 {
+    int32 index = IndexOf(x,y);
 
+    char buffer[256];
+    sprintf(buffer, "index %d\r\n", index);
+    OutputDebugString(buffer);
+
+
+    if(index >= 0)
+    {
+        FreeAmpUI* ui = (FreeAmpUI*)GetWindowLong(Window(), GWL_USERDATA);
+        PlayListManager* plm = ui->GetPlayListManager(); 
+
+        ui->Target()->AcceptEvent(new Event(CMD_Stop));
+
+        plm->SetCurrent(index); 
+
+        if (ui->State() == STATE_Paused)
+            ui->Target()->AcceptEvent(new Event(CMD_PlayPaused));
+        else
+            ui->Target()->AcceptEvent(new Event(CMD_Play));
+    }
 }
 
 void 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.33 1999/03/16 08:10:57 elrod Exp $
+	$Id: freeampui.cpp,v 1.34 1999/03/16 09:23:16 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -232,6 +232,12 @@ MainWndProc(HWND hwnd,
         case WM_LBUTTONUP:
         {
             ui->LeftButtonUp(LOWORD(lParam), HIWORD(lParam), wParam);
+            break;
+        }
+
+        case WM_LBUTTONDBLCLK:
+        {
+            ui->LeftButtonDoubleClick(LOWORD(lParam), HIWORD(lParam), wParam);
             break;
         }
 
@@ -1201,6 +1207,36 @@ LeftButtonUp(   int32 xPos,
     return result;
 }
 
+bool
+FreeAmpUI::
+LeftButtonDoubleClick(  int32 xPos, 
+                        int32 yPos, 
+                        int32 modifiers)
+{
+    bool result = false;
+
+    OutputDebugString("LeftButtonDoubleClick\r\n");
+
+    Item<View*>* viewItem = m_viewList->LastItem();
+    
+    do
+    {
+        if( viewItem->Member()->PointInView(xPos, yPos) && 
+            viewItem->Member()->Visible() &&
+            viewItem->Member()->Enabled())
+        {
+            viewItem->Member()->LeftButtonDoubleClick(xPos, yPos, modifiers);
+
+            result = true;
+
+            break;
+        }
+
+    }while(viewItem = m_viewList->PriorItem(viewItem) );
+
+    return result;
+}
+
 int32 
 FreeAmpUI::
 Paint()
@@ -1961,6 +1997,7 @@ AcceptEvent(Event* event)
                 m_playView->Show();
                 m_stopView->Hide();
                 m_pauseView->SetState(Unpressed);
+                m_timeView->SetCurrentTime(0, 0, 0);
 	            break; 
             }
 
@@ -1994,18 +2031,21 @@ AcceptEvent(Event* event)
 						pFoo--;
 					}
 
-					strncat(foo," - ",sizeof(foo)-strlen(foo));
-
-					strncat(foo,info->GetId3Tag().m_album,sizeof(foo)-strlen(foo));
-
-					// kill trailing spaces
-					pFoo = &(foo[strlen(foo)-1]);
-
-					while ((pFoo >= foo) && pFoo && (*pFoo == ' ')) 
+                    if(*info->GetId3Tag().m_album && *info->GetId3Tag().m_album != ' ')
                     {
-						*pFoo = '\0';
-						pFoo--;
-					}
+					    strncat(foo," - ",sizeof(foo)-strlen(foo));
+
+					    strncat(foo,info->GetId3Tag().m_album,sizeof(foo)-strlen(foo));
+
+					    // kill trailing spaces
+					    pFoo = &(foo[strlen(foo)-1]);
+
+					    while ((pFoo >= foo) && pFoo && (*pFoo == ' ')) 
+                        {
+						    *pFoo = '\0';
+						    pFoo--;
+					    }
+                    }
 
                     strncat(foo," - ",sizeof(foo)-strlen(foo));
 
@@ -2077,6 +2117,7 @@ AcceptEvent(Event* event)
 
             case INFO_DoneOutputting: 
             {
+                m_timeView->SetCurrentTime(0, 0, 0);
 	            break; 
             }
 
@@ -2452,7 +2493,7 @@ UIThreadFunction()
     
     memset(&wc, 0x00, sizeof(WNDCLASS));
 
-    wc.style = CS_OWNDC;
+    wc.style = CS_OWNDC|CS_DBLCLKS ;
     wc.lpfnWndProc = MainWndProc;
     wc.hInstance = g_hinst;
     wc.hCursor = LoadCursor( NULL, IDC_ARROW );

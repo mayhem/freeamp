@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.34 1999/03/15 09:30:01 elrod Exp $
+        $Id: player.h,v 1.35 1999/03/16 09:23:16 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -102,7 +102,10 @@ class     Player:public EventQueue, Properties, PropertyWatcher
    int32     CompareNames(const char *, const char *);
    void      SendToUI(Event *);
    void      Usage(const char *);
-   bool      SetState(PlayerState);
+
+   bool         SetState(PlayerState);
+   PlayerState  State() const { return m_playerState; }
+
    int32     ServiceEvent(Event *);
    void      CreateLMC(PlayListItem * pc, Event * pC);
 

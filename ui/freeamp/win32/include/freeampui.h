@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.22 1999/03/16 08:10:56 elrod Exp $
+	$Id: freeampui.h,v 1.23 1999/03/16 09:23:16 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -94,6 +94,7 @@ class FreeAmpUI : public UserInterface {
     bool MouseMove(int32 xPos, int32 yPos, int32 modifiers);
     bool LeftButtonDown(int32 xPos, int32 yPos, int32 modifiers);
     bool LeftButtonUp(int32 xPos, int32 yPos, int32 modifiers);
+    bool LeftButtonDoubleClick(int32 xPos, int32 yPos, int32 modifiers);
     void Command(int32 command, View* source);
     void Notify(int32 command, LPNMHDR notifyMsgHdr);
     void KeyDown(int32 keyCode);
@@ -103,6 +104,9 @@ class FreeAmpUI : public UserInterface {
 
     bool MouseCaptured() const { return m_mouseCaptured; }
     void SetMouseCapture(bool capture) { m_mouseCaptured = capture; }
+
+    EventQueue* Target() const { return m_target; }
+    int32 State() const { return m_state; }
 
  protected:
     static void ui_thread_function(void*);

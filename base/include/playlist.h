@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.32 1999/03/16 08:10:56 elrod Exp $
+	$Id: playlist.h,v 1.33 1999/03/16 09:23:16 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -275,6 +275,7 @@ class PlayListManager {
     void SetPrev(bool bUserAction = false);
 
     int32 Current() const {return m_current;}
+    void SetCurrent(int32 index);
 
     void SetShuffle(ShuffleMode oop);
     void SetRepeat(RepeatMode rp);

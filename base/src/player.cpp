@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.176 2000/02/16 02:20:46 ijr Exp $
+        $Id: player.cpp,v 1.176.2.1 2000/02/24 03:45:06 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -250,8 +250,6 @@ Player::
 SetArgs(int32 argc, char **argv)
 {
     bool autoplay = false;
-    char* path = new char[_MAX_PATH];
-    char* url = new char[_MAX_PATH];
 
     // remember these guys so we can use them later and elsewhere
     m_argc = argc;
@@ -264,6 +262,8 @@ SetArgs(int32 argc, char **argv)
     for (int32 i = 1; i < argc; i++)
     {
         char* arg = argv[i];
+        char* path = new char[_MAX_PATH];
+        char* url = new char[_MAX_PATH];
 
         // is this an option?
         if(arg[0] == '-' 
@@ -498,15 +498,14 @@ SetArgs(int32 argc, char **argv)
 #endif
             }
         }
+        delete [] path;
+        delete [] url;
     }
     
     if(m_autoplay)
     {
         AcceptEvent(new Event(CMD_Play));
     }  
-    
-    delete [] path;
-    delete [] url;
 
     return true;
 }

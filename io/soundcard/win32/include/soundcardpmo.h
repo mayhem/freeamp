@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.7 1998/10/29 20:08:57 elrod Exp $
+	$Id: soundcardpmo.h,v 1.8 1998/11/03 00:05:21 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -33,7 +33,7 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "config.h"
 #include "pmo.h"
-
+#include "mutex.h"
 
 #define BIT_SELECT  0x1f
 #define SLEEPTIME   256
@@ -73,7 +73,7 @@ private:
 	bool			m_user_stop;
 	bool			m_initialized;
 
-
+	Mutex*			m_pauseMutex;
     
 };
 

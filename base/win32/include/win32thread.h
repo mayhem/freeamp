@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32thread.h,v 1.1 1998/10/13 22:45:22 elrod Exp $
+	$Id: win32thread.h,v 1.2 1998/11/03 00:05:21 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -48,14 +48,14 @@ public:
 	virtual Priority GetPriority() const;
 	virtual Priority SetPriority(Priority priority);
 
-    static uint32 __stdcall internalThreadFunction(void* arg);
+    static unsigned long __stdcall internalThreadFunction(void* arg);
 
     uint32 InternalThreadFunction(); 
 
 private:
 	Priority	    m_priority;
 	HANDLE		    m_threadHandle;	
-	unsigned	    m_threadId;
+	unsigned long	    m_threadId;
 
     thread_function m_function;
     void*           m_arg;

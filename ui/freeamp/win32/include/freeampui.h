@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.1 1998/11/02 14:14:28 elrod Exp $
+	$Id: freeampui.h,v 1.2 1998/11/03 00:05:21 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -36,6 +36,8 @@ ____________________________________________________________________________*/
 #include "mutex.h"
 #include "queue.h"
 
+
+enum { STATE_Stopped = 1, STATE_Playing, STATE_Paused };
 
 class FreeAmpUI : public UserInterface {
  public:
@@ -61,6 +63,8 @@ class FreeAmpUI : public UserInterface {
 
     bool            m_scrolling;
 
+    EventQueue*     m_target;
+	int32			m_state;
 
  protected:
       static void UIThreadFunc(void *);
@@ -70,7 +74,6 @@ class FreeAmpUI : public UserInterface {
     int32			m_totalSeconds;
     float			m_secondsPerFrame;
     Thread*         m_uiThread;
-    EventQueue*     m_target;
 
     HWND            m_hwnd;
     HWND            m_hwndPlay;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32thread.cpp,v 1.2 1998/10/13 23:58:10 elrod Exp $
+	$Id: win32thread.cpp,v 1.3 1998/11/03 00:05:21 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <process.h>
@@ -46,7 +46,7 @@ win32Thread::
     }
 }
 
-uint32 __stdcall 
+unsigned long __stdcall 
 win32Thread::
 internalThreadFunction(void* arg)
 {
@@ -73,7 +73,8 @@ Create(thread_function function, void* arg)
     m_function      = function;
     m_arg           = arg;
 
-	m_threadHandle = (HANDLE) _beginthreadex(
+	//m_threadHandle = (HANDLE) _beginthreadex(
+	m_threadHandle = ::CreateThread(
 									NULL,
 									0,
 									internalThreadFunction,

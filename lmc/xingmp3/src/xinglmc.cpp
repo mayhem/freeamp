@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.29 1998/11/02 07:13:00 jdw Exp $
+	$Id: xinglmc.cpp,v 1.30 1998/11/03 00:05:21 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -390,6 +390,7 @@ void XingLMC::DecodeWork() {
 		case XING_Pause:
 		    m_output->Pause();
 		    m_pauseSemaphore->Wait();
+			//m_output->Resume();
 		    break;
 		default: break;
 	    }
@@ -465,8 +466,8 @@ Error XingLMC::Pause() {
 
 Error XingLMC::Resume() {
     ENSURE_INITIALIZED;
-    m_output->Resume();
     m_pauseSemaphore->Signal();
+	m_output->Resume();
     return kError_NoErr;
 }
 

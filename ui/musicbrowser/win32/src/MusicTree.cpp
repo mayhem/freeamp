@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.73 2000/10/27 12:31:30 ijr Exp $
+        $Id: MusicTree.cpp,v 1.74 2001/01/05 20:12:24 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -836,6 +836,7 @@ void MusicBrowserUI::UpdateStreams(vector<FreeAmpStreamInfo> &list)
         MetaData metadata;
 
         stream->SetURL(i->m_streamUrl.c_str());
+        stream->SetWebURL(i->m_webUrl.c_str());
         metadata.SetTitle(i->m_name.c_str());
         metadata.SetArtist(i->m_webUrl.c_str());
         metadata.SetComment(i->m_desc.c_str());

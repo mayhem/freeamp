@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.102 2001/01/05 17:18:56 skx Exp $
+        $Id: Dialog.cpp,v 1.103 2001/01/05 20:12:24 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -241,6 +241,10 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
 
                 case ID_EDIT_REDO_ACTION:
                     m_plm->Redo();
+                    return 1;
+
+                case ID_POPUP_VISITWEB:
+                    VisitWebEvent();
                     return 1;
 
                 case ID_POPUP_ADDTRACK:

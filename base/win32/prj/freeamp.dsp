@@ -162,6 +162,10 @@ SOURCE=..\..\src\database.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\downloadmanager.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\log.cpp
 # End Source File
 # Begin Source File
@@ -187,6 +191,10 @@ SOURCE=..\..\src\propimpl.cpp
 # Begin Source File
 
 SOURCE=..\..\src\thread.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\utility.cpp
 # End Source File
 # End Group
 # Begin Group "system"

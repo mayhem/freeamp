@@ -67,6 +67,7 @@ CLEAN :"fileinput - Win32 ReleaseCLEAN" "soundcard - Win32 ReleaseCLEAN"\
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\database.obj"
+	-@erase "$(INTDIR)\downloadmanager.obj"
 	-@erase "$(INTDIR)\freeamp.res"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
@@ -80,6 +81,7 @@ CLEAN :
 	-@erase "$(INTDIR)\registry.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\thread.obj"
+	-@erase "$(INTDIR)\utility.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
@@ -115,6 +117,7 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
 	"$(INTDIR)\database.obj" \
+	"$(INTDIR)\downloadmanager.obj" \
 	"$(INTDIR)\freeamp.res" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
@@ -128,6 +131,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\registry.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\thread.obj" \
+	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
 	"..\..\..\io\dsound\win32\prj\Release\dsoundcard.lib" \
@@ -182,6 +186,7 @@ CLEAN :"fileinput - Win32 DebugCLEAN" "soundcard - Win32 DebugCLEAN"\
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\database.obj"
+	-@erase "$(INTDIR)\downloadmanager.obj"
 	-@erase "$(INTDIR)\freeamp.res"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
@@ -195,6 +200,7 @@ CLEAN :
 	-@erase "$(INTDIR)\registry.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\thread.obj"
+	-@erase "$(INTDIR)\utility.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(INTDIR)\win32prefs.obj"
@@ -233,6 +239,7 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /pdbtype:sept /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
 	"$(INTDIR)\database.obj" \
+	"$(INTDIR)\downloadmanager.obj" \
 	"$(INTDIR)\freeamp.res" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
@@ -246,6 +253,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\registry.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\thread.obj" \
+	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
 	"..\..\..\io\dsound\win32\prj\Debug\dsoundcard.lib" \
@@ -303,6 +311,7 @@ CLEAN :"fileinput - Win32 NASM ReleaseCLEAN"\
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\database.obj"
+	-@erase "$(INTDIR)\downloadmanager.obj"
 	-@erase "$(INTDIR)\freeamp.res"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
@@ -316,6 +325,7 @@ CLEAN :
 	-@erase "$(INTDIR)\registry.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\thread.obj"
+	-@erase "$(INTDIR)\utility.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
@@ -351,6 +361,7 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
 	"$(INTDIR)\database.obj" \
+	"$(INTDIR)\downloadmanager.obj" \
 	"$(INTDIR)\freeamp.res" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
@@ -364,6 +375,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\registry.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\thread.obj" \
+	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
 	"..\..\..\io\dsound\win32\prj\Release\dsoundcard.lib" \
@@ -420,6 +432,7 @@ CLEAN :"fileinput - Win32 NASM DebugCLEAN" "soundcard - Win32 NASM DebugCLEAN"\
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\database.obj"
+	-@erase "$(INTDIR)\downloadmanager.obj"
 	-@erase "$(INTDIR)\freeamp.res"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
@@ -433,6 +446,7 @@ CLEAN :
 	-@erase "$(INTDIR)\registry.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\thread.obj"
+	-@erase "$(INTDIR)\utility.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(INTDIR)\win32prefs.obj"
@@ -471,6 +485,7 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /pdbtype:sept /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
 	"$(INTDIR)\database.obj" \
+	"$(INTDIR)\downloadmanager.obj" \
 	"$(INTDIR)\freeamp.res" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
@@ -484,6 +499,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\registry.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\thread.obj" \
+	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj" \
 	"..\..\..\io\dsound\win32\prj\Debug\dsoundcard.lib" \
@@ -603,6 +619,108 @@ DEP_CPP_DATAB=\
 	
 
 "$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\src\downloadmanager.cpp
+
+!IF  "$(CFG)" == "freeamp - Win32 Release"
+
+DEP_CPP_DOWNL=\
+	"..\..\..\config\config.h"\
+	"..\..\include\downloadformat.h"\
+	"..\..\include\downloadmanager.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\facontext.h"\
+	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
+	"..\..\include\plmevent.h"\
+	"..\..\include\preferences.h"\
+	"..\..\include\registrar.h"\
+	"..\..\include\registry.h"\
+	"..\..\include\thread.h"\
+	"..\include\mutex.h"\
+	
+NODEP_CPP_DOWNL=\
+	"..\..\include\win32impl.h"\
+	
+
+"$(INTDIR)\downloadmanager.obj" : $(SOURCE) $(DEP_CPP_DOWNL) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
+
+DEP_CPP_DOWNL=\
+	"..\..\..\config\config.h"\
+	"..\..\include\downloadformat.h"\
+	"..\..\include\downloadmanager.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\facontext.h"\
+	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
+	"..\..\include\plmevent.h"\
+	"..\..\include\preferences.h"\
+	"..\..\include\registrar.h"\
+	"..\..\include\registry.h"\
+	"..\..\include\thread.h"\
+	"..\include\mutex.h"\
+	
+
+"$(INTDIR)\downloadmanager.obj" : $(SOURCE) $(DEP_CPP_DOWNL) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
+
+DEP_CPP_DOWNL=\
+	"..\..\..\config\config.h"\
+	"..\..\include\downloadformat.h"\
+	"..\..\include\downloadmanager.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\facontext.h"\
+	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
+	"..\..\include\plmevent.h"\
+	"..\..\include\preferences.h"\
+	"..\..\include\registrar.h"\
+	"..\..\include\registry.h"\
+	"..\..\include\thread.h"\
+	"..\include\mutex.h"\
+	
+NODEP_CPP_DOWNL=\
+	"..\..\include\win32impl.h"\
+	
+
+"$(INTDIR)\downloadmanager.obj" : $(SOURCE) $(DEP_CPP_DOWNL) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
+
+DEP_CPP_DOWNL=\
+	"..\..\..\config\config.h"\
+	"..\..\include\downloadformat.h"\
+	"..\..\include\downloadmanager.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\facontext.h"\
+	"..\..\include\log.h"\
+	"..\..\include\metadata.h"\
+	"..\..\include\plmevent.h"\
+	"..\..\include\preferences.h"\
+	"..\..\include\registrar.h"\
+	"..\..\include\registry.h"\
+	"..\..\include\thread.h"\
+	"..\include\mutex.h"\
+	
+
+"$(INTDIR)\downloadmanager.obj" : $(SOURCE) $(DEP_CPP_DOWNL) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
@@ -989,6 +1107,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
@@ -1034,6 +1153,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
@@ -1076,6 +1196,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
@@ -1121,6 +1242,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
@@ -1366,6 +1488,62 @@ DEP_CPP_THREA=\
 	
 
 "$(INTDIR)\thread.obj" : $(SOURCE) $(DEP_CPP_THREA) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\src\utility.cpp
+
+!IF  "$(CFG)" == "freeamp - Win32 Release"
+
+DEP_CPP_UTILI=\
+	"..\..\..\config\config.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\utility.h"\
+	
+
+"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
+
+DEP_CPP_UTILI=\
+	"..\..\..\config\config.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\utility.h"\
+	
+
+"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
+
+DEP_CPP_UTILI=\
+	"..\..\..\config\config.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\utility.h"\
+	
+
+"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
+
+DEP_CPP_UTILI=\
+	"..\..\..\config\config.h"\
+	"..\..\include\errors.h"\
+	"..\..\include\utility.h"\
+	
+
+"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 

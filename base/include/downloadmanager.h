@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.5 1999/09/16 00:10:49 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.6 1999/09/16 18:23:23 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -39,6 +39,7 @@ using namespace std;
 #include "thread.h"
 #include "metadata.h"
 #include "registry.h"
+#include "downloadformat.h"
 
 class DownloadItem;
 
@@ -246,7 +247,7 @@ class DownloadManager {
 
     Registry m_formatRegistry;
 
-    vector<DownloadFormat*> m_formats;
+    vector<DownloadFormatInfo*> m_formats;
    
     uint32 m_current;
 

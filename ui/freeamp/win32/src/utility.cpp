@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.12 1999/04/21 04:20:59 elrod Exp $
+	$Id: utility.cpp,v 1.13 1999/04/26 20:34:00 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -240,11 +240,22 @@ OpenFileHookProc(   HWND hwnd,
             {
                 case IDC_OPEN_URL:
                 {
+                    char* url = new char[ofn->nMaxFile + 1];
+
                     if(GetDlgItemText(  hwnd,
                                         IDC_URL,
-                                        ofn->lpstrFile,
+                                        url,
                                         ofn->nMaxFile))
                     {
+                        *ofn->lpstrFile = 0x00;
+
+                        if(!strstr(url, "://"))
+                        {
+                            strcpy(ofn->lpstrFile, "http://");
+                        }
+
+                        strcat(ofn->lpstrFile, url);
+
                         PostMessage(GetParent(hwnd), 
                                     WM_COMMAND, 
                                     IDCANCEL,
@@ -252,6 +263,8 @@ OpenFileHookProc(   HWND hwnd,
 
                         ofn->lCustData = 1;
                     }
+
+                    delete url;
                     
                     result = 1;
                     break;

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.36 1999/04/26 00:51:54 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.37 1999/04/26 20:34:00 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -162,7 +162,6 @@ Error SoundCardPMO::Init(OutputInfo * info)
    Error     result = kError_UnknownErr;
    MMRESULT  mmresult = 0;
    int32     iNewSize = iDefaultBufferSize;
-   PropValue *pProp;
 
    m_channels = info->number_of_channels;
    m_samples_per_second = info->samples_per_second;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.9.4.3 2000/03/04 08:39:45 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.9.4.4 2000/03/04 17:32:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -280,7 +280,7 @@ void DownloadUI::UpdateItem(DownloadItem *dli)
 
     gtk_clist_thaw(GTK_CLIST(m_List));
 
-    if (row == m_currentindex) 
+    if (row == (int)m_currentindex) 
         SelChangeEvent(m_currentindex);
 }
 

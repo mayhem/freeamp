@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.cpp,v 1.10 1998/12/01 19:24:11 jdw Exp $
+	$Id: fawindow.cpp,v 1.11 1998/12/12 22:36:39 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -52,7 +52,7 @@ void FAWindow::SetGC(GC gc) { m_gc = gc; }
 
 void FAWindow::SetPixmap(Pixmap pm) { m_pixmap = pm; }
 
-void FAWindow::SetMask(Pixmap mask) { XShapeCombineMask(m_display,m_me,ShapeBounding,0,0,mask,ShapeSet); }
+void FAWindow::SetMask(Pixmap mask) { XShapeCombineMask(m_display,m_me,ShapeBounding,0,0,mask,ShapeSet); m_maskPixmap = mask; }
 
 void FAWindow::SelectInput(int32 mask) { XSelectInput(m_display,m_me,mask); }
 

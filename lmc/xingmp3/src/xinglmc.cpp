@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.36 1998/11/25 01:26:38 jdw Exp $
+	$Id: xinglmc.cpp,v 1.37 1998/12/12 22:36:39 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -467,8 +467,9 @@ void XingLMC::DecodeWork() {
 	    m_pcmBufBytes = cvt_to_wave(m_pcmBuffer,m_pcmBufBytes);
             #endif
 	    if (actually_decode) {
+		//cout << "lmc: writing..." << endl;
 		Error error = m_output->Write(nwrite,m_pcmBuffer,m_pcmBufBytes);
-		
+		//cout << "lmc: wrote" << endl;
 		if (error != kError_NoErr) {
 		    //cerr << "lmc error: " << (int)m_target << endl;
 		    if (m_target) m_target->AcceptEvent(new LMCErrorEvent(this,(Error)lmcError_OutputWriteFailed));
@@ -479,7 +480,9 @@ void XingLMC::DecodeWork() {
 	    m_pcmBufBytes = 0;
 	}
 	in_bytes += x.in_bytes;
+	//cout << "Releasing mutex..." << endl;
 	m_seekMutex->Release();
+	//usleep(10);
     }
     if (m_pcmBufBytes > 0) {  // Write out last bit
         #if __BYTE_ORDER != __LITTLE_ENDIAN
@@ -520,6 +523,7 @@ Error XingLMC::Reset() {
 Error XingLMC::ChangePosition(int32 position) {
     ENSURE_INITIALIZED;
     Error error = kError_NoErr;
+    //cout << "Waiting for mutex..." << endl;
     m_seekMutex->Acquire(WAIT_FOREVER);
     //cout << "Seeking to ..." << position << endl;
 #if 1
@@ -527,6 +531,7 @@ Error XingLMC::ChangePosition(int32 position) {
     m_bsBufPtr = m_bsBuffer;
     int32 dummy;
     error = m_input->Seek(dummy,0,SEEK_FROM_START);
+    //cout << "Done seeking..." << endl;
     m_frameCounter = 0;
     m_frameWaitTill = position;
     actually_decode = 0;

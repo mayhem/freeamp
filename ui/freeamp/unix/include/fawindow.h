@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.h,v 1.8 1998/11/28 06:03:09 jdw Exp $
+	$Id: fawindow.h,v 1.9 1998/12/12 22:36:39 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -49,6 +49,7 @@ class FAWindow {
     int32 m_xParent,m_yParent;
     int32 m_width,m_height;
     Pixmap m_pixmap;
+    Pixmap m_maskPixmap;
     FAWindow();
     EventQueue *m_playerEQ;
  public:

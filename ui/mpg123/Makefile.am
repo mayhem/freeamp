@@ -18,11 +18,15 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.4 1998/12/01 20:10:10 jdw Exp $
+##      $Id: Makefile.am,v 1.5 1998/12/12 22:36:39 jdw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
+
+PLUGIN_DIR = @top_srcdir@/plugins/
+PLUGIN_NAME = mpg123-@target_os@.ui
+PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
 
 if AM_HAVE_WIN32
 FILES = 
@@ -32,6 +36,15 @@ else
 FILES = Mpg123UI.cpp
 MYLIBS = libfauicmdline.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
+
+all-local : $(PLUGIN_FULL_NAME)
+
+$(PLUGIN_FULL_NAME) : $(libfaui_a_OBJECTS)
+	@mkdir -p @top_srcdir@/plugins
+	gcc -shared -Wl,-soname,$(PLUGIN_NAME) -o $(PLUGIN_FULL_NAME) $(libfaui_a_OBJECTS)
+	@chmod 644 $(PLUGIN_FULL_NAME)
+
+
 endif
 
 if AM_HAVE_LINUXTHREADS
@@ -45,10 +58,3 @@ libfauicmdline_a_SOURCES = $(FILES)
 INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/lmc/include -I@top_srcdir@/io/include
 CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT)
 
-
-all-local: mpg123-local
-
-mpg123-local: Mpg123UI.o
-	gcc -shared -Wl,-soname,mpg123-@target_os@.ui -o mpg123-@target_os@.ui Mpg123UI.o
-	mkdir -p @top_srcdir@/plugins
-	cp mpg123-@target_os@.ui @top_srcdir@/plugins

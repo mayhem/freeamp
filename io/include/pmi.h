@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.7 1998/10/27 23:28:46 jdw Exp $
+	$Id: pmi.h,v 1.8 1998/12/12 22:36:38 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -60,3 +60,12 @@ public:
 };
 
 #endif /* _PMI_H_ */
+
+
+
+
+
+
+
+
+

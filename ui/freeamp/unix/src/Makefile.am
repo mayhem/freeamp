@@ -18,18 +18,28 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.5 1998/12/01 19:24:11 jdw Exp $
+##      $Id: Makefile.am,v 1.6 1998/12/12 22:36:39 jdw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
+PLUGIN_DIR = @top_srcdir@/plugins/
+PLUGIN_NAME = freeamp-@target_os@.ui
+PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
+
 if AM_ENABLE_X11
 FILES = freeamp.cpp windowhash.cpp fawindow.cpp res.cpp
-MYLIBS = libfauicmdline.a
+MYLIBS = libfaui.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 
-all-local: cmdline-local
+all-local : $(PLUGIN_FULL_NAME)
+
+$(PLUGIN_FULL_NAME) : $(libfaui_a_OBJECTS)
+	@mkdir -p @top_srcdir@/plugins
+	gcc -shared -Wl,-soname,$(PLUGIN_NAME) -o $(PLUGIN_FULL_NAME) $(libfaui_a_OBJECTS) -L/usr/X11R6/lib -lX11 -lXext -lXpm
+	@chmod 644 $(PLUGIN_FULL_NAME)
+
 else
 
 FILES = 
@@ -39,16 +49,12 @@ all-local:
 	@true
 endif
 
-cmdline-local: freeamp.o
-	gcc -shared -Wl,-soname,freeamp-@target_os@.ui -o freeamp-@target_os@.ui freeamp.o windowhash.o fawindow.o res.o -L/usr/X11R6/lib -lX11 -lXext -lXpm
-	cp freeamp-@target_os@.ui @top_srcdir@/plugins
-
 if AM_HAVE_LINUXTHREADS
 REENT = -D_REENTRANT
 endif
 
 noinst_LIBRARIES = $(MYLIBS)
-libfauicmdline_a_SOURCES = $(FILES)
+libfaui_a_SOURCES = $(FILES)
 
 INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/lmc/include -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@srcdir@/../res
 CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT)

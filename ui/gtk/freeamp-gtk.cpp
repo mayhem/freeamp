@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-gtk.cpp,v 1.5 1998/11/07 07:05:12 jdw Exp $
+	$Id: freeamp-gtk.cpp,v 1.6 1998/12/12 22:36:39 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -113,7 +113,7 @@ void destroy (GtkWidget *widget, gpointer data) {
     gtk_main_quit ();
 }
 
-void GtkUI::Init() {
+Error GtkUI::Init() {
     GtkWidget *theButtonBox;
     GtkWidget *outerBox;
 
@@ -190,6 +190,8 @@ void GtkUI::Init() {
     gtkListenThread = Thread::CreateThread();
     gtkListenThread->Create(GtkUI::gtkServiceFunction,this);
     
+
+    return kError_NoErr;
 }
 
 

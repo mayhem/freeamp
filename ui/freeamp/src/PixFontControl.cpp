@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: PixFontControl.cpp,v 1.1 2000/03/16 07:24:59 ijr Exp $
+   $Id: PixFontControl.cpp,v 1.2 2000/03/16 07:37:00 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -148,7 +148,7 @@ void PixFontControl::BlitLetter(char letter, Rect oDestRect)
 
     srcRect.x1 = m_lettermap[letter].col * m_LetterWidth; 
     srcRect.y1 = m_lettermap[letter].row * m_LetterHeight;
-    srcRect.x2 = srcRect.x1 + m_LetterWidth;
+    srcRect.x2 = srcRect.x1 + m_LetterWidth - 1;
     srcRect.y2 = srcRect.y2 + m_LetterHeight;
 
     oDestRect.x2++;
@@ -157,9 +157,6 @@ void PixFontControl::BlitLetter(char letter, Rect oDestRect)
     Canvas *pCanvas;
     pCanvas = m_pParent->GetCanvas();
     pCanvas->MaskBlitRect(m_pBitmap, srcRect, oDestRect);
-
-    pCanvas->Invalidate(oDestRect);
-    pCanvas->Update();
 }
 
 int PixFontControl::BlitString(string &oText, int iOffset)
@@ -206,7 +203,12 @@ int PixFontControl::BlitString(string &oText, int iOffset)
     }
     else
         currentOffset = width - m_oRect.Width();
-   
+
+    Canvas *pCanvas;
+    pCanvas = m_pParent->GetCanvas();
+    pCanvas->Invalidate(m_oRect);
+    pCanvas->Update();
+ 
     if (currentOffset > 0)
         return currentOffset;
     return 0;    

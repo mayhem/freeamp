@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.92 2000/04/18 02:04:01 robert Exp $
+dnl $Id: configure.in,v 1.93 2000/04/25 14:30:19 robert Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -570,7 +570,7 @@ if test "$curses" != ""; then
 	AC_SUBST(CURSES)
 fi
 
-AC_CHECK_LIB(id3, Find__7ID3_Tag11ID3_FrameID, 
+AC_CHECK_LIB(id3, ID3Tag_Link, 
    [ AC_DEFINE(HAVE_ID3V2) 
      ID3LIB="-lid3" 
      AC_SUBST(ID3LIB)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.50 2000/03/13 21:25:59 ijr Exp $
+        $Id: eventdata.h,v 1.51 2000/04/25 14:30:19 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -451,16 +451,16 @@ class     MpegInfoEvent:public Event
 
 };
 
-#define _EQUALIZER_ENABLE_
-#ifdef  _EQUALIZER_ENABLE_
 class     SetEqualizerDataEvent:public Event
 {
    private:
-   float    *m_eq;
-   bool      m_enable;
-   bool      m_IsEQData;
-             public:
-             SetEqualizerDataEvent(bool enable)
+      float    *m_eq;
+      bool      m_enable;
+      bool      m_IsEQData;
+
+   public:
+
+   SetEqualizerDataEvent(bool enable)
    {
       m_type = CMD_SetEQData;
       m_enable = enable;
@@ -488,8 +488,6 @@ class     SetEqualizerDataEvent:public Event
    {
    }
 };
-#endif // _EQUALIZER_ENABLE_
-#undef  _EQUALIZER_ENABLE_
 
 #define _VISUAL_ENABLE_
 #ifdef  _VISUAL_ENABLE_

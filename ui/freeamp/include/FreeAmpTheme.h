@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.25 2000/03/13 21:26:00 ijr Exp $
+   $Id: FreeAmpTheme.h,v 1.26 2000/04/25 14:30:19 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -38,6 +38,7 @@ ____________________________________________________________________________*/
 #include "playlist.h"
 #include "Theme.h"
 #include "ThemeManager.h"
+#include "Equalizer.h"
 
 enum TimeDisplayState
 {
@@ -47,8 +48,8 @@ enum TimeDisplayState
 
 enum FreeAmpMenuCommand
 {
-    kMCMyMusic = 6900,
-    kMCPlay    = 6901,
+   kMCMyMusic = 6900,
+   kMCPlay    = 6901,
 	kMCStop    = 6902,
 	kMCPause   = 6903,
 	kMCNext    = 6904,
@@ -107,6 +108,7 @@ class FreeAmpTheme : public UserInterface, public Theme
         string           m_oCurrentWindow, m_oTitle, m_oStreamInfo, m_oHeadlineUrl;
         TimeDisplayState m_eTimeDisplayState;
         UpdateManager   *m_pUpdateMan;
+        Equalizer       *m_eq;
 };
 
 #endif

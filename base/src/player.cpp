@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.189 2000/04/17 19:41:40 elrod Exp $
+        $Id: player.cpp,v 1.190 2000/04/25 14:30:19 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1797,13 +1797,11 @@ SendEventToCatalog(Event *pEvent)
         m_musicCatalog->AcceptEvent(pEvent);
 }
 
-#define _EQUALIZER_ENABLE_
-#ifdef  _EQUALIZER_ENABLE_
 void 
 Player::
 SetEQData(Event *pEvent)
 {
-   if (m_pmo)
+   if (m_lmc)
    {
        if (((SetEqualizerDataEvent *) pEvent)->IsEQData())
            m_lmc->SetEQData(((SetEqualizerDataEvent *) pEvent)->GetEQData());
@@ -1812,8 +1810,6 @@ SetEQData(Event *pEvent)
    }
    delete pEvent;
 }
-#endif // _EQUALIZER_ENABLE_
-#undef  _EQUALIZER_ENABLE_
 
 #define _VISUAL_ENABLE_
 #ifdef  _VISUAL_ENABLE_
@@ -1990,14 +1986,9 @@ ServiceEvent(Event * pC)
             ToggleUI(pC);
             break;
 
-#define _EQUALIZER_ENABLE_
-#ifdef  _EQUALIZER_ENABLE_
         case CMD_SetEQData:
             SetEQData(pC);
             break;
-
-#endif // _EQUALIZER_ENABLE_
-#undef  _EQUALIZER_ENABLE_
 
 #define _VISUAL_ENABLE_
 #ifdef  _VISUAL_ENABLE_

@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.125 2000/03/28 01:34:54 elrod Exp $
+   $Id: xinglmc.cpp,v 1.126 2000/04/25 14:30:19 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -1018,9 +1018,6 @@ Error XingLMC::EndRead(size_t iBytesUsed)
 }
 
 		
-#define _EQUALIZER_ENABLE_
-#ifdef  _EQUALIZER_ENABLE_
-
 extern "C" {
 float equalizer[32] = {
     1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
@@ -1043,8 +1040,6 @@ Error XingLMC::SetEQData(bool enable) {
         enableEQ = enable;
         return error;
 }
-#endif  //_EQUALIZER_ENABLE_
-#undef  _EQUALIZER_ENABLE_
 
 Error XingLMC::ChangePosition(int32 position)
 {

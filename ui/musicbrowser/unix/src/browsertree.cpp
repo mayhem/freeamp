@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.12 2000/06/02 13:17:33 ijr Exp $
+        $Id: browsertree.cpp,v 1.13 2000/06/02 13:37:13 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -60,7 +60,7 @@ ____________________________________________________________________________*/
 #include "../res/streams_pix.xpm"
 #include "../res/favorites_pix.xpm"
 
-const string streamURL = "http://www.freeamp.org/streams.xml";
+const string streamURL = "http://mizar/streams.xml";
 
 void kill_treedata(TreeData *dead)
 {
@@ -1160,7 +1160,11 @@ void GTKMusicBrowser::HandleStreamList(vector<FreeAmpStreamInfo> &list)
         metadata.SetComment(i->m_desc.c_str());
         newitem->SetMetaData(&metadata);
 
-        name[0] = (char *)i->m_name.c_str();
+        char *tempname = new char[i->m_name.size() + 128];
+        sprintf(tempname, "%s (%.2fkBps / %d out of %d listeners)",
+                i->m_name.c_str(), (double)i->m_bitrate / 1000.0, i->m_numUsers,
+                i->m_maxUsers);
+        name[0] = tempname;
 
         GtkCTreeNode *parent = StreamGetParentNode(i->m_treePath);
 
@@ -1173,6 +1177,8 @@ void GTKMusicBrowser::HandleStreamList(vector<FreeAmpStreamInfo> &list)
         data = NewTreeData(kTreeStream, NULL, NULL, NULL, newitem);
         gtk_ctree_node_set_row_data_full(musicBrowserTree, stream, data,
                                          (GtkDestroyNotify)kill_treedata);
+
+        delete [] tempname;
     }
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
 
@@ -1236,7 +1242,7 @@ GtkCTreeNode *GTKMusicBrowser::StreamGetParentNode(string treePath)
         }
     }
    
-    delete fullpath;
+    delete [] fullpath;
 
     return parent;
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.24 1999/11/10 11:21:47 elrod Exp $
+        $Id: Dialog.cpp,v 1.25 1999/11/10 11:48:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -210,6 +210,10 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
                     AddFileEvent();
                     return 1;
 
+                case ID_EDIT_REMOVE:
+                    //RemoveEvent();
+                    return 1;
+
                 case ID_EDIT_MOVEUP:
                     MoveUpEvent();
                     return 1;
@@ -226,15 +230,6 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
 
                     return 1;
                 
-                case ID_EDIT_REMOVE:
-                    RemoveEvent();
-                    return 1;
-                
-                case ID_EDIT_CLEARPLAYLIST:
-                    DeleteListEvent();
-                    return 1;
-
-
                 case ID_VIEW_MUSICCATALOG:
                     ExpandCollapseEvent();
                     return 1;
@@ -785,11 +780,8 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     }   
     else   
     {
-        char   url[MAX_PATH];
-        uint32 len = MAX_PATH;
-        FilePathToURL(m_currentListName.c_str(), url, &len);
         m_oPlm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
-        LoadPlaylist(url);
+        LoadPlaylist(m_currentListName.c_str());
     }   
     
     if (m_pParent)

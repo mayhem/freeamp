@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.8 2000/01/19 22:20:30 ijr Exp $
+	$Id: downloadui.h,v 1.9 2000/02/13 03:26:45 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -47,7 +47,7 @@ class DownloadUI : public UserInterface {
     ~DownloadUI();
 
     virtual Error Init(int32 startup_type);
-    virtual int32 AcceptEvent(Event*);
+    virtual Error AcceptEvent(Event*);
  
     void GTKEventService(void);
     void ToggleVisEvent(void);

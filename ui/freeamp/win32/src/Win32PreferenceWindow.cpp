@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: prefdialog.cpp,v 1.16.2.1 1999/09/29 20:12:36 robert Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.1.2.1 1999/09/29 20:12:51 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -30,63 +30,129 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 #include <assert.h>
 
-/* project headers */
-#include "config.h"
-#include "PrefDialog.h"
-#include "preferences.h"
-#include "log.h"
-#include "registrar.h"
-#include "resource.h"
+#include "Win32PreferenceWindow.h"
+#include "Win32Window.h"
 
-typedef struct PrefsStruct {
-    Preferences* prefs;
+static Win32PreferenceWindow *g_pCurrentPrefWindow = NULL;
 
-    // page 1
-    char defaultUI[256];
-    char defaultPMO[256];
-    int32 inputBufferSize;
-    int32 outputBufferSize;
-    int32 preBufferLength;
-    int32 decoderThreadPriority;
-    bool stayOnTop;
-    bool liveInTray;
+static BOOL CALLBACK 
+PrefPage1Callback(HWND hwnd, 
+                  UINT msg, 
+                  WPARAM wParam, 
+                  LPARAM lParam)
+{
+	return g_pCurrentPrefWindow->PrefPage1Proc(hwnd, msg, wParam, lParam);
+}          
 
-    // page 2
-    int32 streamInterval;
-    bool saveStreams;
-    char saveStreamsDirectory[MAX_PATH + 1];
-    bool useProxyServer;
-    char proxyServer[256]; // is there a domain name length limit???
-    bool useAlternateIP;
-    char alternateIP[16];
-    
-    // page 3
-    bool enableLogging;
-    bool logMain;
-    bool logInput;
-    bool logOutput;
-    bool logDecoder;
-    bool logPerformance;
+static BOOL CALLBACK 
+PrefPage2Callback(HWND hwnd, 
+                  UINT msg, 
+                  WPARAM wParam, 
+                  LPARAM lParam)
+{
+	return g_pCurrentPrefWindow->PrefPage2Proc(hwnd, msg, wParam, lParam);
+}          
 
-    PrefsStruct()
-    {
-        memset(defaultUI, 0x00, sizeof(defaultUI));
-        memset(defaultPMO, 0x00, sizeof(defaultPMO));
-        memset(saveStreamsDirectory, 0x00, sizeof(saveStreamsDirectory));
-        memset(proxyServer, 0x00, sizeof(proxyServer));
-        memset(alternateIP, 0x00, sizeof(alternateIP));
-    }
+static BOOL CALLBACK 
+PrefPage3Callback(HWND hwnd, 
+                  UINT msg, 
+                  WPARAM wParam, 
+                  LPARAM lParam)
+{
+	return g_pCurrentPrefWindow->PrefPage3Proc(hwnd, msg, wParam, lParam);
+}          
 
-}PrefsStruct;
+static BOOL CALLBACK 
+PrefPage4Callback(HWND hwnd, 
+                  UINT msg, 
+                  WPARAM wParam, 
+                  LPARAM lParam)
+{
+	return g_pCurrentPrefWindow->PrefPage4Proc(hwnd, msg, wParam, lParam);
+}          
 
-static PrefsStruct originalValues;
-static PrefsStruct currentValues;
+Win32PreferenceWindow::Win32PreferenceWindow(FAContext *context) :
+     PreferenceWindow(context)
+{     
+	g_pCurrentPrefWindow = this;
+}
 
+Win32PreferenceWindow::~Win32PreferenceWindow(void)
+{
+	g_pCurrentPrefWindow = NULL;
+} 
 
-static 
-void 
-GetPrefsValues(Preferences* prefs, 
-               PrefsStruct* values)
+bool Win32PreferenceWindow::Show(Window *pWindow)
+{
+     return DisplayPreferences(((Win32Window *)pWindow)->GetWindowHandle(), 
+                               m_pContext->prefs);
+}
+
+bool Win32PreferenceWindow::DisplayPreferences(HWND hwndParent, Preferences* prefs)
+{
+    bool result = false;
+    PROPSHEETPAGE psp[4];
+    PROPSHEETHEADER psh;
+    HINSTANCE hinst = (HINSTANCE)GetWindowLong(hwndParent, GWL_HINSTANCE);
+
+    psp[0].dwSize = sizeof(PROPSHEETPAGE);
+    psp[0].dwFlags = 0;
+    psp[0].hInstance = hinst;
+    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_PREF1);
+    psp[0].pszIcon = NULL;
+    psp[0].pfnDlgProc = PrefPage1Callback;
+    psp[0].pszTitle = NULL;
+    psp[0].lParam = (LPARAM)prefs;
+
+    psp[1].dwSize = sizeof(PROPSHEETPAGE);
+    psp[1].dwFlags = 0;
+    psp[1].hInstance = hinst;
+    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_PREF2);
+    psp[1].pszIcon = NULL;
+    psp[1].pfnDlgProc = PrefPage2Callback;
+    psp[1].pszTitle = NULL;
+    psp[1].lParam = (LPARAM)prefs;
+
+    psp[2].dwSize = sizeof(PROPSHEETPAGE);
+    psp[2].dwFlags = 0;
+    psp[2].hInstance = hinst;
+    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_PREF3);
+    psp[2].pszIcon = NULL;
+    psp[2].pfnDlgProc = PrefPage3Callback;
+    psp[2].pszTitle = NULL;
+    psp[2].lParam = (LPARAM)prefs;
+
+    psp[3].dwSize = sizeof(PROPSHEETPAGE);
+    psp[3].dwFlags = 0;
+    psp[3].hInstance = hinst;
+    psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PREF4);
+    psp[3].pszIcon = NULL;
+    psp[3].pfnDlgProc = PrefPage4Callback;
+    psp[3].pszTitle = NULL;
+    psp[3].lParam = (LPARAM)prefs;
+
+    psh.dwSize = sizeof(PROPSHEETHEADER);
+    psh.dwFlags = PSH_PROPSHEETPAGE;
+    psh.hwndParent = hwndParent;
+    psh.hInstance = hinst;
+    psh.pszIcon = NULL;
+    psh.pszCaption = "FreeAmp Preferences";
+    psh.nPages = sizeof(psp)/sizeof(PROPSHEETPAGE);
+    psh.nStartPage = 0;
+    psh.ppsp = psp;
+    psh.pfnCallback = NULL;
+
+    GetPrefsValues(prefs, &originalValues);
+
+    currentValues = originalValues;
+
+    result = (PropertySheet(&psh) > 0);
+
+    return result;
+}
+
+void Win32PreferenceWindow::GetPrefsValues(Preferences* prefs, 
+                                           PrefsStruct* values)
 {
     uint32 size = 256;
 
@@ -119,10 +185,8 @@ GetPrefsValues(Preferences* prefs,
     prefs->GetLogPerformance(&values->logPerformance);
 }
 
-static 
-void 
-SavePrefsValues(Preferences* prefs, 
-                PrefsStruct* values)
+void Win32PreferenceWindow::SavePrefsValues(Preferences* prefs, 
+                                            PrefsStruct* values)
 {
     prefs->SetDefaultPMO(values->defaultPMO);
     prefs->SetDefaultUI(values->defaultUI);
@@ -149,16 +213,12 @@ SavePrefsValues(Preferences* prefs,
     prefs->SetLogPerformance(values->logPerformance);
 }
 
-
-static
-BOOL 
-CALLBACK 
-PrefPage1Proc(  HWND hwnd, 
-                UINT msg, 
-                WPARAM wParam, 
-                LPARAM lParam)
+bool Win32PreferenceWindow::PrefPage1Proc(HWND hwnd, 
+                                          UINT msg, 
+                                          WPARAM wParam, 
+                                          LPARAM lParam)      
 {
-    UINT result = 0;
+    bool result = false;
     static PROPSHEETPAGE* psp = NULL;
     static Preferences* prefs = NULL;
     static HWND hwndUI = NULL;
@@ -522,15 +582,12 @@ PrefPage1Proc(  HWND hwnd,
     return result;
 }
 
-static
-BOOL 
-CALLBACK 
-PrefPage2Proc(  HWND hwnd, 
-                UINT msg, 
-                WPARAM wParam, 
-                LPARAM lParam)
+bool Win32PreferenceWindow::PrefPage2Proc(HWND hwnd, 
+                                          UINT msg, 
+                                          WPARAM wParam, 
+                                          LPARAM lParam)      
 {
-    UINT result = 0;
+    bool result = false;
     static PROPSHEETPAGE* psp = NULL;
     static Preferences* prefs = NULL;
     static HWND hwndStreamInterval = NULL;
@@ -1069,15 +1126,12 @@ PrefPage2Proc(  HWND hwnd,
     return result;
 }
 
-static
-BOOL 
-CALLBACK 
-PrefPage3Proc(  HWND hwnd, 
-                UINT msg, 
-                WPARAM wParam, 
-                LPARAM lParam)
+bool Win32PreferenceWindow::PrefPage3Proc(HWND hwnd, 
+                                          UINT msg, 
+                                          WPARAM wParam, 
+                                          LPARAM lParam)      
 {
-    UINT result = 0;
+    bool result = false;
     static PROPSHEETPAGE* psp = NULL;
     static Preferences* prefs = NULL;
     static HWND hwndLog = NULL;
@@ -1331,15 +1385,12 @@ PrefPage3Proc(  HWND hwnd,
     return result;
 }
 
-static
-BOOL 
-CALLBACK 
-PrefPage4Proc(  HWND hwnd, 
-                UINT msg, 
-                WPARAM wParam, 
-                LPARAM lParam)
+bool Win32PreferenceWindow::PrefPage4Proc(HWND hwnd, 
+                                          UINT msg, 
+                                          WPARAM wParam, 
+                                          LPARAM lParam)      
 {
-    UINT result = 0;
+    bool result = false;
     static PROPSHEETPAGE* psp = NULL;
     static Preferences* prefs = NULL;
     
@@ -1418,69 +1469,6 @@ PrefPage4Proc(  HWND hwnd,
             break;
         }
     }
-
-    return result;
-}
-
-bool DisplayPreferences(HWND hwndParent, Preferences* prefs)
-{
-    bool result = false;
-    PROPSHEETPAGE psp[4];
-    PROPSHEETHEADER psh;
-    HINSTANCE hinst = (HINSTANCE)GetWindowLong(hwndParent, GWL_HINSTANCE);
-
-    psp[0].dwSize = sizeof(PROPSHEETPAGE);
-    psp[0].dwFlags = 0;
-    psp[0].hInstance = hinst;
-    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_PREF1);
-    psp[0].pszIcon = NULL;
-    psp[0].pfnDlgProc = PrefPage1Proc;
-    psp[0].pszTitle = NULL;
-    psp[0].lParam = (LPARAM)prefs;
-
-    psp[1].dwSize = sizeof(PROPSHEETPAGE);
-    psp[1].dwFlags = 0;
-    psp[1].hInstance = hinst;
-    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_PREF2);
-    psp[1].pszIcon = NULL;
-    psp[1].pfnDlgProc = PrefPage2Proc;
-    psp[1].pszTitle = NULL;
-    psp[1].lParam = (LPARAM)prefs;
-
-    psp[2].dwSize = sizeof(PROPSHEETPAGE);
-    psp[2].dwFlags = 0;
-    psp[2].hInstance = hinst;
-    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_PREF3);
-    psp[2].pszIcon = NULL;
-    psp[2].pfnDlgProc = PrefPage3Proc;
-    psp[2].pszTitle = NULL;
-    psp[2].lParam = (LPARAM)prefs;
-
-    psp[3].dwSize = sizeof(PROPSHEETPAGE);
-    psp[3].dwFlags = 0;
-    psp[3].hInstance = hinst;
-    psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PREF4);
-    psp[3].pszIcon = NULL;
-    psp[3].pfnDlgProc = PrefPage4Proc;
-    psp[3].pszTitle = NULL;
-    psp[3].lParam = (LPARAM)prefs;
-
-    psh.dwSize = sizeof(PROPSHEETHEADER);
-    psh.dwFlags = PSH_PROPSHEETPAGE;
-    psh.hwndParent = hwndParent;
-    psh.hInstance = hinst;
-    psh.pszIcon = NULL;
-    psh.pszCaption = "FreeAmp Preferences";
-    psh.nPages = sizeof(psp)/sizeof(PROPSHEETPAGE);
-    psh.nStartPage = 0;
-    psh.ppsp = psp;
-    psh.pfnCallback = NULL;
-
-    GetPrefsValues(prefs, &originalValues);
-
-    currentValues = originalValues;
-
-    result = (PropertySheet(&psh) > 0);
 
     return result;
 }

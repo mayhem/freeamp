@@ -18,12 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.21 1999/09/29 01:13:31 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.22 1999/09/29 20:12:41 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 #ifndef WIN32
 #include "GTKUtility.h"
+#else
+#include "Win32PreferenceWindow.h"
 #endif
 
 #include "FreeAmpTheme.h"
@@ -31,6 +33,7 @@ ____________________________________________________________________________*/
 #include "eventdata.h"
 #include "event.h"
 #include "debug.h"
+#include "PreferenceWindow.h"
 
 void WorkerThreadStart(void* arg);
 
@@ -492,6 +495,16 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    }
    if (oControlName == string("Options") && eMesg == CM_Pressed)
    {
+	   PreferenceWindow *pWindow;
+       
+#ifdef WIN32
+	   pWindow = new Win32PreferenceWindow(m_pContext);
+#else
+
+#endif       
+       pWindow->Show(m_pWindow);
+       delete pWindow;
+
        return kError_NoErr;
    }
    if (oControlName == string("Quit") && eMesg == CM_Pressed)

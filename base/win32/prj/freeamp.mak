@@ -690,8 +690,9 @@ DEP_CPP_DATAB=\
 	"..\..\..\config\config.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\include\database.h"\
+	"..\..\include\debug.h"\
 	"..\..\include\errors.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
 	
@@ -704,16 +705,15 @@ DEP_CPP_DATAB=\
 !ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
 
 DEP_CPP_DATAB=\
+	"..\..\..\config\config.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\include\database.h"\
 	"..\..\include\errors.h"\
-	"..\include\Mutex.h"\
-	
-NODEP_CPP_DATAB=\
-	"..\..\..\lib\gdbm\config.h"\
+	"..\include\mutex.h"\
 	
 
-"$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"
+"$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"\
+ "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -723,8 +723,9 @@ DEP_CPP_DATAB=\
 	"..\..\..\config\config.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\include\database.h"\
+	"..\..\include\debug.h"\
 	"..\..\include\errors.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
 	
@@ -737,16 +738,15 @@ DEP_CPP_DATAB=\
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
 
 DEP_CPP_DATAB=\
+	"..\..\..\config\config.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\include\database.h"\
 	"..\..\include\errors.h"\
-	"..\include\Mutex.h"\
-	
-NODEP_CPP_DATAB=\
-	"..\..\..\lib\gdbm\config.h"\
+	"..\include\mutex.h"\
 	
 
-"$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"
+"$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"\
+ "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -767,6 +767,8 @@ SOURCE=..\..\src\downloadmanager.cpp
 
 DEP_CPP_DOWNL=\
 	"..\..\..\config\config.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
+	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
 	"..\..\include\errors.h"\
@@ -775,6 +777,7 @@ DEP_CPP_DOWNL=\
 	"..\..\include\facontext.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
 	"..\..\include\plmevent.h"\
@@ -784,7 +787,7 @@ DEP_CPP_DOWNL=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
@@ -802,6 +805,8 @@ NODEP_CPP_DOWNL=\
 
 DEP_CPP_DOWNL=\
 	"..\..\..\config\config.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
+	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
 	"..\..\include\errors.h"\
@@ -810,6 +815,7 @@ DEP_CPP_DOWNL=\
 	"..\..\include\facontext.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
 	"..\..\include\plmevent.h"\
@@ -819,7 +825,7 @@ DEP_CPP_DOWNL=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 
@@ -832,6 +838,8 @@ DEP_CPP_DOWNL=\
 
 DEP_CPP_DOWNL=\
 	"..\..\..\config\config.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
+	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
 	"..\..\include\errors.h"\
@@ -840,6 +848,7 @@ DEP_CPP_DOWNL=\
 	"..\..\include\facontext.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
 	"..\..\include\plmevent.h"\
@@ -849,7 +858,7 @@ DEP_CPP_DOWNL=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
@@ -867,6 +876,8 @@ NODEP_CPP_DOWNL=\
 
 DEP_CPP_DOWNL=\
 	"..\..\..\config\config.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
+	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
 	"..\..\include\errors.h"\
@@ -875,6 +886,7 @@ DEP_CPP_DOWNL=\
 	"..\..\include\facontext.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
 	"..\..\include\plmevent.h"\
@@ -884,7 +896,7 @@ DEP_CPP_DOWNL=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 
@@ -914,7 +926,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -939,7 +951,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	"..\include\win32prefs.h"\
 	
@@ -960,7 +972,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -985,7 +997,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	"..\include\win32prefs.h"\
 	
@@ -1003,7 +1015,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1028,7 +1040,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	"..\include\win32prefs.h"\
 	
@@ -1049,7 +1061,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1074,7 +1086,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	"..\include\win32prefs.h"\
 	
@@ -1096,7 +1108,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1120,7 +1132,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 NODEP_CPP_MUSIC=\
@@ -1140,7 +1152,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1164,7 +1176,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 
@@ -1181,7 +1193,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1205,7 +1217,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 NODEP_CPP_MUSIC=\
@@ -1225,7 +1237,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\downloadformat.h"\
 	"..\..\include\downloadmanager.h"\
@@ -1249,7 +1261,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 
@@ -1272,7 +1284,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\debug.h"\
 	"..\..\include\downloadformat.h"\
@@ -1298,7 +1310,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 NODEP_CPP_PLAYE=\
@@ -1320,7 +1332,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\debug.h"\
 	"..\..\include\downloadformat.h"\
@@ -1346,7 +1358,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 
@@ -1365,7 +1377,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\debug.h"\
 	"..\..\include\downloadformat.h"\
@@ -1391,7 +1403,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 NODEP_CPP_PLAYE=\
@@ -1413,7 +1425,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pullbuffer.h"\
 	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
-	"..\..\..\ui\include\ui.h"\
+	"..\..\..\UI\include\ui.h"\
 	"..\..\include\database.h"\
 	"..\..\include\debug.h"\
 	"..\..\include\downloadformat.h"\
@@ -1439,7 +1451,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
 	"..\..\include\utility.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 
@@ -1468,7 +1480,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	
 NODEP_CPP_PLAYL=\
 	"..\..\include\win32impl.h"\
@@ -1495,7 +1507,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	
 
 "$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
@@ -1519,7 +1531,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	
 NODEP_CPP_PLAYL=\
 	"..\..\include\win32impl.h"\
@@ -1546,7 +1558,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\registrar.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	
 
 "$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
@@ -1566,7 +1578,7 @@ DEP_CPP_PROPI=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\properties.h"\
 	"..\..\include\propimpl.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	
 
 "$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"\
@@ -1582,7 +1594,7 @@ DEP_CPP_PROPI=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\properties.h"\
 	"..\..\include\propimpl.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	
 
 "$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"\
@@ -1598,7 +1610,7 @@ DEP_CPP_PROPI=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\properties.h"\
 	"..\..\include\propimpl.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	
 
 "$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"\
@@ -1614,7 +1626,7 @@ DEP_CPP_PROPI=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\properties.h"\
 	"..\..\include\propimpl.h"\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	
 
 "$(INTDIR)\propimpl.obj" : $(SOURCE) $(DEP_CPP_PROPI) "$(INTDIR)"\
@@ -1784,7 +1796,7 @@ InputPath=..\..\..\config\config.win32
 
 SOURCE=..\src\mutex.cpp
 DEP_CPP_MUTEX=\
-	"..\include\Mutex.h"\
+	"..\include\mutex.h"\
 	
 
 "$(INTDIR)\mutex.obj" : $(SOURCE) $(DEP_CPP_MUTEX) "$(INTDIR)"

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.1.2.9 1999/09/28 22:59:41 robert Exp $
+   $Id: Window.cpp,v 1.1.2.10 1999/09/29 20:12:42 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -205,19 +205,15 @@ Error Window::EndMouseCapture(void)
     return CaptureMouse(false);
 }
 
-void Window::HandleMouseMove(Pos &oPos)
+void Window::HandleMouseMove(Pos &oScreenPos)
 {
-    Control                     *pControl;
+    Control *pControl;
+    Pos      oPos;
+    Rect     oRect;
 
 	if (m_bMouseButtonDown)
     {
-       Rect oRect;
-       Pos  oScreenPos;
-       
        GetWindowPosition(oRect);
-       oScreenPos.x = oRect.x1 + oPos.x;
-       oScreenPos.y = oRect.y1 + oPos.y;
-
        oRect.x1 += (oScreenPos.x - m_oMovePos.x);
        oRect.x2 += (oScreenPos.x - m_oMovePos.x);
        oRect.y1 += (oScreenPos.y - m_oMovePos.y);
@@ -229,6 +225,10 @@ void Window::HandleMouseMove(Pos &oPos)
        return; 
 	}
 
+    GetWindowPosition(oRect);
+    oPos.x = oScreenPos.x - oRect.x1;
+    oPos.y = oScreenPos.y - oRect.y1;
+    
     if (m_pCaptureControl)
     {
        m_pCaptureControl->AcceptTransition(CT_MouseMove, &oPos);
@@ -266,10 +266,15 @@ void Window::HandleMouseMove(Pos &oPos)
     return;
 }
 
-void Window::HandleMouseLButtonDown(Pos &oPos)
+void Window::HandleMouseLButtonDown(Pos &oScreenPos)
 {
     Control *pControl;
     Rect     oRect;
+    Pos      oPos;
+
+    GetWindowPosition(oRect);
+    oPos.x = oScreenPos.x - oRect.x1;
+    oPos.y = oScreenPos.y - oRect.y1;
 
     if (m_pCaptureControl)
     {
@@ -287,16 +292,20 @@ void Window::HandleMouseLButtonDown(Pos &oPos)
 	m_bMouseButtonDown = true;
     CaptureMouse(true);
        
-    GetWindowPosition(oRect);
-    m_oMovePos.x = oRect.x1 + oPos.x;
-    m_oMovePos.y = oRect.y1 + oPos.y;
+    m_oMovePos = oScreenPos;
 
     return;
 }
 
-void Window::HandleMouseLButtonUp(Pos &oPos)
+void Window::HandleMouseLButtonUp(Pos &oScreenPos)
 {
     Control *pControl;
+    Pos      oPos;
+    Rect     oRect;
+
+    GetWindowPosition(oRect);
+    oPos.x = oScreenPos.x - oRect.x1;
+    oPos.y = oScreenPos.y - oRect.y1;
 
 	if (m_bMouseButtonDown)
     {

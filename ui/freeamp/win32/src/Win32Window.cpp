@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.7 1999/09/28 22:59:50 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.8 1999/09/29 20:12:52 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -122,7 +122,25 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
             
             break;
         }    
+
         case WM_MOUSEMOVE:
+        {
+            POINT pt;
+        	Pos oPos;
+
+            pt.x = (int16)LOWORD(lParam);
+            pt.y = (int16)HIWORD(lParam);
+
+            ClientToScreen(hwnd, &pt);
+            oPos.x = pt.x;
+            oPos.y = pt.y;
+            
+            ui->HandleMouseMove(oPos);
+            break;
+        }
+
+
+        case WM_NCMOUSEMOVE:
         {
         	Pos oPos;
             
@@ -133,7 +151,7 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
             break;
         }		
 
-        case WM_NCMOUSEMOVE:
+        case WM_LBUTTONDOWN:
         {
             POINT pt;
         	Pos oPos;
@@ -141,20 +159,10 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
             pt.x = (int16)LOWORD(lParam);
             pt.y = (int16)HIWORD(lParam);
 
-            ScreenToClient(hwnd, &pt);
+            ClientToScreen(hwnd, &pt);
             oPos.x = pt.x;
             oPos.y = pt.y;
             
-            ui->HandleMouseMove(oPos);
-            break;
-        }
-
-        case WM_LBUTTONDOWN:
-        {
-        	Pos oPos;
-            
-        	oPos.x = (int16)LOWORD(lParam);
-            oPos.y = (int16)HIWORD(lParam);  
             ui->HandleMouseLButtonDown(oPos);
             
             break;
@@ -162,10 +170,16 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
 
         case WM_LBUTTONUP:
         {
+            POINT pt;
         	Pos oPos;
+
+            pt.x = (int16)LOWORD(lParam);
+            pt.y = (int16)HIWORD(lParam);
+
+            ClientToScreen(hwnd, &pt);
+            oPos.x = pt.x;
+            oPos.y = pt.y;
             
-        	oPos.x = (int16)LOWORD(lParam);
-            oPos.y = (int16)HIWORD(lParam);  
             ui->HandleMouseLButtonUp(oPos);
             
             break;

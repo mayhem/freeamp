@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.3 1999/09/15 21:31:23 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.4 1999/09/15 22:19:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -190,6 +190,22 @@ class DownloadManager {
     DownloadManager(FAContext* context);
     virtual ~DownloadManager();
 
+    // Functions for adding items to Download Manager
+    // Adding an item implicitly queues it for
+    // downloading.
+    Error AddItem(const char* url);
+    Error AddItem(DownloadItem* item);
+    Error AddItems(vector<DownloadItem*>* list);
+
+    // Functions for removing items from Download Manager
+    // Removing an item implicitly cancels a download
+    // that is occurring.
+    Error RemoveItem(DownloadItem* item);
+    Error RemoveItem(uint32 index);
+    Error RemoveItems(uint32 index, uint32 count);
+    Error RemoveItems(vector<DownloadItem*>* items);
+    Error RemoveAll();
+
     // Changes item state to queued if it is cancelled or error.
     // This will indicate to the download thread that it should
     // attempt to retrieve this item. Has no effect if the item's
@@ -216,22 +232,6 @@ class DownloadManager {
     bool            HasItem(DownloadItem* item);
 
  protected:
-    // Functions for adding items to Download Manager
-    // Adding an item implicitly queues it for
-    // downloading.
-    Error AddItem(const char* url);
-    Error AddItem(DownloadItem* item);
-    Error AddItems(vector<DownloadItem*>* list);
-
-    // Functions for removing items from Download Manager
-    // Removing an item implicitly cancels a download
-    // that is occurring.
-    Error RemoveItem(DownloadItem* item);
-    Error RemoveItem(uint32 index);
-    Error RemoveItems(uint32 index, uint32 count);
-    Error RemoveItems(vector<DownloadItem*>* items);
-    Error RemoveAll();
-
     inline uint32 CheckIndex(uint32 index);
     uint32 InternalIndexOf(vector<DownloadItem*>* list, DownloadItem* item);    
 
@@ -239,10 +239,17 @@ class DownloadManager {
 
     FAContext* m_context;
 
-    vector<DownloadItem*> m_downloadList;
+    Mutex       m_mutex;
+
+    vector<DownloadItem*> m_itemList;
+    vector<DownloadItem*> m_queueList;
+
+    Registry m_formatRegistry;
+
+    vector<DownloadFormat*> m_formats;
    
     uint32 m_current;
-   
+
 };
 
 #endif // INCLUDED_DOWNLOAD_MANAGER_H_

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.62 2000/06/12 10:08:21 elrod Exp $
+        $Id: MusicTree.cpp,v 1.63 2000/06/12 18:28:59 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -2276,6 +2276,8 @@ void MusicBrowserUI::UpdateUncatagorizedTrackName(PlaylistItem* track,
     track->SetMetaData(&metadata);
 
     m_context->catalog->UpdateSong(track);
+
+    m_plm->UpdateTrackMetaData(track, true);
 }
 
 
@@ -2289,6 +2291,8 @@ void MusicBrowserUI::UpdateTrackName(PlaylistItem* track,
     track->SetMetaData(&metadata);
 
     m_context->catalog->UpdateSong(track);
+
+    m_plm->UpdateTrackMetaData(track, true);
 }
 
 const char* kFileExists = "There is already a playlist with that name.";
@@ -2365,6 +2369,8 @@ void MusicBrowserUI::UpdateAlbumName(AlbumList* album,
         (*track)->SetMetaData(&metadata);
 
         m_context->catalog->UpdateSong(*track);
+
+        m_plm->UpdateTrackMetaData(*track, true);
     }
 }
 
@@ -2390,6 +2396,8 @@ void MusicBrowserUI::UpdateArtistName(ArtistList* artist,
             (*track)->SetMetaData(&metadata);
 
             m_context->catalog->UpdateSong(*track);
+
+            m_plm->UpdateTrackMetaData(*track, true);
         }
 
     }

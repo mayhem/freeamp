@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Panel.cpp,v 1.2 2000/06/10 18:47:28 robert Exp $
+   $Id: Panel.cpp,v 1.3 2000/06/12 18:28:59 elrod Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -281,15 +281,6 @@ void Panel::MoveControls(Pos &oPos)
     {
         (*i)->Move(oPos);
     }
-}
-
-bool Panel::operator<(const Panel *&a)
-{
-    if (a->m_iZOrder == m_iZOrder)
-       return 0;
-    if (a->m_iZOrder < m_iZOrder)
-       return -1;
-    return 1;
 }
 
 void Panel::TogglePanelPos(void)

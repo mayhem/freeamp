@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.7 2000/05/24 17:08:33 ijr Exp $
+        $Id: database.cpp,v 1.8 2000/06/02 13:17:33 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -42,16 +42,17 @@ Database::Database(const char *name, int version)
     assert(name);
 
     m_lock = new Mutex();
-    m_dbase = gdbm_open((char *)name, 0, GDBM_WRCREAT|GDBM_NOLOCK, S_IRWXU, 
-                        NULL);
+    m_dbase = gdbm_open((char *)name, 0, GDBM_WRCREAT|GDBM_NOLOCK|GDBM_SYNC, 
+                        S_IRWXU, NULL);
     
     assert(m_dbase);
 
     if (version >= 0) {
         if (!TestDatabaseVersion(version)) {
             gdbm_close(m_dbase);
-            m_dbase = gdbm_open((char *)name, 0, GDBM_NEWDB|GDBM_NOLOCK, 
-                                S_IRWXU, NULL);
+            m_dbase = gdbm_open((char *)name, 0, 
+                                GDBM_NEWDB|GDBM_NOLOCK|GDBM_SYNC, S_IRWXU, 
+                                NULL);
             assert(m_dbase);
         }
         StoreDatabaseVersion(version);

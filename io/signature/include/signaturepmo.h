@@ -18,7 +18,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: signaturepmo.h,v 1.3 2000/09/19 15:20:53 robert Exp $
+  $Id: signaturepmo.h,v 1.4 2000/10/26 22:51:32 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -74,7 +74,7 @@ public:
   Thread*         m_pBufferThread;
   bool            m_initialized;
 
-  musicbrainz_t   m_MB;
+  trm_t           m_TRM;
   string          m_strGUID;
   string          m_collID;
 };

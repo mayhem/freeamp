@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.24 1999/03/18 03:44:36 elrod Exp $
+	$Id: freeampui.h,v 1.25 1999/03/20 10:33:19 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -101,6 +101,7 @@ class FreeAmpUI : public UserInterface {
     void DropFiles(HDROP dropHandle);
     void CancelMode();
     void Timer(int32 timerID);
+    void InitMenuPopup(HMENU menuHandle, uint32 position, bool systemMenu);
 
     bool MouseCaptured() const { return m_mouseCaptured; }
     void SetMouseCapture(bool capture) { m_mouseCaptured = capture; }
@@ -114,18 +115,18 @@ class FreeAmpUI : public UserInterface {
 
     void LoadBitmaps();
     void DeleteBitmaps();
+
     void InitializeRegions();
     void DeleteRegions();
 
     void CreateControls();
+    void DeleteControls();
 
     void CreatePalette();
 
     void CreateTooltips();
 
     void UpdatePlayList();
-
-    bool OpenSong(List<char*>* fileList);
 
     void AddFileListToPlayList(List<char*>* fileList);
 
@@ -251,6 +252,8 @@ class FreeAmpUI : public UserInterface {
     ButtonView*         m_deleteView;
     ButtonView*         m_loadView;
     ButtonView*         m_saveView;
+
+    char*               m_prevSongInfoText;
 
 
 };

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.103 1999/03/19 23:23:10 robert Exp $
+        $Id: player.cpp,v 1.104 1999/03/20 10:33:17 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1361,6 +1361,7 @@ int32 Player::ServiceEvent(Event * pC)
            return ReadyToDieUI(pC);
 
       case INFO_UserMessage:
+      case INFO_StatusMessage:
            UserMessage(pC);
            break;
 

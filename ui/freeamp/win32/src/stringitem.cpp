@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: stringitem.cpp,v 1.6 1999/03/19 23:23:21 robert Exp $
+	$Id: stringitem.cpp,v 1.7 1999/03/20 10:33:19 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -146,6 +146,19 @@ SetText(char* text)
         }
 
         SetWidth(textLength);
+
+        if(IsSelected())
+        {
+           Renderer::Fill(  m_textBitmap,
+                            0, 
+                            0,     
+                            Width(),      
+                            Height(), 
+                            121,    
+                            131,
+                            153,
+                            100);
+        }
     }
 }
 

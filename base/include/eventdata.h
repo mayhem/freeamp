@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.24 1999/03/13 00:45:08 robert Exp $
+	$Id: eventdata.h,v 1.25 1999/03/20 10:33:16 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -56,6 +56,29 @@ class UserMessageEvent : public Event {
 	m_info = strdup(info);
     }
     const char *GetInfo() {
+	return m_info;
+    }
+};
+
+class StatusMessageEvent : public Event {
+ private:
+    char *m_info;
+ public:
+    virtual ~StatusMessageEvent() { 
+	if (m_info) {
+	    delete m_info;
+	    m_info = NULL;
+	}
+    }
+    StatusMessageEvent() {
+	m_type = INFO_StatusMessage;
+	m_info = "";
+    }
+    StatusMessageEvent(const char *info) {
+	m_type = INFO_StatusMessage;
+	m_info = strdup(info);
+    }
+    const char *GetStatusMessage() {
 	return m_info;
     }
 };

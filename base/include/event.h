@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.24 1999/03/16 08:10:55 elrod Exp $
+	$Id: event.h,v 1.25 1999/03/20 10:33:16 elrod Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -106,6 +106,7 @@ class EventQueue {
 
 #define CMD_PLMGetMediaTitle      45 // sent by PlayListManager to player to get title about a particular playlistitem
 
+#define INFO_StatusMessage      46 // sent to UIs so they can display status info
 #endif // _EVENT_H_
 
 

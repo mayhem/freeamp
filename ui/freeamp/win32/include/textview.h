@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: textview.h,v 1.2 1999/03/18 20:37:31 elrod Exp $
+	$Id: textview.h,v 1.3 1999/03/20 10:33:19 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _TEXTVIEW_H_
@@ -67,7 +67,7 @@ class TextView : public View {
 
     virtual void Invoke(void);
 
-    void SetText(char* text);
+    void SetText(const char* text);
     char* Text(void) const { return m_text; }
 
 

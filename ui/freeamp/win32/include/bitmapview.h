@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bitmapview.h,v 1.1 1999/03/03 09:03:40 elrod Exp $
+	$Id: bitmapview.h,v 1.2 1999/03/20 10:33:19 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _BITMAPVIEW_H_
@@ -43,7 +43,7 @@ class BitmapView : public View {
                 DIB* maskBitmap = NULL,
                 int32 command = -1);
 
-    ~BitmapView();
+    virtual ~BitmapView();
 
     // Tell the view to render itself into a bitmap
     virtual void Draw(DIB* canvas, RECT* invalidRect);

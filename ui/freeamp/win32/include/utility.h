@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.3 1999/03/18 03:44:36 elrod Exp $
+	$Id: utility.h,v 1.4 1999/03/20 10:33:19 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UTILITY_H_
@@ -33,6 +33,8 @@ ____________________________________________________________________________*/
 #include "list.h"
 #include "dib.h"
 
+extern const char* kSaveToRio;
+
 HRGN
 DetermineRegion(DIB* bitmap, 
 			    Color* color);
@@ -43,14 +45,16 @@ DetermineControlRegions(DIB* bitmap,
 			            Color controlColors[],
                         int32 numControls);
 
-bool FileOpenDialog(HWND hwndParent, 
-                    List<char*>* fileList,
-                    char* filter);
+bool FileOpenDialog(HWND hwnd, 
+                    const char* filter,
+                    const char* title,
+                    List<char*>* fileList);
 
-bool FileSaveDialog(HWND hwndParent, 
-                    char* buffer,
-                    uint32* bufferLength,
-                    char* filter);
+bool FileSaveDialog(HWND hwnd, 
+                    const char* filter,
+                    const char* title,
+                    char* path,
+                    uint32* pathLength);
 
 
 #endif /* _UTILITY_H_ */

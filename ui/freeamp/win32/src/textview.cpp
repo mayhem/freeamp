@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: textview.cpp,v 1.6 1999/03/19 23:23:22 robert Exp $
+	$Id: textview.cpp,v 1.7 1999/03/20 10:33:19 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -232,7 +232,7 @@ Invoke()
 
 void 
 TextView::
-SetText(char* text)
+SetText(const char* text)
 {
     assert(text);
 

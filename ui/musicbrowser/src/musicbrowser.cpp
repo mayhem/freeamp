@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.10 1999/10/17 02:20:23 robert Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.11 1999/10/17 05:06:31 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -61,6 +61,7 @@ MusicBrowserUI::MusicBrowserUI(FAContext *context)
     m_bListChanged = false;
     m_bSearchInProgress = false;
     m_currentplaying = -1;
+    m_bDragging = false;
 #endif
 }
 

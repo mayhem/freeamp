@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.1.2.13 1999/10/17 02:20:24 robert Exp $
+        $Id: Win32MusicBrowser.h,v 1.1.2.14 1999/10/17 05:06:32 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -94,6 +94,8 @@ class MusicBrowserUI : public UserInterface
     void  NewPlaylist(void);
     void  WritePlaylist(void);
     void  SortEvent(int id);
+    void  MouseMove(uint32 uFlags, POINT &sPoint);
+    void  MouseButtonUp(void);
  
  protected:
     FAContext *m_context;
@@ -132,19 +134,24 @@ class MusicBrowserUI : public UserInterface
     Error CreateMainDialog(void);
     Error CloseMainDialog(void);
 
+    void  BeginDrag(NM_TREEVIEW *pTreeView);
+
+
     EventQueue          *m_playerEQ;
     int32                m_state, m_startupType;
     int32                m_currentindex, m_currentplaying;
   	HWND                 m_hWnd, m_hStatus;		
     PlaylistManager     *m_plm;
     bool                 m_initialized, isVisible, m_bListChanged, 
-                         m_bSearchInProgress;
+                         m_bSearchInProgress, m_bDragging;
     string               m_currentListName;
     Thread              *m_uiThread;
     POINT                m_sMinSize;
-    HTREEITEM	         m_hPlaylistItem, m_hCatalogItem;
+    HTREEITEM	         m_hPlaylistItem, m_hCatalogItem, m_hDropTarget;
+    TV_ITEM              m_hTreeDragItem;
     vector<TreeCrossRef> m_oMusicCrossRefs;
     int                  m_iCollapseMoveAmount;
+    HCURSOR              m_hSavedCursor, m_hDragCursor, m_hNoDropCursor;
 };
 
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.16 1999/10/17 02:20:30 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.17 1999/10/17 05:06:35 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -67,6 +67,7 @@ bool  FileOpenDialog(HWND hwnd,
                      const char* filter,
                      vector<char*>* fileList,
                      Preferences* prefs);
+void ClientToWindow(HWND hWnd, POINT *Pt); 
 
 bool operator<(const TreeCrossRef &A, const TreeCrossRef &b)
 {
@@ -131,6 +132,18 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
 //		case WM_GETMINMAXINFO:
 //            g_ui->GetMinMaxInfo((MINMAXINFO *)lParam);
 //            break;
+
+        case WM_MOUSEMOVE:
+        {
+            POINT sPoint;   
+            sPoint.x = LOWORD(lParam);
+            sPoint.y = HIWORD(lParam);  
+            g_ui->MouseMove((uint32)wParam, sPoint);
+            return 1;
+        }
+        case WM_LBUTTONUP:
+            g_ui->MouseButtonUp();
+            return 1;
             
         case WM_COMMAND:
         {
@@ -466,6 +479,18 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
     pTreeView = (NM_TREEVIEW *)pHdr;
     if (pTreeView->hdr.idFrom == IDC_MUSICTREE)
     {
+	    if (pTreeView->hdr.code == TVN_BEGINDRAG &&
+            pTreeView->itemNew.lParam >= 0 &&
+            m_oMusicCrossRefs.size() > 0 &&
+            m_oMusicCrossRefs[pTreeView->itemNew.lParam].iLevel == 3)
+        {
+            TreeView_SelectItem(GetDlgItem(m_hWnd, IDC_MUSICTREE),
+                                pTreeView->itemNew.hItem);
+
+            BeginDrag(pTreeView);
+            return 0;
+        }    
+ 
 	    if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
             pTreeView->itemNew.hItem == m_hPlaylistItem)
         {    
@@ -571,6 +596,97 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
     }
     
 	return 1;
+}
+
+void MusicBrowserUI::BeginDrag(NM_TREEVIEW *pTreeView)
+{
+    POINT      sPoint;
+    
+    m_hTreeDragItem = pTreeView->itemNew;
+    sPoint = pTreeView->ptDrag;
+
+    m_hDragCursor = LoadCursor(g_hinst, MAKEINTRESOURCE(IDC_DRAG));
+    m_hNoDropCursor = LoadCursor(g_hinst, MAKEINTRESOURCE(IDC_NODROP));
+    m_hSavedCursor = SetCursor(m_hDragCursor);
+    
+    SetCapture(m_hWnd);
+    m_bDragging = true;
+}
+
+void MusicBrowserUI::MouseMove(uint32 uFlags, POINT &sPoint)
+{
+    if (m_bDragging)
+    {
+        TV_HITTESTINFO sHit;
+        
+        sHit.flags = TVHT_ONITEM;
+        
+        ClientToWindow(m_hWnd, &sPoint); 
+        sHit.pt = sPoint;
+        m_hDropTarget = TreeView_HitTest(GetDlgItem(m_hWnd, IDC_MUSICTREE),
+                                         &sHit);
+        if (m_hDropTarget != NULL)
+        {
+            TV_ITEM sItem;
+            
+            sItem.hItem = m_hDropTarget;
+            sItem.mask = TVIF_PARAM;
+            TreeView_GetItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sItem);
+            if (sItem.lParam < 0)
+               SetCursor(m_hDragCursor);
+            else    
+            {
+               SetCursor(m_hNoDropCursor);
+               m_hDropTarget = NULL;
+            }
+        }       
+        else    
+            SetCursor(m_hNoDropCursor);
+    }
+} 
+
+void MusicBrowserUI::MouseButtonUp(void)
+{
+    int i;
+    
+    if (m_bDragging)
+    {
+        ReleaseCapture();
+        SetCursor(m_hSavedCursor);
+        m_bDragging = false; 
+        
+        if (m_hDropTarget)
+        {
+            TV_ITEM sItem;
+            PlaylistItem *item;
+            
+            sItem.hItem = m_hDropTarget;
+            sItem.mask = TVIF_PARAM;
+            TreeView_GetItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sItem);
+
+            assert(sItem.lParam < 0);
+            
+            i = -sItem.lParam;
+                 
+            if (i != 1)
+            {
+                vector<string> *p;
+                
+                p = m_context->browser->m_catalog->m_playlists;
+                LoadPlaylist((*p)[(-sItem.lParam) - 1]);
+            }
+            else
+                LoadPlaylist(string(""));
+
+            item = new PlaylistItem(*m_oMusicCrossRefs[m_hTreeDragItem.lParam].pTrack);
+            
+            m_context->plm->AddItem(item, false);
+            UpdatePlaylistList();
+            m_bListChanged = true;
+                     
+            SetFocus(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX));
+        }    
+    }    
 }
 
 void MusicBrowserUI::FillArtists(void)
@@ -1264,4 +1380,15 @@ FileOpenDialog(HWND hwnd,
     delete [] fileBuffer;
 
     return result;
+}
+
+void ClientToWindow(HWND hWnd, POINT *Pt) 
+{
+    RECT wRect, cRect;
+ 
+    GetWindowRect(hWnd, &wRect);
+    GetClientRect(hWnd, &cRect);
+    MapWindowPoints(hWnd, HWND_DESKTOP, (LPPOINT)&cRect, 2);
+    Pt->x += (wRect.left - cRect.left);
+    Pt->y += (wRect.top - cRect.top);
 }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.9 1999/03/07 08:42:32 elrod Exp $
+	$Id: preferences.cpp,v 1.10 1999/03/07 08:44:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <unistd.h>
@@ -91,7 +91,7 @@ HANDLE Preferences::GetFirstLibDir(char *path, uint32 *len) {
 	pPart = pCol + sizeof(char);
     }
 
-    pPath = pldfh->m_pLibDirs->ElementAt(0);
+    pPath = pldfh->m_pLibDirs->ItemAt(0);
     if (pPath) {
 	strncpy(path,pPath,*len);
 	*len = strlen(pPath);
@@ -124,7 +124,7 @@ Error Preferences::GetNextLibDir(HANDLE hLibDirFind,char *path, uint32 *len) {
     if (hLibDirFind) {
 	LibDirFindHandle *pldfh = (LibDirFindHandle *)hLibDirFind;
 	pldfh->m_current++;
-	char *pPath = pldfh->m_pLibDirs->ElementAt(pldfh->m_current);
+	char *pPath = pldfh->m_pLibDirs->ItemAt(pldfh->m_current);
 	if (pPath) {
 	    strncpy(path,pPath,*len);
 	    *len = strlen(pPath);

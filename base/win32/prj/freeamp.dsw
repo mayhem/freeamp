@@ -92,6 +92,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name m3u
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pmp300
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -166,6 +169,18 @@ Package=<4>
 ###############################################################################
 
 Project: "obsinput"=..\..\..\io\obs\win32\prj\obsinput.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pmp300"=..\..\..\plm\portable\pmp300\prj\pmp300.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

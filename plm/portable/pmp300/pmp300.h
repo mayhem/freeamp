@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portabledevice.h,v 1.1.2.5 1999/08/30 06:48:04 elrod Exp $
+	$Id: pmp300.h,v 1.1.2.1 1999/08/30 06:48:09 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PORTABLE_DEVICE_H_
-#define _PORTABLE_DEVICE_H_
+#ifndef INCLUDED_PMP300_H
+#define INCLUDED_PMP300_H
 
 #include <string>
 
@@ -34,46 +34,13 @@ using namespace std;
 #include "errors.h"
 #include "facontext.h"
 
-class PortableDevice;
+#include "portabledevice.h"
+#include "playlist.h"
 
-typedef PortableDevice* DeviceRef;
-
-class DeviceInfo {
-
+class PMP300 : public PortableDevice {
  public:
-
-    DeviceInfo():m_ref(NULL) {}
-    
-    virtual ~DeviceInfo() {}
-
-    Error SetManufacturer(const char* manufacturer)
-    {m_manufacturer = manufacturer; return kError_NoErr; }
-    const char* GetManufacturer() const { return m_manufacturer.c_str(); }
-
-    Error SetDevice(const char* device) 
-    { m_device = device; return kError_NoErr; }
-    const char* GetDevice() { return m_device.c_str(); }
-
-    Error SetCapacity(uint32 bytes) { m_capacity = bytes; return kError_NoErr; }
-    uint32 GetCapacity() { return m_capacity; }
-
-    Error SetRef(DeviceRef ref) { m_ref = ref; return kError_NoErr; }
-    DeviceRef GetRef() { return m_ref; }
-
- private:
-  
-    string m_manufacturer;
-    string m_device;
-    DeviceRef m_ref;
-    uint32 m_capacity;
-};
-
-class PortableDevice {
-
- public:
-
-    PortableDevice(FAContext *context) {}
-    virtual ~PortableDevice() {}
+    PMP300(FAContext *context);
+    virtual ~PMP300();
 
     virtual Error GetSupportedDevices(DeviceInfo* device, uint32 index) = 0;
 
@@ -94,8 +61,12 @@ class PortableDevice {
                                PlaylistItem* item,
                                char* url,
                                callback_function function = NULL) = 0;
+
+ private:
+     FAContext* m_context;
 };
 
 
-#endif // _PORTABLE_DEVICE_H_
+
+#endif // INCLUDED_PMP300_H
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlistformat.h,v 1.1.2.5 1999/08/30 04:50:58 elrod Exp $
+	$Id: playlistformat.h,v 1.1.2.6 1999/08/30 06:48:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_FORMAT_H_
@@ -33,6 +33,7 @@ using namespace std;
 
 #include "config.h"
 #include "errors.h"
+#include "facontext.h"
 
 typedef bool (*callback_function)(void * cookie);
 

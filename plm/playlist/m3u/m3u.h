@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.h,v 1.1.2.1 1999/08/30 05:26:56 elrod Exp $
+	$Id: m3u.h,v 1.1.2.2 1999/08/30 06:48:09 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef INCLUDED_ID3V1_H
-#define INCLUDED_ID3V1_H
+#ifndef INCLUDED_M3U_H
+#define INCLUDED_M3U_H
 
 #include <string>
 
@@ -55,5 +55,5 @@ class M3U : public PlaylistFormat {
 
 
 
-#endif // INCLUDED_ID3V1_H
+#endif // INCLUDED_M3U_H
 

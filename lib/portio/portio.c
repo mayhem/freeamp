@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portio.c,v 1.2 1999/04/09 01:42:02 elrod Exp $
+	$Id: portio.c,v 1.1.2.1 1999/08/30 06:48:09 elrod Exp $
 ____________________________________________________________________________*/
 /* system headers */
 #include <ntddk.h>

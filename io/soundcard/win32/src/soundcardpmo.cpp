@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.59 2000/02/14 22:03:37 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.59.2.1 2000/02/22 21:34:22 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -237,7 +237,7 @@ void SoundCardPMO::SetVolume(int32 volume)
     
 	mxcd.cbStruct = sizeof(MIXERCONTROLDETAILS);
 	mxcd.dwControlID = m_dwVolumeControlID;
-	mxcd.cChannels = 2;
+	mxcd.cChannels = 1;
 	mxcd.cMultipleItems = 0;
 	mxcd.cbDetails = sizeof(MIXERCONTROLDETAILS_UNSIGNED);
 	mxcd.paDetails = &mxcdVolume;

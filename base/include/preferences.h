@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.38 2000/05/23 16:24:22 elrod Exp $
+	$Id: preferences.h,v 1.38.4.1 2000/06/05 13:42:48 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -95,6 +95,7 @@ extern const char* kEqualizerSettingsPref;
 extern const char* kSavedPlaylistPositionPref;
 extern const char* kMusicBrowserPositionPref;
 extern const char* kMusicBrowserHeaderWidthsPref;
+extern const char* kPlaylistHeaderColumns;
 
 extern const int32 kDefaultWatchThisDirTimeout;
 
@@ -220,6 +221,9 @@ class Preferences {
 
     Error GetThemeDefaultFont(char* font, uint32* len);
     Error SetThemeDefaultFont(const char* font);
+
+	Error GetPlaylistHeaderColumns(char *columns, uint32* len);
+	Error SetPlaylistHeaderColumns( char *columns );
 
     Error GetThemePath(char* path, uint32* len);
     Error SetThemePath(const char* path);

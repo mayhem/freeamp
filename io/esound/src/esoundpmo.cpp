@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-	$Id: esoundpmo.cpp,v 1.14 2000/05/04 10:54:57 robert Exp $
+	$Id: esoundpmo.cpp,v 1.15 2000/05/07 17:06:23 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -334,6 +334,7 @@ void EsounDPMO::WorkerThread(void)
           if (eErr == kError_NoDataAvail)
           {
              m_pLmc->Wake();
+             CheckForBufferUp();
 
              if (!bPerfWarn)
              {

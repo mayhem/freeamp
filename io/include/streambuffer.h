@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: streambuffer.h,v 1.9 1999/10/19 07:13:00 elrod Exp $
+   $Id: streambuffer.h,v 1.10 2000/05/07 17:06:23 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_STREAMBUFFER_H_
@@ -29,8 +29,6 @@ ____________________________________________________________________________*/
 
 #include "pullbuffer.h"
 
-const int iReceiveTimeout = 1;
-
 class StreamBuffer : public PullBuffer
 {
     public:
@@ -40,19 +38,10 @@ class StreamBuffer : public PullBuffer
                             FAContext *context);
       virtual ~StreamBuffer(void);
 
-      virtual  Error    BeginWrite (void *&pBuffer, size_t iBytesNeeded);
-
-      virtual  bool     IsBufferingUp(int32 iBytesNeeded);
-		virtual  void     Pause()
-		                  { m_bPause = true; };     
-		virtual  void     Resume()
-		                  { m_bPause = false; };     
-      virtual  bool     DidDiscardBytes();
+      virtual  Error    BeginRead (void *&pBuffer, size_t iBytesNeeded);
+      virtual  Error    EndRead   (size_t iBytesUsed);
 
     protected:
-
-	   bool      m_bBufferingUp, m_bPause, m_bDiscardedBytes;
-		Mutex    *m_pStreamMutex;
 };
 
 #endif

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.104 2000/05/04 12:03:38 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.105 2000/05/07 17:06:23 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -115,7 +115,7 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
    m_pUpdateThread = NULL;
    m_pOptionsThread = NULL;
    m_bInOptions = false;
-   m_bShowBuffers = m_bPaused = false;
+   m_bShowBuffers = m_bPaused = m_bBufferingUp = false;
    m_iFramesSinceSeek = 2;
    m_fSecondsPerFrame = 0;
 
@@ -538,6 +538,24 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          StreamBufferEvent *info = (StreamBufferEvent *) e;
          char *szTemp;
          string oName("BufferInfo"), oText;
+
+         if (info->IsBufferingUp())
+         {
+             string oControl("Info"), oDesc;
+             char   szText[64];
+             
+             sprintf(szText, "Buffering up [%d%%]", 
+                min(info->GetInputPercent()*2, 100));
+             oDesc = string(szText);
+             m_pWindow->ControlStringValue(oControl, true, oDesc);
+             m_bBufferingUp = true;
+         }   
+         if (!info->IsBufferingUp() && m_bBufferingUp == true)
+         {
+             string oControl("Info"), oDesc("Playing stream...");
+             m_pWindow->ControlStringValue(oControl, true, oDesc);
+             m_bBufferingUp = false;
+         }   
 
          szTemp = new char[100];
          sprintf(szTemp, "I: %3ld O: %3ld %c", 

@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.39 2000/02/05 23:57:41 robert Exp $
+   $Id: xinglmc.h,v 1.40 2000/05/07 17:06:23 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -121,10 +121,7 @@ class     XingLMC:public LogicalMediaConverter
 
    static void          DecodeWorkerThreadFunc(void *);
    void                 DecodeWork();
-   Error                BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
-                                  bool bBufferUp = true);
-   Error                BlockingBeginRead(void *&pBuffer, 
-                                          unsigned int iBytesNeeded);
+   Error                BeginRead(void *&pBuffer, unsigned int iBytesNeeded);
    Error                EndRead(size_t iBytesUsed);
    Error                AdvanceBufferToNextFrame();
    Error                GetHeadInfo();

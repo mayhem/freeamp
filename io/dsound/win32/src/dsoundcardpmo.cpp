@@ -19,7 +19,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: dsoundcardpmo.cpp,v 1.21 2000/05/04 11:28:32 robert Exp $
+  $Id: dsoundcardpmo.cpp,v 1.22 2000/05/07 17:06:23 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -959,6 +959,7 @@ WorkerThread(void)
           if (eErr == kError_NoDataAvail)
           {
               m_pLmc->Wake();
+              CheckForBufferUp();
     
               WasteTime();
               continue;

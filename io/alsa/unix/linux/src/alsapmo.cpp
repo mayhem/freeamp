@@ -24,7 +24,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.26 2000/05/07 12:48:27 robert Exp $
+        $Id: alsapmo.cpp,v 1.27 2000/05/07 17:06:22 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -470,6 +470,7 @@ void AlsaPMO::WorkerThread(void)
           if (eErr == kError_NoDataAvail)
           {
               m_pLmc->Wake();
+              CheckForBufferUp();
 
               WasteTime();
               continue;
@@ -539,7 +540,6 @@ void AlsaPMO::WorkerThread(void)
           iRet = snd_pcm_channel_status(ai->handle,&ainfo);
           if (iRet < 0)
           {
-              printf("ALSA: %s\n", snd_strerror(iRet));
               m_bExit = true;
               break;
           }

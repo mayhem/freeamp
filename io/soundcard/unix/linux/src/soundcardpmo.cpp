@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.38 2000/05/04 10:54:57 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.39 2000/05/07 17:06:23 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -336,6 +336,8 @@ void SoundCardPMO::WorkerThread(void)
    // Don't do anything until resume is called.
    m_pPauseSem->Wait();
 
+   //CheckForBufferUp();
+
    // Wait a specified prebuffer time...
    PreBuffer();
 
@@ -394,6 +396,7 @@ void SoundCardPMO::WorkerThread(void)
           if (eErr == kError_NoDataAvail)
           {
               m_pLmc->Wake();
+              CheckForBufferUp();
 
               if (!bPerfWarn)
               {

@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.30 1999/11/18 02:08:34 robert Exp $
+        $Id: obsinput.cpp,v 1.31 2000/05/07 17:06:23 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -316,7 +316,6 @@ void ObsInput::WorkerThread(void)
    Error           eError;
    fd_set          sSet;
    struct timeval  sTv;
-   bool            bFirstPacket = true;
 
    eError = Open();
    if (IsError(eError) || m_bExit)
@@ -360,12 +359,6 @@ void ObsInput::WorkerThread(void)
       {
          m_pOutputBuffer->SetEndOfStream(true);
          break;
-      }
-
-      if (bFirstPacket)
-      {
-          ReportStatus("Playing RTP stream...");
-          bFirstPacket = false;
       }
 
       for(;;)

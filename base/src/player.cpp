@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.211 2000/06/22 15:27:17 elrod Exp $
+        $Id: player.cpp,v 1.212 2000/06/22 16:09:30 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1502,26 +1502,26 @@ Stop(Event *pEvent)
 
 void
 Player::
-GetPrefInt32(kVolumePref, Event *pEvent)
+GetVolume(Event *pEvent)
 {
     int32 left = -1, right = -1;
 
     delete pEvent;
     if (m_pmo) 
     {
-       m_pmo->GetPrefInt32(kVolumePref, left, right);
+       m_pmo->GetVolume(left, right);
        SendToUI(new VolumeEvent(INFO_VolumeInfo,left, right));
     }   
 }
 
 void
 Player::
-SetPrefInt32(kVolumePref, Event *pEvent)
+SetVolume(Event *pEvent)
 {
     int32 left=((VolumeEvent *) pEvent)->GetLeftVolume();
     int32 right=((VolumeEvent *) pEvent)->GetRightVolume();
     if (m_pmo) 
-        m_pmo->SetPrefInt32(kVolumePref, left, right);
+        m_pmo->SetVolume(left, right);
     delete pEvent;
 }
 
@@ -1894,11 +1894,11 @@ ServiceEvent(Event * pC)
             break;
 
         case CMD_GetVolume:
-            GetPrefInt32(kVolumePref, pC);
+            GetVolume(pC);
             break;
 
         case CMD_SetVolume:
-            SetPrefInt32(kVolumePref, pC);
+            SetVolume(pC);
             break;
 
         case CMD_ChangePosition:

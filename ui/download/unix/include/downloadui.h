@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.2 1999/10/19 07:13:15 elrod Exp $
+	$Id: downloadui.h,v 1.3 1999/10/28 18:53:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -56,6 +56,7 @@ class DownloadUI : public UserInterface {
     void PauseEvent(void);
     void ResumeEvent(void);
     void SelChangeEvent(int row);
+    void AddURLEvent(void);
 
  protected:
 
@@ -99,7 +100,9 @@ class DownloadUI : public UserInterface {
     GtkWidget *playlist;
     GtkWidget *name;
     GtkWidget *size;
-    
+   
+    GtkWidget *addEntry;
+ 
     vector<DownloadItem *> downloadList;
     
 };

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.h,v 1.2 1999/10/19 07:12:57 elrod Exp $
+	$Id: rmp.h,v 1.3 1999/10/28 18:53:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_RMP_H
@@ -34,7 +34,7 @@ using namespace std;
 #include "errors.h"
 #include "facontext.h"
 #include "Parse.h"
-#include "MetaData.h"
+#include "metadata.h"
 
 #include "downloadformat.h"
 #include "downloadmanager.h"

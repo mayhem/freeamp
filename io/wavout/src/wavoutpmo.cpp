@@ -19,7 +19,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: wavoutpmo.cpp,v 1.3 2000/03/17 04:22:41 robert Exp $
+  $Id: wavoutpmo.cpp,v 1.4 2000/03/18 07:09:09 hiro Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -102,7 +102,7 @@ Error
 WavOutPMO::
 Init(OutputInfo* info)
 {
-   unsigned int len;
+   uint32 len;
     
    m_samples_per_second  = info->samples_per_second;
    m_data_size           = info->max_buffer_size;

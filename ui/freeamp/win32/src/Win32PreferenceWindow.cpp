@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.48 2000/06/12 16:13:55 robert Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.49 2000/06/12 18:21:56 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -2357,7 +2357,7 @@ bool Win32PreferenceWindow::PrefDirectoryProc(HWND hwnd,
         case WM_HELP:
         case UWM_HELP:
         {
-            ShowHelp(m_pContext, Preferences_About);
+            ShowHelp(m_pContext, Preferences_Directory);
             break;
         }
 
@@ -2369,7 +2369,7 @@ bool Win32PreferenceWindow::PrefDirectoryProc(HWND hwnd,
             {
                 case PSN_HELP:
                 {
-                    ShowHelp(m_pContext, Preferences_About);
+                    ShowHelp(m_pContext, Preferences_Directory);
                     break;
                 }
                 case PSN_SETACTIVE:

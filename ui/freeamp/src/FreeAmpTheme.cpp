@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.127 2000/06/12 18:07:50 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.128 2000/06/12 18:21:56 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1592,9 +1592,9 @@ void FreeAmpTheme::ShowHelp(void)
     if (!::ShowHelp(m_pContext, FreeAmp_Main_Window))
     {
         MessageDialog oBox(m_pContext);
-        string oMessage("Cannot find the help files. Please make sure that the h
-elp files are properly installed, and you are not running "the_BRANDING" from th
-e build directory.");
+        string oMessage("Cannot find the help files. Please make sure that the "
+			            "help files are properly installed, and you are not "
+						"running "the_BRANDING" from the build directory.");
         oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk, true);  
     }
 }

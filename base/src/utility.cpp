@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.11 1999/11/07 21:50:48 elrod Exp $
+	$Id: utility.cpp,v 1.12 1999/11/07 22:30:52 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -132,6 +132,16 @@ void ResolvePath(char** path)
 
     dotslash[1] = DIR_MARKER;
     dotdotslash[2] = DIR_MARKER;
+
+#ifdef WIN32
+
+    // network path, skip initial double slash
+    if(strlen(cp) > 1 && cp[0] == '\\' && cp[1] == '\\')
+    {
+        cp += 2;
+    }
+
+#endif
 
     while(*cp)
     {

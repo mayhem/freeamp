@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.6.2.4.4.1 2000/03/23 18:13:19 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.6.2.4.4.1.2.1 2000/03/29 01:43:16 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -26,6 +26,7 @@ ____________________________________________________________________________*/
 // When symbols are longer than 255 characters, the warning is disabled.
 #ifdef WIN32
 #pragma warning(disable:4786)
+#define STRICT
 #endif
 
 

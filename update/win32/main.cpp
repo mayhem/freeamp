@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.5.2.1.4.3 2000/03/27 20:11:01 elrod Exp $
+	$Id: main.cpp,v 1.5.2.1.4.3.2.1 2000/03/29 01:43:16 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -65,7 +65,8 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     {
         int32 result;
 
-        result = MessageBox(NULL, kMessage, "Updating "the_BRANDING, MB_RETRYCANCEL);
+        result = MessageBox(NULL, kMessage, "Updating "the_BRANDING, 
+                            MB_RETRYCANCEL);
 
         if(result == IDCANCEL)
         {
@@ -245,7 +246,8 @@ void MoveFiles(const char* src, const char* dest)
 		                  NULL );
 
 		                // now display this string
- 		                MessageBox(NULL, (char*)lpMessageBuffer, destPath, MB_OK);
+ 		                MessageBox(NULL, (char*)lpMessageBuffer, destPath, 
+                                   MB_OK);
 
 		                // Free the buffer allocated by the system
 		                LocalFree( lpMessageBuffer );
@@ -335,6 +337,9 @@ void MoveFileOnReboot(const char* src, const char* dest)
 	    // Windows 95, 98
 	    case VER_PLATFORM_WIN32_WINDOWS:
         {
+            const uint32 MAX_INI_SECTION_SIZE = 32767;
+            char* section;
+            uint32 sectionSize = 0;
             char iniPath[MAX_PATH];
             const char* kNULL = "NUL";
 
@@ -344,7 +349,34 @@ void MoveFileOnReboot(const char* src, const char* dest)
             GetWindowsDirectory(iniPath, sizeof(iniPath));
             strcat(iniPath, "\\WININIT.INI");
 
-            WritePrivateProfileString("rename", dest, src, iniPath);
+            section = new char[MAX_INI_SECTION_SIZE];
+
+            *section = 0x00;
+
+            sectionSize = GetPrivateProfileSection("rename", section, 
+                                                   MAX_INI_SECTION_SIZE, 
+                                                   iniPath);
+            
+            char srcShortFileName[MAX_PATH];
+            char destShortFileName[MAX_PATH];
+
+            GetShortPathName(src, srcShortFileName, sizeof(srcShortFileName));
+            GetShortPathName(dest, destShortFileName, sizeof(srcShortFileName));
+
+            strcpy(section + sectionSize, destShortFileName);
+            sectionSize += strlen(destShortFileName);
+
+            strcpy(section + sectionSize, "=");
+            sectionSize++;
+
+            strcpy(section + sectionSize, srcShortFileName);
+            sectionSize += strlen(srcShortFileName) + 1;
+
+            strcpy(section + sectionSize, "\0");
+
+            WritePrivateProfileSection("rename", section, iniPath);
+
+            delete [] section;
  		    break;
         }
 

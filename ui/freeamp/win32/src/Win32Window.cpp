@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.32.2.2 2000/02/28 03:19:14 robert Exp $
+   $Id: Win32Window.cpp,v 1.32.2.2.6.1 2000/03/29 01:43:16 elrod Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 // When symbols are longer than 255 characters, the warning is disabled.
 #ifdef WIN32
 #pragma warning(disable:4786)
+#define STRICT
 #endif
 
 #include <map>

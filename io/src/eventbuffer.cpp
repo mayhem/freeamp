@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: eventbuffer.cpp,v 1.16 2000/01/24 19:51:18 robert Exp $
+   $Id: eventbuffer.cpp,v 1.17 2000/02/06 01:03:39 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -132,6 +132,11 @@ Error EventBuffer::Clear()
 void EventBuffer::SetBytesInUse(uint32 iBytesInUse)
 {
    m_iBytesInUse = iBytesInUse;
+}
+
+uint32 EventBuffer::GetBytesInUse(void)
+{
+   return m_iBytesInUse;
 }
 
 int32 EventBuffer::GetBufferPercentage(void)

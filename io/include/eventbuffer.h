@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: eventbuffer.h,v 1.6 1999/11/17 01:54:04 robert Exp $
+   $Id: eventbuffer.h,v 1.7 2000/02/06 01:03:39 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTBUFFER_H_
@@ -53,6 +53,7 @@ class EventBuffer : public PullBuffer
       virtual  Event     *PeekEvent(void);
       virtual  Error      BeginRead(void *&pBuffer, size_t iNumBytes);
 
+      virtual  uint32     GetBytesInUse(void);
       virtual  void       SetBytesInUse(uint32 iBytesInUse);
       virtual  int32      GetBufferPercentage(void);
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.55 2000/02/05 23:59:16 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.56 2000/02/06 01:03:39 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -317,6 +317,9 @@ void SoundCardPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
 
    if (m_iBaseTime == MAXINT32)
    {
+       if (!pEvent)
+          return;
+          
        m_iBaseTime = (pEvent->GetFrameNumber() * m_samples_per_frame) / 
                       m_samples_per_second;
 
@@ -372,6 +375,7 @@ bool SoundCardPMO::WaitForDrain(void)
 		  return true;
 	   }
 	   WasteTime();
+       HandleTimeInfoEvent(NULL);
    }
 
    return false;
@@ -624,6 +628,21 @@ void SoundCardPMO::WorkerThread(void)
           // before we play this block of samples?
           if (eErr == kError_EventPending)
           {
+              pEvent = ((EventBuffer *)m_pInputBuffer)->PeekEvent();
+			  if (pEvent == NULL)
+				  continue;
+                  
+              if (pEvent->Type() == PMO_Quit && 
+                  ((EventBuffer *)m_pInputBuffer)->GetBytesInUse() > 0) 
+              {
+                  if (WaitForDrain())
+				  {
+                     m_pTarget->AcceptEvent(new Event(INFO_DoneOutputting));
+                     return;
+				  }
+                  continue;
+              }
+
               pEvent = ((EventBuffer *)m_pInputBuffer)->GetEvent();
 			  if (pEvent == NULL)
 				  continue;
@@ -636,17 +655,14 @@ void SoundCardPMO::WorkerThread(void)
     
               if (pEvent->Type() == PMO_Info) 
                   HandleTimeInfoEvent((PMOTimeInfoEvent *)pEvent);
-    
-              if (pEvent->Type() == PMO_Quit) 
+
+              if (pEvent->Type() == PMO_Quit)
               {
-				  delete pEvent;
-                  if (WaitForDrain())
-				  {
-                     m_pTarget->AcceptEvent(new Event(INFO_DoneOutputting));
-				  }
-                  return;
+                 m_pTarget->AcceptEvent(new Event(INFO_DoneOutputting));
+                 delete pEvent;
+                 return;
               }
- 
+    
               delete pEvent;
     
               continue;

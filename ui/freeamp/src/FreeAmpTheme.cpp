@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.3 2000/02/23 18:50:54 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.4 2000/02/25 00:10:26 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -205,29 +205,33 @@ void WorkerThreadStart(void* arg)
 
 void FreeAmpTheme::LoadFreeAmpTheme(void)
 {
-   char         *szTemp;
-   uint32        iLen = 255;
-   string        oThemePath;
-   Error         eRet;
+   char    *szTemp;
+   uint32   iLen = 255;
+   string   oThemePath("");
+   Error    eRet;
+   struct  _stat buf;
 
    szTemp = new char[iLen];
    m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
-   oThemePath = szTemp;
    
-   if (strchr(szTemp, DIR_MARKER) == NULL)
+   if (_stat(szTemp, &buf) < 0)
    {
-       string oBase = oThemePath;
-       map<string, string> oThemeList;
- 
-       m_pThemeMan->GetThemeList(oThemeList);
+      // If the theme doesn't exist, let's try to prepend the install/theme dir
+      char   *dir;
+      uint32  len = _MAX_PATH;
 
-       char *dot;
-       if ((dot = strchr(oBase.c_str(), '.')))
-           dot = '\0';
+      dir = new char[_MAX_PATH];
+   
+      m_pContext->prefs->GetInstallDirectory(dir, &len);
+      oThemePath = string(dir);
+      oThemePath += string(DIR_MARKER_STR);    
+      oThemePath += string("themes");
+      oThemePath += string(DIR_MARKER_STR);    
 
-       oThemePath = oThemeList[oBase]; 
+      delete dir;
    }
-  
+   oThemePath += szTemp;
+   
    iLen = 255; 
    m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
    SetDefaultFont(string(szTemp));
@@ -1101,15 +1105,32 @@ void FreeAmpTheme::InitWindow(void)
 
 void FreeAmpTheme::ReloadTheme(void)
 {
-    char         *szTemp;
-    uint32        iLen = 255;
-    string        oThemePath, oThemeFile("theme.xml");
-    Error         eRet;
+    char    *szTemp;
+    uint32   iLen = 255;
+    string   oThemePath(""), oThemeFile("theme.xml");
+    Error    eRet;
+    struct  _stat buf;
 
     szTemp = new char[iLen];
 
     m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
-    oThemePath = szTemp;
+    if (_stat(szTemp, &buf) < 0)
+    {
+       // If the theme doesn't exist, let's try to prepend the install/theme dir
+       char   *dir;
+       uint32  len = _MAX_PATH;
+
+       dir = new char[_MAX_PATH];
+    
+       m_pContext->prefs->GetInstallDirectory(dir, &len);
+       oThemePath = string(dir);
+       oThemePath += string(DIR_MARKER_STR);    
+       oThemePath += string("themes");
+       oThemePath += string(DIR_MARKER_STR);    
+   
+       delete dir;
+    }
+    oThemePath += szTemp;
 
     iLen = 255;
     m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);

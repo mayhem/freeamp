@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.19 1999/11/16 04:24:27 elrod Exp $
+        $Id: MusicTree.cpp,v 1.20 1999/11/16 11:52:11 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -375,9 +375,6 @@ void MusicBrowserUI::FillPlaylists(void)
 
     for(i = pList->begin(), iIndex = 0; i != pList->end(); i++,iIndex++)
     {
-        if (!iIndex) 
-            continue;
-
         _splitpath((char *)(*i).c_str(), NULL, NULL, szBase, NULL);   
         oData.m_oPlaylistName = string(szBase);
         oData.m_oPlaylistPath = *i;

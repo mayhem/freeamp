@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.56 1999/12/18 03:35:58 elrod Exp $
+        $Id: Dialog.cpp,v 1.57 1999/12/20 00:27:40 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -977,7 +977,7 @@ void MusicBrowserUI::CreateToolbar(void)
 				REBARCLASSNAME,
 				NULL,
                 WS_VISIBLE | WS_BORDER | WS_CHILD | 0 |
-                  WS_CLIPSIBLINGS | CCS_NODIVIDER | RBS_VARHEIGHT | 
+                  WS_CLIPSIBLINGS | CCS_NODIVIDER | RBS_VARHEIGHT |
                   RBS_BANDBORDERS | CCS_NOPARENTALIGN,
 				0, 0, rect.right - rect.left, toolbarHeight,
 				m_hWnd,

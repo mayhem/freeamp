@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.7 1999/04/22 08:24:01 mhw Exp $
+dnl $Id: configure.in,v 1.8 1999/04/23 02:17:52 mhw Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -22,7 +22,7 @@ AC_INIT(base/src/player.cpp)
 AC_CONFIG_AUX_DIR(config)
 AC_CANONICAL_HOST
 
-AC_DEFINE_UNQUOTED(FREEAMP_VERSION, "1.2.1")
+AC_DEFINE_UNQUOTED(FREEAMP_VERSION, "1.2.2")
 
 AC_PROG_MAKE_SET
 

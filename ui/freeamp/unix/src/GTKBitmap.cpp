@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.1.2.4 1999/09/21 16:34:55 ijr Exp $
+   $Id: GTKBitmap.cpp,v 1.1.2.5 1999/09/21 17:23:25 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -100,6 +100,9 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
     register gushort x, y;
     RGBQUAD rgbQuads[256];
 
+    gulong rmask = 0xff, gmask = 0xff, bmask = 0xff;
+    gulong rshift = 0, gshift = 0, bshift = 0;
+
     if (stat(oFile.c_str(), &statbuf) == -1)
         return kError_LoadBitmapFailed;
     size = statbuf.st_size;
@@ -145,7 +148,7 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
         return kError_LoadBitmapFailed;
     }
 
-    if (bitcount != 24) {
+    if (bitcount < 16) {
         ncols = (offset - headSize - 14);
         if (headSize == 12) {
             ncols /= 3;
@@ -157,6 +160,38 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
             fread(rgbQuads, 4, ncols, file);
         }
     }
+    else if (bitcount == 16 || bitcount == 32) {
+        if (comp == BI_BITFIELDS) {
+            ReadleLong(file, &bmask);
+            ReadleLong(file, &gmask);
+            ReadleLong(file, &rmask);
+            for (int bit = bpp - 1; bit >= 0; bit--) {
+                if (bmask & (1 << bit))
+                    bshift = bit;
+                if (gmask & (1 << bit))
+                    gshift = bit;
+                if (rmask & (1 << bit))
+                    rshift = bit;
+            }
+        }
+        else if (bitcount == 16) {
+            rmask = 0x7C00;
+            gmask = 0x03E0;
+            bmask = 0x001F;
+            rshift = 10;
+            gshift = 5;
+            bshift = 0;
+        }
+        else if (bitcount == 32) {
+            rmask = 0x00FF0000;
+            gmask = 0x0000FF00;
+            bmask = 0x000000FF;
+            rshift = 16;
+            gshift = 8;
+            bshift = 0;
+        }
+    }
+
 
     fseek(file, offset, SEEK_SET);
     buffer = (guchar *)g_malloc(imgsize);
@@ -358,6 +393,21 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
         }
 
     }
+    else if (bitcount == 16) {
+        skip = (((w * 16 + 31) / 32) * 4) - (w * 2);
+        for (y = 0; y < h; y++) {
+            for (x = 0; x < w && buffer_ptr < buffer_end; x++) {
+                r = ((gushort)(*buffer_ptr) & rmask) >> rshift;
+                g = ((gushort)(*buffer_ptr) & gmask) >> gshift;
+                b = ((gushort)(*(buffer_ptr++)) & bmask) >> bshift;
+                *ptr++ = r;
+                *ptr++ = g;
+                *ptr++ = b;
+            }
+            ptr -= w * 6;
+            buffer_ptr += skip;
+        }
+    }
     else if (bitcount == 24) {
         skip = (4 - ((w * 3) % 4)) & 3;
         for (y = 0; y < h; y++) {
@@ -373,6 +423,24 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
             buffer_ptr += skip;
         }
     }
+    else if (bitcount == 32) {
+        skip = (((w * 32 + 31) / 32) * 4) - (w * 4);
+        for (y = 0; y < h; y++) {
+            for (x = 0; x < w && buffer_ptr < buffer_end; x++) {
+                r = ((gulong)(*buffer_ptr) & rmask) >> rshift;
+                g = ((gulong)(*buffer_ptr) & gmask) >> gshift;
+                b = ((gulong)(*buffer_ptr) & bmask) >> bshift;
+                *ptr++ = r;
+                *ptr++ = g;
+                *ptr++ = b;
+                r = *(buffer_ptr++);
+                r = *(buffer_ptr++);
+            }
+            ptr -= w * 6;
+            buffer_ptr += skip;
+        }
+    }
+
 
     m_Bitmap = gdk_pixmap_new(NULL, w, h, gdk_visual_get_best_depth());
 

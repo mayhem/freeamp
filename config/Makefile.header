@@ -1,7 +1,7 @@
 # Generated automatically from Makefile.header.in by configure.
 # Freeamp Makefile header 
 # contains all the compiler-related configure-extracted vars
-# $Id: Makefile.header,v 1.6.4.2 1999/05/20 01:22:03 dogcow Exp $
+# $Id: Makefile.header,v 1.6.4.3 1999/05/24 20:16:36 dogcow Exp $
 
 SHELL = /bin/sh
 
@@ -111,5 +111,5 @@ CXXLINK = $(CXXLD) $(CXXFLAGS) $(LDFLAGS) $(RELOC) -o $@
 
 
 
-PIMAKE = $(MAKE) $(MAKEFLAGS) -f Makefile-plugins
+PIMAKE = $(MAKE) -$(MAKEFLAGS) -f Makefile-plugins
 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mutex.h,v 1.1 1999/04/18 05:01:38 dogcow Exp $
+	$Id: mutex.h,v 1.1.6.1 1999/05/24 20:16:35 dogcow Exp $
 ____________________________________________________________________________*/
 
 #ifndef MUTEX_H
@@ -40,7 +40,9 @@ public:
 
  private:
 	pthread_mutex_t m_mutex;
-	pthread_t myTid;
+	pthread_cond_t m_tCond;
+	int m_iBusy;
+	pthread_t m_tOwner;
 };
 
 #endif /* MUTEX_H */

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.21 1999/11/10 02:27:59 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.22 1999/11/10 02:43:26 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -242,7 +242,9 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
                 m_oTitle = szWelcomeMsg;
                 
                 m_pWindow->ControlStringValue("Title", true, m_oTitle);
-                m_pWindow->SetTitle(string(BRANDING));
+                
+                string title = BRANDING;
+                m_pWindow->SetTitle(title);
             }    
          }
          

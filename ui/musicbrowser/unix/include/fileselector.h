@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: fileselector.h,v 1.2 1999/10/19 07:13:28 elrod Exp $
+        $Id: fileselector.h,v 1.3 1999/11/10 02:43:26 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FILESELECTOR_H_
@@ -35,7 +35,7 @@ class FileSelector {
  public:
     FileSelector(char *);
   
-    bool Run();
+    bool Run(bool runMain = true);
     void SetExtended() { extended = true; }
     char *GetReturnPath() { if (returnpath != "")
                                 return (char *)returnpath.c_str(); 
@@ -47,10 +47,12 @@ class FileSelector {
     string title;
     bool extended;
     bool ok;
+    bool done;
 
     GtkWidget *filesel;
  public:
     void AddEvent();
+    void CancelEvent();
 };
    
 

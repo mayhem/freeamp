@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.17 1999/11/08 17:52:50 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.18 1999/11/10 02:43:26 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -685,6 +685,46 @@ static void music_search_tool(GtkWidget *w, GTKMusicBrowser *p)
     p->StartMusicSearch();
 }
 */
+
+void GTKMusicBrowser::AddFileCMD()
+{
+    FileSelector *filesel = new FileSelector("Select a file to play");
+    if (filesel->Run(false)) {
+        char *returnpath = filesel->GetReturnPath();
+        char *ext = m_context->player->GetExtension(returnpath);
+        uint32 length = strlen(returnpath) + 10;
+        char *tempurl = new char[length];
+        if (IsntError(FilePathToURL(returnpath, tempurl, &length))) {
+
+            DeleteListEvent();
+
+            if (!strncmp("M3U", ext, 3)) {
+                string tobeloaded = tempurl;
+                LoadPlaylist(tobeloaded);
+            }
+            else {
+                char *filereturn = strdup_new(filesel->GetReturnPath());
+                if (filereturn) {
+                    char *temp;
+                    char *first= strtok(filereturn, "\n");
+
+                    while ((temp = strtok(NULL, "\n"))) {
+                        AddTrackPlaylistEvent(temp);
+                        m_currentindex++;
+                    }
+                    AddTrackPlaylistEvent(first);
+                }
+                delete [] filereturn;
+            }
+        }
+        delete [] tempurl;
+        delete ext;
+
+        m_currentindex = 0; 
+        PlayEvent();
+    }
+    delete filesel;
+}
 
 static void import_tool(GtkWidget *w, GTKMusicBrowser *p)
 {
@@ -1815,6 +1855,9 @@ int32 GTKMusicBrowser::AcceptEvent(Event *e)
                 SetStatusText(((BrowserMessageEvent *)e)->GetBrowserMessage());
                 gdk_threads_leave();
             }
+            break; }
+        case CMD_AddFiles: {
+            AddFileCMD();
             break; }
         default:
             break;

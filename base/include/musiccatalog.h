@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.h,v 1.22 2000/10/27 09:44:35 ijr Exp $
+        $Id: musiccatalog.h,v 1.23 2000/11/15 13:17:18 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -191,6 +191,8 @@ class MusicCatalog : public EventQueue
     TimerRef m_watchTimer;
 
     int32    m_trackCount;
+  
+    bool     m_killGUIDs;
     
     int      m_pendingMBLookups;
     Mutex   *m_MBLookupLock;

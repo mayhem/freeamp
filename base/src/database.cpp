@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.11 2000/11/15 11:22:12 ijr Exp $
+        $Id: database.cpp,v 1.12 2000/11/15 13:17:18 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -35,6 +35,9 @@ ____________________________________________________________________________*/
 #ifdef WIN32
 #define S_IRWXU _S_IREAD|_S_IWRITE
 #endif
+
+#define DATABASE_VERSION_KEY "FREEAMP_DATABASE_VERSION"
+#define SUB_VERSION_KEY      "FREEAMP_SUB_VERSION"
 
 Database::Database(const char *name, int version)
 {
@@ -193,6 +196,31 @@ void Database::Sync(void)
     m_lock->Acquire();
     gdbm_sync(m_dbase);
     m_lock->Release();
+}
+
+int Database::GetSubVersion(void)
+{
+    int sub_ver = 0;
+    char *stored_ver = NULL;
+
+    stored_ver = Value(SUB_VERSION_KEY);
+
+    if (!stored_ver)
+        sub_ver = 0;
+    
+    sub_ver = atoi(stored_ver);
+
+    delete [] stored_ver;
+    return sub_ver;
+}
+
+void Database::StoreSubVersion(int version)
+{
+    char version_store[15];
+
+    sprintf(version_store, "%d", version);
+
+    Insert(SUB_VERSION_KEY, version_store);
 }
 
 bool Database::TestDatabaseVersion(int version)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.h,v 1.5 2000/11/15 11:22:12 ijr Exp $
+        $Id: database.h,v 1.6 2000/11/15 13:17:18 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -27,8 +27,6 @@ ____________________________________________________________________________*/
 
 #include "gdbm_fa.h"
 #include "mutex.h"
-
-#define DATABASE_VERSION_KEY "FREEAMP_DATABASE_VERSION"
 
 class Database
 {
@@ -45,6 +43,9 @@ class Database
    void  Sync(void);
 
    bool  IsUpgraded(void);
+  
+   int   GetSubVersion(void);
+   void  StoreSubVersion(int version);
 
  private:
    bool  TestDatabaseVersion(int version);

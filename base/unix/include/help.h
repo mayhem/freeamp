@@ -18,34 +18,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: help.h,v 1.1 1999/11/03 03:53:01 ijr Exp $
+   $Id: help.h,v 1.2 1999/11/10 02:27:57 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_HELP_H
 #define INCLUDED_HELP_H
 
-#define HELP_FILE "freeamp.hlp"
-
-//Main Dialog by default in Help_Finder
-#define FreeAmp_Main_Window	0x0	
-
-//Music Browser
-#define Music_Browser 1
-//Actual name of dialog for drive selection unknown
-//Temporary name used to allocate ID number.
-#define Music_Browser_Drive_Selection 10
-
-//Download Manager
-#define Download_Manager 2
-
-//Preferences Dialog
-#define Preferences_General 3
-#define Preferences_Themes 4
-#define Preferences_Streaming 5
-#define Preferences_Update 6
-#define Preferences_Plugins 7
-#define Preferences_Advanced 8
-#define Preferences_About 9
-
+#define HELP_FILE "freeamp/help/freeamp.html"
 
 #endif

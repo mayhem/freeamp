@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.12 2000/11/15 13:17:18 ijr Exp $
+        $Id: database.cpp,v 1.13 2000/11/15 14:55:20 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -207,8 +207,8 @@ int Database::GetSubVersion(void)
 
     if (!stored_ver)
         sub_ver = 0;
-    
-    sub_ver = atoi(stored_ver);
+    else
+        sub_ver = atoi(stored_ver);
 
     delete [] stored_ver;
     return sub_ver;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.95 2000/11/15 13:17:18 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.96 2000/11/15 14:55:20 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -778,10 +778,10 @@ Error MusicCatalog::RePopulateFromDatabase()
     while (key) {
         err = Add(key);
 
-        if (IsError(err)) {
-             m_context->target->AcceptEvent(new ErrorMessageEvent("There was an internal error during generation of the Music Catalog"));
-             m_catMutex->Release();
-             return kError_YouScrewedUp;
+        if (IsError(err)) { 
+             //m_context->target->AcceptEvent(new ErrorMessageEvent("There was an internal error during generation of the Music Catalog"));
+             //m_catMutex->Release();
+             //return kError_YouScrewedUp;
         }
             
         key = m_database->NextKey(key);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.11 1999/12/13 12:49:45 robert Exp $
+   $Id: Window.h,v 1.12 1999/12/17 23:56:08 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -124,6 +124,8 @@ class Window
     protected:
 
       Control *ControlFromPos(Pos &oPos);
+      void     GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight, 
+                                  Rect &oNewRect);
      
       string                    m_oName;
       vector<Control *>         m_oControls;

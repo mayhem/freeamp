@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.54 1999/12/17 01:59:37 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.55 1999/12/17 23:56:09 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -89,12 +89,14 @@ extern    "C"
 FreeAmpTheme::FreeAmpTheme(FAContext * context)
              :Theme(context)
 {
+   char   szTemp[255];
+   uint32 iLen = 255;
+   
    m_pContext = context;
    m_iCurrentSeconds = 0;
    m_iTotalSeconds = -1;
    m_iSeekSeconds = 0;
    m_bSeekInProgress = false;
-   m_oCurrentWindow = string("MainWindow");
    m_iVolume = -1;
    m_iSeekPos = -1;
    m_bPlayShown = true;
@@ -118,6 +120,12 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
 #endif // _M_ALPHA
 
 #endif // WIN32
+
+   m_pContext->prefs->GetPrefString(kWindowModePref, szTemp, &iLen);
+   if (iLen > 0)
+      m_oCurrentWindow = string(szTemp);
+   else   
+      m_oCurrentWindow = string("MainWindow");
 
    LoadFreeAmpTheme();
 }
@@ -176,6 +184,7 @@ void FreeAmpTheme::WorkerThread(void)
     {
        sprintf(szTemp, "%d,%d", m_oWindowPos.x, m_oWindowPos.y);
        m_pContext->prefs->SetPrefString(kMainWindowPosPref, szTemp);
+       m_pContext->prefs->SetPrefString(kWindowModePref, m_oCurrentWindow.c_str());
     }
     else     
        m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));

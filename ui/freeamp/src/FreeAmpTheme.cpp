@@ -19,8 +19,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.1 2000/03/29 01:43:16 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.2 2000/03/29 08:10:09 elrod Exp $
 ____________________________________________________________________________*/
+
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #include <stdio.h> 
 #include <sys/types.h>

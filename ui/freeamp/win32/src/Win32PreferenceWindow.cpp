@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.31.2.4.4.2 2000/03/27 20:11:01 elrod Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.31.2.4.4.2.2.1 2000/03/29 08:10:09 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2327,7 +2327,7 @@ static void check_function(void* arg)
 
             if(strstr(item->GetCurrentFileLocation().c_str(), "_system_"))
             {
-                //newItem = false;
+                newItem = false;
             }
             else
             {

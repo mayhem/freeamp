@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.12.10.2 2000/03/27 20:11:01 elrod Exp $
+	$Id: updatemanager.cpp,v 1.12.10.2.2.1 2000/03/29 08:10:08 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -789,7 +789,7 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
 
     if(item)
     {   
-        cout << "Downloading " << item->GetLocalFileName() << endl;
+        //cout << "Downloading " << item->GetLocalFileName() << endl;
 
         char hostname[kMaxHostNameLen + 1];
         char localname[kMaxHostNameLen + 1];
@@ -1103,7 +1103,7 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
                 buffer[total] = 0x00;
                 //cout << buffer << endl;
 
-                cout << returnCode << endl;
+                //cout << returnCode << endl;
 
                 switch(buffer[9])
                 {
@@ -1119,7 +1119,7 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
                     {
                         result = kError_UnknownErr;
 
-                        cout << destPath << endl;
+                        //cout << destPath << endl;
 
                         int32 fileSize = GetContentLengthFromHeader(buffer);
 
@@ -1239,6 +1239,49 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
                                     gzclose(gzfd);
 
                                 remove(srcPath);
+
+#ifdef WIN32
+                                // when the file is unzipped the modification
+                                // date is fubar'd. we need to set it so it
+                                // is correct if this is a DATE file.
+                                if(item->GetCurrentFileTime().size())
+                                {
+                                    uint32 month, day, year;
+
+                                    sscanf(item->GetCurrentFileTime().c_str(),
+                                                       "%lu/%lu/%lu",&month,&day,&year);
+
+                                    HANDLE fileHandle;
+                                    
+                                    fileHandle = CreateFile(destPath, 
+                                                            GENERIC_READ|GENERIC_WRITE,
+                                                            0,
+                                                            NULL,
+                                                            OPEN_EXISTING,
+                                                            FILE_ATTRIBUTE_NORMAL,
+                                                            NULL);
+
+                                    if(fileHandle != INVALID_HANDLE_VALUE)
+                                    {
+                                        SYSTEMTIME sysTime;
+                                        FILETIME fileTime, modTime;
+
+                                        memset(&sysTime, 0x00, sizeof(SYSTEMTIME));
+
+                                        sysTime.wDay = day;
+                                        sysTime.wMonth = month;
+                                        sysTime.wYear = year;
+    
+                                        SystemTimeToFileTime(&sysTime, &fileTime);
+                                        LocalFileTimeToFileTime(&fileTime, &modTime);
+
+                                        SetFileTime(fileHandle, NULL, NULL, &modTime);
+
+                                        CloseHandle(fileHandle);
+                                    }
+
+                                }
+#endif
                             }
                         }
                         else

@@ -18,13 +18,18 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.23 1999/09/29 01:13:18 elrod Exp $
+        $Id: player.cpp,v 1.133.2.24 1999/10/01 00:05:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <ctype.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#ifdef WIN32
+#include <direct.h>
+#endif
 
 #include "config.h"
 #include "event.h"
@@ -60,75 +65,93 @@ Player *
 Player::
 GetPlayer(FAContext *context)
 {
-   if (m_thePlayer == NULL)
-      m_thePlayer = new Player(context);
-   return m_thePlayer;
+    if (m_thePlayer == NULL)
+        m_thePlayer = new Player(context);
+    return m_thePlayer;
 }
 
 Player::
 Player(FAContext *context):
 EventQueue()
 {
-   m_context = context;
-   // cout << "Creating player..." << endl;
-   m_eventSem = new Semaphore();
-   m_eventQueue = new Queue < Event * >();
-   // cout << "Created queue" << endl;
-   m_eventServiceThread = NULL;
-   // cout << "Started event thread" << endl;
-   m_uiList = new vector < UserInterface * >;
-   // cout << "Created Lists" << endl;
-   m_uiManipLock = new Mutex();
-   m_lmcMutex = new Mutex();
-   m_pmiMutex = new Mutex();
-   m_pmoMutex = new Mutex();
-   m_uiMutex = new Mutex();
-   // cout << "Created mutex" << endl;
-   m_imQuitting = 0;
-   m_quitWaitingFor = 0;
-   m_plm = new PlaylistManager(m_context);
-   m_playerState = PlayerState_Stopped;
+    m_context = context;
+    // cout << "Creating player..." << endl;
+    m_eventSem = new Semaphore();
+    m_eventQueue = new Queue < Event * >();
+    // cout << "Created queue" << endl;
+    m_eventServiceThread = NULL;
+    // cout << "Started event thread" << endl;
+    m_uiList = new vector < UserInterface * >;
+    // cout << "Created Lists" << endl;
+    m_uiManipLock = new Mutex();
+    m_lmcMutex = new Mutex();
+    m_pmiMutex = new Mutex();
+    m_pmoMutex = new Mutex();
+    m_uiMutex = new Mutex();
+    // cout << "Created mutex" << endl;
+    m_imQuitting = 0;
+    m_quitWaitingFor = 0;
+    m_plm = new PlaylistManager(m_context);
+    m_playerState = PlayerState_Stopped;
 
-   m_lmcRegistry = NULL;
-   m_pmiRegistry = NULL;
-   m_pmoRegistry = NULL;
-   m_uiRegistry = NULL;
-   
-   m_lmcExtensions = NULL;
- 
-   m_pmo = NULL;
-   m_lmc = NULL;
-   m_ui = NULL;
+    m_lmcRegistry = NULL;
+    m_pmiRegistry = NULL;
+    m_pmoRegistry = NULL;
+    m_uiRegistry = NULL;
 
-   m_argUIList = new vector < char *>();
+    m_lmcExtensions = NULL;
 
-   m_argc = 0;
-   m_argv = NULL;
-   m_pTermSem = NULL;
+    m_pmo = NULL;
+    m_lmc = NULL;
+    m_ui = NULL;
 
-   m_didUsage = false;
-   m_autoplay = true;
+    m_argUIList = new vector < char *>();
 
-   m_iVolume = -1;
+    m_argc = 0;
+    m_argv = NULL;
+    m_pTermSem = NULL;
 
-   m_props.RegisterPropertyWatcher("pcm_volume", (PropertyWatcher *) this);
+    m_didUsage = false;
+    m_autoplay = true;
 
-   m_context->plm = m_plm;
-   m_context->props = &m_props;
-   m_context->target = (EventQueue *) this;
+    m_iVolume = -1;
 
-   m_musicBrowser = new MusicBrowser(m_context);
-   m_context->browser = m_musicBrowser;
+    m_props.RegisterPropertyWatcher("pcm_volume", (PropertyWatcher *) this);
 
-   char *tempstr = FreeampDir(m_context->prefs);
-   string freeampdir = tempstr;
-   freeampdir += DIR_MARKER_STR;
-   freeampdir += "metadatabase";
-   m_musicBrowser->SetDatabase(freeampdir.c_str());
-   delete tempstr;
+    m_context->plm = m_plm;
+    m_context->props = &m_props;
+    m_context->target = (EventQueue *) this;
 
-   m_downloadManager = new DownloadManager(m_context);
-   m_context->downloadManager = m_downloadManager;
+    m_musicBrowser = new MusicBrowser(m_context);
+    m_context->browser = m_musicBrowser;
+
+    // make sure the db dir exists so we have a place to store our 
+    // stuff
+
+    char* tempDir = new char[_MAX_PATH];
+    uint32 length = _MAX_PATH;
+
+    m_context->prefs->GetPrefString(kDatabaseDirPref, tempDir, &length);
+
+    struct stat st;
+
+    if(-1 == stat(tempDir, &st))
+    {
+        mkdir(tempDir);
+    }
+
+    delete [] tempDir;
+
+
+    char *tempstr = FreeampDir(m_context->prefs);
+    string freeampdir = tempstr;
+    freeampdir += DIR_MARKER_STR;
+    freeampdir += "metadatabase";
+    m_musicBrowser->SetDatabase(freeampdir.c_str());
+    delete tempstr;
+
+    m_downloadManager = new DownloadManager(m_context);
+    m_context->downloadManager = m_downloadManager;
 }
 
 #define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }
@@ -136,53 +159,53 @@ EventQueue()
 Player::
 ~Player()
 {
-   TYPICAL_DELETE(m_pTermSem);
-   TYPICAL_DELETE(m_argUIList);
+    TYPICAL_DELETE(m_pTermSem);
+    TYPICAL_DELETE(m_argUIList);
 
-   if (m_eventServiceThread)
-   {
-      m_eventServiceThread->Join();
-      delete    m_eventServiceThread;
+    if (m_eventServiceThread)
+    {
+        m_eventServiceThread->Join();
+        delete    m_eventServiceThread;
 
-      m_eventServiceThread = NULL;
-   }
+        m_eventServiceThread = NULL;
+    }
 
-   if (m_pmo)
-   {
-      m_pmo->Pause();
-      delete    m_pmo;
+    if (m_pmo)
+    {
+        m_pmo->Pause();
+        delete    m_pmo;
 
-      m_pmo = NULL;
-   }
+        m_pmo = NULL;
+    }
 
-   TYPICAL_DELETE(m_eventSem);
-   TYPICAL_DELETE(m_eventQueue);
+    TYPICAL_DELETE(m_eventSem);
+    TYPICAL_DELETE(m_eventQueue);
 
-   // Delete CIOs
-   if (m_uiList)
-   {
+    // Delete CIOs
+    if (m_uiList)
+    {
         vector<UserInterface *>::iterator i = m_uiList->begin();
 
         for (; i != m_uiList->end(); i++)
             delete *i; 
         delete m_uiList;
 
-      m_uiList = NULL;
-   }
+        m_uiList = NULL;
+    }
 
-   TYPICAL_DELETE(m_plm);
-   TYPICAL_DELETE(m_uiManipLock);
-   TYPICAL_DELETE(m_lmcMutex);
-   TYPICAL_DELETE(m_pmiMutex);
-   TYPICAL_DELETE(m_pmoMutex);
-   TYPICAL_DELETE(m_uiMutex);
-   TYPICAL_DELETE(m_lmcRegistry);
-   TYPICAL_DELETE(m_pmiRegistry);
-   TYPICAL_DELETE(m_pmoRegistry);
-   TYPICAL_DELETE(m_uiRegistry);
-   TYPICAL_DELETE(m_lmcExtensions);
-   TYPICAL_DELETE(m_musicBrowser);
-   TYPICAL_DELETE(m_downloadManager);
+    TYPICAL_DELETE(m_plm);
+    TYPICAL_DELETE(m_uiManipLock);
+    TYPICAL_DELETE(m_lmcMutex);
+    TYPICAL_DELETE(m_pmiMutex);
+    TYPICAL_DELETE(m_pmoMutex);
+    TYPICAL_DELETE(m_uiMutex);
+    TYPICAL_DELETE(m_lmcRegistry);
+    TYPICAL_DELETE(m_pmiRegistry);
+    TYPICAL_DELETE(m_pmoRegistry);
+    TYPICAL_DELETE(m_uiRegistry);
+    TYPICAL_DELETE(m_lmcExtensions);
+    TYPICAL_DELETE(m_musicBrowser);
+    TYPICAL_DELETE(m_downloadManager);
 }
 
 void      

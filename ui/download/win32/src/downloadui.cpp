@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.9 1999/09/29 01:13:30 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.10 1999/10/01 00:05:40 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -128,6 +128,16 @@ int32 DownloadUI::AcceptEvent(Event* event)
 	            break; 
             }
 
+            case INFO_ToggleDownloadUI:
+            {
+                OutputDebugString("INFO_ToggleDownloadUI\r\n");
+
+                ShowWindow(m_hwnd, 
+                    (IsWindowVisible(m_hwnd)? SW_HIDE: SW_SHOW));
+                
+                break;
+            }
+
 	        default:
 	            break;
 	    }
@@ -182,11 +192,19 @@ void DownloadUI::UIThreadFunc(void* arg)
 Error DownloadUI::Init(int32 startup_type) 
 { 
     ParseArgs(m_context->argc, m_context->argv);
+
+    if(startup_type == PRIMARY_UI)
+    {
+        //ShowWindow(m_hwnd, SW_SHOWNORMAL);
+    }
+
     return kError_NoErr;
 }
 
 BOOL DownloadUI::InitDialog()
 {
+    ShowWindow(m_hwnd, SW_HIDE);
+
     // get hwnds for all my controls
     m_hwndList = GetDlgItem(m_hwnd, IDC_LIST);
     m_hwndInfo = GetDlgItem(m_hwnd, IDC_INFO);
@@ -1011,7 +1029,7 @@ BOOL DownloadUI::Command(int32 command, HWND src)
 
 		case IDC_CLOSE:
 		{
-			PostQuitMessage(0);
+			SendMessage(m_hwnd, WM_CLOSE, 0, 0);
 			break;
 		}
 	}
@@ -1062,6 +1080,9 @@ BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd,
 
             result = m_ui->InitDialog();
 
+            ShowWindow(hwnd, SW_HIDE);
+
+            result = FALSE;
 			break;
 		}
 
@@ -1150,10 +1171,10 @@ BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd,
 
 		case WM_CLOSE:
 		{
-			PostQuitMessage(0);
+			ShowWindow(hwnd, SW_HIDE);
 			result = TRUE;
 			break;
-		}
+        }
 
         case WM_DESTROY:
         {

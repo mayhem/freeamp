@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.30 1999/09/29 17:40:21 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.31 1999/10/01 00:05:35 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1118,82 +1118,86 @@ void DownloadManager::SaveResumableDownloadItems()
     uint32 length = sizeof(path);
 
     m_context->prefs->GetPrefString(kDatabaseDirPref, path, &length);
-    strcat(path, "\\ResumeDownloadDB");
-
-    Database database(path);  
-
-    if(database.Working())
+    
+    if(DoesDBDirExist(path))
     {
-        uint32 size = 0;
-        DownloadItem* item = NULL;
+        strcat(path, "\\ResumeDownloadDB");
 
-        size = m_itemList.size();
+        Database database(path);  
 
-        for(uint32 index = 0; index < size; index++)
+        if(database.Working())
         {
-            item = m_itemList[index];
+            uint32 size = 0;
+            DownloadItem* item = NULL;
 
-            if(item && item->GetState() == kDownloadItemState_Paused)
+            size = m_itemList.size();
+
+            for(uint32 index = 0; index < size; index++)
             {
-                ostringstream ost;
-                ostringstream num;
-                const char* kDatabaseDelimiter = " ";
-                MetaData metadata = item->GetMetaData();
+                item = m_itemList[index];
 
-                // write out the number of elements we have
-                ost << 15 << kDatabaseDelimiter;
-                // next record the length of each element
-                ost << item->SourceURL().size() << kDatabaseDelimiter;
-                ost << item->SourceCookie().size() << kDatabaseDelimiter;
-                ost << item->DestinationFile().size() << kDatabaseDelimiter;
-                ost << item->PlaylistName().size() << kDatabaseDelimiter;
+                if(item && item->GetState() == kDownloadItemState_Paused)
+                {
+                    ostringstream ost;
+                    ostringstream num;
+                    const char* kDatabaseDelimiter = " ";
+                    MetaData metadata = item->GetMetaData();
 
-                num << item->GetTotalBytes();
-                ost << num.str().size() << kDatabaseDelimiter;
-                num.str("");
-                num << item->GetBytesReceived();
-                ost << num.str().size() << kDatabaseDelimiter;
-                num.str("");
+                    // write out the number of elements we have
+                    ost << 15 << kDatabaseDelimiter;
+                    // next record the length of each element
+                    ost << item->SourceURL().size() << kDatabaseDelimiter;
+                    ost << item->SourceCookie().size() << kDatabaseDelimiter;
+                    ost << item->DestinationFile().size() << kDatabaseDelimiter;
+                    ost << item->PlaylistName().size() << kDatabaseDelimiter;
 
-                // metadata lengths
-                ost << metadata.Artist().size() << kDatabaseDelimiter;
-                ost << metadata.Album().size() << kDatabaseDelimiter;
-                ost << metadata.Title().size() << kDatabaseDelimiter;
-                ost << metadata.Comment().size() << kDatabaseDelimiter;
-                ost << metadata.Genre().size() << kDatabaseDelimiter;
+                    num << item->GetTotalBytes();
+                    ost << num.str().size() << kDatabaseDelimiter;
+                    num.str("");
+                    num << item->GetBytesReceived();
+                    ost << num.str().size() << kDatabaseDelimiter;
+                    num.str("");
 
-                num << metadata.Year();
-                ost << num.str().size() << kDatabaseDelimiter;
-                num.str("");
-                num << metadata.Track();
-                ost << num.str().size() << kDatabaseDelimiter;
-                num.str("");
-                num << metadata.Time();
-                ost << num.str().size() << kDatabaseDelimiter;
-                num.str("");
-                num << metadata.Size();
-                ost << num.str().size() << kDatabaseDelimiter;
-                num.str("");
+                    // metadata lengths
+                    ost << metadata.Artist().size() << kDatabaseDelimiter;
+                    ost << metadata.Album().size() << kDatabaseDelimiter;
+                    ost << metadata.Title().size() << kDatabaseDelimiter;
+                    ost << metadata.Comment().size() << kDatabaseDelimiter;
+                    ost << metadata.Genre().size() << kDatabaseDelimiter;
+
+                    num << metadata.Year();
+                    ost << num.str().size() << kDatabaseDelimiter;
+                    num.str("");
+                    num << metadata.Track();
+                    ost << num.str().size() << kDatabaseDelimiter;
+                    num.str("");
+                    num << metadata.Time();
+                    ost << num.str().size() << kDatabaseDelimiter;
+                    num.str("");
+                    num << metadata.Size();
+                    ost << num.str().size() << kDatabaseDelimiter;
+                    num.str("");
                 
 
-                // now stuff all the data in there
-                ost << item->SourceURL();
-                ost << item->SourceCookie();
-                ost << item->DestinationFile();
-                ost << item->PlaylistName();
-                ost << item->GetTotalBytes();
-                ost << item->GetBytesReceived();
-                ost << metadata.Artist();
-                ost << metadata.Album();
-                ost << metadata.Title();
-                ost << metadata.Comment();
-                ost << metadata.Genre();
-                ost << metadata.Year();
-                ost << metadata.Track();
-                ost << metadata.Time();
-                ost << metadata.Size();
+                    // now stuff all the data in there
+                    ost << item->SourceURL();
+                    ost << item->SourceCookie();
+                    ost << item->DestinationFile();
+                    ost << item->PlaylistName();
+                    ost << item->GetTotalBytes();
+                    ost << item->GetBytesReceived();
+                    ost << metadata.Artist();
+                    ost << metadata.Album();
+                    ost << metadata.Title();
+                    ost << metadata.Comment();
+                    ost << metadata.Genre();
+                    ost << metadata.Year();
+                    ost << metadata.Track();
+                    ost << metadata.Time();
+                    ost << metadata.Size();
                 
-                database.Insert(path, (char*)ost.str().c_str());  
+                    database.Insert(path, (char*)ost.str().c_str());  
+                }
             }
         }
     }
@@ -1205,109 +1209,126 @@ void DownloadManager::LoadResumableDownloadItems()
     uint32 length = sizeof(path);
 
     m_context->prefs->GetPrefString(kDatabaseDirPref, path, &length);
-    strcat(path, "\\ResumeDownloadDB");
 
-    Database database(path);  
-
-    if(database.Working())
+    if(DoesDBDirExist(path))
     {
-        char *key = NULL;
+        strcat(path, "\\ResumeDownloadDB");
 
-        while(key = database.NextKey(key)) 
+        Database database(path);  
+
+        if(database.Working())
         {
-            char* value = database.Value(key);
+            char *key = NULL;
 
-            if(!value)
-                continue;
-
-            uint32 numFields, offset = 0;
- 
-            sscanf(value, "%d%n", &numFields, &offset);
-            uint32* fieldLength =  new uint32[numFields];
- 
-            for(uint32 i = 0; i < numFields; i++)
+            while(key = database.NextKey(key)) 
             {
-               uint32 temp;
+                char* value = database.Value(key);
+
+                if(!value)
+                    continue;
+
+                uint32 numFields, offset = 0;
  
-               sscanf(value + offset, " %d %n", &fieldLength[i], &temp);
-               printf("field %d: %d\n", i, fieldLength[i]);
-               offset += temp;
-            }
-
-            string data = value;
-            data.erase(0, offset);
-
-            DownloadItem* item = new DownloadItem();
-            MetaData metadata;
-            uint32 count = 0;
-
-            for(uint32 j = 0; j < numFields; j++)
-            {
-                switch(j)
+                sscanf(value, "%d%n", &numFields, &offset);
+                uint32* fieldLength =  new uint32[numFields];
+ 
+                for(uint32 i = 0; i < numFields; i++)
                 {
-                    case 0:
-                        item->SetSourceURL(data.substr(count, fieldLength[j]).c_str());
-                        break;
-                    case 1:
-                        item->SetSourceCookie(data.substr(count, fieldLength[j]).c_str());
-                        break;
-                    case 2:
-                        item->SetDestinationFile(data.substr(count, fieldLength[j]).c_str());
-                        break;
-                    case 3:
-                        item->SetPlaylistName(data.substr(count, fieldLength[j]).c_str());
-                        break;
-                    case 4:
-                        item->SetTotalBytes(atoi(data.substr(count, fieldLength[j]).c_str()));
-                        break;
-                    case 5:
-                        item->SetBytesReceived(atoi(data.substr(count, fieldLength[j]).c_str()));
-                        break;
-                    case 6:
-                        metadata.SetArtist(data.substr(count, fieldLength[j]).c_str());
-                        break;
-                    case 7:
-                        metadata.SetAlbum(data.substr(count, fieldLength[j]).c_str());
-                        break;
-                    case 8:
-                        metadata.SetTitle(data.substr(count, fieldLength[j]).c_str());
-                        break;
-                    case 9:
-                        metadata.SetComment(data.substr(count, fieldLength[j]).c_str());
-                        break;
-                    case 10:
-                        metadata.SetGenre(data.substr(count, fieldLength[j]).c_str());
-                        break;
-                    case 11:
-                        metadata.SetYear(atoi(data.substr(count, fieldLength[j]).c_str()));
-                        break;
-                    case 12:
-                        metadata.SetTrack(atoi(data.substr(count, fieldLength[j]).c_str()));
-                        break;
-                    case 13:
-                        metadata.SetTime(atoi(data.substr(count, fieldLength[j]).c_str()));
-                        break;
-                    case 14:
-                        metadata.SetSize(atoi(data.substr(count, fieldLength[j]).c_str()));
-                        break;
-                    default:
-                        break;
-
+                   uint32 temp;
+ 
+                   sscanf(value + offset, " %d %n", &fieldLength[i], &temp);
+                   printf("field %d: %d\n", i, fieldLength[i]);
+                   offset += temp;
                 }
 
-                count += fieldLength[j];
+                string data = value;
+                data.erase(0, offset);
+
+                DownloadItem* item = new DownloadItem();
+                MetaData metadata;
+                uint32 count = 0;
+
+                for(uint32 j = 0; j < numFields; j++)
+                {
+                    switch(j)
+                    {
+                        case 0:
+                            item->SetSourceURL(data.substr(count, fieldLength[j]).c_str());
+                            break;
+                        case 1:
+                            item->SetSourceCookie(data.substr(count, fieldLength[j]).c_str());
+                            break;
+                        case 2:
+                            item->SetDestinationFile(data.substr(count, fieldLength[j]).c_str());
+                            break;
+                        case 3:
+                            item->SetPlaylistName(data.substr(count, fieldLength[j]).c_str());
+                            break;
+                        case 4:
+                            item->SetTotalBytes(atoi(data.substr(count, fieldLength[j]).c_str()));
+                            break;
+                        case 5:
+                            item->SetBytesReceived(atoi(data.substr(count, fieldLength[j]).c_str()));
+                            break;
+                        case 6:
+                            metadata.SetArtist(data.substr(count, fieldLength[j]).c_str());
+                            break;
+                        case 7:
+                            metadata.SetAlbum(data.substr(count, fieldLength[j]).c_str());
+                            break;
+                        case 8:
+                            metadata.SetTitle(data.substr(count, fieldLength[j]).c_str());
+                            break;
+                        case 9:
+                            metadata.SetComment(data.substr(count, fieldLength[j]).c_str());
+                            break;
+                        case 10:
+                            metadata.SetGenre(data.substr(count, fieldLength[j]).c_str());
+                            break;
+                        case 11:
+                            metadata.SetYear(atoi(data.substr(count, fieldLength[j]).c_str()));
+                            break;
+                        case 12:
+                            metadata.SetTrack(atoi(data.substr(count, fieldLength[j]).c_str()));
+                            break;
+                        case 13:
+                            metadata.SetTime(atoi(data.substr(count, fieldLength[j]).c_str()));
+                            break;
+                        case 14:
+                            metadata.SetSize(atoi(data.substr(count, fieldLength[j]).c_str()));
+                            break;
+                        default:
+                            break;
+
+                    }
+
+                    count += fieldLength[j];
+                }
+
+                delete [] fieldLength;
+
+                fieldLength = NULL;
+
+                item->SetMetaData(&metadata);
+                item->SetState(kDownloadItemState_Paused);
+
+                m_itemList.push_back(item);
             }
-
-            delete [] fieldLength;
-
-            fieldLength = NULL;
-
-            item->SetMetaData(&metadata);
-            item->SetState(kDownloadItemState_Paused);
-
-            m_itemList.push_back(item);
         }
     }
 }
 
+bool DownloadManager::DoesDBDirExist(char* path)
+{
+    bool result = false;
+    struct stat st;
+
+    if(-1 != stat(path, &st))
+    {
+        if(st.st_mode & S_IFDIR)
+            result = true;
+    }
+
+    return result;
+}
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.15 1999/09/29 01:13:18 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.16 1999/10/01 00:05:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -297,7 +297,7 @@ class DownloadManager {
 
     void LoadResumableDownloadItems();
     void SaveResumableDownloadItems();
-
+    bool DoesDBDirExist(char* path);
 
  private:
 
@@ -315,7 +315,7 @@ class DownloadManager {
     uint32 m_current;
 
     Thread* m_downloadThread;
-    bool m_runDownloadThread;
+    volatile bool m_runDownloadThread;
 
     Semaphore m_queueSemaphore;
     Mutex m_queueMutex;

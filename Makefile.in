@@ -1,6 +1,6 @@
 # Freeamp master Makefile
 # blown into bits and reconstructed by dogcow
-# $Id: Makefile.in,v 1.21.2.2 1999/04/19 01:08:48 dogcow Exp $
+# $Id: Makefile.in,v 1.21.2.3 1999/04/19 07:48:28 dogcow Exp $
 
 SHELL = @SHELL@
 
@@ -48,9 +48,10 @@ RANLIB = @RANLIB@
 VERSION = @VERSION@
 host_os = @host_os@
 CFLAGS = @CFLAGS@ -D_REENTRANT
-
+OSDEP = @OSDEP@
+OSINC = @OSINC@
 OSLINK = @OSLINK@
-FPIC = -fpic
+FPIC = @FPIC@
 LINKMOD = gcc -shared $(OSLINK)
 NETLIBS = -lsocket -lnsl
 XLIBS = -L/usr/openwin/lib -R/usr/openwin/lib -lX11 -lXext -lXpm
@@ -60,7 +61,7 @@ freeamp_SOURCES = freeamp.cpp
 freeamp_LDADD = $(FALDADD)
 freeamp_DEPENDENCIES = $(MYDEPS)
 
-INCLUDES = -I@top_srcdir@/base/include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@top_srcdir@/lmc/include
+INCLUDES = -Ibase/include -Iconfig -Iio/include -Iui/include -Ilmc/include $(OSINC) -Iio/soundcard/$(OSDEP)/include -Iui/lcd/include -Iui/irman/include -Ilmc/xingmp3/include
 CXXFLAGS = $(EXTRA_CXXFLAGS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
@@ -81,19 +82,9 @@ freeamp_OBJECTS =  freeamp.o
 freeamp_LDFLAGS = 
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CFLAGS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-CXXLD = $(CXX)
+
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
-DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
-Makefile.in NEWS acinclude.m4 aclocal.m4 config/config.h.in \
-config/stamp-h.in configure configure.in
 
-DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
-
-TAR = tar
-GZIP_ENV = --best
-DEP_FILES =  .deps/freeamp.P
-SOURCES = $(freeamp_SOURCES)
-OBJECTS = $(freeamp_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -104,9 +95,6 @@ all: all-redirect
 #Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 #	cd $(top_builddir) \
 #	  && CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
-
-$(ACLOCAL_M4):  configure.in  acinclude.m4
-	cd $(srcdir) && $(ACLOCAL)
 
 config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -185,10 +173,12 @@ maintainer-clean-compile:
 freeamp: $(freeamp_OBJECTS) $(freeamp_DEPENDENCIES)
 	@rm -f freeamp
 	$(CXXLINK) $(freeamp_LDFLAGS) $(freeamp_OBJECTS) $(freeamp_LDADD) $(LIBS)
+
 .cpp.o:
-	$(CXXCOMPILE) $(FPIC) -c $<
+	$(CXXCOMPILE) $(FPIC) -c $< -o $@
+
 .c.o:
-	$(COMPILE) $(FPIC) -c $<
+	$(COMPILE) $(FPIC) -c $< -o $@
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -247,7 +237,7 @@ top_distdir = $(distdir)
 
 DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
 
--include $(DEP_FILES)
+#-include $(DEP_FILES)
 
 mostlyclean-depend:
 
@@ -369,19 +359,28 @@ uninstall_plugins:
 
 #here there be dogcow makefile stuff
 
-#plugins!
+PLUGINS =  plugins/localfileinput-@host_os@.pmi
+PLUGINS += plugins/httpinput-@host_os@.pmi
+PLUGINS += plugins/obsinput-@host_os@.pmi
+PLUGINS += plugins/soundcard-@host_os@.pmo
+PLUGINS += plugins/freeampcmd-@host_os@.ui
+PLUGINS += plugins/mpg123-@host_os@.ui
+PLUGINS += plugins/lcd-@host_os@.ui
+PLUGINS += plugins/irman-@host_os@.ui
+PLUGINS += plugins/freeamp-@host_os@.ui
+PLUGINS += plugins/xingmp3-@host_os@.lmc
+
+plugins: $(PLUGINS)
 
 #
 # PMI section
 
 #
 # localfileinput is a nice simple example of a plugin dependency.
-LFIOBJ = io/local/filebuffer.o io/local/localfileinput.cpp
+LFIOBJ = io/local/filebuffer.o io/local/localfileinput.o
 
-plugins/localfileinput-@host_os@.pmi: localfileinput-@host_os@.pmi
-
-localfileinput-@host_os@.pmi: $(LFIOBJ)
-	$(LINKMOD) -o plugins/$@ $(LFIOBJ)
+plugins/localfileinput-@host_os@.pmi: $(LFIOBJ)
+	$(LINKMOD) -o $@ $(LFIOBJ)
 
 #$(LFIOBJ):
 #	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
@@ -390,38 +389,27 @@ localfileinput-@host_os@.pmi: $(LFIOBJ)
 # here's httpinput
 HTTPOBJ = io/http/httpinput.o io/http/httpbuffer.o
 
-plugins/httpinput-@host_os@.pmi: httpinput-@host_os@.pmi
-
-httpinput-@host_os@.pmi: $(LFIOBJ)
-	$(LINKMOD) -o plugins/$@ $(HTTPOBJ)
+plugins/httpinput-@host_os@.pmi: $(HTTPOBJ)
+	$(LINKMOD) -o $@ $(HTTPOBJ)
 
 #$(HTTPOBJ):
 #	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
 
 # obsinput
-OBSPMI = io/obs/obsbuffer.o io/local/obsinput.cpp
+OBSPMI = io/obs/obsbuffer.o io/obs/obsinput.o
 
-plugins/obsinput-$host_os@.pmi: obsinput-@host_os@.pmi
-
-obsinput-@host_os@.pmi: $(OBSPMI)
-	$(LINKMOD) -o plugins/$@ $(OBSPMI)
-
-#$(OBSPMI):
-#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+plugins/obsinput-@host_os@.pmi: $(OBSPMI)
+	$(LINKMOD) -o $@ $(OBSPMI)
 
 #
 # PMO section
 
-# soundcardpmo is os-dependent, so have to fool with @OSDEP@
-SCPMOOBJ = io/soundcard/@OSDEP@/soundcardpmo.o
+# soundcardpmo is os-dependent, so have to fool with $(OSDEP)
+SCPMOOBJ = io/soundcard/$(OSDEP)/src/soundcardpmo.o
 
-plugins/soundcard-@host_os@.pmo: soundcard-@host_os@.pmo
+plugins/soundcard-@host_os@.pmo: $(SCPMOOBJ)
+	$(LINKMOD) -o $@ $(SCPMOOBJ)
 
-soundcard-@host_os@.pmo: $(SCPMOOBJ)
-	$(LINKMOD) -o plugins/$@ $(SCPMOOBJ)
-
-#$(SCPMOOBJ):
-#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
 
 #
 # UI section
@@ -429,60 +417,35 @@ soundcard-@host_os@.pmo: $(SCPMOOBJ)
 # cmdline
 CMDUIOBJ = ui/cmdline/cmdlineUI.o
 
-plugins/freeampcmd-@host_os@.ui: freeampcmd-@host_os@.ui
+plugins/freeampcmd-@host_os@.ui: $(CMDUIOBJ)
+	$(LINKMOD) -o $@ $(CMDUIOBJ)
 
-freeampcmd-@host_os@.ui: $(CMDUIOBJ)
-	$(LINKMOD) -o plugins/$@ $(CMDUIOBJ)
-
-#$(CMDUIOBJ):
-#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
-
-
-p# Mpg123 ui
+# Mpg123 ui
 MPG123UIOBJ = ui/mpg123/Mpg123UI.o
 
-plugins/mpg123-@host_os@.ui: mpg123-@host_os@.ui
-
-mpg123-@host_os@.ui: $(MPG123UIOBJ)
-	$(LINKMOD) -o plugins/$@ $(MPG123UIOBJ)
-
-#$(MPG123UIOBJ):
-#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+plugins/mpg123-@host_os@.ui: $(MPG123UIOBJ)
+	$(LINKMOD) -o $@ $(MPG123UIOBJ)
 
 # lcd ui
 LCDUIOBJ = ui/lcd/src/lcdui.o ui/lcd/src/sockets.o
 
-plugins/lcd-@host_os@.ui: lcd-@host_os@.ui
-
-lcd-@host_os@.ui: $(LCDUIOBJ)
-	$(LINKMOD) -o plugins/$@ $(LCDUIOBJ) $(NETLIBS)
-
-#$(LCDUIOBJ):
-#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+plugins/lcd-@host_os@.ui: $(LCDUIOBJ)
+	$(LINKMOD) -o $@ $(LCDUIOBJ) $(NETLIBS)
 
 # IRman
 IRMANUIOBJ = ui/irman/src/irmanui.o ui/irman/src/ircmd.o 
 IRMANUIOBJ += ui/irman/src/irfunc.o ui/irman/src/irio.o
 
-plugins/irman-@host_os@.ui: irman-@host_os@.ui
-
-#irman-@host_os@.ui: $(IRMANUIOBJ)
-#	$(LINKMOD) -o plugins/$@ $(IRMANUIOBJ)
-
-#$(IRMANUIOBJ):
-#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
+plugins/irman-@host_os@.ui: $(IRMANUIOBJ)
+	$(LINKMOD) -o $@ $(IRMANUIOBJ)
 
 # The studly X11 freeamp interface
 FREEAMPUIOBJ = ui/freeamp/unix/src/freeamp.o ui/freeamp/unix/src/windowhash.o
 FREEAMPUIOBJ += ui/freeamp/unix/src/res.o ui/freeamp/unix/src/fawindow.o
 
-plugins/freeamp-@host_os@.ui: freeamp-@host_os@.ui
+plugins/freeamp-@host_os@.ui: $(FREEAMPUIOBJ)
+	$(LINKMOD) -o $@ $(FREEAMPUIOBJ) $(XLIBS) $(NETLIBS)
 
-freeamp-@host_os@.ui: $(FREEAMPUIOBJ)
-	$(LINKMOD) -o plugins/$@ $(FREEAMPUIOBJ) $(XLIBS) $(NETLIBS)
-
-#$(FREEAMPUIOBJ):
-#	$(CXXCOMPILE) $(FPIC) -o $(*).o -c ${*:%.o=%}.c
 
 
 #
@@ -510,10 +473,8 @@ XINGLMCOBJ = $(XINGLMCOBJC) $(XINGLMCOBJCXX)
 #the second is needed so that $@ will have the right entry for the
 # linux -Wl,-soname=gobbledegook.so stuff.
 
-plugins/xingmp3-@host_os@.lmc: xingmp3-@host_os@.lmc
-
-xingmp3-@host_os@.lmc: $(XINGLMCOBJ)
-	$(LINKMOD) -o plugins/$@ $(XINGLMCOBJ)
+plugins/xingmp3-@host_os@.lmc: $(XINGLMCOBJ)
+	$(LINKMOD) -o $@ $(XINGLMCOBJ)
 
 #$(XINGLMCOBJC):
 #	$(COMPILE) $(FPIC) $(XINGDEF) -Ilmc/xingmp3/include -o $(*).o -c ${*:%.o=%}.c

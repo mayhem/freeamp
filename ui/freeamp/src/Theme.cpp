@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.52 2000/06/22 15:13:36 elrod Exp $
+   $Id: Theme.cpp,v 1.53 2000/06/22 18:53:10 elrod Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -187,7 +187,7 @@ void Theme::ClearFonts(void)
     }
 }
 
-void Theme::SetPrefString(kThemePathPref, string &oThemePath)
+void Theme::SetThemePath(string &oThemePath)
 {
     m_oThemePath = oThemePath + string(DIR_MARKER_STR);
 }
@@ -205,7 +205,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
 
     if (_stat(oFile.c_str(), &buf) == 0 && (buf.st_mode & _S_IFDIR))
     {
-        SetPrefString(kThemePathPref, oFile);
+        SetThemePath(oFile);
         ConvertForeignFormat(oFile);
         oCompleteFile = oFile + string(DIR_MARKER_STR) + string("theme.xml");
         eRet = Parse::ParseFile(oCompleteFile);
@@ -223,7 +223,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
             oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
             return kError_InvalidParam;
         }    
-        SetPrefString(kThemePathPref, oTempPath);
+        SetThemePath(oTempPath);
 
         pZip = new ThemeZip();
         eRet = pZip->DecompressTheme(oFile, oTempPath);

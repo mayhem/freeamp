@@ -19,7 +19,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: dsoundcardpmo.cpp,v 1.23 2000/06/22 15:13:35 elrod Exp $
+  $Id: dsoundcardpmo.cpp,v 1.24 2000/06/22 18:53:10 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -314,7 +314,7 @@ bool DSoundCardPMO::SetupVolumeControl(void)
 
 void
 DSoundCardPMO::
-GetPrefInt32(kVolumePref, int32 &left, int32 &right)
+GetVolume(int32 &left, int32 &right)
 {
     MIXERCONTROLDETAILS_UNSIGNED mxcdVolume[2];
     MIXERCONTROLDETAILS mxcd;
@@ -341,7 +341,7 @@ GetPrefInt32(kVolumePref, int32 &left, int32 &right)
 
 void
 DSoundCardPMO::
-SetPrefInt32(kVolumePref, int32 left, int32 right)
+SetVolume(int32 left, int32 right)
 {
     DWORD dwLeft, dwRight;
     

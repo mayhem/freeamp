@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.50 2000/06/22 16:03:46 elrod Exp $
+        $Id: preferences.cpp,v 1.51 2000/06/22 18:53:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -90,6 +90,7 @@ const char* kSavedPlaylistPositionPref = "SavedPlaylistPosition";
 const char* kMusicBrowserPositionPref = "MusicBrowserPosition";
 const char* kMusicBrowserHeaderWidthsPref = "MusicBrowserHeaderWidths";
 const char* kCloseDLMOnCompletePref = "CloseDLMOnComplete";
+const char* kPerformDBCheckPref = "PerformDBCheck";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -156,6 +157,7 @@ const uint32 kDefaultSavedPlaylistPosition = 0;
 const char* kDefaultMusicBrowserPosition = "-1,-1,-1,-1,-1";
 const char* kDefaultMusicBrowserHeaderWidths = "-1,-1,-1.-1";
 const bool  kDefaultCloseDLMOnComplete = false;
+const bool kDefaultPerformDBCheck = true;
 
 Error
 Preferences::
@@ -374,6 +376,10 @@ SetDefaults()
     if (GetPrefString(kMusicBrowserHeaderWidthsPref, dummyString, 
         (uint32 *)&dummyInt) == kError_NoPrefValue)
         SetPrefString(kMusicBrowserHeaderWidthsPref, kDefaultMusicBrowserHeaderWidths);
+
+    if (GetPrefBoolean(kPerformDBCheckPref, &dummyBool) == 
+        kError_NoPrefValue)
+        SetPrefBoolean(kPerformDBCheckPref, kDefaultPerformDBCheck);
 
     return kError_NoErr;
 }

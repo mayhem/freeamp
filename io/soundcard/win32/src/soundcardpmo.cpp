@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.69 2000/06/22 15:13:35 elrod Exp $
+   $Id: soundcardpmo.cpp,v 1.70 2000/06/22 18:53:10 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -168,14 +168,14 @@ bool SoundCardPMO::SetupVolumeControl( HWND hWnd)
     return !!m_volume;
 }
 
-void SoundCardPMO::GetPrefInt32(kVolumePref, int32 &left, int32 &right) 
+void SoundCardPMO::GetVolume(int32 &left, int32 &right) 
 {
-    m_volume->GetPrefInt32(kVolumePref, left, right);
+    m_volume->GetVolume(left, right);
 }
 
-void SoundCardPMO::SetPrefInt32(kVolumePref, int32 left, int32 right) 
+void SoundCardPMO::SetVolume(int32 left, int32 right) 
 {
-    m_volume->SetPrefInt32(kVolumePref, left, right);
+    m_volume->SetVolume(left, right);
 }
 
 Error SoundCardPMO::Init(OutputInfo * info)

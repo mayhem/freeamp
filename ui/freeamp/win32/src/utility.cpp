@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.3 1999/03/18 03:44:37 elrod Exp $
+	$Id: utility.cpp,v 1.4 1999/03/18 08:52:37 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -273,7 +273,7 @@ FileOpenDialog(HWND hwndParent,
 	        cp += strlen(cp) + 1;
         }
 
-        //*(fileBuffer + ofn.nFileOffset - 1) = 0x00;
+        *(fileBuffer + ofn.nFileOffset - 1) = 0x00;
 
         prefs.SetOpenSaveDirectory(fileBuffer);
 

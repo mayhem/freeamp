@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.c,v 1.1.2.1 1999/10/02 15:57:45 ijr Exp $
+        $Id: browsermenu.c,v 1.1.2.2 1999/10/11 23:39:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -51,10 +51,10 @@ void CreateMenuItems(GtkItemFactory *item_factory)
      {"/_File",                 NULL,           0,         0, "<Branch>" },
      {"/File/tearoff1",         NULL,           0,         0, "<Tearoff>" },
      {"/File/_New Playlist",    "<control>N",   new_plist, 0, 0 },
-     {"/File/_Open Playlist",   "<control>O",   open_list, 0, 0 },
-     {"/File/_Save Playlist",   "<control>S",   save_list, 0, 0 },
-//     {"/File/_Import Playlist", "<control>I",   0,         0, 0 },
-//     {"/File/_Export Playlist", "<control>E",   0,         0, 0 },
+//     {"/File/_Open Playlist",   "<control>O",   open_list, 0, 0 },
+//     {"/File/_Save Playlist",   "<control>S",   save_list, 0, 0 },
+     {"/File/_Import Playlist", "<control>I",   open_list, 0, 0 },
+     {"/File/_Export Playlist", "<control>E",   save_list, 0, 0 },
      {"/File/sep1",             NULL,           0,         0, "<Separator>" },
      {"/File/Search for Music", NULL,           music_search, 0, 0 },
      {"/File/sep2",             NULL,           0,         0, "<Separator>" },

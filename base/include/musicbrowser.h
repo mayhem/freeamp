@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.1.2.7 1999/09/27 01:51:17 elrod Exp $
+        $Id: musicbrowser.h,v 1.1.2.8 1999/10/11 23:39:36 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -69,8 +69,9 @@ class MusicCatalog
  public:
     MusicCatalog();
     ~MusicCatalog();
-    
-    void PopulateFromDatabase(MusicBrowser *mb, Database *dbase);
+
+    void AddOneFromKey(MusicBrowser *mb, char *key);    
+    void PopulateFromDatabase(MusicBrowser *mb);
     
     vector<ArtistList *> *m_artistList;
     vector<PlaylistItem *> *m_unsorted;
@@ -91,6 +92,7 @@ class MusicBrowser : public EventQueue
     virtual int32 AcceptEvent(Event *e);
     
     MusicCatalog *m_catalog;
+    Database *GetDatabase() { return m_database; }
 
  protected:
     static void musicsearch_thread_function(void *arg);

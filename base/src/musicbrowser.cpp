@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.12 1999/09/26 01:47:59 elrod Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.13 1999/10/11 23:39:36 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -57,9 +57,70 @@ MusicCatalog::~MusicCatalog()
     delete m_playlists;
 }
 
-void MusicCatalog::PopulateFromDatabase(MusicBrowser *mb, Database *dbase)
+void MusicCatalog::AddOneFromKey(MusicBrowser *mb, char *key)
 {
     assert(mb);
+    Database *dbase = mb->GetDatabase();
+    assert(dbase);
+    assert(key);
+
+    if (!dbase->Working())
+        return;
+
+    char *data = dbase->Value(key);
+    if (!data)
+        return;
+
+    if (!strncmp("P", data, 1)) {
+        m_playlists->push_back(key);
+    }
+    else if (!strncmp("M", data, 1)) {
+        MetaData *meta = mb->ReadMetaDataFromDatabase(key);
+        assert(meta);
+        PlaylistItem *newtrack = new PlaylistItem(key, meta);
+        if (meta->Artist() == " ") {
+            m_unsorted->push_back(newtrack);
+        }
+        else {
+            bool found_artist = false;
+            vector<ArtistList *>::iterator i = m_artistList->begin();
+            for (; i != m_artistList->end(); i++) {
+                if (meta->Artist() == (*i)->name) {
+                    bool found_album = false;
+                    found_artist = true;
+                    vector<AlbumList *> *alList = (*i)->m_albumList;
+                    vector<AlbumList *>::iterator j = alList->begin();
+                    for (; j != alList->end(); j++) {
+                        if (meta->Album() == (*j)->name) {
+                            found_album = true;
+                            (*j)->m_trackList->push_back(newtrack);
+                         }
+                    }
+                    if (!found_album) {
+                        AlbumList *newalbum = new AlbumList;
+                        newalbum->name = meta->Album();
+                        newalbum->m_trackList->push_back(newtrack);
+                        alList->push_back(newalbum);
+                    }
+                }
+            }
+            if (!found_artist) {
+                ArtistList *newartist = new ArtistList;
+                newartist->name = meta->Artist();
+                AlbumList *newalbum = new AlbumList;
+                newalbum->name = meta->Album();
+                newalbum->m_trackList->push_back(newtrack);
+                newartist->m_albumList->push_back(newalbum);
+                m_artistList->push_back(newartist);
+            }
+        }
+    }
+}
+
+void MusicCatalog::PopulateFromDatabase(MusicBrowser *mb)
+{
+    assert(mb);
+    Database *dbase = mb->GetDatabase();
     assert(dbase);
 
     if (!dbase->Working())
@@ -75,60 +136,7 @@ void MusicCatalog::PopulateFromDatabase(MusicBrowser *mb, Database *dbase)
  
     char *key = dbase->NextKey(NULL);
     while (key) {
-        char *data = dbase->Value(key);
-
-        if (!data)
-            continue;
-
-        if (!strncmp("P", data, 1)) {
-            m_playlists->push_back(data);
-        }
-        else if (!strncmp("M", data, 1)) {
-            MetaData *meta = mb->ReadMetaDataFromDatabase(key);
-  
-            assert(meta);
- 
-            PlaylistItem *newtrack = new PlaylistItem(key, meta);
-
-            if (meta->Artist() == " ") {
-                m_unsorted->push_back(newtrack);
-            }
-            else {
-                bool found_artist = false;
-                vector<ArtistList *>::iterator i = m_artistList->begin();
-                for (; i != m_artistList->end(); i++) {
-                    if (meta->Artist() == (*i)->name) {
-                        bool found_album = false;
-
-                        found_artist = true;
-                        vector<AlbumList *> *alList = (*i)->m_albumList;
-                        vector<AlbumList *>::iterator j = alList->begin();
-                        for (; j != alList->end(); j++) {
-                            if (meta->Album() == (*j)->name) {
-                                found_album = true;
-                                (*j)->m_trackList->push_back(newtrack);
-                             }
-                        }
-                        if (!found_album) {
-                            AlbumList *newalbum = new AlbumList;
-                            newalbum->name = meta->Album(); 
-                            newalbum->m_trackList->push_back(newtrack);
-                            alList->push_back(newalbum);
-                        }
-                    }
-                }
-                if (!found_artist) {
-                    ArtistList *newartist = new ArtistList;
-                    newartist->name = meta->Artist(); 
-                    AlbumList *newalbum = new AlbumList;
-                    newalbum->name = meta->Album(); 
-                    newalbum->m_trackList->push_back(newtrack);
-
-                    newartist->m_albumList->push_back(newalbum);
-                    m_artistList->push_back(newartist);
-                }
-            }
-        }
+        AddOneFromKey(mb, key);
         key = dbase->NextKey(key);
     }
 }
@@ -145,7 +153,7 @@ MusicBrowser::MusicBrowser(FAContext *context, char *path)
         SetDatabase(path);
 
     if (m_database)
-        m_catalog->PopulateFromDatabase(this, m_database);
+        m_catalog->PopulateFromDatabase(this);
 }
 
 MusicBrowser::~MusicBrowser()
@@ -169,7 +177,7 @@ void MusicBrowser::SetDatabase(const char *path)
     }
 
     if (m_database)
-        m_catalog->PopulateFromDatabase(this, m_database);
+        m_catalog->PopulateFromDatabase(this);
 }
 
 typedef struct MusicSearchThreadStruct {
@@ -277,7 +285,7 @@ void MusicBrowser::DoSearchMusic(char *path)
             }
             else if ((fileExt = m_player->GetExtension(find.cFileName)))
             {
-                if (!strncmp("m3u", fileExt, 3))
+                if (!strncmp("M3U", fileExt, 3))
                 {
                     string file = path;
                     file.append(DIR_MARKER_STR);
@@ -401,7 +409,7 @@ int32 MusicBrowser::AcceptEvent(Event *e)
     switch (e->Type()) {
         case INFO_SearchMusicDone: {
             m_database->Sync();
-            m_catalog->PopulateFromDatabase(this, m_database);
+            m_catalog->PopulateFromDatabase(this);
             m_context->target->AcceptEvent(new Event(INFO_SearchMusicDone));
             break;
         } 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.31.2.4.4.2.2.1 2000/03/29 08:10:09 elrod Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.31.2.4.4.2.2.2 2000/04/10 00:05:13 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2702,7 +2702,7 @@ bool Win32PreferenceWindow::PrefUpdateProc(HWND hwnd,
                 uint32 month, day, year;
                 
                 numFields = sscanf(item->GetLocalFileTime().c_str(),
-                       "%lu/%lu/%lu",&month,&day,&year);
+                       "%lu-%lu-%lu",&year,&month,&day);
 
                 struct tm fileTime;
 
@@ -2739,7 +2739,7 @@ bool Win32PreferenceWindow::PrefUpdateProc(HWND hwnd,
                 uint32 month, day, year;
                 
                 numFields = sscanf(item->GetCurrentFileTime().c_str(),
-                       "%lu/%lu/%lu",&month,&day,&year);
+                       "%lu-%lu-%lu",&year,&month,&day);
 
                 struct tm fileTime;
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.12.10.2.2.1 2000/03/29 08:10:08 elrod Exp $
+	$Id: updatemanager.cpp,v 1.12.10.2.2.2 2000/04/10 00:05:12 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -233,7 +233,7 @@ bool UpdateManager::IsUpdateAvailable()
                 uint32 month, day, year;
                 
                 numFields = sscanf(item->GetLocalFileTime().c_str(),
-                       "%lu/%lu/%lu",&month,&day,&year);
+                       "%lu-%lu-%lu",&year,&month,&day);
 
                 struct tm fileTime;
 
@@ -246,7 +246,7 @@ bool UpdateManager::IsUpdateAvailable()
                 localFileTime = mktime(&fileTime);
 
                 numFields = sscanf(item->GetCurrentFileTime().c_str(),
-                       "%lu/%lu/%lu",&month,&day,&year);
+                       "%lu-%lu-%lu",&year,&month,&day);
 
                 fileTime.tm_mon = month;
                 fileTime.tm_mday = day;
@@ -357,7 +357,7 @@ Error UpdateManager::UpdateComponents(UMCallBackFunction function,
                     uint32 month, day, year;
                 
                     numFields = sscanf(item->GetLocalFileTime().c_str(),
-                           "%lu/%lu/%lu",&month,&day,&year);
+                           "%lu-%lu-%lu",&year,&month,&day);
 
                     struct tm fileTime;
 
@@ -370,7 +370,7 @@ Error UpdateManager::UpdateComponents(UMCallBackFunction function,
                     localFileTime = mktime(&fileTime);
 
                     numFields = sscanf(item->GetCurrentFileTime().c_str(),
-                           "%lu/%lu/%lu",&month,&day,&year);
+                           "%lu-%lu-%lu",&year,&month,&day);
 
                     fileTime.tm_mon = month;
                     fileTime.tm_mday = day;
@@ -1249,7 +1249,7 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
                                     uint32 month, day, year;
 
                                     sscanf(item->GetCurrentFileTime().c_str(),
-                                                       "%lu/%lu/%lu",&month,&day,&year);
+                                                       "%lu-%lu-%lu",&year,&month,&day);
 
                                     HANDLE fileHandle;
                                     

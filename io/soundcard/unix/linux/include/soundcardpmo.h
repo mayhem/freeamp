@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.h,v 1.13 1999/03/07 20:59:29 robert Exp $
+        $Id: soundcardpmo.h,v 1.14 1999/03/17 22:10:36 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SOUNDCARDPMO_H_
@@ -92,7 +92,7 @@ class SoundCardPMO:public PhysicalMediaOutput, public EventBuffer
    Thread      *m_pBufferThread;
    Mutex       *m_pPauseMutex;
    int          m_iOutputBufferSize, m_iTotalBytesWritten, m_iBytesPerSample;
-   int          m_iLastFrame;
+   int          m_iLastFrame, m_iDataSize;
 };
 
 #endif /* _SOUNDCARDPMO_H_ */

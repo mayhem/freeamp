@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.59.2.1.2.3 2000/03/07 05:07:21 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.59.2.1.2.4 2000/03/07 05:19:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -2973,7 +2973,9 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
             break; }
         case INFO_PlaylistCurrentItemInfo: {
             int temp = m_plm->GetCurrentIndex();
-            if (isVisible) {
+            PlaylistCurrentItemInfoEvent *pciie = 
+                                              (PlaylistCurrentItemInfoEvent *)e;
+            if (isVisible && pciie->Manager() == m_plm) {
                 gdk_threads_enter();
                 ChangeCurrentPlayingIndex(m_playingindex, temp);   
                 gdk_threads_leave();

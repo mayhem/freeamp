@@ -1,4 +1,4 @@
-/* $Id: tristatebutton.h,v 1.1.2.1 1999/08/06 08:31:40 hiro Exp $ */
+/* $Id: tristatebutton.h,v 1.1.2.2 1999/08/14 08:06:05 hiro Exp $ */
 #ifndef _TRI_STATE_BUTTON_H
 #define _TRI_STATE_BUTTON_H
 
@@ -45,6 +45,7 @@ private:
 	BBitmap*		m_glowBitmap;
 	bool			m_ownsBitmaps;
 	button_state	m_state;
+	bool			m_mouseDown;
 };
 
 #endif // _TRI_STATE_BUTTON_H

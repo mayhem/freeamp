@@ -1,4 +1,4 @@
-/* $Id: tristatebutton.cpp,v 1.1.2.1 1999/08/06 08:31:40 hiro Exp $ */
+/* $Id: tristatebutton.cpp,v 1.1.2.2 1999/08/14 08:06:05 hiro Exp $ */
 
 #define DEBUG 1
 #include <be/support/Debug.h>
@@ -26,7 +26,8 @@ TriStateButton::TriStateButton(
 	m_onBitmap( onBitmap ),
 	m_glowBitmap( glowBitmap ),
 	m_ownsBitmaps( ownsBitmaps ),
-	m_state( TriStateButton::OFF )
+	m_state( TriStateButton::OFF ),
+	m_mouseDown( false )
 {
 	// Find the largest bound rect that encloses the all three bitmaps.
 	BRect	bounds;
@@ -79,6 +80,21 @@ TriStateButton::Draw( BRect updateRect )
 void
 TriStateButton::MouseDown( BPoint point )
 {
+	// We need to keep track of the mouse events happening outside our
+	// bound rect, to keep us notified of mouseup event outside the bound
+	// rect. See the comment below too.
+	status_t err = SetMouseEventMask( B_POINTER_EVENTS );
+	if ( err < B_NO_ERROR )
+	{
+		REPORT_ERROR( err );
+		return;
+	}
+
+	// MouseDown state must be remembered to handle the case where the user
+	// moved the pointer outside the boundary and then back inside again
+	// while pressing the button.
+	m_mouseDown = true;
+
 	m_state = TriStateButton::ON;
 	Invalidate();
 }
@@ -95,18 +111,31 @@ TriStateButton::MouseMoved(
 		m_state = TriStateButton::OFF;
 		Invalidate();
 	}
-	else if ( m_state == TriStateButton::OFF )
+	else if ( transit == B_ENTERED_VIEW ||
+			( transit == B_INSIDE_VIEW && m_state == TriStateButton::OFF ) )
 	{
-		m_state = TriStateButton::GLOW;
-		Invalidate();
+		if ( m_mouseDown )
+		{
+			m_state = TriStateButton::ON;
+			Invalidate();
+		}
+		else
+		{
+			m_state = TriStateButton::GLOW;
+			Invalidate();
+		}
 	}
 }
 
 void
 TriStateButton::MouseUp( BPoint point )
 {
+	m_mouseDown = false;
+
 	if ( m_state == TriStateButton::ON )
 	{
+		// m_state being ON means the mouseup event happen within the bound
+		// rect, so we need to invoke.
 		Invoke();
 		m_state = TriStateButton::OFF;
 		Invalidate();
@@ -121,8 +150,9 @@ TriStateButton::SetBitmaps(
 						bool		ownsBitmaps
 						)
 {
-	status_t	err;
-	if ( ( err = LockLooperWithTimeout( 1000000 ) ) < B_OK )
+	status_t	err = B_NO_ERROR;
+
+	if ( Looper() && ( err = LockLooperWithTimeout( 1000000 ) ) < B_OK )
 	{
 		REPORT_ERROR( err );
 		return err;
@@ -138,7 +168,7 @@ TriStateButton::SetBitmaps(
 	m_onBitmap   = onBitmap;
 	m_glowBitmap = glowBitmap;
 
-	UnlockLooper();
+	if ( Looper() ) UnlockLooper();
 
 	// Reflect the latest bitmaps.
 	Invalidate();
@@ -149,9 +179,9 @@ TriStateButton::SetBitmaps(
 status_t
 TriStateButton::CleanBitmaps( void )
 {
-	status_t	err;
+	status_t	err = B_NO_ERROR;
 
-	if ( ( err = LockLooperWithTimeout( 1000000 ) ) < B_OK )
+	if ( Looper() && ( err = LockLooperWithTimeout( 1000000 ) ) < B_OK )
 	{
 		REPORT_ERROR( err );
 		return err;
@@ -176,7 +206,7 @@ TriStateButton::CleanBitmaps( void )
 		}
 	}
 
-	UnlockLooper();
+	if ( Looper() ) UnlockLooper();
 
 	return err;
 }

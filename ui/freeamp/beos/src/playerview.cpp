@@ -1,4 +1,4 @@
-/* $Id: playerview.cpp,v 1.1.2.1 1999/08/06 08:31:40 hiro Exp $ */
+/* $Id: playerview.cpp,v 1.1.2.2 1999/08/14 08:06:05 hiro Exp $ */
 
 #define DEBUG 1
 #include <be/support/Debug.h>
@@ -108,6 +108,11 @@ PlayerView::MouseMoved(
 	pt.x -= m_hotSpot.x;
 	pt.y -= m_hotSpot.y;
 	Window()->MoveTo( pt );
+
+	// This Sync is very important, otherwise the above BWindow::MoveTo don't
+	// get sent to app_server and executed right away, causing the subsequent
+	// BView::ConvertToScreen to use the wrong value for the window's framerect.
+	Sync();
 }
 
 void

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.14.2.1 1999/08/04 07:48:06 hiro Exp $
+# $Id: Makefile-plugins.in,v 1.14.2.2 1999/08/06 08:31:39 hiro Exp $
 
 RELOC = @FPIC@
 
@@ -77,11 +77,12 @@ plugins/obsinput-$(HOST_OS).pmi: $(OBSPMI)
 SCPMOlinuxOBJ = 
 
 SCPMObeosOBJ = io/soundcard/beos/src/soundutils.o
+SCPMObeosLIBS = -lmedia -lbe -lroot
 
 SCPMOOBJ = io/soundcard/$(OSDEP)/src/soundcardpmo.o io/src/pmo.o \
            io/src/pipeline.o $(SCPMO$(HOST_OS)OBJ)
 
-SCPMOLIBS = @SCPMOLIBS@
+SCPMOLIBS = $(SCPMO$(HOST_OS)LIBS)
 
 plugins/soundcard-$(HOST_OS).pmo: $(SCPMOOBJ)
 	$(LINKMOD) -o $@ $(SCPMOOBJ) $(SCPMOLIBS)
@@ -138,11 +139,22 @@ plugins/gtk.ui: $(GTKUIOBJ)
 	$(LINKMOD) -o $@ $(GTKUIOBJ)
 
 # The studly X11 freeamp interface
-FREEAMPUIOBJ = ui/freeamp/unix/src/freeamp.o ui/freeamp/unix/src/windowhash.o
-FREEAMPUIOBJ += ui/freeamp/unix/src/res.o ui/freeamp/unix/src/fawindow.o
+X11FREEAMPUIOBJ = ui/freeamp/unix/src/freeamp.o ui/freeamp/unix/src/windowhash.o
+X11FREEAMPUIOBJ += ui/freeamp/unix/src/res.o ui/freeamp/unix/src/fawindow.o
+X11FREEAMPUILIBS = $(X_LIBS) $(X_EXTRA_LIBS)
+
+BEOSFREEAMPUIOBJ = ui/freeamp/beos/src/uiresources.o ui/freeamp/beos/src/freeamp-beos.o ui/freeamp/beos/src/playerwindow.o ui/freeamp/beos/src/playerview.o ui/freeamp/beos/src/resourceutils.o ui/freeamp/beos/src/tristatebutton.o
+BEOSFREEAMPUILIBS = -ltranslation -lbe -lroot
+BEOSFREEAMPUIRSRCS = ui/freeamp/beos/res/Resource.rsrc
+BEOSFREEAMPUIADDRESOURCE = xres -o $@ $(BEOSFREEAMPUIRSRCS)
+
+FREEAMPUIOBJ = $($(FREEAMPUITYPE)FREEAMPUIOBJ)
+FREEAMPUILIBS = $($(FREEAMPUITYPE)FREEAMPUILIBS)
+FREEAMPUIADDRESOURCE = $($(FREEAMPUITYPE)FREEAMPUIADDRESOURCE)
 
 plugins/freeamp-$(HOST_OS).ui: $(FREEAMPUIOBJ)
-	$(LINKMOD) -o $@ $(FREEAMPUIOBJ) $(X_LIBS) $(X_EXTRA_LIBS)
+	$(LINKMOD) -o $@ $(FREEAMPUIOBJ) $(FREEAMPUILIBS)
+	$(FREEAMPUIADDRESOURCE)
 
 
 #

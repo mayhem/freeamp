@@ -34,7 +34,7 @@ ____________________________________________________________________________*/
 
 /* ncurses / curses include */
 #include <curses.h>
-#ifndef NCURSES_VERSION
+#if !defined(NCURSES_VERSION) || defined(__BEOS__)
 #define color_set(a,b) ;
 #endif
 
@@ -57,6 +57,9 @@ UserInterface *Initialize(FAContext *context) {
            }
 static struct termios normalTTY;
 static struct termios rawTTY;
+#if __BEOS__
+int getKey() { return 0; }
+#else
 int getKey() {
     fd_set rdfs;
 
@@ -67,6 +70,7 @@ int getKey() {
     }
     return 0;
 }
+#endif
 
 void ncursesUI::SetPlayListManager(PlayListManager *plm) {
     m_plm = plm;
@@ -373,7 +377,7 @@ int32 ncursesUI::AcceptEvent(Event *e) {
     return 0;
 }
 
-void ncursesUI::SetArgs(int argc, char **argv) {
+void ncursesUI::SetArgs(int32 argc, char **argv) {
     m_argc = argc; m_argv = argv;
 }
 void ncursesUI::ProcessArgs() {

@@ -17,19 +17,14 @@
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
-----------------------------------------------------------------------------
-ncurses user interface by stephan auerhahn (palpatine@midi.net)
-
-this is a hacked up version of cmdlineUI.h
+	
+	$Id: freeamp-beos.h,v 1.1.2.1 1999/08/06 08:31:40 hiro Exp $
 ____________________________________________________________________________*/
 
+// hacked up from cmdlineUI.h
 
-// ncursesUI.h
-
-
-#ifndef _NCURSESUI_H_
-#define _NCURSESUI_H_
+#ifndef _UI_FREEAMP_BEOS_H_
+#define _UI_FREEAMP_BEOS_H_
 
 #include "ui.h"
 #include "event.h"
@@ -37,48 +32,43 @@ ____________________________________________________________________________*/
 #include "playlist.h"
 
 class FAContext;
+class PlayerWindow;
 
-class ncursesUI : public UserInterface {
- public:
-    ncursesUI(FAContext *context);
+class FreeAmpUI : public UserInterface
+{
+public:
+    FreeAmpUI(FAContext *context);
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int32 argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
     virtual Error Init(int32);
     virtual void SetPlayListManager(PlayListManager *);
     static void keyboardServiceFunction(void *);
-    virtual ~ncursesUI();
-   virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
+    virtual ~FreeAmpUI();
+    virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
+	void Play( void );
+	void Stop( void );
+	void Pause( void );
+	void QuitPlayer( void );
+	void NextMediaPiece( void );
+	void PreviousMediaPiece( void );
 
- protected:
+protected:
    FAContext *m_context;
 
- private:
-   Properties *m_propManager;
-   void ProcessArgs();
-   void showInfo();
-   int32 m_startupLevel;
-   int32 m_argc;
-   char **m_argv;
-   EventQueue *m_playerEQ;
-   void processSwitch(char *);
-   Thread *keyboardListenThread;
-   PlayListManager *m_plm;
-   int32 m_lastIndexPlayed;
-   bool m_id3InfoPrinted;
-   float totalTime;
-   int totalFrames;
-   MpegInfoEvent m_mpegInfo;
-   bool m_mpegInfo_set;
-   MediaInfoEvent *m_mediaInfo;
-   bool m_mediaInfo_set;
-   float lastSeconds;
-   int titleStart;
-   int titleDir;
-   char title[1024];
-   int counter;
+private:
+	Properties *m_propManager;
+	void ProcessArgs();
+	int32 m_startupLevel;
+	int32 m_argc;
+	char **m_argv;
+	EventQueue *m_playerEQ;
+	void processSwitch(char *);
+	Thread *keyboardListenThread;
+	PlayListManager *m_plm;
+	int32 m_lastIndexPlayed;
+	bool m_id3InfoPrinted;
+	PlayerWindow*		m_playerWindow;
 };
 
-
-#endif // _COMMANDLINECIO_H_
-
+#endif // _UI_FREEAMP_BEOS_H_

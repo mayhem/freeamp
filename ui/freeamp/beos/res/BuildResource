@@ -1,0 +1,23 @@
+#!/bin/sh
+# $Id: BuildResource,v 1.1.2.1 1999/08/06 08:31:40 hiro Exp $
+
+xres -o Resource.rsrc \
+-a 'RAWT:1:body.png' body.png \
+-a 'RAWT:10:play_off.png' play_off.png \
+-a 'RAWT:11:play_on.png' play_on.png \
+-a 'RAWT:12:play_glow.png' play_glow.png \
+-a 'RAWT:20:stop_off.png' stop_off.png \
+-a 'RAWT:21:stop_on.png' stop_on.png \
+-a 'RAWT:22:stop_glow.png' stop_glow.png \
+-a 'RAWT:30:pause_off.png' pause_off.png \
+-a 'RAWT:31:pause_on.png' pause_on.png \
+-a 'RAWT:32:pause_glow.png' pause_glow.png \
+-a 'RAWT:40:prev_off.png' prev_off.png \
+-a 'RAWT:41:prev_on.png' prev_on.png \
+-a 'RAWT:42:prev_glow.png' prev_glow.png \
+-a 'RAWT:50:next_off.png' next_off.png \
+-a 'RAWT:51:next_on.png' next_on.png \
+-a 'RAWT:52:next_glow.png' next_glow.png \
+-a 'RAWT:60:close_off.png' close_off.png \
+-a 'RAWT:61:close_on.png' close_on.png \
+-a 'RAWT:62:close_glow.png' close_glow.png

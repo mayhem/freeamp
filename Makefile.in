@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.28.2.1 1999/08/04 07:48:06 hiro Exp $
+# $Id: Makefile.in,v 1.28.2.2 1999/08/06 08:31:39 hiro Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = @FPIC@ for plugins.
@@ -37,9 +37,11 @@ FREEAMPOBJ += lmc/src/lmcregistry.o ui/src/uiregistry.o
 FREEAMPOBJ += $(FREEAMP$(HOST_OS)OBJ)
 #FREEAMPOBJ += $(OSDEPOBJ)
 
-FREEAMPLIBS = @FREEAMPLIBS@
-
 all: freeamp plugins
+
+UNIXFREEAMPLIBS = -ldl -lpthread $(X_LIBS) $(X_EXTRA_LIBS) $(EXTRA_LIBS)
+BEOSFREEAMPLIBS = -lbe -lroot
+FREEAMPLIBS = $($(OSTYPE)FREEAMPLIBS)
 
 freeamp: $(FREEAMPOBJ) $(freeamp_DEPENDENCIES)
 	@rm -f freeamp

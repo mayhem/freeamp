@@ -57,6 +57,7 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\pmp300.obj"
 	-@erase "$(INTDIR)\preferences.obj"
+	-@erase "$(INTDIR)\utility.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(OUTDIR)\pmp300.exp"
@@ -90,6 +91,7 @@ DEF_FILE= \
 LINK32_OBJS= \
 	"$(INTDIR)\pmp300.obj" \
 	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"..\sba\riolib.lib"
 
@@ -104,8 +106,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "riolib - Win32 Release" ".\pmp300.ppp"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                           ..\..\..\..\base\win32\prj\plugins
-	copy pmp300.ppp  ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                            ..\..\..\..\base\win32\prj\plugins
+	copy pmp300.ppp   ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 Debug"
@@ -130,6 +132,7 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\pmp300.obj"
 	-@erase "$(INTDIR)\preferences.obj"
+	-@erase "$(INTDIR)\utility.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(INTDIR)\win32prefs.obj"
@@ -167,6 +170,7 @@ DEF_FILE= \
 LINK32_OBJS= \
 	"$(INTDIR)\pmp300.obj" \
 	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"..\sba\riolib.lib"
 
@@ -181,8 +185,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "riolib - Win32 Debug" ".\pmp300.ppp"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                           ..\..\..\..\base\win32\prj\plugins
-	copy pmp300.ppp  ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                            ..\..\..\..\base\win32\prj\plugins
+	copy pmp300.ppp   ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Release"
@@ -207,6 +211,7 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\pmp300.obj"
 	-@erase "$(INTDIR)\preferences.obj"
+	-@erase "$(INTDIR)\utility.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(OUTDIR)\pmp300.exp"
@@ -240,6 +245,7 @@ DEF_FILE= \
 LINK32_OBJS= \
 	"$(INTDIR)\pmp300.obj" \
 	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"..\sba\riolib.lib"
 
@@ -254,8 +260,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "riolib - Win32 NASM Release" ".\pmp300.ppp"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                           ..\..\..\..\base\win32\prj\plugins
-	copy pmp300.ppp  ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                            ..\..\..\..\base\win32\prj\plugins
+	copy pmp300.ppp   ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Debug"
@@ -280,6 +286,7 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\pmp300.obj"
 	-@erase "$(INTDIR)\preferences.obj"
+	-@erase "$(INTDIR)\utility.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(INTDIR)\win32prefs.obj"
@@ -317,6 +324,7 @@ DEF_FILE= \
 LINK32_OBJS= \
 	"$(INTDIR)\pmp300.obj" \
 	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\utility.obj" \
 	"$(INTDIR)\win32prefs.obj" \
 	"..\sba\riolib.lib"
 
@@ -331,8 +339,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "riolib - Win32 NASM Debug" ".\pmp300.ppp"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                           ..\..\..\..\base\win32\prj\plugins
-	copy pmp300.ppp  ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                            ..\..\..\..\base\win32\prj\plugins
+	copy pmp300.ppp   ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ENDIF 
@@ -437,15 +445,19 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
 	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
 	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\include\utility.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
 	"..\sba\rio.h"\
 	"..\sba\std.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\pmp300.obj" : $(SOURCE) $(DEP_CPP_PMP30) "$(INTDIR)"
@@ -461,10 +473,12 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
 	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
 	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\include\utility.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
@@ -485,15 +499,19 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
 	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
 	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\include\utility.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
 	"..\sba\rio.h"\
 	"..\sba\std.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\pmp300.obj" : $(SOURCE) $(DEP_CPP_PMP30) "$(INTDIR)"
@@ -509,10 +527,12 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
 	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
 	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\include\utility.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
@@ -536,6 +556,58 @@ DEP_CPP_PREFE=\
 "$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+SOURCE=..\..\..\..\base\src\utility.cpp
+
+!IF  "$(CFG)" == "pmp300 - Win32 Release"
+
+DEP_CPP_UTILI=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "pmp300 - Win32 Debug"
+
+DEP_CPP_UTILI=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Release"
+
+DEP_CPP_UTILI=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Debug"
+
+DEP_CPP_UTILI=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\utility.obj" : $(SOURCE) $(DEP_CPP_UTILI) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32prefs.cpp
 

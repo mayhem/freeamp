@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.9 1999/09/02 20:01:10 elrod Exp $
+	$Id: pmp300.cpp,v 1.1.2.10 1999/09/02 21:37:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -575,7 +575,7 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                     {
                         MetaData metadata = item->GetMetaData();
 
-                        uint32 size = metadata.Size();
+                        int32 size = metadata.Size();
 
                         if(!size)
                         {
@@ -601,31 +601,26 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                         if(!useExternal)
                         {
                             memorySize = &internalTotal;
-                            *memorySize -= size;
                             addList = &newInternal;
 
-                            if(*memorySize < 0)
-                            {
+                            if(*memorySize < size)
                                 useExternal = true;
-                            }
+                            else
+                                *memorySize -= size;
                         }
                         
                         if(useExternal)
                         {
                             memorySize = &externalTotal;
-                            *memorySize -= size;
                             addList = &newExternal;
 
-                            if(*memorySize < 0)
-                            {
+                            if(*memorySize < size)
                                 break;
-                            }
+                            else
+                                *memorySize -= size;
                         }
                         
-                        if(*memorySize >= 0)
-                        {
-                            addList->push_back(item);
-                        }
+                        addList->push_back(item);
                     }
                 }
 

@@ -60,8 +60,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                           ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
-  ..\..\..\..\base\win32\prj\plugins
+                            ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
+   ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 Debug"
@@ -92,8 +92,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                           ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
-  ..\..\..\..\base\win32\prj\plugins
+                            ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
+   ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Release"
@@ -125,8 +125,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                           ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
-  ..\..\..\..\base\win32\prj\plugins
+                            ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
+   ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Debug"
@@ -158,8 +158,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                           ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
-  ..\..\..\..\base\win32\prj\plugins
+                            ..\..\..\..\base\win32\prj\plugins	copy pmp300.ppp\
+   ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ENDIF 
@@ -181,6 +181,10 @@ SOURCE=.\pmp300.def
 # Begin Source File
 
 SOURCE=..\..\..\..\base\src\preferences.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\base\src\utility.cpp
 # End Source File
 # Begin Source File
 

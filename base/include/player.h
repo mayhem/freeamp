@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.16 1998/10/23 00:41:04 jdw Exp $
+	$Id: player.h,v 1.17 1998/10/24 00:39:31 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -62,7 +62,7 @@ class Player {
 
     void Run();
     void SetArgs(int32 argc, char** argv);
-
+    void SetTerminationSemaphore(Semaphore *);
     void testQueue();
     static void EventServiceThreadFunc(void *);
     static int32 AcceptEventStub(EventQueueRef ref, Event* e);
@@ -81,6 +81,7 @@ class Player {
 
 
  private:
+    Semaphore*              m_pTermSem;
     static Player*          m_thePlayer;
     Semaphore*              m_eventSem;
     PlayerState             m_playerState;

@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.32 1998/10/23 02:10:01 elrod Exp $
+	$Id: player.cpp,v 1.33 1998/10/24 00:39:34 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -79,10 +79,16 @@ Player::Player() {
     m_argc  = 0;
     m_argv  = NULL;
 
+    m_pTermSem = NULL;
+
     //m_autoplay = false;
 }
 
 Player::~Player() {
+    if (m_pTermSem) {
+	delete m_pTermSem;
+	m_pTermSem = NULL;
+    }
     //cout << "waiting for service thread to end..." << endl;
     m_eventServiceThread->Join();
     //cout << "serivce thread done.." << endl;
@@ -178,6 +184,10 @@ Player::~Player() {
         delete [] m_argUI;
         m_argUI = NULL;
     }
+}
+
+void Player::SetTerminationSemaphore(Semaphore *pSem) {
+    m_pTermSem = pSem;
 }
 
 
@@ -653,9 +663,10 @@ int32 Player::ServiceEvent(Event *pC) {
 		    return 0;
 		
 		GetUIManipLock();
-		Event* pe = new Event(CMD_Terminate);
-		SendToUI(pe);
-		delete pe;
+		m_pTermSem->Signal();
+		//Event* pe = new Event(CMD_Terminate);
+		//SendToUI(pe);
+		//delete pe;
 		return 1;
 		break; 
 	    }

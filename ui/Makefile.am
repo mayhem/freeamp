@@ -18,9 +18,9 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.4 1998/10/19 21:59:22 jdw Exp $
+##      $Id: Makefile.am,v 1.5 1998/10/24 00:39:37 jdw Exp $
 ##
 ############################################################################
 
-SUBDIRS = cmdline dummy src mpg123
+SUBDIRS = cmdline src mpg123
 

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.8 1998/10/20 23:01:03 elrod Exp $
+	$Id: event.h,v 1.9 1998/10/24 00:39:31 jdw Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -75,7 +75,7 @@ typedef struct EventQueue{
 #define CMD_SetPlaylist         6  // sets current playlist.  (arg is *PlayList)
 #define CMD_QuitPlayer          7  // tells player to quit (no arg)
 #define CMD_Cleanup             8  // player tells modules to cleanup and get ready for termination (no arg)
-#define CMD_Terminate           9  // is sent by player to COOs, and the DummyCOO makes the main thread delete player and exit (no arg)
+//#define CMD_Terminate           9  // is sent by player to COOs, and the DummyCOO makes the main thread delete player and exit (no arg)
 #define INFO_ReadyToDieUI      10 // sent by CIO to player notifying it that their cleanup has completed. (if arg !null, it is a ptr to this module, it wants to be deleted)
 #define INFO_PlayListDonePlay   11 // sent by player when the playlist has been exhausted (no arg)
 #define INFO_DoneOutputting     12 // sent by PMO (or LMC controlling PMO) to Player when its done outputing (i.e. playing is done)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.43 1999/12/16 19:11:22 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.44 1999/12/16 19:44:26 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -2203,14 +2203,21 @@ void GTKMusicBrowser::SetClickState(ClickState newState)
 
 void GTKMusicBrowser::DeleteEvent(void)
 {
-    m_plm->RemoveItem(m_currentindex);
-    if ((m_currentindex = m_plm->GetCurrentIndex()) == m_playingindex) {
-        m_context->target->AcceptEvent(new Event(CMD_Stop));
-        if (m_currentindex != kInvalidIndex)
-            m_context->target->AcceptEvent(new Event(CMD_Play));
+    bool stopped = false;
+    uint32 deleteindex = m_currentindex;
+    if (master) {
+        if (m_currentindex == m_playingindex) {
+            m_context->target->AcceptEvent(new Event(CMD_Stop));
+            stopped = true;
+        }
+        else if (m_playingindex > m_currentindex)
+            m_playingindex--;
     }
-    if (m_currentindex == kInvalidIndex)
-        m_context->target->AcceptEvent(new Event(CMD_Stop));
+    if (master && stopped && (m_plm->CountItems() - 1 > deleteindex)) {
+        m_plm->SetCurrentIndex(m_currentindex + 1);
+        m_context->target->AcceptEvent(new Event(CMD_Play));
+    }
+    m_plm->RemoveItem(deleteindex);
     UpdatePlaylistList();
 }
 
@@ -2284,7 +2291,7 @@ void GTKMusicBrowser::AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist,
 {
     if (m_currentindex == kInvalidIndex)
         m_currentindex = 0;
-    if (end)
+    else if (end)
         m_currentindex = m_plm->CountItems();
     m_plm->AddItems(newlist, m_currentindex, true);
     UpdatePlaylistList();

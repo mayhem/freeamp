@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.26 2000/06/12 16:44:10 robert Exp $
+	$Id: utility.cpp,v 1.27 2000/06/12 17:03:42 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -55,6 +55,7 @@ using namespace std;
 #include "facontext.h"
 #include "utility.h"
 #include "errors.h"
+#include "properties.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -846,9 +847,17 @@ void ShowHelp(FAContext *m_context, const char *helpurl)
 #endif
 #ifdef WIN32
 
+    Int32PropValue *pProp;
+    HWND            hWnd;
+    if (IsError(m_context->props->GetProperty("MainWindow", 
+                (PropValue **)&pProp)))
+       hWnd = NULL;
+    else
+       hWnd = (HWND)pProp->GetInt32();
+
     len = _MAX_PATH;
     FilePathToURL(oHelpFile.c_str(), dir, &len);
-	ShellExecute(NULL, "open", dir, NULL, NULL, SW_SHOWNORMAL);
+	ShellExecute(hWnd, "open", dir, NULL, NULL, SW_SHOWNORMAL);
 #endif
     delete [] dir;
 } 

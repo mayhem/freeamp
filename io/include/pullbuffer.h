@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.14 1999/06/28 23:09:23 robert Exp $
+   $Id: pullbuffer.h,v 1.15 1999/07/02 01:13:36 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PULLBUFFER_H_
@@ -39,23 +39,20 @@ class PullBuffer
 
                PullBuffer(size_t iBufferSize, 
                           size_t iOverflowSize,
-                          size_t iWriteTriggerSize,
-			  FAContext *context);
+			                 FAContext *context);
       virtual ~PullBuffer(void);
 
-      virtual  Error    BeginWrite (void *&pBuffer, size_t &iBytesToWrite);
+      virtual  Error    BeginWrite (void *&pBuffer, size_t iBytesToWrite);
       virtual  Error    EndWrite   (size_t iNumBytesWritten);
 
-      virtual  Error    BeginRead  (void *&pBuffer, size_t &iBytesNeeded);
+      virtual  Error    BeginRead  (void *&pBuffer, size_t iBytesNeeded);
       virtual  Error    EndRead    (size_t iBytesUsed);
 
       virtual  Error    DiscardBytes();
-      virtual  void     BreakBlocks();
 
       Error    Clear        (void);
       Error    Resize       (size_t iNewSize,
-                             size_t iNewOverflowSize,
-                             size_t iWriteTriggerSize);
+                             size_t iNewOverflowSize);
 
       bool     IsEndOfStream(void);
       void     SetEndOfStream(bool bEOS);
@@ -85,10 +82,10 @@ class PullBuffer
     private:
 
       int32          m_iReadIndex, m_iWriteIndex;
-      bool           m_bEOS, m_bReadOpPending, m_bWriteOpPending;
+      bool           m_bEOS;
+      size_t         m_iBytesToWrite, m_iBytesToRead;
       unsigned char *m_pPullBuffer;
       size_t         m_iBytesInBuffer, m_iOverflowSize, m_iBufferSize;
-      size_t         m_iWriteTriggerSize, m_iOrigBufferSize;
 };
 
 #endif

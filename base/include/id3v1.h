@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.h,v 1.3 1999/01/26 02:14:09 jdw Exp $
+	$Id: id3v1.h,v 1.4 1999/07/02 01:13:25 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _ID3V1_H_
@@ -26,6 +26,8 @@ ____________________________________________________________________________*/
 
 #include <iostream.h>
 #include <string.h>
+
+const int iID3TagSize = 128;
 
 class Id3TagInfo {
  public:

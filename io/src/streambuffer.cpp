@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: streambuffer.cpp,v 1.10 1999/06/28 23:09:34 robert Exp $
+   $Id: streambuffer.cpp,v 1.11 1999/07/02 01:13:51 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -30,8 +30,8 @@ ____________________________________________________________________________*/
 #include "streambuffer.h"
 
 StreamBuffer::StreamBuffer(size_t iBufferSize, size_t iOverFlowSize, 
-                           size_t iWriteTriggerSize, FAContext *context) : 
-     PullBuffer(iBufferSize, iOverFlowSize, iWriteTriggerSize, context)
+                           FAContext *context) : 
+     PullBuffer(iBufferSize, iOverFlowSize, context)
 {
    m_bBufferingUp = true;
    m_bPause = true;
@@ -58,7 +58,7 @@ bool StreamBuffer::DidDiscardBytes()
    return bRet;
 }
 
-Error StreamBuffer::BeginWrite(void *&pBuffer, size_t &iBytesNeeded)
+Error StreamBuffer::BeginWrite(void *&pBuffer, size_t iBytesNeeded)
 {
    Error eRet;
 

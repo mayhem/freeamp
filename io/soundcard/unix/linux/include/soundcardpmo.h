@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.h,v 1.17 1999/06/28 23:09:30 robert Exp $
+        $Id: soundcardpmo.h,v 1.18 1999/07/02 01:13:44 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SOUNDCARDPMO_H_
@@ -71,6 +71,7 @@ class SoundCardPMO:public PhysicalMediaOutput
    void          WorkerThread(void); 
    virtual Error Reset(bool user_stop);
    void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
+   bool          WaitForDrain(void);
 
    bool         m_properlyInitialized;
    int16        buffer[OBUFFERSIZE];
@@ -80,7 +81,8 @@ class SoundCardPMO:public PhysicalMediaOutput
    OutputInfo  *myInfo;
    int32        getprocessed(void);
    Thread      *m_pBufferThread;
-   int          m_iOutputBufferSize, m_iTotalBytesWritten, m_iBytesPerSample;
+   int          m_iOutputBufferSize, m_iBytesPerSample, m_iTotalFragments;
+   long long    m_iTotalBytesWritten;
    int          m_iLastFrame;
    unsigned     m_iDataSize;
 };

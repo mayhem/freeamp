@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: queue.h,v 1.5 1999/04/08 07:39:03 elrod Exp $
+        $Id: queue.h,v 1.6 1999/07/02 01:13:26 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _QUEUE_H_
@@ -162,15 +162,18 @@ template<class T> void Queue<T>::Clear()
 
 
 template<class T> bool Queue<T>::IsEmpty() {
+    assert(m_myLock);
     return (m_head ? false : true);
 }
 
 template<class T> void Queue<T>::GetLock() {
+    assert(m_myLock);
     m_myLock->Acquire(WAIT_FOREVER);
     return;
 }
 
 template<class T> void Queue<T>::ReleaseLock() {
+    assert(m_myLock);
     m_myLock->Release();
     return;
 }

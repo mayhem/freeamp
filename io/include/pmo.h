@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.18 1999/06/28 23:09:22 robert Exp $
+	$Id: pmo.h,v 1.19 1999/07/02 01:13:35 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -77,6 +77,7 @@ public:
 
     virtual Error Reset(bool bUserReset) = 0;
     virtual void  Pause(void);
+    virtual void  Resume(void);
     virtual Error ChangePosition(int32);
 
     virtual void  SetLMC(LogicalMediaConverter *pLMC);

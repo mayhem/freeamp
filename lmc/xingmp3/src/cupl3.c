@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupl3.c,v 1.5 1999/03/23 19:51:44 robert Exp $
+	$Id: cupl3.c,v 1.6 1999/07/02 01:13:53 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cupL3.c  ***************************************************
@@ -766,8 +766,6 @@ IN_OUT L3audio_decode(unsigned char *bs, unsigned char *pcm)
    return decode_function(bs, pcm);
 }
 
-extern int actually_decode;
-
 /*--------------------------------------------------------------------*/
 IN_OUT L3audio_decode_MPEG1(unsigned char *bs, unsigned char *pcm)
 {
@@ -818,7 +816,7 @@ w---------------------------------------------*/
    buf_ptr1 += nbytes;
 /*-----------------------*/
 
-   if (actually_decode && (buf_ptr0 >= 0)) // JDW modification...
+   if (buf_ptr0 >= 0)
    {
 // dump_frame(buf+buf_ptr0, 64);
       main_pos_bit = buf_ptr0 << 3;
@@ -889,7 +887,7 @@ IN_OUT L3audio_decode_MPEG2(unsigned char *bs, unsigned char *pcm)
    buf_ptr1 += nbytes;
 /*-----------------------*/
 
-   if (actually_decode && (buf_ptr0 >= 0))
+   if (buf_ptr0 >= 0)
    {
       main_pos_bit = buf_ptr0 << 3;
       unpack_main(pcm, igr);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.h,v 1.9 1999/05/19 18:14:34 robert Exp $
+        $Id: obsinput.h,v 1.10 1999/07/02 01:13:43 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSFILEINPUT_H_
@@ -30,11 +30,45 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "config.h"
 #include "pmi.h"
-#include "obsbuffer.h"
+
+const int iMaxUrlLen = 1024;
+const int iMaxErrorLen = 1024;
+const int iMAX_PACKET_SIZE = 8192;
+const int iSTREAM_EOS = 0x02;
+const int iMAX_RETRYS = 10;
+
+struct ID3Tag
+{
+   char szTag[3];
+   char szTitle[30];
+   char szArtist[30];
+   char szAlbum[30];
+   char szYear[4];
+   char szComment[30];
+   char cGenre;
+};
+
+struct RTPHeader
+{
+    int32 iFlags;
+    int32 iTimestamp;
+    int32 iSyncSourceId;
+};
+
+enum
+{
+   obsError_MinimumError = 3000,
+   obsError_BadUrl,
+   obsError_CannotSetSocketOpts,
+   obsError_CannotCreateSocket,
+   obsError_CannotBind,
+   obsError_SocketRead,
+   obsError_MaximumError
+};
 
 class FAContext;
 
-class     ObsInput:public PhysicalMediaInput
+class ObsInput :public PhysicalMediaInput
 {
  public:
 
@@ -42,48 +76,32 @@ class     ObsInput:public PhysicalMediaInput
    ObsInput(char *path);
    virtual ~ObsInput(void);
 
-   virtual Error BeginRead(void *&buf, size_t &bytesneeded);
-   virtual Error EndRead(size_t bytesused);
-
-   virtual Error Seek(int32 & rtn, int32 offset, int32 origin);
-   virtual Error GetLength(size_t &iSize); 
-   virtual Error GetID3v1Tag(unsigned char *pTag);
+   virtual Error Prepare(PullBuffer *&pBuffer, bool bStartThread);
+   virtual Error Run(void);
 
    virtual bool  CanHandle(char *szUrl, char *szTitle);
    virtual bool  IsStreaming(void)
                  { return true; };
-	virtual int32 GetBufferPercentage();
-	virtual int32 GetNumBytesInBuffer();
-   virtual Error DiscardBytes();
-	virtual Error SetBufferSize(size_t iNewSize);
-	virtual void  Pause();
-	virtual bool  Resume();
-   virtual void  Break();
-	virtual bool  CachePMI() 
-	              { return true; };
+   virtual bool  PauseLoop(bool bLoop);
 
-   virtual Error SetTo(char *url, bool bStartThread = true);
    virtual Error Close(void);
    virtual const char *Url(void) const
    {
       return m_path;
    }
-   virtual Error SetPropManager(Properties *p) 
-	{ 
-	   m_propManager = p; 
-		if (p) 
-		   return kError_NoErr; 
-		else 
-		   return kError_UnknownErr; 
-	};
+
+   void           WorkerThread(void);
 
  protected:
-   FAContext  *m_context;
+
+   virtual Error       Open(void);
+   static   void       StartWorkerThread(void *);
 
  private:
-   ObsBuffer  *m_pPullBuffer;
-   Properties *m_propManager;
-   char       *m_path;
+   int                 m_hHandle;
+   Thread             *m_pBufferThread;
+   bool                m_bLoop, m_bDiscarded;
+   struct sockaddr_in *m_pSin;
 };
 
-#endif /* _HTTPFILEINPUT_H_ */
+#endif /* _OBSFILEINPUT_H_ */

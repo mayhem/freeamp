@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.16 1999/05/14 09:58:14 jbobier Exp $
+	$Id: errors.h,v 1.17 1999/07/02 01:13:24 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -60,7 +60,8 @@ typedef enum Error
     kError_EventPending         = 29,
     kError_YouScrewedUp         = 30,
     kError_NoPrefValue          = 31,
-    kError_SyntaxError          = 32
+    kError_SyntaxError          = 32,
+    kError_EndOfStream          = 33
 }Error;
 
 

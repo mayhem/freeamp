@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.210 2000/06/22 15:13:35 elrod Exp $
+        $Id: player.cpp,v 1.211 2000/06/22 15:27:17 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1333,7 +1333,7 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
        char defaultPMO[256];
        uint32 size = sizeof(defaultPMO);
 
-       m_context->prefs->GetDefaultPMO(defaultPMO, &size);
+       m_context->prefs->GetPrefString(kPMOPref, defaultPMO, &size);
 
        int32 i = 0;
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.131 2000/06/22 15:13:36 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.132 2000/06/22 15:27:18 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -249,7 +249,7 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
 
       dir = new char[_MAX_PATH];
    
-      m_pContext->prefs->GetInstallDirectory(dir, &len);
+      m_pContext->prefs->GetPrefString(kInstallDirPref, dir, &len);
       oThemePath = string(dir);
 #if defined(unix)
       oThemePath += string(BRANDING_SHARE_PATH);
@@ -774,9 +774,9 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
 
          ReloadTheme();
 
-         m_pContext->prefs->GetStayOnTop(&bValue);
-         m_pWindow->SetStayOnTop(bValue);
-         m_pContext->prefs->GetLiveInTray(&bValue);
+         m_pContext->prefs->GetPrefBoolean(kStayOnTopPref, &bValue);
+         m_pWindow->SetPrefBoolean(kStayOnTopPref, bValue);
+         m_pContext->prefs->GetPrefBoolean(kLiveInTrayPref, &bValue);
          m_pWindow->SetLiveInToolbar(bValue);
          
       	break;
@@ -1409,10 +1409,10 @@ void FreeAmpTheme::InitWindow(void)
 {        
 	bool   bValue;
     
-    m_pContext->prefs->GetStayOnTop(&bValue);
-    m_pWindow->SetStayOnTop(bValue);
+    m_pContext->prefs->GetPrefBoolean(kStayOnTopPref, &bValue);
+    m_pWindow->SetPrefBoolean(kStayOnTopPref, bValue);
 
-    m_pContext->prefs->GetLiveInTray(&bValue);
+    m_pContext->prefs->GetPrefBoolean(kLiveInTrayPref, &bValue);
     m_pWindow->SetLiveInToolbar(bValue);
 }
 
@@ -1436,7 +1436,7 @@ void FreeAmpTheme::ReloadTheme(void)
 
        dir = new char[_MAX_PATH];
     
-       m_pContext->prefs->GetInstallDirectory(dir, &len);
+       m_pContext->prefs->GetPrefString(kInstallDirPref, dir, &len);
        oThemePath = string(dir);
 #if defined(unix)
        oThemePath += string(BRANDING_SHARE_PATH);

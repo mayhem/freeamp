@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Toolbar.cpp,v 1.4 2000/03/01 03:49:31 elrod Exp $
+	$Id: Toolbar.cpp,v 1.5 2000/06/22 15:27:18 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -146,7 +146,7 @@ InitMenuPopup(HMENU menuHandle,
         char szStayOnTop[] = "Stay On Top";
         char buffer[256];
 
-        prefs.GetStayOnTop(&stayOnTop);
+        prefs.GetPrefBoolean(kStayOnTopPref, &stayOnTop);
 
         GetMenuString(  menuHandle, 
                         0, 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.17 2000/06/22 15:13:36 elrod Exp $
+   $Id: ThemeManager.cpp,v 1.18 2000/06/22 15:27:18 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -96,7 +96,7 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
     if (m_bDevelTheme)
         oThemeFileMap[THEME_IN_DEVEL] = m_oDevelTheme;
 
-    m_pContext->prefs->GetInstallDirectory(dir, &len);
+    m_pContext->prefs->GetPrefString(kInstallDirPref, dir, &len);
     oThemeBasePath = string(dir) + "/" + BRANDING_SHARE_PATH + "/themes";
     oThemePath = oThemeBasePath + string("/*.*");    
 

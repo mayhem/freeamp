@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.59 2000/06/22 15:13:35 elrod Exp $
+	$Id: main.cpp,v 1.60 2000/06/22 15:27:17 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -165,7 +165,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     uint32 length = sizeof(path);
     context->prefs->GetPrefBoolean(kReclaimFiletypesPref, &reclaimFileTypes);
     context->prefs->GetPrefBoolean(kAskToReclaimFiletypesPref, &askBeforeReclaiming);
-    context->prefs->GetInstallDirectory(path, &length);
+    context->prefs->GetPrefString(kInstallDirPref, path, &length);
     strcat(path, "\\freeamp.exe");
 
     if(reclaimFileTypes)

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: utility.cpp,v 1.31 2000/06/21 19:03:49 ijr Exp $
+    $Id: utility.cpp,v 1.32 2000/06/22 15:27:17 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -295,7 +295,7 @@ char *FreeampDir(Preferences *pref)
     uint32 len = sizeof(path);
     char *s;
 
-    pref->GetInstallDirectory(path, &len);
+    pref->GetPrefString(kInstallDirPref, path, &len);
 
     s = new char[strlen(path) + 1];
     strcpy(s, path);
@@ -818,7 +818,7 @@ bool ShowHelp(FAContext *m_context, const char *helpurl)
 
     dir = new char[_MAX_PATH];
 
-    m_context->prefs->GetInstallDirectory(dir, &len);
+    m_context->prefs->GetPrefString(kInstallDirPref, dir, &len);
     oHelpFile = string(dir);
 
     oHelpFile += string(DIR_MARKER_STR);

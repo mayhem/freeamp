@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.40 2000/06/10 18:47:28 robert Exp $
+   $Id: Win32Window.cpp,v 1.41 2000/06/22 15:27:18 elrod Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -851,9 +851,9 @@ CreateTooltips()
     uTooltipCount = uCtr; // save value for next mindmeld
 }
 
-void Win32Window::SetStayOnTop(bool bStay)
+void Win32Window::SetPrefBoolean(kStayOnTopPref, bool bStay)
 {
-    Window::SetStayOnTop(bStay);
+    Window::SetPrefBoolean(kStayOnTopPref, bStay);
 
     if (m_hWnd == NULL || m_bMindMeldInProgress)
        return;

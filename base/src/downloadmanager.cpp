@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.35 2000/06/22 15:13:35 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.36 2000/06/22 15:27:17 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -116,7 +116,7 @@ DownloadManager::DownloadManager(FAContext* context)
     char path[MAX_PATH];
     uint32 length = sizeof(path);
 
-    context->prefs->GetInstallDirectory(path, &length);
+    context->prefs->GetPrefString(kInstallDirPref, path, &length);
     strcat(path, "\\DownloadLog.txt");
 
     m_runDownloadThread = true;

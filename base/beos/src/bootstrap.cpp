@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.11 2000/04/05 15:03:31 hiro Exp $
+	$Id: bootstrap.cpp,v 1.12 2000/06/22 15:27:12 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -86,7 +86,7 @@ int main(int argc, char **argv)
     }
     delete[] new_freeamp_path;
 
-    context->prefs->SetInstallDirectory( path.Path() );
+    context->prefs->SetPrefString(kInstallDirPref,  path.Path() );
 
 #if 0
     // Add the current directory to the ADDON_PATH environment var.

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32prefs.cpp,v 1.17 2000/05/09 10:21:01 elrod Exp $
+	$Id: win32prefs.cpp,v 1.18 2000/06/22 15:27:17 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -180,7 +180,7 @@ Initialize()
         // people DO move their apps around on windows
         length = sizeof(path);
 
-        error = GetInstallDirectory(path, &length);
+        error = GetPrefString(kInstallDirPref, path, &length);
 
 		char foo[MAX_PATH] = {0x00};
 		sprintf(foo,"%s\\freeamp.exe",cwd);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.32 2000/05/08 16:39:00 robert Exp $
+        $Id: localfileinput.cpp,v 1.33 2000/06/22 15:27:17 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -116,7 +116,7 @@ Error LocalFileInput::Prepare(PullBuffer *&pBuffer)
        m_pOutputBuffer = NULL;
     }
 
-    if (!IsError(m_pContext->prefs->GetInputBufferSize(&iBufferSize)))
+    if (!IsError(m_pContext->prefs->GetPrefInt32(kInputBufferSizePref, &iBufferSize)))
        iBufferSize *= 1024;
 
     m_pOutputBuffer = new PullBuffer(iBufferSize, iDefaultOverflowSize,

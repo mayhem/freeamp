@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.31 2000/05/07 17:06:23 robert Exp $
+        $Id: obsinput.cpp,v 1.32 2000/06/22 15:27:17 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -134,7 +134,7 @@ Error ObsInput::Prepare(PullBuffer *&pBuffer)
        m_pOutputBuffer = NULL;
     }
 
-    if (!IsError(m_pContext->prefs->GetInputBufferSize(&iBufferSize)))
+    if (!IsError(m_pContext->prefs->GetPrefInt32(kInputBufferSizePref, &iBufferSize)))
        iBufferSize *= 1024;
 
     m_pOutputBuffer = new PullBuffer(iBufferSize, iDefaultOverflowSize,

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.18 2000/04/06 22:36:41 ijr Exp $
+   $Id: GTKFont.cpp,v 1.19 2000/06/22 15:27:18 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <sys/stat.h>
@@ -73,7 +73,7 @@ GTKFont::GTKFont(FAContext *context, string &oName, string &oFace,
     WIN32_FIND_DATA find;
     HANDLE handle;
  
-    m_context->prefs->GetInstallDirectory(dir, &len);
+    m_context->prefs->GetPrefString(kInstallDirPref, dir, &len);
     ttfbase = string(dir) + "/" + BRANDING_SHARE_PATH + "/fonts";
     ttfpath = ttfbase + "/*.ttf";
  

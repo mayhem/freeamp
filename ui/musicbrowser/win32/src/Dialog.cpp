@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.87 2000/06/22 15:13:36 elrod Exp $
+        $Id: Dialog.cpp,v 1.88 2000/06/22 15:27:18 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -2154,7 +2154,7 @@ FileOpenDialog(HWND hwnd,
 
     *fileBuffer = 0x00;
 
-    m_context->prefs->GetInstallDirectory( installDir, &initialDirSize);
+    m_context->prefs->GetPrefString(kInstallDirPref,  installDir, &initialDirSize);
 
     if(*installDir)
     {
@@ -2166,7 +2166,7 @@ FileOpenDialog(HWND hwnd,
         }
     }
 
-    m_context->prefs->GetOpenSaveDirectory( initialDir, &initialDirSize);
+    m_context->prefs->GetPrefString(kOpenSaveDirPref,  initialDir, &initialDirSize);
 
     int hookFlags = 0;
 
@@ -2276,7 +2276,7 @@ FileOpenDialog(HWND hwnd,
 
             *(fileBuffer + ofn.nFileOffset - 1) = 0x00;
 
-            m_context->prefs->SetOpenSaveDirectory(fileBuffer);
+            m_context->prefs->SetPrefString(kOpenSaveDirPref, fileBuffer);
         }
 
         result = true;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: winamp.cpp,v 1.5 2000/06/21 13:34:36 ijr Exp $
+   $Id: winamp.cpp,v 1.6 2000/06/22 15:27:17 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string>
@@ -82,7 +82,7 @@ Error Winamp::ConvertToNative(string &oDir)
     char *dir = new char[_MAX_PATH];
     uint32 len = _MAX_PATH;
 
-    m_context->prefs->GetInstallDirectory(dir, &len);
+    m_context->prefs->GetPrefString(kInstallDirPref, dir, &len);
     sourcePath = string(dir);
 #ifdef unix
     sourcePath += string("/freeamp");

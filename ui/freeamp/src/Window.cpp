@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.43 2000/06/21 08:12:20 ijr Exp $
+   $Id: Window.cpp,v 1.44 2000/06/22 15:27:18 elrod Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -729,7 +729,7 @@ void Window::EnableTimer(bool bEnable)
     m_bTimerEnabled = bEnable;
 }  
 
-void Window::SetStayOnTop(bool bStay)
+void Window::SetPrefBoolean(kStayOnTopPref, bool bStay)
 {
     m_bStayOnTop = bStay;
 }

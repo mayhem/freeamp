@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.65 2000/06/22 15:13:36 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.66 2000/06/22 15:27:18 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -157,7 +157,7 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
                 char url[MAX_PATH + 7];
                 uint32 length = sizeof(path);
 
-                m_context->prefs->GetInstallDirectory(path, &length);
+                m_context->prefs->GetPrefString(kInstallDirPref, path, &length);
 
                 strcat(path, "\\freeamp.m3u");
 
@@ -359,7 +359,7 @@ void MusicBrowserUI::SaveCurrentPlaylist()
         char url[MAX_PATH + 7];
         uint32 length = sizeof(path);
 
-        m_context->prefs->GetInstallDirectory(path, &length);
+        m_context->prefs->GetPrefString(kInstallDirPref, path, &length);
 
         strcat(path, "\\freeamp.m3u");
 

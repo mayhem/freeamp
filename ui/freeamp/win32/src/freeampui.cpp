@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.71 2000/06/22 15:13:36 elrod Exp $
+	$Id: freeampui.cpp,v 1.72 2000/06/22 15:27:18 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -598,7 +598,7 @@ Create()
                 char path[MAX_PATH];
                 uint32 size = sizeof(path);
 
-                m_prefs->GetInstallDirectory(path, &size);
+                m_prefs->GetPrefString(kInstallDirPref, path, &size);
 
                 strcat(path, "\\");
                 strcat(path, driver);
@@ -812,7 +812,7 @@ InitMenuPopup(HMENU menuHandle,
         char szStayOnTop[] = "Stay On Top";
         char buffer[256];
 
-        prefs.GetStayOnTop(&stayOnTop);
+        prefs.GetPrefBoolean(kStayOnTopPref, &stayOnTop);
 
         GetMenuString(  menuHandle, 
                         0, 
@@ -1073,7 +1073,7 @@ Command(int32 command,
         {
             bool liveInTray;
 
-            m_prefs->GetLiveInTray(&liveInTray);
+            m_prefs->GetPrefBoolean(kLiveInTrayPref, &liveInTray);
 
             if(liveInTray)
                 ShowWindow(m_hwnd, SW_HIDE);
@@ -3305,8 +3305,8 @@ ReadPreferences()
     if(m_log)
         m_prefs->GetPrefBoolean(kLogMainPref, &m_log);
 
-    m_prefs->GetStayOnTop(&m_onTop);
-    m_prefs->GetLiveInTray(&m_liveInTray);
+    m_prefs->GetPrefBoolean(kStayOnTopPref, &m_onTop);
+    m_prefs->GetPrefBoolean(kLiveInTrayPref, &m_liveInTray);
 
     SetWindowPos(   m_hwnd, 
                     (m_onTop ? HWND_TOPMOST: HWND_NOTOPMOST), 

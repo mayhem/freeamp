@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.12 1999/10/01 08:07:02 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.13 1999/10/01 08:23:00 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -140,29 +140,83 @@ int32 DownloadUI::AcceptEvent(Event* event)
             
             case INFO_DownloadItemAdded: 
             {
-	            
+                DownloadItemAddedEvent* dliae = (DownloadItemAddedEvent*)event;
+                
+                LV_ITEM item;
+               
+                item.mask = LVIF_PARAM | LVIF_STATE;
+                item.state = 0;
+                item.stateMask = 0;
+                item.iItem = ListView_GetItemCount(m_hwndList);
+                item.iSubItem = 0;
+                item.lParam = (LPARAM)dliae->Item();
+
+                ListView_InsertItem(m_hwndList, &item);
+               
 	            break; 
             }
 
             case INFO_DownloadItemRemoved: 
             {
-	            
+	            DownloadItemRemovedEvent* dlire = (DownloadItemRemovedEvent*)event;
+
+                uint32 itemCount = ListView_GetItemCount(m_hwndList);
+
+                if(itemCount)
+                {
+                    LV_ITEM item;
+
+
+                    for(uint32 i = 0; i < itemCount; i++)
+                    {
+                        if(ListView_GetItem(m_hwndList, &item))
+                        {
+                            item.mask = LVIF_PARAM;
+                            item.iItem = i;
+                            item.lParam = 0;
+
+                            if(dlire->Item() == (DownloadItem*)item.lParam)
+                            {
+                                ListView_DeleteItem(m_hwndList, i);
+                                break;
+                            }
+                        }
+                    }
+                }
+
 	            break; 
             }
 
             case INFO_DownloadItemNewState: 
-            {
-	            
-	            break; 
-            }
-
             case INFO_DownloadItemProgress: 
             {
-	            
+	            DownloadItemRemovedEvent* dlire = (DownloadItemRemovedEvent*)event;
+
+                uint32 itemCount = ListView_GetItemCount(m_hwndList);
+
+                if(itemCount)
+                {
+                    LV_ITEM item;
+
+                    for(uint32 i = 0; i < itemCount; i++)
+                    {
+                        if(ListView_GetItem(m_hwndList, &item))
+                        {
+                            item.mask = LVIF_PARAM;
+                            item.iItem = i;
+                            item.lParam = 0;
+
+                            if(dlire->Item() == (DownloadItem*)item.lParam)
+                            {
+                                ListView_Update(m_hwndList, i);
+                                break;
+                            }
+                        }
+                    }
+                }
 	            break; 
             }
-
-
+            
 	        default:
 	            break;
 	    }

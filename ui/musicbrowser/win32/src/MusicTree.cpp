@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.41 2000/01/13 01:04:13 elrod Exp $
+        $Id: MusicTree.cpp,v 1.42 2000/01/15 22:42:19 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -45,8 +45,8 @@ using namespace std;
 #include "FooCast.h"
 
 char* kMyMusic = "My Music";
-char* kAllTracks = "<All>";
-char* kUncatagorized = "<Uncategorized>";
+char* kAllTracks = "All Tracks";
+char* kUncatagorized = "Uncategorized Tracks";
 char* kPlaylists = "My Playlists";
 char* kStreams = "My Favorite Streams";
 char* kPortables = "My Portables";

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.cpp,v 1.17 2000/09/11 06:39:38 ijr Exp $
+        $Id: browsermenu.cpp,v 1.18 2000/09/15 09:42:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -312,8 +312,9 @@ static void delete_sel(GTKMusicBrowser *p, guint action, GtkWidget *w)
         }
     }
     else if (p->GetClickState() == kContextBrowser) {
-        vector<TreeData *>::iterator i = p->mbSelections->begin();
-        for (; i != p->mbSelections->end(); i++) {
+        vector<TreeData *> local_mbSelections(*(p->mbSelections));
+        vector<TreeData *>::iterator i = local_mbSelections.begin();
+        for (; i != local_mbSelections.end(); i++) {
             TreeNodeType type = (*i)->type;
             
             if (type == kTreePlaylist) 

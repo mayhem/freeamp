@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.165 1999/12/13 17:03:18 ijr Exp $
+        $Id: player.cpp,v 1.166 1999/12/17 05:09:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -339,7 +339,7 @@ SetArgs(int32 argc, char **argv)
         else
         {
             // is this a URL we know how to handle
-            if( !strncasecmp(arg, "http://", 7) ||
+            if( !strncasecmp(arg, "http://", 7) || 
                 !strncasecmp(arg, "rtp://", 6))
             {
                 m_plm->AddItem(arg);
@@ -437,18 +437,18 @@ SetArgs(int32 argc, char **argv)
 #else
                 strcpy(path, arg);
                 
-                printf("Path: %s\r\n", path);
-
+                //printf("Path: %s\r\n", path);
+               
                 // make sure we have an absolute path
                 ResolvePath(&path);
-                
-                printf("Resolved: %s\r\n", path);
+               
+                //printf("Resolved: %s\r\n", path);
 
                 // format this path as a URL
                 uint32 length = _MAX_PATH;
                 FilePathToURL(path, url, &length);
-                
-                printf("URL: %s\r\n", url);
+            
+                //printf("URL: %s\r\n", url);
 
                 // who needs to get this, plm or dlm?
                 bool giveToDLM = false;
@@ -493,7 +493,6 @@ SetArgs(int32 argc, char **argv)
                 }
                 else 
                 {
-                	printf("AddItem: %s\r\n", url);
                     m_plm->AddItem(url); 
                	}	
 #endif

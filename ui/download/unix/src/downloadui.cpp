@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.9 1999/12/16 16:59:53 ijr Exp $
+        $Id: downloadui.cpp,v 1.10 1999/12/17 05:09:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -136,13 +136,13 @@ int32 DownloadUI::AcceptEvent(Event *event)
                 isVisible = false;
             }
             else {
-                isVisible = true;
                 if (m_initialized)
                     gtk_widget_show(m_downloadUI);
                 else {
                     CreateDownloadUI();
                     m_initialized = true;
                 }
+                isVisible = true;
             }
             gdk_threads_leave();
             break; }
@@ -150,18 +150,22 @@ int32 DownloadUI::AcceptEvent(Event *event)
             DownloadItemAddedEvent *dliae = (DownloadItemAddedEvent *)event;
             downloadList.push_back(dliae->Item());
 
-            gdk_threads_enter();
-            UpdateDownloadList();
-            UpdateOverallProgress();
-            gdk_threads_leave();
+            if (isVisible) {
+                gdk_threads_enter();
+                UpdateDownloadList();
+                UpdateOverallProgress();
+                gdk_threads_leave();
+            }
             break; }
         case INFO_DownloadItemRemoved:
         case INFO_DownloadItemProgress:
         case INFO_DownloadItemNewState: {
-            gdk_threads_enter();
-            UpdateDownloadList();
-            UpdateOverallProgress();
-            gdk_threads_leave();
+            if (isVisible) {
+                gdk_threads_enter();
+                UpdateDownloadList();
+                UpdateOverallProgress();
+                gdk_threads_leave();
+            }
             break; }
         default:
             break;
@@ -199,7 +203,7 @@ void DownloadUI::UpdateOverallProgress(void)
 
 void DownloadUI::CancelEvent(void)
 {
-    if (downloadList.size() == 0)
+    if (downloadList.size() == 0 || !isVisible)
         return;
 
     DownloadItem *dli = downloadList[m_currentindex];
@@ -214,7 +218,7 @@ void DownloadUI::CancelEvent(void)
 
 void DownloadUI::PauseEvent(void)
 {
-    if (downloadList.size() == 0)
+    if (downloadList.size() == 0 || !isVisible)
         return;
 
     DownloadItem *dli = downloadList[m_currentindex];
@@ -229,7 +233,7 @@ void DownloadUI::PauseEvent(void)
 
 void DownloadUI::ResumeEvent(void)
 { 
-    if (downloadList.size() == 0)
+    if (downloadList.size() == 0 || !isVisible)
         return;
 
     DownloadItem *dli = downloadList[m_currentindex];
@@ -246,7 +250,7 @@ void DownloadUI::SelChangeEvent(int row)
     m_currentindex = row;
     DownloadItem *dli = downloadList[m_currentindex];
  
-    if (dli == *downloadList.end())
+    if (dli == *downloadList.end() || !isVisible)
         return;    
 
     switch (dli->GetState()) {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.9 1999/11/10 06:57:17 elrod Exp $
+	$Id: m3u.cpp,v 1.10 1999/12/17 05:09:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -41,7 +41,7 @@ typedef struct FormatInfoStruct {
 
 } FormatInfoStruct; 
 
-FormatInfoStruct formats[] = {
+static FormatInfoStruct formats[] = {
     {"m3u", "M3U Playlist Format"}
 };
 

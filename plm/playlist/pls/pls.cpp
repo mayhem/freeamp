@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pls.cpp,v 1.3 1999/11/11 00:29:41 elrod Exp $
+	$Id: pls.cpp,v 1.4 1999/12/17 05:09:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -42,7 +42,7 @@ typedef struct FormatInfoStruct {
 
 } FormatInfoStruct; 
 
-FormatInfoStruct formats[] = {
+static FormatInfoStruct formats[] = {
     {"pls", "PLS Playlist Format"}
 };
 

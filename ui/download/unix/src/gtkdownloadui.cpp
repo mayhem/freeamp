@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.6 1999/12/16 04:41:12 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.7 1999/12/17 05:09:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -57,6 +57,9 @@ void close_internal(GtkWidget *widget, DownloadUI *p)
 
 void DownloadUI::UpdateInfo(void)
 {
+    if (!isVisible)
+        return;
+
     DownloadItem *dli = downloadList[m_currentindex];
 
     if (!dli) {
@@ -98,7 +101,7 @@ void DownloadUI::UpdateInfo(void)
 
 void DownloadUI::UpdateDownloadList(void)
 {
-    if (!m_List)
+    if (!m_List || !isVisible)
         return;
 
     gtk_clist_freeze(GTK_CLIST(m_List));

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.23 2000/01/04 19:07:48 robert Exp $
+   $Id: Theme.cpp,v 1.24 2000/01/15 01:55:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -613,6 +613,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        else                                          
            m_pCurrentControl = new ButtonControl(m_pCurrentWindow, 
                                                  oAttrMap["Name"]);
+
        return kError_NoErr;
     }
 
@@ -1059,7 +1060,7 @@ Error Theme::EndElement(string &oElement)
     {
        if (!m_pParsedWindows)
            m_pParsedWindows = new vector<Window *>;
-           
+
        m_pParsedWindows->push_back(m_pCurrentWindow);
            
        m_pCurrentWindow = NULL;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.21 2000/01/13 22:23:47 robert Exp $
+   $Id: Window.cpp,v 1.22 2000/01/15 01:55:03 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -61,9 +61,8 @@ Window::~Window(void)
     if (!m_bIsVulcanMindMeldHost)
     {
        delete m_pCanvas;
-    }   
-    else
        ClearControls();
+    }   
 }
 
 void Window::VulcanMindMeldHost(bool bHost)
@@ -79,6 +78,10 @@ void Window::VulcanMindMeldHost(bool bHost)
 
 Error Window::VulcanMindMeld(Window *pOther)
 {
+    vector<Control *>::iterator i;
+    ControlMapIterator          j;
+    string                      oName;
+    
     m_oName = pOther->m_oName;
     m_pTheme = pOther->m_pTheme;
 
@@ -89,9 +92,14 @@ Error Window::VulcanMindMeld(Window *pOther)
     m_pCaptureControl = NULL;
     m_pMouseDownControl = NULL;
 
-    m_oControls = pOther->m_oControls;
-    m_oControlMap = pOther->m_oControlMap;
+    m_oControls.clear();
+    for(i = pOther->m_oControls.begin(); i != pOther->m_oControls.end(); i++)
+        m_oControls.push_back(*i);
 
+    m_oControlMap.clear();
+    for(j = pOther->m_oControlMap.begin(); j != pOther->m_oControlMap.end(); j++)
+        m_oControlMap.insert(pair<string, Control *>((*j).first, (*j).second));
+        
     m_pCanvas = pOther->m_pCanvas;
     Init();   
    

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.cpp,v 1.5 1999/12/29 01:11:54 ijr Exp $
+	$Id: errors.cpp,v 1.6 2000/01/15 01:54:56 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -94,6 +94,7 @@ const char* ErrorString[] = {
     "The requested file was not found", //          kError_HTTPFileNotFound  = 67,
     "Failed to initialize your CD-ROM", //          kError_CDInitFailed = 68;
     "Cannot play CD track",             //          kError_InvalidTrack = 69,
+    "Download denied", //                           kError_DownloadDenied = 70,  
 
     "kError_LastError", //            = 9999
 };

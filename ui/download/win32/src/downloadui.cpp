@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.15 2000/01/14 19:16:57 robert Exp $
+	$Id: downloadui.cpp,v 1.16 2000/01/15 01:55:00 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -214,6 +214,9 @@ int32 DownloadUI::AcceptEvent(Event* event)
                 // bring window into view
                 ShowWindow(m_hwnd, SW_SHOW);
                 SetForegroundWindow(m_hwnd);
+
+                if (m_dlm->IsPaused())
+                   m_dlm->ResumeDownloads();
                
 	            break; 
             }
@@ -588,6 +591,7 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
             m_urlRect = rcClip;
 
             DeleteObject(font);
+            DeleteObject(pen);
             break;
         }
 
@@ -1473,12 +1477,6 @@ BOOL DownloadUI::Command(int32 command, HWND src)
                     memcpy(url, "http://", 7);
                     sp = url;
                 }
-
-                /*MessageBox(m_hwnd, 
-                           sp,
-                           "url",
-                           MB_OK|MB_ICONINFORMATION);*/
-
 
                 m_dlm->AddItem(sp);
             

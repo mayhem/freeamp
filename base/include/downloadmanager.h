@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.5 2000/01/14 19:16:55 robert Exp $
+	$Id: downloadmanager.h,v 1.6 2000/01/15 01:54:53 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -78,12 +78,16 @@ class DownloadItem {
             SetDestinationFile(dest);
 
         if(metadata)
+		{
             SetMetaData(metadata);
+			delete metadata;
+        }
 
         m_state = kDownloadItemState_Null;
         m_error = kError_NoErr;
         m_bytesTotal = 0;
         m_bytesReceived = 0;
+        m_normalDownload = false;
     }
 
     virtual ~DownloadItem() {}
@@ -133,6 +137,9 @@ class DownloadItem {
     void SetBytesReceived(uint32 bytes) { m_bytesReceived = bytes; }
     uint32 GetBytesReceived() const { return m_bytesReceived; }
 
+    void SetNormalDownload(void) { m_normalDownload = true; };
+	bool IsNormalDownload(void) { return m_normalDownload; };
+
  protected:
     Error SetBuffer(char* dest, const char* src, uint32* len)
     {
@@ -173,6 +180,7 @@ class DownloadItem {
     Error m_error;
     uint32 m_bytesReceived;
     uint32 m_bytesTotal;
+	bool   m_normalDownload;
 };
 
 class DownloadManager {
@@ -201,7 +209,7 @@ class DownloadManager {
     // This will indicate to the download thread that it should
     // attempt to retrieve this item. Has no effect if the item's
     // state is Done, or Downloading.
-    Error QueueDownload(DownloadItem* item, bool bQueueAtHead = false);
+    Error QueueDownload(DownloadItem* item, bool bDownloadNow = false);
     Error QueueDownload(uint32 index);
 
     // Changes item state to cancelled if it is queued or downloading.

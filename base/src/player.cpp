@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.169 2000/01/14 09:16:21 elrod Exp $
+        $Id: player.cpp,v 1.170 2000/01/15 01:54:58 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -500,11 +500,6 @@ SetArgs(int32 argc, char **argv)
         }
     }
 
-    if(m_autoplay)
-    {
-        AcceptEvent(new Event(CMD_Play));
-    }    
-
     delete [] path;
     delete [] url;
 
@@ -688,10 +683,10 @@ Run()
                                                     toolbarName, &len)) ==
            kError_BufferTooSmall)
    {
-       delete[] downloadName;
+       delete[] toolbarName;
        len++;
      
-       downloadName = new char[len];
+       toolbarName = new char[len];
    }
 #endif
 
@@ -824,6 +819,7 @@ Run()
    delete[] name;
    delete[] musicBrowserName;
    delete[] downloadName;
+   delete[] toolbarName;
 }
 
 void 

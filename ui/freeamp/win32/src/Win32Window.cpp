@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.26 2000/01/13 22:23:49 robert Exp $
+   $Id: Win32Window.cpp,v 1.27 2000/01/15 01:55:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -875,7 +875,7 @@ void Win32Window::BringWindowToFront(void)
 
 void Win32Window::AddToSystemMenu(HWND hWnd)
 {
-    HMENU        hMenu, hPopup;
+    HMENU        hMenu, hPopup, hMain;
     MENUITEMINFO sInfo;
     BOOL         bRet;
     
@@ -883,8 +883,8 @@ void Win32Window::AddToSystemMenu(HWND hWnd)
        return;
        
     hMenu = GetSystemMenu(hWnd, false);
-    hPopup = LoadMenu(g_hinst, MAKEINTRESOURCE(IDM_TRAY));
-    hPopup = GetSubMenu(hPopup, 0);
+    hMain = LoadMenu(g_hinst, MAKEINTRESOURCE(IDM_TRAY));
+    hPopup = GetSubMenu(hMain, 0);
 
     sInfo.cbSize = sizeof(sInfo);
     sInfo.fMask = MIIM_SUBMENU | MIIM_TYPE;
@@ -901,6 +901,8 @@ void Win32Window::AddToSystemMenu(HWND hWnd)
     sInfo.fType = MFT_SEPARATOR;
     sInfo.fState = 0;
     bRet = InsertMenuItem(hMenu, 1, true, &sInfo);
+    
+    DestroyMenu(hMain);
 } 
 
 void Win32Window::ConvertTo256Color(vector<Bitmap *> *pList)

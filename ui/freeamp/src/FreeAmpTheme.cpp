@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.64 2000/01/13 22:23:45 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.65 2000/01/15 01:55:01 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -137,6 +137,9 @@ FreeAmpTheme::~FreeAmpTheme()
         delete m_pOptionsThread;
         m_pOptionsThread = NULL;
     }
+#if defined( WIN32 )
+    delete m_pUpdateMan;
+#endif // WIN32
 }
 
 Error FreeAmpTheme::Init(int32 startup_type)

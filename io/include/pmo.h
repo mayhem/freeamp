@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.20 1999/07/06 23:11:00 robert Exp $
+	$Id: pmo.h,v 1.21 1999/07/16 19:48:53 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -46,7 +46,6 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "errors.h"
 #include "properties.h"
-#include "volume.h"
 #include "facontext.h"
 #include "lmc.h"
 #include "pmi.h"
@@ -73,7 +72,8 @@ public:
     virtual ~PhysicalMediaOutput();
 
     virtual Error Init(OutputInfo* /*info*/) = 0;
-    virtual VolumeManager *GetVolumeManager() = 0;
+    virtual int32 GetVolume(void) = 0;
+    virtual void  SetVolume(int32) = 0;
 
     virtual Error Reset(bool bUserReset) = 0;
     virtual void  Pause(void);

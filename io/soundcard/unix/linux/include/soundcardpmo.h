@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.h,v 1.19 1999/07/02 19:05:04 robert Exp $
+        $Id: soundcardpmo.h,v 1.20 1999/07/16 19:48:55 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SOUNDCARDPMO_H_
@@ -33,7 +33,6 @@ ____________________________________________________________________________*/
 #include "pmo.h"
 #include "pmoevent.h"
 #include "eventbuffer.h"
-#include "ossvolume.h"
 
 #define BIT_SELECT  0x1f
 #define SLEEPTIME   256
@@ -63,9 +62,10 @@ class SoundCardPMO:public PhysicalMediaOutput
    virtual ~SoundCardPMO();
 
    virtual Error Init(OutputInfo * info);
-   virtual VolumeManager *GetVolumeManager();
 
    static void   StartWorkerThread(void *);
+          int32  GetVolume(void);
+          void   SetVolume(int32);
 
  private:
    void          WorkerThread(void); 

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: alsapmo.h,v 1.8 1999/07/02 19:05:01 robert Exp $
+	$Id: alsapmo.h,v 1.9 1999/07/16 19:48:49 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -89,10 +89,11 @@ public:
     AlsaPMO(FAContext *context);
     virtual ~AlsaPMO();
     
-    virtual VolumeManager *GetVolumeManager();
     virtual Error Init(OutputInfo* info);
     static void   StartWorkerThread(void *);
     virtual void  Pause(void);
+            void  SetVolume(int32);
+            int32 GetVolume(void);
 
  private:
 
@@ -111,7 +112,7 @@ public:
     int          m_iOutputBufferSize, m_iBytesPerSample;
     int          m_iTotalFragments, m_iBaseTime;
     int          m_iDataSize;
-    int          m_iCard, m_iDevice;
+    int          m_iCard, m_iDevice, m_iChannel;
  
     struct audio_info_struct *ai;
     int audio_set_all(struct audio_info_struct *);

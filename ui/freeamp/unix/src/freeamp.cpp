@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.33 1999/07/13 18:42:26 robert Exp $
+	$Id: freeamp.cpp,v 1.34 1999/07/16 19:48:58 robert Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -48,7 +48,6 @@ ____________________________________________________________________________*/
 #include "windowhash.h"
 #include "graphics.h"
 #include "queue.h"
-#include "volume.h"
 
 #define DEFINE_FONT_WIDTHS
 #include "font_width.h"

@@ -1,5 +1,5 @@
 #!/bin/env perl
-# $Id: buildresources.pl,v 1.2 2000/03/12 06:48:11 hiro Exp $
+# $Id: buildresources.pl,v 1.3 2000/03/13 09:25:23 hiro Exp $
 # A lame perl script to compile mwbres .r src and add necessary resources
 # into a binary. Written by someone who can't write perl.
 
@@ -50,6 +50,12 @@ $binary = $opt_o;
 $appsig = $opt_s;
 $filetype = $opt_t;
 
+# strip the excess fat.
+
+echo_and_run( "strip $binary" );
+
+# add the resources.
+
 foreach $file ( @ARGV )
 {
     if ( $file =~ /.+\.r$/ )
@@ -86,3 +92,8 @@ if ( $appsig )
 {
     echo_and_run( "settype -s \"$appsig\" $binary" );
 }
+
+# Update the file attribute.
+
+echo_and_run( "mimeset -F $binary" );
+

@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.101 1999/11/05 22:56:42 robert Exp $
+   $Id: xinglmc.cpp,v 1.102 1999/11/05 23:27:11 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -49,7 +49,7 @@ ____________________________________________________________________________*/
 #include "lmc.h"
 #include "facontext.h"
 #include "log.h"
-#include "Debug.h"
+#include "debug.h"
 
 #define DB Debug_v("%s:%d\n",  __FILE__, __LINE__);
 

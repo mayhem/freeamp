@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.34 2000/05/24 17:08:34 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.34.6.1 2000/06/09 20:03:18 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -290,6 +290,8 @@ void GTKWindow::PanelStateChanged(void)
     Rect       oRect;
     GdkBitmap *mask;
 
+    GetCanvas()->SetNoScreenUpdate(true);
+
     Window::PanelStateChanged();
 
     GetCanvas()->GetBackgroundRect(oRect);
@@ -298,7 +300,10 @@ void GTKWindow::PanelStateChanged(void)
     gdk_threads_enter();
     if (mask)
         gdk_window_shape_combine_mask(mainWindow->window, mask, 0, 0);
+    gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
     gdk_threads_leave();
+
+    GetCanvas()->SetNoScreenUpdate(false);
 
     ((GTKCanvas *)GetCanvas())->Paint(oRect);
 }

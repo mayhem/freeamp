@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.16 2000/05/31 15:38:08 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.16.6.1 2000/06/09 20:03:18 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -249,6 +249,9 @@ Error Win32Canvas::Invalidate(Rect &oRect)
 Error Win32Canvas::Update(void)
 {
    HWND hWnd;
+
+   if (m_bNoScreenUpdate)
+       return kError_NoErr;
    
    hWnd = m_pParent->GetWindowHandle();
    if (hWnd == NULL)

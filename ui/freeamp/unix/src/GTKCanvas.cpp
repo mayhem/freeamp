@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.8 2000/05/15 16:38:23 robert Exp $
+   $Id: GTKCanvas.cpp,v 1.8.6.1 2000/06/09 20:03:18 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -117,6 +117,9 @@ Error GTKCanvas::Invalidate(Rect &oRect)
 
 Error GTKCanvas::Update(void)
 {
+   if (m_bNoScreenUpdate)
+       return kError_NoErr;
+   
    Rect foo;  
    Paint(foo);
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.h,v 1.5.4.1 2000/06/06 10:40:43 robert Exp $
+   $Id: Canvas.h,v 1.5.4.2 2000/06/09 20:03:18 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CANVAS_H__
@@ -55,6 +55,8 @@ class Canvas
      void SetMaskBitmap(Bitmap *pBitmap);
      Bitmap *GetBackgroundBitmap(void);
      virtual void InitBackgrounds(vector<Panel *> *pPanels);
+     void SetNoScreenUpdate(bool bUpdate) { m_bNoScreenUpdate = bUpdate; };
+     bool GetNoScreenUpdate(void) { return m_bNoScreenUpdate; };
 
      virtual void  Init(void) = 0;
      virtual void  Erase(Rect &oPaintRect) = 0;
@@ -76,7 +78,7 @@ class Canvas
      Bitmap *m_pBGBitmap, *m_pMaskBitmap;
      Rect    m_oBGRect;
      string  m_oDefaultFont;
-     bool    m_bDeleteBitmap;
+     bool    m_bDeleteBitmap, m_bNoScreenUpdate;
 };
 
 #endif

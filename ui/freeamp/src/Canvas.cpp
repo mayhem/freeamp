@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.10.4.5 2000/06/07 14:32:34 robert Exp $
+   $Id: Canvas.cpp,v 1.10.4.6 2000/06/09 20:03:18 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -51,6 +51,7 @@ Canvas::Canvas(void)
     m_pBGBitmap = NULL;
     m_pMaskBitmap = NULL;
     m_bDeleteBitmap = false;
+    m_bNoScreenUpdate = false;
 }
 
 Canvas::~Canvas(void)
@@ -136,17 +137,12 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
         oTemp.x1 = oOffset.x;
         oTemp.y1 = oOffset.y;
 
-        printf("Panel %s (%d %d %d %d) (%d %d)\n", 
-           j.c_str(), oTemp.x1, oTemp.y1, oTemp.x2, oTemp.y2, oOffset.x, oOffset.y);
         if (iLoop == 0)
            oUnion = oTemp;
         else
            oUnion.Union(oTemp);
 
     }
-    printf("Union size: %d %d (%d %d %d %d)\n", 
-       oUnion.Width(), oUnion.Height(), oUnion.x1, oUnion.y1, 
-                                        oUnion.x2, oUnion.y2);
      
     oOffset.x = oUnion.x1;
     oOffset.y = oUnion.y1;
@@ -185,19 +181,12 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
     {
         if ((*i)->IsHidden())
         {
-            //string j;
-            //(*i)->GetName(j);
-            //printf("Panel %s is hidden\n", j.c_str());
             continue;
         }
 
         (*i)->GetRect(oSrcRect);
         (*i)->GetPos(oBitmapPos);
 
-        //printf("src: %d %d %d %d\n", 
-        //    oSrcRect.x1, oSrcRect.y1, oSrcRect.x2, oSrcRect.y2);
-        //printf("pos: %d %d\n\n", 
-        //    oBitmapPos.x, oBitmapPos.y);
         oTempPos.x = oOffset.x + oBitmapPos.x;
         oTempPos.y = oOffset.y + oBitmapPos.y;
         (*i)->MoveControls(oTempPos);

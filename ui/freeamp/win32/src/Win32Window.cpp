@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.39.6.3 2000/06/09 10:56:54 robert Exp $
+   $Id: Win32Window.cpp,v 1.39.6.4 2000/06/09 20:03:18 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -729,7 +729,7 @@ void
 Win32Window::
 Notify(int32 command, LPNMHDR notifyMsgHdr)
 {
-	vector<pair<Rect, string> > oList;
+    vector<pair<Rect, string> > oList;
 
     if (m_bMindMeldInProgress)
        return;
@@ -745,8 +745,8 @@ Notify(int32 command, LPNMHDR notifyMsgHdr)
         // and feed it's tip
         //
 
-		GetControlToolTips(oList);
-		strTip = oList[idCtrl].second;
+        GetControlToolTips(oList);
+        strTip = oList[idCtrl].second;
         if(strTip.length())
         {
             if(strTip.length()>79)
@@ -765,7 +765,7 @@ void
 Win32Window::
 CreateTooltips()
 {
-	vector<pair<Rect, string> > oList;
+    vector<pair<Rect, string> > oList;
 
     // tooltip support
     static HWND hwndTooltip = NULL;
@@ -826,8 +826,8 @@ CreateTooltips()
 
         strTip = oList[uCtr].second;
         rect = oList[uCtr].first;
-		if (strTip.length() == 0)
-			continue;
+        if (strTip.length() == 0)
+            continue;
 
         // add a tool tip
 
@@ -843,7 +843,7 @@ CreateTooltips()
         ti.rect.bottom = rect.y2; 
 
         SendMessage(hwndTooltip, 
-            TTM_ADDTOOL, 		  
+            TTM_ADDTOOL,          
             0, 
             (LPARAM) &ti);
     }
@@ -1068,7 +1068,9 @@ void Win32Window::PanelStateChanged(void)
 {
     Rect   oRect, oWindowRect;
     RECT   sRect;
-	HRGN   hRgn;
+    HRGN   hRgn;
+
+    GetCanvas()->SetNoScreenUpdate(true);
  
     Window::PanelStateChanged();
 
@@ -1088,7 +1090,8 @@ void Win32Window::PanelStateChanged(void)
     sRect.top = oRect.y1;
     sRect.bottom = oRect.y2;
 
-	InvalidateRect(m_hWnd, &sRect, true);
-	UpdateWindow(m_hWnd);
+    InvalidateRect(m_hWnd, &sRect, true);
+    GetCanvas()->SetNoScreenUpdate(false);
+    UpdateWindow(m_hWnd);
     CreateTooltips();
 }

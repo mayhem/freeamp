@@ -17,10 +17,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglib.cpp,v 1.5 1998/10/16 22:25:31 jdw Exp $
+	$Id: xinglib.cpp,v 1.6 1998/10/17 18:42:57 jdw Exp $
 ____________________________________________________________________________*/
 
 /* project headers */
+#include <iostream.h>
+
 #include "lmclib.h"
 #include "xinglmc.h"
 
@@ -140,7 +142,7 @@ void Cleanup(LMCRef ref)
 {
     LogicalMediaConverter* lmc = (LogicalMediaConverter*)ref->ref;
 
-    delete ref->ref;
+    delete lmc;
 }
 
 

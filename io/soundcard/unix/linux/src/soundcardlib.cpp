@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardlib.cpp,v 1.2 1998/10/17 18:26:11 jdw Exp $
+	$Id: soundcardlib.cpp,v 1.3 1998/10/17 18:42:57 jdw Exp $
 ____________________________________________________________________________*/
 
 /* project headers */
@@ -76,7 +76,9 @@ void Clear(PMORef ref)
 
 void Cleanup(PMORef ref)
 {
-    delete ref->ref;
+    PhysicalMediaOutput *pmo = (PhysicalMediaOutput*)ref->ref;
+
+    delete pmo;
 }
 
 #ifdef __cplusplus

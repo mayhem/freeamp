@@ -32,10 +32,6 @@ NULL=
 NULL=nul
 !ENDIF 
 
-CPP=cl.exe
-MTL=midl.exe
-RSC=rc.exe
-
 !IF  "$(CFG)" == "Rainplay - Win32 Release"
 
 OUTDIR=.\Release
@@ -92,6 +88,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /G6 /MT /W3 /GX /O2 /Op /Ob2 /I "." /I ".\Equalizer" /I\
  ".\PlayList" /I ".\VisualView" /I ".\VisualView\Fft" /I ".\Preferences" /I\
  "..\..\base\win32\include" /I "..\..\lmc\include" /I "..\..\io\include" /I\
@@ -100,7 +97,40 @@ CPP_PROJ=/nologo /G6 /MT /W3 /GX /O2 /Op /Ob2 /I "." /I ".\Equalizer" /I\
  /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Release/
 CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\Rainplay.res" /d "NDEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\Rainplay.bsc" 
@@ -155,7 +185,7 @@ OutDir=.\Release
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 Release" "soundcard - Win32 Release"\
  "fileinput - Win32 Release" ".\rainplay.ui" "$(OUTDIR)\Rainplay.pch"
-   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                          ..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                           ..\..\base\win32\prj\plugins
 	copy rainplay.ui     ..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -218,6 +248,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /G6 /MDd /W3 /Gm /Gi /GR /GX /Zi /Od /I "." /I ".\Equalizer"\
  /I ".\PlayList" /I ".\VisualView" /I ".\VisualView\Fft" /I ".\Preferences" /I\
  "..\..\base\win32\include" /I "..\..\lmc\include" /I "..\..\io\include" /I\
@@ -226,7 +257,40 @@ CPP_PROJ=/nologo /G6 /MDd /W3 /Gm /Gi /GR /GX /Zi /Od /I "." /I ".\Equalizer"\
  /Fp"$(INTDIR)\Rainplay.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\Rainplay.res" /d "_DEBUG" /d "_AFXDLL" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\Rainplay.bsc" 
@@ -281,7 +345,7 @@ OutDir=.\Debug
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 Debug" "soundcard - Win32 Debug"\
  "fileinput - Win32 Debug" ".\rainplay.ui" "$(OUTDIR)\Rainplay.pch"
-   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                          ..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                           ..\..\base\win32\prj\plugins
 	copy rainplay.ui     ..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -344,6 +408,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /G6 /MDd /W3 /Gm /Gi /GR /GX /Zi /Od /I "." /I ".\Equalizer"\
  /I ".\PlayList" /I ".\VisualView" /I ".\VisualView\Fft" /I ".\Preferences" /I\
  "..\..\base\win32\include" /I "..\..\lmc\include" /I "..\..\io\include" /I\
@@ -352,7 +417,40 @@ CPP_PROJ=/nologo /G6 /MDd /W3 /Gm /Gi /GR /GX /Zi /Od /I "." /I ".\Equalizer"\
  /Fp"$(INTDIR)\Rainplay.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\Rainplay.res" /d "_DEBUG" /d "_AFXDLL" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\Rainplay.bsc" 
@@ -407,7 +505,7 @@ OutDir=.\Debug
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 NASM Debug" "soundcard - Win32 NASM Debug"\
  "fileinput - Win32 NASM Debug" ".\rainplay.ui" "$(OUTDIR)\Rainplay.pch"
-   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                          ..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                           ..\..\base\win32\prj\plugins
 	copy rainplay.ui     ..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -467,6 +565,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /G6 /MT /W3 /GX /O2 /Op /Ob2 /I "." /I ".\Equalizer" /I\
  ".\PlayList" /I ".\VisualView" /I ".\VisualView\Fft" /I ".\Preferences" /I\
  "..\..\base\win32\include" /I "..\..\lmc\include" /I "..\..\io\include" /I\
@@ -475,7 +574,40 @@ CPP_PROJ=/nologo /G6 /MT /W3 /GX /O2 /Op /Ob2 /I "." /I ".\Equalizer" /I\
  /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Release/
 CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\Rainplay.res" /d "NDEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\Rainplay.bsc" 
@@ -531,41 +663,11 @@ OutDir=.\Release
 $(DS_POSTBUILD_DEP) : "xing - Win32 NASM Release"\
  "soundcard - Win32 NASM Release" "fileinput - Win32 NASM Release"\
  ".\rainplay.ui" "$(OUTDIR)\Rainplay.pch"
-   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                          ..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                           ..\..\base\win32\prj\plugins
 	copy rainplay.ui     ..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ENDIF 
-
-.c{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
 
 
 !IF "$(CFG)" == "Rainplay - Win32 Release" || "$(CFG)" ==\
@@ -694,28 +796,28 @@ SOURCE=..\..\config\config.win32
 
 InputPath=..\..\config\config.win32
 
-"..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\config\config.win32 ..\..\config\config.h
 
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 Debug"
 
 InputPath=..\..\config\config.win32
 
-"..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\config\config.win32 ..\..\config\config.h
 
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Debug"
 
 InputPath=..\..\config\config.win32
 
-"..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\config\config.win32 ..\..\config\config.h
 
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
 InputPath=..\..\config\config.win32
 
-"..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\config\config.win32 ..\..\config\config.h
 
 !ENDIF 
@@ -748,6 +850,7 @@ DEP_CPP_PLAYL=\
 	"..\..\base\include\metadata.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\plmevent.h"\
 	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\registrar.h"\
@@ -840,6 +943,7 @@ DEP_CPP_PLAYL=\
 	"..\..\base\include\metadata.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\plmevent.h"\
 	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\registrar.h"\
@@ -1000,6 +1104,7 @@ DEP_CPP_RAINPLA=\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\plmevent.h"\
 	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
@@ -1034,7 +1139,7 @@ DEP_CPP_RAINPLA=\
 	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_RAINPLA=\
-	"..\..\base\include\gdbm.h"\
+	"..\..\base\include\gdbm_fa.h"\
 	
 
 "$(INTDIR)\RainplayDlg.obj" : $(SOURCE) $(DEP_CPP_RAINPLA) "$(INTDIR)"\
@@ -1166,6 +1271,7 @@ DEP_CPP_RAINPLA=\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\plmevent.h"\
 	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
@@ -1200,7 +1306,7 @@ DEP_CPP_RAINPLA=\
 	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_RAINPLA=\
-	"..\..\base\include\gdbm.h"\
+	"..\..\base\include\gdbm_fa.h"\
 	
 
 "$(INTDIR)\RainplayDlg.obj" : $(SOURCE) $(DEP_CPP_RAINPLA) "$(INTDIR)"\
@@ -1226,6 +1332,7 @@ DEP_CPP_RAINPLAY=\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\plmevent.h"\
 	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
@@ -1259,7 +1366,7 @@ DEP_CPP_RAINPLAY=\
 	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_RAINPLAY=\
-	"..\..\base\include\gdbm.h"\
+	"..\..\base\include\gdbm_fa.h"\
 	
 
 "$(INTDIR)\RainplayUI.obj" : $(SOURCE) $(DEP_CPP_RAINPLAY) "$(INTDIR)"\
@@ -1389,6 +1496,7 @@ DEP_CPP_RAINPLAY=\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\plmevent.h"\
 	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
@@ -1422,7 +1530,7 @@ DEP_CPP_RAINPLAY=\
 	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_RAINPLAY=\
-	"..\..\base\include\gdbm.h"\
+	"..\..\base\include\gdbm_fa.h"\
 	
 
 "$(INTDIR)\RainplayUI.obj" : $(SOURCE) $(DEP_CPP_RAINPLAY) "$(INTDIR)"\
@@ -1652,6 +1760,7 @@ DEP_CPP_EQDLG=\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\plmevent.h"\
 	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
@@ -1686,7 +1795,7 @@ DEP_CPP_EQDLG=\
 	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_EQDLG=\
-	"..\..\base\include\gdbm.h"\
+	"..\..\base\include\gdbm_fa.h"\
 	
 
 "$(INTDIR)\EQDlg.obj" : $(SOURCE) $(DEP_CPP_EQDLG) "$(INTDIR)"\
@@ -1821,6 +1930,7 @@ DEP_CPP_EQDLG=\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\plmevent.h"\
 	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
@@ -1855,7 +1965,7 @@ DEP_CPP_EQDLG=\
 	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_EQDLG=\
-	"..\..\base\include\gdbm.h"\
+	"..\..\base\include\gdbm_fa.h"\
 	
 
 "$(INTDIR)\EQDlg.obj" : $(SOURCE) $(DEP_CPP_EQDLG) "$(INTDIR)"\
@@ -1882,6 +1992,7 @@ DEP_CPP_PLAYLI=\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\plmevent.h"\
 	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
@@ -1916,7 +2027,7 @@ DEP_CPP_PLAYLI=\
 	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_PLAYLI=\
-	"..\..\base\include\gdbm.h"\
+	"..\..\base\include\gdbm_fa.h"\
 	
 
 "$(INTDIR)\PlayListDlg.obj" : $(SOURCE) $(DEP_CPP_PLAYLI) "$(INTDIR)"\
@@ -2051,6 +2162,7 @@ DEP_CPP_PLAYLI=\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
 	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\plmevent.h"\
 	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
@@ -2085,7 +2197,7 @@ DEP_CPP_PLAYLI=\
 	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_PLAYLI=\
-	"..\..\base\include\gdbm.h"\
+	"..\..\base\include\gdbm_fa.h"\
 	
 
 "$(INTDIR)\PlayListDlg.obj" : $(SOURCE) $(DEP_CPP_PLAYLI) "$(INTDIR)"\

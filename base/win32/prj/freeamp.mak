@@ -29,10 +29,6 @@ NULL=
 NULL=nul
 !ENDIF 
 
-CPP=cl.exe
-MTL=midl.exe
-RSC=rc.exe
-
 !IF  "$(CFG)" == "freeamp - Win32 Release"
 
 OUTDIR=.\Release
@@ -91,6 +87,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\..\lib\gdbm" /I\
  "..\include" /I "..\..\include" /I "..\..\..\config" /I\
  "..\..\..\ui\win32Test\include" /I "..\..\..\ui\win32Test\res" /I\
@@ -99,7 +96,40 @@ CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\..\lib\gdbm" /I\
  /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Release/
 CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\freeamp.res" /d "NDEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\freeamp.bsc" 
@@ -205,6 +235,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\..\lib\gdbm" /I\
  "..\include" /I "..\..\include" /I "..\..\..\config" /I\
  "..\..\..\ui\win32Test\include" /I "..\..\..\ui\win32Test\res" /I\
@@ -213,7 +244,40 @@ CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\..\lib\gdbm" /I\
  /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\freeamp.res" /d "_DEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\freeamp.bsc" 
@@ -319,6 +383,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\..\lib\gdbm" /I\
  "..\include" /I "..\..\include" /I "..\..\..\config" /I\
  "..\..\..\ui\win32Test\include" /I "..\..\..\ui\win32Test\res" /I\
@@ -327,7 +392,40 @@ CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\..\lib\gdbm" /I\
  /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Release/
 CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\freeamp.res" /d "NDEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\freeamp.bsc" 
@@ -435,6 +533,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\..\lib\gdbm" /I\
  "..\include" /I "..\..\include" /I "..\..\..\config" /I\
  "..\..\..\ui\win32Test\include" /I "..\..\..\ui\win32Test\res" /I\
@@ -443,7 +542,40 @@ CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\..\lib\gdbm" /I\
  /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\freeamp.res" /d "_DEBUG" 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\freeamp.bsc" 
@@ -491,36 +623,6 @@ LINK32_OBJS= \
 
 !ENDIF 
 
-.c{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_OBJS)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(CPP_SBRS)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
 
 !IF "$(CFG)" == "freeamp - Win32 Release" || "$(CFG)" ==\
  "freeamp - Win32 Debug" || "$(CFG)" == "freeamp - Win32 NASM Release" ||\
@@ -542,7 +644,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -557,6 +659,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -586,7 +689,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -601,6 +704,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -625,7 +729,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -640,6 +744,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -669,7 +774,7 @@ DEP_CPP_MAIN_=\
 	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -684,6 +789,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -712,7 +818,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -727,6 +833,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -754,7 +861,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -769,6 +876,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -791,7 +899,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -806,6 +914,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -833,7 +942,7 @@ DEP_CPP_MUSIC=\
 	"..\..\..\config\config.h"\
 	"..\..\..\io\include\pipeline.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -848,6 +957,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -876,7 +986,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pmi.h"\
 	"..\..\..\io\include\pmo.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -892,6 +1002,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -922,7 +1033,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pmi.h"\
 	"..\..\..\io\include\pmo.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -938,6 +1049,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -963,7 +1075,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pmi.h"\
 	"..\..\..\io\include\pmo.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -979,6 +1091,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -1009,7 +1122,7 @@ DEP_CPP_PLAYE=\
 	"..\..\..\io\include\pmi.h"\
 	"..\..\..\io\include\pmo.h"\
 	"..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\lib\gdbm\gdbm.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
 	"..\..\..\lmc\include\lmc.h"\
 	"..\..\..\ui\include\ui.h"\
 	"..\..\include\database.h"\
@@ -1025,6 +1138,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\properties.h"\
@@ -1056,6 +1170,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\metadata.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\registrar.h"\
@@ -1082,6 +1197,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\metadata.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\registrar.h"\
@@ -1105,6 +1221,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\metadata.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\registrar.h"\
@@ -1131,6 +1248,7 @@ DEP_CPP_PLAYL=\
 	"..\..\include\metadata.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
+	"..\..\include\plmevent.h"\
 	"..\..\include\portabledevice.h"\
 	"..\..\include\preferences.h"\
 	"..\..\include\registrar.h"\
@@ -1286,28 +1404,28 @@ SOURCE=..\..\..\config\config.win32
 
 InputPath=..\..\..\config\config.win32
 
-"..\..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\config\config.win32 ..\..\..\config\config.h
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
 
 InputPath=..\..\..\config\config.win32
 
-"..\..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\config\config.win32 ..\..\..\config\config.h
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
 
 InputPath=..\..\..\config\config.win32
 
-"..\..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\config\config.win32 ..\..\..\config\config.h
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
 
 InputPath=..\..\..\config\config.win32
 
-"..\..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\config\config.win32 ..\..\..\config\config.h
 
 !ENDIF 
@@ -1634,28 +1752,28 @@ SOURCE=..\..\..\AUTHORS
 
 InputPath=..\..\..\AUTHORS
 
-"..\..\..\Authors.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Authors.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\AUTHORS ..\..\..\Authors.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
 
 InputPath=..\..\..\AUTHORS
 
-"..\..\..\Authors.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Authors.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\AUTHORS ..\..\..\Authors.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
 
 InputPath=..\..\..\AUTHORS
 
-"..\..\..\Authors.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Authors.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\AUTHORS ..\..\..\Authors.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
 
 InputPath=..\..\..\AUTHORS
 
-"..\..\..\Authors.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Authors.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\AUTHORS ..\..\..\Authors.txt
 
 !ENDIF 
@@ -1666,28 +1784,28 @@ SOURCE=..\..\..\CHANGES
 
 InputPath=..\..\..\CHANGES
 
-"..\..\..\Changes.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Changes.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\CHANGES ..\..\..\Changes.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
 
 InputPath=..\..\..\CHANGES
 
-"..\..\..\Changes.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Changes.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\CHANGES ..\..\..\Changes.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
 
 InputPath=..\..\..\CHANGES
 
-"..\..\..\Changes.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Changes.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\CHANGES ..\..\..\Changes.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
 
 InputPath=..\..\..\CHANGES
 
-"..\..\..\Changes.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Changes.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\CHANGES ..\..\..\Changes.txt
 
 !ENDIF 
@@ -1698,28 +1816,28 @@ SOURCE=..\..\..\COPYING
 
 InputPath=..\..\..\COPYING
 
-"..\..\..\Copying.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Copying.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\COPYING ..\..\..\Copying.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
 
 InputPath=..\..\..\COPYING
 
-"..\..\..\Copying.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Copying.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\COPYING ..\..\..\Copying.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
 
 InputPath=..\..\..\COPYING
 
-"..\..\..\Copying.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Copying.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\COPYING ..\..\..\Copying.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
 
 InputPath=..\..\..\COPYING
 
-"..\..\..\Copying.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\Copying.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\COPYING ..\..\..\Copying.txt
 
 !ENDIF 
@@ -1730,28 +1848,28 @@ SOURCE=..\..\..\README
 
 InputPath=..\..\..\README
 
-"..\..\..\ReadMe.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\ReadMe.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\README ..\..\..\ReadMe.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
 
 InputPath=..\..\..\README
 
-"..\..\..\ReadMe.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\ReadMe.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\README ..\..\..\ReadMe.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
 
 InputPath=..\..\..\README
 
-"..\..\..\ReadMe.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\ReadMe.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\README ..\..\..\ReadMe.txt
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
 
 InputPath=..\..\..\README
 
-"..\..\..\ReadMe.txt" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\ReadMe.txt"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\README ..\..\..\ReadMe.txt
 
 !ENDIF 
@@ -1801,28 +1919,28 @@ SOURCE=..\..\..\lib\portio\i386\free\portio.sys
 
 InputPath=..\..\..\lib\portio\i386\free\portio.sys
 
-".\portio.sys" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+".\portio.sys"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\lib\portio\i386\free\portio.sys .\portio.sys
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
 
 InputPath=..\..\..\lib\portio\i386\free\portio.sys
 
-".\portio.sys" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+".\portio.sys"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\lib\portio\i386\free\portio.sys .\portio.sys
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
 
 InputPath=..\..\..\lib\portio\i386\free\portio.sys
 
-".\portio.sys" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+".\portio.sys"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\lib\portio\i386\free\portio.sys .\portio.sys
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
 
 InputPath=..\..\..\lib\portio\i386\free\portio.sys
 
-".\portio.sys" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+".\portio.sys"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\lib\portio\i386\free\portio.sys .\portio.sys
 
 !ENDIF 

@@ -32,10 +32,6 @@ NULL=
 NULL=nul
 !ENDIF 
 
-CPP=cl.exe
-MTL=midl.exe
-RSC=rc.exe
-
 !IF  "$(CFG)" == "obsinput - Win32 Release"
 
 OUTDIR=.\Release
@@ -73,6 +69,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\\" /I "..\..\..\include" /I\
  "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
  "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
@@ -81,324 +78,6 @@ CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\\" /I "..\..\..\include" /I\
  /FD /c 
 CPP_OBJS=.\Release/
 CPP_SBRS=.
-MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
-RSC_PROJ=/l 0x409 /fo"$(INTDIR)\obs.res" /d "NDEBUG" 
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\obsinput.bsc" 
-BSC32_SBRS= \
-	
-LINK32=link.exe
-LINK32_FLAGS=wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
- comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
- odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:no\
- /pdb:"$(OUTDIR)\obsinput.pdb" /machine:I386 /def:".\obsinput.def"\
- /out:"obsinput.pmi" /implib:"$(OUTDIR)\obsinput.lib" 
-DEF_FILE= \
-	".\obsinput.def"
-LINK32_OBJS= \
-	"$(INTDIR)\log.obj" \
-	"$(INTDIR)\mutex.obj" \
-	"$(INTDIR)\obs.res" \
-	"$(INTDIR)\obsinput.obj" \
-	"$(INTDIR)\pipeline.obj" \
-	"$(INTDIR)\pmi.obj" \
-	"$(INTDIR)\preferences.obj" \
-	"$(INTDIR)\pullbuffer.obj" \
-	"$(INTDIR)\semaphore.obj" \
-	"$(INTDIR)\streambuffer.obj" \
-	"$(INTDIR)\thread.obj" \
-	"$(INTDIR)\tstream.obj" \
-	"$(INTDIR)\win32thread.obj"
-
-".\obsinput.pmi" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
-    $(LINK32) @<<
-  $(LINK32_FLAGS) $(LINK32_OBJS)
-<<
-
-SOURCE=$(InputPath)
-DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
-
-ALL : $(DS_POSTBUILD_DEP)
-
-$(DS_POSTBUILD_DEP) : ".\obsinput.pmi"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                     ..\..\..\..\base\win32\prj\plugins
-	copy obsinput.pmi                ..\..\..\..\base\win32\prj\plugins
-	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
-
-!ELSEIF  "$(CFG)" == "obsinput - Win32 Debug"
-
-OUTDIR=.\Debug
-INTDIR=.\Debug
-
-!IF "$(RECURSE)" == "0" 
-
-ALL : ".\obsinput.pmi"
-
-!ELSE 
-
-ALL : ".\obsinput.pmi"
-
-!ENDIF 
-
-CLEAN :
-	-@erase "$(INTDIR)\log.obj"
-	-@erase "$(INTDIR)\mutex.obj"
-	-@erase "$(INTDIR)\obs.res"
-	-@erase "$(INTDIR)\obsinput.obj"
-	-@erase "$(INTDIR)\pipeline.obj"
-	-@erase "$(INTDIR)\pmi.obj"
-	-@erase "$(INTDIR)\preferences.obj"
-	-@erase "$(INTDIR)\pullbuffer.obj"
-	-@erase "$(INTDIR)\semaphore.obj"
-	-@erase "$(INTDIR)\streambuffer.obj"
-	-@erase "$(INTDIR)\thread.obj"
-	-@erase "$(INTDIR)\tstream.obj"
-	-@erase "$(INTDIR)\vc50.idb"
-	-@erase "$(INTDIR)\vc50.pdb"
-	-@erase "$(INTDIR)\win32thread.obj"
-	-@erase "$(OUTDIR)\obsinput.exp"
-	-@erase "$(OUTDIR)\obsinput.lib"
-	-@erase "$(OUTDIR)\obsinput.pdb"
-	-@erase ".\obsinput.ilk"
-	-@erase ".\obsinput.pmi"
-
-"$(OUTDIR)" :
-    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
-
-CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\\" /I "..\..\..\include" /I\
- "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
- "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
- "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include" /D "WIN32" /D "_DEBUG" /D\
- "_WINDOWS" /Fp"$(INTDIR)\obsinput.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"\
- /FD /c 
-CPP_OBJS=.\Debug/
-CPP_SBRS=.
-MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
-RSC_PROJ=/l 0x409 /fo"$(INTDIR)\obs.res" /d "_DEBUG" 
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\obsinput.bsc" 
-BSC32_SBRS= \
-	
-LINK32=link.exe
-LINK32_FLAGS=wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
- comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
- odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
- /pdb:"$(OUTDIR)\obsinput.pdb" /debug /machine:I386 /def:".\obsinput.def"\
- /out:"obsinput.pmi" /implib:"$(OUTDIR)\obsinput.lib" /pdbtype:sept 
-DEF_FILE= \
-	".\obsinput.def"
-LINK32_OBJS= \
-	"$(INTDIR)\log.obj" \
-	"$(INTDIR)\mutex.obj" \
-	"$(INTDIR)\obs.res" \
-	"$(INTDIR)\obsinput.obj" \
-	"$(INTDIR)\pipeline.obj" \
-	"$(INTDIR)\pmi.obj" \
-	"$(INTDIR)\preferences.obj" \
-	"$(INTDIR)\pullbuffer.obj" \
-	"$(INTDIR)\semaphore.obj" \
-	"$(INTDIR)\streambuffer.obj" \
-	"$(INTDIR)\thread.obj" \
-	"$(INTDIR)\tstream.obj" \
-	"$(INTDIR)\win32thread.obj"
-
-".\obsinput.pmi" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
-    $(LINK32) @<<
-  $(LINK32_FLAGS) $(LINK32_OBJS)
-<<
-
-SOURCE=$(InputPath)
-DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
-
-ALL : $(DS_POSTBUILD_DEP)
-
-$(DS_POSTBUILD_DEP) : ".\obsinput.pmi"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                     ..\..\..\..\base\win32\prj\plugins
-	copy obsinput.pmi                ..\..\..\..\base\win32\prj\plugins
-	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
-
-!ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Debug"
-
-OUTDIR=.\Debug
-INTDIR=.\Debug
-
-!IF "$(RECURSE)" == "0" 
-
-ALL : ".\obsinput.pmi"
-
-!ELSE 
-
-ALL : ".\obsinput.pmi"
-
-!ENDIF 
-
-CLEAN :
-	-@erase "$(INTDIR)\log.obj"
-	-@erase "$(INTDIR)\mutex.obj"
-	-@erase "$(INTDIR)\obs.res"
-	-@erase "$(INTDIR)\obsinput.obj"
-	-@erase "$(INTDIR)\pipeline.obj"
-	-@erase "$(INTDIR)\pmi.obj"
-	-@erase "$(INTDIR)\preferences.obj"
-	-@erase "$(INTDIR)\pullbuffer.obj"
-	-@erase "$(INTDIR)\semaphore.obj"
-	-@erase "$(INTDIR)\streambuffer.obj"
-	-@erase "$(INTDIR)\thread.obj"
-	-@erase "$(INTDIR)\tstream.obj"
-	-@erase "$(INTDIR)\vc50.idb"
-	-@erase "$(INTDIR)\vc50.pdb"
-	-@erase "$(INTDIR)\win32thread.obj"
-	-@erase "$(OUTDIR)\obsinput.exp"
-	-@erase "$(OUTDIR)\obsinput.lib"
-	-@erase "$(OUTDIR)\obsinput.pdb"
-	-@erase ".\obsinput.ilk"
-	-@erase ".\obsinput.pmi"
-
-"$(OUTDIR)" :
-    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
-
-CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\\" /I "..\..\..\include" /I\
- "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
- "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
- "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include" /D "WIN32" /D "_DEBUG" /D\
- "_WINDOWS" /Fp"$(INTDIR)\obsinput.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"\
- /FD /c 
-CPP_OBJS=.\Debug/
-CPP_SBRS=.
-MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
-RSC_PROJ=/l 0x409 /fo"$(INTDIR)\obs.res" /d "_DEBUG" 
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\obsinput.bsc" 
-BSC32_SBRS= \
-	
-LINK32=link.exe
-LINK32_FLAGS=wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
- comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
- odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
- /pdb:"$(OUTDIR)\obsinput.pdb" /debug /machine:I386 /def:".\obsinput.def"\
- /out:"obsinput.pmi" /implib:"$(OUTDIR)\obsinput.lib" /pdbtype:sept 
-DEF_FILE= \
-	".\obsinput.def"
-LINK32_OBJS= \
-	"$(INTDIR)\log.obj" \
-	"$(INTDIR)\mutex.obj" \
-	"$(INTDIR)\obs.res" \
-	"$(INTDIR)\obsinput.obj" \
-	"$(INTDIR)\pipeline.obj" \
-	"$(INTDIR)\pmi.obj" \
-	"$(INTDIR)\preferences.obj" \
-	"$(INTDIR)\pullbuffer.obj" \
-	"$(INTDIR)\semaphore.obj" \
-	"$(INTDIR)\streambuffer.obj" \
-	"$(INTDIR)\thread.obj" \
-	"$(INTDIR)\tstream.obj" \
-	"$(INTDIR)\win32thread.obj"
-
-".\obsinput.pmi" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
-    $(LINK32) @<<
-  $(LINK32_FLAGS) $(LINK32_OBJS)
-<<
-
-SOURCE=$(InputPath)
-DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
-
-ALL : $(DS_POSTBUILD_DEP)
-
-$(DS_POSTBUILD_DEP) : ".\obsinput.pmi"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                     ..\..\..\..\base\win32\prj\plugins
-	copy obsinput.pmi                ..\..\..\..\base\win32\prj\plugins
-	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
-
-!ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Release"
-
-OUTDIR=.\Release
-INTDIR=.\Release
-
-!IF "$(RECURSE)" == "0" 
-
-ALL : ".\obsinput.pmi"
-
-!ELSE 
-
-ALL : ".\obsinput.pmi"
-
-!ENDIF 
-
-CLEAN :
-	-@erase "$(INTDIR)\log.obj"
-	-@erase "$(INTDIR)\mutex.obj"
-	-@erase "$(INTDIR)\obs.res"
-	-@erase "$(INTDIR)\obsinput.obj"
-	-@erase "$(INTDIR)\pipeline.obj"
-	-@erase "$(INTDIR)\pmi.obj"
-	-@erase "$(INTDIR)\preferences.obj"
-	-@erase "$(INTDIR)\pullbuffer.obj"
-	-@erase "$(INTDIR)\semaphore.obj"
-	-@erase "$(INTDIR)\streambuffer.obj"
-	-@erase "$(INTDIR)\thread.obj"
-	-@erase "$(INTDIR)\tstream.obj"
-	-@erase "$(INTDIR)\vc50.idb"
-	-@erase "$(INTDIR)\win32thread.obj"
-	-@erase "$(OUTDIR)\obsinput.exp"
-	-@erase "$(OUTDIR)\obsinput.lib"
-	-@erase ".\obsinput.pmi"
-
-"$(OUTDIR)" :
-    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
-
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\\" /I "..\..\..\include" /I\
- "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
- "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
- "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include" /D "WIN32" /D "NDEBUG" /D\
- "_WINDOWS" /Fp"$(INTDIR)\obsinput.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"\
- /FD /c 
-CPP_OBJS=.\Release/
-CPP_SBRS=.
-MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
-RSC_PROJ=/l 0x409 /fo"$(INTDIR)\obs.res" /d "NDEBUG" 
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\obsinput.bsc" 
-BSC32_SBRS= \
-	
-LINK32=link.exe
-LINK32_FLAGS=wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
- comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
- odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:no\
- /pdb:"$(OUTDIR)\obsinput.pdb" /machine:I386 /def:".\obsinput.def"\
- /out:"obsinput.pmi" /implib:"$(OUTDIR)\obsinput.lib" 
-DEF_FILE= \
-	".\obsinput.def"
-LINK32_OBJS= \
-	"$(INTDIR)\log.obj" \
-	"$(INTDIR)\mutex.obj" \
-	"$(INTDIR)\obs.res" \
-	"$(INTDIR)\obsinput.obj" \
-	"$(INTDIR)\pipeline.obj" \
-	"$(INTDIR)\pmi.obj" \
-	"$(INTDIR)\preferences.obj" \
-	"$(INTDIR)\pullbuffer.obj" \
-	"$(INTDIR)\semaphore.obj" \
-	"$(INTDIR)\streambuffer.obj" \
-	"$(INTDIR)\thread.obj" \
-	"$(INTDIR)\tstream.obj" \
-	"$(INTDIR)\win32thread.obj"
-
-".\obsinput.pmi" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
-    $(LINK32) @<<
-  $(LINK32_FLAGS) $(LINK32_OBJS)
-<<
-
-SOURCE=$(InputPath)
-DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
-
-ALL : $(DS_POSTBUILD_DEP)
-
-$(DS_POSTBUILD_DEP) : ".\obsinput.pmi"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                     ..\..\..\..\base\win32\prj\plugins
-	copy obsinput.pmi                ..\..\..\..\base\win32\prj\plugins
-	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
-
-!ENDIF 
 
 .c{$(CPP_OBJS)}.obj::
    $(CPP) @<<
@@ -430,6 +109,429 @@ $(DS_POSTBUILD_DEP) : ".\obsinput.pmi"
    $(CPP_PROJ) $< 
 <<
 
+MTL=midl.exe
+MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\obs.res" /d "NDEBUG" 
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\obsinput.bsc" 
+BSC32_SBRS= \
+	
+LINK32=link.exe
+LINK32_FLAGS=wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
+ comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
+ odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:no\
+ /pdb:"$(OUTDIR)\obsinput.pdb" /machine:I386 /def:".\obsinput.def"\
+ /out:"obsinput.pmi" /implib:"$(OUTDIR)\obsinput.lib" 
+DEF_FILE= \
+	".\obsinput.def"
+LINK32_OBJS= \
+	"$(INTDIR)\log.obj" \
+	"$(INTDIR)\mutex.obj" \
+	"$(INTDIR)\obs.res" \
+	"$(INTDIR)\obsinput.obj" \
+	"$(INTDIR)\pipeline.obj" \
+	"$(INTDIR)\pmi.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\pullbuffer.obj" \
+	"$(INTDIR)\semaphore.obj" \
+	"$(INTDIR)\streambuffer.obj" \
+	"$(INTDIR)\thread.obj" \
+	"$(INTDIR)\tstream.obj" \
+	"$(INTDIR)\win32thread.obj"
+
+".\obsinput.pmi" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+    $(LINK32) @<<
+  $(LINK32_FLAGS) $(LINK32_OBJS)
+<<
+
+SOURCE=$(InputPath)
+DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
+
+ALL : $(DS_POSTBUILD_DEP)
+
+$(DS_POSTBUILD_DEP) : ".\obsinput.pmi"
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                      ..\..\..\..\base\win32\prj\plugins
+	copy obsinput.pmi                 ..\..\..\..\base\win32\prj\plugins
+	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
+
+!ELSEIF  "$(CFG)" == "obsinput - Win32 Debug"
+
+OUTDIR=.\Debug
+INTDIR=.\Debug
+
+!IF "$(RECURSE)" == "0" 
+
+ALL : ".\obsinput.pmi"
+
+!ELSE 
+
+ALL : ".\obsinput.pmi"
+
+!ENDIF 
+
+CLEAN :
+	-@erase "$(INTDIR)\log.obj"
+	-@erase "$(INTDIR)\mutex.obj"
+	-@erase "$(INTDIR)\obs.res"
+	-@erase "$(INTDIR)\obsinput.obj"
+	-@erase "$(INTDIR)\pipeline.obj"
+	-@erase "$(INTDIR)\pmi.obj"
+	-@erase "$(INTDIR)\preferences.obj"
+	-@erase "$(INTDIR)\pullbuffer.obj"
+	-@erase "$(INTDIR)\semaphore.obj"
+	-@erase "$(INTDIR)\streambuffer.obj"
+	-@erase "$(INTDIR)\thread.obj"
+	-@erase "$(INTDIR)\tstream.obj"
+	-@erase "$(INTDIR)\vc50.idb"
+	-@erase "$(INTDIR)\vc50.pdb"
+	-@erase "$(INTDIR)\win32thread.obj"
+	-@erase "$(OUTDIR)\obsinput.exp"
+	-@erase "$(OUTDIR)\obsinput.lib"
+	-@erase "$(OUTDIR)\obsinput.pdb"
+	-@erase ".\obsinput.ilk"
+	-@erase ".\obsinput.pmi"
+
+"$(OUTDIR)" :
+    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
+
+CPP=cl.exe
+CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\\" /I "..\..\..\include" /I\
+ "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
+ "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
+ "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include" /D "WIN32" /D "_DEBUG" /D\
+ "_WINDOWS" /Fp"$(INTDIR)\obsinput.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"\
+ /FD /c 
+CPP_OBJS=.\Debug/
+CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
+MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\obs.res" /d "_DEBUG" 
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\obsinput.bsc" 
+BSC32_SBRS= \
+	
+LINK32=link.exe
+LINK32_FLAGS=wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
+ comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
+ odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
+ /pdb:"$(OUTDIR)\obsinput.pdb" /debug /machine:I386 /def:".\obsinput.def"\
+ /out:"obsinput.pmi" /implib:"$(OUTDIR)\obsinput.lib" /pdbtype:sept 
+DEF_FILE= \
+	".\obsinput.def"
+LINK32_OBJS= \
+	"$(INTDIR)\log.obj" \
+	"$(INTDIR)\mutex.obj" \
+	"$(INTDIR)\obs.res" \
+	"$(INTDIR)\obsinput.obj" \
+	"$(INTDIR)\pipeline.obj" \
+	"$(INTDIR)\pmi.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\pullbuffer.obj" \
+	"$(INTDIR)\semaphore.obj" \
+	"$(INTDIR)\streambuffer.obj" \
+	"$(INTDIR)\thread.obj" \
+	"$(INTDIR)\tstream.obj" \
+	"$(INTDIR)\win32thread.obj"
+
+".\obsinput.pmi" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+    $(LINK32) @<<
+  $(LINK32_FLAGS) $(LINK32_OBJS)
+<<
+
+SOURCE=$(InputPath)
+DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
+
+ALL : $(DS_POSTBUILD_DEP)
+
+$(DS_POSTBUILD_DEP) : ".\obsinput.pmi"
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                      ..\..\..\..\base\win32\prj\plugins
+	copy obsinput.pmi                 ..\..\..\..\base\win32\prj\plugins
+	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
+
+!ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Debug"
+
+OUTDIR=.\Debug
+INTDIR=.\Debug
+
+!IF "$(RECURSE)" == "0" 
+
+ALL : ".\obsinput.pmi"
+
+!ELSE 
+
+ALL : ".\obsinput.pmi"
+
+!ENDIF 
+
+CLEAN :
+	-@erase "$(INTDIR)\log.obj"
+	-@erase "$(INTDIR)\mutex.obj"
+	-@erase "$(INTDIR)\obs.res"
+	-@erase "$(INTDIR)\obsinput.obj"
+	-@erase "$(INTDIR)\pipeline.obj"
+	-@erase "$(INTDIR)\pmi.obj"
+	-@erase "$(INTDIR)\preferences.obj"
+	-@erase "$(INTDIR)\pullbuffer.obj"
+	-@erase "$(INTDIR)\semaphore.obj"
+	-@erase "$(INTDIR)\streambuffer.obj"
+	-@erase "$(INTDIR)\thread.obj"
+	-@erase "$(INTDIR)\tstream.obj"
+	-@erase "$(INTDIR)\vc50.idb"
+	-@erase "$(INTDIR)\vc50.pdb"
+	-@erase "$(INTDIR)\win32thread.obj"
+	-@erase "$(OUTDIR)\obsinput.exp"
+	-@erase "$(OUTDIR)\obsinput.lib"
+	-@erase "$(OUTDIR)\obsinput.pdb"
+	-@erase ".\obsinput.ilk"
+	-@erase ".\obsinput.pmi"
+
+"$(OUTDIR)" :
+    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
+
+CPP=cl.exe
+CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\\" /I "..\..\..\include" /I\
+ "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
+ "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
+ "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include" /D "WIN32" /D "_DEBUG" /D\
+ "_WINDOWS" /Fp"$(INTDIR)\obsinput.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"\
+ /FD /c 
+CPP_OBJS=.\Debug/
+CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
+MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\obs.res" /d "_DEBUG" 
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\obsinput.bsc" 
+BSC32_SBRS= \
+	
+LINK32=link.exe
+LINK32_FLAGS=wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
+ comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
+ odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
+ /pdb:"$(OUTDIR)\obsinput.pdb" /debug /machine:I386 /def:".\obsinput.def"\
+ /out:"obsinput.pmi" /implib:"$(OUTDIR)\obsinput.lib" /pdbtype:sept 
+DEF_FILE= \
+	".\obsinput.def"
+LINK32_OBJS= \
+	"$(INTDIR)\log.obj" \
+	"$(INTDIR)\mutex.obj" \
+	"$(INTDIR)\obs.res" \
+	"$(INTDIR)\obsinput.obj" \
+	"$(INTDIR)\pipeline.obj" \
+	"$(INTDIR)\pmi.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\pullbuffer.obj" \
+	"$(INTDIR)\semaphore.obj" \
+	"$(INTDIR)\streambuffer.obj" \
+	"$(INTDIR)\thread.obj" \
+	"$(INTDIR)\tstream.obj" \
+	"$(INTDIR)\win32thread.obj"
+
+".\obsinput.pmi" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+    $(LINK32) @<<
+  $(LINK32_FLAGS) $(LINK32_OBJS)
+<<
+
+SOURCE=$(InputPath)
+DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
+
+ALL : $(DS_POSTBUILD_DEP)
+
+$(DS_POSTBUILD_DEP) : ".\obsinput.pmi"
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                      ..\..\..\..\base\win32\prj\plugins
+	copy obsinput.pmi                 ..\..\..\..\base\win32\prj\plugins
+	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
+
+!ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Release"
+
+OUTDIR=.\Release
+INTDIR=.\Release
+
+!IF "$(RECURSE)" == "0" 
+
+ALL : ".\obsinput.pmi"
+
+!ELSE 
+
+ALL : ".\obsinput.pmi"
+
+!ENDIF 
+
+CLEAN :
+	-@erase "$(INTDIR)\log.obj"
+	-@erase "$(INTDIR)\mutex.obj"
+	-@erase "$(INTDIR)\obs.res"
+	-@erase "$(INTDIR)\obsinput.obj"
+	-@erase "$(INTDIR)\pipeline.obj"
+	-@erase "$(INTDIR)\pmi.obj"
+	-@erase "$(INTDIR)\preferences.obj"
+	-@erase "$(INTDIR)\pullbuffer.obj"
+	-@erase "$(INTDIR)\semaphore.obj"
+	-@erase "$(INTDIR)\streambuffer.obj"
+	-@erase "$(INTDIR)\thread.obj"
+	-@erase "$(INTDIR)\tstream.obj"
+	-@erase "$(INTDIR)\vc50.idb"
+	-@erase "$(INTDIR)\win32thread.obj"
+	-@erase "$(OUTDIR)\obsinput.exp"
+	-@erase "$(OUTDIR)\obsinput.lib"
+	-@erase ".\obsinput.pmi"
+
+"$(OUTDIR)" :
+    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
+
+CPP=cl.exe
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /Op /Ob2 /I "..\..\\" /I "..\..\..\include" /I\
+ "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
+ "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
+ "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include" /D "WIN32" /D "NDEBUG" /D\
+ "_WINDOWS" /Fp"$(INTDIR)\obsinput.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"\
+ /FD /c 
+CPP_OBJS=.\Release/
+CPP_SBRS=.
+
+.c{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_OBJS)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(CPP_SBRS)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
+MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /o NUL /win32 
+RSC=rc.exe
+RSC_PROJ=/l 0x409 /fo"$(INTDIR)\obs.res" /d "NDEBUG" 
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\obsinput.bsc" 
+BSC32_SBRS= \
+	
+LINK32=link.exe
+LINK32_FLAGS=wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
+ comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
+ odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:no\
+ /pdb:"$(OUTDIR)\obsinput.pdb" /machine:I386 /def:".\obsinput.def"\
+ /out:"obsinput.pmi" /implib:"$(OUTDIR)\obsinput.lib" 
+DEF_FILE= \
+	".\obsinput.def"
+LINK32_OBJS= \
+	"$(INTDIR)\log.obj" \
+	"$(INTDIR)\mutex.obj" \
+	"$(INTDIR)\obs.res" \
+	"$(INTDIR)\obsinput.obj" \
+	"$(INTDIR)\pipeline.obj" \
+	"$(INTDIR)\pmi.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\pullbuffer.obj" \
+	"$(INTDIR)\semaphore.obj" \
+	"$(INTDIR)\streambuffer.obj" \
+	"$(INTDIR)\thread.obj" \
+	"$(INTDIR)\tstream.obj" \
+	"$(INTDIR)\win32thread.obj"
+
+".\obsinput.pmi" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+    $(LINK32) @<<
+  $(LINK32_FLAGS) $(LINK32_OBJS)
+<<
+
+SOURCE=$(InputPath)
+DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
+
+ALL : $(DS_POSTBUILD_DEP)
+
+$(DS_POSTBUILD_DEP) : ".\obsinput.pmi"
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                      ..\..\..\..\base\win32\prj\plugins
+	copy obsinput.pmi                 ..\..\..\..\base\win32\prj\plugins
+	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
+
+!ENDIF 
+
 
 !IF "$(CFG)" == "obsinput - Win32 Release" || "$(CFG)" ==\
  "obsinput - Win32 Debug" || "$(CFG)" == "obsinput - Win32 NASM Debug" ||\
@@ -440,28 +542,28 @@ SOURCE=..\..\..\..\config\config.win32
 
 InputPath=..\..\..\..\config\config.win32
 
-"..\..\..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\..\config\config.win32 ..\..\..\..\config\config.h
 
 !ELSEIF  "$(CFG)" == "obsinput - Win32 Debug"
 
 InputPath=..\..\..\..\config\config.win32
 
-"..\..\..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\..\config\config.win32 ..\..\..\..\config\config.h
 
 !ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Debug"
 
 InputPath=..\..\..\..\config\config.win32
 
-"..\..\..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\..\config\config.win32 ..\..\..\..\config\config.h
 
 !ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Release"
 
 InputPath=..\..\..\..\config\config.win32
 
-"..\..\..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"..\..\..\..\config\config.h"	 : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	copy ..\..\..\..\config\config.win32 ..\..\..\..\config\config.h
 
 !ENDIF 
@@ -491,7 +593,7 @@ SOURCE=..\res\obs.rc
 
 "$(INTDIR)\obs.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i\
- "\Local\src\freeamp\io\obs\win32\res" /d "NDEBUG" $(SOURCE)
+ "\Local\src\freeamp1.5\io\obs\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "obsinput - Win32 Debug"
@@ -499,7 +601,7 @@ SOURCE=..\res\obs.rc
 
 "$(INTDIR)\obs.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i\
- "\Local\src\freeamp\io\obs\win32\res" /d "_DEBUG" $(SOURCE)
+ "\Local\src\freeamp1.5\io\obs\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Debug"
@@ -507,7 +609,7 @@ SOURCE=..\res\obs.rc
 
 "$(INTDIR)\obs.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i\
- "\Local\src\freeamp\io\obs\win32\res" /d "_DEBUG" $(SOURCE)
+ "\Local\src\freeamp1.5\io\obs\win32\res" /d "_DEBUG" $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Release"
@@ -515,7 +617,7 @@ SOURCE=..\res\obs.rc
 
 "$(INTDIR)\obs.res" : $(SOURCE) "$(INTDIR)"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\obs.res" /i\
- "\Local\src\freeamp\io\obs\win32\res" /d "NDEBUG" $(SOURCE)
+ "\Local\src\freeamp1.5\io\obs\win32\res" /d "NDEBUG" $(SOURCE)
 
 
 !ENDIF 
@@ -530,10 +632,15 @@ DEP_CPP_OBSIN=\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -559,10 +666,15 @@ DEP_CPP_OBSIN=\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -587,10 +699,15 @@ DEP_CPP_OBSIN=\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -615,10 +732,15 @@ DEP_CPP_OBSIN=\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -647,12 +769,16 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -678,12 +804,16 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -709,12 +839,16 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -740,12 +874,16 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -775,11 +913,15 @@ DEP_CPP_PMI_C=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -801,11 +943,15 @@ DEP_CPP_PMI_C=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -827,11 +973,15 @@ DEP_CPP_PMI_C=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -853,11 +1003,15 @@ DEP_CPP_PMI_C=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
@@ -875,9 +1029,6 @@ DEP_CPP_PMI_C=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\src\preferences.cpp
-
-!IF  "$(CFG)" == "obsinput - Win32 Release"
-
 DEP_CPP_PREFE=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
@@ -888,47 +1039,6 @@ DEP_CPP_PREFE=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "obsinput - Win32 Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Release"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\src\pullbuffer.cpp
 
@@ -1095,6 +1205,7 @@ DEP_CPP_THREA=\
 	"..\..\..\..\config\config.h"\
 	
 NODEP_CPP_THREA=\
+	"..\..\..\..\base\src\beosthread.h"\
 	"..\..\..\..\base\src\linuxthread.h"\
 	"..\..\..\..\base\src\solaristhread.h"\
 	
@@ -1138,6 +1249,7 @@ DEP_CPP_THREA=\
 	"..\..\..\..\config\config.h"\
 	
 NODEP_CPP_THREA=\
+	"..\..\..\..\base\src\beosthread.h"\
 	"..\..\..\..\base\src\linuxthread.h"\
 	"..\..\..\..\base\src\solaristhread.h"\
 	
@@ -1158,11 +1270,16 @@ DEP_CPP_TSTRE=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\tstream.h"\
 	
@@ -1179,11 +1296,16 @@ DEP_CPP_TSTRE=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\tstream.h"\
 	
@@ -1200,11 +1322,16 @@ DEP_CPP_TSTRE=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\tstream.h"\
 	
@@ -1221,11 +1348,16 @@ DEP_CPP_TSTRE=\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
+	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\plmevent.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\tstream.h"\
 	

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.16 1999/10/02 00:40:13 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.17 1999/10/02 08:46:47 robert Exp $
 
 RELOC = @FPIC@
 
@@ -44,7 +44,7 @@ PLUGINS += plugins/irman.ui
 PLUGINS += plugins/xingmp3.lmc
 
 PLUGINS += plugins/id3v1.mdf
-# PLUGINS += plugins/id3v2.mdf  not yet...
+PLUGINS += plugins/id3v2.mdf
 
 PLUGINS += plugins/m3u.plf
 

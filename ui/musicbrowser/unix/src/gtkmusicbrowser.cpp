@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.11 1999/10/03 04:49:25 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.12 1999/10/04 17:57:58 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -78,28 +78,34 @@ void tree_clicked(GtkWidget *widget, GdkEventButton *event, MusicBrowserUI *p)
     if (!item || (item->parent != widget))
         return;
 
-    vector<PlaylistItem *> *newlist = new vector<PlaylistItem *>;
     int type = (int)gtk_object_get_data(GTK_OBJECT(item), "type");
     switch (type) {
         case 1: {
             ArtistList *list = (ArtistList *)gtk_object_get_user_data(GTK_OBJECT(item));
             vector<AlbumList *>::iterator i = list->m_albumList->begin();
-            for (; i != list->m_albumList->end(); i++)
-                newlist->insert(newlist->end(), (*i)->m_trackList->begin(), 
-                                (*i)->m_trackList->end());
+            for (; i != list->m_albumList->end(); i++) {
+                vector<PlaylistItem *>::iterator j = (*i)->m_trackList->begin();
+                for (; j != (*i)->m_trackList->end(); j++) {
+                    PlaylistItem *item = new PlaylistItem(*(PlaylistItem *)*j);
+                    p->AddTrackPlaylistEvent(item);
+                }
+            }
             break; }
         case 2: {
             AlbumList *list = (AlbumList *)gtk_object_get_user_data(GTK_OBJECT(item));
-            newlist->insert(newlist->end(), list->m_trackList->begin(), 
-                            list->m_trackList->end());
+            vector<PlaylistItem *>::iterator j = list->m_trackList->begin();
+            for (; j != list->m_trackList->end(); j++) {
+                PlaylistItem *item = new PlaylistItem(*(PlaylistItem *)*j);
+                p->AddTrackPlaylistEvent(item);
+            }
             break; }
         case 3: {
-            PlaylistItem *i = (PlaylistItem *)gtk_object_get_user_data(GTK_OBJECT(item));
-            newlist->push_back(i);
+            PlaylistItem *i = new PlaylistItem(*(PlaylistItem *)gtk_object_get_user_data(GTK_OBJECT(item)));
+            p->AddTrackPlaylistEvent(i);
             break; }
         case 4: {
-            PlaylistItem *i = (PlaylistItem *)gtk_object_get_user_data(GTK_OBJECT(item));
-            newlist->push_back(i);
+            PlaylistItem *i = new PlaylistItem(*(PlaylistItem *)gtk_object_get_user_data(GTK_OBJECT(item)));
+            p->AddTrackPlaylistEvent(i);
             break; }
         case 5: {
 //            char *fname = (char *)gtk_object_get_user_data(GTK_OBJECT(item));
@@ -107,10 +113,6 @@ void tree_clicked(GtkWidget *widget, GdkEventButton *event, MusicBrowserUI *p)
         default:
             break;
     }
-    if (newlist->begin() != newlist->end())
-        p->AddTracks(newlist);
-
-    delete newlist;
 }
 
 void MusicBrowserUI::UpdateCatalog(void)

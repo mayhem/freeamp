@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.14.8.4 1999/09/16 00:03:59 ijr Exp $
+	$Id: config.h.in,v 1.14.8.5 1999/10/04 17:57:58 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -30,6 +30,7 @@ ____________________________________________________________________________*/
 #define FREEAMP_PATH_ENV "FREEAMP_PATH"
 #define FREEAMP_VERSION "unknown"
 
+#undef HAVE_GTK
 
 #define HAVE_UNISTD_H 0
 #define HAVE_IO_H 0

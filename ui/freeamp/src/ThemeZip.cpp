@@ -18,13 +18,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.1.2.2 1999/10/01 15:22:34 ijr Exp $
+   $Id: ThemeZip.cpp,v 1.1.2.3 1999/10/04 17:57:59 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
+#include "config.h"
 #ifdef WIN32
 #include <winsock.h>
 #else
+#undef socklen_t
 #include <netinet/in.h>
 #endif
 #include "zlib.h"
@@ -83,11 +85,7 @@ Error ThemeZip::CompressThemeZip(const string &oDestFile,
 
        oFile = *(*i);
        printf("File: %s\n", oFile.c_str());
-#ifndef WIN32
-       pPtr = strrchr(oFile.c_str(), '/');
-#else
-       pPtr = strrchr(oFile.c_str(), '\\');
-#endif
+       pPtr = strrchr(oFile.c_str(), DIR_MARKER);
        if (pPtr)
            oFile.erase(0, ((int)pPtr - (int)oFile.c_str()) + 1);
        printf("File: %s\n", oFile.c_str());
@@ -219,11 +217,7 @@ Error ThemeZip::DecompressThemeZip(const string &oSrcFile,
            delete pBuffer;
            return kError_ReadFile;
        }
-#ifdef WIN32
-       oFile = oDestPath + string("\\") + string(pFileBuffer);
-#else
-       oFile = oDestPath + string("/") + string(pFileBuffer);
-#endif       
+       oFile = oDestPath + string(DIR_MARKER_STR) + string(pFileBuffer);
        delete pFileBuffer;
 
        pOut = fopen(oFile.c_str(), "wb");

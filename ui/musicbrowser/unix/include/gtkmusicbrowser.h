@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.1.2.8 1999/10/03 04:49:25 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.1.2.9 1999/10/04 17:57:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -118,7 +118,8 @@ class MusicBrowserUI : public UserInterface {
     void MoveDownEvent();
     void MoveItemEvent(int source, int dest);
     void AddTrackPlaylistEvent(char *path);
-    void AddTracks(vector<PlaylistItem *> *newlist);
+    void AddTrackPlaylistEvent(PlaylistItem *newitem);
+    void AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist);
     void PlayEvent();
     void StartMusicSearch();
     void SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType type);

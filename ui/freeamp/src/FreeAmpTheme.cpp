@@ -18,14 +18,16 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.32 1999/10/04 02:42:35 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.33 1999/10/04 17:57:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
-#ifndef WIN32
+#include "config.h"
+
+#ifdef HAVE_GTK
 #include "GTKUtility.h"
 #include "GTKPreferenceWindow.h"
-#else
+#elif defined(WIN32)
 #include "Win32PreferenceWindow.h"
 #endif
 
@@ -65,7 +67,7 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
    m_bPlayShown = true;
    m_oTitle = string("");
 
-#ifndef WIN32
+#ifdef HAVE_GTK
     // This needs to be done before _any_ gdk/gtk calls, so really needs
     // go here...
     // RAK: This would actually make sense to put into Theme.cpp
@@ -139,7 +141,7 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
    iLen = 255; 
    m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
    SetDefaultFont(string(szTemp));
-  
+ 
    eRet = LoadTheme(oThemeFile);
    if (IsError(eRet))					   
    {
@@ -158,7 +160,7 @@ Error FreeAmpTheme::Close(void)
     Theme::Close();
     
     m_uiThread->Join();
-#ifndef WIN32
+#ifdef HAVE_GTK 
     ShutdownGTK();
 #endif
     return kError_NoErr;

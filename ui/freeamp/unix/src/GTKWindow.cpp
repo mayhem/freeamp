@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.11 1999/10/02 18:09:09 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.12 1999/10/04 17:57:59 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -63,6 +63,14 @@ void button_up(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     gdk_threads_enter();
 }
 
+void key_press(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
+{
+    char *str = e->key.string;
+    gdk_threads_leave();
+    ui->Keystroke(str[0]);
+    gdk_threads_enter();
+}
+
 gint do_timeout(GTKWindow *ui)
 {
     ui->TimerEvent();
@@ -104,13 +112,12 @@ Error GTKWindow::Run(Pos &oPos)
     gtk_widget_set_app_paintable(mainWindow, TRUE);
     gtk_window_set_title(GTK_WINDOW(mainWindow), "FreeAmp");
     gtk_window_set_policy(GTK_WINDOW(mainWindow), TRUE, TRUE, TRUE);
-    gtk_signal_connect(GTK_OBJECT(mainWindow), "destroy",
-                       GTK_SIGNAL_FUNC(gtk_widget_destroy), NULL);
     gtk_widget_set_uposition(mainWindow, m_oWindowPos.x, m_oWindowPos.y);
     gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
     gtk_widget_set_events(mainWindow, GDK_SUBSTRUCTURE_MASK | GDK_STRUCTURE_MASK
                           | GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | 
-                          GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
+                          GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
+                          GDK_KEY_PRESS_MASK);
     gtk_widget_realize(mainWindow);
 
     gtk_signal_connect(GTK_OBJECT(mainWindow), "motion_notify_event",
@@ -119,6 +126,8 @@ Error GTKWindow::Run(Pos &oPos)
                        GTK_SIGNAL_FUNC(button_down), this);
     gtk_signal_connect(GTK_OBJECT(mainWindow), "button_release_event",
                        GTK_SIGNAL_FUNC(button_up), this);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "key_press_event",
+                       GTK_SIGNAL_FUNC(key_press), this);
     gdk_window_set_decorations(mainWindow->window, (GdkWMDecoration)0);
     gdk_threads_leave();
     
@@ -150,8 +159,9 @@ Error GTKWindow::Close(void)
     Rect oRect;
     Pos oPos;
    
-    if (!mainWindow)
+    if (quitLoop)
         return kError_NoErr;
+    gdk_threads_enter();
     gtk_timeout_remove(gtkTimer);
     GetWindowPosition(oRect);
     oPos.x = oRect.x1;
@@ -159,6 +169,7 @@ Error GTKWindow::Close(void)
     SaveWindowPos(oPos);
     gtk_widget_destroy(mainWindow);
     gdk_flush();
+    gdk_threads_leave();
     quitLoop = true;
     return kError_NoErr;
 }
@@ -194,7 +205,11 @@ Error GTKWindow::SetTitle(string &oTitle)
 Error GTKWindow::CaptureMouse(bool bCapture)
 {
     if (bCapture) {
-        gdk_pointer_grab(mainWindow->window, FALSE, (GdkEventMask)(GDK_SUBSTRUCTURE_MASK | GDK_STRUCTURE_MASK | GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK), mainWindow->window, NULL, 0);
+        gdk_pointer_grab(mainWindow->window, FALSE, (GdkEventMask)
+                         (GDK_SUBSTRUCTURE_MASK | GDK_STRUCTURE_MASK | 
+                          GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | 
+                          GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK), 
+                          mainWindow->window, NULL, 0);
     }
     else {
         gdk_pointer_ungrab(0);

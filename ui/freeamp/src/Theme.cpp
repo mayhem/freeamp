@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.18 1999/10/04 00:29:00 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.19 1999/10/04 17:57:59 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -31,6 +31,7 @@ ____________________________________________________________________________*/
 #include "TextControl.h"
 #include "MultiStateControl.h"
 #include "debug.h"
+#include "config.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
@@ -38,7 +39,7 @@ ____________________________________________________________________________*/
 #include "Win32Window.h"
 #include "Win32Bitmap.h"
 #include "Win32Font.h"
-#else
+#elif defined(HAVE_GTK)
 #include "GTKWindow.h"
 #include "GTKBitmap.h"
 #include "GTKFont.h"
@@ -115,11 +116,7 @@ void Theme::ClearFonts(void)
 
 void Theme::SetThemePath(string &oThemePath)
 {
-#ifdef WIN32
-	m_oThemePath = oThemePath + string("\\");
-#else    
-	m_oThemePath = oThemePath + string("/");
-#endif
+	m_oThemePath = oThemePath + string(DIR_MARKER_STR);
 }
 
 Error Theme::LoadTheme(string &oFile)
@@ -287,10 +284,10 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        Bitmap *pBitmap;
        Color   oColor;
 
-#ifndef WIN32
-       pBitmap = new GTKBitmap(oAttrMap["Name"]);
-#else
+#ifdef WIN32
        pBitmap = new Win32Bitmap(oAttrMap["Name"]);
+#elif defined(HAVE_GTK)
+       pBitmap = new GTKBitmap(oAttrMap["Name"]);
 #endif
 
 	   if (oAttrMap.find("TransColor") != oAttrMap.end())
@@ -341,10 +338,10 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_ParseError;
        }        
 
-#ifndef WIN32
-       pFont = new GTKFont(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
-#else
+#ifdef WIN32
        pFont = new Win32Font(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
+#elif defined (HAVE_GTK)
+       pFont = new GTKFont(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
 #endif
        if (!m_pParsedFonts)
            m_pParsedFonts = new vector<Font *>;
@@ -366,10 +363,10 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_ParseError;
        }        
 
-#ifndef WIN32
-       m_pCurrentWindow = new GTKWindow(this, oAttrMap["Name"]);
-#else
+#ifdef WIN32
        m_pCurrentWindow = new Win32Window(this, oAttrMap["Name"]);
+#elif defined(HAVE_GTK)
+       m_pCurrentWindow = new GTKWindow(this, oAttrMap["Name"]);
 #endif
 
        return kError_NoErr;

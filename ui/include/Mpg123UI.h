@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: Mpg123UI.h,v 1.2 1998/10/12 03:44:39 jdw Exp $
 ____________________________________________________________________________*/
 
 // Mpg123UI.h
@@ -43,6 +43,7 @@ class Mpg123UI : public CIO,public COO {
     float totalTime;
     int32 skipFirst;
     char fileName[512];
+    float lastSeconds;
 };
 
 

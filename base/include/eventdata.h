@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: eventdata.h,v 1.2 1998/10/12 03:44:19 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -27,6 +27,49 @@ ____________________________________________________________________________*/
 
 #include <iostream.h>
 #include <string.h>
+
+class Id3TagInfo {
+ public:
+    bool contains_info;
+
+    char songname[31];
+    char artist[31];
+    char album[31];
+    char year[5];
+    char comment[31];
+    char genre;
+
+    Id3TagInfo() {
+	contains_info = false;
+	nullinit();
+    }
+
+    Id3TagInfo(char *buffer) {
+	if (buffer && (!strncmp(buffer,"TAG",3))) {
+	    memset(this,0,sizeof(Id3TagInfo));
+	    contains_info = true;
+	    strncpy(songname, buffer + 3, 30);
+	    strncpy(artist, buffer + 33, 30);
+	    strncpy(album, buffer + 63, 30);
+	    strncpy(year, buffer + 93, 4);
+	    strncpy(comment, buffer + 97, 30);
+	    genre = buffer[127];
+	} else {
+	    contains_info = false;
+	    nullinit();
+	}
+    }
+
+ private:
+    nullinit() {
+	*songname = '\0';
+	*artist = '\0';
+	*album = '\0';
+	*year = '\0';
+	*comment = '\0';
+	genre = '\0';
+    }
+};
 
 // Sent on INFO_MediaTimePosition
 
@@ -50,7 +93,10 @@ class MediaVitalInfo {
     int32 bps;  // bits per second
     int32 freq; // is Hz
     float totalTime;
-    MediaVitalInfo(const char *t,const char *fn, int32 tf, int32 bpf, int32 bitspersecond, int32 fr, float tt) {
+    Id3TagInfo tagInfo;
+
+    MediaVitalInfo(const char *t,const char *fn, int32 tf, int32 bpf, int32 bitspersecond, int32 fr, float tt, Id3TagInfo &tag) {
+	tagInfo = tag;
 	totalFrames = tf;
 	bytesPerFrame = bpf;
 	bps = bitspersecond;

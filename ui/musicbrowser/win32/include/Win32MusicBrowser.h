@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.21 1999/11/10 09:54:47 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.22 1999/11/10 10:12:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -223,6 +223,7 @@ class MusicBrowserUI : public UserInterface
     void    AddTrackURLs(TV_ITEM* tv_item, vector<string>* urls);
     void    AddAllTrackURLs(vector<string>* urls);
     void    AddUncatagorizedTrackURLs(vector<string>* urls);
+    void    AddSelectedPlaylistItems(vector<string>* urls);
 
     // Data members
     EventQueue          *m_playerEQ;

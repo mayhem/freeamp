@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.7 2000/03/07 04:05:40 robert Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.8 2000/03/07 05:07:21 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -956,7 +956,7 @@ Error DownloadManager::Download(DownloadItem* item)
                                     SendProgressMessage(item);
                                 }
 
-                                if(count < 0)
+                                if(count < 0) 
                                     result = kError_IOError;
                                 
                                 if(wcount < 0)

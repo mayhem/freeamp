@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.59.2.1.2.2 2000/03/05 23:04:54 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.59.2.1.2.3 2000/03/07 05:07:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1874,7 +1874,7 @@ void GTKMusicBrowser::AddPlaylistItems(vector<PlaylistItem *> *items)
         iText[3] = length;
 
         gtk_clist_insert(GTK_CLIST(playlistList), pos, iText);
-        
+
         if (pos < minpos)
             minpos = pos;
     }
@@ -2009,7 +2009,17 @@ void GTKMusicBrowser::UpdatePlaylistList(void)
 
     gtk_clist_select_row(GTK_CLIST(playlistList), m_currentindex, 0);
     gtk_clist_moveto(GTK_CLIST(playlistList), m_currentindex, 0, 0.5, -1);
+    ChangeCurrentPlayingIndex(m_playingindex, m_playingindex);
     gtk_clist_thaw(GTK_CLIST(playlistList));
+}
+
+void GTKMusicBrowser::ChangeCurrentPlayingIndex(uint32 oldindex, 
+                                                uint32 newindex)
+{
+    if (oldindex != kInvalidIndex) 
+        gtk_clist_set_row_style(GTK_CLIST(playlistList), oldindex, normStyle);
+    gtk_clist_set_row_style(GTK_CLIST(playlistList), newindex, boldStyle);
+    gtk_clist_columns_autosize(GTK_CLIST(playlistList));
 }
 
 void list_keypress(GtkWidget *w, GdkEventKey *ev, GTKMusicBrowser *p)
@@ -2242,6 +2252,15 @@ void GTKMusicBrowser::CreatePlaylist(void)
     gtk_box_pack_start(GTK_BOX(hbox), playlistwindow, TRUE, TRUE, 5);
     gtk_widget_set_usize(playlistwindow, 200, 200);
     gtk_widget_show(playlistwindow);
+
+    normStyle = gtk_style_copy(gtk_widget_get_style(musicBrowser));
+    boldStyle = gtk_style_copy(normStyle);
+
+    GdkFont *font =
+            gdk_font_load("-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*");     if (!font)
+        font = gdk_font_load("fixed");
+    boldStyle->font = font;
+    gdk_font_ref(boldStyle->font);
 
     CreatePlaylistList(playlistwindow);
 
@@ -2953,7 +2972,13 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
             }
             break; }
         case INFO_PlaylistCurrentItemInfo: {
-            m_playingindex = m_plm->GetCurrentIndex();
+            int temp = m_plm->GetCurrentIndex();
+            if (isVisible) {
+                gdk_threads_enter();
+                ChangeCurrentPlayingIndex(m_playingindex, temp);   
+                gdk_threads_leave();
+            }
+            m_playingindex = temp;
             break; } 
         default:
             break;

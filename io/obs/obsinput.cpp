@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.32 2000/06/22 15:27:17 elrod Exp $
+        $Id: obsinput.cpp,v 1.33 2000/10/02 08:03:44 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -309,7 +309,7 @@ void ObsInput::StartWorkerThread(void *pVoidBuffer)
 void ObsInput::WorkerThread(void)
 {
    int             iRead, iPacketNum = -1, iCurrNum, iRet, iHeaderSize;
-   socklen_t       iStructSize;
+   fa_socklen_t    iStructSize;
    RTPHeader      *pHeader;
    void           *pBuffer;
    unsigned        char *pTemp;

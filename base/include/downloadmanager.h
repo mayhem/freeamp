@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.13 2000/08/30 09:20:53 ijr Exp $
+	$Id: downloadmanager.h,v 1.14 2000/10/02 08:03:44 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -34,7 +34,6 @@ ____________________________________________________________________________*/
 #ifdef WIN32
 #include <io.h>
 #else
-#undef socklen_t
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <sys/socket.h>

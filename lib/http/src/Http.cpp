@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.14 2000/09/28 08:08:01 ijr Exp $
+   $Id: Http.cpp,v 1.15 2000/10/02 08:03:44 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -35,7 +35,6 @@ ____________________________________________________________________________*/
 #ifdef WIN32
 #include <io.h>
 #else
-#undef socklen_t
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <netdb.h>

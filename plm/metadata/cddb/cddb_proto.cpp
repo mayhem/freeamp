@@ -18,11 +18,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb_proto.cpp,v 1.9 2000/06/22 15:13:36 elrod Exp $
+	$Id: cddb_proto.cpp,v 1.10 2000/10/02 08:03:44 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
-#undef socklen_t
 
 #include <stdio.h>
 #include <stdlib.h>

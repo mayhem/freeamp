@@ -20,14 +20,13 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-        $Id: cdaudio.cpp,v 1.4 2000/08/30 14:56:45 ijr Exp $
+        $Id: cdaudio.cpp,v 1.5 2000/10/02 08:03:44 ijr Exp $
 ____________________________________________________________________________*/
 
 
 /* hacked from libcdaudio */
 
 #include <config.h>
-#undef socklen_t
 
 #include <stdio.h>
 #include <stdarg.h>

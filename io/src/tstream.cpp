@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.18 2000/09/29 09:00:15 robert Exp $
+   $Id: tstream.cpp,v 1.19 2000/10/02 08:03:44 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -49,13 +49,6 @@ ____________________________________________________________________________*/
 #include "facontext.h"
 #include "log.h"
 #include "eventdata.h"
-
-#ifdef irix
-#ifdef socklen_t
-#undef socklen_t
-#endif
-#define socklen_t int
-#endif
 
 #if !defined(WIN32) && !defined(__BEOS__)
 #define closesocket(s) close(s)
@@ -270,7 +263,7 @@ WorkerThread(void)
    fd_set    sSet;
    struct timeval sTv;
    int       iRet, go_on = 1;
-   socklen_t iStructSize;
+   fa_socklen_t iStructSize;
 
    for (; !m_bExit;)
    {

@@ -20,7 +20,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-        $Id: cdaudio.cpp,v 1.5 2000/10/02 08:03:44 ijr Exp $
+        $Id: cdaudio.cpp,v 1.6 2001/01/12 02:29:52 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -39,7 +39,6 @@ ____________________________________________________________________________*/
 #include <cdaudio.h>
 #include <errno.h>
 #include <unistd.h>
-#include <netinet/in.h>
 
 /* We can check to see if the CD-ROM is mounted if this is available */
 #ifdef HAVE_MNTENT_H

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.20 2000/01/23 05:16:51 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.21 2000/02/02 23:13:51 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -212,8 +212,10 @@ void MusicBrowserUI::WindowClose(GTKMusicBrowser *oldUI)
     vector<GTKMusicBrowser *>::iterator
         loc = find(browserWindows.begin(), browserWindows.end(), oldUI);
 
-    if (loc != browserWindows.end())
+    if (loc != browserWindows.end()) {
+        delete *loc;
         browserWindows.erase(loc);
+    }
 }
 
 void MusicBrowserUI::StartSearch(bool runMain, bool intro)

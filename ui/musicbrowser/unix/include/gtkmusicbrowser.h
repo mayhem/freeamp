@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.22 2000/01/23 00:49:26 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.23 2000/02/02 23:13:51 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -103,10 +103,8 @@ class GTKMusicBrowser {
     int pauseState;
     int stopState;
 
- protected:
-    FAContext *m_context;
-
  private:
+    FAContext *m_context;
     MusicBrowserUI *parentUI;
 
     bool isVisible;
@@ -209,7 +207,6 @@ class GTKMusicBrowser {
 
     void ExpandCollapseEvent();
     void ToggleVisEvent();
-    void ToggleVisEventDestroyed();
 
     void AddFileCMD();
     void DeleteListEvent();

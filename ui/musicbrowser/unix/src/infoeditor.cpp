@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.7 1999/12/18 16:57:20 ijr Exp $
+        $Id: infoeditor.cpp,v 1.8 2000/02/02 23:13:51 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "utility.h"
@@ -64,11 +64,6 @@ void infoeditorUI::DoApplyInfoEdit(void)
 gint info_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
     return FALSE;
-}
-
-void info_destroy(GtkWidget *widget, infoeditorUI *p)
-{
-    delete p;
 }
 
 void info_ok_button_event(GtkWidget *widget, infoeditorUI *p)

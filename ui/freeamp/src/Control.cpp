@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.9 2000/02/14 22:03:38 robert Exp $
+   $Id: Control.cpp,v 1.9.2.1 2000/02/23 18:16:20 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -239,15 +239,15 @@ void Control::Erase(void)
     pCanvas->Erase(m_oRect);
 }
 
-void Control::BlitFrame(int iFrame, int iNumFramesInBitmap, Rect *pRect)
+void Control::BlitFrame(int iFrame, int iNumFramesInBitmap, Rect *pRect, bool bUpdate)
 {
 	if (m_bHorizontalBitmap)
-		BlitFrameHoriz(iFrame,iNumFramesInBitmap,pRect);
+		BlitFrameHoriz(iFrame,iNumFramesInBitmap,pRect, bUpdate);
 	else
-		BlitFrameVert(iFrame,iNumFramesInBitmap,pRect);
+		BlitFrameVert(iFrame,iNumFramesInBitmap,pRect, bUpdate);
 }
 
-void Control::BlitFrameHoriz(int iFrame, int iNumFramesInBitmap, Rect *pRect)
+void Control::BlitFrameHoriz(int iFrame, int iNumFramesInBitmap, Rect *pRect, bool bUpdate)
 {
     Canvas *pCanvas;
     int     iFrameWidth;
@@ -271,12 +271,18 @@ void Control::BlitFrameHoriz(int iFrame, int iNumFramesInBitmap, Rect *pRect)
 
     pCanvas = m_pParent->GetCanvas();
     pCanvas->MaskBlitRect(m_pBitmap, oFrameRect, oDestRect);
-    
-    pCanvas->Invalidate(oDestRect);
-    pCanvas->Update();
+
+    if (bUpdate)
+    {    
+       pCanvas->Invalidate(oDestRect);
+       pCanvas->Update();
+    }
+    else
+       if (pRect)
+          *pRect = oDestRect;
 }
 
-void Control::BlitFrameVert(int iFrame, int iNumFramesInBitmap, Rect *pRect)
+void Control::BlitFrameVert(int iFrame, int iNumFramesInBitmap, Rect *pRect, bool bUpdate)
 {
     Canvas *pCanvas;
     int     iFrameHeight;
@@ -301,8 +307,14 @@ void Control::BlitFrameVert(int iFrame, int iNumFramesInBitmap, Rect *pRect)
     pCanvas = m_pParent->GetCanvas();
     pCanvas->MaskBlitRect(m_pBitmap, oFrameRect, oDestRect);
     
-    pCanvas->Invalidate(oDestRect);
-    pCanvas->Update();
+    if (bUpdate)
+    {    
+       pCanvas->Invalidate(oDestRect);
+       pCanvas->Update();
+    }
+    else
+       if (pRect)
+           *pRect = oDestRect;
 }
 
 void Control::BlitMultiStateFrame(int iFrame, int iNumFramesInBitmap,

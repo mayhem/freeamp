@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.59 2000/10/12 20:22:41 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.60 2000/10/27 10:50:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -138,11 +138,12 @@ class GTKMusicBrowser {
     void CloseStreams(void);
     void HandleStreamList(vector<FreeAmpStreamInfo> & list);
 
+    void StreamTimer(void);
+
  protected:
     FAContext *m_context;
 
     static void stream_timer_func(void *arg);
-    void StreamTimer(void);
 
  private:
     MusicBrowserUI *parentUI;

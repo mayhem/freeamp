@@ -72,6 +72,7 @@ gdbm_open (file, block_size, flags, mode, fatal_func)
   char        need_trunc;	/* Used with GDBM_NEWDB and locking to avoid
 				   truncating a file from under a reader. */
 
+  lock_val=0;
   /* Initialize the gdbm_errno variable. */
   gdbm_errno = GDBM_NO_ERROR;
 

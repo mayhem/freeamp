@@ -9,7 +9,7 @@
 	the Free Software Foundation; either version 2 of the License, or
 	(at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
+	this program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
@@ -18,18 +18,16 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: thread.cpp,v 1.7 1999/10/19 07:12:47 elrod Exp $
+	$Id: thread.cpp,v 1.7.8.1 2000/03/16 07:01:19 tdilliga Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
 #include "thread.h"
 
-#ifdef __LINUX__
-    #include "linuxthread.h"
+#if defined(__LINUX__) || defined(solaris)
+    #include "pthreadthread.h"
 #elif WIN32
     #include "win32thread.h"
-#elif defined(solaris)
-    #include "solaristhread.h"
 #elif defined(__BEOS__)
     #include "beosthread.h"
 #else
@@ -42,12 +40,10 @@ ____________________________________________________________________________*/
 Thread* Thread::CreateThread()
 {
     Thread* thread = NULL;
-#ifdef __linux__
-    thread = new linuxThread();
+#if defined(__linux__) || defined(solaris)
+    thread = new pthreadThread();
 #elif WIN32
     thread = new win32Thread();
-#elif defined(solaris)
-    thread = new solarisThread();
 #elif defined(__BEOS__)
     thread = new beosThread();
 #else

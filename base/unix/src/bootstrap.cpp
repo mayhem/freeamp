@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.21 2000/02/29 10:01:57 elrod Exp $
+	$Id: bootstrap.cpp,v 1.21.2.1 2000/03/16 07:01:19 tdilliga Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -63,6 +63,18 @@ static void PrintMutexDebugInfo(int sig)
 }
 #endif
 
+#if defined (solaris)
+
+#include <poll.h>
+
+extern "C" {
+int usleep(unsigned int usec)
+{
+  return poll(NULL, 0, usec/1000+1);
+}
+}
+#endif
+
 int main(int argc, char **argv) 
 {
     FAContext *context = new FAContext;
@@ -82,8 +94,12 @@ int main(int argc, char **argv)
              << " of ~/.freeamp/preferences\n";
 
     bool allow_mult = false;
+
     context->prefs->GetAllowMultipleInstances(&allow_mult);
 
+#if defined(solaris)
+    allow_mult = true;
+#endif
     if (!allow_mult) {
         iCmdSem = semget(tSemKey, 1, IPC_CREAT | 0666);
         if (iCmdSem < 0)

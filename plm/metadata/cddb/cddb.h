@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb.h,v 1.1 2000/02/20 04:16:16 ijr Exp $
+	$Id: cddb.h,v 1.1.2.1 2000/03/16 07:01:19 tdilliga Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDDB_H
@@ -29,7 +29,9 @@ ____________________________________________________________________________*/
 using namespace std;
 
 #include <assert.h>
-
+#if defined(solaris)
+#include <stdarg.h>
+#endif
 #include "config.h"
 #include "errors.h"
 #include "facontext.h"

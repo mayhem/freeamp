@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.49 2000/02/16 04:39:35 ijr Exp $
+# $Id: Makefile.in,v 1.49.6.1 2000/03/16 07:01:18 tdilliga Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -39,18 +39,14 @@ lib/xml/lib/libfaxml.a: $(PARSEOBJ)
 
 FREEAMPunixOBJ  = base/unix/src/bootstrap.o base/unix/src/unixprefs.o
 FREEAMPunixOBJ += base/unix/src/win32impl.o
+FREEAMPunixOBJ += base/unix/src/pthreadthread.o
+FREEAMPunixOBJ += base/unix/src/debug.o
+FREEAMPunixOBJ += base/unix/src/mutex.o
+FREEAMPunixOBJ += base/unix/src/semaphore.o
+FREEAMPunixOBJ += base/unix/src/utility.o 
 
-FREEAMPsolarisOBJ  = base/unix/solaris/src/solaristhread.o
-FREEAMPsolarisOBJ += base/unix/solaris/src/debug.o
-FREEAMPsolarisOBJ += base/unix/solaris/src/mutex.o
-FREEAMPsolarisOBJ += base/unix/solaris/src/semaphore.o
-FREEAMPsolarisOBJ += base/unix/solaris/src/utility.o $(FREEAMPunixOBJ)
-
-FREEAMPlinuxOBJ  = base/unix/linux/src/linuxthread.o
-FREEAMPlinuxOBJ += base/unix/linux/src/debug.o
-FREEAMPlinuxOBJ += base/unix/linux/src/mutex.o
-FREEAMPlinuxOBJ += base/unix/linux/src/semaphore.o
-FREEAMPlinuxOBJ += base/unix/linux/src/utility.o $(FREEAMPunixOBJ)
+FREEAMPlinuxOBJ = $(FREEAMPunixOBJ)
+FREEAMPsolarisOBJ = $(FREEAMPunixOBJ)
 
 FREEAMPbeosOBJ  = base/beos/src/beosprefs.o base/beos/src/beosthread.o
 FREEAMPbeosOBJ += base/beos/src/bootstrap.o base/beos/src/debug.o 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.19 2000/11/09 17:05:31 robert Exp $
+   $Id: Http.cpp,v 1.20 2000/11/09 17:12:20 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -272,7 +272,7 @@ Error Http::Download(const string &url, bool fileDownload)
             static unsigned long ip;
             static char *addr_ptr[2] = {(char*)&ip, NULL};
 
-            if((int)(ip = inet_addr(hostname)) == INADDR_NONE) 
+            if((ip = inet_addr(hostname)) == INADDR_NONE) 
                 result =  kError_CantFindHost;
             else
             {

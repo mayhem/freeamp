@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.cpp,v 1.2 1999/10/25 07:13:54 elrod Exp $
+	$Id: misc.cpp,v 1.3 1999/10/26 00:03:55 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -64,7 +64,7 @@ Misc::Misc(FAContext* context):MetaDataFormat(context)
     registrar.SetSearchString("*.pmi");
     registrar.InitializeRegistry(&m_pmiReg, m_context->prefs);
 
-    for (uint32 i = 0; i < m_lmcReg.CountItems(); i++)
+    for (uint32 i = 0; i < (uint32)m_lmcReg.CountItems(); i++)
     {
         LogicalMediaConverter* lmc;
         RegistryItem* temp = m_lmcReg.GetItem(i);
@@ -90,7 +90,7 @@ Misc::~Misc()
 
 bool Misc::ReadMetaData(const char* url, MetaData* metadata)
 {
-    bool result = false;
+    // bool result = false;
 
     assert(url);
     assert(metadata);
@@ -98,7 +98,7 @@ bool Misc::ReadMetaData(const char* url, MetaData* metadata)
     // do we need to calculate the song length?
     if(!strncasecmp(url, "file://", 7) && !metadata->Time())
     {
-        for (uint32 i = 0; i < m_pmiReg.CountItems(); i++)
+        for (uint32 i = 0; i < (uint32)m_pmiReg.CountItems(); i++)
         {
             PhysicalMediaInput* pmi;
             RegistryItem* pmiItem = m_pmiReg.GetItem(i);

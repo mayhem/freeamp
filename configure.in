@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.55 1999/10/23 04:54:42 ijr Exp $
+dnl $Id: configure.in,v 1.56 1999/11/01 05:38:31 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-1999 EMusic.com
 dnl
@@ -187,6 +187,22 @@ fi
 
 AC_SUBST(ESD_LIBS)
 
+dnl optional freetype support..
+
+AC_CHECK_HEADER(freetype.h, have_freetype="true", have_freetype="false")
+
+TTF_LIBS=""
+if test "$have_freetype" = "true"; then
+  AC_CHECK_LIB(ttf, TT_Init_FreeType, have_freetype="true", 
+               have_freetype = "false", -lm)
+fi
+if test "$have_freetype" = "true"; then
+  TTF_LIBS="-lttf"
+  AC_DEFINE(HAVE_FREETYPE)
+fi
+ 
+AC_SUBST(TTF_LIBS)
+ 
 dnl gtk+ junk
 
 have_gtk="true"

@@ -18,11 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.h,v 1.2 1999/10/19 07:13:19 elrod Exp $
+   $Id: GTKFont.h,v 1.3 1999/11/01 05:38:31 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKFONT_H__
 #define INCLUDED_GTKFONT_H__
+
+#include "config.h"
 
 #include <string>
 #include <gdk/gdk.h>
@@ -31,6 +33,12 @@ ____________________________________________________________________________*/
 using namespace std;
 
 #include "Font.h"
+
+#ifdef HAVE_FREETYPE
+extern "C" {
+#include "ttfont.h"
+}
+#endif
 
 enum FontTypeEnum 
 {
@@ -58,6 +66,9 @@ class GTKFont : public Font
       FontTypeEnum type;
 
       GdkFont *gfont;
+#ifdef HAVE_FREETYPE
+      Efont   *ttfont;
+#endif
       string   BuildFontString(bool bBold, bool bItalic, int iFontHeight);
 
       bool bold;

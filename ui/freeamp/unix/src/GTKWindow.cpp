@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.6 1999/10/30 04:26:59 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.7 1999/11/01 05:38:31 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -83,7 +83,7 @@ void drop_file(GtkWidget *w, GdkDragContext *context, gint x, gint y,
 {
     gdk_threads_leave();
     if (data->data) {
-        p->DropFiles((char *)data->data);
+        ui->DropFiles((char *)data->data);
     }
     gdk_threads_enter();
 }

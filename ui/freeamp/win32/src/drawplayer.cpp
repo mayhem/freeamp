@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: drawplayer.cpp,v 1.14 1998/11/09 02:01:32 elrod Exp $
+	$Id: drawplayer.cpp,v 1.15 1998/11/09 02:05:56 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1173,7 +1173,8 @@ LRESULT WINAPI MainWndProc( HWND hwnd,
                 openButtonBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_OPEN));
             }
             
-            playerMask = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_PLAYER_MASK));
+            HPALETTE tempPalette;
+            playerMask = LoadResourceBitmap(g_hInst, MAKEINTRESOURCE(IDB_PLAYER_MASK), &tempPalette);
 
             g_controlRegions = DetermineRegions(    playerMask,
                                                     g_buttonColorArray,

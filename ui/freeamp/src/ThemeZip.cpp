@@ -18,11 +18,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.9 1999/12/10 07:16:43 elrod Exp $
+   $Id: ThemeZip.cpp,v 1.10 1999/12/13 14:45:43 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <time.h>
 #include <stdio.h>
+#include <ctype.h>
 
 #ifdef WIN32
 #include <windows.h>

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.30 1999/12/17 11:20:29 elrod Exp $
+        $Id: preferences.cpp,v 1.31 1999/12/17 23:53:16 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -70,6 +70,7 @@ const char* kShowToolbarTextLabelsPref = "ShowToolbarTextLabels";
 const char* kShowToolbarImagesPref = "ShowToolbarImages";
 const char* kSaveCurrentPlaylistOnExitPref = "SaveCurrentPlaylistOnExit";
 const char* kViewMusicBrowserPref = "ViewMusicBrowser";
+const char* kWindowModePref = "WindowMode";
 const char* kWelcomePref = "Welcome";
 
 //logging
@@ -96,6 +97,7 @@ const char *kDefaultNICAddress = "192.168.1.1";
 const bool  kDefaultUseTitleStreaming = true;
 const char *kDefaultThemePath = "";  
 const char *kDefaultMainWindowPos = "-1,-1";  
+const char *kDefaultWindowMode = "MainWindow";
 #ifdef WIN32
 const char *kDefaultThemeDefaultFont = "Arial";
 #else
@@ -199,6 +201,11 @@ SetDefaults()
     if (GetPrefString(kMainWindowPosPref, dummyString, 
         (uint32 *)&dummyInt) == kError_NoPrefValue)
         SetPrefString(kMainWindowPosPref, kDefaultMainWindowPos);
+
+    dummyInt = 255;
+    if (GetPrefString(kWindowModePref, dummyString, 
+        (uint32 *)&dummyInt) == kError_NoPrefValue)
+        SetPrefString(kWindowModePref, kDefaultWindowMode);
 
     dummyInt = 255;
     if (GetPrefString(kThemeDefaultFontPref, dummyString, 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32impl.h,v 1.2 1999/10/19 07:12:45 elrod Exp $
+	$Id: win32impl.h,v 1.3 1999/12/10 04:25:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32IMPL_H_
@@ -49,7 +49,7 @@ public:
     int32		nFileSizeLow;
     int32		dwReserved0;
     int32		dwReserved1;
-    char		cFileName[ MAX_PATH ];
+    char		cFileName[ _MAX_PATH ];
     char		cAlternateFileName[ 14 ];
 };
 

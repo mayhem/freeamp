@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: beosprefs.cpp,v 1.6 1999/10/19 07:12:45 elrod Exp $
+        $Id: beosprefs.cpp,v 1.7 1999/12/10 04:25:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -50,12 +50,10 @@ ____________________________________________________________________________*/
 // WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
 
 // default values
-const char*  kDefaultLibraryPath = ".:~/.freeamp:" UNIX_LIBDIR "/freeamp";
-const char*  kDefaultUI = "freeamp.ui";
-const char*  kDefaultTextUI = "freeampcmd.ui";
-const char*  kDefaultPMO = "soundcard.pmo";
-const char*  kDefaultALSADevice = "1:1";
-
+const char*  kDefaultLibraryPath = "/boot/home/config/add-ons/freeamp";
+const char*  kDefaultUI = "FreeAmp.ui";
+const char*  kDefaultTextUI = "FreeAmpCmd.ui";
+const char*  kDefaultPMO = "Soundcard.pmo";
 
 class LibDirFindHandle {
  public:
@@ -474,11 +472,15 @@ SetDefaults()
 {
     char buf[1024];
     uint32 size;
+    
+    char cwd[_MAX_PATH]= {0x00};
+    
+    getcwd(cwd, sizeof(cwd));
 
     // set install directory value
     size = sizeof(buf);
     if (GetPrefString(kInstallDirPref, buf, &size) == kError_NoPrefValue)
-        SetPrefString(kInstallDirPref, UNIX_LIBDIR);
+        SetPrefString(kInstallDirPref, cwd);
 
     // set default freeamp library path value
     size = sizeof(buf);
@@ -499,11 +501,6 @@ SetDefaults()
     size = sizeof(buf);
     if (GetPrefString(kPMOPref, buf, &size) == kError_NoPrefValue)
         SetPrefString(kPMOPref, kDefaultPMO);
-
-    // set default ALSA device
-    size = sizeof(buf);
-    if (GetPrefString(kALSADevicePref, buf, &size) == kError_NoPrefValue)
-        SetPrefString(kALSADevicePref, kDefaultALSADevice);
     
     size = sizeof(buf);
     if (GetPrefString(kDatabaseDirPref, buf, &size) == kError_NoPrefValue) {

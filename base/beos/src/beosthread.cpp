@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: beosthread.cpp,v 1.4 1999/10/23 08:26:38 hiro Exp $
+	$Id: beosthread.cpp,v 1.5 1999/12/10 04:25:35 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -214,5 +214,5 @@ void
 beosThread::
 DumpThreadInfo( void ) const
 {
-	printf( "Thread ID = %d, %x\n", m_threadHandle, m_threadHandle );
+	//printf( "Thread ID = %d, %x\n", m_threadHandle, m_threadHandle );
 }

@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.49.2.11 1999/10/12 22:20:09 ijr Exp $
+dnl $Id: configure.in,v 1.49.2.12 1999/10/14 23:15:09 dogcow Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -239,6 +239,7 @@ dnl not needed.
       z=`gcc -v 2>&1`;
       if expr "$z" : ".*gcc version 2.95" >/dev/null; then
         CFLAGS="$CFLAGS -fsquangle"
+        LDFLAGS="$LDFLAGS -fsquangle"
         if expr "$x_includes" : "/usr/openwin/include" >/dev/null; then
           CFLAGS="$CFLAGS -fpermissive"
           echo "adding -fpermissive to CFLAGS for openwin headers"

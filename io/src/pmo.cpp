@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.16 2000/05/07 17:06:23 robert Exp $
+        $Id: pmo.cpp,v 1.17 2000/05/17 09:27:33 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -208,7 +208,9 @@ void PhysicalMediaOutput::CheckForBufferUp(void)
 {
    int iInPercent, iOutPercent;
 
-   if (!m_pPmi->IsStreaming())
+   if (!m_pPmi->IsStreaming() || 
+       m_pPmiBuffer == NULL ||
+       m_pInputBuffer == NULL)
       return;
 
    iInPercent = m_pPmiBuffer->GetBufferPercentage(); 

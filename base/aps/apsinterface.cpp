@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.27 2000/09/20 11:03:50 ijr Exp $
+        $Id: apsinterface.cpp,v 1.28 2000/09/20 21:31:23 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ APSInterface::APSInterface(char *profilePath, const char* pIP,
 
     if (!m_strCurrentProfile.empty()) {
         ChangeProfile(m_strCurrentProfile.c_str());
-        SyncLog();
+        //SyncLog();
     }
 }
 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.238 2000/09/20 11:10:35 robert Exp $
+        $Id: player.cpp,v 1.239 2000/09/20 21:31:23 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -209,7 +209,7 @@ Player(FAContext *context) : EventQueue()
 
     // Add timer for sync-ing the log to the relatable servers
     // only works if a profile is currently active
-    m_context->timerManager->StartTimer(&m_syncTimer, synclog_timer, 1800, this);
+    m_context->timerManager->StartTimer(&m_syncTimer, synclog_timer, 180, this);
 }
 
 #define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }

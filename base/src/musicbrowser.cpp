@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.2 1999/09/09 02:42:00 elrod Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.3 1999/09/09 03:20:20 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -215,26 +215,26 @@ MetaData *MusicBrowser::ReadMetaDataFromDatabase(char *path)
         return NULL;
 
     MetaData *new_metadata = new MetaData();
-    char **temp = &data;
-    char *info;
+    char *temp = data;
+    char *info; 
 
-    info = strsep(temp, DBASEDELIM);
+    info = strtok(temp, DBASEDELIM);
     new_metadata->SetArtist(info);
-    info = strsep(temp, DBASEDELIM);
+    info = strtok(temp, DBASEDELIM);
     new_metadata->SetAlbum(info);
-    info = strsep(temp, DBASEDELIM);
+    info = strtok(temp, DBASEDELIM);
     new_metadata->SetTitle(info);
-    info = strsep(temp, DBASEDELIM);
+    info = strtok(temp, DBASEDELIM);
     new_metadata->SetComment(info);
-    info = strsep(temp, DBASEDELIM);
+    info = strtok(temp, DBASEDELIM);
     new_metadata->SetGenre(info);
-    info = strsep(temp, DBASEDELIM);
+    info = strtok(temp, DBASEDELIM);
     new_metadata->SetYear(atoi(info));
-    info = strsep(temp, DBASEDELIM);
+    info = strtok(temp, DBASEDELIM);
     new_metadata->SetTrack(atoi(info));
-    info = strsep(temp, DBASEDELIM);
+    info = strtok(temp, DBASEDELIM);
     new_metadata->SetTime(atoi(info));
-    info = strsep(temp, DBASEDELIM);
+    info = strtok(temp, DBASEDELIM);
     new_metadata->SetSize(atoi(info));
 
     delete data;

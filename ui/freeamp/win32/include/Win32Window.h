@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.18 2000/09/20 12:00:58 robert Exp $
+   $Id: Win32Window.h,v 1.19 2000/09/21 13:03:03 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -96,7 +96,6 @@ class Win32Window : public Window
      Mutex   *m_pMindMeldMutex;
 	 bool     m_bMouseInWindow;
      bool     m_bMindMeldInProgress;
-	 unsigned long m_lScrollLines;
 };
 
 #endif

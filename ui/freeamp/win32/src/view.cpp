@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: view.cpp,v 1.1 1999/03/03 09:06:21 elrod Exp $
+	$Id: view.cpp,v 1.2 1999/03/14 07:14:53 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -27,6 +27,7 @@ ____________________________________________________________________________*/
 #include <windows.h>
 #include <windowsx.h>
 #include <assert.h>
+#include <stdlib.h>
 
 /* project headers */
 #include "config.h"
@@ -84,7 +85,8 @@ View::
 PointInView(int32 x, int32 y)
 {
     assert(m_viewRegion);
-    return (PtInRegion(m_viewRegion, x, y) == TRUE);
+
+    return ( PtInRegion(m_viewRegion, x, y) != 0 );
 }
 
 void 

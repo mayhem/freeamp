@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: textview.cpp,v 1.1 1999/03/03 09:06:21 elrod Exp $
+	$Id: textview.cpp,v 1.2 1999/03/14 07:14:53 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -327,6 +327,8 @@ SetText(char* text)
     }
 
     LeaveCriticalSection(&m_criticalSection);
+
+    Invalidate();
 }
 
 void 

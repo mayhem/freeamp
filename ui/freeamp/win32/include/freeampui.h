@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.18 1999/03/08 14:31:24 elrod Exp $
+	$Id: freeampui.h,v 1.19 1999/03/14 07:14:52 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -59,7 +59,9 @@ ____________________________________________________________________________*/
 #include "listview.h"
 #include "scrollview.h"
 
-enum { STATE_Stopped = 1, STATE_Playing, STATE_Paused };
+enum {	STATE_Stopped = 0, 
+		STATE_Playing, 
+		STATE_Paused };
 
 
 class FreeAmpUI : public UserInterface {
@@ -117,9 +119,13 @@ class FreeAmpUI : public UserInterface {
     
 	
  private:
-    
-    Semaphore*          m_uiSemaphore;
+	uint32				m_totalFrames;
+    uint32              m_currentFrame;
     float			    m_secondsPerFrame;
+
+    TimeDisplay         m_lastTimeDisplay;
+
+    Semaphore*          m_uiSemaphore;
     int32			    m_state;
     EventQueue*         m_target;
 

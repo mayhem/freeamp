@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21 2000/01/19 22:20:29 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.1 2000/03/04 05:39:10 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -418,10 +418,10 @@ Error DownloadManager::ReadDownloadFile(char* url,
             }
         }
         
-        char   path[255];
-        uint32 length = sizeof(path);
-        URLToFilePath(url, path, &length);
-        unlink(path);
+        //char   path[255];
+        //uint32 length = sizeof(path);
+        //URLToFilePath(url, path, &length);
+        //unlink(path);
     }
 
     return result;

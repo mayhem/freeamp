@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.119 2000/05/30 12:28:20 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.120 2000/06/01 15:45:38 ksteinbe Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -238,9 +238,9 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
    szTemp = new char[iLen];
    m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
 
-   if (strlen(szTemp) < 1) 
-       strcpy(szTemp, BRANDING_DEFAULT_THEME);
-   
+    if (strlen(szTemp) < 1) 
+        strcpy(szTemp, BRANDING_DEFAULT_THEME);
+ 
    if (_stat(szTemp, &buf) < 0)
    {
       // If the theme doesn't exist, let's try to prepend the install/theme dir
@@ -261,12 +261,9 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
       delete [] dir;
    }
    oThemePath += szTemp;
-   
-   iLen = 255; 
-   m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
-   SetDefaultFont(string(szTemp));
-
+  
    eRet = LoadTheme(oThemePath, m_oCurrentWindow);
+   
    if (IsError(eRet) && eRet != kError_InvalidParam)					   
    {
        MessageDialog oBox(m_pContext);
@@ -277,9 +274,17 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
        oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
        m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
    }
-   if (eRet == kError_InvalidParam)
+   else if (eRet == kError_InvalidParam)
+   {
        m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
-       
+   }
+   else
+      m_pContext->prefs->SetPrefString(kThemePathPref, oThemePath.c_str());
+
+   iLen = 255; 
+   m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
+   SetDefaultFont(string(szTemp));
+   
    delete [] szTemp;    
 }
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.12.4.2 2000/03/04 07:21:01 ijr Exp $
+        $Id: downloadui.cpp,v 1.12.4.3 2000/03/04 08:39:45 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -293,22 +293,21 @@ void DownloadUI::ResumeEvent(void)
     }
 }
 
-void DownloadUI::SelChangeEvent(int row)
+bool DownloadUI::UpdateButtons(int row)
 {
-    m_currentindex = row;
-    DownloadItem *dli = downloadList[m_currentindex];
- 
+    DownloadItem *dli = downloadList[row];
+
     if (dli == *downloadList.end() || !isVisible)
-        return;    
+        return false; 
 
     gtk_label_set_text(GTK_LABEL(m_ResumeLabel), "  Resume  ");
     switch (dli->GetState()) {
         case kDownloadItemState_Queued: {
-	    gtk_widget_set_sensitive(m_PauseButton, FALSE);
-	    gtk_widget_set_sensitive(m_CancelButton, TRUE);
-	    gtk_widget_set_sensitive(m_ResumeButton, m_dlm->IsPaused());
-	    gtk_label_set_text(GTK_LABEL(m_ResumeLabel), "  Start  ");
-	    break; }
+            gtk_widget_set_sensitive(m_PauseButton, FALSE);
+            gtk_widget_set_sensitive(m_CancelButton, TRUE);
+            gtk_widget_set_sensitive(m_ResumeButton, m_dlm->IsPaused());
+            gtk_label_set_text(GTK_LABEL(m_ResumeLabel), "  Start  ");
+            break; }
         case kDownloadItemState_Downloading: {
             gtk_widget_set_sensitive(m_PauseButton, TRUE);
             gtk_widget_set_sensitive(m_CancelButton, TRUE);
@@ -333,5 +332,13 @@ void DownloadUI::SelChangeEvent(int row)
         default:
             break;
     }
-    UpdateInfo();
+    return true;
+}
+    
+void DownloadUI::SelChangeEvent(int row)
+{
+    m_currentindex = row;
+ 
+    if (UpdateButtons(m_currentindex))
+        UpdateInfo();
 }

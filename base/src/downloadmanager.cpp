@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.2 2000/03/04 07:21:01 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.3 2000/03/04 08:39:45 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1193,8 +1193,7 @@ void DownloadManager::DownloadThreadFunction()
 
                 result = SubmitToDatabase(item);
             }
-            else 
-            if(result == kError_UserCancel)
+            else if(result == kError_UserCancel)
             {
                 if(item->GetState() == kDownloadItemState_Cancelled)
                 {

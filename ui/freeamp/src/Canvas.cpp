@@ -18,8 +18,17 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.10 2000/06/02 22:03:52 robert Exp $
+   $Id: Canvas.cpp,v 1.10.4.1 2000/06/06 10:40:43 robert Exp $
 ____________________________________________________________________________*/ 
+
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#define STRICT
+#endif
+
 
 #include <algorithm>
 #include "Canvas.h"
@@ -35,7 +44,7 @@ ____________________________________________________________________________*/
 
 #include "debug.h"
 
-#define DB printf("%s:%d\n", __FILE__, __LINE__);
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 Canvas::Canvas(void)
 {
@@ -54,6 +63,7 @@ Canvas::~Canvas(void)
 
 void Canvas::SetBackgroundRect(Rect &oRect)
 {
+	Debug_v("background set %d %d %d %d", oRect.x1, oRect.y1, oRect.x2, oRect.y2);
     m_oBGRect = oRect;
 }
 
@@ -92,7 +102,7 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
     // to do here.
     if (m_pBGBitmap)
     {
-        printf("Have complete bitmap -- do I want this?\n");
+        Debug_v("Have complete bitmap -- do I want this?\n");
         return;
     }
 	 if (m_pBGBitmap)
@@ -106,8 +116,10 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
            oUnion = oTemp;
         else
            oUnion.Union(oTemp);
-    }
 
+    }
+    //Debug_v("union: %d %d %d %d", oUnion.x1, oUnion.y1, oUnion.x2, oUnion.y2);
+     
     oOffset.x = oUnion.x1;
     oOffset.y = oUnion.y1;
 
@@ -132,35 +144,26 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
     m_pBGBitmap = new BeOSBitmap(oUnion.Width(), oUnion.Height(), 
                              string("Background"));
 #endif 
-DB
     (*(pPanels->begin()))->GetPanelBitmap()->GetTransColor(oColor);
-DB
     m_pBGBitmap->SetTransColor(oColor);
-DB
     m_pBGBitmap->MakeTransparent(oUnion);
-DB
+    SetBackgroundRect(oUnion);
 
     // Sort the panels in ascending Zorder
     sort(pPanels->begin(), pPanels->end());
 
-DB
     // And now blit the panel bitmaps to the background bitmap
     for(i = pPanels->begin(); i != pPanels->end(); i++)
     {
-        printf("Zorder: %d\n", (*i)->GetZOrder());
-
         (*i)->MoveControls(oOffset);
         (*i)->GetRect(oSrcRect);
         (*i)->GetPos(oBitmapPos);
-        oDestRect.x1 -= oBitmapPos.x - oOffset.x; 
-        oDestRect.y1 -= oBitmapPos.y - oOffset.y; 
+        oDestRect.x1 = oBitmapPos.x - oOffset.x; 
+        oDestRect.y1 = oBitmapPos.y - oOffset.y; 
         oDestRect.x2 = oDestRect.x1 + oSrcRect.Width();
         oDestRect.y2 = oDestRect.y1 + oSrcRect.Height();
-DB
         m_pBGBitmap->BlitRect((*i)->GetPanelBitmap(), oSrcRect, oDestRect);
-DB
         m_pBGBitmap->BlitRectMaskBitmap((*i)->GetPanelBitmap(), 
                                         oSrcRect, oDestRect);
-DB
     }
 }

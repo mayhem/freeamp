@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.39 2000/05/23 10:22:37 robert Exp $
+   $Id: Win32Window.cpp,v 1.39.6.1 2000/06/06 10:40:43 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -729,6 +729,7 @@ void
 Win32Window::
 Notify(int32 command, LPNMHDR notifyMsgHdr)
 {
+#if 0
     if (m_bMindMeldInProgress)
        return;
        
@@ -756,12 +757,14 @@ Notify(int32 command, LPNMHDR notifyMsgHdr)
                 strcpy(lpttt->szText,strTip.c_str()); // if tip is there
         }
     }
+#endif
 }
 
 void 
 Win32Window::
 CreateTooltips()
 {
+#if 0
     // tooltip support
     static HWND hwndTooltip = NULL;
         static uint32 uTooltipCount = 0;
@@ -845,6 +848,7 @@ CreateTooltips()
     }
         
     uTooltipCount = uCtr; // save value for next mindmeld
+#endif
 }
 
 void Win32Window::SetStayOnTop(bool bStay)

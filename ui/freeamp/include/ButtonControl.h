@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.h,v 1.5 2000/05/14 21:20:46 robert Exp $
+   $Id: ButtonControl.h,v 1.5.6.1 2000/06/06 10:40:43 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BUTTONCONTROL_H__
@@ -37,7 +37,7 @@ using namespace std;
 
 #include "Control.h"
 
-struct Panel;
+class Panel;
 class ButtonControl : public Control
 {
     public:

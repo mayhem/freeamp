@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.15 2000/05/22 11:17:12 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.16 2000/05/31 15:38:08 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -117,7 +117,7 @@ int Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect,
 
    GetTextMetrics(hMemDC, &sTm);
    sClip.top -= sTm.tmInternalLeading;
-   sClip.bottom -= (sTm.tmInternalLeading - 2);
+   sClip.bottom -= sTm.tmExternalLeading - sTm.tmInternalLeading;
 
    SetBkMode(hMemDC, TRANSPARENT);
    SetTextColor(hMemDC, RGB(oColor.red, oColor.green, oColor.blue));
@@ -191,7 +191,7 @@ int Win32Canvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
 
    GetTextMetrics(hMemDC, &sTm);
    sClip.top -= sTm.tmInternalLeading;
-   sClip.bottom -= (sTm.tmInternalLeading - 2);
+   sClip.bottom -= sTm.tmExternalLeading - sTm.tmInternalLeading;
 
    // The size of this text is artificially inflated to insert some
    // spaces between occurances of this string. Otherwise, the end of

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.13 1999/04/21 04:20:58 elrod Exp $
+	$Id: cmdlineUI.cpp,v 1.14 1999/04/22 00:17:20 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -68,6 +68,7 @@ cmdlineUI::cmdlineUI(FAContext *context) {
     m_context = context;
     m_plm = NULL;
     m_playerEQ = NULL;
+    m_lastIndexPlayed = -1;
 
     keyboardListenThread = NULL;
 }
@@ -176,7 +177,8 @@ int32 cmdlineUI::AcceptEvent(Event *e) {
 		break; }
 	    case INFO_MediaInfo: {
 		MediaInfoEvent *pmvi = (MediaInfoEvent *)e;
-		if (pmvi) {
+		if (pmvi && m_lastIndexPlayed != pmvi->m_indexOfSong) {
+		    m_lastIndexPlayed = pmvi->m_indexOfSong;
 		    cout << "Playing: " << pmvi->m_filename << endl;
 		}
 		break; }

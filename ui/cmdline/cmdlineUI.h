@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.h,v 1.9 1999/04/21 04:20:58 elrod Exp $
+	$Id: cmdlineUI.h,v 1.10 1999/04/22 00:17:20 mhw Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -58,6 +58,7 @@ class cmdlineUI : public UserInterface {
    void processSwitch(char *);
    Thread *keyboardListenThread;
    PlayListManager *m_plm;
+   int32 m_lastIndexPlayed;
 };
 
 

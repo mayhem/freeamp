@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.17 2000/09/19 07:31:00 ijr Exp $
+   $Id: ButtonControl.cpp,v 1.18 2000/11/01 17:22:34 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -183,6 +183,10 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
        }   
        m_pParent->SendControlMessage(this, CM_Pressed);
     }       
+
+    pCanvas = m_pParent->GetCanvas();
+    pCanvas->Erase(m_oRect);
+    pCanvas->Invalidate(m_oRect);
 
     BlitFrame(m_eCurrentState);
 }

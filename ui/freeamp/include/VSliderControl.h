@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.h,v 1.5 2000/05/06 21:44:11 ijr Exp $
+   $Id: VSliderControl.h,v 1.6 2000/11/01 17:22:34 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_VSLIDERCONTROL_H__
@@ -31,7 +31,8 @@ class VSliderControl : public Control
     public:
 
                VSliderControl(Window *pWindow, string &oName, int iThumbs,
-                              int iNumFrames);
+                              int iNumFrames,  int iNotchPercent = -1, 
+                              int iNotchWidth = -1);
       virtual ~VSliderControl(void);
 
               void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
@@ -46,11 +47,11 @@ class VSliderControl : public Control
 
     private:
 
-              void MoveThumb(int iCurrentPos, int iNewPos);
+              void MoveThumb(int iNewPos);
               void BlitTrough(int iPos);
 					  
-      Pos     m_oOrigin, m_oLastPos;
-      int     m_iRange;
+      Pos     m_oOrigin;
+      int     m_iRange, m_iNotchPercent, m_iNotchWidth;
       int     m_iCurrentPos;
       int     m_iThumbHeight;
       bool    m_bIsDrag, m_bInUpdate;

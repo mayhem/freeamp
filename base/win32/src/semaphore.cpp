@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.cpp,v 1.6 2000/05/01 15:21:23 robert Exp $
+	$Id: semaphore.cpp,v 1.7 2000/05/04 11:28:31 robert Exp $
 ____________________________________________________________________________*/
 
 #include <limits.h>
@@ -37,7 +37,7 @@ Semaphore::~Semaphore() {
    CloseHandle(m_sem);
 }
 
-void Semaphore::Wait(int ms) 
+bool Semaphore::Wait(int ms) 
 {	
    if (ms > 0)
    {

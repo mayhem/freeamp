@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.h,v 1.3 2000/04/04 01:55:20 ijr Exp $
+        $Id: cdpmo.h,v 1.4 2000/05/04 11:28:32 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDPMO_H_
@@ -59,8 +59,8 @@ class CDPMO:public PhysicalMediaOutput
 
    virtual Error Init(OutputInfo * info);
    static  void  StartWorkerThread(void *);
-   virtual int32 GetVolume(void);
-   virtual void  SetVolume(int32);
+   virtual void  GetVolume(int32 &, int32 &);
+   virtual void  SetVolume(int32, int32);
    virtual void  Pause(void);
    virtual void  Resume(void);
    virtual Error ChangePosition(int32);

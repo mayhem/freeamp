@@ -19,7 +19,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: dsoundcardpmo.cpp,v 1.20 2000/05/04 10:54:56 robert Exp $
+  $Id: dsoundcardpmo.cpp,v 1.21 2000/05/04 11:28:32 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -314,9 +314,9 @@ bool DSoundCardPMO::SetupVolumeControl(void)
 
 void
 DSoundCardPMO::
-GetVolume(int32 left, int32 right)
+GetVolume(int32 &left, int32 &right)
 {
-    MIXERCONTROLDETAILS_UNSIGNED mxcdVolume;
+    MIXERCONTROLDETAILS_UNSIGNED mxcdVolume[2];
     MIXERCONTROLDETAILS mxcd;
     int                 ret;
     
@@ -331,11 +331,11 @@ GetVolume(int32 left, int32 right)
                                  MIXER_OBJECTF_HMIXER |
                                  MIXER_GETCONTROLDETAILSF_VALUE);
     if (ret != MMSYSERR_NOERROR)
-        return false;
+        return;
 
-    left = (int)(((float)((mxcdVolume.dwValue[0] - m_dwMinimum) * 100) /  
+    left = (int)(((float)((mxcdVolume[0].dwValue - m_dwMinimum) * 100) /  
                   (float)(m_dwMaximum - m_dwMinimum)) + 0.5); 
-    right = (int)(((float)((mxcdVolume.dwValue[1] - m_dwMinimum) * 100) /  
+    right = (int)(((float)((mxcdVolume[1].dwValue - m_dwMinimum) * 100) /  
                    (float)(m_dwMaximum - m_dwMinimum)) + 0.5); 
 }
 

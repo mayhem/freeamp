@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.5 1999/10/29 21:14:44 elrod Exp $
+   $Id: Win32PreferenceWindow.h,v 1.6 1999/10/30 22:24:38 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -75,10 +75,8 @@ typedef struct PrefsStruct
     bool logPerformance;
 
 	// page 5
-    string   defaultFont;
-    bool   fontChanged;
+    string defaultFont;
     string currentTheme;
-    int    listboxIndex;
 
     // page 6
     bool checkForUpdates;
@@ -116,9 +114,7 @@ typedef struct PrefsStruct
             logPerformance == pref.logPerformance &&
 
             defaultFont == pref.defaultFont &&
-            fontChanged == pref.fontChanged &&
             currentTheme == pref.currentTheme &&
-            listboxIndex == pref.listboxIndex &&
 
             checkForUpdates == pref.checkForUpdates &&
 

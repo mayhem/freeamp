@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: msis.c,v 1.6.4.2 2000/08/11 18:29:34 robert Exp $
+	$Id: msis.c,v 1.6.4.3 2000/10/12 11:36:42 robert Exp $
 ____________________________________________________________________________*/
 
 /****  msis.c  ***************************************************
@@ -67,7 +67,7 @@ typedef float ARRAY2_64_2[2][64][2];
 typedef float ARRAY64_2[64][2];
 
 #ifdef ASM_X86
-extern void antialias_asm(float x[], int n);
+extern void antialias_asm(float x[], int n, float *t);
 #endif /* ASM_X86 */
 
 
@@ -112,7 +112,7 @@ ARRAY2_64_2 *msis_init_addr_MPEG2(MPEG *m)
 void antialias(MPEG *m, float x[], int n)
 {
 #ifdef ASM_X86
-   antialias_asm(x, n);
+   antialias_asm(x, n, (float *)m->cupl.csa);
 #else
    int i, k;
    float a, b;

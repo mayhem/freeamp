@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.73 2000/08/03 21:26:22 robert Exp $
+# $Id: Makefile-plugins.in,v 1.73.2.1 2000/10/12 11:36:42 robert Exp $
 
 RELOC = @FPIC@
 
@@ -298,8 +298,6 @@ plugins/cd.lmc: $(CDLMCOBJ)
 # the XING decoder objs and dependencies:
 # This is kinda nasty, since there's C, C++, and asm, oh my!
 # of course, each needs different compilation methods. grr.
-XINGLMCOBJX86 = lmc/xingmp3/src/x86gas.o
-
 XINGLMCOBJC = lmc/xingmp3/src/cdct.o lmc/xingmp3/src/cupl3.o \
   lmc/xingmp3/src/hwin.o lmc/xingmp3/src/iup.o lmc/xingmp3/src/l3init.o \
   lmc/xingmp3/src/msis.o lmc/xingmp3/src/wavep.o lmc/xingmp3/src/csbt.o \

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cdct.c,v 1.15.10.2 2000/10/05 13:38:17 robert Exp $
+	$Id: cdct.c,v 1.15.10.3 2000/10/12 11:36:42 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cdct.c  ***************************************************
@@ -42,8 +42,8 @@ portable C
 #include "mhead.h"
 
 #ifdef ASM_X86
-extern void fdct32_asm(float*a, float*b);
-extern void fdct32_dual_asm(float*a, float*b);
+extern void fdct32_asm(float *coef32, float*a, float*b);
+extern void fdct32_dual_asm(float *coef32, float*a, float*b);
 #endif /* ASM_X86 */
 
 /*------------------------------------------------------------*/
@@ -110,9 +110,7 @@ void fdct32(MPEG *m, float x[], float c[])
    }
 
 #ifdef ASM_X86
-   fdct32_asm(src, c);
-#elif defined(ASM_X86_OLD)
-   asm_fdct32(src, c);
+   fdct32_asm(m->cdct.coef32, src, c);
 #else
 /* special first stage */
    for (p = 0, q = 31; p < 16; p++, q--)
@@ -134,7 +132,7 @@ void fdct32(MPEG *m, float x[], float c[])
 void fdct32_dual(MPEG *m, float x[], float c[])
 {
 #ifdef ASM_X86
-   fdct32_dual_asm(x, c);
+   fdct32_dual_asm(m->cdct.coef32, x, c);
 #else
    float a[32];			/* ping pong buffers */
    float b[32];

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: hwin.c,v 1.7.10.1 2000/08/11 18:27:46 robert Exp $
+	$Id: hwin.c,v 1.7.10.2 2000/10/12 11:36:42 robert Exp $
 ____________________________________________________________________________*/
 
 /****  hwin.c  ***************************************************
@@ -40,7 +40,7 @@ hybrid window/filter
 
 #ifdef ASM_X86
 extern int hybrid_asm(float xin[], float xprev[], float y[18][32],
-	   int btype, int nlong, int ntot, int nprev);
+	   int btype, int nlong, int ntot, int nprev, float *win, int band_limit_nsb);
 extern void FreqInvert_asm(float y[18][32], int n);
 #endif /* ASM_X86 */
 
@@ -68,7 +68,7 @@ int hybrid(MPEG *m, float xin[], float xprev[], float y[18][32],
 	   int btype, int nlong, int ntot, int nprev)
 {
 #ifdef ASM_X86
-   hybrid_asm(xin, xprev, y, btype, nlong, ntot, nprev);
+   return hybrid_asm(xin, xprev, y, btype, nlong, ntot, nprev, (float *)m->cupl.win, m->cupl.band_limit_nsb);
 #else
    int i, j;
    float *x, *x0;
@@ -276,7 +276,7 @@ void FreqInvert(float y[18][32], int n)
    {
       for (i = 0; i < n; i += 2)
       {
-	 y[1 + j][1 + i] = -y[1 + j][1 + i];
+    	 y[1 + j][1 + i] = -y[1 + j][1 + i];
       }
    }
 #endif

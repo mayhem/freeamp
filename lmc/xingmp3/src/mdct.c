@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mdct.c,v 1.6.10.1 2000/08/11 18:27:46 robert Exp $
+	$Id: mdct.c,v 1.6.10.2 2000/10/12 11:36:42 robert Exp $
 ____________________________________________________________________________*/
 
 /****  mdct.c  ***************************************************

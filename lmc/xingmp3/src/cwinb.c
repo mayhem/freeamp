@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cwinb.c,v 1.4.26.1 2000/08/11 18:27:46 robert Exp $
+	$Id: cwinb.c,v 1.4.26.2 2000/10/12 11:36:42 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cwin.c  ***************************************************

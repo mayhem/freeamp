@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.15 1999/03/15 09:02:28 robert Exp $
+   $Id: pullbuffer.cpp,v 1.16 1999/03/15 09:30:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -28,7 +28,6 @@ ____________________________________________________________________________*/
 
 #include "pullbuffer.h"
 #include "log.h"
-#include "debug.hpp"
 
 extern LogFile *g_Log;
 

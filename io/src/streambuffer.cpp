@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: streambuffer.cpp,v 1.7 1999/03/08 02:16:58 robert Exp $
+   $Id: streambuffer.cpp,v 1.8 1999/03/15 09:30:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -46,7 +46,7 @@ StreamBuffer::~StreamBuffer(void)
 
 bool StreamBuffer::IsBufferingUp(int32 iBytesNeeded)
 {
-   return GetNumBytesInBuffer() < iBytesNeeded;
+   return GetNumBytesInBuffer() < (uint32)iBytesNeeded;
 }
 
 bool StreamBuffer::DidDiscardBytes()

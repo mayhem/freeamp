@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: eventbuffer.cpp,v 1.5 1999/03/15 09:02:27 robert Exp $
+   $Id: eventbuffer.cpp,v 1.6 1999/03/15 09:30:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -28,7 +28,6 @@ ____________________________________________________________________________*/
 #include <sys/types.h>
 
 #include "eventbuffer.h"
-#include "debug.hpp"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 

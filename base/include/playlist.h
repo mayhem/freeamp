@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.30 1999/03/13 00:45:10 robert Exp $
+	$Id: playlist.h,v 1.31 1999/03/15 09:30:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -114,6 +114,7 @@ class PlayListItem {
 	{ 
 		return m_DisplayString ? m_DisplayString : "";
 	}
+
     void SetDisplayString(char *pDisplayString)
     {
         if (m_DisplayString)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.33 1999/03/13 00:45:09 robert Exp $
+        $Id: player.h,v 1.34 1999/03/15 09:30:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -68,7 +68,7 @@ struct ID3Tag
 class     Player:public EventQueue, Properties, PropertyWatcher
 {
 
-   public:
+ public:
    // Player();
    static Player *GetPlayer();
             ~Player();
@@ -95,7 +95,7 @@ class     Player:public EventQueue, Properties, PropertyWatcher
    virtual Error RemovePropertyWatcher(const char *, PropertyWatcher *);
 
    virtual Error PropertyChange(const char *, PropValue *);
-             protected:
+ protected:
              Player();
    void      GetUIManipLock();
    void      ReleaseUIManipLock();
@@ -106,7 +106,7 @@ class     Player:public EventQueue, Properties, PropertyWatcher
    int32     ServiceEvent(Event *);
    void      CreateLMC(PlayListItem * pc, Event * pC);
 
-   private:
+ private:
 
    // These are event loop handling functions
    void DoneOutputting(Event *pEvent) ;

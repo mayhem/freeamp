@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.24 1999/03/15 09:02:25 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.25 1999/03/15 09:30:01 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -31,7 +31,6 @@ ____________________________________________________________________________*/
 #include "SoundCardPMO.h"
 #include "eventdata.h"
 #include "log.h"
-//#include "debug.hpp"
 
 LogFile  *g_Log;
 

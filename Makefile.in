@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.29 1999/08/05 00:23:13 dogcow Exp $
+# $Id: Makefile.in,v 1.30 1999/08/07 18:31:00 dogcow Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = @FPIC@ for plugins.
@@ -74,7 +74,8 @@ depend:
 
 Makefile: Makefile.in Makefile-plugins.in
 	./config.status
-	make -$(MAKEFLAGS)
+	echo 'Makefile has been rebuilt; please run `make` again.'
+
 
 #Makefile: configure.in configure
 #	./config.status --recheck

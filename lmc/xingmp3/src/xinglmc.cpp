@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.76 1999/04/16 03:27:01 robert Exp $
+   $Id: xinglmc.cpp,v 1.77 1999/04/16 09:46:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -729,7 +729,7 @@ void XingLMC::DecodeWork()
    pPref->GetDecoderThreadPriority(&iValue);
    delete pPref;
 
-   m_decoderThread->SetPriority((Priority) iValue);
+   m_decoderThread->SetPriority(iValue);
 
 
    for (m_frameCounter = 0; !m_bExit;)

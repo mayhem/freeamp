@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32thread.h,v 1.3 1999/04/08 07:39:04 elrod Exp $
+	$Id: win32thread.h,v 1.4 1999/04/16 09:46:39 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -28,7 +28,6 @@ ____________________________________________________________________________*/
 #include <windows.h>
 #include "config.h"
 #include "thread.h"
-
 
 
 class win32Thread : public Thread {
@@ -44,18 +43,16 @@ public:
 	virtual void Resume();
 	virtual void Join();
 
-	virtual Priority GetPriority() const;
-	virtual Priority SetPriority(Priority priority);
+	virtual uint32 GetPriority() const;
+	virtual uint32 SetPriority(uint32 priority);
 
     static unsigned long __stdcall internalThreadFunction(void* arg);
 
     uint32 InternalThreadFunction(); 
 
 private:
-	Priority	    m_priority;
 	HANDLE		    m_threadHandle;	
-	unsigned long	    m_threadId;
-
+	unsigned long	m_threadId;
     thread_function m_function;
     void*           m_arg;
 

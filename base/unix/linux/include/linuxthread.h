@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: linuxthread.h,v 1.2 1998/10/14 00:31:24 jdw Exp $
+	$Id: linuxthread.h,v 1.3 1999/04/16 09:46:39 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LINUX_THREAD_H
@@ -42,14 +42,13 @@ public:
 	virtual void Suspend();
 	virtual void Resume();
 	virtual void Join();
-	virtual Priority GetPriority() const;
-	virtual Priority SetPriority(Priority priority);
+	virtual uint32 GetPriority() const;
+	virtual uint32 SetPriority(uint32 priority);
 
 	static void *internalThreadFunction(void *);
 	void *InternalThreadFunction();
 
 private:
-	Priority	m_priority;
 	pthread_t   m_threadHandle;
 	unsigned	m_threadId;
 	bool        m_suspended;

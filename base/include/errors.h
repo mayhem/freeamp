@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.13 1999/03/04 07:23:36 robert Exp $
+	$Id: errors.h,v 1.14 1999/04/16 09:46:39 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -28,37 +28,38 @@ ____________________________________________________________________________*/
 
 typedef enum Error
 {
-    kError_NoErr		    = 0,
-    kError_UnknownErr	    = 1,
-    kError_InvalidParam     = 2,
-    kError_LoadLibFailed    = 3,
-    kError_FindFuncFailed   = 4,
-    kError_NoFiles          = 5,
-    kError_NoPrefs          = 6,
-    kError_BufferTooSmall   = 7,
-    kError_OutOfMemory      = 8,
-    kError_FileNoAccess     = 9,
-    kError_FileExists       = 10,
-    kError_FileInvalidArg   = 11,
-    kError_FileNotFound     = 12,
-    kError_FileNoHandles    = 13,
-    kError_NoMoreLibDirs    = 14,
-    kError_NullValueInvalid = 15,
-    kError_InvalidError     = 16,
+    kError_NoErr                = 0,
+    kError_UnknownErr           = 1,
+    kError_InvalidParam         = 2,
+    kError_LoadLibFailed        = 3,
+    kError_FindFuncFailed       = 4,
+    kError_NoFiles              = 5,
+    kError_NoPrefs              = 6,
+    kError_BufferTooSmall       = 7,
+    kError_OutOfMemory          = 8,
+    kError_FileNoAccess         = 9,
+    kError_FileExists           = 10,
+    kError_FileInvalidArg       = 11,
+    kError_FileNotFound         = 12,
+    kError_FileNoHandles        = 13,
+    kError_NoMoreLibDirs        = 14,
+    kError_NullValueInvalid     = 15,
+    kError_InvalidError         = 16,
     kError_PluginNotInitialized = 17,
-    kError_GotDefaultMethod = 18,
-    kError_InputUnsuccessful = 19,
+    kError_GotDefaultMethod     = 18,
+    kError_InputUnsuccessful    = 19,
     kError_FileSeekNotSupported = 20,
-    kError_OutputUnsuccessful = 21,
-    kError_InitFailed = 22,
-    kError_InitFailedSafely = 23,
-    kError_NoDataAvail = 24,
-    kError_SeekFailed = 25,
-    kError_CreateThreadFailed = 26,
-    kError_BufferingUp = 27,
-    kError_Interrupt   = 28,
-    kError_EventPending = 29,
-    kError_YouScrewedUp = 30
+    kError_OutputUnsuccessful   = 21,
+    kError_InitFailed           = 22,
+    kError_InitFailedSafely     = 23,
+    kError_NoDataAvail          = 24,
+    kError_SeekFailed           = 25,
+    kError_CreateThreadFailed   = 26,
+    kError_BufferingUp          = 27,
+    kError_Interrupt            = 28,
+    kError_EventPending         = 29,
+    kError_YouScrewedUp         = 30,
+    kError_NoPrefValue          = 31,
 }Error;
 
 

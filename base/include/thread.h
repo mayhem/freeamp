@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: thread.h,v 1.2 1998/10/13 23:58:10 elrod Exp $
+	$Id: thread.h,v 1.3 1999/04/16 09:46:39 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef THREAD_H
@@ -29,16 +29,6 @@ ____________________________________________________________________________*/
 
 typedef void (*thread_function)(void * arg);
 
-typedef enum Priority{
-	Idle			= -15,
-	Low				= -2,
-	BelowNormal		= -1,
-	Normal			= 0,
-	AboveNormal		= 1,
-	High			= 2,
-	Critical		= 15,
-
-}Priority;
 
 class Thread {
 
@@ -52,8 +42,8 @@ public:
 	virtual void Resume() = 0;
 	virtual void Join() = 0;
 
-	virtual Priority GetPriority() const = 0;
-	virtual Priority SetPriority(Priority priority) = 0;
+	virtual uint32 GetPriority() const = 0;
+	virtual uint32 SetPriority(uint32 priority) = 0;
 
     static Thread* CreateThread();
 };

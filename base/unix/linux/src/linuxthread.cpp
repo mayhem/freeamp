@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: linuxthread.cpp,v 1.4 1998/11/15 20:26:32 jdw Exp $
+	$Id: linuxthread.cpp,v 1.5 1999/04/16 09:46:39 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -39,7 +39,6 @@ linuxThread::
 linuxThread():
 Thread()
 {
-    m_priority		= Normal;
     m_threadHandle	= (pthread_t) NULL;
     m_threadId		= 0;
     m_suspended         = false;
@@ -129,16 +128,16 @@ Resume()
 }
 
 
-Priority 
+uint32 
 linuxThread::
 GetPriority() const
 {
     return((Priority) 0);
 }
 
-Priority 
+uint32 
 linuxThread::
-SetPriority(Priority priority)
+SetPriority(uint32 priority)
 {
     return((Priority) 0);
 }

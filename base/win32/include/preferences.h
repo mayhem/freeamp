@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.12 1999/04/09 09:50:04 elrod Exp $
+	$Id: preferences.h,v 1.13 1999/04/16 09:46:39 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PREFERENCES_H
@@ -126,7 +126,7 @@ class Preferences {
                             int32 height);
 
  protected:
-    
+
 
  private:
      HKEY   m_prefsKey;

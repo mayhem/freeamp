@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.cpp,v 1.5.2.1 2000/02/23 18:36:51 robert Exp $
+   $Id: VSliderControl.cpp,v 1.5.2.1.2.1 2000/03/07 18:53:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -82,6 +82,9 @@ void VSliderControl::Transition(ControlTransitionEnum  eTrans,
                                Pos                   *pPos)
 {
     Rect oRect;
+
+    if (m_eCurrentState == CS_Dragging && eTrans == CT_SetValue)
+        return;
 
     switch(eTrans)
     {

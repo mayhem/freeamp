@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.6.2.2 2000/02/23 18:36:51 robert Exp $
+   $Id: SliderControl.cpp,v 1.6.2.2.2.1 2000/03/07 18:53:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -83,6 +83,9 @@ void SliderControl::Transition(ControlTransitionEnum  eTrans,
 {
     Rect oRect;
 
+    if (m_eCurrentState == CS_Dragging && eTrans == CT_SetValue)
+        return;
+    
     switch(eTrans)
     {
        case CT_MouseEnter:

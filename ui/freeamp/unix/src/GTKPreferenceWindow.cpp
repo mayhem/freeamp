@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.31 2000/03/28 01:34:54 elrod Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.32 2000/03/28 02:13:58 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -592,7 +592,6 @@ static void play_now_toggle(GtkWidget *w, GTKPreferenceWindow *p)
     p->PlayImmediatelyToggle(i);
 }
 
-<<<<<<< GTKPreferenceWindow.cpp
 void GTKPreferenceWindow::AllowMultipleToggle(int active)
 {
     proposedValues.allowMultipleInstances = active;
@@ -619,8 +618,6 @@ static void convert_underscores_toggle(GtkWidget *w, GTKPreferenceWindow *p)
     p->AllowMultipleToggle(i);
 }
 
-GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
-=======
 void GTKPreferenceWindow::ReclaimTypesToggle(int active)
 {
     proposedValues.reclaimFiletypes = active;
@@ -647,8 +644,7 @@ void ask_reclaim_toggle(GtkWidget *w, GTKPreferenceWindow *p)
     p->AskReclaimToggle(i);
 }
 
-GtkWidget *GTKPreferenceWindow::CreatePage1(void)
->>>>>>> 1.25.2.2.2.2.2.1
+GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
 {
     firsttime = true;
 
@@ -730,7 +726,6 @@ GtkWidget *GTKPreferenceWindow::CreatePage1(void)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
     gtk_widget_show(check);
 
-<<<<<<< GTKPreferenceWindow.cpp
     frame = gtk_frame_new("Miscellaneous");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 5);
     gtk_widget_show(frame);
@@ -756,7 +751,6 @@ GtkWidget *GTKPreferenceWindow::CreatePage1(void)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
     gtk_widget_show(check);
 
-=======
     frame = gtk_frame_new("File Associations");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 5);
     gtk_widget_show(frame);
@@ -782,7 +776,6 @@ GtkWidget *GTKPreferenceWindow::CreatePage1(void)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
     gtk_widget_show(check);
 
->>>>>>> 1.25.2.2.2.2.2.1
     return pane;
 }
 

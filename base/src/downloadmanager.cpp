@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.24 2000/03/28 01:34:53 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.25 2000/03/28 02:13:58 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -631,7 +631,7 @@ Error DownloadManager::Download(DownloadItem* item)
         
         if(-1 != stat(destPath, &st))
         {
-            if (st.st_size >= item->GetTotalBytes())
+            if (st.st_size >= (int)item->GetTotalBytes())
             {
                if(destPath)
                    delete [] destPath;

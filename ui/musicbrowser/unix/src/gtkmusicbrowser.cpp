@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.75 2000/03/28 01:34:54 elrod Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.76 2000/03/28 02:13:58 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1446,7 +1446,6 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
                 gdk_threads_leave();
             }
             m_playingindex = temp;
-<<<<<<< gtkmusicbrowser.cpp
             break; } 
         case INFO_MusicCatalogRegenerating: {
             m_bIgnoringMusicCatalogMessages = true;
@@ -1459,20 +1458,6 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
                 gdk_threads_leave();
             }
             break; }
-=======
-           break; }
-        case INFO_MusicCatalogRegenerating: {
-            m_bIgnoringMusicCatalogMessages = true;
-            break; }
-        case INFO_MusicCatalogDoneRegenerating: {
-            m_bIgnoringMusicCatalogMessages = false;
-            if (isVisible) {
-                gdk_threads_enter();
-                UpdateCatalog();
-                gdk_threads_leave();
-            }
-            break; } 
->>>>>>> 1.59.2.1.2.4.2.1
         default:
             break;
     }

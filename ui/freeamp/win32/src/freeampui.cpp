@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.67 1999/08/11 19:32:00 elrod Exp $
+	$Id: freeampui.cpp,v 1.67.2.1 1999/08/24 02:59:10 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -588,6 +588,7 @@ Create()
 	    // Windows NT
 	    case VER_PLATFORM_WIN32_NT:
         {
+#if !defined( _M_ALPHA )
 		    if(osid.dwMajorVersion >= 4)
             {
                 // this will allow us port access thru
@@ -606,7 +607,7 @@ Create()
 
                 LoadDriver(driver, path);
             }
-
+#endif // !defined( _M_ALPHA )
             break;
         }
     }

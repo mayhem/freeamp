@@ -1,7 +1,0 @@
-; freeampui.def : Declares the module parameters for the DLL.
-
-LIBRARY      "freeamp"
-DESCRIPTION  'FreeAmp UI Library'
-
-EXPORTS
-	Initialize

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.40 2000/04/24 23:04:01 elrod Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.41 2000/05/09 10:21:02 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -2815,7 +2815,7 @@ static void check_function(void* arg)
 
             if(strstr(item->GetCurrentFileLocation().c_str(), "_system_"))
             {
-                //newItem = false;
+                newItem = false;
             }
             else
             {
@@ -3181,7 +3181,7 @@ bool Win32PreferenceWindow::PrefUpdateProc(HWND hwnd,
                 uint32 month, day, year;
                 
                 numFields = sscanf(item->GetLocalFileTime().c_str(),
-                       "%lu/%lu/%lu",&month,&day,&year);
+                       "%lu-%lu-%lu",&year,&month,&day);
 
                 struct tm fileTime;
 
@@ -3218,7 +3218,7 @@ bool Win32PreferenceWindow::PrefUpdateProc(HWND hwnd,
                 uint32 month, day, year;
                 
                 numFields = sscanf(item->GetCurrentFileTime().c_str(),
-                       "%lu/%lu/%lu",&month,&day,&year);
+                       "%lu-%lu-%lu",&year,&month,&day);
 
                 struct tm fileTime;
 

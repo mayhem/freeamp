@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.34 2000/05/06 12:05:49 ijr Exp $
+	$Id: config.h.in,v 1.35 2000/05/09 10:21:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -40,7 +40,7 @@ ____________________________________________________________________________*/
 #define the_BRANDING "FreeAmp"
 
 // uncomment this line if branding version != FreeAmp version
-//#define BRANDING_VERSION "2.0.5"
+//#define BRANDING_VERSION "2.0.7"
 
 #define BRANDING_URL "http://www.freeamp.org"
 #define BRANDING_UPDATE_SERVER "fatman.freeamp.org"
@@ -50,7 +50,7 @@ ____________________________________________________________________________*/
 #define BRANDING_APP_NAME "freeamp"
 
 #define FREEAMP_PATH_ENV "FREEAMP_PATH"
-#define FREEAMP_VERSION "2.0.5"
+#define FREEAMP_VERSION "2.0.7"
 
 #ifndef BRANDING_VERSION
 #define BRANDING_VERSION FREEAMP_VERSION

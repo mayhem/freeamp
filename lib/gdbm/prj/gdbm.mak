@@ -384,13 +384,15 @@ SOURCE=..\bucket.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_BUCKE=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_BUCKE=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\bucket.obj" : $(SOURCE) $(DEP_CPP_BUCKE) "$(INTDIR)"\
@@ -401,11 +403,13 @@ DEP_CPP_BUCKE=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_BUCKE=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_BUCKE=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\bucket.obj" : $(SOURCE) $(DEP_CPP_BUCKE) "$(INTDIR)"\
@@ -416,13 +420,15 @@ DEP_CPP_BUCKE=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_BUCKE=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_BUCKE=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\bucket.obj" : $(SOURCE) $(DEP_CPP_BUCKE) "$(INTDIR)"\
@@ -447,35 +453,35 @@ DEP_CPP_BUCKE=\
 
 !ENDIF 
 
-SOURCE=..\config.win32
+SOURCE=..\config\config.win32
 
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
-InputPath=..\config.win32
+InputPath=..\config\config.win32
 
 "..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\config\config.win32 ..\config\config.h
+	cp ..\config\config.win32 ..\config\config.h
 
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
-InputPath=..\config.win32
+InputPath=..\config\config.win32
 
 "..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\config\config.win32 ..\config\config.h
+	cp ..\config\config.win32 ..\config\config.h
 
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
-InputPath=..\config.win32
+InputPath=..\config\config.win32
 
 "..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\config\config.win32 ..\config\config.h
+	cp ..\config\config.win32 ..\config\config.h
 
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Debug"
 
-InputPath=..\config.win32
+InputPath=..\config\config.win32
 
 "..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\config\config.win32 ..\config\config.h
+	cp ..\config\config.win32 ..\config\config.h
 
 !ENDIF 
 
@@ -484,13 +490,15 @@ SOURCE=..\falloc.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_FALLO=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_FALLO=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\falloc.obj" : $(SOURCE) $(DEP_CPP_FALLO) "$(INTDIR)"\
@@ -501,11 +509,13 @@ DEP_CPP_FALLO=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_FALLO=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_FALLO=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\falloc.obj" : $(SOURCE) $(DEP_CPP_FALLO) "$(INTDIR)"\
@@ -516,13 +526,15 @@ DEP_CPP_FALLO=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_FALLO=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_FALLO=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\falloc.obj" : $(SOURCE) $(DEP_CPP_FALLO) "$(INTDIR)"\
@@ -552,13 +564,15 @@ SOURCE=..\findkey.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_FINDK=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_FINDK=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\findkey.obj" : $(SOURCE) $(DEP_CPP_FINDK) "$(INTDIR)"\
@@ -569,11 +583,13 @@ DEP_CPP_FINDK=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_FINDK=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_FINDK=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\findkey.obj" : $(SOURCE) $(DEP_CPP_FINDK) "$(INTDIR)"\
@@ -584,13 +600,15 @@ DEP_CPP_FINDK=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_FINDK=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_FINDK=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\findkey.obj" : $(SOURCE) $(DEP_CPP_FINDK) "$(INTDIR)"\
@@ -620,13 +638,15 @@ SOURCE=..\gdbmclose.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GDBMC=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMC=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmclose.obj" : $(SOURCE) $(DEP_CPP_GDBMC) "$(INTDIR)"\
@@ -637,11 +657,13 @@ DEP_CPP_GDBMC=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GDBMC=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GDBMC=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmclose.obj" : $(SOURCE) $(DEP_CPP_GDBMC) "$(INTDIR)"\
@@ -652,13 +674,15 @@ DEP_CPP_GDBMC=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GDBMC=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMC=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmclose.obj" : $(SOURCE) $(DEP_CPP_GDBMC) "$(INTDIR)"\
@@ -688,7 +712,6 @@ SOURCE=..\gdbmdelete.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GDBMD=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -696,6 +719,9 @@ DEP_CPP_GDBMD=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMD=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmdelete.obj" : $(SOURCE) $(DEP_CPP_GDBMD) "$(INTDIR)"\
@@ -706,12 +732,14 @@ DEP_CPP_GDBMD=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GDBMD=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GDBMD=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmdelete.obj" : $(SOURCE) $(DEP_CPP_GDBMD) "$(INTDIR)"\
@@ -722,7 +750,6 @@ DEP_CPP_GDBMD=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GDBMD=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -730,6 +757,9 @@ DEP_CPP_GDBMD=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMD=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmdelete.obj" : $(SOURCE) $(DEP_CPP_GDBMD) "$(INTDIR)"\
@@ -756,6 +786,51 @@ DEP_CPP_GDBMD=\
 !ENDIF 
 
 SOURCE=..\gdbmerrno.c
+
+!IF  "$(CFG)" == "gdbm - Win32 Release"
+
+DEP_CPP_GDBME=\
+	"..\gdbmerrno.h"\
+	
+NODEP_CPP_GDBME=\
+	"..\config\config.h"\
+	
+
+"$(INTDIR)\gdbmerrno.obj" : $(SOURCE) $(DEP_CPP_GDBME) "$(INTDIR)"\
+ "..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
+
+DEP_CPP_GDBME=\
+	"..\gdbmerrno.h"\
+	
+NODEP_CPP_GDBME=\
+	"..\config\config.h"\
+	
+
+"$(INTDIR)\gdbmerrno.obj" : $(SOURCE) $(DEP_CPP_GDBME) "$(INTDIR)"\
+ "..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
+
+DEP_CPP_GDBME=\
+	"..\gdbmerrno.h"\
+	
+NODEP_CPP_GDBME=\
+	"..\config\config.h"\
+	
+
+"$(INTDIR)\gdbmerrno.obj" : $(SOURCE) $(DEP_CPP_GDBME) "$(INTDIR)"\
+ "..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Debug"
+
 DEP_CPP_GDBME=\
 	"..\config\config.h"\
 	"..\gdbmerrno.h"\
@@ -766,12 +841,13 @@ DEP_CPP_GDBME=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+!ENDIF 
+
 SOURCE=..\gdbmexists.c
 
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GDBMEX=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -779,6 +855,9 @@ DEP_CPP_GDBMEX=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMEX=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmexists.obj" : $(SOURCE) $(DEP_CPP_GDBMEX) "$(INTDIR)"\
@@ -789,12 +868,14 @@ DEP_CPP_GDBMEX=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GDBMEX=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GDBMEX=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmexists.obj" : $(SOURCE) $(DEP_CPP_GDBMEX) "$(INTDIR)"\
@@ -805,7 +886,6 @@ DEP_CPP_GDBMEX=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GDBMEX=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -813,6 +893,9 @@ DEP_CPP_GDBMEX=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMEX=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmexists.obj" : $(SOURCE) $(DEP_CPP_GDBMEX) "$(INTDIR)"\
@@ -843,13 +926,15 @@ SOURCE=..\gdbmfdesc.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GDBMF=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMF=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmfdesc.obj" : $(SOURCE) $(DEP_CPP_GDBMF) "$(INTDIR)"\
@@ -860,11 +945,13 @@ DEP_CPP_GDBMF=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GDBMF=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GDBMF=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmfdesc.obj" : $(SOURCE) $(DEP_CPP_GDBMF) "$(INTDIR)"\
@@ -875,13 +962,15 @@ DEP_CPP_GDBMF=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GDBMF=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMF=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmfdesc.obj" : $(SOURCE) $(DEP_CPP_GDBMF) "$(INTDIR)"\
@@ -911,7 +1000,6 @@ SOURCE=..\gdbmfetch.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GDBMFE=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -919,6 +1007,9 @@ DEP_CPP_GDBMFE=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMFE=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmfetch.obj" : $(SOURCE) $(DEP_CPP_GDBMFE) "$(INTDIR)"\
@@ -929,12 +1020,14 @@ DEP_CPP_GDBMFE=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GDBMFE=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GDBMFE=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmfetch.obj" : $(SOURCE) $(DEP_CPP_GDBMFE) "$(INTDIR)"\
@@ -945,7 +1038,6 @@ DEP_CPP_GDBMFE=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GDBMFE=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -953,6 +1045,9 @@ DEP_CPP_GDBMFE=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMFE=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmfetch.obj" : $(SOURCE) $(DEP_CPP_GDBMFE) "$(INTDIR)"\
@@ -983,7 +1078,6 @@ SOURCE=..\gdbmopen.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GDBMO=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -991,6 +1085,9 @@ DEP_CPP_GDBMO=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMO=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmopen.obj" : $(SOURCE) $(DEP_CPP_GDBMO) "$(INTDIR)"\
@@ -1001,12 +1098,14 @@ DEP_CPP_GDBMO=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GDBMO=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GDBMO=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmopen.obj" : $(SOURCE) $(DEP_CPP_GDBMO) "$(INTDIR)"\
@@ -1017,7 +1116,6 @@ DEP_CPP_GDBMO=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GDBMO=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -1025,6 +1123,9 @@ DEP_CPP_GDBMO=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMO=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmopen.obj" : $(SOURCE) $(DEP_CPP_GDBMO) "$(INTDIR)"\
@@ -1055,7 +1156,6 @@ SOURCE=..\gdbmreorg.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GDBMR=\
-	"..\config\config.h"\
 	"..\extern.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
@@ -1064,6 +1164,9 @@ DEP_CPP_GDBMR=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMR=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmreorg.obj" : $(SOURCE) $(DEP_CPP_GDBMR) "$(INTDIR)"\
@@ -1074,13 +1177,15 @@ DEP_CPP_GDBMR=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GDBMR=\
-	"..\config\config.h"\
 	"..\extern.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GDBMR=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmreorg.obj" : $(SOURCE) $(DEP_CPP_GDBMR) "$(INTDIR)"\
@@ -1091,7 +1196,6 @@ DEP_CPP_GDBMR=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GDBMR=\
-	"..\config\config.h"\
 	"..\extern.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
@@ -1100,6 +1204,9 @@ DEP_CPP_GDBMR=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMR=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmreorg.obj" : $(SOURCE) $(DEP_CPP_GDBMR) "$(INTDIR)"\
@@ -1131,7 +1238,6 @@ SOURCE=..\gdbmseq.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GDBMS=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -1139,6 +1245,9 @@ DEP_CPP_GDBMS=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMS=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmseq.obj" : $(SOURCE) $(DEP_CPP_GDBMS) "$(INTDIR)"\
@@ -1149,12 +1258,14 @@ DEP_CPP_GDBMS=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GDBMS=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GDBMS=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmseq.obj" : $(SOURCE) $(DEP_CPP_GDBMS) "$(INTDIR)"\
@@ -1165,7 +1276,6 @@ DEP_CPP_GDBMS=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GDBMS=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -1173,6 +1283,9 @@ DEP_CPP_GDBMS=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMS=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmseq.obj" : $(SOURCE) $(DEP_CPP_GDBMS) "$(INTDIR)"\
@@ -1203,7 +1316,6 @@ SOURCE=..\gdbmsetopt.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GDBMSE=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -1211,6 +1323,9 @@ DEP_CPP_GDBMSE=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMSE=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmsetopt.obj" : $(SOURCE) $(DEP_CPP_GDBMSE) "$(INTDIR)"\
@@ -1221,12 +1336,14 @@ DEP_CPP_GDBMSE=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GDBMSE=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GDBMSE=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmsetopt.obj" : $(SOURCE) $(DEP_CPP_GDBMSE) "$(INTDIR)"\
@@ -1237,7 +1354,6 @@ DEP_CPP_GDBMSE=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GDBMSE=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -1245,6 +1361,9 @@ DEP_CPP_GDBMSE=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMSE=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmsetopt.obj" : $(SOURCE) $(DEP_CPP_GDBMSE) "$(INTDIR)"\
@@ -1275,7 +1394,6 @@ SOURCE=..\gdbmstore.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GDBMST=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -1283,6 +1401,9 @@ DEP_CPP_GDBMST=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMST=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmstore.obj" : $(SOURCE) $(DEP_CPP_GDBMST) "$(INTDIR)"\
@@ -1293,12 +1414,14 @@ DEP_CPP_GDBMST=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GDBMST=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GDBMST=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmstore.obj" : $(SOURCE) $(DEP_CPP_GDBMST) "$(INTDIR)"\
@@ -1309,7 +1432,6 @@ DEP_CPP_GDBMST=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GDBMST=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -1317,6 +1439,9 @@ DEP_CPP_GDBMST=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMST=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmstore.obj" : $(SOURCE) $(DEP_CPP_GDBMST) "$(INTDIR)"\
@@ -1347,7 +1472,6 @@ SOURCE=..\gdbmsync.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GDBMSY=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -1355,6 +1479,9 @@ DEP_CPP_GDBMSY=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMSY=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmsync.obj" : $(SOURCE) $(DEP_CPP_GDBMSY) "$(INTDIR)"\
@@ -1365,12 +1492,14 @@ DEP_CPP_GDBMSY=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GDBMSY=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GDBMSY=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmsync.obj" : $(SOURCE) $(DEP_CPP_GDBMSY) "$(INTDIR)"\
@@ -1381,7 +1510,6 @@ DEP_CPP_GDBMSY=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GDBMSY=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -1389,6 +1517,9 @@ DEP_CPP_GDBMSY=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GDBMSY=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\gdbmsync.obj" : $(SOURCE) $(DEP_CPP_GDBMSY) "$(INTDIR)"\
@@ -1419,7 +1550,6 @@ SOURCE=..\global.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_GLOBA=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -1427,6 +1557,9 @@ DEP_CPP_GLOBA=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GLOBA=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\global.obj" : $(SOURCE) $(DEP_CPP_GLOBA) "$(INTDIR)"\
@@ -1437,12 +1570,14 @@ DEP_CPP_GLOBA=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_GLOBA=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_GLOBA=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\global.obj" : $(SOURCE) $(DEP_CPP_GLOBA) "$(INTDIR)"\
@@ -1453,7 +1588,6 @@ DEP_CPP_GLOBA=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_GLOBA=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\gdbmerrno.h"\
@@ -1461,6 +1595,9 @@ DEP_CPP_GLOBA=\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_GLOBA=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\global.obj" : $(SOURCE) $(DEP_CPP_GLOBA) "$(INTDIR)"\
@@ -1491,13 +1628,15 @@ SOURCE=..\hash.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_HASH_=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_HASH_=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\hash.obj" : $(SOURCE) $(DEP_CPP_HASH_) "$(INTDIR)"\
@@ -1508,11 +1647,13 @@ DEP_CPP_HASH_=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_HASH_=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_HASH_=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\hash.obj" : $(SOURCE) $(DEP_CPP_HASH_) "$(INTDIR)"\
@@ -1523,13 +1664,15 @@ DEP_CPP_HASH_=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_HASH_=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_HASH_=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\hash.obj" : $(SOURCE) $(DEP_CPP_HASH_) "$(INTDIR)"\
@@ -1559,13 +1702,15 @@ SOURCE=..\update.c
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
 DEP_CPP_UPDAT=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_UPDAT=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\update.obj" : $(SOURCE) $(DEP_CPP_UPDAT) "$(INTDIR)"\
@@ -1576,11 +1721,13 @@ DEP_CPP_UPDAT=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
 DEP_CPP_UPDAT=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
+	
+NODEP_CPP_UPDAT=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\update.obj" : $(SOURCE) $(DEP_CPP_UPDAT) "$(INTDIR)"\
@@ -1591,13 +1738,15 @@ DEP_CPP_UPDAT=\
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
 DEP_CPP_UPDAT=\
-	"..\config\config.h"\
 	"..\gdbmconst.h"\
 	"..\gdbmdefs.h"\
 	"..\proto.h"\
 	"..\systems.h"\
 	{$(INCLUDE)}"sys\stat.h"\
 	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_UPDAT=\
+	"..\config\config.h"\
 	
 
 "$(INTDIR)\update.obj" : $(SOURCE) $(DEP_CPP_UPDAT) "$(INTDIR)"\
@@ -1623,6 +1772,39 @@ DEP_CPP_UPDAT=\
 !ENDIF 
 
 SOURCE=..\version.c
+
+!IF  "$(CFG)" == "gdbm - Win32 Release"
+
+NODEP_CPP_VERSI=\
+	"..\config\config.h"\
+	
+
+"$(INTDIR)\version.obj" : $(SOURCE) "$(INTDIR)" "..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
+
+NODEP_CPP_VERSI=\
+	"..\config\config.h"\
+	
+
+"$(INTDIR)\version.obj" : $(SOURCE) "$(INTDIR)" "..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
+
+NODEP_CPP_VERSI=\
+	"..\config\config.h"\
+	
+
+"$(INTDIR)\version.obj" : $(SOURCE) "$(INTDIR)" "..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Debug"
+
 DEP_CPP_VERSI=\
 	"..\config\config.h"\
 	
@@ -1631,6 +1813,8 @@ DEP_CPP_VERSI=\
  "..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ENDIF 
 
 
 !ENDIF 

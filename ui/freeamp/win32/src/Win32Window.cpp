@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.39.6.1 2000/06/06 10:40:43 robert Exp $
+   $Id: Win32Window.cpp,v 1.39.6.2 2000/06/07 16:13:27 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -729,7 +729,8 @@ void
 Win32Window::
 Notify(int32 command, LPNMHDR notifyMsgHdr)
 {
-#if 0
+	vector<pair<Rect, string> > oList;
+
     if (m_bMindMeldInProgress)
        return;
        
@@ -744,7 +745,8 @@ Notify(int32 command, LPNMHDR notifyMsgHdr)
         // and feed it's tip
         //
 
-        m_oControls[idCtrl]->GetTip(strTip);
+		GetControlToolTips(oList);
+		strTip = oList[idCtrl].second;
         if(strTip.length())
         {
             if(strTip.length()>79)
@@ -757,21 +759,20 @@ Notify(int32 command, LPNMHDR notifyMsgHdr)
                 strcpy(lpttt->szText,strTip.c_str()); // if tip is there
         }
     }
-#endif
 }
 
 void 
 Win32Window::
 CreateTooltips()
 {
-#if 0
+	vector<pair<Rect, string> > oList;
+
     // tooltip support
     static HWND hwndTooltip = NULL;
         static uint32 uTooltipCount = 0;
     HINSTANCE hinst = (HINSTANCE)GetWindowLong( m_hWnd, 
                                                 GWL_HINSTANCE);
     TOOLINFO ti;
-    vector<Control *>::iterator i;
     uint32 uCtr;
 
     //
@@ -817,14 +818,14 @@ CreateTooltips()
     //
     // now go adding tooltip regions
     //
-    uCtr=0;
-    for(i = m_oControls.begin(); i != m_oControls.end(); i++)
+    GetControlToolTips(oList);
+    for(uCtr = 0; uCtr < oList.size(); uCtr++)
     {
         Rect rect;
         string strTip;
 
-        (*i)->GetTip(strTip);
-        (*i)->GetRect(rect);
+        strTip = oList[uCtr].second;
+        rect = oList[uCtr].first;
 
         // add a tool tip
 
@@ -848,7 +849,6 @@ CreateTooltips()
     }
         
     uTooltipCount = uCtr; // save value for next mindmeld
-#endif
 }
 
 void Win32Window::SetStayOnTop(bool bStay)
@@ -1066,7 +1066,7 @@ void Win32Window::Create256ColorPalette(BYTE pColorMap[236][3],
 
 void Win32Window::PanelStateChanged(void)
 {
-    Rect   oRect;
+    Rect   oRect, oWindowRect;
     RECT   sRect;
 	HRGN   hRgn;
  
@@ -1077,6 +1077,11 @@ void Win32Window::PanelStateChanged(void)
     if (hRgn)
         SetWindowRgn(m_hWnd, hRgn, true);
 
+    GetWindowPosition(oWindowRect);
+    m_pCanvas->GetBackgroundRect(oRect);
+    oWindowRect.x2 = oWindowRect.x1 + oRect.Width();
+    oWindowRect.y2 = oWindowRect.y1 + oRect.Height();
+    SetWindowPosition(oWindowRect);
 
     sRect.left = oRect.x1;
     sRect.right = oRect.x2;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Panel.h,v 1.1.6.2 2000/06/07 13:46:08 robert Exp $
+   $Id: Panel.h,v 1.1.6.3 2000/06/07 16:13:27 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_PANEL__H_
@@ -36,6 +36,7 @@ ____________________________________________________________________________*/
 #include <string> 
 #include <vector>
 #include <map>
+#include <utility>
 
 using namespace std;
 
@@ -85,6 +86,7 @@ class Panel
       void    SetOnCloseShow(Panel *pPanel);
 
       Control *ControlFromPos(Pos &oPos);
+      void    GetControlToolTips(vector<pair<Rect, string> > &oList);
  
       Error   ControlEnable(const string &oControlName, bool bSet, bool &bEnable);
       Error   ControlShow(const string &oControlName, bool bSet, bool &bShow);

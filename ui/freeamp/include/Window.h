@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.28.4.1 2000/06/07 09:53:53 robert Exp $
+   $Id: Window.h,v 1.28.4.2 2000/06/07 16:13:27 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -82,6 +82,7 @@ class Window
       Error   ControlGetTip(const string &oName, string &oTip);
       Error   ControlGetDesc(const string &oName, string &oDesc);
       bool    DoesControlExist(const string &oName);
+      void    GetControlToolTips(vector<pair<Rect, string> > &oList);
 
       // These functions should be called from the OS dependent event
       // loop to handle mouse messages

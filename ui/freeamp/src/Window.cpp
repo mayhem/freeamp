@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.40.4.3 2000/06/07 14:32:34 robert Exp $
+   $Id: Window.cpp,v 1.40.4.4 2000/06/07 16:13:27 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -209,6 +209,7 @@ void Window::PanelStateChanged(void)
 
     IncUsageRef();
     m_pCanvas->InitBackgrounds(&m_oPanels);
+    m_pCanvas->Init();
     for(i = m_oPanels.begin(); i != m_oPanels.end(); i++)
         (*i)->ShowAllControls();
 
@@ -370,6 +371,19 @@ Control *Window::ControlFromPos(Pos &oPos)
 
     return pControl;
 }
+
+void Window::GetControlToolTips(vector<pair<Rect, string> > &oList)
+{
+    vector<Panel *>::iterator   i;
+
+    IncUsageRef();
+	oList.clear();
+    for(i = m_oPanels.begin(); i != m_oPanels.end(); i++)
+    {
+        (*i)->GetControlToolTips(oList);
+    }
+    DecUsageRef();
+}	 
 
 Error Window::StartMouseCapture(Control *pControl)
 {

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.153 2000/11/02 10:48:25 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.154 2000/11/08 16:27:02 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -312,26 +312,11 @@ Error FreeAmpTheme::Close(void)
 
 Error FreeAmpTheme::AcceptEvent(Event * e)
 {
+   if (m_pWindow && m_pWindow->DisallowOutsideMessages())
+      return kError_NoErr;
+
    switch (e->Type())
    {
-#if 0
-      case INFO_FileNotFound:
-      {
-         MissingFileEvent *pEvent = (MissingFileEvent *)e;
-         MissingFile o(m_pContext);
-         string      url;
-
-         if (o.FindMissingFile(pEvent->Item(), string("/home/robert"), url)
-             == kError_NoErr)
-         {
-              printf("Found file: '%s'\n", url.c_str());
-              o.AcceptLocation(pEvent->Item(), url);
-         }
-         else
-              printf("Could not find file.\n");
-         break;
-      }
-#endif
       case INFO_ErrorMessage:
       {
          MessageDialog      oBox(m_pContext);

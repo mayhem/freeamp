@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.33 2000/10/09 10:30:22 robert Exp $
+   $Id: Window.h,v 1.34 2000/11/08 16:27:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -140,6 +140,8 @@ class Window
       // For deadlock avaoidance
       virtual void  IncUsageRef(void);
       virtual void  DecUsageRef(void);
+      virtual bool  DisallowOutsideMessages(void) 
+                       { return m_bNoOutsideMessages; } 
 
     protected:
 
@@ -161,7 +163,7 @@ class Window
       Control                  *m_pCaptureControl;
       Pos                       m_oMovePos;
       bool                      m_bStayOnTop, m_bLiveInToolbar;
-      bool                      m_bIsVulcanMindMeldHost;
+      bool                      m_bIsVulcanMindMeldHost, m_bNoOutsideMessages;
       Rect                      m_oMoveStart;
       int32                     m_iDesktopWidth, m_iDesktopHeight;
       bool                      m_bMindMeldInProgress, m_bTimerEnabled;

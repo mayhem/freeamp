@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.h,v 1.6 2000/05/01 15:21:23 robert Exp $
+	$Id: semaphore.h,v 1.7 2000/05/08 12:59:12 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_SEMAPHORE_H_
@@ -32,7 +32,7 @@ class Semaphore {
  public:
     Semaphore(int cnt = 0);
     ~Semaphore();
-    bool Wait(int ms = -1); // returns false if it times out
+    bool Wait(int ms = WAIT_FOREVER); // returns false if it times out
     void Signal();
  
  private:

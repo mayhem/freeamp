@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.51 2000/03/30 08:57:09 elrod Exp $
+        $Id: player.h,v 1.52 2000/05/08 12:59:12 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -55,18 +55,6 @@ typedef enum
 PlayerState;
 
 class FAContext;
-
-
-class CDTimer : public Timer {
- public:
-    CDTimer(FAContext* context):Timer(5000),m_context(context){}
-    virtual ~CDTimer() {}
-
-    virtual void Tick();
-
- private:
-    FAContext* m_context;
-};
 
 class Player : public EventQueue, Properties, PropertyWatcher
 {
@@ -121,6 +109,9 @@ class Player : public EventQueue, Properties, PropertyWatcher
 
     int32     ServiceEvent(Event *);
     void      CreatePMO(const PlaylistItem * pc, Event * pC);
+
+    static void cd_timer(void* arg);
+    void        CDTimer();
 
     FAContext *m_context;
 
@@ -205,7 +196,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     DownloadManager* m_dlm;
     UserInterface *m_downloadUI;
 
-    CDTimer* m_cdTimer;
+    TimerRef m_cdTimer;
 };
 
 #endif // _PLAYER_H_

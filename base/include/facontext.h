@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.6 1999/12/16 16:59:52 ijr Exp $
+	$Id: facontext.h,v 1.7 2000/05/08 12:59:11 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FACONTEXT_H_
@@ -43,6 +43,7 @@ class MusicCatalog;
 class DownloadManager;
 class UpdateManager;
 class Player;
+class TimerManager;
 
 class FAContext
 {
@@ -86,6 +87,7 @@ class FAContext
     MusicCatalog *catalog;
     DownloadManager *downloadManager;
     //UpdateManager *updateManager;
+    TimerManager *timerManager;
     Player *player;
 #ifdef HAVE_GTK
     Mutex gtkLock;

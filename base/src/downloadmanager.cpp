@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.32 2000/06/09 13:15:25 robert Exp $
+	$Id: downloadmanager.cpp,v 1.33 2000/06/09 13:29:00 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -989,11 +989,6 @@ Error DownloadManager::Download(DownloadItem* item)
                                        item->SetBytesReceived(count + item->GetBytesReceived());
                                        SendProgressMessage(item);
                                    }
-
-if (item->GetBytesReceived() > 900000 && 
-    item->GetBytesReceived() < 902000 && 
-    rand() % 2)
-     result = kError_IOError;
 
                                 if(count < 0) 
                                     result = kError_IOError;

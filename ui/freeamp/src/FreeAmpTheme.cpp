@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.2 2000/03/22 19:03:45 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.3 2000/03/22 21:57:37 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1597,7 +1597,7 @@ void FreeAmpTheme::UpdateThread()
         if(0 < DialogBoxParam(g_hinst, 
                               MAKEINTRESOURCE(IDD_UPDATEAVAILABLE),
                               NULL, 
-                              (int (__stdcall *)(void))::UpdateAvailableDlgProc, 
+                              ::UpdateAvailableDlgProc, 
                               (LPARAM) 0))
         {
             ShowOptions(4);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.21.2.2 1999/08/30 08:43:33 elrod Exp $
+        $Id: localfileinput.cpp,v 1.21.2.3 1999/10/04 02:42:35 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -45,6 +45,7 @@ ____________________________________________________________________________*/
 #include "pullbuffer.h"
 #include "facontext.h"
 #include "log.h"
+#include "utility.h"
 
 const uint32 iReadBlock = 8192;
 
@@ -144,7 +145,7 @@ bool LocalFileInput::CanHandle(const char *szUrl, char *szTitle)
 Error LocalFileInput::SetTo(const char *url)
 {
     Error  result = kError_NoErr;
-    int32  len = strlen(url) + 1;
+    uint32  len = strlen(url) + 1;
     
     if (m_path)
     {
@@ -156,7 +157,9 @@ Error LocalFileInput::SetTo(const char *url)
     if (m_path)
     {
         if (strncmp(url, "file://", 7) == 0)
-           memcpy(m_path, url + 7, len);
+        {
+            URLToFilePath(url, m_path, &len);
+        }
         else
            memcpy(m_path, url, len);
     }

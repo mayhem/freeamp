@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.16 1999/10/01 00:05:35 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.17 1999/10/04 02:42:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -43,61 +43,6 @@ using namespace std;
 #include "registry.h"
 #include "downloadformat.h"
 
-class DownloadItem;
-
-typedef enum {
-    kDLMEvent_AddItem,
-    kDLMEvent_RemoveItem,
-    kDLMEvent_Status,
-    kDLMEvent_Progress,
-    kDLMEvent_Error
-} DLMEventType;
-
-#define kDLMProgressInfinity -1
-
-typedef struct DLMEventAddItemData {
-    uint32 index;
-    uint32 total;
-    DownloadItem* item;
-} DLMEventAddItemData;
-
-typedef struct DLMEventRemoveItemData {
-    uint32 index;
-    uint32 total;
-    DownloadItem* item;
-} DLMEventRemoveItemData;
-
-typedef struct DLMEventProgressData {
-    uint32 position;
-    uint32 total;
-    DownloadItem* item;
-} DLMEventProgressData;
-
-typedef struct DLMEventStatusData {
-    DownloadItem* item;
-} DLMEventStatusData;
-
-typedef struct DLMEventErrorData {
-    Error errorCode;
-    DownloadItem* item;
-} DLMEventErrorData;
-
-typedef union DLMEventData {
-    DLMEventAddItemData     addItemData;
-    DLMEventRemoveItemData  removeItemData;
-    DLMEventProgressData    progressData;
-    DLMEventStatusData      statusData;
-    DLMEventErrorData       errorData;
-} DLMEventData;
-
-typedef struct DLMEvent {
-    DLMEventType type;
-    DLMEventData data;
-    string eventString;
-} DLMEvent;
-
-typedef bool (*DLMCallBackFunction)(DLMEvent* event, void* userData);
-
 #define kInvalidIndex 0xFFFFFFFF
 
 typedef enum {
@@ -112,8 +57,6 @@ typedef enum {
 } DownloadItemState;
 
 class DownloadItem {
- friend class DownloadManager;
-
  public:
     DownloadItem()
     {

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.28 1999/10/04 00:28:43 robert Exp $
+        $Id: player.cpp,v 1.133.2.29 1999/10/04 02:42:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -152,8 +152,8 @@ EventQueue()
     m_musicBrowser->SetDatabase(freeampdir.c_str());
 
     delete [] tempDir;
-    m_downloadManager = new DownloadManager(m_context);
-    m_context->downloadManager = m_downloadManager;
+    m_dlm = new DownloadManager(m_context);
+    m_context->downloadManager = m_dlm;
 }
 
 #define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }
@@ -162,9 +162,20 @@ Player::
 ~Player()
 {
     TYPICAL_DELETE(m_pTermSem);
-    TYPICAL_DELETE(m_argUIList);
 
-    if (m_eventServiceThread)
+    if(m_argUIList)
+    {
+        vector<char*>::iterator i = m_argUIList->begin();
+
+        for (; i != m_argUIList->end(); i++)
+            delete [] *i; 
+
+        delete m_argUIList;
+
+        m_argUIList = NULL;
+    }
+
+    if(m_eventServiceThread)
     {
         m_eventServiceThread->Join();
         delete    m_eventServiceThread;
@@ -172,7 +183,7 @@ Player::
         m_eventServiceThread = NULL;
     }
 
-    if (m_pmo)
+    if(m_pmo)
     {
         m_pmo->Pause();
         delete    m_pmo;
@@ -184,7 +195,7 @@ Player::
     TYPICAL_DELETE(m_eventQueue);
 
     // Delete CIOs
-    if (m_uiList)
+    if(m_uiList)
     {
         vector<UserInterface *>::iterator i = m_uiList->begin();
 
@@ -207,19 +218,19 @@ Player::
     TYPICAL_DELETE(m_uiRegistry);
     TYPICAL_DELETE(m_lmcExtensions);
     TYPICAL_DELETE(m_musicBrowser);
-    TYPICAL_DELETE(m_downloadManager);
+    TYPICAL_DELETE(m_dlm);
 }
 
 void      
 Player::
 SetTerminationSemaphore(Semaphore * pSem)
 {
-   m_pTermSem = pSem;
+    m_pTermSem = pSem;
 }
 
 /*
-   return true if parsing was successful, false otherwise. 
- */
+    return true if parsing was successful, false otherwise. 
+*/
 
 typedef char *pchar;
 
@@ -227,199 +238,231 @@ bool
 Player::
 SetArgs(int32 argc, char **argv)
 {
-   vector < char *>argList;
-   bool      justGotArgvZero = false;
-   char     *arg = NULL;
-   char     *argUI = NULL;
+    bool autoplay = false;
+    char* path = new char[_MAX_PATH];
+    char* url = new char[_MAX_PATH];
 
-#ifndef WIN32
-  
-#if 0 
-   if (argc == 1)
-   {
-       Usage(argv[0]);
-       exit(0);
-   }
+    // remember these guys so we can use them later and elsewhere
+    m_argc = argc;
+    m_argv = argv;
 
-   // grab the UI name from how we are invoked.
-   argUI = new char[strlen(argv[0]) + 1 + 3];
-   char     *pBegin = strrchr(argv[0], '/');
+    m_context->argv = m_argv;
+    m_context->argc = m_argc;
 
-   if (pBegin)
-   {
-      pBegin++;
-   }
-   else
-   {
-      pBegin = argv[0];
-   }
-   strcpy(argUI, pBegin);
-   m_argUIList->AddItem(argUI);
-#endif
+    // now parse them and pull out any args we know about
+    for (int32 i = 1; i < argc; i++)
+    {
+        char* arg = argv[i];
 
-   justGotArgvZero = true;
-#endif	// ndef WIN32
-
-   argList.push_back(argv[0]);
-   for (int32 i = 1; i < argc; i++)
-   {
-      arg = argv[i];
-
-      if (arg[0] == '-')
-      {
-         switch (arg[1])
-         {
-         case 'h':
-         case 'H':
-         case '-':
-            if (!strcmp(arg + 1, "help") || !strcmp(arg + 2, "help"))
+        // is this an option?
+        if(arg[0] == '-' || arg[0] == '/')
+        {
+            switch(arg[1])
             {
-               Usage(argv[0]);
-               exit(0);
+                // print help
+                case 'h':
+                case 'H':
+                case '-':
+                    if(!strcasecmp(arg + 1, "help") || !strcasecmp(arg + 2, "help"))
+                    {
+                        Usage(argv[0]);
+                        AcceptEvent(new Event(CMD_QuitPlayer));
+                        return true;
+                    }
+                    break;
+
+                // autoplay
+                case 'p':
+                case 'P':
+                    if(!strcasecmp(arg + 1, "play"))
+                        autoplay = true;
+
+                // save streams
+                // shuffle
+                case 's':
+                case 'S':
+                    if(!strcasecmp(arg + 1, "save"))
+		                m_context->argFlags |= FAC_ARGFLAGS_SAVE_STREAMS;
+                    else if(!strcasecmp(arg + 1, "shuffle"))
+                        m_plm->SetShuffleMode(true);
+
+                    break;
+
+                // set UIs
+                case 'u':
+                case 'U':
+                {
+                    if(arg[2] == 'i' || arg[2] == 'I')
+                    {
+                        char* argUI = NULL;
+                        
+                        i++;
+                        if(i >= argc)
+                        {
+                            Usage(argv[0]);
+                            AcceptEvent(new Event(CMD_QuitPlayer));
+                            return false;
+                        }
+
+                        arg = argv[i];
+
+                        argUI = new char[strlen(arg) + 1];
+
+                        strcpy(argUI, arg);
+                        
+                        m_argUIList->push_back(argUI);
+                    }
+
+                    break;
+                }
+
+                default:
+                    break;
+
             }
-	    else
-	       goto normalArg;
-            break;
-         case 'u':
-         case 'U':
+        }
+        else
+        {
+            // is this a URL we know how to handle
+            if( !strncasecmp(arg, "http://", 7) ||
+                !strncasecmp(arg, "rtp://", 6))
             {
-               if (arg[2] == 'i' ||
-                   arg[2] == 'I')
-               {
-                  i++;
-                  if (i >= argc)
-                  {
-                     Usage(argv[0]);
-                     AcceptEvent(new Event(CMD_QuitPlayer));
-                     return false;
-                  }
-                  arg = argv[i];
-                  // if (m_argUI) delete m_argUI;
-                  argUI = new char[strlen(arg) + 1];
-
-                  strcpy(argUI, arg);
-
-                  if (justGotArgvZero)
-                  {
-                     vector<char *>::iterator i = m_argUIList->begin();
-
-                     for (; i != m_argUIList->end(); i++)
-                         delete *i;
-
-                     justGotArgvZero = false;
-                  }
-                  m_argUIList->push_back(argUI);
-               }
-	       else
-		  goto normalArg;
-               break;
-            }
-	 case 's':
-	 case 'S':
-	    if (!strcmp(&(arg[2]), "ave"))
-		m_context->argFlags |= FAC_ARGFLAGS_SAVE_STREAMS;
-	    else
-		goto normalArg;
-	    break;
-#if 0				// We use the prefs file now
-         case 'p':
-            if (!strcmp(&(arg[2]), "rop"))
-            {
-               // add in a Property=Value property
-               i++;
-               if (i >= argc)
-               {
-                  Usage(argv[0]);
-                  AcceptEvent(new Event(CMD_QuitPlayer));
-                  return false;
-               }
-               char     *pProp = argv[i];
-
-               if (pProp)
-               {
-                  char     *pVal = strchr(pProp, '=');
-
-                  if (pVal)
-                  {
-                     *pVal = '\0';
-                     pVal++;
-                     StringPropValue *spv = new StringPropValue(pVal);
-
-                     m_props.SetProperty(pProp, (PropValue *) spv);
-                  }
-                  else
-                  {
-                     cerr << "Property string '" << pProp << "' is not valid.  Needs to be of the form Property=Value." << endl;
-                     break;
-                  }
-               }
+                m_plm->AddItem(arg);
             }
             else
-	       goto normalArg;
-            break;
-#endif
-         default:
-	 normalArg:
-            argList.push_back(argv[i]);
-	    break;
-         }
-      }
-      else
-	  {
-		 char *pPtr;
+            {
+#ifdef WIN32
+                strcpy(path, arg);
 
-		 pPtr = strrchr(argv[i], '.');
-		 if (pPtr && strcasecmp(pPtr, szPlaylistExt) == 0)
-		 { 
-		 	/* 
-            Error eRet;
+                HANDLE handle;
+                WIN32_FIND_DATA data;
+        
+                handle = FindFirstFile(arg, &data);
 
-		     eRet = m_plm->ExpandM3U(argv[i], argList);
+                // find long filename for item and
+                // expand wildcards...
+                if(handle != INVALID_HANDLE_VALUE)
+                {
+                    do
+                    {
+                        char* cp = NULL;
+                    
+                        cp = strrchr(path, '\\');
 
-		     if (IsError(eRet))
-#ifndef WIN32
-                printf("Error: Cannot open file '%s'.\n", argv[i]);
+                        if(cp)
+                            cp++;
+                        else 
+                            cp = path;
+
+                        strcpy(cp, data.cFileName);
+
+                        // make sure we have an absolute path
+                        ResolvePath(&path);
+
+                        // format this path as a URL
+                        uint32 length = _MAX_PATH;
+                        FilePathToURL(path, url, &length);
+
+                        // who needs to get this, plm or dlm?
+                        bool giveToDLM = false;
+                        char* extension = NULL;
+
+                        extension = strrchr(url, '.');
+                        if(extension)
+                        {
+                            DownloadFormatInfo dlfi;
+                            uint32 i = 0;
+
+                            extension++;
+
+                            while(IsntError(m_dlm->GetSupportedDownloadFormats(&dlfi, i++)))
+                            {
+                                if(!strcasecmp(extension, dlfi.GetExtension()))
+                                {
+                                    giveToDLM = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if(giveToDLM)
+                            m_dlm->AddItem(url);
+                        else
+                            m_plm->AddItem(url); 
+
+                    }while(FindNextFile(handle, &data));
+                   
+                    FindClose(handle);
+                }
+                else // is this a URL we know how to handle ?
+                {
+                    m_plm->AddItem(arg);
+                    continue;
+                }
 #else
-                MessageBox(NULL, "Cannot open playlist file", argv[i], MB_OK); 
+                strcpy(path, arg);
+
+                // make sure we have an absolute path
+                ResolvePath(&path);
+
+                // format this path as a URL
+                uint32 length = _MAX_PATH;
+                FilePathToURL(path, url, &length);
+
+                // who needs to get this, plm or dlm?
+                bool giveToDLM = false;
+                char* extension = NULL;
+
+                extension = strrchr(url, '.');
+                if(extension)
+                {
+                    DownloadFormatInfo dlfi;
+                    uint32 i = 0;
+
+                    extension++;
+
+                    while(IsntError(m_dlm->GetSupportedDownloadFormats(&dlfi, i++)))
+                    {
+                        if(!strcasecmp(extension, dlfi.GetExtension()))
+                        {
+                            giveToDLM = true;
+                            break;
+                        }
+                    }
+                }
+
+                if(giveToDLM)
+                    m_dlm->AddItem(url);
+                else
+                    m_plm->AddItem(url);
 #endif
-            */
-		 }
-		 else
-             argList.push_back(argv[i]);
-      }
-   }
-   m_argc = argList.size();
-   if (m_argc)
-   {
-	   //LEAK-2
-	   m_argv = new pchar[m_argc];
-      for (int f = 0; f < m_argc; f++)
-      {
-         m_argv[f] = argList[f];
-         // cerr << "Adding argument (" << f << "): " << m_argv[f] << endl;
-      }
-   }
+            }
+        }
+    }
 
-   m_context->argv = m_argv;
-   m_context->argc = m_argc;
+    if(autoplay)
+        AcceptEvent(new Event(CMD_Play));
 
-   return true;
+    delete [] path;
+    delete [] url;
+
+    return true;
 }
 
 void      
 Player::
 Usage(const char *progname)
 {
-   if (m_didUsage)
-      return;
+    if(m_didUsage)
+        return;
 
-   printf("FreeAmp version " FREEAMP_VERSION " -- Usage:\n\n");
-   printf("freeamp [-save] [-ui <UI plugin name>] <MP3 file/stream> "
-	  "[MP3 file/stream] ...\n\n");
-   printf("Example command line:\n\n");
-   printf("   freeamp -ui freeamp-linux.ui mysong1.mp3 mysong2.mp3\n\n");
+    printf("FreeAmp version " FREEAMP_VERSION " -- Usage:\n\n");
+    printf("freeamp [-save] [-ui <UI plugin name>] <MP3 file/stream> "
+      "[MP3 file/stream] ...\n\n");
+    printf("Example command line:\n\n");
+    printf("   freeamp -ui freeamp-linux.ui mysong1.mp3 mysong2.mp3\n\n");
 
-   m_didUsage = true;
+    m_didUsage = true;
 }
 
 int32     
@@ -428,42 +471,42 @@ CompareNames(const char *p1, const char *p2)
 {
 // windows plugins and unix plugins are named differently...
 #ifdef WIN32
-   return strcmp(p1, p2);
+    return strcmp(p1, p2);
 #else
-   // ut << "Comparing: " << p1 << " to " << p2 << endl;
-   if (strcmp(p1, p2))
-   {
-      // no direct match, try w/ .ui appended...
-      char      foo[512];
+    // ut << "Comparing: " << p1 << " to " << p2 << endl;
+    if (strcmp(p1, p2))
+    {
+        // no direct match, try w/ .ui appended...
+        char      foo[512];
 
-      sprintf(foo, "%s.ui", p2);
-      // ut << "Comparing: " << p1 << " to " << foo << endl;
-      if (strcmp(p1, foo))
-      {
-         // no plugin.ui match, try  plugin-arch.ui
-         char      foo[512];
+        sprintf(foo, "%s.ui", p2);
+        // ut << "Comparing: " << p1 << " to " << foo << endl;
+        if (strcmp(p1, foo))
+        {
+            // no plugin.ui match, try  plugin-arch.ui
+            char      foo[512];
 
-         sprintf(foo, "%s.ui", p2);
-         // cout << "Comparing: " << p1 << " to " << foo << endl;
-         if (strcmp(p1, foo))
-         {
-            // no match
-            return 1;
-         }
-         else
-         {
+            sprintf(foo, "%s.ui", p2);
+            // cout << "Comparing: " << p1 << " to " << foo << endl;
+            if (strcmp(p1, foo))
+            {
+                // no match
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
             return 0;
-         }
-      }
-      else
-      {
-         return 0;
-      }
-   }
-   else
-   {
-      return 0;
-   }
+        }
+    }
+    else
+    {
+        return 0;
+    }
 #endif
 }
 

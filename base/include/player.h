@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.42.4.11 1999/09/28 05:16:52 ijr Exp $
+        $Id: player.h,v 1.42.4.12 1999/10/04 02:42:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -187,7 +187,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     MusicBrowser *m_musicBrowser;
     UserInterface *m_browserUI;
 
-    DownloadManager* m_downloadManager;
+    DownloadManager* m_dlm;
     UserInterface *m_downloadUI;
 };
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.2.2.9 1999/10/01 04:49:21 hiro Exp $
+	$Id: utility.cpp,v 1.2.2.10 1999/10/04 02:42:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -32,6 +32,166 @@ ____________________________________________________________________________*/
 
 #include "config.h"
 #include "utility.h"
+
+static bool IsRelative(const char* path)
+{
+    bool result = false;
+
+    assert(path);
+
+    if(path)
+    {
+        result = (  path[0] != DIR_MARKER );
+
+#ifdef WIN32
+       if(result && strlen(path) > 2)
+       {
+            result = !(path[1] == ':' && path[2] == '\\');
+       }
+#endif
+    }
+
+    return result;
+}
+
+void ResolvePath(char** path)
+{
+    assert(path);
+    assert(*path);
+
+    if(IsRelative(*path))
+    {
+        // need to get cwd and resolve this path in
+        // relation to it.
+        char* cwd = new char[_MAX_PATH];
+
+        getcwd(cwd, _MAX_PATH);
+
+        char* fullPath = new char[strlen(cwd) + strlen(*path) + 2];
+        
+        strcpy(fullPath, cwd);
+        strcat(fullPath, "\\");
+        strcat(fullPath, *path);
+
+        delete [] *path;
+
+        *path = fullPath;
+
+        delete [] cwd;
+    }
+
+    char* cp = *path;
+
+    // remove multiple separators between elements
+    // and make sure end does not contain separator
+    // unless it is the root directory and remove
+    // relative indicators in the *path
+
+    
+    bool separator = false;
+
+    char dotslash[3] = ".\\";
+    char dotdotslash[4] = "..\\";
+
+    dotslash[1] = DIR_MARKER;
+    dotdotslash[2] = DIR_MARKER;
+
+    while(*cp)
+    {
+        if(cp[0] == DIR_MARKER)
+        {
+            if(separator)
+            {
+                //memcpy(cp - 1, cp, strlen(cp) + 1);
+                strcpy(cp - 1, cp);
+                continue;
+            }
+
+            separator = true;
+        }
+        else
+        {
+            separator = false;
+
+            if(cp[0] == '.')
+            {
+               
+                if(!strncmp(cp, dotslash, 2))
+                {
+                    strcpy(cp, cp + 2);
+                    continue;
+                }
+                else if(!strncmp(cp, dotdotslash, 3) && cp != *path)
+                {
+                    char* lastDir;
+                    bool found = false;
+
+                    lastDir = cp - 2;
+
+                    while(lastDir > *path)
+                    {
+                        if(*lastDir == DIR_MARKER)
+                        {
+                            lastDir++;
+                            found = true;
+                            break;
+                        }
+
+                        lastDir--;
+                    }
+
+                    if(found || lastDir == *path)
+                    {
+                        strcpy(lastDir, cp + 3);
+
+                        cp = lastDir;
+                    }
+
+                    continue;
+                }
+            }
+        }
+
+        cp++;
+    }
+
+    // check the end for stragglers
+    if(*(cp - 1) == '.')
+    {
+
+        if( cp - 1 != *path && 
+            *(cp - 2) == '.' && 
+            cp - 2 != *path) 
+        {
+            *(cp - 2) = 0x00;
+            cp = cp - 2;
+        }
+        else if(cp - 1 != *path && 
+                *(cp - 2) != '.') 
+        {
+            *(cp - 1) = 0x00;
+            cp = cp - 1;
+        }
+    }
+
+#ifdef WIN32
+    if(*(cp - 1) == DIR_MARKER && 
+        cp - 1 != *path &&
+        *(cp - 2) != ':') 
+    {
+        *(cp - 1) = 0x00;
+
+    }
+
+#else
+    if(*(cp - 1) == DIR_MARKER && 
+        cp - 1 != *path) 
+    {
+        *(cp - 1) = 0x00;
+    }
+#endif
+    
+}
 
 void RFC822GMTTimeString(struct tm* time, char buf[32])
 {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.31 1999/10/04 00:28:59 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.32 1999/10/04 02:42:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -166,47 +166,24 @@ Error FreeAmpTheme::Close(void)
 
 void FreeAmpTheme::ParseArgs()
 {
-    char     *arg = NULL;
+    char* arg = NULL;
 
-    bool      shuffle = false;
-    bool      autoplay = false;
 
+    /*
     for (int32 i = 1; i < m_pContext->argc; i++)
     {
-       arg = m_pContext->argv[i];
+        arg = m_pContext->argv[i];
 
-       if (arg[0] == '-')
-       {
-          switch (arg[1])
-          {
-          case 's':
-             shuffle = true;
-             break;
-          case 'p':
-             autoplay = true;
-             break;
-          }
-       }
-       else
-       {
-          if (m_iStartupType == PRIMARY_UI)
-          {
-          	 char *szTemp = new char[strlen(arg) + 1];
-             strcpy(szTemp, arg);
-             
-             m_pContext->plm->AddItem(szTemp, 0);
-          }
-       }
+        if (arg[0] == '-')
+        {
+ 
+        }
+        else
+        {
+  
+        }
     }
-    if (m_iStartupType == PRIMARY_UI)
-    {
-       //m_pContext->plm->SetFirst();
-       //if (shuffle)
-       //   m_pContext->plm->SetShuffle(SHUFFLE_RANDOM);
-
-       if (autoplay)
-          m_pContext->target->AcceptEvent(new Event(CMD_Play));
-    }
+    */
 }
 
 int32 FreeAmpTheme::AcceptEvent(Event * e)

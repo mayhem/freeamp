@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-	$Id: esoundpmo.cpp,v 1.18 2000/06/23 07:21:15 ijr Exp $
+	$Id: esoundpmo.cpp,v 1.18.2.1 2000/07/25 22:16:34 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -193,6 +193,7 @@ Error EsounDPMO::Init(OutputInfo * info)
    m_properlyInitialized = true;
 
    m_iBytesPerSample = info->number_of_channels * (info->bits_per_sample / 8);
+   m_channels = info->number_of_channels;
 
    mixer_fd = esd_open_sound(m_espeaker);
    if (mixer_fd > 0) 
@@ -400,6 +401,10 @@ void EsounDPMO::WorkerThread(void)
                                 strerror(errno));
           break; 
       }
+
+      PumpWaveData((int)m_channels,
+                   (int)(m_iDataSize / (m_iBytesPerSample * m_channels)),
+                   (unsigned char *)pBuffer); 
 
       m_iTotalBytesWritten += iRet;
       m_pInputBuffer->EndRead(iRet);

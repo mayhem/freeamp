@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.43 2000/06/30 06:29:34 ijr Exp $
+        $Id: soundcardpmo.cpp,v 1.43.2.1 2000/07/25 22:16:34 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -510,6 +510,10 @@ void SoundCardPMO::WorkerThread(void)
                                strerror(errno));
          break;
       }
+
+      PumpWaveData((int)channels, 
+                   (int)(m_iDataSize / (m_iBytesPerSample * channels)),
+                   (unsigned char *)pBuffer);
 
       m_iTotalBytesWritten += iRet;
       m_pInputBuffer->EndRead(iRet);

@@ -113,7 +113,7 @@ public:
   bool            m_bIsBufferEmptyNow;
   bool            m_bLMCsaidToPlay;
   int             m_iOutputBufferSize, m_iTotalBytesWritten, m_iBytesPerSample;
-  int             m_iLastFrame;
+  int             m_iLastFrame, m_channels;
 
   /* DirectSound objects */
   Semaphore*      m_pDSBufferSem; // Semaphore to access Sec Buffer for setting purpose

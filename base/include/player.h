@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.55 2000/06/21 13:34:36 ijr Exp $
+        $Id: player.h,v 1.55.2.1 2000/07/25 22:16:33 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -45,6 +45,7 @@ using namespace std;
 #include "downloadmanager.h"
 #include "timer.h"
 #include "lmc.h"
+#include "waveconsumer.h"
 
 typedef enum
 {
@@ -55,6 +56,22 @@ typedef enum
 PlayerState;
 
 class FAContext;
+
+#define WAVE_CONSUMER_TEST
+#ifdef WAVE_CONSUMER_TEST
+
+class WaveTest : public WaveConsumer
+{
+    public:
+
+        void BeginWaveData(void) { printf("Begin Wave data\n"); };
+        void PumpWaveData(int channels, int samples,
+                          unsigned char *data)
+                          {
+                          }
+        void EndWaveData(bool bFinished) { printf("End Wave data (%d)\n", bFinished); };
+};
+#endif  
 
 class Player : public EventQueue, Properties, PropertyWatcher
 {
@@ -138,6 +155,10 @@ class Player : public EventQueue, Properties, PropertyWatcher
     void ToggleUI(Event *pEvent);
     void HandleQueryState();
     void SendEventToCatalog(Event *pEvent);   
+
+    void RegisterConsumer(RegisterWaveConsumerEvent *pEvent);
+    void StartWaveConsumers(void);
+    void StopWaveConsumers(bool bFinished);
  
     #define _EQUALIZER_ENABLE_
     #ifdef  _EQUALIZER_ENABLE_
@@ -199,6 +220,10 @@ class Player : public EventQueue, Properties, PropertyWatcher
     TimerRef m_cdTimer;
     float    m_eqValues[32];
     bool     m_eqEnabled;
+    vector<WaveConsumer *> m_waveConsumers;
+#ifdef WAVE_CONSUMER_TEST
+    WaveTest *m_waveTest;
+#endif
 };
 
 #endif // _PLAYER_H_

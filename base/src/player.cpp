@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.212 2000/06/22 16:09:30 elrod Exp $
+        $Id: player.cpp,v 1.212.2.1 2000/07/25 22:16:33 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -184,6 +184,11 @@ EventQueue()
 
     m_eqEnabled = false;
     memset(m_eqValues, 0, sizeof(m_eqValues));
+
+#ifdef WAVE_CONSUMER_TEST
+    m_waveTest = new WaveTest;
+    AcceptEvent(new RegisterWaveConsumerEvent(m_waveTest));
+#endif
 }
 
 #define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }
@@ -1370,6 +1375,7 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
 
    pmo->SetPMI(pmi);
    pmo->SetLMC(lmc);
+   pmo->SetWaveConsumers(&m_waveConsumers);
 
    lmc->SetEQData(m_eqValues);
    lmc->SetEQData(m_eqEnabled);
@@ -1444,6 +1450,8 @@ DoneOutputting(Event *pEvent)
 
    SEND_NORMAL_EVENT(INFO_DoneOutputting);
 
+   StopWaveConsumers(true);
+
    if (pEvent->Type() == INFO_DoneOutputtingDueToError &&
        (m_plm->GetRepeatMode() == kPlaylistMode_RepeatOne || 
         (m_plm->GetRepeatMode() == kPlaylistMode_RepeatAll && 
@@ -1497,6 +1505,8 @@ Stop(Event *pEvent)
        SEND_NORMAL_EVENT(INFO_Stopped);
     }
 
+    StopWaveConsumers(false);
+
     delete pEvent;
 }
 
@@ -1529,8 +1539,10 @@ void
 Player::
 ChangePosition(Event *pEvent)
 {
+    StopWaveConsumers(false);
     if (m_pmo)
        m_pmo->ChangePosition(((ChangePositionEvent *) pEvent)->GetPosition());
+    StartWaveConsumers();
 
     delete pEvent;
 }
@@ -1599,6 +1611,8 @@ Play(Event *pEvent)
            SEND_NORMAL_EVENT(INFO_Playing);
         }
     }
+
+    StartWaveConsumers();
 
     delete pEvent;
 }
@@ -1872,6 +1886,45 @@ ToggleUI(Event *pEvent)
    delete pEvent;
 } 
 
+void Player::RegisterConsumer(RegisterWaveConsumerEvent *pEvent)
+{
+   if (pEvent->Unregister())
+   {
+       vector<WaveConsumer *>::iterator i;
+
+       i = find(m_waveConsumers.begin(), 
+                m_waveConsumers.end(), 
+                pEvent->Consumer());
+       if (i != m_waveConsumers.end())
+           m_waveConsumers.erase(i);
+   }
+   else
+       m_waveConsumers.push_back(pEvent->Consumer());
+
+   if (m_pmo)
+      m_pmo->SetWaveConsumers(&m_waveConsumers);
+}
+
+void Player::StartWaveConsumers(void)
+{
+   vector<WaveConsumer *>::iterator i;
+
+   for(i = m_waveConsumers.begin(); i != m_waveConsumers.end(); i++)
+   {
+       (*i)->BeginWaveData();
+   }
+}
+
+void Player::StopWaveConsumers(bool bFinished)
+{
+   vector<WaveConsumer *>::iterator i;
+
+   for(i = m_waveConsumers.begin(); i != m_waveConsumers.end(); i++)
+   {
+       (*i)->EndWaveData(bFinished);
+   }
+}
+
 int32 
 Player::
 ServiceEvent(Event * pC)
@@ -1881,7 +1934,6 @@ ServiceEvent(Event * pC)
       return 255;
     }
 
-    //printf("Got event %d\n", pC->Type());
     switch (pC->Type())
     {
         case INFO_DoneOutputtingDueToError:
@@ -1997,6 +2049,10 @@ ServiceEvent(Event * pC)
         case CMD_EditCurrentPlaylistItemInfo:
             SendEventToUI(pC);
             delete pC;
+            break;
+
+        case CMD_RegisterWaveConsumer:
+            RegisterConsumer((RegisterWaveConsumerEvent *)pC);
             break;
 
         case CMD_ToggleDownloadUI:

@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: esoundpmo.h,v 1.7 2000/05/04 10:54:56 robert Exp $
+        $Id: esoundpmo.h,v 1.7.8.1 2000/07/25 22:16:34 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_ESOUNDDPMO_H_
@@ -72,6 +72,7 @@ class EsounDPMO:public PhysicalMediaOutput
      int          m_iLastFrame;
      unsigned int m_iDataSize;
      int          m_iVolume;
+     int          m_channels;
 };
 
 #endif /* _ESOUNDPMO_H_ */ 

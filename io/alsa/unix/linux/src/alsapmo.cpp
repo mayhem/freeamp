@@ -24,7 +24,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.30 2000/06/23 07:21:15 ijr Exp $
+        $Id: alsapmo.cpp,v 1.30.2.1 2000/07/25 22:16:33 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -543,6 +543,10 @@ void AlsaPMO::WorkerThread(void)
       }
       if (m_bExit)
           return;
+
+      PumpWaveData((int)m_channels,
+                   (int)(m_iDataSize / (m_iBytesPerSample * m_channels)),
+                   (unsigned char *)pBuffer); 
 
       if (m_bPause)
       {

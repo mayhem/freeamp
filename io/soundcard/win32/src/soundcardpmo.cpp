@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.70 2000/06/22 18:53:10 elrod Exp $
+   $Id: soundcardpmo.cpp,v 1.70.2.1 2000/07/25 22:16:34 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -382,6 +382,10 @@ Error SoundCardPMO::Write(void *pBuffer, uint32 uSize)
    // Prepare & write newest header
    waveOutPrepareHeader(m_hwo, wavhdr, m_hdr_size);
    waveOutWrite(m_hwo, wavhdr, m_hdr_size);
+
+   PumpWaveData((int)m_channels,
+                (int)(uSize / (m_iBytesPerSample * m_channels)),
+                (unsigned char *)pBuffer); 
 
    return result;
 }

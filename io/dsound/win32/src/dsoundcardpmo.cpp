@@ -19,7 +19,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: dsoundcardpmo.cpp,v 1.24 2000/06/22 18:53:10 elrod Exp $
+  $Id: dsoundcardpmo.cpp,v 1.24.2.1 2000/07/25 22:16:33 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -389,6 +389,7 @@ Init(OutputInfo* info)
   }
 
   m_iBytesPerSample = info->number_of_channels * (info->bits_per_sample >> 3);
+  m_channels = info->number_of_channels;
 
   m_DSBufferManager.state             = UNDERFLOW;
   // Use Primary Sound Driver
@@ -715,6 +716,10 @@ DSWriteToSecBuffer(int32& wrote, void *pBuffer, int32 length)
   wrote = length;
   // release the write semaphore
   m_pDSWriteSem->Signal();
+
+  PumpWaveData((int)m_channels,
+               (int)(m_iDataSize / (m_iBytesPerSample * m_channels)),
+               (unsigned char *)pBuffer); 
 
   result = ((EventBuffer *)m_pInputBuffer)->EndRead(iRead);
   if (result != kError_NoErr)

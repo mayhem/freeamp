@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.30 2000/05/07 17:06:23 robert Exp $
+	$Id: pmo.h,v 1.30.8.1 2000/07/25 22:16:34 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMO_H_
@@ -83,6 +83,7 @@ public:
     virtual void  SetLMC(LogicalMediaConverter *pLMC);
     virtual void  SetPMI(PhysicalMediaInput *pPMI);
     virtual Error SetTo(const char *url);  
+    virtual void  SetWaveConsumers(vector<WaveConsumer *> *consumers);
 
     virtual const char *GetErrorString(int32) { return NULL; };
 
@@ -93,11 +94,15 @@ protected:
     virtual void  UpdateBufferStatus(void);
     virtual void  CheckForBufferUp(void);
 
+    virtual void  PumpWaveData(int channels, int samples, 
+                               unsigned char *data);
+
     PhysicalMediaInput    *m_pPmi;
     LogicalMediaConverter *m_pLmc;
     int32                  m_iPreBuffer;
     int                    m_iBufferUpdate;
     PullBuffer            *m_pPmiBuffer;
+    vector<WaveConsumer *>*m_waveConsumers;
 };
 
 #endif /* _PMO_H_ */

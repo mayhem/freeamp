@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.17 2000/05/17 09:27:33 robert Exp $
+        $Id: pmo.cpp,v 1.17.8.1 2000/07/25 22:16:34 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -110,6 +110,11 @@ void PhysicalMediaOutput::SetPMI(PhysicalMediaInput *pPMI)
     m_pPmi = pPMI;
 
     m_pMutex->Release();
+}
+
+void PhysicalMediaOutput::SetWaveConsumers(vector<WaveConsumer *> *pConsumers)
+{
+    m_waveConsumers = pConsumers;
 }
 
 void PhysicalMediaOutput::Pause(void)
@@ -226,5 +231,16 @@ void PhysicalMediaOutput::CheckForBufferUp(void)
            m_pTarget->AcceptEvent(new StreamBufferEvent(true, 
                                   iInPercent, iOutPercent)); 
        }
+   }
+}
+
+void PhysicalMediaOutput::PumpWaveData(int channels, int samples, 
+                                       unsigned char *data)
+{
+   vector<WaveConsumer *>::iterator i;
+
+   for(i = m_waveConsumers->begin(); i != m_waveConsumers->end(); i++)
+   {
+       (*i)->PumpWaveData(channels, samples, data);
    }
 }

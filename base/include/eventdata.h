@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.59 2000/06/21 13:34:36 ijr Exp $
+        $Id: eventdata.h,v 1.59.2.1 2000/07/25 22:16:33 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -35,6 +35,7 @@ using namespace std;
 #include "event.h"
 #include "playlist.h"
 #include "utility.h"
+#include "waveconsumer.h"
 
 class     LogicalMediaConverter;
 
@@ -977,6 +978,23 @@ class MissingFileEvent:public Event
    { m_type = INFO_FileNotFound; m_item = item; }
    virtual ~ MissingFileEvent(){ }
    PlaylistItem *Item() const{ return m_item; }
+};
+
+class RegisterWaveConsumerEvent:public Event
+{
+ private:
+   WaveConsumer *m_wave;
+   bool          m_unregister;
+ public:
+   RegisterWaveConsumerEvent(WaveConsumer *wave, bool unregister = false)
+   { 
+     m_type = CMD_RegisterWaveConsumer; 
+     m_wave = wave; 
+     m_unregister = unregister;
+   }
+   virtual ~ RegisterWaveConsumerEvent(){ }
+   WaveConsumer *Consumer() const{ return m_wave; }
+   bool Unregister() { return m_unregister; }
 };
 
 #endif /* _EVENTDATA_H_ */

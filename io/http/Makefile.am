@@ -18,14 +18,14 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.10 1999/01/19 05:10:18 jdw Exp $
+##      $Id: Makefile.am,v 1.1 1999/01/19 05:10:18 jdw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
 PLUGIN_DIR = @top_srcdir@/plugins/
-PLUGIN_NAME = localfileinput-@target_os@.pmi
+PLUGIN_NAME = httpinput-@target_os@.pmi
 PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
 
 
@@ -34,7 +34,7 @@ FILES =
 MYLIBS = 
 TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 else
-FILES = localfileinput.cpp filebuffer.cpp
+FILES = httpinput.cpp httpbuffer.cpp
 MYLIBS = libfaio.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 

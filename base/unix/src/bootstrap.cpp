@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.10 1998/12/01 19:24:09 jdw Exp $
+	$Id: bootstrap.cpp,v 1.11 1999/01/19 05:10:18 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -149,7 +149,7 @@ void testVector() {
     pVect2->DeleteAll();
     if (pVect2->ElementAt(0) != NULL) {
 	cout << "Final Test failed!! (2nd one)" << endl;
-    }
+   }
     cout << "Ending testVector..." << endl;
 }
 #endif

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.8 1998/12/12 22:36:38 jdw Exp $
+	$Id: pmi.h,v 1.9 1999/01/19 05:10:18 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -51,8 +51,17 @@ class PhysicalMediaInput {
 
 public:
     virtual ~PhysicalMediaInput() { }
-    virtual Error Read(int32 &/*bytes read*/,void* /*buf*/, size_t /*numbytes*/) {return kError_GotDefaultMethod;}
-    virtual Error Seek(int32 &/*seeked to*/,int32 offset, int32 origin) {return kError_GotDefaultMethod;}
+    virtual Error BeginRead(void* & /*buf*/, size_t &/*bytesneeded*/) 
+	               { return kError_GotDefaultMethod; }
+    virtual Error EndRead(size_t /*bytesused*/) 
+	               { return kError_GotDefaultMethod; }
+    virtual Error Seek(int32 &/*seeked to*/,int32 offset, int32 origin) 
+	               {return kError_GotDefaultMethod;}
+    virtual Error GetLength(size_t &iSize)
+	               {return kError_GotDefaultMethod;}
+	 virtual bool  GetID3v1Tag(unsigned char *pTag)
+	               {return kError_GotDefaultMethod;}
+		 
     virtual Error SetTo(char* url) = 0;
     virtual Error Close(void) = 0;
     virtual const char* Url(void) const = 0;

@@ -1,25 +1,24 @@
-
 /*____________________________________________________________________________
-	
-	FreeAmp - The Free MP3 Player
+        
+        FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+        Portions Copyright (C) 1998 GoodNoise
 
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation; either version 2 of the License, or
-	(at your option) any later version.
+        This program is free software; you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation; either version 2 of the License, or
+        (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+        This program is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-	
-	$Id: localfileinput.cpp,v 1.7 1998/10/27 23:28:47 jdw Exp $
+        You should have received a copy of the GNU General Public License
+        along with this program; if not, write to the Free Software
+        Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+        
+        $Id: localfileinput.cpp,v 1.8 1999/01/19 05:10:19 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -29,6 +28,7 @@ ____________________________________________________________________________*/
 #include <string.h>
 #include <iostream.h>
 #include <errno.h>
+#include <assert.h>
 
 #include <config.h>
 
@@ -36,161 +36,170 @@ ____________________________________________________________________________*/
 #include <unistd.h>
 #elif HAVE_IO_H
 #include <io.h>
-#else 
+#else
 #error Must have unistd.h or io.h!
 #endif // HAVE_UNISTD_H
 
 /* project headers */
 #include "localfileinput.h"
 
-extern "C" {
-PhysicalMediaInput *Initialize() {
-    return new LocalFileInput();
+const int32 iBufferSize = 65536;
+const int32 iOverflowSize = 8192;
+const int32 iTriggerSize = 8192;
+
+extern    "C"
+{
+   PhysicalMediaInput *Initialize()
+   {
+      return new LocalFileInput();
+   }
 }
-	   }
 LocalFileInput::
-LocalFileInput(): 
+LocalFileInput():
 PhysicalMediaInput()
 {
-	m_path = NULL;
-	m_fd = -1;
+   m_path = NULL;
+   m_pPullBuffer = NULL;
 }
 
 LocalFileInput::
-LocalFileInput(char* path): 
+LocalFileInput(char *path):
 PhysicalMediaInput()
 {
-    if (path) {
-	int32 len = strlen(path) + 1;
-	m_path = new char[len];
-	
-	if(m_path) {
-	    memcpy(m_path,path,len);
-	}
-	
-	m_fd = open(path, RD_BNRY_FLAGS);
-    } else {
-	m_path = NULL;
-	m_fd = -1;
-    }
+   if (path)
+   {
+      int32     len = strlen(path) + 1;
+      m_path = new char[len];
+
+      if (m_path)
+      {
+         memcpy(m_path, path, len);
+      }
+
+      m_pPullBuffer = new FileBuffer(iBufferSize, iOverflowSize, 
+                                      iTriggerSize, path);
+      assert(m_pPullBuffer);
+
+      // Hmmm. Error gets lost here. I don't want to mess with
+      // the current infrastructure at the moment, and it doesn't
+      // seem to be used...
+      m_pPullBuffer->Open();
+   }
+   else
+   {
+      m_path = NULL;
+      m_pPullBuffer = NULL;
+   }
 }
 
 LocalFileInput::
 ~LocalFileInput()
 {
-    //cout << "Deleting LocalFileInput" << endl;
-    if(m_path) {
-	delete [] m_path;
-	m_path = NULL;
-    }
-    if (m_fd >= 0) {
-	close(m_fd);
-	m_fd = -1;
-    }
-    //cout << "Done deleting LocalFileInput" << endl;
+   if (m_path)
+   {
+      delete[]m_path;
+      m_path = NULL;
+   }
+   if (m_pPullBuffer >= 0)
+   {
+      delete m_pPullBuffer;
+      m_pPullBuffer = NULL;
+   }
 }
 
-Error LocalFileInput::
-SetTo(char* url)
+
+Error     LocalFileInput::
+SetTo(char *url)
 {
-    Error result = kError_NoErr;
+   Error     result = kError_NoErr;
 
-    if(m_fd >= 0) {
-	    close(m_fd);
-	    m_fd = -1;
-    }
+   if (m_pPullBuffer)
+   {
+      delete m_pPullBuffer;
+      m_pPullBuffer = NULL;
+   }
 
-    if(m_path) {
-	    delete [] m_path;
-	    m_path = NULL;
-    }
+   if (m_path)
+   {
+      delete[]m_path;
+      m_path = NULL;
+   }
 
-    if (url) {
-	    int32 len = strlen(url) + 1;
-	    m_path = new char[len];
-	
-	    if(m_path) {
-	        memcpy(m_path,url,len);
-	    } else {
-	        result = kError_OutOfMemory;
-	    }
-	
-        if(IsntError(result))
-        {
-	        m_fd = open(m_path, RD_BNRY_FLAGS);
-	
-	        if( m_fd < 0 ) {
+   if (url)
+   {
+      int32     len = strlen(url) + 1;
+      m_path = new char[len];
 
-                switch(errno) {
-                    case EACCES:
-                        result =  kError_FileNoAccess;
-                        break;
+      if (m_path)
+      {
+         memcpy(m_path, url, len);
+      }
+      else
+      {
+         result = kError_OutOfMemory;
+      }
 
-                    case EEXIST:
-                        result =  kError_FileExists;
-                        break;
+      if (IsntError(result))
+      {
+         m_pPullBuffer = new FileBuffer(iBufferSize, iOverflowSize, 
+                                         iTriggerSize, url);
+         assert(m_pPullBuffer);
 
-                    case EINVAL:
-                        result =  kError_FileInvalidArg;
-                        break;
+         result = m_pPullBuffer->Open();
+         if (result == kError_NoErr)
+             result = m_pPullBuffer->Run();
 
-                    case EMFILE:
-                        result =  kError_FileNoHandles;
-                        break;
+      }
+   }
+   else
+   {
+      result = kError_InvalidParam;
+   }
 
-                    case ENOENT:
-                        result =  kError_FileNotFound;
-                        break;
-
-                    default:
-                        result =  kError_UnknownErr;
-                        break;
-                }
-	            
-            }
-        }
-    } else {
-	    result = kError_InvalidParam;
-    }
-
-    return result;
+   return result;
 }
 
 Error LocalFileInput::
-Read(int32 &rtn, void* buf, size_t numbytes)
+GetLength(size_t &iSize)
 {
-    rtn = read(m_fd, (char *)buf, numbytes);
-    if (rtn >= 0) {
-	return kError_NoErr;
-    } else {
-	return kError_InputUnsuccessful;
-    }
+    return m_pPullBuffer->GetLength(iSize);
 }
 
-Error LocalFileInput::
-Seek(int32 &rtn, int32 offset, int32 origin)
+bool LocalFileInput::
+GetID3v1Tag(unsigned char *pTag)
 {
-    rtn = lseek(m_fd, offset, origin);
-    if (rtn >= 0) {
-	return kError_NoErr;
-    } else {
-	return kError_InputUnsuccessful;
-    }
+   return m_pPullBuffer->GetID3v1Tag(pTag);
 }
 
 Error LocalFileInput::
+BeginRead(void *&buf, size_t &bytesneeded)
+{
+   return m_pPullBuffer->BeginRead(buf, bytesneeded);
+}
+
+Error LocalFileInput::
+EndRead(size_t bytesused)
+{
+   return m_pPullBuffer->EndRead(bytesused);
+}
+
+Error     LocalFileInput::
+Seek(int32 & rtn, int32 offset, int32 origin)
+{
+   return m_pPullBuffer->Seek(rtn, offset, origin);
+}
+
+Error     LocalFileInput::
 Close(void)
 {
-	close(m_fd);
-	m_fd = -1;
-	return kError_NoErr;
+   delete m_pPullBuffer;
+   m_pPullBuffer = NULL;
+
+   return kError_NoErr;
 }
 
-const char *LocalFileInput::GetErrorString(int32 error) {
-    return NULL;
+const char *LocalFileInput::
+GetErrorString(int32 error)
+{
+   return NULL;
 }
-
-
-
-
-

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.57 2000/08/02 15:01:00 ijr Exp $
+        $Id: player.h,v 1.58 2000/08/09 15:44:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -119,7 +119,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     void        SyncLog();
 
     static void generate_sigs_function(void *arg);
-    void        GenerateSigsWork(set<PlaylistItem *> *items);
+    void        GenerateSigsWork(set<string> *items);
 
     FAContext *m_context;
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.70 2000/08/09 03:51:32 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.71 2000/08/09 15:44:31 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -67,7 +67,7 @@ MusicCatalog::MusicCatalog(FAContext *context, char *databasepath)
     m_unsorted = new vector<PlaylistItem *>;
     m_playlists = new vector<string>;
     m_streams = new vector<PlaylistItem *>;
-    m_sigs = new set<PlaylistItem *>;
+    m_sigs = new set<string>;
     m_guidTable = new multimap<string, string, less<string> >;
     m_watchTimer = NULL;
    
@@ -488,8 +488,8 @@ bool MusicCatalog::CaseCompare(string s1, string s2)
 void MusicCatalog::GenerateSignature(PlaylistItem *track)
 {
     if (m_context->aps->GetCurrentProfileName() != "") {
-        PlaylistItem *copy = new PlaylistItem(*track);
-        m_sigs->insert(copy);
+        string url = track->URL();
+        m_sigs->insert(url);
     }
 }
 
@@ -721,7 +721,7 @@ void MusicCatalog::ClearCatalog()
     m_unsorted = new vector<PlaylistItem *>;
     m_playlists = new vector<string>;
     m_streams = new vector<PlaylistItem *>;
-    m_sigs = new set<PlaylistItem *>;
+    m_sigs = new set<string>;
     m_guidTable = new multimap<string, string, less<string> >;
     m_catMutex->Release();
 }
@@ -750,7 +750,7 @@ Error MusicCatalog::RePopulateFromDatabase()
         key = m_database->NextKey(key);
     }
     m_catMutex->Release();
-    set<PlaylistItem *> *newset = new set<PlaylistItem *>(*m_sigs);
+    set<string> *newset = new set<string>(*m_sigs);
     m_context->target->AcceptEvent(new GenerateSignatureEvent(newset));
     m_sigs->erase(m_sigs->begin(), m_sigs->end());
     return kError_NoErr;

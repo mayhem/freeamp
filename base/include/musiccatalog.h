@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.h,v 1.14 2000/08/09 00:45:44 ijr Exp $
+        $Id: musiccatalog.h,v 1.15 2000/08/09 15:44:31 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -159,7 +159,7 @@ class MusicCatalog : public EventQueue
     vector<string> *m_playlists;
     vector<PlaylistItem *> *m_streams;
 
-    set<PlaylistItem *> *m_sigs;
+    set<string> *m_sigs;
 
     multimap<string, string, less<string> > *m_guidTable;
     APSInterface *m_APSInterface;

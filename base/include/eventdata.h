@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.60 2000/07/31 19:51:38 ijr Exp $
+        $Id: eventdata.h,v 1.61 2000/08/09 15:44:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -765,13 +765,13 @@ public:
 
 class GenerateSignatureEvent : public Event {
 private:
-    set<PlaylistItem *> *m_items;
+    set<string> *m_items;
 public:
-    GenerateSignatureEvent(set<PlaylistItem *> *items)
+    GenerateSignatureEvent(set<string> *items)
     { m_type = CMD_GenerateSignature; m_items = items; }
     virtual ~GenerateSignatureEvent() {}
 
-    set<PlaylistItem *> *Tracks() { return m_items; }
+    set<string> *Tracks() { return m_items; }
 };
 
 class AudioSignatureGeneratedEvent : public Event {

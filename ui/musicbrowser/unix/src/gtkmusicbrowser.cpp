@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.98 2000/08/04 23:28:55 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.99 2000/08/09 15:44:32 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1478,14 +1478,14 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
             }
             break; } 
         case INFO_SearchMusicDone: {
-            if (m_initialized) {
+            if (m_initialized && isVisible) {
                 gdk_threads_enter();
                 SetStatusText("");
                 gdk_threads_leave();
             }
             break; }
         case INFO_BrowserMessage: {
-            if (m_initialized) {
+            if (m_initialized && isVisible) {
                 gdk_threads_enter();
                 SetStatusText(((BrowserMessageEvent *)e)->GetBrowserMessage());
                 gdk_threads_leave();

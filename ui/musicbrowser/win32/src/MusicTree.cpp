@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.11 1999/11/09 08:43:07 elrod Exp $
+        $Id: MusicTree.cpp,v 1.12 1999/11/09 09:02:38 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -751,6 +751,8 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
         {
             bool shiftKeyPressed = IsShiftDown();
             bool ctrlKeyPressed = IsCtrlDown();
+
+            SetFocus(hwnd);
 
             HTREEITEM item;
             TV_HITTESTINFO hti;

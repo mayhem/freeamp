@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.53 2000/05/08 14:08:52 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.54 2000/05/09 13:22:41 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -247,6 +247,10 @@ void MusicBrowserUI::Init()
         m_cdTracks = new vector<PlaylistItem*>;
     else
         m_cdTracks = NULL;
+
+    m_iceCastTimer = NULL;
+    m_fillAllThread = NULL;
+    m_fillIceCastThread = NULL;
 }
 
 MusicBrowserUI::~MusicBrowserUI()

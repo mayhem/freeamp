@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigmain.cpp,v 1.6 2000/10/02 13:36:29 robert Exp $
+        $Id: sigmain.cpp,v 1.7 2000/10/03 10:32:25 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -52,6 +52,7 @@ extern "C"
 };
 
 static int quiet = 0;
+static int nosubmit = 0;
 
 /*------------------------------------------*/
 // Silly defines to make this and that happy in this little hatchet job
@@ -177,13 +178,19 @@ int main(int argc, char *argv[])
 
    if (argc < 2)
    {
-       printf("Usage: sigapp [-q] <mp3 file>\n");
+       printf("Usage: sigapp [-q] [-n] <mp3 file>\n");
        exit(0);
    }
 
    if (strcmp(argv[index], "-q") == 0)
    {
        quiet = 1;
+       index++;
+   }
+
+   if (strcmp(argv[index], "-n") == 0)
+   {
+       nosubmit = 1;
        index++;
    }
 
@@ -209,7 +216,8 @@ int main(int argc, char *argv[])
            if (!quiet)
                printf("Signature: ");
            printf("%s\n", sig);
-           submit_metadata(&m);
+           if (!nosubmit)
+               submit_metadata(&m);
        }
        else
        {

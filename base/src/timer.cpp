@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: timer.cpp,v 1.13 2000/08/30 09:20:53 ijr Exp $
+        $Id: timer.cpp,v 1.14 2000/09/11 06:39:38 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -91,6 +91,9 @@ void TimerManager::StartTimer(TimerRef* timerRef,
 
 void TimerManager::StopTimer(TimerRef timer)
 {
+    if (timer == NULL)
+        return;
+
     timer->ticks = 0;
     timer->duration = 0;
 
@@ -111,6 +114,9 @@ void TimerManager::StopTimer(TimerRef timer)
 
 void TimerManager::SetTimer(TimerRef timer, uint32 seconds)
 {
+    if (timer == NULL)
+        return;
+
     vector<TimerRef>::iterator i = m_list.begin();
 
     for(; i != m_list.end(); i++)

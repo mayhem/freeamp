@@ -19,7 +19,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.42 2000/08/25 10:40:52 ijr Exp $
+        $Id: AUTHORS,v 1.43 2000/09/11 06:39:38 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -145,3 +145,6 @@ Michael Rich <istan@alltel.net>
 
 "Roger Hardiman" <roger@cs.strath.ac.uk>
 * Preliminary FreeBSD support
+
+"Chris Kuklewicz" <chrisk@mit.edu>
+* patch to StopTimer to properly handle NULL timers.

@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.68 2000/08/30 09:20:53 ijr Exp $
+# $Id: Makefile.in,v 1.69 2000/09/11 06:39:38 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -80,6 +80,7 @@ APSOBJ  = base/aps/FAMetaUnit.o base/aps/apsinterface.o base/aps/sigclient.o
 APSOBJ += base/aps/apsplaylist.o base/aps/gencrc.o base/aps/hosttonet.o 
 APSOBJ += base/aps/nettohost.o base/aps/comsocket.o base/aps/apsconvert.o
 APSOBJ += base/aps/YPClient.o base/aps/sigxdr.o base/aps/uuid.o
+APSOBJ += base/aps/slclient.o
 
 FREEAMPOBJ =  base/src/log.o base/src/player.o base/src/musiccatalog.o
 FREEAMPOBJ += base/src/playlist.o base/src/propimpl.o base/src/registrar.o

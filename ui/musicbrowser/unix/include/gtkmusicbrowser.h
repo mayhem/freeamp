@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.52 2000/08/30 20:00:33 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.53 2000/09/11 06:39:38 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -317,6 +317,9 @@ class GTKMusicBrowser {
     void ImportPlaylist(char *path);
     void GenPlaylist(vector<PlaylistItem *> *seed);
     void GenPlaylist(void);
+    void GenSLPlaylist(vector<PlaylistItem *> *seed, float fMax);
+    void GenSLPlaylist(float fMax);
+
     void SubmitPlaylist(void);
 
     void CreateNewEditor(char *playlisturl, bool cd_mode = false);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: missingfileui.cpp,v 1.4 2000/05/12 06:29:08 ijr Exp $
+        $Id: missingfileui.cpp,v 1.5 2000/08/24 18:19:55 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -257,9 +257,10 @@ void MissingFileUI::Run(void)
     while (iRet == 0)
         usleep(20);
 
-    if (iRet == 2)
-        /* do cancel stuff... */
+    if (iRet == 2) {
+        m_context->plm->RemoveItem(m_missing);
         return;
+    }
 
     switch (m_iFunction) {
         /* browse */

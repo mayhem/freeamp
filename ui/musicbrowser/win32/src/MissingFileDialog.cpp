@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: MissingFileDialog.cpp,v 1.5 2000/08/03 20:09:35 robert Exp $
+    $Id: MissingFileDialog.cpp,v 1.6 2000/08/24 18:19:55 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -214,6 +214,7 @@ BOOL MissingFileDialog::DialogProc(HWND hwnd,
 
                 case IDCANCEL:
                 {
+		    m_context->plm->RemoveItem(m_item);
                     m_context->target->AcceptEvent(new Event(CMD_Stop));
                     EndDialog(hwnd, FALSE);
                     break;

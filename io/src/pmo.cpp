@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.5 1999/07/05 23:11:18 robert Exp $
+        $Id: pmo.cpp,v 1.6 1999/07/06 18:14:58 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -40,6 +40,7 @@ ____________________________________________________________________________*/
 #include "facontext.h"
 #include "log.h"
 
+#define DB printf("%s:%d\n", __FILE__, __LINE__);  
 
 PhysicalMediaOutput::PhysicalMediaOutput(FAContext *context) :
                      PipelineUnit(context)

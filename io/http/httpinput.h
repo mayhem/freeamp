@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.13 1999/07/02 01:13:32 robert Exp $
+        $Id: httpinput.h,v 1.14 1999/07/06 18:14:56 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPINPUT_H_
@@ -88,6 +88,8 @@ private:
    bool            m_bLoop, m_bDiscarded;
    FILE           *m_fpSave;
    char           *m_szError;
+   bool            m_bUseProxy;
+   char            m_szProxyHost[iMaxUrlLen];
 };
 
 #endif /* _HTTPFILEINPUT_H_ */

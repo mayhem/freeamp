@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.28 1999/07/05 23:11:19 robert Exp $
+   $Id: pullbuffer.cpp,v 1.29 1999/07/06 18:14:59 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -36,7 +36,6 @@ ____________________________________________________________________________*/
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #endif
 #define DB //printf("%s:%d\n",  __FILE__, __LINE__);
-#include "debug.hpp"
 
 PullBuffer::PullBuffer(size_t iBufferSize,
                        size_t iOverflowSize,

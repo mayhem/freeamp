@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.8 1999/04/27 00:55:26 elrod Exp $
+        $Id: preferences.cpp,v 1.9 1999/07/06 18:14:54 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -46,6 +46,8 @@ const char* kWindowPositionWidthPref = "WindowPositionWidth";
 const char* kWindowPositionHeightPref = "WindowPositionHeight";
 const char* kSaveStreamsPref = "SaveStreams";
 const char* kSaveStreamsDirPref = "SaveStreamsDirectory";
+const char* kUseProxyPref = "UseProxy";
+const char* kProxyHostPref = "ProxyHost";  
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";

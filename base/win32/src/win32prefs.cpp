@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32prefs.cpp,v 1.9 1999/10/25 11:30:47 elrod Exp $
+	$Id: win32prefs.cpp,v 1.10 1999/10/29 20:56:57 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -291,7 +291,7 @@ SetDefaults()
     {
         strcpy(path, cwd);
         strcat(path, "\\");
-        strcat(path, "MyMusic");
+        strcat(path, "My Music");
 	    SetPrefString(kSaveMusicDirPref, path);
     }
 

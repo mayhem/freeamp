@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.1 1999/10/28 00:42:05 robert Exp $
+        $Id: Dialog.cpp,v 1.2 1999/10/29 20:56:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -212,7 +212,7 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
 
 
             // Make sure the control is the listview control
-            if (mis->CtlType != ODT_LISTVIEW || mis->CtlID == IDC_PLAYLISTBOX)
+            if (mis->CtlType != ODT_LISTVIEW || mis->CtlID != IDC_PLAYLISTBOX)
                 return FALSE;
 
 	        // Get the handle of the ListView control we're using

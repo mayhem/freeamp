@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.176.2.2 2000/02/26 23:03:14 robert Exp $
+        $Id: player.cpp,v 1.176.2.3 2000/02/27 01:25:18 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -298,7 +298,20 @@ SetArgs(int32 argc, char **argv)
 		                m_context->argFlags |= FAC_ARGFLAGS_SAVE_STREAMS;
                     else if(!strcasecmp(arg + 1, "shuffle"))
                         m_plm->SetShuffleMode(true);
+                    break;
 
+                case 'i':
+                case 'I':
+                    if(!strcasecmp(arg + 1, "import"))
+                    {
+                        uint32 length = _MAX_PATH;
+                        char   url[_MAX_PATH];
+                        
+                        i++;
+                        FilePathToURL(argv[i], url, &length);
+                        m_context->catalog->AddSong(url);
+                        m_plm->AddItem(url);
+                    }
                     break;
 
                 // set UIs
@@ -444,11 +457,6 @@ void Player::HandleSingleArg(char *arg)
            
             FindClose(handle);
         }
-        else // is this a URL we know how to handle ?
-        {
-            // file not found? don't add it...
-            continue;
-        }
 
 #else
         strcpy(path, arg);
@@ -514,11 +522,6 @@ void Player::HandleSingleArg(char *arg)
 #endif
     }
     
-    if(m_autoplay)
-    {
-        AcceptEvent(new Event(CMD_Play));
-    }  
-
     delete [] path;
     delete [] url;
 }

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.59.2.1 2000/02/22 21:34:22 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.59.2.2 2000/02/27 01:25:19 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -191,7 +191,7 @@ bool SoundCardPMO::SetupVolumeControl(void)
 							 MIXER_OBJECTF_HMIXER |
 							 MIXER_GETLINECONTROLSF_ONEBYTYPE)
 		!= MMSYSERR_NOERROR)
-		return FALSE;
+		return false;
 
 	// record dwControlID
 	m_oDstLineName = mxl.szName;
@@ -220,7 +220,7 @@ int32 SoundCardPMO::GetVolume()
 								 MIXER_OBJECTF_HMIXER |
 								 MIXER_GETCONTROLDETAILSF_VALUE);
 	if (ret != MMSYSERR_NOERROR)
-		return 0;
+		return false;
 
     return  (int)(((float)((mxcdVolume.dwValue - m_dwMinimum) * 100) /  
                   (float)(m_dwMaximum - m_dwMinimum)) + 0.5); 

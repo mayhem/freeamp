@@ -18,19 +18,19 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.1.2.4 1999/09/17 20:30:55 robert Exp $
+   $Id: Canvas.cpp,v 1.1.2.5 1999/09/23 01:29:57 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "Canvas.h"
 
 Canvas::Canvas(void)
 {
-
+	m_pBGBitmap = NULL;
+	m_pMaskBitmap = NULL;
 }
 
 Canvas::~Canvas(void)
 {
-
 }
 
 void Canvas::SetBackgroundRect(Rect &oRect)
@@ -40,11 +40,13 @@ void Canvas::SetBackgroundRect(Rect &oRect)
 
 void Canvas::SetBackgroundBitmap(Bitmap *pBitmap)
 {
+	delete m_pBGBitmap;
     m_pBGBitmap = pBitmap;
 }
 
 void Canvas::SetMaskBitmap(Bitmap *pBitmap)
 {
+    delete m_pMaskBitmap;
     m_pMaskBitmap = pBitmap;
 }
 

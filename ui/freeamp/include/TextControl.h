@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.h,v 1.1.2.5 1999/09/17 20:30:51 robert Exp $
+   $Id: TextControl.h,v 1.1.2.6 1999/09/23 01:29:52 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TEXTCONTROL_H__
@@ -33,7 +33,7 @@ class TextControl : public Control
     public:
 
                TextControl(Window *pWindow, string &oName, 
-                           string &oAlign);
+                           string &oAlign, Color *pColor);
       virtual ~TextControl(void);
 
       void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
@@ -43,6 +43,7 @@ class TextControl : public Control
 
       void      TextChanged(void);
       AlignEnum	m_eAlign;
+      Color     m_oColor;
 };
 
 #endif

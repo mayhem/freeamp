@@ -18,11 +18,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.1.2.4 1999/09/17 20:31:09 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.1.2.5 1999/09/23 01:30:09 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
 #include "Win32Bitmap.h"
+#include "Debug.hpp"
 
 Win32Bitmap::Win32Bitmap(string &oName)
           :Bitmap(oName)

@@ -18,12 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.1.2.5 1999/09/17 20:30:56 robert Exp $
+   $Id: Control.cpp,v 1.1.2.6 1999/09/23 01:29:59 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
 #include "Control.h"
 #include "Window.h"
+#include "debug.hpp"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
@@ -173,13 +174,18 @@ void Control::BlitFrame(int iFrame, int iNumFramesInBitmap, Rect *pRect)
     else
         oDestRect = *pRect;
 
-    iFrameWidth = m_oBitmapRect.Width() / iNumFramesInBitmap;
+    iFrameWidth = (m_oBitmapRect.Width() + 1) / iNumFramesInBitmap;
     oFrameRect = m_oBitmapRect;
     oFrameRect.x1 += iFrame * iFrameWidth;
-    oFrameRect.x2 = oFrameRect.x1 + iFrameWidth;
+    oFrameRect.x2 = oFrameRect.x1 + iFrameWidth + 1;
+    oFrameRect.y2++;
+
+    oDestRect.x2++;
+    oDestRect.y2++;
 
     pCanvas = m_pParent->GetCanvas();
     pCanvas->BlitRect(m_pBitmap, oFrameRect, oDestRect);
+    
     pCanvas->Invalidate(oDestRect);
     pCanvas->Update();
 }

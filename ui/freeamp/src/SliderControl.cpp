@@ -18,12 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.1.2.5 1999/09/17 20:31:00 robert Exp $
+   $Id: SliderControl.cpp,v 1.1.2.6 1999/09/23 01:30:01 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "SliderControl.h"
 #include "Window.h"
+#include "debug.hpp"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
@@ -69,6 +70,7 @@ void SliderControl::Init(void)
     Rect oRect;
 
 	m_iThumbWidth = m_oBitmapRect.Width() / 3;
+    
     m_iRange = m_oRect.Width() - m_iThumbWidth;
 
     Transition(CT_None, NULL);
@@ -222,16 +224,19 @@ void SliderControl::MoveThumb(int iCurrentPos, int iNewPos)
     Rect    oRect;
 
     oRect.x1 = m_oRect.x1 + iCurrentPos;
-    oRect.x2 = oRect.x1 + m_iThumbWidth;
+    oRect.x2 = oRect.x1 + m_iThumbWidth + 1;
     oRect.y1 = m_oRect.y1;
-    oRect.y2 = m_oRect.y2;
-
+    oRect.y2 = m_oRect.y2 + 1;
+    
     pCanvas = m_pParent->GetCanvas();
     pCanvas->Erase(oRect);
     pCanvas->Invalidate(oRect);
 
     oRect.x1 = m_oRect.x1 + iNewPos;
     oRect.x2 = oRect.x1 + m_iThumbWidth;
+    oRect.y1 = m_oRect.y1;
+    oRect.y2 = m_oRect.y2;
+    
     switch(m_eCurrentState)
     {
        case CS_Normal:

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.1.2.5 1999/09/17 20:30:52 robert Exp $
+   $Id: Theme.h,v 1.1.2.6 1999/09/23 01:29:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -50,13 +50,14 @@ class Theme : public Parse
                Theme(void);
       virtual ~Theme(void);
 
-      virtual Error SelectWindow(string &oWindowName); 
+      virtual Error SelectWindow(const string &oWindowName); 
       virtual Error Run(Pos &oWindowPos); 
-      virtual Error Close(string &oWindowName);
+      virtual Error Close(void);
       virtual void  SetThemePath(string &oPath);
-      virtual Error ParseFile(string &oFile);
+      virtual Error LoadTheme(string &oFile);
       virtual Error HandleControlMessage(string &oControlName, 
                                          ControlMessageEnum eMesg) = 0;
+      virtual void  InitControls(void) = 0;
       
 
     protected:
@@ -71,12 +72,17 @@ class Theme : public Parse
 
       Bitmap *FindBitmap(string &oName);
       Error   ParseRect(string &oRectString, Rect &oRect);
+      Error   ParseColor(string &oColorString, Color &oColor);
+      void    ClearWindows(void);
+      void    ClearBitmaps(void);
 
       Window          *m_pCurrentWindow;
       Control         *m_pCurrentControl;
 
-      vector<Window *> m_oWindows;
-      vector<Bitmap *> m_oBitmaps;
+      vector<Window *> *m_pWindows, *m_pParsedWindows;
+      vector<Bitmap *> *m_pBitmaps, *m_pParsedBitmaps;
+      bool              m_bReloadTheme, m_bReloadWindow;
+      string            m_oReloadWindow, m_oReloadFile;
 };
 
 #endif

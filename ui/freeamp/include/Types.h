@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Types.h,v 1.1.2.2 1999/09/09 02:42:10 elrod Exp $
+   $Id: Types.h,v 1.1.2.3 1999/09/23 01:29:54 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TYPES_H__
@@ -58,6 +58,11 @@ struct Rect
 
          return false;
     }
+};
+
+struct Color
+{
+    unsigned char red, green, blue;
 };
 
 

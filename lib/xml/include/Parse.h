@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.h,v 1.1.2.1 1999/09/21 02:44:59 elrod Exp $
+   $Id: Parse.h,v 1.1.2.2 1999/09/23 01:29:42 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_PARSE_H__
@@ -49,13 +49,16 @@ class Parse
 
       Error    ParseFile(string &oFile);
       void     GetErrorString(string &oError);
+      int      GetErrorLine(void);
 
     protected:
      
       virtual Error BeginElement(string &oElement, AttrMap &oAttrMap) = 0; 
       virtual Error EndElement(string &oElement) = 0;
+              int   CountNewlines(char *szElement);
 
-      string           m_oLastError;
+      string        m_oLastError;
+      int           m_iErrorLine; 
 };
 
 #endif

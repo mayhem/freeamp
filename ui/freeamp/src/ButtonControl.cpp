@@ -18,12 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.1.2.5 1999/09/17 20:30:54 robert Exp $
+   $Id: ButtonControl.cpp,v 1.1.2.6 1999/09/23 01:29:56 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "ButtonControl.h"
 #include "Window.h"
+#include "Debug.hpp"
 
 // Bitmap info:
 // Frame 0: Normal
@@ -37,9 +38,11 @@ static TransitionInfo pTransitions[] =
     { CS_Normal,     CT_MouseEnter,       CS_MouseOver  },
     { CS_Normal,     CT_Disable,          CS_Disabled   },
     { CS_Normal,     CT_Hide,             CS_Hidden     },
+    { CS_Normal,     CT_Show,             CS_Normal     },
     { CS_MouseOver,  CT_MouseLeave,       CS_Normal     },
     { CS_MouseOver,  CT_MouseLButtonDown, CS_Pressed    },
     { CS_MouseOver,  CT_Disable,          CS_Disabled   },
+    { CS_MouseOver,  CT_Hide,             CS_Hidden     },
     { CS_Pressed,    CT_MouseLButtonUp,   CS_MouseOver  },
     { CS_Pressed,    CT_Disable,          CS_Disabled   },
     { CS_Pressed,    CT_MouseLeave,       CS_Normal     },
@@ -68,6 +71,8 @@ void ButtonControl::Init(void)
 void ButtonControl::Transition(ControlTransitionEnum  eTrans,
                                Pos                   *pMousePos)
 {
+	Canvas *pCanvas;
+    
     switch(eTrans)
     {
        case CT_MouseEnter:
@@ -75,6 +80,15 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
           break;
        case CT_MouseLeave:
           m_pParent->SendControlMessage(this, CM_MouseLeave);
+          break;
+       case CT_Hide:
+       {
+       	  Rect oRect = m_oRect;
+          pCanvas = m_pParent->GetCanvas();
+          pCanvas->Erase(oRect);
+          pCanvas->Invalidate(oRect);
+       	  break;
+       }   
 
        default:
           break;

@@ -18,12 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.1.2.4 1999/09/17 20:31:10 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.1.2.5 1999/09/23 01:30:10 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
 #include "Win32Canvas.h"
 #include "Win32Bitmap.h"
+#include "debug.hpp"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
@@ -59,7 +60,8 @@ void Win32Canvas::Init(void)
 }
 
 Error Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect, 
-                              string &oText, AlignEnum eAlign)
+                              string &oText, AlignEnum eAlign,
+                              const Color &oColor)
 {
    HDC   hRootDC, hMemDC;
    HFONT hFont;
@@ -85,8 +87,7 @@ Error Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect,
    DeleteObject(SelectObject(hMemDC, hFont));
 
    SetBkMode(hMemDC, TRANSPARENT);
-//   ExtTextOut(hMemDC, oClipRect.x1, oClipRect.y1, ETO_CLIPPED, 
-//              &sClip, oText.c_str(), oText.length(), NULL);
+   SetTextColor(hMemDC, RGB(oColor.red, oColor.green, oColor.blue));
    DrawText(hMemDC, oText.c_str(), oText.length(), &sClip, 
             (eAlign == eLeft) ? DT_LEFT :
 		    (eAlign == eRight) ? DT_RIGHT : DT_CENTER);
@@ -137,13 +138,15 @@ void Win32Canvas::Paint(HDC hDC, Rect &oRect)
    DeleteObject(SelectObject(hMemDC, m_pBufferBitmap->GetBitmapHandle()));
    BitBlt(hDC, oRect.x1, oRect.y1, oRect.Width(), oRect.Height(),
           hMemDC, oRect.x1, oRect.y1, SRCCOPY);
-          
    DeleteDC(hMemDC);       
 }
 
 void Win32Canvas::Erase(Rect &oRect)
 {
-   m_pBufferBitmap->BlitRect(m_pBGBitmap, oRect, oRect);
+   Rect oMine = oRect;
+   
+   if (m_pBufferBitmap)
+       m_pBufferBitmap->BlitRect(m_pBGBitmap, oRect, oRect);
 }
 
 HRGN Win32Canvas::GetMaskRgn(void)
@@ -173,7 +176,7 @@ HRGN Win32Canvas::GetMaskRgn(void)
    for(iScanLine = 0; iScanLine < m_oBGRect.Height(); iScanLine++)
    {
        iRet = GetDIBits(hMemDC, ((Win32Bitmap *)m_pMaskBitmap)->GetBitmapHandle(),
-                        m_oBGRect.Height() - iScanLine, 1, pData, pInfo, DIB_PAL_COLORS);
+                        (m_oBGRect.Height() - 1)- iScanLine, 1, pData, pInfo, DIB_PAL_COLORS);
        if (iRet == 0)
        {
            return NULL;
@@ -191,7 +194,7 @@ HRGN Win32Canvas::GetMaskRgn(void)
           {
              if (iStart >= 0)
              {
-                 hTemp = CreateRectRgn(iStart, iScanLine, iLine + 1, iScanLine + 1);
+                 hTemp = CreateRectRgn(iStart, iScanLine, iLine, iScanLine + 1);
                  CombineRgn(hMask, hTemp, hMask, RGN_OR);
                  DeleteObject(hTemp);
                  iStart = -1;

@@ -18,12 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.1.2.6 1999/09/20 18:05:41 robert Exp $
+   $Id: TextControl.cpp,v 1.1.2.7 1999/09/23 01:30:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "TextControl.h"
 #include "Window.h"
+
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 static TransitionInfo pTransitions[] =
 {  
@@ -34,13 +36,18 @@ static TransitionInfo pTransitions[] =
 };
 
 TextControl::TextControl(Window *pWindow, string &oName, 
-                         string &oAlign) :
+                         string &oAlign, Color *pColor) :
              Control(pWindow, oName, pTransitions)
 {
+	if (pColor)
+       m_oColor = *pColor;
+    else
+       m_oColor.red = m_oColor.green = m_oColor.blue = 0;
+       
 	if (strcasecmp(oAlign.c_str(), "right") == 0)
        m_eAlign = eRight;
     else   
-	if (strcasecmp(oAlign.c_str(), "center"))
+	if (strcasecmp(oAlign.c_str(), "center") == 0)
        m_eAlign = eCenter;
     else   
        m_eAlign = eLeft;
@@ -77,5 +84,5 @@ void TextControl::TextChanged(void)
     pCanvas = m_pParent->GetCanvas();
     pCanvas->Erase(m_oRect);
     pCanvas->RenderText(m_oRect.Height(), m_oRect, 
-                        m_oValue, m_eAlign); 
+                        m_oValue, m_eAlign, m_oColor); 
 }

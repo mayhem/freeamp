@@ -18,13 +18,16 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.1.2.1 1999/09/21 02:44:59 elrod Exp $
+   $Id: Parse.cpp,v 1.1.2.2 1999/09/23 01:29:43 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "map"
 #include "assert.h"
 #include "Parse.h"
+#include "Debug.hpp"
+
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 const int iMaxElementLineLength = 2048;
 const int iMaxElementNameLength = 255;
@@ -43,11 +46,14 @@ Error Parse::ParseFile(string &oFile)
 {
     FILE    *fpFile;
     char    *szElement, *szElementName, *szAttr, *szValue;
+    char     szDummy[10];
     string   oElementName, oAttr, oValue;
     int      iRet, iOffset, iTemp;
     bool     bError = false, bEmptyTag = false;
     AttrMap  oAttrMap; 
     Error    eRet;
+
+	m_oLastError = string("");
 
     fpFile = fopen(oFile.c_str(), "r");
     if (fpFile == NULL)
@@ -57,17 +63,25 @@ Error Parse::ParseFile(string &oFile)
     szElementName = new char[iMaxElementNameLength];
     szAttr = new char[iMaxAttrLength];
     szValue = new char[iMaxValueLength];
-    for(; !bError;)
+    for(m_iErrorLine = 1, szElement[0] = 0; !bError;)
     {
-        iRet = fscanf(fpFile, " < %2048[^>] > ", szElement);
+    	m_iErrorLine += CountNewlines(szElement);
+    
+        iRet = fscanf(fpFile, " < %2048[^>] >", szElement);
         if (iRet < 1)
         {
            if (feof(fpFile))
               break;
 
+		   m_oLastError = string("Unrecognized characters found");
+
            bError = true;
            break;
         }
+
+        iRet = fscanf(fpFile, "%[\n\t \r]", szElementName);
+        if (iRet > 0)
+    	    m_iErrorLine += CountNewlines(szElementName);
 
         iTemp = 0;
         sscanf(szElement, " /%255[A-Za-z0-9]%n", szElementName, &iTemp);
@@ -81,6 +95,11 @@ Error Parse::ParseFile(string &oFile)
             continue;
         }
 
+        if (sscanf(szElement, "%[!-]", szDummy))
+        {
+            continue;
+        }
+        
         sscanf(szElement, " %255[A-Za-z0-9] %n", szElementName, &iOffset);
         oElementName = szElementName;
 
@@ -105,8 +124,9 @@ Error Parse::ParseFile(string &oFile)
             iRet = sscanf(szElement + iOffset, 
                           " %255[A-Za-z0-9] = \"%255[^\"] \" %n", 
                           szAttr, szValue, &iTemp);
-            if (iRet < 2)
+            if (iRet < 2 || iTemp == 0)
             {
+               m_oLastError = string("Improperly formatted attribute list");
                bError = true;
                break;
             }
@@ -145,5 +165,29 @@ Error Parse::ParseFile(string &oFile)
 
 void Parse::GetErrorString(string &oError)
 {
-    oError = m_oLastError;
+	char *szError;
+    
+    szError = new char[m_oLastError.length() + 100];
+    sprintf(szError, "%s on line %d.", 
+            m_oLastError.c_str(), m_iErrorLine);
+    oError = string(szError);
+    delete szError;
+}
+
+
+int Parse::CountNewlines(char *szElement)
+{
+	int   iCount;
+    char *pPtr;
+    
+    for(iCount = 0, pPtr = szElement; *pPtr; pPtr++)
+       if (*pPtr == '\n')
+          iCount++;
+
+    return iCount;
+}
+
+int Parse::GetErrorLine(void)
+{
+    return m_iErrorLine;
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.9 1999/09/21 00:29:32 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.10 1999/09/23 01:30:00 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include "eventdata.h"
 #include "event.h"
 #include "id3v1.h"
+#include "debug.hpp"
 
 void WorkerThreadStart(void* arg);
 
@@ -39,72 +40,29 @@ extern    "C"
 {
    UserInterface *Initialize(FAContext * context)
    {
+	  Debug_v("##Clear");
       return new FreeAmpTheme(context);
    }
 }
 
 FreeAmpTheme::FreeAmpTheme(FAContext * context)
 {
-   char          szTemp[255];
-   unsigned int  iLen = 255;
-   string        oThemePath, oThemeFile("theme.xml");
-   Error         eRet;
-   string        oName("MainWindow");
-
    m_pContext = context;
-
-   m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
-   oThemePath = szTemp;
-   SetThemePath(oThemePath);
-
-   m_pContext->prefs->GetPrefString(kMainWindowPosPref, szTemp, &iLen);
-   sscanf(szTemp, " %d , %d", &m_oWindowPos.x, &m_oWindowPos.y);
-
-   eRet = ParseFile(oThemeFile);
-   if (IsError(eRet))
-   {
-	   MessageDialog oBox;
-   	   string        oErr, oMessage(szParseError);
-
-   	   GetErrorString(oErr);
-       oMessage += oErr;
-       oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
-   }
-   SelectWindow(oName);
-   
    m_iCurrentSeconds = 0;
-   m_iTotalSeconds = 0;
+   m_iTotalSeconds = -1;
    m_iSeekSeconds = 0;
    m_bSeekInProgress = false;
+   m_oCurrentWindow = string("MainWindow");
+   m_iVolume = -1;
+   m_iSeekPos = -1;
+   m_bPlayShown = true;
+
+   LoadFreeAmpTheme();
+   SelectWindow(m_oCurrentWindow);
 }
 
 FreeAmpTheme::~FreeAmpTheme()
 {
-
-}
-
-Error FreeAmpTheme::Run(void)
-{
-   char   szTemp[255];
-   Error  eRet;
-   string oName("Volume");
-   bool   bSet = false;
-
-   assert(m_pWindow);
-   m_pWindow->ControlEnable(oName, true, bSet);
-   oName = string("Seek");
-   m_pWindow->ControlEnable(oName, true, bSet);
-
-   eRet = Theme::Run(m_oWindowPos);
-   if (!IsError(eRet))
-   {
-       sprintf(szTemp, "%d,%d", m_oWindowPos.x, m_oWindowPos.y);
-       m_pContext->prefs->SetPrefString(kMainWindowPosPref, szTemp);
-   }    
-   
-   m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
-
-   return eRet;
 }
 
 Error FreeAmpTheme::Init(int32 startup_type)
@@ -114,22 +72,71 @@ Error FreeAmpTheme::Init(int32 startup_type)
    m_iStartupType = startup_type;
    ParseArgs();
 
-   m_uiThread = Thread::CreateThread();
-   m_uiThread->Create(WorkerThreadStart, this);
+   Run();
 
    return kError_NoErr;
 }
 
+void FreeAmpTheme::WorkerThread(void)
+{
+   char   szTemp[255];
+   Error  eRet;
+   bool   bSet = false;
+
+   eRet = Theme::Run(m_oWindowPos);
+   if (!IsError(eRet))
+   {
+       sprintf(szTemp, "%d,%d", m_oWindowPos.x, m_oWindowPos.y);
+       m_pContext->prefs->SetPrefString(kMainWindowPosPref, szTemp);
+   }    
+
+   m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
+}
+
+Error FreeAmpTheme::Run(void)
+{
+    m_uiThread = Thread::CreateThread();
+    m_uiThread->Create(WorkerThreadStart, this);
+   
+    return kError_NoErr;
+}
 
 void WorkerThreadStart(void* arg)
 {
     FreeAmpTheme* ui = (FreeAmpTheme*)arg;
-    ui->Run();
+    ui->WorkerThread();
 }
 
-Error FreeAmpTheme::Close(string &oWindowName)
+void FreeAmpTheme::LoadFreeAmpTheme(void)
 {
-	Theme::Close(oWindowName);
+   char          szTemp[255];
+   unsigned int  iLen = 255;
+   string        oThemePath, oThemeFile("theme.xml");
+   Error         eRet;
+
+   m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
+   oThemePath = szTemp;
+   SetThemePath(oThemePath);
+
+   m_pContext->prefs->GetPrefString(kMainWindowPosPref, szTemp, &iLen);
+   sscanf(szTemp, " %d , %d", &m_oWindowPos.x, &m_oWindowPos.y);
+
+   eRet = LoadTheme(oThemeFile);
+   if (IsError(eRet))					   
+   {
+	   MessageDialog oBox;
+   	   string        oErr, oMessage(szParseError);
+
+   	   GetErrorString(oErr);
+       oMessage += oErr;
+       oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
+   }
+}
+
+
+Error FreeAmpTheme::Close(void)
+{
+	Theme::Close();
     
     m_uiThread->Join();
 
@@ -188,7 +195,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
       case CMD_Cleanup:
       {
          string oName("MainWindow");
-      	 Close(oName);
+      	 Close();
          m_pContext->target->AcceptEvent(new Event(INFO_ReadyToDieUI));
          
          break;
@@ -209,6 +216,8 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          pFoo = (pFoo ? ++pFoo : info->m_filename);
          oText = string(pFoo);
          m_pWindow->ControlStringValue(oName, true, oText);
+         oText = string("FreeAmp: ") + string(pFoo);
+         m_pWindow->SetTitle(oText);
 
 		 // Enable/disable the seek slider
          m_iTotalSeconds = (int32) info->m_totalSeconds;
@@ -234,6 +243,8 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          pInfo->GetTitle(szTitle, 100);
          oText = string(szTitle);
          m_pWindow->ControlStringValue(oName, true, oText);
+         oText = string("FreeAmp: ") + string(szTitle);
+         m_pWindow->SetTitle(oText);
 
          break;
       }
@@ -255,7 +266,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
       case INFO_MediaTimeInfo:
       {
          MediaTimeInfoEvent *info = (MediaTimeInfoEvent *) e;
-         int                 iSeconds, iSeekPos;
+         int                 iSeconds;
          char                szText[100];
          string              oName("Time"), oText;
 
@@ -272,9 +283,9 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
 
          if (m_iTotalSeconds > 0)
          {
-            iSeekPos = (iSeconds * 100) / m_iTotalSeconds;
+            m_iSeekPos = (iSeconds * 100) / m_iTotalSeconds;
             oName = string("Seek");
-            m_pWindow->ControlIntValue(oName, true, iSeekPos);
+            m_pWindow->ControlIntValue(oName, true, m_iSeekPos);
          }   
 
          break;
@@ -319,11 +330,8 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
 
       case INFO_VolumeInfo:
       {
-      	 int    iValue;
-         string oName("Volume");
-         
-         iValue = ((VolumeEvent *) e)->GetVolume();
-         m_pWindow->ControlIntValue(oName, true, iValue);
+         m_iVolume = ((VolumeEvent *) e)->GetVolume();
+         m_pWindow->ControlIntValue(string("Volume"), true, m_iVolume);
          break;
       }
       
@@ -357,11 +365,10 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    if (oControlName == string("Volume") && 
        (eMesg == CM_ValueChanged || eMesg == CM_SliderUpdate))
    {
-   	   int iValue;
-       
-       m_pWindow->ControlIntValue(oControlName, false, iValue);
+       m_pWindow->ControlIntValue(oControlName, false, m_iVolume);
        m_pContext->target->AcceptEvent(new 
-           VolumeEvent(CMD_SetVolume, iValue));
+           VolumeEvent(CMD_SetVolume, m_iVolume));
+           
        return kError_NoErr;
    }    
    if (oControlName == string("Seek") && eMesg == CM_ValueChanged)
@@ -399,7 +406,28 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    }    
    if (oControlName == string("Play") && eMesg == CM_Pressed)
    {
+   	   bool bValue = false;
+       
+       m_bPlayShown = false;
+       
+       m_pWindow->ControlShow(string("Play"), true, bValue);
+   	   bValue = true;
+       m_pWindow->ControlShow(string("Pause"), true, bValue);
+   
        m_pContext->target->AcceptEvent(new Event(CMD_Play));
+       return kError_NoErr;
+   }
+   if (oControlName == string("Pause") && eMesg == CM_Pressed)
+   {
+   	   bool bValue = false;
+       
+       m_bPlayShown = true;
+       
+       m_pWindow->ControlShow(string("Pause"), true, bValue);
+   	   bValue = true;
+       m_pWindow->ControlShow(string("Play"), true, bValue);
+   
+       m_pContext->target->AcceptEvent(new Event(CMD_Pause));
        return kError_NoErr;
    }
    if (oControlName == string("Stop") && eMesg == CM_Pressed)
@@ -422,6 +450,81 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
        return kError_NoErr;
    }
+   if (oControlName == string("NextTheme") && eMesg == CM_Pressed)
+   {
+       if (m_oCurrentWindow == string("MainWindow"))
+       	   m_oCurrentWindow = string("WindowShade");
+       else
+       	   m_oCurrentWindow = string("MainWindow");
+           
+       SelectWindow(m_oCurrentWindow);
+   
+       return kError_NoErr;
+   }
+   if (oControlName == string("ReloadTheme") && eMesg == CM_Pressed)
+   {
+       char          szTemp[255];
+       unsigned int  iLen = 255;
+       string        oThemePath, oThemeFile("theme.xml");
+       Error         eRet;
+
+       m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
+       oThemePath = szTemp;
+       SetThemePath(oThemePath);
+
+	   eRet = LoadTheme(oThemeFile);
+	   if (IsError(eRet))					   
+	   {
+		   MessageDialog oBox;
+	   	   string        oErr, oMessage(szParseError);
+
+	   	   GetErrorString(oErr);
+	       oMessage += oErr;
+	       oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
+	   }
+       return kError_NoErr;
+   }
    
    return kError_NoErr;
+}
+
+void FreeAmpTheme::InitControls(void)
+{
+	bool bSet;
+    
+    assert(m_pWindow);
+    
+    // Set the volume control
+	if (m_iVolume >= 0)
+    {  
+       bSet = true;
+ 	   Debug_v("Volume: %d", m_iVolume);
+       m_pWindow->ControlIntValue(string("Volume"), true, m_iVolume);
+    }
+    else 
+       bSet = false;   
+       
+    m_pWindow->ControlEnable(string("Volume"), true, bSet);
+
+    // Set the seek control
+    bSet = (m_iTotalSeconds < 0) ? false : true;
+    if (bSet)
+       m_pWindow->ControlIntValue(string("Seek"), true, m_iSeekPos);
+    m_pWindow->ControlEnable(string("Seek"), true, bSet);
+    
+    // Set the Play/Pause buttons
+    if (m_bPlayShown)
+    {
+    	bSet = false;
+        m_pWindow->ControlShow(string("Pause"), true, bSet);
+    	bSet = true;
+        m_pWindow->ControlShow(string("Play"), true, bSet);
+    }
+    else
+    {
+    	bSet = false;
+        m_pWindow->ControlShow(string("Play"), true, bSet);
+    	bSet = true;
+        m_pWindow->ControlShow(string("Pause"), true, bSet);
+    }
 }

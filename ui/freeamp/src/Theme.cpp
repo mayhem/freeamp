@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.4 1999/09/17 20:31:02 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.5 1999/09/23 01:30:03 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 #include "DialControl.h"
 #include "SliderControl.h"
 #include "TextControl.h"
+#include "debug.hpp"
 
 #ifdef WIN32
 #include "Win32Window.h"
@@ -46,19 +47,46 @@ Theme::Theme(void)
     m_pWindow = NULL;
     m_pCurrentWindow = NULL;
     m_pCurrentControl = NULL;
+    m_pParsedWindows = m_pWindows = NULL;
+    m_pParsedBitmaps = m_pBitmaps = NULL;
+	m_bReloadTheme = false;
+    m_bReloadWindow = false;
 }
 
 Theme::~Theme(void)
 {
-    while(m_oWindows.size() > 0)
+	delete m_pCurrentWindow;
+	delete m_pCurrentControl;
+    
+	ClearWindows();
+    ClearBitmaps();
+}
+
+void Theme::ClearWindows(void)
+{
+	if (m_pWindows)
     {
-       delete m_oWindows[0];
-       m_oWindows.erase(m_oWindows.begin());
-    }
-    while(m_oBitmaps.size() > 0)
+       while(m_pWindows->size() > 0)
+       {
+          delete (*m_pWindows)[0];
+          m_pWindows->erase(m_pWindows->begin());
+       }
+       delete m_pWindows;
+       m_pWindows = NULL;
+    }   
+}
+
+void Theme::ClearBitmaps(void)
+{  
+  	if (m_pBitmaps)
     {
-       delete m_oBitmaps[0];
-       m_oBitmaps.erase(m_oBitmaps.begin());
+       while(m_pBitmaps->size() > 0)
+       {
+          delete (*m_pBitmaps)[0];
+          m_pBitmaps->erase(m_pBitmaps->begin());
+       }
+       delete m_pBitmaps;
+       m_pBitmaps = NULL;
     }
 }
 
@@ -71,12 +99,122 @@ void Theme::SetThemePath(string &oThemePath)
 #endif
 }
 
-Error Theme::ParseFile(string &oFile)
+Error Theme::LoadTheme(string &oFile)
 {
     string oCompleteFile;
+    Error  eRet;
+
+	if (m_pWindow)
+    {
+       oCompleteFile = m_oThemePath + oFile;
+       eRet = Parse::ParseFile(oCompleteFile);
+       delete m_pParsedWindows;
+       delete m_pParsedBitmaps;
+       m_pParsedWindows = NULL;
+       m_pParsedBitmaps = NULL;
+       
+       if (IsError(eRet))
+          return eRet;
+
+	   m_bReloadTheme = true;
+	   Theme::Close();
+       m_oReloadFile = oFile;
+       
+       return kError_NoErr;
+    }   
     
     oCompleteFile = m_oThemePath + oFile;
-    return Parse::ParseFile(oCompleteFile);
+    eRet = Parse::ParseFile(oCompleteFile);
+    if (!IsError(eRet))
+    {
+       m_pWindows = m_pParsedWindows;
+       m_pBitmaps = m_pParsedBitmaps;
+       m_pParsedWindows = NULL;
+       m_pParsedBitmaps = NULL;
+    }   
+    return eRet;
+}
+
+Error Theme::SelectWindow(const string &oWindowName)
+{
+    vector<Window *>::iterator i;
+    string                     oTemp;
+
+	if (!m_pWindows)
+        return kError_NotFound;
+
+	if (m_pWindow && !m_bReloadWindow)
+    {
+	   m_bReloadWindow = true;
+	   Theme::Close();
+       m_oReloadWindow = oWindowName;
+       
+       return kError_NoErr;
+    }   
+    
+    for(i = m_pWindows->begin(); i != m_pWindows->end(); i++)
+    {
+        (*i)->GetName(oTemp);
+        if (oTemp == oWindowName)
+        {
+            m_pWindow = *i;
+            return kError_NoErr;
+        }    
+    }
+
+    return kError_NotFound;
+}
+
+Error Theme::Run(Pos &oWindowPos)
+{
+	string oCurrentWindow;
+    string oCompleteFile;
+	Error  eRet;
+    
+    for(;;)
+    {
+    	if (m_pWindow == NULL)
+           return kError_UnknownErr;
+           
+        if (m_oReloadWindow == string(""))   
+            m_pWindow->GetName(m_oReloadWindow);   
+
+    	eRet = m_pWindow->Run(oWindowPos);
+        if (IsError(eRet))
+            return eRet;
+    
+    	if (!m_bReloadTheme && !m_bReloadWindow)
+           break;
+           
+        if (m_bReloadTheme)
+        {   
+            m_bReloadTheme = false;
+
+ 	        ClearWindows();
+            ClearBitmaps();
+            m_pWindow = NULL;
+
+            oCompleteFile = m_oThemePath + m_oReloadFile;
+            eRet = Parse::ParseFile(oCompleteFile);
+            assert(!IsError(eRet));
+        
+            m_pWindows = m_pParsedWindows;
+            m_pBitmaps = m_pParsedBitmaps;
+            m_pParsedWindows = NULL;
+            m_pParsedBitmaps = NULL;
+        }    
+        
+        SelectWindow(m_oReloadWindow);
+        m_bReloadWindow = false;
+    }
+}
+
+Error Theme::Close(void)
+{
+	if (m_pWindow)
+       return m_pWindow->Close();
+    else
+       return kError_NoErr;
 }
 
 Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
@@ -93,7 +231,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        if (iRet != 2)
        {
            m_oLastError = string("Improperly formatted version number "
-                                 "in the <Version> tag.");
+                                 "in the <Version> tag");
            return kError_ParseError;
        }
 
@@ -104,7 +242,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 
            
            sprintf(szError, "This ThemeManager cannot use version %d.%d "
-                            "themes.", iVersionMajor, iVersionMinor);
+                            "themes", iVersionMajor, iVersionMinor);
            m_oLastError = string(szError);
 
            return kError_ParseError;
@@ -134,7 +272,11 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
                           oAttrMap["File"] + string(": ") + oBitmapErr;
            return eRet;
        }
-       m_oBitmaps.push_back(pBitmap);
+       
+       if (!m_pParsedBitmaps)
+           m_pParsedBitmaps = new vector<Bitmap *>;
+           
+       m_pParsedBitmaps->push_back(pBitmap);
 
        return eRet;
     }
@@ -142,7 +284,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     {
        if (m_pCurrentWindow)
        {
-           m_oLastError = string("<Window> tags cannot be nested.");
+           m_oLastError = string("<Window> tags cannot be nested");
            return kError_InvalidParam;
        }
 
@@ -163,7 +305,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        if (m_pCurrentWindow == NULL)
        {
            m_oLastError = string("<BackgroundBitmap> must occur inside "
-                                 "of a <Window> tag.");
+                                 "of a <Window> tag");
            return kError_InvalidParam;
        }
 
@@ -198,7 +340,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        if (m_pCurrentWindow == NULL)
        {
            m_oLastError = string("<MaskBitmap> must occur inside "
-                                 "of a <Window> tag.");
+                                 "of a <Window> tag");
            return kError_InvalidParam;
        }
 
@@ -221,7 +363,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        if (m_pCurrentWindow == NULL)
        {
            m_oLastError = string("<Controls> must occur inside of a "
-                          "<Window> tag.");
+                          "<Window> tag");
            return kError_InvalidParam;
        }
 
@@ -232,7 +374,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     {
        if (m_pCurrentControl)
        {
-           m_oLastError = string("Controls cannot be nested.");
+           m_oLastError = string("Controls cannot be nested");
            return kError_InvalidParam;
        }
 
@@ -245,7 +387,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     {
        if (m_pCurrentControl)
        {
-           m_oLastError = string("Controls cannot be nested.");
+           m_oLastError = string("Controls cannot be nested");
            return kError_InvalidParam;
        }
 
@@ -258,7 +400,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     {
        if (m_pCurrentControl)
        {
-           m_oLastError = string("Controls cannot be nested.");
+           m_oLastError = string("Controls cannot be nested");
            return kError_InvalidParam;
        }
 
@@ -269,15 +411,34 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 
     if (oElement == string("TextControl"))
     {
+       Color oColor;
+       
        if (m_pCurrentControl)
        {
-           m_oLastError = string("Controls cannot be nested.");
+           m_oLastError = string("Controls cannot be nested");
            return kError_InvalidParam;
        }
 
-       m_pCurrentControl = new TextControl(m_pCurrentWindow,
-                                           oAttrMap["Name"],
-                                           oAttrMap["Align"]);
+	   if (oAttrMap["Color"] != string(""))
+       {
+           eRet = ParseColor(oAttrMap["Color"], oColor);
+           if (eRet != kError_NoErr)
+    	   {
+    	       m_oLastError = string("Improperly formatted color info: ") +
+    	                      oAttrMap["Color"];
+    	       return kError_InvalidParam;
+    	   }
+           m_pCurrentControl = new TextControl(m_pCurrentWindow,
+                                               oAttrMap["Name"],
+                                               oAttrMap["Align"],
+                                               &oColor);
+       }
+       else
+           m_pCurrentControl = new TextControl(m_pCurrentWindow,
+                                               oAttrMap["Name"],
+                                               oAttrMap["Align"],
+                                               NULL);
+                                               
        return kError_NoErr;
     }
 
@@ -288,7 +449,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        if (m_pCurrentControl == NULL)
        {
           m_oLastError = string("The <Position> tag must be inside of a "
-                                "<XXXXControl> tag.");
+                                "<XXXXControl> tag");
           return kError_InvalidParam;
        }
 
@@ -312,7 +473,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        if (m_pCurrentControl == NULL)
        {
           m_oLastError = string("The <ControlBitmap> tag must be inside of a "
-                                "<XXXXControl> tag.");
+                                "<XXXXControl> tag");
           return kError_InvalidParam;
        }
 
@@ -354,7 +515,7 @@ Error Theme::EndElement(string &oElement)
        if (m_pCurrentWindow == NULL)
        {
            m_oLastError = string("The <Controls> tag must be inside a "
-                                 "<Window> tag.");
+                                 "<Window> tag");
            return kError_InvalidParam;
        }
        return kError_NoErr;
@@ -387,7 +548,11 @@ Error Theme::EndElement(string &oElement)
 
     if (oElement == string("Window"))
     {
-       m_oWindows.push_back(m_pCurrentWindow);
+       if (!m_pParsedWindows)
+           m_pParsedWindows = new vector<Window *>;
+           
+       m_pParsedWindows->push_back(m_pCurrentWindow);
+           
        m_pCurrentWindow = NULL;
 
        return kError_NoErr;
@@ -403,7 +568,10 @@ Bitmap *Theme::FindBitmap(string &oName)
     vector<Bitmap *>::iterator i;
     string                     oTemp;
 
-    for(i = m_oBitmaps.begin(); i != m_oBitmaps.end(); i++)
+	if (!m_pParsedBitmaps)
+		return NULL;
+        
+    for(i = m_pParsedBitmaps->begin(); i != m_pParsedBitmaps->end(); i++)
     {
        (*i)->GetName(oTemp);
        if (oTemp == oName)
@@ -423,40 +591,14 @@ Error Theme::ParseRect(string &oRectstring, Rect &oRect)
     return (iRet == 4) ? kError_NoErr : kError_InvalidParam;
 }
 
-Error Theme::SelectWindow(string &oWindowName)
+Error Theme::ParseColor(string &oColorstring, Color &oColor)
 {
-    vector<Window *>::iterator i;
-    string                     oTemp;
+    int iRet;
 
-    for(i = m_oWindows.begin(); i != m_oWindows.end(); i++)
-    {
-        (*i)->GetName(oTemp);
-        if (oTemp == oWindowName)
-        {
-            m_pWindow = *i;
-            return kError_NoErr;
-        }    
-    }
+    iRet = sscanf(oColorstring.c_str(), "#%02X%02X%02X",
+    		&oColor.red, &oColor.green, &oColor.blue);
 
-    return kError_NotFound;
+    return (iRet == 3) ? kError_NoErr : kError_InvalidParam;
 }
 
-Error Theme::Run(Pos &oWindowPos)
-{
-    return m_pWindow->Run(oWindowPos);
-}
 
-Error Theme::Close(string &oWindowName)
-{
-    vector<Window *>::iterator i;
-    string                     oTemp;
-
-    for(i = m_oWindows.begin(); i != m_oWindows.end(); i++)
-    {
-        (*i)->GetName(oTemp);
-        if (oTemp == oWindowName)
-            return (*i)->Close();
-    }
-
-    return kError_NotFound;
-}

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.1.2.6 1999/09/17 20:30:49 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.1.2.7 1999/09/23 01:29:51 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -40,23 +40,28 @@ class FreeAmpTheme : public UserInterface, public Theme
 
         virtual int32 AcceptEvent(Event * e);
 		virtual Error Run(void);
-        virtual Error Close(string &oWindowName);
+        virtual Error Close(void);
         virtual Error Init(int32 startup_type);
+        virtual void  LoadFreeAmpTheme(void);
+        
         virtual Error HandleControlMessage(string &oControlName, 
                                            ControlMessageEnum eMesg);
+        virtual void  InitControls(void);
+
+        void  WorkerThread(void);
 
     protected:
 
         void  ParseArgs();
-        void  WorkerThread(void* arg);
 
         FAContext       *m_pContext;
         int              m_iCurrentSeconds, m_iTotalSeconds, m_iSeekSeconds;
         float			 m_fSecondsPerFrame;
-        int              m_iStartupType;
+        int              m_iStartupType, m_iVolume, m_iSeekPos;
         Thread          *m_uiThread;
         Pos              m_oWindowPos;
-        bool             m_bSeekInProgress;
+        bool             m_bSeekInProgress, m_bPlayShown;
+        string           m_oCurrentWindow;
 };
 
 #endif

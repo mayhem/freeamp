@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.1.2.6 1999/09/17 20:30:47 robert Exp $
+   $Id: Control.h,v 1.1.2.7 1999/09/23 01:29:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -81,6 +81,7 @@ enum ControlStateEnum
     CS_DisabledMO,
     CS_Dragging,
     CS_Hidden,
+    CS_HiddenMO,
 
     CS_Any,			 // These states allow a transition message to be
     CS_Same,		 // sent to the control without actually changing state.

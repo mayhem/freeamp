@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.7 1999/09/17 20:30:53 robert Exp $
+   $Id: Window.h,v 1.1.2.8 1999/09/23 01:29:55 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -53,36 +53,36 @@ class Window
 {
     public:
 
-              Window(Theme *pTheme, string &oName);
-     virtual ~Window(void);
+               Window(Theme *pTheme, string &oName);
+      virtual ~Window(void);
 
-     void    GetName(string &oName);
-     Canvas *GetCanvas(void);
-     void    AddControl(Control *pControl);
+      void    GetName(string &oName);
+      Canvas *GetCanvas(void);
+      void    AddControl(Control *pControl);
+      void    ClearControls(void);
 
+      // The following functions are designed to give access to the 
+      // controls via the control's name. 
+      Error   SendControlMessage(Control *pControl, ControlMessageEnum eMsg);
 
-     // The following functions are designed to give access to the 
-     // controls via the control's name. 
-     Error   SendControlMessage(Control *pControl, ControlMessageEnum eMsg);
+      Error   ControlEnable(const string &oControlName, bool bSet, bool &bEnable);
+      Error   ControlShow(const string &oControlName, bool bSet, bool &bShow);
+      Error   ControlIntValue(const string &oControlName, bool bSet, 
+                             int &iValue);
+      Error   ControlStringValue(const string &oControlName, bool bSet,
+                                 string &oValue);
 
-     Error   ControlEnable(string &oControlName, bool bSet, bool &bEnable);
-     Error   ControlShow(string &oControlName, bool bSet, bool &bShow);
-     Error   ControlIntValue(string &oControlName, bool bSet, 
-                            int &iValue);
-     Error   ControlStringValue(string &oControlName, bool bSet,
-                                string &oValue);
+      // These functions should be called from the OS dependent event
+      // loop to handle mouse messages
+      virtual void  HandleMouseMove(Pos &oPos);
+      virtual void  HandleMouseLButtonDown(Pos &oPos);
+      virtual void  HandleMouseLButtonUp(Pos &oPos);
 
-     // These functions should be called from the OS dependent event
-     // loop to handle mouse messages
-     virtual void  HandleMouseMove(Pos &oPos);
-     virtual void  HandleMouseLButtonDown(Pos &oPos);
-     virtual void  HandleMouseLButtonUp(Pos &oPos);
-
-     virtual Error StartMouseCapture(Control *);
-     virtual Error EndMouseCapture(void);
+      virtual Error StartMouseCapture(Control *);
+      virtual Error EndMouseCapture(void);
      
      // This init call is made after the window is created
-     virtual void  Init(void);
+      virtual void  Init(void);
 
       // Run handles OS dependent messages and calls the functions below
       // or passes the messages on to child controls

@@ -18,13 +18,16 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.1.2.5 1999/09/20 23:25:13 robert Exp $
+   $Id: Window.cpp,v 1.1.2.6 1999/09/23 01:30:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
 #include <algorithm>
 #include "Window.h"
 #include "Theme.h"
+#include "Debug.hpp"
+
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 Window::Window(Theme *pTheme, string &oName)
 {
@@ -40,37 +43,37 @@ Window::Window(Theme *pTheme, string &oName)
 
 Window::~Window(void)
 {
-    m_oMutex.Acquire();
-
-    while(m_oControls.size() > 0)
-    {
-        delete m_oControls[0];
-        m_oControls.erase(m_oControls.begin());
-    }
-
+	ClearControls();
+    
     delete m_pCanvas;
-    m_oMutex.Release();
 }
 
 void Window::Init(void)
 {
-    ControlMapIterator i;
+    vector<Control *>::iterator i;
 
-    for(i = m_oControlMap.begin(); i != m_oControlMap.end(); i++)
-        (*i).second->Init();
+    for(i = m_oControls.begin(); i != m_oControls.end(); i++)
+        (*i)->Init();
+        
+    m_pTheme->InitControls();    
 }
 
 void Window::AddControl(Control *pControl)
 {
     string oName;
 
-    m_oMutex.Acquire();
-
     pControl->GetName(oName);
     m_oControlMap[oName] = pControl;
     m_oControls.push_back(pControl);
+}
 
-    m_oMutex.Release();
+void Window::ClearControls(void)
+{
+    while(m_oControls.size() > 0)
+    {
+        delete m_oControls[0];
+        m_oControls.erase(m_oControls.begin());
+    }
 }
 
 Canvas *Window::GetCanvas(void)
@@ -80,14 +83,10 @@ Canvas *Window::GetCanvas(void)
 
 void Window::GetName(string &oName)
 {
-    m_oMutex.Acquire();
-
     oName = m_oName;
-
-    m_oMutex.Release();
 }
 
-Error Window::ControlEnable(string &oTarget, bool bSet, bool &bEnable)
+Error Window::ControlEnable(const string &oTarget, bool bSet, bool &bEnable)
 {
     Control *pControl;
 
@@ -98,18 +97,30 @@ Error Window::ControlEnable(string &oTarget, bool bSet, bool &bEnable)
     return pControl->Enable(bSet, bEnable);
 }
 
-Error Window::ControlShow(string &oTarget, bool bSet, bool &bShow)
+Error Window::ControlShow(const string &oTarget, bool bSet, bool &bShow)
 {
     Control *pControl;
+    Pos      oPos;
+    Rect     oRect;
+    Error    eRet;
 
     pControl = m_oControlMap[oTarget];
     if (pControl == NULL)
        return kError_InvalidParam;
 
-    return pControl->Show(bSet, bShow);
+    eRet = pControl->Show(bSet, bShow);
+
+    GetMousePos(oPos);
+    GetWindowPosition(oRect);
+    oPos.x -= oRect.x1;
+    oPos.y -= oRect.y1;
+    if (bSet && bShow && pControl->PosInControl(oPos))
+    	pControl->AcceptTransition(CT_MouseEnter);
+
+	return eRet;
 }
 
-Error Window::ControlIntValue(string &oTarget, bool bSet, int &iValue)
+Error Window::ControlIntValue(const string &oTarget, bool bSet, int &iValue)
 {
     Control *pControl;
 
@@ -120,7 +131,7 @@ Error Window::ControlIntValue(string &oTarget, bool bSet, int &iValue)
     return pControl->IntValue(bSet, iValue);
 }
 
-Error Window::ControlStringValue(string &oTarget, bool bSet, string &oValue)
+Error Window::ControlStringValue(const string &oTarget, bool bSet, string &oValue)
 {
     Control *pControl;
 
@@ -143,13 +154,15 @@ Error Window::SendControlMessage(Control *pControl,
 
 Control *Window::ControlFromPos(Pos &oPos)
 {
-    ControlMapIterator i;
+    vector<Control *>::iterator i;
+    bool                        bShown;
 
-    for(i = m_oControlMap.begin(); i != m_oControlMap.end(); i++)
+    for(i = m_oControls.begin(); i != m_oControls.end(); i++)
     {
-        if ((*i).second->PosInControl(oPos))
-            return (*i).second;
-    }
+        (*i)->Show(false, bShown);
+        if ((*i)->PosInControl(oPos) && bShown) 
+            return (*i);
+    }        
 
     return NULL;
 }
@@ -168,7 +181,7 @@ Error Window::EndMouseCapture(void)
 
 void Window::HandleMouseMove(Pos &oPos)
 {
-    Control *pControl;
+    Control                     *pControl;
 
 	if (m_bMouseButtonDown)
     {

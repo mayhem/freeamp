@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.h,v 1.1.2.2 1999/09/25 21:48:05 elrod Exp $
+	$Id: rmp.h,v 1.1.2.3 1999/09/27 21:36:49 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_RMP_H
@@ -33,10 +33,13 @@ using namespace std;
 #include "config.h"
 #include "errors.h"
 #include "facontext.h"
+#include "Parse.h"
+#include "MetaData.h"
 
 #include "downloadformat.h"
+#include "downloadmanager.h"
 
-class RMP : public DownloadFormat {
+class RMP : public DownloadFormat, public Parse {
  public:
     RMP(FAContext *context);
     virtual ~RMP();
@@ -44,8 +47,20 @@ class RMP : public DownloadFormat {
     virtual Error GetSupportedFormats(DownloadFormatInfo* info, uint32 index);
     virtual Error ReadDownloadFile(char* url, vector<DownloadItem*>* items);
 
+ protected:
+ 
+            Error BeginElement(string &oElement, AttrMap &oAttrMap);
+            Error EndElement(string &oElement);
+            Error PCData(string &oData);
+            void  MangleLocation(string &oLocation);
+
  private:
-     FAContext* m_context;
+ 
+     FAContext             *m_context;
+     vector<DownloadItem*> *m_pList;
+     string                 m_oPath, m_oFileName, m_oLocation;
+	 string                 m_oPackageId, m_oListId, m_oTrackId;   
+     MetaData              *m_pMetaData;
 };
 
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.cpp,v 1.1.2.2 1999/09/25 21:48:04 elrod Exp $
+	$Id: rmp.cpp,v 1.1.2.3 1999/09/27 21:36:48 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -30,7 +30,6 @@ using namespace std;
 #include "config.h"
 #include "errors.h"
 #include "errno.h"
-
 #include "rmp.h"
 
 typedef struct FormatInfoStruct {
@@ -56,11 +55,12 @@ extern "C"
 RMP::RMP(FAContext* context):DownloadFormat(context)
 {
     m_context = context;
+    m_pMetaData = NULL;
 }
 
 RMP::~RMP()
 {
-
+	delete m_pMetaData;
 }
 
 Error RMP::GetSupportedFormats(DownloadFormatInfo* info, uint32 index)
@@ -93,9 +93,139 @@ Error RMP::ReadDownloadFile(char* url, vector<DownloadItem*>* list)
 
     if(url && list)
     {
-        
+       m_pList = list;
+
+       result = ParseFile(string(url));
+       
+       m_pList = NULL; 
     }
 
     return result;
 
+}
+
+Error RMP::BeginElement(string &oElement, AttrMap &oAttrMap)
+{
+	m_oPath += string("/") + oElement;
+
+	if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK"))
+	{
+       delete m_pMetaData;
+       m_pMetaData = new MetaData();
+    }
+
+	return kError_NoErr;
+}
+
+Error RMP::PCData(string &oData)
+{
+	if (m_oPath == string("/PACKAGE/PACKAGEID"))
+    {
+        m_oPackageId = oData;
+        return kError_NoErr;
+    }
+	if (m_oPath == string("/PACKAGE/SERVER/LOCATION"))
+    {
+        m_oLocation = oData;
+        return kError_NoErr;
+    }
+	if (m_oPath == string("/PACKAGE/TRACKLIST/LISTID"))
+    {
+    	m_oListId = oData;
+        return kError_NoErr;
+    }
+	if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/TRACKID"))
+    {
+        m_oTrackId = oData;
+    	m_pMetaData->SetTrack(atoi(oData.c_str()));
+        return kError_NoErr;
+    }
+	if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/TITLE"))
+    {
+    	m_pMetaData->SetTitle(oData.c_str());
+        return kError_NoErr;
+    }
+	if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/ALBUM"))
+    {
+    	m_pMetaData->SetAlbum(oData.c_str());
+        return kError_NoErr;
+    }
+	if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/ARTIST"))
+    {
+    	m_pMetaData->SetArtist(oData.c_str());
+        return kError_NoErr;
+    }
+	if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/GENRE"))
+    {
+    	m_pMetaData->SetGenre(oData.c_str());
+        return kError_NoErr;
+    }
+	if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/FILENAME"))
+    {
+    	m_oFileName = oData;
+        return kError_NoErr;
+    }
+	if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/SIZE"))
+    {
+    	m_pMetaData->SetSize(atoi(oData.c_str()));
+        return kError_NoErr;
+    }
+        
+	return kError_NoErr;
+}
+
+
+Error RMP::EndElement(string &oElement)
+{
+	char *pPtr;
+    int   iOffset;
+    
+    pPtr = strrchr(m_oPath.c_str(), '/');
+    if (pPtr == NULL)
+       return kError_NoErr;
+       
+    iOffset = pPtr - m_oPath.c_str();
+    m_oPath.erase(iOffset, m_oPath.length() - iOffset);   
+
+	if (oElement == string("PACKAGE"))
+    {
+        DownloadItem *pItem;
+        string        oFinal = m_oLocation;
+      
+        MangleLocation(oFinal);
+        
+        pItem = new DownloadItem(oFinal.c_str(), 
+                                 m_oFileName.c_str(),
+                                 m_pMetaData);
+		m_pList->push_back(pItem);
+        m_pMetaData = NULL;
+    }
+       
+	return kError_NoErr;
+}
+
+void RMP::MangleLocation(string &oLocation)
+{
+	string::size_type iPos;
+    string            oPattern;
+    
+    oPattern = "%fid";
+    iPos = oLocation.find(oPattern, 0);
+    if (iPos != string::npos)
+        oLocation.replace(iPos, 4, m_oTrackId);
+    
+    oPattern = "%f";
+    iPos = oLocation.find(oPattern, 0);
+    if (iPos != string::npos)
+        oLocation.replace(iPos, 2, m_oFileName);
+
+    oPattern = "%lid";
+    iPos = oLocation.find(oPattern, 0);
+    if (iPos != string::npos)
+        oLocation.replace(iPos, 4, m_oListId);
+
+    oPattern = "%pid";
+    iPos = oLocation.find(oPattern, 0);
+    if (iPos != string::npos)
+        oLocation.replace(iPos, 4, m_oPackageId);
 }

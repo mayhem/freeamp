@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.5 1999/10/25 13:17:29 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.6 1999/10/28 05:29:48 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1029,7 +1029,7 @@ Error DownloadManager::Download(DownloadItem* item)
                                 break;
 
                             case 404:
-                                result = kError_FileNotFound;
+                                result = kError_HTTPFileNotFound;
                                 break;
 
                             case 416:

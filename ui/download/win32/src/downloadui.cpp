@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.4 1999/10/25 13:17:29 elrod Exp $
+	$Id: downloadui.cpp,v 1.5 1999/10/28 05:29:57 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -41,6 +41,7 @@ using namespace std;
 #include "event.h"
 #include "eventdata.h"
 #include "playlist.h"
+#include "errors.h"
 #include "resource.h"
 
 static const int32 kProgressHeight = 8;
@@ -759,8 +760,10 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                         SetTextColor(dis->hDC, RGB(192, 0, 0));
 
                     ostringstream ost;
+                    int32 index = (int32)dli->GetDownloadError();
 
-                    ost << "Error: " <<  dli->GetDownloadError();
+                    ost << "Error: " <<  ErrorString[index];
+
                     displayString = ost.str();
                     break;
                 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.9 1999/11/08 09:42:09 elrod Exp $
+        $Id: MusicTree.cpp,v 1.10 1999/11/09 03:44:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -583,7 +583,6 @@ void MusicBrowserUI::GetSelectedMusicTreeItems(vector<string>* urls)
             {
                 TV_ITEM tv_uncat;
                 
-
                 // is the "Uncatagorized" item selected
                 tv_uncat.hItem = TreeView_GetNextSibling(m_hMusicCatalog, tv_all.hItem);
                 tv_uncat.mask = TVIF_STATE;
@@ -595,7 +594,7 @@ void MusicBrowserUI::GetSelectedMusicTreeItems(vector<string>* urls)
                 HTREEITEM firstSearchItem = tv_uncat.hItem;
 
                 // if so then we add all the items under "Uncatagorized"
-                if(tv_all.state & TVIS_SELECTED)
+                if(tv_uncat.state & TVIS_SELECTED)
                 {
                     AddUncatagorizedTrackURLs(urls);
 

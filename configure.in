@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.91 2000/04/05 15:03:01 hiro Exp $
+dnl $Id: configure.in,v 1.92 2000/04/18 02:04:01 robert Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -569,6 +569,18 @@ if test "$curses" != ""; then
 	CURSES="$curses";
 	AC_SUBST(CURSES)
 fi
+
+AC_CHECK_LIB(id3, Find__7ID3_Tag11ID3_FrameID, 
+   [ AC_DEFINE(HAVE_ID3V2) 
+     ID3LIB="-lid3" 
+     AC_SUBST(ID3LIB)
+   ],
+   [ echo ""
+	  echo "id3lib not found. id3 support will be read-only."
+     echo "For full ID3v2 support download and install the id3lib from"
+     echo "    http://id3lib.sourceforge.net/"
+     echo ""
+   ])
 	
 dnl ****
 dnl Check for alsa

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.32 2000/04/17 19:41:40 elrod Exp $
+	$Id: preferences.h,v 1.33 2000/04/18 02:04:01 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -89,6 +89,8 @@ extern const char* kAllowMultipleInstancesPref;
 extern const char* kAudioCDLengthPref;
 extern const char* kWatchThisDirectoryPref;
 extern const char* kWatchThisDirTimeoutPref;
+extern const char* kWriteID3v1Pref;
+extern const char* kWriteID3v2Pref;
 
 class LibDirFindHandle;
 
@@ -284,6 +286,12 @@ class Preferences {
 
     Error GetWatchThisDirTimeout(int32* value);
     Error SetWatchThisDirTimeout(int32  value);
+
+    Error GetWriteID3v1(bool* value);
+    Error SetWriteID3v1(bool value);
+
+    Error GetWriteID3v2(bool* value);
+    Error SetWriteID3v2(bool value);
 };
 
 #endif /* _PREFERENCES_H */

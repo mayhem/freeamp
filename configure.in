@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.89 2000/03/23 12:37:31 ijr Exp $
+dnl $Id: configure.in,v 1.90 2000/03/24 01:17:15 hiro Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -432,7 +432,7 @@ if test "$have_gtk" = "true"; then
   CFLAGS="$CFLAGS $GTK_CFLAGS"
   AC_DEFINE(HAVE_GTK)
 elif test "$host_os" = "beos"; then
-  #OSDEPPLUGINS="$OSDEPPLUGINS plugins/musicbrowser.ui"
+  OSDEPPLUGINS="$OSDEPPLUGINS plugins/musicbrowser.ui"
   OSDEPPLUGINS="$OSDEPPLUGINS plugins/freeamp.ui"
   OSINC="$OSINC -Iui/musicbrowser/beos/include"
   # freeampui's Font.h and friends conflict with Be API, thus the junk below.

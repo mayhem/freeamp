@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.10 1999/10/19 07:13:27 elrod Exp $
+	$Id: lcdui.cpp,v 1.11 1999/12/16 02:37:56 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -412,11 +412,8 @@ void LcdUI::ProcessArgs() {
     for(int i=1;i<m_argc;i++) {
 	//cout << "Adding arg " << i << ": " << argv[i] << endl;
 	pc = m_argv[i];
-	if (pc[0] == '-') {
+	if (pc[0] == '-') 
 	    processSwitch(&(pc[0]));
-	} else {
-	    m_plm->AddItem(pc,0);
-	}
     }
     m_plm->SetCurrentIndex(0);
     Event *e = new Event(CMD_Play);

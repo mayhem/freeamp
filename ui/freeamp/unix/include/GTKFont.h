@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.h,v 1.6 1999/12/14 18:57:55 robert Exp $
+   $Id: GTKFont.h,v 1.7 1999/12/16 02:37:56 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKFONT_H__
@@ -73,6 +73,7 @@ class GTKFont : public Font
       Efont   *ttfont;
 #endif
       string   BuildFontString(bool bBold, bool bItalic, int iFontHeight);
+      Error    AddFont(string &oFontFile);
 
       bool bold;
       bool italic;

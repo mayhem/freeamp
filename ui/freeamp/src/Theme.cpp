@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.19 1999/12/16 01:29:42 robert Exp $
+   $Id: Theme.cpp,v 1.20 1999/12/16 02:37:55 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -105,8 +105,14 @@ Theme::Theme(FAContext *context)
 #ifdef WIN32
     m_pWindow = new Win32Window(this, funkyName);
 #elif defined(HAVE_GTK)
-    InitializeGTK(context);    
+    InitializeGTK(context); 
+    cout << "before initializing window..\n";
+    gdk_flush();
+    cout << "going to initialize window\n";   
     m_pWindow = new GTKWindow(this, funkyName);
+    cout << "immediately after initializing\n";
+    gdk_flush();
+    cout << "after initializing..\n";
 #elif defined(__BEOS__)
     m_pWindow = new BeOSWindow(this, funkyName);
 #endif

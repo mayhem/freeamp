@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: Mpg123UI.cpp,v 1.19 1999/11/28 18:44:09 ijr Exp $
+    $Id: Mpg123UI.cpp,v 1.20 1999/12/16 02:37:56 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -418,7 +418,7 @@ ProcessArgs()
       else
       {
          // ut << "Adding: " <<m_argv[i] << endl;
-         m_plm->AddItem(m_argv[i], 0);
+         //m_plm->AddItem(m_argv[i], 0);
          addedStuff++;
       }
    }

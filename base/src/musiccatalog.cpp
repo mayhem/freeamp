@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.18 1999/11/16 00:02:57 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.19 1999/11/16 03:49:27 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -265,7 +265,7 @@ Error MusicCatalog::AddSong(const char *url)
     MetaData *meta = m_context->browser->ReadMetaDataFromDatabase(url);
 
     if (!meta) {
-        PlaylistItem *newtrack = new PlaylistItem(url);
+        newtrack = new PlaylistItem(url);
         m_context->plm->RetrieveMetaData(newtrack);
 
         while (newtrack->GetState() != kPlaylistItemState_Normal)

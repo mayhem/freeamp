@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.22 1999/11/16 00:50:50 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.23 1999/11/16 03:49:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -206,7 +206,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
         {
             MusicCatalogTrackAddedEvent* pie = (MusicCatalogTrackAddedEvent*)event;
 
-            MusicCatalogItemAdded(pie->Item());
+            MusicCatalogItemAdded(pie->Artist(), pie->Album(), pie->Item());
             
             break; 
         }

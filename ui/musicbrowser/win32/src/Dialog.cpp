@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.95 2000/09/11 22:14:04 ijr Exp $
+        $Id: Dialog.cpp,v 1.96 2000/09/22 07:58:08 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -270,26 +270,6 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
                 case ID_EDIT_SUBMITPLAYLIST:
                     SubmitPlaylistEvent();
                     return 1;
-
-				case ID_SL_QUERY_500:
-					GenSLPlaylistEvent(500);
-					return 1;
-
-				case ID_SL_QUERY_1000:
-					GenSLPlaylistEvent(1000);
-					return 1;
-
-				case ID_SL_QUERY_5000:
-					GenSLPlaylistEvent(5000);
-					return 1;
-
-				case ID_SL_QUERY_10000:
-					GenSLPlaylistEvent(10000);
-					return 1;
-
-				case ID_SL_QUERY_20000:
-					GenSLPlaylistEvent(20000);
-					return 1;
 
 				case ID_SL_QUERY_NOMAX:
 					GenSLPlaylistEvent(-1.0);

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.19 2000/10/02 08:03:44 ijr Exp $
+   $Id: tstream.cpp,v 1.20 2000/10/05 00:08:43 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -292,6 +292,7 @@ WorkerThread(void)
 
       if (iRet > 0)
       {
+         go_on = 1;
          /* Data received, line by line parsing */
          while (go_on)
          {

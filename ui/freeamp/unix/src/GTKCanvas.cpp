@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.3 1999/12/09 16:14:52 ijr Exp $
+   $Id: GTKCanvas.cpp,v 1.4 2000/01/05 19:39:21 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -60,7 +60,6 @@ int GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect,
                           Font *pFont, const Color &oColor,
                           bool bBold, bool bItalic, bool bUnderline)
 {
-    Erase(oClipRect);
     GTKFont *ourFont = (GTKFont *)pFont;
     Error err = ourFont->Load(iFontHeight, bBold, bItalic);
     if (IsError(err)) 
@@ -88,7 +87,6 @@ int GTKCanvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
                                 Font *pFont, const Color &oColor,
                                 bool bBold, bool bItalic, bool bUnderline)
 {
-    Erase(oClipRect);
     GTKFont *ourFont = (GTKFont *)pFont;
     Error err = ourFont->Load(iFontHeight, bBold, bItalic);
     if (IsError(err))
@@ -156,6 +154,8 @@ void GTKCanvas::Paint(Rect &oRect)
 
 void GTKCanvas::Erase(Rect &oRect)
 {
+    Rect newRect = oRect;
+    newRect.y2++;
     if (m_pBufferBitmap)
-        m_pBufferBitmap->MaskBlitRect(m_pBGBitmap, oRect, oRect);
+        m_pBufferBitmap->MaskBlitRect(m_pBGBitmap, newRect, newRect);
 }

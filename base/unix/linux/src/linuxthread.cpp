@@ -1,4 +1,3 @@
-
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
@@ -19,27 +18,28 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: thread.cpp,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: linuxthread.cpp,v 1.1 1998/10/13 22:43:48 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <pthread.h>
 #include <signal.h>
 #include <iostream.h>
 
-#include "thread.h"
+#include "linuxthread.h"
 #include "mutex.h"
 
-void Thread::SetDieImmediately() {
+void linuxThread::SetDieImmediately() {
     pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS,NULL);
 }
-void Thread::ClearDieImmediately() {
+void linuxThread::ClearDieImmediately() {
     pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED,NULL);
 }
-void Thread::Join() {
+void linuxThread::Join() {
     pthread_join(m_threadHandle,NULL);
 }
 
-Thread::
+linuxThread::
+linuxThread():
 Thread()
 {
     m_priority		= Normal;
@@ -49,8 +49,8 @@ Thread()
     m_suspendMutex      = new Mutex();
 }
 
-Thread::
-~Thread()
+linuxThread::
+~linuxThread()
 {
     //pthread_cancel(m_threadHandle);
     if (m_suspendMutex) {
@@ -61,7 +61,7 @@ Thread::
 
 
 bool 
-Thread::
+linuxThread::
 Create(thread_function function, void* arg)
 {
 //    cout << "Thread: Create" << endl;
@@ -77,14 +77,14 @@ Create(thread_function function, void* arg)
 }
 
 void 
-Thread::
+linuxThread::
 Destroy()
 {
     pthread_cancel(m_threadHandle);
 }
 
 void 
-Thread::
+linuxThread::
 Suspend()
 {
     m_suspendMutex->Acquire(WAIT_FOREVER);
@@ -96,7 +96,7 @@ Suspend()
 }
 
 void 
-Thread::
+linuxThread::
 Resume()
 {
     m_suspendMutex->Acquire(WAIT_FOREVER);
@@ -109,14 +109,14 @@ Resume()
 
 
 Priority 
-Thread::
+linuxThread::
 GetPriority() const
 {
     return((Priority) 0);
 }
 
 Priority 
-Thread::
+linuxThread::
 SetPriority(Priority priority)
 {
     return((Priority) 0);

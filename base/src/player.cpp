@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.254 2001/01/28 04:50:20 ijr Exp $
+        $Id: player.cpp,v 1.255 2001/02/07 17:13:42 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1301,6 +1301,7 @@ GetExtension(const char *title)
    if (!IsSupportedExtension(ext_return))
    {
        delete [] ext_return;
+       ext_return = NULL;
        proto = GetProtocol(title);
  
        if (IsSupportedProtocol(proto) && (strncasecmp(proto, "file", 4) != 0))
@@ -1590,7 +1591,7 @@ GenerateSigsWork(set<string> *items)
         }
 
         string browserInfo = "Generating signature for " + url;
-        AcceptEvent(new BrowserMessageEvent(browserInfo.c_str()));
+        AcceptEvent(new BrowserMessageEvent(browserInfo));
 
         m_sigspmo = pmo;
 
@@ -1600,7 +1601,7 @@ GenerateSigsWork(set<string> *items)
             usleep(50);
 
         browserInfo = " ";
-        AcceptEvent(new BrowserMessageEvent(browserInfo.c_str()));
+        AcceptEvent(new BrowserMessageEvent(browserInfo));
         items->erase(url);
     }
 

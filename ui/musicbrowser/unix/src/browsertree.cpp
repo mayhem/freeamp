@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.39 2001/01/05 09:54:38 robert Exp $
+        $Id: browsertree.cpp,v 1.40 2001/02/07 17:13:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1065,7 +1065,7 @@ static void tree_status(GtkWidget *w, GdkEventMotion *event,
             case kTreeCDHead:
             case kTreeStreamsHead:
             case kTreeFavoriteStreamsHead:
-                e = new BrowserMessageEvent(data->message.c_str());
+                e = new BrowserMessageEvent(data->message);
                 break;
             default:
                 e = new BrowserMessageEvent(" ");

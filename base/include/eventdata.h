@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.66 2000/11/13 22:49:18 robert Exp $
+        $Id: eventdata.h,v 1.67 2001/02/07 17:13:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -135,27 +135,23 @@ class ErrorMessageEvent:public Event
 class     BrowserMessageEvent:public Event
 {
    private:
-   char *m_info;
+   string m_info;
 
    public:
-   virtual ~ BrowserMessageEvent()
-   {
-       if (m_info)
-           delete [] m_info;
-   }
+   virtual ~ BrowserMessageEvent() {}
    BrowserMessageEvent()
    {
       m_type = INFO_BrowserMessage;
-      m_info = NULL;
+      m_info = "";
    }
-   BrowserMessageEvent(const char *info)
+   BrowserMessageEvent(string info)
    {
       m_type = INFO_BrowserMessage;
-      m_info = strdup_new(info);
+      m_info = info;
    }
    const char *GetBrowserMessage()
    {
-      return m_info;
+      return m_info.c_str();
    }
 };
 

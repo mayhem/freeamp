@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicsearch.cpp,v 1.7 2000/02/09 21:21:28 elrod Exp $
+        $Id: musicsearch.cpp,v 1.8 2001/02/07 17:13:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -310,6 +310,8 @@ void musicsearchUI::StartSearch(void)
     searchInProgress = true;
     m_context->catalog->SearchMusic(oPathList);
     gtk_label_set_text(GTK_LABEL(buttonLabel), "Cancel Search");
+
+    gtk_widget_destroy(m_window);
 }
 
 void musicsearchUI::EndSearch(void)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: introwizard.cpp,v 1.8 2000/08/29 13:10:55 ijr Exp $
+        $Id: introwizard.cpp,v 1.9 2001/02/07 17:13:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -606,6 +606,8 @@ void IntroWizardUI::StartSearch(void)
     searchInProgress = true;
     m_context->catalog->SearchMusic(oPathList);
     gtk_label_set_text(GTK_LABEL(buttonLabel), "Cancel Search");
+
+    gtk_widget_destroy(m_window);
 }
 
 void IntroWizardUI::EndSearch(void)

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: musicbrowser.cpp,v 1.44 2000/11/15 11:22:13 ijr Exp $
+    $Id: musicbrowser.cpp,v 1.45 2001/02/07 17:13:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -94,27 +94,6 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
 
             m_playerEQ->AcceptEvent(new Event(INFO_ReadyToDieUI));
             break; }
-        case INFO_SearchMusicDone:
-        case INFO_BrowserMessage: {
-            mainBrowser->AcceptEvent(event);
-            vector<GTKMusicBrowser *>::iterator i = browserWindows.begin();
-            for (; i != browserWindows.end(); i++)
-                (*i)->AcceptEvent(event);
-            if (searching)
-                searching->AcceptEvent(event);
-            if (wiz)
-	        wiz->AcceptEvent(event);
-            if (event->Type() == INFO_SearchMusicDone) {
-                gdk_threads_enter();
-	        if (searching) {
-                    searching->Close();
-		}
-		if (wiz) {
-		    wiz->Close();
-		}
-                gdk_threads_leave();
-            }
-            break; }
         case CMD_ToggleMusicBrowserUI: {
             if (mainBrowser->Visible())
                 mainBrowser->Close();
@@ -133,6 +112,8 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
         case INFO_SignaturingStarted:
         case INFO_SignaturingStopped:
         case INFO_CDDiscStatus: 
+        case INFO_SearchMusicDone:
+        case INFO_BrowserMessage:
         case INFO_PrefsChanged: {
             mainBrowser->AcceptEvent(event);
             vector<GTKMusicBrowser *>::iterator i = browserWindows.begin();

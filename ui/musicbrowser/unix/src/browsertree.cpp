@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.25 2000/08/24 08:51:14 ijr Exp $
+        $Id: browsertree.cpp,v 1.26 2000/08/30 20:00:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1541,6 +1541,11 @@ static void edit_info_pop(GTKMusicBrowser *p, guint action, GtkWidget *w)
     p->PopUpInfoEditor();
 }
 
+static void update_cd_pop(GTKMusicBrowser *p, guint action, GtkWidget *w)
+{
+    p->UpdateCD();
+}
+
 void GTKMusicBrowser::CreateTreePopups(void)
 {
     GtkItemFactoryEntry relatable_items[] = {
@@ -1591,7 +1596,9 @@ void GTKMusicBrowser::CreateTreePopups(void)
      {"/Add to Playlist",NULL,  (void(*)(...))add_pop,  0, 0 },
      {"/Add and Play Now",NULL, (void(*)(...))add_play_pop,   0, 0 },
      {"/sep1",         NULL,    0,                        0, "<Separator>" },
-     {"/Eject CD",     NULL,    (void(*)(...))eject_cd_pop,0, 0 }
+     {"/Eject CD",     NULL,    (void(*)(...))eject_cd_pop,0, 0 },
+     {"/sep2",         NULL,    0,                        0, "<Separator>" },
+     {"/Update CD Info", NULL,  (void(*)(...))update_cd_pop, 0, 0 }
     };
     int ncd_items = sizeof(cd_items) / sizeof(cd_items[0]);
 

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.51 2000/08/21 09:21:23 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.52 2000/08/30 20:00:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -333,6 +333,7 @@ class GTKMusicBrowser {
 
     void CreateTreePopups(void);
     void EjectCD(void);
+    void UpdateCD(void);
 
     void AddStreamToFavs(void);
     void AddPLStreamToFavs(void);

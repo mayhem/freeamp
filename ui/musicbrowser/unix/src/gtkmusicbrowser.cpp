@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.108 2000/08/30 13:45:31 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.109 2000/08/30 20:00:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -431,6 +431,11 @@ void GTKMusicBrowser::AddNewStream(void)
                                                 newitem->GetMetaData(),
                                                 kTypeStream);
     m_context->catalog->AddStream(newitem->URL().c_str());
+}
+
+void GTKMusicBrowser::UpdateCD(void)
+{
+    m_context->player->UpdateCDNow();
 }
 
 void GTKMusicBrowser::EjectCD(void)

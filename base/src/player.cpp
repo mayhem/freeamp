@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.232 2000/08/29 13:10:55 ijr Exp $
+        $Id: player.cpp,v 1.233 2000/08/30 20:00:33 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -156,7 +156,16 @@ Player(FAContext *context) : EventQueue()
     // from the OS since polling is inefficient
 
 #ifndef WIN32
-    m_context->timerManager->StartTimer(&m_cdTimer, cd_timer, 5, this);
+    m_cdTimer = NULL;
+
+    bool pollCD = false;
+    m_context->prefs->GetPrefBoolean(kCheckCDAutomaticallyPref, &pollCD);
+ 
+    if (pollCD)
+        m_context->timerManager->StartTimer(&m_cdTimer, cd_timer, 5, this);
+
+    m_cdTimerActive = pollCD;
+
 #endif
     // make sure the db dir exists so we have a place to store our 
     // stuff
@@ -2190,6 +2199,28 @@ HandleAudioSigFailed(Event *pEvent)
     delete pEvent;
 }
 
+void
+Player::
+HandlePrefsChanged(Event *pEvent)
+{
+#ifndef WIN32
+    bool pollCD = false;
+    m_context->prefs->GetPrefBoolean(kCheckCDAutomaticallyPref, &pollCD);
+
+    if (pollCD && !m_cdTimerActive)
+        m_context->timerManager->StartTimer(&m_cdTimer, cd_timer, 5, this);
+    else if (!pollCD && m_cdTimerActive)
+        m_context->timerManager->StopTimer(m_cdTimer);
+ 
+    m_cdTimerActive = pollCD;
+#endif
+
+    SendEventToUI(pEvent);
+    SendEventToCatalog(pEvent);
+
+    delete pEvent;
+}
+
 int32 
 Player::
 ServiceEvent(Event * pC)
@@ -2270,6 +2301,9 @@ ServiceEvent(Event * pC)
             break;
 
         case INFO_PrefsChanged:
+            HandlePrefsChanged(pC);
+            break;
+
         case INFO_PlaylistItemsUpdated:
             SendEventToUI(pC);
             SendEventToCatalog(pC);
@@ -2423,6 +2457,11 @@ void Player::cd_timer(void* arg)
     player->CDTimer();
 }
 
+void Player::UpdateCDNow(void)
+{
+    CDTimer();
+}
+
 void Player::CDTimer()
 {
     Registry *pmoRegistry = m_context->player->GetPMORegistry();
@@ -2431,6 +2470,8 @@ void Player::CDTimer()
 
     if (!pmoRegistry)
         return;
+
+    cout << "tick\n";
 
     while(NULL != (pmo_item = pmoRegistry->GetItem(i++))) 
     {

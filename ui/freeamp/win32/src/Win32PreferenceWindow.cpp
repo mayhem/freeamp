@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.36 2000/04/14 08:29:00 elrod Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.37 2000/04/14 08:40:51 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -527,6 +527,10 @@ bool Win32PreferenceWindow::MainProc(HWND hwnd,
 
             TreeView_Select(hwndList, item, TVGN_CARET);
 
+            HWND hwndApply = GetDlgItem(hwnd, IDC_APPLY);
+
+            EnableWindow(hwndApply, FALSE);
+
 			result = TRUE;
 
 			break;
@@ -619,31 +623,49 @@ bool Win32PreferenceWindow::MainProc(HWND hwnd,
             break;
         }
 
+        case PSM_UNCHANGED:
+        {
+            HWND hwndApply = GetDlgItem(hwnd, IDC_APPLY);
+
+            EnableWindow(hwndApply, FALSE);
+            break;
+        }
+        case PSM_CHANGED:
+        {
+            HWND hwndApply = GetDlgItem(hwnd, IDC_APPLY);
+
+            EnableWindow(hwndApply, TRUE);
+            break;
+        }
+       
         case WM_COMMAND:
         {
             switch(LOWORD(wParam))
             {
                 case IDCANCEL:
                     //PostQuitMessage(0);
+                    SavePrefsValues(&m_originalValues);
                     EndDialog(hwnd, FALSE);
                     break;
 
                 case IDOK:
                     //PostQuitMessage(0);
+                    SavePrefsValues(&m_proposedValues);
                     EndDialog(hwnd, TRUE);
                     break;
 
                 case IDC_HELPME:
+                    LaunchHelp(hwnd, Preferences_General);
                     break;
 
                 case IDC_APPLY:
-                    break;
-
-                case IDC_LIST:
                 {
+                    SavePrefsValues(&m_proposedValues);
+                    HWND hwndApply = GetDlgItem(hwnd, IDC_APPLY);
+
+                    EnableWindow(hwndApply, FALSE);
                     break;
                 }
-
             }
 
             break;

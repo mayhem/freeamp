@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.79 2000/02/10 01:45:14 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.80 2000/02/10 21:32:30 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -108,7 +108,7 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
    m_pUpdateThread = NULL;
    m_pOptionsThread = NULL;
    m_bInOptions = false;
-   m_bPaused = false;
+   m_bShowBuffers = m_bPaused = false;
    m_iFramesSinceSeek = 2;
 
 #if defined( WIN32 )
@@ -461,11 +461,16 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          char szTemp[100];
          string oName("BufferInfo"), oText;
 
-	 sprintf(szTemp, "I: %3ld O: %3ld %c", 
+         sprintf(szTemp, "I: %3ld O: %3ld %c", 
                  (long int)info->GetInputPercent(),
                  (long int)info->GetOutputPercent(),
                  info->IsBufferingUp() ? '^' : ' ');
          oText = string(szTemp);
+         
+         if (m_bShowBuffers)
+             oName = string("StreamInfo");
+
+         Debug_v("%s into %s", oText.c_str(), oName.c_str());    
          m_pWindow->ControlStringValue(oName, true, oText);
 
          break;
@@ -1159,6 +1164,12 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
      {
         string oText("23:59:59");
         m_pWindow->ControlStringValue("Time", true, oText);
+        break;
+     }    
+
+     case '!':
+     {
+        m_bShowBuffers = !m_bShowBuffers;
         break;
      }    
    }

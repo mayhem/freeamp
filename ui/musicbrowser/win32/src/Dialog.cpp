@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.33 1999/11/16 10:59:44 elrod Exp $
+        $Id: Dialog.cpp,v 1.34 1999/11/17 09:17:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -1228,7 +1228,7 @@ void MusicBrowserUI::UpdateButtonMenuStates()
 
 
     // Can we move items up and down?
-    uint32 index = ListView_GetItemCount(m_hPlaylistView) - 1;
+    uint32 index = ListView_GetItemCount(m_hPlaylistView);
     uint32 count = ListView_GetSelectedCount(m_hPlaylistView);
 
     if(count && m_hPlaylistView == GetFocus())
@@ -1236,7 +1236,7 @@ void MusicBrowserUI::UpdateButtonMenuStates()
         uint32 state;
 
         state = ListView_GetItemState(m_hPlaylistView, 
-                                      index, 
+                                      index - 1, 
                                       LVIS_SELECTED);
 
         EnableMenuItem(hMenu, ID_EDIT_MOVEDOWN, 

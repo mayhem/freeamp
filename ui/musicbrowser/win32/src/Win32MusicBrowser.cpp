@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.25 1999/11/16 11:52:11 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.26 1999/11/17 09:17:22 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -222,6 +222,14 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
         {
             MusicCatalogTrackRemovedEvent* pie = (MusicCatalogTrackRemovedEvent*)event;
 
+            vector<MusicBrowserUI *>::iterator i;
+
+            for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+            {
+                (*i)->MusicCatalogTrackRemoved(pie->Artist(), pie->Album(), pie->Item());
+            }
+
+            MusicCatalogTrackRemoved(pie->Artist(), pie->Album(), pie->Item());
             
             break; 
         }
@@ -245,7 +253,15 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
         case INFO_MusicCatalogPlaylistRemoved:
         {
             MusicCatalogPlaylistRemovedEvent* pie = (MusicCatalogPlaylistRemovedEvent*)event;
+            
+            vector<MusicBrowserUI *>::iterator i;
 
+            for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+            {
+                (*i)->MusicCatalogPlaylistRemoved(pie->Item());
+            }
+
+            MusicCatalogPlaylistRemoved(pie->Item());
             
             break; 
         }

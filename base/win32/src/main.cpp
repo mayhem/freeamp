@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.28 1999/10/20 00:37:58 elrod Exp $
+	$Id: main.cpp,v 1.29 1999/10/20 02:09:03 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -264,9 +264,34 @@ static LRESULT WINAPI HiddenWndProc(HWND hwnd,
 
                 FilePathToURL(path, url, &length);
 
-                context->plm->AddItem(url);
+                // who needs to get this, plm or dlm?
+                bool giveToDLM = false;
+                char* extension = NULL;
+                PlaylistManager* plm = context->plm;
+                DownloadManager* dlm = context->downloadManager;
 
-                array += strlen(array) + 1;
+                extension = strrchr(url, '.');
+                if(extension)
+                {
+                    DownloadFormatInfo dlfi;
+                    uint32 i = 0;
+
+                    extension++;
+
+                    while(IsntError(dlm->GetSupportedDownloadFormats(&dlfi, i++)))
+                    {
+                        if(!strcasecmp(extension, dlfi.GetExtension()))
+                        {
+                            giveToDLM = true;
+                            break;
+                        }
+                    }
+                }
+
+                if(giveToDLM)
+                    dlm->ReadDownloadFile(url);
+                else
+                    plm->AddItem(url);
             }
             
             break;

@@ -18,13 +18,16 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.43 2000/06/05 17:47:01 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.44 2000/06/06 11:01:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
 #define INCLUDED_GTKMUSICBROWSER_H_
 
 #include "config.h"
+
+#include <set>
+using namespace std;
 
 #include <gtk/gtk.h>
 
@@ -93,7 +96,8 @@ class GTKMusicBrowser {
     bool Visible(void) { return isVisible; }
     Error AcceptEvent(Event *e);
 
-    uint32 m_currentindex;
+    uint32 m_lastindex;
+    set<uint32> m_plSelected;
     
     PlaylistSortType m_playlistColumnSort;
     int m_playlistLastSort;

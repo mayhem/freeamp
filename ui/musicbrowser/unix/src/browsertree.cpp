@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.19 2000/06/10 18:47:28 robert Exp $
+        $Id: browsertree.cpp,v 1.20 2000/06/10 18:52:53 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1147,7 +1147,6 @@ void GTKMusicBrowser::StreamTimer(void)
         return;
     }
 
-    printf("xml: '%s'\n", page.c_str());
     eRet = o.ParseStreamXML(page, list);
    
     if (eRet != kError_NoErr) {

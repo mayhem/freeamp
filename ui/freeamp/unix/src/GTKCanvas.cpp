@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.1.2.9 1999/10/02 00:40:14 ijr Exp $
+   $Id: GTKCanvas.cpp,v 1.1.2.10 1999/10/02 16:52:11 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -75,9 +75,12 @@ int GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect,
         offset = oClipRect.Width() - width;
     else  
         offset = (oClipRect.Width() - width) / 2;
-    
-    return RenderOffsetText(iFontHeight, oClipRect, oText, offset, pFont, 
-                            oColor, bBold, bItalic, bUnderline);
+   
+    ourFont->Render(oClipRect, oText, offset, oColor, m_pBufferBitmap,
+                    bUnderline);
+
+    Update();
+    return MAX(0, width - oClipRect.Width());
 }
 
 int GTKCanvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
@@ -91,14 +94,21 @@ int GTKCanvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
     if (IsError(err))
         return 0;
     int width = ourFont->GetLength(oText);
-    
-    ourFont->Render(oClipRect, oText, iOffset, oColor, m_pBufferBitmap,
+   
+    width += iMarqueeSpacer;
+    if (iOffset > width)
+        return width - iOffset;
+ 
+    ourFont->Render(oClipRect, oText, 0 - iOffset, oColor, m_pBufferBitmap,
                     bUnderline);
 
+    int iRet = width - iOffset - oClipRect.Width();
+    if (iRet < 0)
+        ourFont->Render(oClipRect, oText, width - iOffset, oColor, 
+                        m_pBufferBitmap, bUnderline);
+
     Update();
-    if (width + iOffset > oClipRect.Width())
-        return width + iOffset - oClipRect.Width();
-    return 0;
+    return MAX(iRet, 0);
 }
 
 Error GTKCanvas::Invalidate(Rect &oRect)

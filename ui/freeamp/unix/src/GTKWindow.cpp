@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.9 1999/10/02 00:40:14 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.10 1999/10/02 16:52:11 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -61,6 +61,11 @@ void button_up(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     if (e->button.button == 1)
         ui->HandleMouseLButtonUp(oPos);
     gdk_threads_enter();
+}
+
+gint do_timeout(GTKWindow *ui)
+{
+    ui->TimerEvent();
 }
 
 GTKWindow::GTKWindow(Theme *pTheme, string &oName)
@@ -125,6 +130,7 @@ Error GTKWindow::Run(Pos &oPos)
     gtk_widget_show(mainWindow);
     gdk_flush(); 
 
+    gtkTimer = gtk_timeout_add(250, do_timeout, this);
     gdk_threads_leave();
  
     initialized = true;
@@ -144,6 +150,7 @@ Error GTKWindow::Close(void)
     Rect oRect;
     Pos oPos;
     
+    gtk_timeout_remove(gtkTimer);
     GetWindowPosition(oRect);
     oPos.x = oRect.x1;
     oPos.y = oRect.y1;

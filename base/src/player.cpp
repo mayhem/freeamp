@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.160 1999/12/06 15:06:42 ijr Exp $
+        $Id: player.cpp,v 1.161 1999/12/07 20:29:03 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -787,9 +787,9 @@ Run()
       if (!uisActivated)
       {
 #ifdef WIN32
-         MessageBox(NULL, BRANDING" Cannot find user a valid interface module.\r\n"
-                          "Please make sure that FreeAmp is installed correctly.\r\n"
-                          "You may wish to remove and reinstall FreeAmp to fix this problem",
+         MessageBox(NULL, BRANDING" cannot find user a valid interface module.\r\n"
+                          "Please make sure that " BRANDING" is installed correctly.\r\n"
+                          "You may wish to remove and reinstall " BRANDING" to fix this problem",
                     BRANDING " Error", MB_OK);
 #else
          const char *thePath = getenv(FREEAMP_PATH_ENV);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.7 1999/12/02 22:06:51 elrod Exp $
+	$Id: updatemanager.cpp,v 1.8 1999/12/07 20:29:04 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -69,12 +69,12 @@ typedef ostrstream ostringstream;
 #include "zlib.h"
 
 
-const char* kUpdateServer = "fatman.freeamp.org";
-const char* kUpdatePath = "/update/freeamp/";
-const char* kUpdateFile = "/update/freeamp/version_info.xml";
+const char* kUpdateServer = BRANDING_UPDATE_SERVER;
+const char* kUpdatePath = BRANDING_UPDATE_PATH;
+const char* kUpdateFile = BRANDING_UPDATE_PATH"/version_info.xml";
 const char* kUpdateRequest = "GET %s HTTP/1.0\n"
                              "Host: %s\n"
-                             "User-Agent: "BRANDING"/%s\n"
+                             "User-Agent: FreeAmp/%s\n" // we do not want to change this for branding
                              "\n";
 const uint8 kUpdatePort = 80;
 

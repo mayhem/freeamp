@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-	$Id: esoundpmo.cpp,v 1.8 1999/11/13 17:00:50 robert Exp $
+	$Id: esoundpmo.cpp,v 1.9 1999/12/07 20:29:04 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -177,7 +177,7 @@ Error EsounDPMO::Init(OutputInfo * info)
       return (Error) pmoError_DeviceOpenFailed;
    }
 
-   sprintf(stream_name, "FreeAMP%d", getpid());
+   sprintf(stream_name, "FreeAmp%d", getpid());
 
    audio_fd = esd_play_stream( esd_format, info->samples_per_second,
                                m_espeaker, stream_name );

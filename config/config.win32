@@ -18,16 +18,20 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.14 1999/10/22 23:30:26 robert Exp $
+	$Id: config.win32,v 1.15 1999/12/07 20:29:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <limits.h>
-
-#define BRANDING "FreeAmp"
+#define BRANDING "EMusic"
 #define BRANDING_URL "http://www.freeamp.org"
+#define BRANDING_UPDATE_SERVER "fatman.freeamp.org"
+#define BRANDING_UPDATE_PATH "/update/freeamp/"
+
+#if !defined(RC_INVOKED)
+
+#include <limits.h>
 
 #define FREEAMP_PATH_ENV "FREEAMP_PATH"
 #define FREEAMP_VERSION "2.0"
@@ -136,5 +140,6 @@ typedef short			int32;
 #endif
 #endif /* NULL */
 
+#endif /* RC_INVOKED */
 
 #endif /* CONFIG_H */

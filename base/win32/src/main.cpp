@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.36 1999/11/29 22:28:59 elrod Exp $
+	$Id: main.cpp,v 1.37 1999/12/07 20:29:04 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -456,9 +456,9 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
                         ret = MessageBox(NULL, 
                                    kNotifyStolen,
                                    "Reclaim File Types?", 
-                                   MB_OKCANCEL|MB_ICONQUESTION);
+                                   MB_YESNO|MB_ICONQUESTION);
 
-                        if(ret == IDOK)
+                        if(ret == IDYES)
                             permission = true;
                         else
                         {
@@ -508,9 +508,9 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
                         ret = MessageBox(NULL, 
                                    kNotifyStolen,
                                    "Reclaim File Types?", 
-                                   MB_OKCANCEL|MB_ICONQUESTION);
+                                   MB_YESNO|MB_ICONQUESTION);
 
-                        if(ret == IDOK)
+                        if(ret == IDYES)
                             permission = true;
                         else
                         {
@@ -567,9 +567,9 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
                         ret = MessageBox(NULL, 
                                    kNotifyStolen,
                                    "Reclaim File Types?", 
-                                   MB_OKCANCEL|MB_ICONQUESTION);
+                                   MB_YESNO|MB_ICONQUESTION);
 
-                        if(ret == IDOK)
+                        if(ret == IDYES)
                             permission = true;
                         else
                         {

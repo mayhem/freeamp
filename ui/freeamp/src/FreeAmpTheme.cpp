@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.4.4.3 2000/07/08 14:58:26 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.4.4.4 2000/07/08 16:18:50 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -158,6 +158,9 @@ FreeAmpTheme::~FreeAmpTheme()
 #if defined( WIN32 )
     delete m_pUpdateMan;
 #endif // WIN32
+
+    if (m_socketLink->HasConnection())
+       m_socketLink->SendCommand(string("bye: "));
 
     delete m_socketLink;
 }

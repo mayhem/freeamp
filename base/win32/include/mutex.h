@@ -1,4 +1,3 @@
-
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
@@ -19,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mutex.h,v 1.3 1998/10/20 02:55:02 elrod Exp $
+	$Id: mutex.h,v 1.4 1999/04/08 07:39:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef MUTEX_H

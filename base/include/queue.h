@@ -1,4 +1,3 @@
-
 /*____________________________________________________________________________
         
         FreeAmp - The Free MP3 Player
@@ -19,10 +18,8 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: queue.h,v 1.4 1999/03/04 07:23:39 robert Exp $
+        $Id: queue.h,v 1.5 1999/04/08 07:39:03 elrod Exp $
 ____________________________________________________________________________*/
-
-// queue.h
 
 #ifndef _QUEUE_H_
 #define _QUEUE_H_

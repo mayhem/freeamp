@@ -1,4 +1,3 @@
-
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
@@ -19,10 +18,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.20 1999/03/24 18:11:49 robert Exp $
+	$Id: pmi.h,v 1.21 1999/04/08 07:39:04 elrod Exp $
 ____________________________________________________________________________*/
-
-
 
 #ifndef _PMI_H_
 #define _PMI_H_

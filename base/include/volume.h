@@ -18,9 +18,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: volume.h,v 1.3 1999/03/11 02:53:23 robert Exp $
+	$Id: volume.h,v 1.4 1999/04/08 07:39:04 elrod Exp $
 ____________________________________________________________________________*/
-
 
 #ifndef _VOLUME_H_
 #define _VOLUME_H_

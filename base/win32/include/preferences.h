@@ -1,4 +1,3 @@
-
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
@@ -19,9 +18,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.10 1999/04/08 07:25:34 elrod Exp $
+	$Id: preferences.h,v 1.11 1999/04/08 07:39:04 elrod Exp $
 ____________________________________________________________________________*/
-
 
 #ifndef _PREFERENCES_H
 #define _PREFERENCES_H

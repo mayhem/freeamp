@@ -1,4 +1,3 @@
-
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
@@ -19,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.18 1999/03/07 20:59:34 robert Exp $
+	$Id: lmc.h,v 1.19 1999/04/08 07:39:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_

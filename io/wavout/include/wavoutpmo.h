@@ -18,7 +18,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: wavoutpmo.h,v 1.1 2000/03/17 01:29:32 robert Exp $
+  $Id: wavoutpmo.h,v 1.2 2000/03/17 04:15:59 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -26,7 +26,9 @@ ____________________________________________________________________________*/
 #define INCLUDED_WAVOUTPMO_H_
 
 /* project headers */
+#ifdef WIN32
 #include <windows.h>
+#endif
 
 #include "config.h"
 #include "pmo.h"

@@ -18,30 +18,42 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: wav.cpp,v 1.1 2000/03/17 01:29:32 robert Exp $
+  $Id: wav.cpp,v 1.2 2000/03/17 04:15:59 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
+#ifdef WIN32
 #include <windows.h>
+#endif
 #include <stdio.h>
-#include <mmsystem.h>
-#include <mmreg.h>
+#include <string.h>
 
 #include "wav.h"
 
 WaveWriter::WaveWriter()
 {
-	// clear the structure memory
-	memset(&m_mmioinfo, 0, sizeof(m_mmioinfo));
-
-	m_hmmio = NULL;
 	m_FP = NULL;
 }
 
 WaveWriter::~WaveWriter()
 {
-	if (m_hmmio != NULL)
+	if (m_FP != NULL)
 		Close();
+}
+
+DWORD WaveWriter::StuffFourChars(char one, char two, char three, char four)
+{
+   char   dest[4];
+   DWORD *ptr;
+
+   ptr = (DWORD *)dest;
+
+   dest[0] = one;
+   dest[1] = two;
+   dest[2] = three;
+   dest[3] = four;
+
+   return *ptr;
 }
 
 int WaveWriter::Create(const char *FileName, WAVEFORMATEX *waveformat)
@@ -50,10 +62,10 @@ int WaveWriter::Create(const char *FileName, WAVEFORMATEX *waveformat)
 
 	memset(&m_WH, 0, sizeof(m_WH));
 
-	m_WH.MainChunkID = mmioFOURCC('R', 'I', 'F', 'F');
+	m_WH.MainChunkID = StuffFourChars('R', 'I', 'F', 'F');
 	m_WH.Length = 0;		// temp, to be filled in as we go
-	m_WH.ChunkTypeID = mmioFOURCC('W', 'A', 'V', 'E');
-	m_WH.SubChunkID = mmioFOURCC('f', 'm', 't', ' ');
+	m_WH.ChunkTypeID = StuffFourChars('W', 'A', 'V', 'E');
+	m_WH.SubChunkID = StuffFourChars('f', 'm', 't', ' ');
 	m_WH.SubChunkLength = 16;
 
 	m_WH.Format = waveformat->wFormatTag;
@@ -63,7 +75,7 @@ int WaveWriter::Create(const char *FileName, WAVEFORMATEX *waveformat)
 	m_WH.BytesPerSample = waveformat->nBlockAlign;
 	m_WH.BitsPerSample = waveformat->wBitsPerSample;
 
-	m_WH.DataChunkID = mmioFOURCC('d', 'a', 't', 'a');
+	m_WH.DataChunkID = StuffFourChars('d', 'a', 't', 'a');
 	m_WH.DataLength = 0;		// temp, to be filled in as we go
 
 	fwrite(&m_WH, sizeof(m_WH), 1, m_FP);
@@ -74,8 +86,6 @@ int WaveWriter::Create(const char *FileName, WAVEFORMATEX *waveformat)
 void WaveWriter::Close()
 {
 	if (m_FP == NULL) return;
-
-	MessageBeep(MB_OK);
 
 	m_WH.Length = m_WH.DataLength + sizeof(WaveHeader) - 4;
 	

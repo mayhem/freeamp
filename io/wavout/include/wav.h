@@ -19,11 +19,15 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: wav.h,v 1.1 2000/03/17 01:29:32 robert Exp $
+  $Id: wav.h,v 1.2 2000/03/17 04:15:58 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WAV_H_
 #define INCLUDED_WAV_H_
+
+#ifndef WIN32
+typedef unsigned int DWORD;
+#endif
 
 struct WaveHeader
 {
@@ -42,6 +46,20 @@ struct WaveHeader
 	DWORD DataLength;
 };
 
+#ifndef WIN32
+#define WAVE_FORMAT_PCM 1
+struct WAVEFORMATEX
+{
+   DWORD              cbSize;
+	unsigned short     wFormatTag;
+	unsigned short     nChannels;
+	DWORD              nSamplesPerSec;
+	DWORD              nAvgBytesPerSec;
+	unsigned short     nBlockAlign;
+	unsigned short     wBitsPerSample;
+};
+#endif
+
 class WaveWriter
 {
 public:
@@ -54,9 +72,8 @@ public:
 	DWORD Write(const char *data, DWORD data_size);
 
 private:
-	MMIOINFO	m_mmioinfoWrite;
-	MMIOINFO	m_mmioinfo;
-	HMMIO		m_hmmio;
+
+   DWORD StuffFourChars(char one, char two, char three, char four); 
 
 	FILE		*m_FP;
 	struct WaveHeader	m_WH;

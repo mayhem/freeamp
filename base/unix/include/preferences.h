@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.6 1999/04/15 21:50:53 robert Exp $
+	$Id: preferences.h,v 1.7 1999/04/16 00:13:36 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -68,7 +68,7 @@ class Preferences {
           { *bValue = false; return kError_NoErr; };
     Error  GetLogOutput(bool *bValue)
           { *bValue = false; return kError_NoErr; };
-    Error  GetLogPerf(bool *bValue)
+    Error  GetLogPerformance(bool *bValue)
           { *bValue = false; return kError_NoErr; };
     Error  GetUseDebugLog(bool *bValue)
           { *bValue = false; return kError_NoErr; };

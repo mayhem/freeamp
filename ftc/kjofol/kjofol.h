@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: kjofol.h,v 1.2 2000/06/13 21:33:50 ijr Exp $
+   $Id: kjofol.h,v 1.3 2000/06/14 10:51:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_KJOFOL_H
@@ -87,7 +87,7 @@ class KJofol : public ThemeFormat
 
         void Seek(char *desc);
         void Button(char *desc, string name, string inf, string tip);
-        void VolumeBMP(char *desc);
+        void VolumeBMP(void);
 
         FAContext *m_context;
 
@@ -100,6 +100,7 @@ class KJofol : public ThemeFormat
         Rect m_seekrect;
 
         bool m_bmpvolume;
+        int m_bmpvolfields;
         bool m_understandvolume;
         int m_volxsize;
         int m_volnum;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pthreadthread.cpp,v 1.7 2000/06/14 09:05:40 ijr Exp $
+	$Id: pthreadthread.cpp,v 1.8 2000/06/14 10:51:28 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -48,8 +48,6 @@ Thread()
 pthreadThread::
 ~pthreadThread()
 {
-    m_exitSem.Wait();
-
     if (m_suspendMutex) {
 	delete m_suspendMutex;
 	m_suspendMutex = NULL;
@@ -73,7 +71,7 @@ InternalThreadFunction()
 
     if (m_function) 
         m_function(m_arg);
-    m_exitSem.Signal();
+
     return NULL;
 }
 

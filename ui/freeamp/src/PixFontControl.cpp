@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: PixFontControl.cpp,v 1.7 2000/06/13 20:24:32 ijr Exp $
+   $Id: PixFontControl.cpp,v 1.8 2000/06/14 10:51:28 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -103,7 +103,7 @@ void PixFontControl::Init(void)
             }
         }
     }
-    m_LetterWidth = (m_oBitmapRect.Width() + 1) / (strlen(m_Fontmap[0]) - 1);
+    m_LetterWidth = (m_oBitmapRect.Width() + 1) / strlen(m_Fontmap[0]);
 
     TextChanged();
 }
@@ -153,8 +153,6 @@ void PixFontControl::BlitLetter(char letter, Rect oDestRect)
     srcRect.x2 = srcRect.x1 + m_LetterWidth - 1;
     srcRect.y2 = srcRect.y1 + m_LetterHeight;
 
-    //oDestRect.y2++;
-
     m_pParent->GetCanvas()->MaskBlitRect(m_pBitmap, srcRect, oDestRect);
 }
 
@@ -181,7 +179,7 @@ int PixFontControl::BlitString(string &oText, int iOffset)
 
     for (i = 0; i < length; i++) {
         dest.y1 = m_oRect.y1;
-        dest.y2 = m_oRect.y2;
+        dest.y2 = m_oRect.y1 + m_LetterHeight;
         dest.x1 = m_oRect.x1 - currentOffset;
         dest.x2 = dest.x1 + m_LetterWidth;
       
@@ -195,7 +193,7 @@ int PixFontControl::BlitString(string &oText, int iOffset)
             currentOffset = 0 - (width - iOffset);
             for (i = 0; i < length; i++) {
                 dest.y1 = m_oRect.y1;
-                dest.y2 = m_oRect.y2;
+                dest.y2 = m_oRect.y1 + m_LetterHeight;
                 dest.x1 = m_oRect.x1 - currentOffset;
                 dest.x2 = dest.x1 + m_LetterWidth;
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pthreadthread.h,v 1.2 2000/05/06 12:05:48 ijr Exp $
+	$Id: pthreadthread.h,v 1.3 2000/05/24 11:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PTHREAD_THREAD_H
@@ -37,11 +37,13 @@ public:
        ~pthreadThread();
 
 
-	virtual bool Create(thread_function function, void* arg);
+	virtual bool Create(thread_function function, void* arg,
+                            bool detach = false);
 	virtual void Destroy();
 	virtual void Suspend();
 	virtual void Resume();
 	virtual void Join();
+     
 	virtual uint32 GetPriority() const;
 	virtual uint32 SetPriority(uint32 priority);
 

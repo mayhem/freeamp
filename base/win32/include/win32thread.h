@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32thread.h,v 1.5 1999/10/19 07:12:48 elrod Exp $
+	$Id: win32thread.h,v 1.6 2000/05/24 11:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -37,7 +37,8 @@ public:
 	~win32Thread();
 
 
-	virtual bool Create(thread_function function, void* arg);
+	virtual bool Create(thread_function function, void* arg,
+                            bool detach = false);
 	virtual void Destroy();
 	virtual void Suspend();
 	virtual void Resume();

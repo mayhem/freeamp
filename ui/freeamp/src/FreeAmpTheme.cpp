@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.114 2000/05/23 10:22:37 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.115 2000/05/24 11:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1910,7 +1910,7 @@ void FreeAmpTheme::ShowOptions(uint32 defaultPage)
     oArgs->uDefaultPage = defaultPage;
 
     m_pOptionsThread = Thread::CreateThread();
-    m_pOptionsThread->Create(options_thread, oArgs);
+    m_pOptionsThread->Create(options_thread, oArgs, true);
 }
 
 void FreeAmpTheme::options_thread(void* arg)

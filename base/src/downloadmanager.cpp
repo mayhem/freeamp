@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.27 2000/05/22 13:00:26 robert Exp $
+	$Id: downloadmanager.cpp,v 1.28 2000/05/24 11:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -124,7 +124,7 @@ DownloadManager::DownloadManager(FAContext* context)
 
     if(m_downloadThread)
     {
-        m_downloadThread->Create(download_thread_function, this);
+        m_downloadThread->Create(download_thread_function, this, true);
     }
 }
 

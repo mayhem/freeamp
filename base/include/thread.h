@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: thread.h,v 1.4 1999/10/19 07:12:46 elrod Exp $
+	$Id: thread.h,v 1.5 2000/05/24 11:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef THREAD_H
@@ -36,14 +36,15 @@ public:
     virtual ~Thread(){}
 
 
-	virtual bool Create(thread_function function, void* arg) = 0;
-	virtual void Destroy() = 0;
-	virtual void Suspend() = 0;
-	virtual void Resume() = 0;
-	virtual void Join() = 0;
+    virtual bool Create(thread_function function, void* arg, 
+                        bool detach = false) = 0;
+    virtual void Destroy() = 0;
+    virtual void Suspend() = 0;
+    virtual void Resume() = 0;
+    virtual void Join() = 0;
 
-	virtual uint32 GetPriority() const = 0;
-	virtual uint32 SetPriority(uint32 priority) = 0;
+    virtual uint32 GetPriority() const = 0;
+    virtual uint32 SetPriority(uint32 priority) = 0;
 
     static Thread* CreateThread();
 };

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32thread.cpp,v 1.8 2000/02/02 20:59:52 robert Exp $
+	$Id: win32thread.cpp,v 1.9 2000/05/24 11:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <process.h>
@@ -76,7 +76,7 @@ InternalThreadFunction()
 
 bool 
 win32Thread::
-Create(thread_function function, void* arg)
+Create(thread_function function, void* arg, bool detach)
 {
 	bool result = false;
 

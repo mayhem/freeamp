@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pthreadthread.cpp,v 1.3 2000/05/20 12:32:00 ijr Exp $
+	$Id: pthreadthread.cpp,v 1.4 2000/05/24 11:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -48,7 +48,6 @@ Thread()
 pthreadThread::
 ~pthreadThread()
 {
-    //pthread_cancel(m_threadHandle);
     if (m_suspendMutex) {
 	delete m_suspendMutex;
 	m_suspendMutex = NULL;
@@ -76,18 +75,21 @@ InternalThreadFunction()
 
 bool 
 pthreadThread::
-Create(thread_function function, void* arg)
+Create(thread_function function, void* arg, bool detach)
 {
-//    cout << "Thread: Create" << endl;
     bool result = true;
     m_function = function;
     m_arg = arg;
-    if(pthread_create(&m_threadHandle, NULL,pthreadThread::internalThreadFunction, this))
+    if (pthread_create(&m_threadHandle, NULL,
+        pthreadThread::internalThreadFunction, this))
     {
-//	cout << "Create failed!!" << endl;
 	result = false;
     }
-//    cout << "Thread: Create: done" << endl;
+    if (detach) {
+        cout << "detaching\n";
+        pthread_detach(m_threadHandle);
+    }
+
     return result;
 }
 
@@ -121,7 +123,6 @@ Resume()
     }
     m_suspendMutex->Release();
 }
-
 
 uint32 
 pthreadThread::

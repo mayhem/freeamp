@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.57 2000/05/23 08:49:23 elrod Exp $
+        $Id: musiccatalog.cpp,v 1.58 2000/05/24 11:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -640,7 +640,7 @@ void MusicCatalog::PruneDatabase(bool sendmessages, bool spawn)
             pts->sendmessages = sendmessages;
             pts->thread = thread;
 
-            thread->Create(prune_thread_function, pts);
+            thread->Create(prune_thread_function, pts, true);
         }
     }
     else {
@@ -737,7 +737,7 @@ void MusicCatalog::SearchMusic(vector<string> &pathList, bool bBrowserMessages)
         mst->thread = thread;
         mst->bSendMessages = bBrowserMessages;
 
-        thread->Create(musicsearch_thread_function, mst);
+        thread->Create(musicsearch_thread_function, mst, true);
     }
 }
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: timer.cpp,v 1.9 2000/05/22 13:50:19 elrod Exp $
+	$Id: timer.cpp,v 1.10 2000/05/24 11:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -143,10 +143,10 @@ void TimerManager::ThreadFunction()
 
 		if((*i)->duration && (*i)->ticks >= (*i)->duration)
 		{
-                	Timer* t = new Timer(*(*i));
-                	t->thread = Thread::CreateThread();
-	            	t->thread->Create(TimerManager::timer_function, t);
-                        (*i)->ticks = 0;
+                    Timer* t = new Timer(*(*i));
+                    t->thread = Thread::CreateThread();
+	            t->thread->Create(TimerManager::timer_function, t, true);
+                    (*i)->ticks = 0;
 		}
 	}
 

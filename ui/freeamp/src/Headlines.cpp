@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Headlines.cpp,v 1.10 2000/05/19 15:26:01 elrod Exp $
+   $Id: Headlines.cpp,v 1.11 2000/05/24 11:28:46 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -89,7 +89,7 @@ Headlines::Headlines(FAContext * context)
     m_iIndex = 0;
 
     m_pThread = Thread::CreateThread();
-    m_pThread->Create(worker_thread, this);
+    m_pThread->Create(worker_thread, this, true);
 }
 
 Headlines::~Headlines()

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.10 2000/06/12 16:13:55 robert Exp $
+	$Id: downloadui.h,v 1.11 2000/06/12 16:44:10 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -62,6 +62,7 @@ class DownloadUI : public UserInterface {
     BOOL DrawItem(int32 controlId, DRAWITEMSTRUCT* dis);
     BOOL MeasureItem(HWND hwnd, MEASUREITEMSTRUCT* mis);
     BOOL Destroy();
+    void ShowHelp(void);
 
     LRESULT FreeTracksWndProc(HWND hwnd, 
                               UINT msg, 

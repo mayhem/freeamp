@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.25 2000/06/12 16:13:55 robert Exp $
+	$Id: utility.cpp,v 1.26 2000/06/12 16:44:10 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -819,7 +819,6 @@ void ShowHelp(FAContext *m_context, const char *helpurl)
 
     m_context->prefs->GetInstallDirectory(dir, &len);
     oHelpFile = string(dir);
-    delete [] dir;
 
     oHelpFile += string(DIR_MARKER_STR);
 #ifdef WIN32
@@ -841,6 +840,15 @@ void ShowHelp(FAContext *m_context, const char *helpurl)
           oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk, true);
     }
 #endif
- 
+
+#ifdef UNIX	
     LaunchBrowser((char *)oHelpFile.c_str());
+#endif
+#ifdef WIN32
+
+    len = _MAX_PATH;
+    FilePathToURL(oHelpFile.c_str(), dir, &len);
+	ShellExecute(NULL, "open", dir, NULL, NULL, SW_SHOWNORMAL);
+#endif
+    delete [] dir;
 } 

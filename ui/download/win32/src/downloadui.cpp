@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: downloadui.cpp,v 1.25 2000/06/12 16:13:55 robert Exp $
+    $Id: downloadui.cpp,v 1.26 2000/06/12 16:44:10 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1475,7 +1475,7 @@ BOOL DownloadUI::Command(int32 command, HWND src)
     {
         case IDC_SHOWHELP:
         {
-            ShowHelp(m_context, Download_Manager);
+            ShowHelp();
             break;
         }
 
@@ -1779,7 +1779,7 @@ BOOL CALLBACK DownloadUI::MainProc( HWND hwnd,
         
         case WM_HELP:
         {
-            m_ui->LaunchHelp(m_context, Download_Manager);
+            m_ui->ShowHelp();
             return 1;
         }
             
@@ -2035,3 +2035,7 @@ LRESULT DownloadUI::FreeTracksWndProc(HWND hwnd,
     return CallWindowProc(lpOldProc, hwnd, msg, wParam, lParam);
 }
 
+void DownloadUI::ShowHelp(void)
+{
+    ::ShowHelp(m_context, Download_Manager);
+}

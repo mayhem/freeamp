@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.1 1999/01/19 05:10:18 jdw Exp $
+        $Id: httpinput.h,v 1.2 1999/01/20 17:57:22 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LOCALFILEINPUT_H_
@@ -45,7 +45,7 @@ class     HttpInput:public PhysicalMediaInput
 
    virtual Error Seek(int32 & rtn, int32 offset, int32 origin);
    virtual Error GetLength(size_t &iSize); 
-   virtual bool  GetID3v1Tag(unsigned char *pTag);
+   virtual Error GetID3v1Tag(unsigned char *pTag);
 
    virtual Error SetTo(char *url);
    virtual Error Close(void);

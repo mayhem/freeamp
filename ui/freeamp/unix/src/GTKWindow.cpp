@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.2 1999/10/19 07:13:20 elrod Exp $
+   $Id: GTKWindow.cpp,v 1.3 1999/10/21 00:35:30 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -170,7 +170,6 @@ Error GTKWindow::VulcanMindMeld(Window *pOther)
 
     m_pCanvas->GetBackgroundRect(oRect);
     pOther->GetWindowPosition(oRect);
-    SetWindowPosition(oRect);
     GdkBitmap *mask = ((GTKCanvas *)m_pCanvas)->GetMask();
 
     gdk_threads_enter();

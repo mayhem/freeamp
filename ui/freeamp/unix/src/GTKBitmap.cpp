@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.2 1999/10/19 07:13:20 elrod Exp $
+   $Id: GTKBitmap.cpp,v 1.3 1999/10/21 00:35:30 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -128,12 +128,12 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
     gulong rmask = 0xff, gmask = 0xff, bmask = 0xff;
     gulong rshift = 0, gshift = 0, bshift = 0;
 
-    if (stat(oFile.c_str(), &statbuf) == -1)
+    if (stat(oFile.c_str(), &statbuf) == -1) 
         return kError_LoadBitmapFailed;
     size = statbuf.st_size;
 
     file = fopen(oFile.c_str(), "rb");
-    if (!file)
+    if (!file) 
         return kError_LoadBitmapFailed;
 
     if (fread(type, 1, 2, file) != 2) {

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.4 1999/10/20 23:39:29 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.5 1999/10/21 00:35:30 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -27,6 +27,8 @@ ____________________________________________________________________________*/
 #include <sys/stat.h>
 #ifndef WIN32
 #include <unistd.h>
+#define _stat stat
+#define _S_IFDIR S_IFDIR
 #endif
 #include "config.h"
 #include "downloadmanager.h"

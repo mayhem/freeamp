@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.2 1999/10/19 07:13:17 elrod Exp $
+   $Id: Theme.cpp,v 1.3 1999/10/21 00:35:30 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -394,7 +394,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        pBitmap = new BeOSBitmap(oAttrMap["Name"]);
 #endif
 
-	   if (oAttrMap.find("TransColor") != oAttrMap.end())
+       if (oAttrMap.find("TransColor") != oAttrMap.end())
        {
            eRet = ParseColor(oAttrMap["TransColor"], oColor);
            if (eRet == kError_NoErr)
@@ -402,7 +402,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        }
 
            
-	   if (oAttrMap.find("File") == oAttrMap.end())
+       if (oAttrMap.find("File") == oAttrMap.end())
        {
            m_oLastError = string("the <Bitmap> tag needs a File attribute");
            return kError_ParseError;

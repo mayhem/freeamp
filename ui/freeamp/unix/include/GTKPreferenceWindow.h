@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.5 1999/11/08 23:31:50 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.6 1999/11/17 05:45:29 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -166,11 +166,21 @@ class GTKPreferenceWindow : public PreferenceWindow
 
       GtkWidget *pmoMenu;
 
+      GtkWidget *themeList;
+
+      GtkWidget *fontDialog;
+
   public:
       GtkWidget *mainWindow;
       GtkWidget *pmoOptionMenu;
 
       int32 numPMOs;
+
+      void UpdateThemeList(void);
+      void AddThemeEvent(const char *newpath);
+      void DeleteThemeEvent(void);
+      void ChooseFont(void);
+      void SetFont(void);
 
       void ApplyInfo(void);
       void CancelInfo(void);

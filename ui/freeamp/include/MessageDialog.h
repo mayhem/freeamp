@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MessageDialog.h,v 1.4 1999/11/17 02:55:30 robert Exp $
+   $Id: MessageDialog.h,v 1.5 1999/11/17 05:45:29 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_MESSAGEDIALOG_H__
@@ -64,10 +64,12 @@ class MessageDialog
 
        MessageDialogReturnEnum Show(const char *szMessage, 
                                     const char *szTitle, 
-                                    MessageDialogEnum eType);
+                                    MessageDialogEnum eType,
+                                    bool InEventLoop = false);
        MessageDialogReturnEnum Show(const string &oMessage, 
                                     const string &oTitle, 
-                                    MessageDialogEnum eType);
+                                    MessageDialogEnum eType,
+                                    bool InEventLoop = false);
 
   private:
   

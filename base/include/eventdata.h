@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.41 1999/11/16 01:05:00 elrod Exp $
+        $Id: eventdata.h,v 1.42 1999/11/17 05:45:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -572,12 +572,19 @@ public:
 class MusicCatalogTrackRemovedEvent : public Event {
 private:
     const PlaylistItem* m_item;
+    const ArtistList *m_artist;
+    const AlbumList *m_album;
 public:
-    MusicCatalogTrackRemovedEvent(const PlaylistItem* item)
-    { m_type = INFO_MusicCatalogTrackRemoved; m_item = item; }
+    MusicCatalogTrackRemovedEvent(const PlaylistItem *item,
+                                  const ArtistList *artist,
+                                  const AlbumList *album)
+    { m_type = INFO_MusicCatalogTrackRemoved; m_item = item;
+      m_artist = artist; m_album = album; }
     virtual ~MusicCatalogTrackRemovedEvent() {}
 
-    const PlaylistItem* Item() const { return m_item; }
+    const PlaylistItem *Item() const { return m_item; }
+    const ArtistList *Artist() const { return m_artist; }
+    const AlbumList *Album() const { return m_album; }
 };
 
 class MusicCatalogPlaylistAddedEvent : public Event {

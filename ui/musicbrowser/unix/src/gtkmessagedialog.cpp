@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: gtkmessagedialog.cpp,v 1.1 1999/11/08 02:22:49 ijr Exp $
+   $Id: gtkmessagedialog.cpp,v 1.2 1999/11/17 05:45:29 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <gtk/gtk.h>
@@ -92,7 +92,8 @@ MessageDialogReturnEnum GTKMessageDialog::
                        GTK_SIGNAL_FUNC(message_destroy), (gpointer)inMain);
     gtk_window_set_title(GTK_WINDOW(window), oTitle.c_str());
     gtk_container_set_border_width(GTK_CONTAINER(window), 5);
-
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_MOUSE);
+ 
     GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(window), vbox);
     gtk_widget_show(vbox);

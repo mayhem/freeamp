@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.4 1999/10/23 04:54:43 ijr Exp $
+        $Id: infoeditor.cpp,v 1.5 1999/11/17 05:45:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "utility.h"
@@ -58,8 +58,7 @@ void infoeditorUI::DoApplyInfoEdit(void)
 
     m_playlistItem->SetMetaData(&newmeta);
 
-    m_context->browser->WriteMetaDataToDatabase(m_playlistItem->URL().c_str(),
-                                                newmeta);
+    m_context->browser->m_catalog->UpdateSong(m_playlistItem);
 }
 
 gint info_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)

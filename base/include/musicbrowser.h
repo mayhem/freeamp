@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.6 1999/11/23 09:14:07 ijr Exp $
+        $Id: musicbrowser.h,v 1.7 1999/11/17 05:45:28 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -73,6 +73,8 @@ class MusicCatalog
     Error AddPlaylist(const char *url);
     Error AddSong(const char *url);
     Error Add(const char *url);    
+
+    Error UpdateSong(PlaylistItem *item);
 
     Error RePopulateFromDatabase();
 

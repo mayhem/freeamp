@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32MessageDialog.cpp,v 1.3 1999/11/17 02:55:34 robert Exp $
+   $Id: Win32MessageDialog.cpp,v 1.4 1999/11/17 05:45:29 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -38,17 +38,19 @@ MessageDialog::~MessageDialog(void)
 MessageDialogReturnEnum MessageDialog::
                         Show(const char        *szMessage, 
                              const char        *szTitle, 
-                             MessageDialogEnum  eType)
+                             MessageDialogEnum  eType,
+                             bool               InEventLoop)
 {
     string oMessage(szMessage), oTitle(szTitle);
     
-    return Show(oMessage, oTitle, eType);
+    return Show(oMessage, oTitle, eType, InEventLoop);
 }
 
 MessageDialogReturnEnum MessageDialog::
                         Show(const string      &oMessage, 
                              const string      &oTitle, 
-                             MessageDialogEnum  eType)
+                             MessageDialogEnum  eType,
+                             bool               InEventLoop)
 {
 	int             iRet, iType;
     Int32PropValue *pProp;

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.34 1999/11/17 02:55:31 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.35 1999/11/17 05:45:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -784,7 +784,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    {
        ShowHelp();
    }
-   
+  
    return kError_NoErr;
 }
 
@@ -1191,11 +1191,10 @@ void FreeAmpTheme::ShowHelp(void)
         LaunchBrowser((char *)oHelpFile.c_str());
     else
     {
-//          MessageDialog oBox(m_pContext);
-//        string        oMessage(szCantFindHelpError);
+          MessageDialog oBox(m_pContext);
+          string        oMessage(szCantFindHelpError);
 
-//        oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
-          cout << szCantFindHelpError << endl;
+          oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk, true);
     }
 #endif
 }

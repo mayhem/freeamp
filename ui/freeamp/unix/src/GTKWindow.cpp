@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.11 1999/11/17 02:22:43 robert Exp $
+   $Id: GTKWindow.cpp,v 1.12 1999/11/17 05:45:29 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -340,6 +340,13 @@ Error GTKWindow::GetWindowPosition(Rect &oWindowRect)
     gdk_window_get_position(mainWindow->window, &oWindowRect.x1, 
                             &oWindowRect.y1);
     gdk_threads_leave();
+
+    Rect oRect;
+
+    GetCanvas()->GetBackgroundRect(oRect);
+    oWindowRect.x2 = oWindowRect.x1 + oRect.Width();
+    oWindowRect.y2 = oWindowRect.y1 + oRect.Height();
+
     return kError_NoErr;
 }
 
@@ -387,5 +394,8 @@ void GTKWindow::MouseLeaveCheck(void)
 
 Error GTKWindow::GetDesktopSize(int32 &iX, int32 &iY)
 {
-    return kError_InvalidParam;
+    iX = gdk_screen_width();
+    iY = gdk_screen_height();
+
+    return kError_NoErr;
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.23 1999/11/16 00:02:57 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.24 1999/11/17 05:45:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1025,6 +1025,8 @@ void GTKMusicBrowser::ToggleVisEventDestroyed(void)
 {
     ToggleVisEvent();
     m_initialized = false;
+    musicBrowserTree = NULL;
+    m_browserCreated = false; 
 }
 
 static gboolean toggle_vis_destroy(GtkWidget *w, GTKMusicBrowser *p)
@@ -1852,6 +1854,7 @@ GTKMusicBrowser::GTKMusicBrowser(FAContext *context, MusicBrowserUI *masterUI,
     lastPanedHandle = -1;
     playState = 0;
     pauseState = 0;
+    musicBrowserTree = NULL;
 
     parentUI = masterUI;
  
@@ -1916,9 +1919,18 @@ void GTKMusicBrowser::Close(void)
     }
 
     if (m_currentListName.length() == 0) {
-        FileSelector *filesel = new FileSelector("Save This Playlist to Disk");
-        if (filesel->Run())
-            m_currentListName = filesel->GetReturnPath();
+        GTKMessageDialog oBox;
+        string oMessage = string("Do you want to save this playlist to disk? ");
+
+        if (oBox.Show(oMessage.c_str(), "Delete Confirmation", kMessageYesNo,
+                      true) == kMessageReturnYes) {
+
+            FileSelector *filesel = new FileSelector("Save This Playlist to Disk");
+            if (filesel->Run())
+                m_currentListName = filesel->GetReturnPath();
+
+            delete filesel;
+        }
     }
 
     gdk_threads_leave();
@@ -1967,7 +1979,14 @@ int32 GTKMusicBrowser::AcceptEvent(Event *e)
             gdk_threads_enter();
             UpdatePlayPause();
             gdk_threads_leave();
-            break; }         
+            break; }    
+        case INFO_MusicCatalogTrackAdded: {
+            if (m_initialized) {
+                gdk_threads_enter();
+                UpdateCatalog();
+                gdk_threads_leave();
+            }
+            break; }   
         default:
             break;
     }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.cpp,v 1.12 2000/05/15 09:34:41 robert Exp $
+   $Id: VSliderControl.cpp,v 1.13 2000/05/15 12:17:12 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -39,6 +39,7 @@ static TransitionInfo pTransitions[] =
     { CS_Normal,     CT_Disable,          CS_Disabled   }, 
     { CS_Normal,     CT_Hide,             CS_Hidden     },
     { CS_Normal,     CT_MouseEnter,       CS_MouseOver  }, 
+    { CS_Normal,     CT_Show,             CS_Normal     }, 
     { CS_MouseOver,  CT_MouseLeave,       CS_Normal     }, 
     { CS_MouseOver,  CT_MouseLButtonDown, CS_Dragging   }, 
     { CS_MouseOver,  CT_Disable,          CS_Disabled   }, 
@@ -46,7 +47,7 @@ static TransitionInfo pTransitions[] =
     { CS_Dragging,   CT_MouseLButtonUp,   CS_MouseOver  }, 
     { CS_Disabled ,  CT_Enable,           CS_Normal     },
     { CS_Disabled ,  CT_MouseEnter,       CS_DisabledMO },
-    { CS_Disabled ,  CT_Show,             CS_Normal     },
+    { CS_Disabled ,  CT_Show,             CS_Disabled   },
     { CS_DisabledMO, CT_MouseLeave,       CS_Disabled   },
     { CS_Hidden,     CT_Show,             CS_Normal     },
     { CS_Any,        CT_SetValue,         CS_Same       },

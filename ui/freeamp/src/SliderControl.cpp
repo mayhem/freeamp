@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.14 2000/05/15 09:34:41 robert Exp $
+   $Id: SliderControl.cpp,v 1.15 2000/05/15 12:17:12 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -44,7 +44,7 @@ static TransitionInfo pTransitions[] =
     { CS_MouseOver,  CT_Disable,          CS_Disabled   }, 
     { CS_Dragging,   CT_MouseMove,        CS_Dragging   }, 
     { CS_Dragging,   CT_MouseLButtonUp,   CS_MouseOver  }, 
-    { CS_Disabled ,  CT_Show,             CS_Normal     },
+    { CS_Disabled ,  CT_Show,             CS_Disabled   },
     { CS_Disabled ,  CT_Enable,           CS_Normal     },
     { CS_Disabled ,  CT_MouseEnter,       CS_DisabledMO },
     { CS_DisabledMO, CT_MouseLeave,       CS_Disabled   },
@@ -251,7 +251,6 @@ void SliderControl::Transition(ControlTransitionEnum  eTrans,
     switch(m_eCurrentState)
     {
        case CS_Normal:
-		  Debug_v("Normal!");
           BlitFrame(CS_Normal, iThumbNumber, &oRect);
           break;
 

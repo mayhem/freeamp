@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.109 2000/05/14 21:20:46 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.110 2000/05/15 12:17:12 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -739,7 +739,10 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          else
          {
              m_iVolume = iRight;
-             m_iBalance = 50 + (50 - (iLeft * 50 / iRight)); 
+			 if (iRight == 0)
+				 m_iBalance = 50;
+			 else
+                 m_iBalance = 50 + (50 - (iLeft * 50 / iRight)); 
          }
 
          m_pWindow->ControlIntValue(string("Volume"), true, m_iVolume);

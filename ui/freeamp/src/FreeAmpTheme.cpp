@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.8 1999/09/20 23:25:11 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.9 1999/09/21 00:29:32 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -32,6 +32,8 @@ ____________________________________________________________________________*/
 void WorkerThreadStart(void* arg);
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
+
+const char *szParseError = "Parsing the Theme description failed. Cause: ";
 
 extern    "C"
 {
@@ -62,10 +64,11 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
    if (IsError(eRet))
    {
 	   MessageDialog oBox;
-   	   string        oErr;
+   	   string        oErr, oMessage(szParseError);
 
    	   GetErrorString(oErr);
-       oBox.Show(oErr.c_str(), string("FreeAmp"), kMessageOk);
+       oMessage += oErr;
+       oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
    }
    SelectWindow(oName);
    

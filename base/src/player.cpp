@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.172 2000/01/20 00:48:45 robert Exp $
+        $Id: player.cpp,v 1.173 2000/02/04 08:13:03 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1851,6 +1851,7 @@ ServiceEvent(Event * pC)
         case INFO_PlaylistSorted:
         case INFO_PlaylistCurrentItemInfo:
         case INFO_BufferStatus:
+        case INFO_HeadlineText:
         case INFO_SearchMusicDone:
         case INFO_DownloadItemAdded:
         case INFO_DownloadItemRemoved:

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.42 2000/01/20 00:48:43 robert Exp $
+	$Id: event.h,v 1.43 2000/02/04 08:13:03 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -141,5 +141,6 @@ class EventQueue {
 
 #define INFO_PlaylistItemsAdded 76 // sent by PLM to player to inform of a playlistitem update
 #define INFO_DoneOutputtingDueToError 77 // sent by PMO (or LMC controlling PMO) to Player when its done outputing but an error occurred
+#define INFO_HeadlineText             78 // Used to send Slashdot headlines to UIs
 #endif // _EVENT_H_
 

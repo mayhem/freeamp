@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.cpp,v 1.1.2.4 1999/10/04 07:59:29 elrod Exp $
+	$Id: rmp.cpp,v 1.1.2.5 1999/10/14 20:48:19 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -118,6 +118,19 @@ Error RMP::BeginElement(string &oElement, AttrMap &oAttrMap)
 	{
        delete m_pMetaData;
        m_pMetaData = new MetaData();
+    }
+    if (m_oPath == string("/PACKAGE/SERVER/COOKIE"))
+    {
+        if(m_oCookie.size())
+        {
+            m_oCookie += "; ";
+        }
+
+        m_oCookie += oAttrMap["NAME"];
+        m_oCookie += "=";
+        m_oCookie += oAttrMap["VALUE"];
+
+        return kError_NoErr;
     }
 
 	return kError_NoErr;
@@ -223,6 +236,7 @@ Error RMP::EndElement(string &oElement)
                                  m_pMetaData);
         pItem->SetPlaylistName(m_oPlaylist.c_str());
         pItem->SetTotalBytes(m_pMetaData->Size());
+        pItem->SetSourceCookie(m_oCookie.c_str());
 
 		m_pList->push_back(pItem);
         m_pMetaData = NULL;

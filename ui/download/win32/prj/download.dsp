@@ -277,16 +277,12 @@ SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\res\about8.bmp
-# End Source File
-# Begin Source File
-
 SOURCE=..\res\download.rc
 # End Source File
-# End Group
 # Begin Source File
 
 SOURCE=..\res\icon1.ico
 # End Source File
+# End Group
 # End Target
 # End Project

@@ -17,7 +17,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: uuid.cpp,v 1.4 2000/09/14 14:06:29 robert Exp $
+        $Id: uuid.cpp,v 1.5 2000/09/14 14:21:59 robert Exp $
 ____________________________________________________________________________*/
 
 #include "uuid.h"
@@ -128,5 +128,4 @@ void uuid_ascii(uuid_t1 in, char ascii[37])
             (foo.clock_seq >> 8), foo.clock_seq & 0xFF,
             foo.node[0], foo.node[1], foo.node[2],
             foo.node[3], foo.node[4], foo.node[5]);
-    printf("%s\n", ascii);
 }

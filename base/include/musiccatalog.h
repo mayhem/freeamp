@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.h,v 1.9 2000/04/07 01:14:43 ijr Exp $
+        $Id: musiccatalog.h,v 1.10 2000/05/06 17:53:56 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -160,9 +160,7 @@ class MusicCatalog : public EventQueue
     PlaylistManager *m_plm;
 
     bool   m_inUpdateSong;
-    bool   m_acceptItemChanged;
     bool   m_addImmediately;
-    uint32 m_itemWaitCount;
 
     PlaylistItem *m_newItem;
     PlaylistItem *m_oldItem;

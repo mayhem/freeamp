@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.55 2000/04/25 00:00:14 elrod Exp $
+	$Id: playlist.h,v 1.56 2000/05/06 17:53:56 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -342,6 +342,11 @@ class PlaylistManager {
 
     void RetrieveMetaData(PlaylistItem* item);
     void RetrieveMetaData(vector<PlaylistItem*>* list);
+
+    /* and for the truely selfish function that wants its data immediately,
+     * w/o spawning a thread, w/o sending messages, and no dbase lookup. 
+     */
+    void RetrieveMetaDataNow(PlaylistItem* item);
 
  protected:
     inline uint32 CheckIndex(uint32 index);

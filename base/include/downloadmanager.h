@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.11 2000/03/28 01:34:53 elrod Exp $
+	$Id: downloadmanager.h,v 1.12 2000/04/09 20:30:23 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -200,6 +200,8 @@ class DownloadItem {
     uint32 m_bytesTotal;
 	bool   m_normalDownload;
 };
+
+struct sockaddr;
 
 class DownloadManager {
 

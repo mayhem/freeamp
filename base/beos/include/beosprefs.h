@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: beosprefs.h,v 1.2 1999/04/21 04:20:43 elrod Exp $
+	$Id: beosprefs.h,v 1.2.2.1 1999/06/29 03:48:47 hiro Exp $
 ____________________________________________________________________________*/
 
 
@@ -28,29 +28,41 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "errors.h"
 #include "list.h"
+#include "preferences.h"
 #include "win32impl.h"
 
+class BeOSPrefs : public Preferences
+{
+public:
+								BeOSPrefs();
+	virtual						~BeOSPrefs();
 
-class BeOSPrefs : public Preferences {
+	virtual Error				Save( void );
+	virtual Preferences*		ComponentPrefs( const char* componentName );
 
- public:
-    BeOSPrefs();
-    ~BeOSPrefs();
+	virtual LibDirFindHandle*	GetFirstLibDir(char *path, uint32 *len);
+	virtual Error				GetNextLibDir(
+									LibDirFindHandle*	hLibDirFind,
+									char*				path,
+									uint32*				len
+									);
+	virtual Error				GetLibDirClose(LibDirFindHandle *hLibDirFind);
 
-    virtual LibDirFindHandle *GetFirstLibDir(char *path, uint32 *len);
-    virtual Error GetNextLibDir(LibDirFindHandle *hLibDirFind,
-				char *path, uint32 *len);
-    virtual Error GetLibDirClose(LibDirFindHandle *hLibDirFind);
+	virtual const char *		GetLibDirs( void );
 
-    virtual const char *GetLibDirs();
+protected:
+	Error						GetPrefString(
+									const char*	pref,
+									char*		buf,
+									uint32*		len
+									);
+	Error						SetPrefString(
+									const char*	pref,
+									const char*	buf
+									);
 
- protected:
-    Error GetPrefString(const char* pref, char* buf, uint32* len);
-    Error SetPrefString(const char* pref, char* buf);
-
- private:
-//     HKEY   m_prefsKey;
-    static char *m_libDirs;
+private:
+	static char *				m_libDirs;
 };
 
 #endif /* _BEOSPREFS_H */

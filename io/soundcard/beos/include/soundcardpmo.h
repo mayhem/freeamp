@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.2 1999/04/21 04:20:52 elrod Exp $
+	$Id: soundcardpmo.h,v 1.2.2.1 1999/06/29 03:48:48 hiro Exp $
 ____________________________________________________________________________*/
 
 
@@ -27,61 +27,66 @@ ____________________________________________________________________________*/
 /* system headers */
 #include <stdlib.h>
 #include <stdio.h>
+
+/* BeOS Kits */
 #include <media/MediaDefs.h>
+#include <media/SoundPlayer.h>
 
 /* project headers */
 #include <config.h>
+#include "mutex.h"
 #include "pmo.h"
+#include "pmoevent.h"
+#include "pullbuffer.h"
+#include "eventbuffer.h"
 
 #define BIT_SELECT  0x1f
 #define SLEEPTIME   256
 #define USE_DUMMY_PLAYER 0
 
-enum {
-    pmoError_MinimumError = 0x00010000,
-    pmoError_DeviceOpenFailed,
-    pmoError_IOCTL_F_GETFL,
-    pmoError_IOCTL_F_SETFL,
-    pmoError_IOCTL_SNDCTL_DSP_RESET,
-    pmoError_IOCTL_SNDCTL_DSP_SAMPLESIZE,
-    pmoError_IOCTL_SNDCTL_DSP_STEREO,
-    pmoError_IOCTL_SNDCTL_DSP_SPEED,
-    pmoError_MaximumError
-};
-
-class BSoundPlayer;
-class RingBuffer;
 class Thread;
 class FAContext;
+class VolumeManager;
 
-class SoundCardPMO : public PhysicalMediaOutput
+class SoundCardPMO : public PhysicalMediaOutput, public EventBuffer
 {
 public:
-							SoundCardPMO(FAContext *context);
+							SoundCardPMO( FAContext* context );
 	virtual					~SoundCardPMO();
-    
-	virtual Error			Init(OutputInfo* info);
-	virtual Error			Reset(bool user_stop);
-	virtual Error			Write(int32 &,void *,int32);
-	virtual Error			Pause();
-	virtual Error 			Resume();
-	virtual const char*		GetErrorString(int32);
-	virtual Error			SetPropManager(Properties *p)
-							{
-								m_propManager = p;
-								if ( p )
-									return kError_NoErr;
-								else
-									return kError_UnknownErr;
-							}
+	virtual Error			Init( OutputInfo* info );
+	virtual VolumeManager*	GetVolumeManager( void );
+	virtual Error			Pause( void );
+	virtual Error 			Resume( void );
+	virtual Error			Break( void );
+	virtual void			WaitToQuit( void );
+	virtual Error			Clear( void );
+	virtual Error			SetPropManager( Properties* p );
+	virtual void			SetVolume( int32 iVolume );
+	virtual int32			GetVolume( void );
+	virtual int32			GetBufferPercentage( void );
+
+	virtual Error			BeginWrite( void*& pBuffer, size_t& iBytesToWrite );
+	virtual Error			EndWrite( size_t iNumBytesWritten );
+	virtual Error			AcceptEvent( Event* pEvent );
 
 protected:
+	void					Lock( void );
+	void					Unlock( void );
 	FAContext *				m_context;
 
 private:
+	virtual Error			Reset( bool user_stop );
+	void					HandleTimeInfoEvent( PMOTimeInfoEvent* pEvent );
+
+	static void				_InitThreadHook( void* arg );
+	void					InitThread( void );
+
+	static void				_EventBufferThreadHook( void* arg );
+	void					EventBufferThread( void );
+
 	static void				_DummyPlayerHook( void* arg );
 	void					DummyPlayer( void );
-	Thread*					m_dummyPlayerThread;
+
 	static void				_PlayerHook(
 								void*							cookie,
 								void*							buffer,
@@ -93,15 +98,42 @@ private:
 								size_t							size,
 								const media_raw_audio_format&	format
 								);
+	static void				_NotifierHook(
+								void*							cookie,
+								BSoundPlayer::sound_player_notification
+																what,
+								...
+								);
+	void					Notifier(
+								BSoundPlayer::sound_player_notification
+																what
+								);
 
+	Thread*					m_initThread;
+	Thread*					m_eventBufferThread;
+	Thread*					m_dummyPlayerThread;
 	Properties *			m_propManager;
 	bool					m_properlyInitialized;
 	uint32					channels;
-	OutputInfo *			myInfo;
+	OutputInfo *			m_outputInfo;
 	media_raw_audio_format	m_format;
-	RingBuffer *			m_buffer;
-	BSoundPlayer*			m_player;
-	int16*					m_pcmBuffer;
+	BSoundPlayer *			m_player;
+	Mutex					m_lock;
+	Mutex					m_pauseMutex;
+	size_t					m_dataSize;
+	Semaphore				m_eventSem;
 };
+
+inline void
+SoundCardPMO::Lock( void )
+{
+	m_lock.Acquire();
+}
+
+inline void
+SoundCardPMO::Unlock( void )
+{
+	m_lock.Release();
+}
 
 #endif /* _SOUNDCARDPMO_H_ */

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.8 1999/04/27 00:55:26 elrod Exp $
+        $Id: preferences.cpp,v 1.8.2.1 1999/06/29 03:48:47 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -71,7 +71,7 @@ SetDefaults()
     int32 dummyInt;
     bool  dummyBool;
     char  dummyString[255];
-    unsigned size = 255;
+    uint32 size = 255;
 
     // set default for input buffer size
     if (GetPrefInt32(kInputBufferSizePref, &dummyInt) == kError_NoPrefValue)

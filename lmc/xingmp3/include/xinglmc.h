@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.28 1999/04/26 00:51:56 robert Exp $
+   $Id: xinglmc.h,v 1.28.2.1 1999/06/29 03:48:49 hiro Exp $
 
 ____________________________________________________________________________*/
 
@@ -82,7 +82,7 @@ class     XingLMC:public LogicalMediaConverter
 
    virtual ~ XingLMC();
 
-   virtual Error Decode(int iSkipNumFrames = 0);
+   virtual Error Decode(int32 iSkipNumFrames = 0);
    virtual Error Stop();
    virtual Error Pause();
    virtual Error Resume();
@@ -128,7 +128,7 @@ class     XingLMC:public LogicalMediaConverter
    int       m_iMaxWriteSize;
    int       m_frameBytes, m_iBufferUpInterval, m_iBufferSize;
 	MPEG_HEAD m_sMpegHead;
-	int32     m_iBitRate;
+	int       m_iBitRate;
    bool      m_isPaused, m_bBufferingUp;
    Thread   *m_decoderThread;
 

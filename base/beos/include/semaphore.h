@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.h,v 1.1 1999/02/10 09:32:23 elrod Exp $
+	$Id: semaphore.h,v 1.1.6.1 1999/06/29 03:48:47 hiro Exp $
 ____________________________________________________________________________*/
 
 
@@ -39,6 +39,7 @@ public:
     void	Wait();
     bool	Wait( long timeout );
     void	Signal();
+	sem_id	ID( void ) const { return mutex; }
 
 protected:
 

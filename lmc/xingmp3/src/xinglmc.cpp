@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.82 1999/04/27 08:44:55 robert Exp $
+   $Id: xinglmc.cpp,v 1.82.2.1 1999/06/29 03:48:49 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -399,7 +399,7 @@ bool XingLMC::CanDecode()
       return false;
    }
 
-   if (IsError(m_context->prefs->GetInputBufferSize(&m_iBufferSize)))
+   if (IsError(m_context->prefs->GetInputBufferSize((int32*)&m_iBufferSize)))
        m_iBufferSize = iStreamingBufferSize;
 
    m_iBufferSize *= 1024;
@@ -416,7 +416,7 @@ bool XingLMC::CanDecode()
    }
 
    if (IsError(m_context->prefs->
-	       GetStreamBufferInterval(&m_iBufferUpInterval)))
+	       GetStreamBufferInterval((int32*)&m_iBufferUpInterval)))
       m_iBufferUpInterval = iDefaultBufferUpInterval;
 
 
@@ -649,7 +649,7 @@ void XingLMC::DecodeWork()
    size_t         iOutBytesNeeded;
    void          *pBuffer, *pOutBuffer;
    Error          Err;
-   int            iLoop = 0, iValue;
+   int32          iLoop = 0, iValue;
    IN_OUT         x = {0, 0};
 
    in_bytes = out_bytes = 0;

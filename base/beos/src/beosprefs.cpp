@@ -18,14 +18,18 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: beosprefs.cpp,v 1.3 1999/04/21 20:24:16 mhw Exp $
+	$Id: beosprefs.cpp,v 1.3.2.1 1999/06/29 03:48:47 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <unistd.h>
 #include <stdlib.h>
 
+#define DEBUG 1
+#include <be/support/Debug.h>
+
 #include "config.h"
 #include "beosprefs.h"
+#include "prefixprefs.h"
 
 class LibDirFindHandle {
  public:
@@ -35,78 +39,98 @@ class LibDirFindHandle {
 
 
 
-BeOSPrefs::BeOSPrefs() {
-
+BeOSPrefs::BeOSPrefs()
+{
+	int32	bufsize;
+	GetOutputBufferSize( &bufsize );
+	Preferences::SetDefaults();
 }
 
-BeOSPrefs::~BeOSPrefs() {
-
+BeOSPrefs::~BeOSPrefs()
+{
 }
 
+Error
+BeOSPrefs::Save( void )
+{
+	return kError_NoErr;
+}
 
-Error BeOSPrefs::GetPrefString(const char* pref, char* buf, uint32* len) {
+Preferences*
+BeOSPrefs::ComponentPrefs( const char* componentName )
+{
+	return new PrefixPrefs( this, componentName );
+}
 
+Error
+BeOSPrefs::GetPrefString( const char* pref, char* buf, uint32* len )
+{
     // XXX: Implement me!
 
     buf[0] = '\0';
     *len = 1;
 
-    return kError_NoErr;
+    return kError_NoPrefValue;
 }
 
-Error BeOSPrefs::SetPrefString(const char* pref, char* buf) {
-
+Error
+BeOSPrefs::SetPrefString( const char* pref, const char* buf )
+{
     // XXX: Implement me!
 
     return kError_NoErr;
 }
 
-HANDLE BeOSPrefs::GetFirstLibDir(char *path, uint32 *len) {
-    // if no FREEAMP_PATH, libdirs = ~/.freeamp : @lib_installdir@/freeamp : .
+LibDirFindHandle*
+BeOSPrefs::GetFirstLibDir(char *path, uint32 *len)
+{
+    // if no FREEAMP_PATH, use kLibraryPathPref
     // if FREEAMP_PATH, then its FREEAMP_PATH
     char *pEnv = getenv(FREEAMP_PATH_ENV);
     char *pPath = NULL;
     if (pEnv) {
-//	cout << "Using env: " << pEnv << endl;
-	pPath = strdup(pEnv);
+//      cout << "Using env: " << pEnv << endl;
+        pPath = strdup(pEnv);
     } else {
-	pPath = strdup(GetLibDirs());
+        pPath = strdup(GetLibDirs());
     }
     pEnv = pPath;
-    LibDirFindHandle *pldfh = new LibDirFindHandle();
-    pldfh->m_pLibDirs = new List<char *>();
-    pldfh->m_current = 0;
+    LibDirFindHandle *hLibDirFind = new LibDirFindHandle();
+    hLibDirFind->m_pLibDirs = new List<char *>();
+    hLibDirFind->m_current = 0;
 
     char *pCol = (char *)1;
     char *pPart = pPath;
     while (pCol) {
-	pCol = strchr(pPart,':');
-	if (pCol) *pCol = '\0';
-	char *pFoo = strdup(pPart);
-	pldfh->m_pLibDirs->Insert(pFoo);
-	pPart = pCol + sizeof(char);
+        pCol = strchr(pPart,':');
+        if (pCol) *pCol = '\0';
+        char *pFoo = strdup(pPart);
+        hLibDirFind->m_pLibDirs->AddItem(pFoo);
+        pPart = pCol + sizeof(char);
     }
 
-    pPath = pldfh->m_pLibDirs->ElementAt(0);
+    pPath = hLibDirFind->m_pLibDirs->ItemAt(0);
     if (pPath) {
-	strncpy(path,pPath,*len);
-	*len = strlen(pPath);
+        strncpy(path,pPath,*len);
+        *len = strlen(pPath);
     } else {
-	*path = '\0';
-	*len = 0;
-	delete pldfh->m_pLibDirs;
-	delete pldfh;
-	pldfh = NULL;
+        *path = '\0';
+        *len = 0;
+        delete hLibDirFind->m_pLibDirs;
+        delete hLibDirFind;
+        hLibDirFind = 0;
     }
 
     if (pEnv) delete pEnv;
     //cout << "returning " << path << endl;
-    return (HANDLE)pldfh;
+    return hLibDirFind;
 }
 
-char *BeOSPrefs::m_libDirs = NULL;
+char* BeOSPrefs::m_libDirs = NULL;
 
-const char *BeOSPrefs::GetLibDirs() {
+const char*
+BeOSPrefs::GetLibDirs( void )
+{
     if (!m_libDirs) {
 	m_libDirs = new char[1024];
 	strcpy(m_libDirs,".:~/.freeamp:");
@@ -116,36 +140,34 @@ const char *BeOSPrefs::GetLibDirs() {
     return m_libDirs;
 }
 
-Error BeOSPrefs::GetNextLibDir(HANDLE hLibDirFind,char *path, uint32 *len) {
+Error
+BeOSPrefs::GetNextLibDir(LibDirFindHandle* hLibDirFind,char *path, uint32 *len)
+{
     if (hLibDirFind) {
-	LibDirFindHandle *pldfh = (LibDirFindHandle *)hLibDirFind;
-	pldfh->m_current++;
-	char *pPath = pldfh->m_pLibDirs->ElementAt(pldfh->m_current);
-	if (pPath) {
-	    strncpy(path,pPath,*len);
-	    *len = strlen(pPath);
-//	    cout << "returning next: " << path << endl;
-	    return kError_NoErr;
-	} else {
-	    *path = '\0';
-	    *len = 0;
-//	    cout << "returning no next " << path << endl;
-	    return kError_NoMoreLibDirs;
-	}
+        hLibDirFind->m_current++;
+        char *pPath = hLibDirFind->m_pLibDirs->ItemAt(hLibDirFind->m_current);
+        if (pPath) {
+            strncpy(path,pPath,*len);
+            *len = strlen(pPath);
+//          cout << "returning next: " << path << endl;
+            return kError_NoErr;
+        } else {
+            *path = '\0';
+            *len = 0;
+//          cout << "returning no next " << path << endl;
+            return kError_NoMoreLibDirs;
+        }
     }
     return kError_NoMoreLibDirs;
 }
 
-Error BeOSPrefs::GetLibDirClose(HANDLE hLibDirFind) {
+Error
+BeOSPrefs::GetLibDirClose(LibDirFindHandle* hLibDirFind)
+{
     if (hLibDirFind) {
-	LibDirFindHandle *p = (LibDirFindHandle *)hLibDirFind;
-	p->m_pLibDirs->DeleteAll();
-	delete p->m_pLibDirs;
-	delete p;
+        hLibDirFind->m_pLibDirs->DeleteAll();
+        delete hLibDirFind->m_pLibDirs;
+        delete hLibDirFind;
     }
     return kError_NoErr;
 }
-
-
-
-

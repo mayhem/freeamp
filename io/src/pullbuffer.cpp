@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.24 1999/04/27 16:25:24 robert Exp $
+   $Id: pullbuffer.cpp,v 1.24.2.1 1999/06/29 03:48:49 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #ifndef WIN32
 #include <unistd.h>
 #endif
+#include "config.h"
 #include "pullbuffer.h"
 #include "log.h"
 #include "facontext.h"
@@ -112,7 +113,7 @@ Error PullBuffer::Clear(void)
    return kError_NoErr;
 }
 
-int PullBuffer::GetReadIndex(void)
+int32 PullBuffer::GetReadIndex(void)
 {
    int iRet;
 
@@ -138,7 +139,7 @@ int PullBuffer::GetReadIndex(void)
    return iRet;
 }
 
-int PullBuffer::GetWriteIndex(void)
+int32 PullBuffer::GetWriteIndex(void)
 {
    int iRet;
 

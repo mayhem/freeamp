@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.15 1999/04/22 18:07:58 mhw Exp $
+	$Id: cmdlineUI.cpp,v 1.15.2.1 1999/06/29 03:48:49 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -49,6 +49,9 @@ UserInterface *Initialize(FAContext *context) {
 	   }
 static struct termios normalTTY;
 static struct termios rawTTY;
+#if __BEOS__
+int getKey() { return 1; }
+#else
 int getKey() {
     fd_set rdfs;
 
@@ -59,6 +62,7 @@ int getKey() {
     }
     return 0;
 }
+#endif
 
 void cmdlineUI::SetPlayListManager(PlayListManager *plm) {
     m_plm = plm;
@@ -206,7 +210,7 @@ int32 cmdlineUI::AcceptEvent(Event *e) {
     return 0;
 }
 
-void cmdlineUI::SetArgs(int argc, char **argv) {
+void cmdlineUI::SetArgs(int32 argc, char **argv) {
     m_argc = argc; m_argv = argv;
 }
 void cmdlineUI::ProcessArgs() {

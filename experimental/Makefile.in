@@ -1,6 +1,6 @@
 # Freeamp master Makefile
 # blown into bits and reconstructed by dogcow
-# $Id: Makefile.in,v 1.8 1999/04/26 21:52:14 dogcow Exp $
+# $Id: Makefile.in,v 1.8.2.1 1999/06/29 03:48:47 hiro Exp $
 
 SHELL = /bin/sh
 
@@ -55,7 +55,9 @@ CFLAGS = -Wall @CFLAGS@ -D_REENTRANT
 OSDEP = @OSDEP@
 OSINC = @OSINC@
 FPIC = @FPIC@
-LINKMOD = gcc -shared $(LDFLAGS)
+OSLINK = @OSLINK@
+PLUGINLIBS = @PLUGINLIBS@
+LINKMOD = $(OSLINK) $(LDFLAGS) $(PLUGINLIBS)
 
 OSDEPOBJ = @OSDEPOBJ@
 
@@ -71,9 +73,11 @@ DEFS = -I. -I$(srcdir) -I./config -DUNIX_LIBDIR=\"$(libdir)\" -D$(HOST_OS)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 X_CFLAGS = @X_CFLAGS@
-X_LIBS = @X_LIBS@ -lX11 -lXext -lXpm
+X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
+OSDEPLIBS = @OSDEPLIBS@
+FREEAMPLIBS = $(OSDEPLIBS) $(X_LIBS) $(X_EXTRA_LIBS)
 
 FREEAMPOBJ =  base/src/hashtable.o base/src/log.o base/src/player.o
 FREEAMPOBJ += base/src/playlist.o base/src/propimpl.o base/src/registrar.o
@@ -95,7 +99,7 @@ all: freeamp plugins
 
 freeamp: $(FREEAMPOBJ) $(freeamp_DEPENDENCIES)
 	@rm -f freeamp
-	$(CXXLINK) $(FREEAMPOBJ) $(LDFLAGS) -ldl -lpthread $(X_LIBS) $(X_EXTRA_LIBS)
+	$(CXXLINK) $(FREEAMPOBJ) $(LDFLAGS) $(FREEAMPLIBS)
 
 .SUFFIXES: .S .c .cpp .o .s .asm .asm1
 
@@ -165,13 +169,13 @@ uninstall_plugins uninstall-plugins:
 OSDEPPLUGINS = @OSDEPPLUGINS@
 
 PLUGINS =  plugins/localfileinput-$(HOST_OS).pmi
-PLUGINS += plugins/httpinput-$(HOST_OS).pmi
-PLUGINS += plugins/obsinput-$(HOST_OS).pmi
+#PLUGINS += plugins/httpinput-$(HOST_OS).pmi
+#PLUGINS += plugins/obsinput-$(HOST_OS).pmi
 PLUGINS += plugins/soundcard-$(HOST_OS).pmo
 PLUGINS += plugins/freeampcmd-$(HOST_OS).ui
-PLUGINS += plugins/mpg123-$(HOST_OS).ui
-PLUGINS += plugins/lcd-$(HOST_OS).ui
-PLUGINS += plugins/irman-$(HOST_OS).ui
+#PLUGINS += plugins/mpg123-$(HOST_OS).ui
+#PLUGINS += plugins/lcd-$(HOST_OS).ui
+#PLUGINS += plugins/irman-$(HOST_OS).ui
 PLUGINS += plugins/xingmp3-$(HOST_OS).lmc
 
 plugins: $(PLUGINS) $(OSDEPPLUGINS)
@@ -209,11 +213,13 @@ plugins/obsinput-$(HOST_OS).pmi: $(OBSPMI)
 # PMO section
 
 # soundcardpmo is os-dependent, so have to fool with $(OSDEP)
-SCPMOOBJ = io/soundcard/$(OSDEP)/src/soundcardpmo.o
-SCPMOOBJ +=io/soundcard/$(OSDEP)/src/volume.o
+#SCPMOOBJ = io/soundcard/$(OSDEP)/src/soundcardpmo.o
+#SCPMOOBJ +=io/soundcard/$(OSDEP)/src/volume.o
+SCPMOOBJ = @SCPMOOBJ@
+SCPMOLIB = @SCPMOLIB@
 
 plugins/soundcard-$(HOST_OS).pmo: $(SCPMOOBJ)
-	$(LINKMOD) -o $@ $(SCPMOOBJ)
+	$(LINKMOD) -o $@ $(SCPMOOBJ) $(SCPMOLIB)
 
 
 #

@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.9 1999/04/27 21:03:22 mhw Exp $
+dnl $Id: configure.in,v 1.9.2.1 1999/06/29 03:48:48 hiro Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -86,7 +86,13 @@ if test "$x11"="true"; then
          echo XPM Header not found. X11 UI build disabled.
        )
     fi
+
+    if test "@x11" = "true"; then
+       X_LIBS="$X_LIBS -X11 -Xext -Xpm"
+    fi
   fi
+  AC_SUBST(X_LIBS)
+
   dnl ******************
   dnl Check for libc5.  If found warn the user about potential problems
   dnl ******************
@@ -167,15 +173,22 @@ fi
 dnl ******************
 dnl Check for dynamic loading library
 dnl ******************
-AC_CHECK_LIB(dl, dlopen, foo="bar",
-  AC_MSG_ERROR([FreeAmp requires the ability to load libraries dynamically (-ldl must work)])
-)
+if test "$host_os" = "beos"; then
+  AC_MSG_WARN([skipping libdl check, using BeOS add-on mechanism])
+  OSDEPLIBS="$OSDEPLIBS -lroot -lbe"
+else
+  AC_CHECK_LIB(dl, dlopen, foo="bar",
+    AC_MSG_ERROR([FreeAmp requires the ability to load libraries dynamically (-ldl must work)])
+  )
+  OSDEPLIBS="$OSDEPLIBS -ldl"
+fi
 
 dnl Check for some more stuff
 
 cmdline="true"
 isunix="true"
 OSLINK=""
+PLUGINLIBS=""
 FPIC="-fpic"
 
 case "$host_os" in
@@ -188,10 +201,15 @@ case "$host_os" in
     ;;
   beos*)
     isunix="false"
+    AC_DEFINE(HAVE_BEOS)
+	CFLAGS="$CFLAGS -Wno-multichar -Wno-ctor-dtor-privacy"
+    OSLINK='g++ -nostart -Xlinker -soname=${@F}'
+    PLUGINLIBS=freeamp
     ;;
   linux*)
     AC_DEFINE(HAVE_LINUX)
 dnl  OSLINK='-Wl,soname,${*F}'
+    OSLINK="gcc -shared"
     LDFLAGS="$LDFLAGS -Wl,--export-dynamic"
 dnl not needed.
     ;;
@@ -201,12 +219,31 @@ dnl not needed.
 dnl probably Sun CC.
       FPIC="-Kpic"
     fi	
+    OSLINK="gcc -shared"
     ;;
   *)
     echo "what are you?"
     ;;
     
 esac  
+
+dnl soundcardpmo sources
+
+SCPMOOBJ=""
+SCPMOLIB=""
+case "$host_os" in
+  beos)
+    SCPMOOBJ="$(echo io/soundcard/beos/src/*.cpp | sed -e 's,\.cpp,.o,g')"
+    SCPMOLIB="-lmedia"
+    ;;
+  *)
+    SCPMOOBJ='io/soundcard/$(OSDEP)/src/soundcardpmo.o io/soundcard/$(OSDEP)/src/volume.o'
+    ;;
+esac
+
+AC_SUBST(SCPMOOBJ)
+AC_SUBST(SCPMOLIB)
+
 
 AC_DEFINE_UNQUOTED(HOST_OS, "${host_os}")
 AC_DEFINE_UNQUOTED(HOST_CPU, "${host_cpu}")
@@ -235,6 +272,7 @@ AC_SUBST(OSDEPOBJ)
 AC_SUBST(OSDEP)
 AC_SUBST(OSINC)
 AC_SUBST(OSLINK)
+AC_SUBST(PLUGINLIBS)
 AC_SUBST(FPIC)
 
 AC_SUBST(build_cpu)
@@ -291,6 +329,8 @@ elif test "$host_os" = "beos"; then
   AC_MSG_RESULT([This is BeOS; using BeOS threads.])
 else
 
+OSDEPLIBS="$OSDEPLIBS -lpthread"
+
 AC_MSG_CHECKING(for MIT PThreads)
 AC_EGREP_HEADER(PTHREAD_MUTEXTYPE_FAST,
 pthread.h,AC_DEFINE(HAVE_MITPTHREADS) AC_MSG_RESULT(yes)
@@ -346,6 +386,8 @@ if test "$mitpth" = "false"; then
    fi 
 fi
 
+AC_SUBST(OSDEPLIBS)
+
 fi dnl solaris, linux, or what have you
 
 dnl *****
@@ -374,8 +416,10 @@ AC_ARG_ENABLE(x11,
 		esac])
 #AM_CONDITIONAL(AM_ENABLE_X11, test "$x11" = "true")
 
-FAUIPLUGIN=plugins/freeamp-${host_os}.ui
-if test "$isunix" = "false" -o "x11 = false"; then
+if ! test "$host_os" = "beos"; then
+  FAUIPLUGIN=plugins/freeamp-${host_os}.ui
+fi
+if test "$isunix" = "false" -o "$x11" = "false"; then
   OSDEPPLUGINS="$OSDEPPLUGINS $FAUIPLUGIN";
 else
   AC_MSG_WARN([not compiling freeamp-$host_os ui plugin])
@@ -395,7 +439,7 @@ AC_CHECK_HEADER(sys/asoundlib.h,
 )
 
 ALSAPMOPLUGIN=plugins/almasoundcard-${host_os}.pmo
-if test "$isunix" = "false" -a "x11 = true"; then
+if test "$isunix" = "false" -a "$x11" = "true"; then
   OSDEPPLUGINS="$OSDEPPLUGINS $ALSAPMOPLUGIN";
   OSINC="$OSINC -Iio/soundcard/unix/linux/include"
   AC_MSG_RESULT([compiling alsa soundcard plugin])
@@ -403,6 +447,7 @@ fi
 
 AC_SUBST(OSDEPPLUGINS)
 
+if ! test "$host_os" = "beos"; then
 if expr "$host_cpu" : "i.86$" > /dev/null; then
   if test -n "$NASM"; then
     AC_MSG_RESULT([Using x86 optimizations])
@@ -413,6 +458,7 @@ if expr "$host_cpu" : "i.86$" > /dev/null; then
     XINGASM=lmc/xingmp3/src/x86gas.o
     AC_DEFINE(ASM_X86_OLD)
   fi
+fi
 fi
 
 AC_SUBST(XINGASM)

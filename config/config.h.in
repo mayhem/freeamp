@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.14 1999/04/22 08:24:01 mhw Exp $
+	$Id: config.h.in,v 1.14.2.1 1999/06/29 03:48:47 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -43,6 +43,7 @@ ____________________________________________________________________________*/
 #define HAVE_LINUX 0
 #define HAVE_LINUX_LIBC5 0
 #define HAVE_SOLARIS 0
+#define HAVE_BEOS 0
 
 #define HOST_OS "unknown"
 #define HOST_CPU "unknown"
@@ -93,6 +94,18 @@ ____________________________________________________________________________*/
 // real number
 typedef double real;
 
+#if HAVE_BEOS
+# include <support/SupportDefs.h>
+# include <endian.h>
+#if 0
+# define __LITTLE_ENDIAN 1234
+# define __BIG_ENDIAN    4321
+# define __PDP_ENDIAN    3412
+# define __BYTE_ORDER    __LITTLE_ENDIAN
+# define LITTLE_ENDIAN	__LITTLE_ENDIAN
+#endif
+#else
+
 #if UCHAR_MAX == 0xff
 
 typedef unsigned char	uint8;
@@ -136,6 +149,7 @@ typedef short			int32;
 #error This machine has no 32-bit type
 #endif
 
+#endif
 
 // What character marks the end of a directory entry? For DOS and
 // Windows, it is "\"; in UNIX it is "/".
@@ -162,6 +176,10 @@ typedef short			int32;
 #define NULL    ((void *)0)
 #endif
 #endif /* NULL */
+
+#if HAVE_BEOS
+#define usleep(a)	snooze(a)
+#endif
 
 #endif /* CONFIG_H */
 

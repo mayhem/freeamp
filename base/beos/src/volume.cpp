@@ -18,15 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: volume.cpp,v 1.1 1999/02/10 09:32:23 elrod Exp $
+	$Id: volume.cpp,v 1.1.6.1 1999/06/29 03:48:47 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <fcntl.h>
-#include <iostream.h>
+#define DEBUG 1
 #include <support/Debug.h>
 
 #include "volume.h"

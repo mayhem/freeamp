@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.8 1999/04/03 04:57:08 elrod Exp $
+	$Id: preferences.h,v 1.9 1999/04/07 01:10:51 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -41,6 +41,12 @@ extern const char* kInputBufferSizePref;
 extern const char* kOutputBufferSizePref;
 extern const char* kStreamBufferIntervalPref;
 extern const char* kDecoderThreadPriorityPref;
+extern const char* kUseDebugLogPref;
+extern const char* kLogMainPref;
+extern const char* kLogDecodePref;
+extern const char* kLogInputPref;
+extern const char* kLogOutputPref;
+extern const char* kLogPerformancePref;
 
 
 class Preferences {
@@ -92,6 +98,24 @@ class Preferences {
 
     Error GetDecoderThreadPriority(int32* value);
     Error SetDecoderThreadPriority(int32 value);
+
+    Error GetUseDebugLog(bool* value);
+    Error SetUseDebugLog(bool value);
+
+    Error GetLogMain(bool* value);
+    Error SetLogMain(bool value);
+
+    Error GetLogDecode(bool* value);
+    Error SetLogDecode(bool value);
+
+    Error GetLogInput(bool* value);
+    Error SetLogInput(bool value);
+
+    Error GetLogOutput(bool* value);
+    Error SetLogOutput(bool value);
+
+    Error GetLogPerformance(bool* value);
+    Error SetLogPerformance(bool value);
 
  protected:
     

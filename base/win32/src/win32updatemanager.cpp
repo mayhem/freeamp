@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.6.2.3 2000/02/25 20:08:04 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.6.2.4 2000/02/28 07:06:58 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -129,14 +129,36 @@ Error Win32UpdateManager::UpdateComponents(UMCallBackFunction function,
 
             if(findFileHandle != INVALID_HANDLE_VALUE)
             {
+                int32 failureCount;
                 BOOL success;
 
-                success = DeleteFile(appPath);
+                failureCount = 0;
+                success = TRUE;
 
+                do
+                {
+                    // remove old file
+                    success = DeleteFile(appPath);
+
+                    if(!success)
+                        Sleep(1000);
+
+                }while(!success && failureCount++ < 3);
+
+                
                 if(success)
                 {
-                    // actually move the file
-                    success = MoveFile(updatePath, appPath);
+                    failureCount = 0;
+
+                    do
+                    {
+                       // actually move the file
+                        success = MoveFile(updatePath, appPath);
+
+                        if(!success)
+                            Sleep(1000);
+
+                    }while(!success && failureCount++ < 3);
                 }
                 
                 if(!success)

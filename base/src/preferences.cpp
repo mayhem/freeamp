@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.17.2.4 1999/09/28 05:16:52 ijr Exp $
+        $Id: preferences.cpp,v 1.17.2.5 1999/09/29 01:13:18 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -58,6 +58,8 @@ const char* kUseTitleStreamingPref = "UseTitleStreaming";
 const char* kThemePathPref = "ThemePath";  
 const char* kMainWindowPosPref = "MainWindowPos";  
 const char* kThemeDefaultFontPref = "ThemeDefaultFont";
+const char* kSaveMusicDirPref = "SaveMusicDirectory";
+const char* kDatabaseDirPref = "DatabaseDirectory";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";

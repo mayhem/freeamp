@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.22.2.4 1999/08/30 08:43:34 elrod Exp $
+        $Id: obsinput.cpp,v 1.22.2.5 1999/09/29 01:13:29 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -55,7 +55,6 @@ ____________________________________________________________________________*/
 #include "obsinput.h"
 #include "log.h"
 #include "facontext.h"
-#include "id3v1.h"
 
 const int iMaxHostNameLen = 64;
 const int iGetHostNameBuffer = 1024;

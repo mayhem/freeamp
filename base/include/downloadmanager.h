@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.14 1999/09/27 22:54:33 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.15 1999/09/29 01:13:18 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -115,7 +115,13 @@ class DownloadItem {
  friend class DownloadManager;
 
  public:
-    DownloadItem():m_state(kDownloadItemState_Queued){}
+    DownloadItem()
+    {
+        m_state = kDownloadItemState_Null;
+        m_error = kError_NoErr;
+        m_bytesTotal = 0;
+        m_bytesReceived = 0;
+    }
 
     DownloadItem(const char* src, const char* dest = NULL, const MetaData* metadata = NULL)
     {
@@ -288,6 +294,9 @@ class DownloadManager {
     void SendItemRemovedMessage(DownloadItem* item);
     void SendStateChangedMessage(DownloadItem* item);
     void SendProgressMessage(DownloadItem* item);
+
+    void LoadResumableDownloadItems();
+    void SaveResumableDownloadItems();
 
 
  private:

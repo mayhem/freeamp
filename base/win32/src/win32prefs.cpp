@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32prefs.cpp,v 1.7.4.1 1999/09/26 01:48:06 elrod Exp $
+	$Id: win32prefs.cpp,v 1.7.4.2 1999/09/29 01:13:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -271,6 +271,7 @@ Win32Prefs::
 SetDefaults()
 {
     char cwd[MAX_PATH]= {0x00};
+    char path[MAX_PATH];
     char buf[1024];
     uint32 size;
     bool dummyBool;
@@ -284,6 +285,26 @@ SetDefaults()
     if (GetPrefString(kInstallDirPref, buf, &size) == kError_NoPrefValue)
 	    SetPrefString(kInstallDirPref, cwd);
     
+    // set music directory value
+    size = sizeof(buf);
+    if (GetPrefString(kSaveMusicDirPref, buf, &size) == kError_NoPrefValue)
+    {
+        strcpy(path, cwd);
+        strcat(path, "\\");
+        strcat(path, "MyMusic");
+	    SetPrefString(kSaveMusicDirPref, path);
+    }
+
+    // set db directory value
+    size = sizeof(buf);
+    if (GetPrefString(kDatabaseDirPref, buf, &size) == kError_NoPrefValue)
+    {
+        strcpy(path, cwd);
+        strcat(path, "\\");
+        strcat(path, "db");
+	    SetPrefString(kDatabaseDirPref, path);
+    }
+
     // set default ui value
     size = sizeof(buf);
     if (GetPrefString(kUIPref, buf, &size) == kError_NoPrefValue)

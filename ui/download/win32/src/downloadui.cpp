@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.8 1999/09/27 22:54:42 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.9 1999/09/29 01:13:30 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -241,6 +241,7 @@ BOOL DownloadUI::InitDialog()
 
     // Add items to info view
     LV_ITEM item;
+    uint32 i;
 
     item.mask = LVIF_PARAM | LVIF_STATE;
     item.state = 0;
@@ -248,15 +249,30 @@ BOOL DownloadUI::InitDialog()
     item.iSubItem = 0;
     item.lParam = NULL;
 
-    for(int32 i = 0; i < 7; i++)
+    for(i = 0; i < 7; i++)
     {
         item.iItem = i;
         ListView_InsertItem(m_hwndInfo, &item);
     }
 
+    // Add Items that are currently in the download manager
+    DownloadItem* dli = NULL;
+    i = 0;
 
+    while(dli = m_dlm->ItemAt(i++))
+    {
+        item.mask = LVIF_PARAM | LVIF_STATE;
+        item.state = 0;
+        item.stateMask = 0;
+        item.iItem = ListView_GetItemCount(m_hwndList);
+        item.iSubItem = 0;
+        item.lParam = (LPARAM)dli;
+
+        ListView_InsertItem(m_hwndList, &item);
+    }
+    
     // Add a few test items to the list view
-    MetaData md;
+    /*MetaData md;
 
     md.SetArtist("The Crystal Method");
     md.SetAlbum("Vegas");
@@ -354,7 +370,7 @@ BOOL DownloadUI::InitDialog()
     item.iItem = ListView_GetItemCount(m_hwndList);
     item.lParam = (LPARAM)dli;
     
-    ListView_InsertItem(m_hwndList, &item);
+    ListView_InsertItem(m_hwndList, &item);*/
 
     m_uiSemaphore->Signal();
     return TRUE;
@@ -925,24 +941,29 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                     ost.precision(2);
                     ost.flags(ios_base::fixed);
 
-                    total = dli->GetTotalBytes();
+                    displayString = "";
 
-                    if(total >= 1048576)
+                    if(dli)
                     {
-                        total /= 1048576;
-                        ost <<  total << " MB";
-                    }
-                    else if(total >= 1024)
-                    {
-                        total /= 1024;
-                        ost  << total << " KB";
-                    }
-                    else
-                    {
-                        ost <<  dli->GetTotalBytes() << " Bytes";
-                    }
+                        total = dli->GetTotalBytes();
+
+                        if(total >= 1048576)
+                        {
+                            total /= 1048576;
+                            ost <<  total << " MB";
+                        }
+                        else if(total >= 1024)
+                        {
+                            total /= 1024;
+                            ost  << total << " KB";
+                        }
+                        else
+                        {
+                            ost <<  dli->GetTotalBytes() << " Bytes";
+                        }
                    
-                    displayString = ost.str();
+                        displayString = ost.str();
+                    }
 
                     SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 

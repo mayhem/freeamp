@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.10 1999/11/01 03:20:35 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.11 1999/11/01 07:02:51 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -123,6 +123,10 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
 
     m_splitterBrush = CreatePatternBrush(bmp);
     DeleteObject(bmp);
+
+    m_hSplitterCursor = LoadCursor(g_hinst, MAKEINTRESOURCE(IDC_SPLITTER));
+    m_hPointerCursor = LoadCursor(NULL, IDC_ARROW);
+    m_hCurrentCursor = m_hPointerCursor;
 }
 
 MusicBrowserUI::~MusicBrowserUI()

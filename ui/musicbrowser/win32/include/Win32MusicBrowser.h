@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.9 1999/11/01 03:20:34 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.10 1999/11/01 07:02:51 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -166,7 +166,7 @@ class MusicBrowserUI : public UserInterface
     TreeDataIndex        m_oTreeIndex;
     int                  m_iCollapseMoveAmount;
     HCURSOR              m_hSavedCursor, m_hDragCursor, m_hNoDropCursor;
-    HCURSOR              m_hSplitterCursor;
+    HCURSOR              m_hSplitterCursor, m_hPointerCursor, m_hCurrentCursor;
     MusicBrowserUI      *m_pParent;
     vector<MusicBrowserUI *> m_oWindowList;
     bool                 m_overSplitter;

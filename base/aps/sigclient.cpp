@@ -17,7 +17,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigclient.cpp,v 1.1 2000/07/31 19:51:38 ijr Exp $
+        $Id: sigclient.cpp,v 1.2 2000/08/18 09:48:12 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -75,7 +75,8 @@ SigClient::~SigClient()
         delete m_pMutex;
 }
 
-int SigClient::GetSignature(AudioSig *sig, string &strGUID)
+int SigClient::GetSignature(AudioSig *sig, string &strGUID, 
+                            string strCollectionID)
 {
     AutoMutex AM(m_pMutex);
     int nConRes = this->Connect(m_strIP, m_nPort);
@@ -85,7 +86,8 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID)
     SigXDR converter;
 
     int nOffSet = sizeof(char) + sizeof(int);
-    int iSigEncodeSize = 35 * sizeof(int32);
+    int nGUIDLen = strCollectionID.size() * sizeof(char) + sizeof(char);
+    int iSigEncodeSize = 35 * sizeof(int32) + nGUIDLen;
     int nTotalSize = nOffSet + iSigEncodeSize;
 
     char* pBuffer = new char[nTotalSize];
@@ -93,8 +95,13 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID)
     memcpy(&pBuffer[0], &SigClientVars::cGetGUID, sizeof(char));
     memcpy(&pBuffer[1], &iSigEncodeSize, sizeof(int));
 
+    iSigEncodeSize -= nGUIDLen;
     char *sigencode = converter.FromSig(sig);
     memcpy(&pBuffer[nOffSet], sigencode, iSigEncodeSize);
+
+    memcpy(&pBuffer[nOffSet + iSigEncodeSize], strCollectionID.c_str(),
+           nGUIDLen - sizeof(char));
+    pBuffer[nOffSet + iSigEncodeSize + nGUIDLen - sizeof(char)] = '\0';
 
     int nBytes = 0;
     int ret = m_pSocket->Write(pBuffer, nTotalSize, &nBytes);
@@ -117,6 +124,7 @@ int SigClient::GetSignature(AudioSig *sig, string &strGUID)
     this->Disconnect();
 
     delete [] pBuffer;
+    delete [] sigencode;
 
     return ret;
 }

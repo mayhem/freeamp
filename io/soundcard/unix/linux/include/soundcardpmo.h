@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.3 1998/10/17 20:45:26 jdw Exp $
+	$Id: soundcardpmo.h,v 1.4 1998/10/17 20:58:10 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -55,8 +55,6 @@ public:
     int16 *bufferp[MAXCHANNELS];
     uint32 channels;
     static int audio_fd;
-    static Mutex refcountMutex;
-    static int refCount;
     OutputInfo *myInfo;
     int32 getprocessed(void);
     

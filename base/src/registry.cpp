@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.cpp,v 1.3 1998/10/15 21:56:36 jdw Exp $
+	$Id: registry.cpp,v 1.4 1998/10/17 20:58:10 jdw Exp $
 ____________________________________________________________________________*/
 
 #include "registry.h"
@@ -46,7 +46,7 @@ Registry::
 Add(RegistryItem* info)
 {
     if (info) {
-	    m_elements->insert(info);
+	    m_elements->Insert(info);
     }
 }
 
@@ -54,7 +54,7 @@ RegistryItem*
 Registry::
 GetItem(int32 index)
 {
-    return m_elements->elementAt(index);
+    return m_elements->ElementAt(index);
 }
 
 
@@ -142,3 +142,4 @@ SetModule(void* module)
     if(module)
         m_module = module;
 }
+

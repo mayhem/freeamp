@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.2 1998/10/17 18:26:11 jdw Exp $
+	$Id: soundcardpmo.cpp,v 1.3 1998/10/17 20:58:11 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -30,6 +30,8 @@ ____________________________________________________________________________*/
 #include <fcntl.h>
 #include <sys/soundcard.h>
 #include <errno.h>
+#include <string.h>
+
 
 /* project headers */
 #include <config.h>
@@ -65,9 +67,6 @@ SoundCardPMO::~SoundCardPMO() {
 
 int SoundCardPMO::audio_fd = -1;
 
-Mutex SoundCardPMO::refcountMutex;
-
-int SoundCardPMO::refCount = 0; 
 
 bool SoundCardPMO::Init(OutputInfo* info) {
     //cout << "initialize..." << endl;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.9 1999/11/23 19:08:41 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.10 1999/11/19 09:11:06 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -49,10 +49,10 @@ class FreeAmpTheme : public UserInterface, public Theme
 {
     public:
 
-        FreeAmpTheme(FAContext * context);
+        FreeAmpTheme(FAContext* context);
         virtual ~FreeAmpTheme();
 
-        virtual int32 AcceptEvent(Event * e);
+        virtual int32 AcceptEvent(Event* e);
         virtual Error Close(void);
         virtual Error Init(int32 startup_type);
         virtual void  LoadFreeAmpTheme(void);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.47 1999/11/14 17:57:10 elrod Exp $
+	$Id: playlist.h,v 1.48 1999/11/19 09:11:06 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -131,6 +131,21 @@ class PlaylistItem {
 
     void SetState(PlaylistItemState state) { m_state = state; }
     PlaylistItemState GetState() const { return m_state; }
+
+    bool operator==(const PlaylistItem& item) const
+    {
+        bool result = false;
+
+        result = ( m_metadata == item.m_metadata &&
+                   m_url == item.m_url);
+
+        return result;
+    }
+
+    bool operator!=(const PlaylistItem& item) const
+    {
+	    return !(*this == item);
+    }
 
  protected:
     Error SetBuffer(char* dest, const char* src, uint32* len)

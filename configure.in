@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.81.2.2.2.2.4.1 2000/04/09 15:56:41 ijr Exp $
+dnl $Id: configure.in,v 1.81.2.2.2.2.4.2 2000/04/09 18:53:06 jdw Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-2000 EMusic.com
 dnl
@@ -672,5 +672,5 @@ AC_ARG_ENABLE(mutex-debug, [  --enable-mutex-debug    Enable verbose mutex debug
 
 
 AC_CONFIG_HEADER(config/config.h)
-AC_OUTPUT(Makefile Makefile-plugins Makefile.header)
+AC_OUTPUT(Makefile Makefile-plugins Makefile.header Makefile.towav)
 touch .config.check

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.7.2.1.2.4 2000/03/08 01:04:23 robert Exp $
+	$Id: downloadmanager.h,v 1.7.2.1.2.4.2.1 2000/03/17 23:54:11 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -78,6 +78,7 @@ class DownloadItem {
         m_error = kError_NoErr;
         m_bytesTotal = 0;
         m_bytesReceived = 0;
+		m_normalDownload = false;
     }
 
     DownloadItem(const char* src, const char* dest = NULL, const MetaData* metadata = NULL)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.11 1999/11/01 07:02:51 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.12 1999/11/07 02:06:23 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -146,6 +146,7 @@ MusicBrowserUI::~MusicBrowserUI()
     }   
     
     CloseMainDialog();
+
     delete m_uiThread;
 }
 
@@ -196,21 +197,37 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             break; 
         }
 
+        case INFO_PlaylistItemAdded:
+        {
+            PlaylistItemAddedEvent* piae = (PlaylistItemAddedEvent*)event;
+               
+            AddPlaylistListItem(piae->Item());
+            break; 
+        }
+
         case INFO_PlaylistItemUpdated:
         {
-            vector<MusicBrowserUI *>::iterator i;
+            PlaylistItemUpdatedEvent* piue = (PlaylistItemUpdatedEvent*)event;
+            //vector<MusicBrowserUI *>::iterator i;
             
-            for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
-               (*i)->UpdatePlaylistList();
+            //for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+            //   (*i)->UpdatePlaylistListItem();
                
-            UpdatePlaylistList();
+            UpdatePlaylistListItem(piue->Item());
             break; 
         }
 
         case INFO_PlaylistCurrentItemInfo:
         {
+            ListView_RedrawItems(m_hPlaylistView, 
+                                 m_currentplaying,
+                                 m_currentplaying);
+
             m_currentplaying = m_oPlm->GetCurrentIndex();
-            UpdatePlaylistList();
+
+            ListView_RedrawItems(m_hPlaylistView, 
+                                 m_currentplaying,
+                                 m_currentplaying);
             break; 
         }
 

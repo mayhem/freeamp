@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.6 1999/11/05 23:27:14 robert Exp $
+   $Id: ThemeZip.cpp,v 1.7 1999/11/07 02:06:22 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <time.h>
@@ -516,7 +516,7 @@ Error ThemeZip::GetDescriptiveName(const string &oSrcFile, string &oDescriptiveN
             uPos=oDescriptiveName.rfind('/');
             if(uPos!=oDescriptiveName.npos) oDescriptiveName.erase(uPos,uPos+1);
             // erase (possible) extension
-            uPos=oDescriptiveName.rfind(string(".fat"));
+            uPos=oDescriptiveName.rfind(".fat");
             if(uPos!=oDescriptiveName.npos) oDescriptiveName.erase(uPos,uPos+1);
 
             break; //we're done

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DataIndex.h,v 1.1 1999/10/28 00:41:58 robert Exp $
+        $Id: DataIndex.h,v 1.2 1999/11/07 02:06:23 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DATAINDEX_H_
@@ -67,13 +67,16 @@ class TreeDataIndex
                TreeDataIndex(void);
       virtual ~TreeDataIndex(void);
 
-      bool  IsValidParam   (int32 lParam);
-      bool  IsPlaylist     (int32 lParam);
-      bool  IsTrack        (int32 lParam);
-      int32 GetLevel       (int32 lParam);
-      const TreeData &Data(int32 lParam); 
-      int32 Add(TreeData &pData);
-      void  Clear(void);
+      bool  IsValidParam    (int32 lParam);
+      bool  IsPlaylist      (int32 lParam);
+      bool  IsArtist        (int32 lParam);
+      bool  IsAlbum         (int32 lParam);
+      bool  IsTrack         (int32 lParam);
+      bool  IsLeaf          (int32 lParam);
+      int32 GetLevel        (int32 lParam);
+      const TreeData &Data  (int32 lParam); 
+      int32 Add             (TreeData &pData);
+      void  Clear           (void);
       
     private:
     

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.59 2000/05/23 08:49:23 elrod Exp $
+	$Id: playlist.h,v 1.59.4.1 2000/06/05 13:42:48 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -55,6 +55,7 @@ typedef enum {
     kPlaylistSortKey_Time,
     kPlaylistSortKey_Location,
     kPlaylistSortKey_FileName,
+	kPlaylistSortKey_Comment,
     kPlaylistSortKey_LastKey,
     kPlaylistSortKey_Random // not used with normal sort function
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.28 1999/12/14 14:47:40 robert Exp $
+        $Id: localfileinput.cpp,v 1.29 2000/02/05 23:59:16 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -362,14 +362,14 @@ void LocalFileInput::WorkerThread(void)
 
    for(; !m_bExit;)
    {
-      if (m_pOutputBuffer->IsEndOfStream())
-      {
-          m_pSleepSem->Wait();
-          continue;
-      }
       if (m_bPause)
       {
           m_pPauseSem->Wait();
+          continue;
+      }
+      if (m_pOutputBuffer->IsEndOfStream())
+      {
+          m_pSleepSem->Wait();
           continue;
       }
           
@@ -381,6 +381,7 @@ void LocalFileInput::WorkerThread(void)
       {
           iRead = fread((unsigned char *)pBuffer, 1, iReadBlock, m_fpFile);
           eError = m_pOutputBuffer->EndWrite(iRead);
+
           if (IsError(eError))
           {
               m_pContext->log->Error("local: EndWrite returned: %d\n", eError);
@@ -388,7 +389,9 @@ void LocalFileInput::WorkerThread(void)
           }
 
           if (iRead < iReadBlock)
+          {
              m_pOutputBuffer->SetEndOfStream(true);
+          }   
       }
 
       if (eError == kError_BufferTooSmall)

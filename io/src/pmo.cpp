@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.14 1999/12/29 01:11:54 ijr Exp $
+        $Id: pmo.cpp,v 1.15 2000/02/05 23:59:17 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -148,25 +148,40 @@ bool PhysicalMediaOutput::WasteTime()
 Error PhysicalMediaOutput::ChangePosition(int32 position)
 {
    Error     error = kError_NoErr;
+   bool      bWasPaused = m_bPause;
 
    if (m_pPmi->IsStreaming())
       return kError_FileSeekNotSupported;
 
    m_pMutex->Acquire();
 
+   //Debug_v("Pause PMO");
    Pause();
+   //Debug_v("Pause LMC");
    m_pLmc->Pause();
+   //Debug_v("Pause PMI");
    m_pPmi->Pause();
 
+   //Debug_v("Clear PMO");
    Clear();
+   //Debug_v("Clear LMC");
    m_pLmc->Clear();
+   //Debug_v("Clear PMI");
    m_pPmi->Clear();
 
+   //Debug_v("Change pos");
    m_pLmc->ChangePosition(position);
 
+   //Debug_v("Resume PMI");
    m_pPmi->Resume();
+   //Debug_v("Resume LMC");
    m_pLmc->Resume();
-   Resume();
+
+   if (!bWasPaused)
+   {
+      //Debug_v("Resume PMO");
+      Resume();
+   }   
 
    m_pMutex->Release();
 
@@ -177,15 +192,12 @@ void PhysicalMediaOutput::UpdateBufferStatus(void)
 {
    time_t iNow;
 
-   if (m_pPmi->IsStreaming())
+   time(&iNow);
+   if (iNow != m_iBufferUpdate)
    {
-      time(&iNow);
-      if (iNow != m_iBufferUpdate)
-      {
-          m_pTarget->AcceptEvent(new StreamBufferEvent(false, 
-                            m_pPmiBuffer->GetBufferPercentage(), 
-                            m_pInputBuffer->GetBufferPercentage()));
-          m_iBufferUpdate = iNow;
-      }
-   }   
+       m_pTarget->AcceptEvent(new StreamBufferEvent(false, 
+                         m_pPmiBuffer->GetBufferPercentage(), 
+                         m_pInputBuffer->GetBufferPercentage()));
+       m_iBufferUpdate = iNow;
+   }
 }

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.54 2000/02/02 20:59:17 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.55 2000/02/05 23:59:16 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -395,7 +395,23 @@ void SoundCardPMO::Resume(void)
 void SoundCardPMO::Clear(void)
 {
 	if (m_initialized)
+    {
+       int i;
+       
 	   waveOutReset(m_hwo);
+       g_pHeaderMutex->Acquire();
+       for (i = 0; i < m_num_headers; i++)
+       {
+          m_wavehdr_array[i].dwBufferLength = m_data_size;
+          m_wavehdr_array[i].dwBytesRecorded = 0;
+          m_wavehdr_array[i].dwUser = 0;   
+          m_wavehdr_array[i].dwLoops = 0;
+          m_wavehdr_array[i].dwFlags = NULL;
+       }
+       m_iOffset = 0;   
+       m_iHead = m_iTail = 0;
+       g_pHeaderMutex->Release();
+    }   
 	
 	PhysicalMediaOutput::Clear();
 }

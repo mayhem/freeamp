@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.124 2000/06/10 18:47:28 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.125 2000/06/11 10:38:37 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -642,11 +642,11 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          if (info->GetBitRate() == 1411200)
               sprintf(text, "CD Audio");
          else if (info->GetBitRate() == 0)
-              sprintf(text, "VBR %ldkhz %s", 
+              sprintf(text, "VBR %ldkHz %s", 
                    (long int)(info->GetSampleRate() / 1000), 
                    info->GetChannels() ? "Stereo" : "Mono");
          else
-              sprintf(text, "%ldkbps %ldkhz %s", 
+              sprintf(text, "%ldkbps %ldkHz %s", 
                    (long int)(info->GetBitRate() / 1000),
                    (long int)(info->GetSampleRate() / 1000), 
                    info->GetChannels() ? "Stereo" : "Mono");
@@ -677,7 +677,7 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
 
          text = new char[100];
          m_fSecondsPerFrame = info->GetSecondsPerFrame();
-              sprintf(text, "%ldkbps %ldkhz %s Vorbis", 
+              sprintf(text, "%ldkbps %ldkHz %s Vorbis", 
                    (long int)(info->GetBitRate() / 1000),
                    (long int)(info->GetSampleRate() / 1000), 
                    info->GetChannels() ? "Stereo" : "Mono");

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: IntroductionWizard.cpp,v 1.3 1999/12/17 09:05:22 elrod Exp $
+        $Id: IntroductionWizard.cpp,v 1.4 1999/12/17 09:58:28 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -251,7 +251,7 @@ static BOOL CALLBACK IntroWizardHello(HWND hwnd,
 	return result;
 }   
 
-static BOOL CALLBACK IntroWizardSearch(HWND hwnd, 
+static BOOL CALLBACK IntroWizardSearch(HWND hwnd,
                                         UINT msg, 
                                         WPARAM wParam, 
                                         LPARAM lParam)

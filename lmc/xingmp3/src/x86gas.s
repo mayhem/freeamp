@@ -20,7 +20,7 @@
 #	along with this program; if not, write to the Free Software
 #	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #	
-#	$Id: x86gas.s,v 1.3 1999/03/03 23:58:01 mhw Exp $
+#	$Id: x86gas.s,v 1.4 1999/03/04 01:06:00 mhw Exp $
 #
 
 .extern wincoef
@@ -298,7 +298,7 @@ fdct32:		#%% proc
 	movl (%ebx,%eax),%ebp
 	movl %ebp,(%esi,%edx)	# f[p] = x2[q]
 	flds (%edi,%eax)	# push x[q]
-	fadd %st,%st(1)
+	fadd
 	fxch
 	fstps 4(%esi,%edx)	# f[p + 4] = x[q] + x[q + 4]
 	subl $4,%eax		# q -= 4

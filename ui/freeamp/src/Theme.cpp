@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.39.2.1 2000/05/09 09:58:28 robert Exp $
+   $Id: Theme.cpp,v 1.39.2.2 2000/05/09 15:24:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -334,7 +334,6 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
           // Now the window lists have been properly adjusted, so
           // adopt all the info from the new window into the existing
           // window via the VulcanMindLink 
-          printf("VMM::Window %p\n", m_pWindow);
           m_pWindow->VulcanMindMeld(pNewWindow);
           // And if god doesn't stike me down right now,
           // everything *should* be fine.

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.33.2.2 2000/05/09 12:31:00 robert Exp $
+   $Id: Window.cpp,v 1.33.2.3 2000/05/09 15:24:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -58,6 +58,8 @@ Window::Window(Theme *pTheme, string &oName)
     m_pUsageMutex = new Mutex();
     m_pUsageSem = new Semaphore();
     m_iUsageCount = 0;
+    m_bIsAdornment = false;
+    m_pAdornmentParent = NULL;
 }
 
 Window::~Window(void)
@@ -147,6 +149,16 @@ Error Window::Run(Pos &oWindowPos)
     return kError_NoErr;
 }
 
+Error Window::Close(void)
+{
+    vector<Window *>::iterator j;
+
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->Close();
+
+    return kError_NoErr;
+}
+
 void Window::VulcanMindMeldHost(bool bHost)
 {
     m_bIsVulcanMindMeldHost = bHost;
@@ -156,6 +168,21 @@ void Window::VulcanMindMeldHost(bool bHost)
        delete m_pCanvas;
        m_pCanvas = NULL;
     }
+}
+
+void Window::SetAsAdornment(bool bAdorn)
+{
+    m_bIsAdornment = bAdorn;
+}
+
+void Window::SetAdornmentParent(Window *pParent)
+{
+    m_pAdornmentParent = pParent;
+}
+
+bool Window::IsAdornment(void)
+{
+    return m_bIsAdornment;
 }
 
 Error Window::VulcanMindMeld(Window *pOther)
@@ -248,6 +275,7 @@ void Window::AddControl(Control *pControl)
 void Window::AddAdornment(Window *pAdornment, Pos &oPos)
 {
     IncUsageRef();
+    pAdornment->SetAsAdornment(true);
     m_oAdornments.push_back(pAdornment);
     m_oAdornmentPos.push_back(oPos);
     DecUsageRef();
@@ -548,7 +576,9 @@ void Window::HandleMouseMove(Pos &oScreenPos)
 
     if (m_bWindowMove)
     {
-       Rect oActualPos;
+       vector<Window *>::iterator  j;
+       vector<Pos>::iterator       i;
+       Rect                        oActualPos, oNewPos;
 
        m_oMoveStart.x1 += (oScreenPos.x - m_oMovePos.x);
        m_oMoveStart.x2 += (oScreenPos.x - m_oMovePos.x);
@@ -589,7 +619,31 @@ void Window::HandleMouseMove(Pos &oScreenPos)
        }       
 
        m_oMovePos = oScreenPos;
-       SetWindowPosition(oActualPos);
+       
+       if (m_bIsAdornment)
+       {
+           m_pAdornmentParent->GetWindowPosition(oNewPos);
+           oNewPos.x1 += oActualPos.x1 - m_oMoveStart.x1;
+           oNewPos.y1 += oActualPos.y1 - m_oMoveStart.y1;
+           oNewPos.x2 += oActualPos.x2 - m_oMoveStart.x2;
+           oNewPos.y2 += oActualPos.y2 - m_oMoveStart.y2;
+           m_pAdornmentParent->SetWindowPosition(oNewPos);
+       }
+       else
+       {
+           SetWindowPosition(oActualPos);
+           for(j = m_oAdornments.begin(), i = m_oAdornmentPos.begin(); 
+               j != m_oAdornments.end(); j++, i++)
+           {
+               (*j)->GetWindowPosition(oNewPos);
+               oNewPos.x1 = oActualPos.x1 + i->x; 
+               oNewPos.y1 = oActualPos.y1 + i->y;
+               oNewPos.x2 = oActualPos.x2 + i->x; 
+               oNewPos.y2 = oActualPos.y2 + i->y;
+               (*j)->SetWindowPosition(oNewPos);
+           }
+       }
+
        DecUsageRef();
        
        return; 
@@ -951,3 +1005,25 @@ void Window::GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight,
     }
 }
 
+Error Window::SetWindowPosition(Rect &oWindowRect)
+{
+    vector<Window *>::iterator  j;
+    vector<Pos>::iterator       i;
+    Rect                        oNewPos, oPos;
+
+    if (m_bIsAdornment)
+       return kError_NoErr;
+
+    IncUsageRef();
+    GetWindowPosition(oPos);
+    for(j = m_oAdornments.begin(), i = m_oAdornmentPos.begin(); 
+        j != m_oAdornments.end(); j++, i++)
+    {
+       oNewPos.x1 = oPos.x1 + i->x; 
+       oNewPos.y1 = oPos.y1 + i->y;
+       oNewPos.x2 = oPos.x2 + i->x; 
+       oNewPos.y2 = oPos.y2 + i->y;
+       (*j)->SetWindowPosition(oNewPos);
+    }
+    DecUsageRef();
+}

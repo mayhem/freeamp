@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.31.2.1 2000/05/09 09:58:28 robert Exp $
+   $Id: GTKWindow.cpp,v 1.31.2.2 2000/05/09 15:24:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -220,6 +220,9 @@ Error GTKWindow::Run(Pos &oPos)
 
     Window::Run(m_oWindowPos);
 
+    if (m_bIsAdornment)
+        return kError_NoErr;
+
     quitLoop = false;
     while (!quitLoop) 
        sleep(1);
@@ -287,9 +290,12 @@ Error GTKWindow::Close(void)
 {
     Rect oRect;
     Pos oPos;
+    Error eRet;
+
+    eRet = Window::Close();
    
     if (quitLoop)
-        return kError_NoErr;
+        return eRet;
 
     GetWindowPosition(oRect);
     oPos.x = oRect.x1;
@@ -303,7 +309,8 @@ Error GTKWindow::Close(void)
     gdk_threads_leave();
 
     quitLoop = true;
-    return kError_NoErr;
+        
+    return eRet;
 }
 
 Error GTKWindow::Enable(void)
@@ -380,10 +387,14 @@ Error GTKWindow::GetMousePos(Pos &oPos)
 
 Error GTKWindow::SetWindowPosition(Rect &oWindowRect)
 {
+    Error eRet;
+
+    eRet = Window::SetWindowPosition(oWindowRect);
     gdk_threads_enter();
     gdk_window_move(mainWindow->window, oWindowRect.x1, oWindowRect.y1);
     gdk_threads_leave();
-    return kError_NoErr;
+
+    return eRet;
 }
 
 Error GTKWindow::GetWindowPosition(Rect &oWindowRect) 

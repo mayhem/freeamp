@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.23.2.1 2000/05/09 09:58:28 robert Exp $
+   $Id: Window.h,v 1.23.2.2 2000/05/09 15:24:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -60,6 +60,9 @@ class Window
 
       void    GetName(string &oName);
       void    AddAdornment(Window *pAdornment, Pos &oPos);
+      void    SetAsAdornment(bool bAdorn);
+      void    SetAdornmentParent(Window *pParent);
+      bool    IsAdornment(void);
       Canvas *GetCanvas(void);
       void    AddControl(Control *pControl);
       void    ClearControls(void);
@@ -106,9 +109,12 @@ class Window
               void  VulcanMindMeldHost(bool bIsHost);
 
       // Run handles OS dependent messages and calls the functions below
-      // or passes the messages on to child controls
+      // or passes the messages on to child controls. All of the functions
+      // below need to be overridden. Some of these functions are not pure
+      // virtual functions -- this means that when you override the function
+      // you're expected the call the base function as well.
       virtual Error Run(Pos &oWindowPos);
-      virtual Error Close(void) = 0;
+      virtual Error Close(void);
       virtual Error Show(void) = 0;
       virtual Error Hide(void) = 0;
       virtual Error Enable(void) = 0;
@@ -125,7 +131,7 @@ class Window
       // Mouse position is in screen coordinates
       virtual Error SetMousePos(Pos &oMousePos) = 0;
       virtual Error GetMousePos(Pos &oMousePos) = 0;
-      virtual Error SetWindowPosition(Rect &oWindowRect) = 0;
+      virtual Error SetWindowPosition(Rect &oWindowRect);
       virtual Error GetWindowPosition(Rect &oWindowRect) = 0;
 
       // Call this function whenever the are pending GUI messages
@@ -150,6 +156,7 @@ class Window
       vector<Control *>         m_oControls;
       vector<Window *>          m_oAdornments;
       vector<Pos>               m_oAdornmentPos;
+      Window                   *m_pAdornmentParent;
       ControlMap                m_oControlMap;
       Canvas                   *m_pCanvas;
       bool                      m_bExit, m_bWindowMove, m_bLButtonDown;
@@ -158,7 +165,7 @@ class Window
       Control                  *m_pCaptureControl;
       Pos                       m_oMovePos;
       bool                      m_bStayOnTop, m_bLiveInToolbar;
-      bool                      m_bIsVulcanMindMeldHost;
+      bool                      m_bIsVulcanMindMeldHost, m_bIsAdornment;
       Rect                      m_oMoveStart;
       int32                     m_iDesktopWidth, m_iDesktopHeight;
       bool                      m_bMindMeldInProgress, m_bTimerEnabled;

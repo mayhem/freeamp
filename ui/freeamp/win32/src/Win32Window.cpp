@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.34.2.1 2000/05/09 09:58:28 robert Exp $
+   $Id: Win32Window.cpp,v 1.34.2.2 2000/05/09 15:24:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -317,43 +317,45 @@ Error Win32Window::Run(Pos &oPos)
     Canvas  *pCanvas;
 
     m_oWindowPos = oPos;
-
-    memset(&wc, 0x00, sizeof(WNDCLASS));
-
-    wc.style = CS_OWNDC|CS_DBLCLKS ;
-    wc.lpfnWndProc = MainWndProc;
-    wc.hInstance = g_hinst;
-    wc.hCursor = LoadCursor( NULL, IDC_ARROW );
-    wc.hIcon = LoadIcon( g_hinst, MAKEINTRESOURCE(IDI_EXE_ICON) );
-    wc.hbrBackground = NULL;
-    wc.lpszClassName = szAppName;
-
-    RegisterClass(&wc);
-         
-    hDc = GetDC(NULL);
-    iMaxX = GetDeviceCaps(hDc, HORZRES);
-    iMaxY = GetDeviceCaps(hDc, VERTRES);
-    ReleaseDC(NULL, hDc);
-    
-    
-    pCanvas = GetCanvas();
-    if (pCanvas)
+   
+    if (!m_bIsAdornment)
     {
-        pCanvas->GetBackgroundRect(oRect);
-    
-        if (m_oWindowPos.x > iMaxX || m_oWindowPos.x + oRect.Width() < 0)
-            m_oWindowPos.x = 0;
-        if (m_oWindowPos.y > iMaxY || m_oWindowPos.y + oRect.Height() < 0)
-            m_oWindowPos.y = 0;
+        memset(&wc, 0x00, sizeof(WNDCLASS));
 
-        if(m_oWindowPos.x < 0 || m_oWindowPos.y < 0)
-        {    
-            m_oWindowPos.x = (iMaxX - oRect.Width())/2;
-            m_oWindowPos.y = (iMaxY - oRect.Height())/2;
+        wc.style = CS_OWNDC|CS_DBLCLKS ;
+        wc.lpfnWndProc = MainWndProc;
+        wc.hInstance = g_hinst;
+        wc.hCursor = LoadCursor( NULL, IDC_ARROW );
+        wc.hIcon = LoadIcon( g_hinst, MAKEINTRESOURCE(IDI_EXE_ICON) );
+        wc.hbrBackground = NULL;
+        wc.lpszClassName = szAppName;
+    
+        RegisterClass(&wc);
+
+        hDc = GetDC(NULL);
+        iMaxX = GetDeviceCaps(hDc, HORZRES);
+        iMaxY = GetDeviceCaps(hDc, VERTRES);
+        ReleaseDC(NULL, hDc);
+        
+        pCanvas = GetCanvas();
+        if (pCanvas)
+        {
+            pCanvas->GetBackgroundRect(oRect);
+        
+            if (m_oWindowPos.x > iMaxX || m_oWindowPos.x + oRect.Width() < 0)
+                m_oWindowPos.x = 0;
+            if (m_oWindowPos.y > iMaxY || m_oWindowPos.y + oRect.Height() < 0)
+                m_oWindowPos.y = 0;
+    
+            if(m_oWindowPos.x < 0 || m_oWindowPos.y < 0)
+            {    
+                m_oWindowPos.x = (iMaxX - oRect.Width())/2;
+                m_oWindowPos.y = (iMaxY - oRect.Height())/2;
+            }
         }
     }
 
-    if (m_bLiveInToolbar)
+    if (m_bLiveInToolbar || m_bIsAdornment)
         m_hWnd = CreateWindowEx(WS_EX_TOOLWINDOW,
                               szAppName, 
                               szAppName,
@@ -397,6 +399,8 @@ Error Win32Window::Run(Pos &oPos)
         SetForegroundWindow(m_hWnd);
         AddToSystemMenu(m_hWnd);
 
+        if (m_bIsAdornment)
+            return kError_NoErr;
         Window::Run(m_oWindowPos);
 
         while( GetMessage( &msg, NULL, 0, 0 ) )
@@ -530,12 +534,16 @@ void Win32Window::SaveWindowPos(Pos &oPos)
 
 Error Win32Window::Close(void)
 {
+    Error eRet;
+
+    eRet = Window::Close();
+    
     if (!m_hWnd || m_bMindMeldInProgress)
        return kError_YouScrewedUp;
        
     SendMessage(m_hWnd, WM_CLOSE, 0, 0);
 
-    return kError_NoErr;
+    return eRet;
 }
 
 Error Win32Window::Enable(void)
@@ -620,6 +628,8 @@ Error Win32Window::SetWindowPosition(Rect &oWindowRect)
 {
     if (!m_hWnd)
        return kError_YouScrewedUp;
+
+    eRet = Window::SetWindowPosition(oWindowRect);
        
     MoveWindow(m_hWnd, oWindowRect.x1, oWindowRect.y1,
                        oWindowRect.Width(), oWindowRect.Height(),

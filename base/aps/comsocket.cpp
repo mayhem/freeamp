@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: comsocket.cpp,v 1.1 2000/07/31 19:51:38 ijr Exp $
+        $Id: comsocket.cpp,v 1.2 2000/08/09 19:25:05 ijr Exp $
 ____________________________________________________________________________*/
 /***************************************************************************
                           comsocket.cpp  -  description
@@ -44,6 +44,11 @@ ____________________________________________________________________________*/
 #include <net/if.h>
 #include <sys/ioctl.h>
 #endif
+
+#ifndef SHUT_RDWR
+#define SHUT_RDWR 2
+#endif
+
 COMSocket::COMSocket(int nSocket, int nSockType)
 {
 	m_nSocket = nSocket;

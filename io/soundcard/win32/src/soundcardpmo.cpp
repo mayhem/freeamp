@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.48 2000/01/10 22:31:32 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.49 2000/01/16 00:39:08 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -170,7 +170,9 @@ Error SoundCardPMO::Init(OutputInfo * info)
 
    m_iBytesPerSample = info->number_of_channels * (info->bits_per_sample / 8);
 
-   m_num_headers = 32;
+   m_num_headers = (m_pInputBuffer->GetBufferSize() / m_data_size) - 1;
+   //m_num_headers = 32;
+   
    m_hdr_size = sizeof(WAVEHDR);
    m_wavehdr_array = new LPWAVEHDR[m_num_headers];
 

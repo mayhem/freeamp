@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.8 1999/11/03 19:45:14 robert Exp $
+   $Id: Win32Window.h,v 1.9 1999/11/10 20:57:40 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -60,6 +60,7 @@ class Win32Window : public Window
      virtual Error GetWindowPosition(Rect &oWindowRect);
      virtual Error Minimize(void);
      virtual Error Restore(void);
+     virtual bool  LButtonDown(void);
 
 	 virtual HWND  GetWindowHandle(void);
      LRESULT       WindowProc(HWND hwnd, UINT msg, 
@@ -75,10 +76,12 @@ class Win32Window : public Window
      void  TimerEvent(void);
      void  SetStayOnTop(bool bStay);
      void  SetLiveInToolbar(bool bLive);
+	 void  MouseLeaveCheck(void);
     
      HWND     m_hWnd;
      Pos      m_oWindowPos;
      Mutex   *m_pMindMeldMutex;
+	 bool     m_bMouseInWindow;
 };
 
 #endif

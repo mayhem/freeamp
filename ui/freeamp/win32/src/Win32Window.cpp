@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.12 1999/11/08 23:32:22 robert Exp $
+   $Id: Win32Window.cpp,v 1.13 1999/11/10 20:57:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -129,11 +129,8 @@ LRESULT Win32Window::WindowProc(HWND hwnd, UINT msg,
             break;
         }   
         
-        case WM_QUIT:
-            Debug_v("wm_quit");
-            break;
-
 		case WM_TIMER:
+            MouseLeaveCheck();
             m_pMindMeldMutex->Acquire();
             TimerEvent();
             m_pMindMeldMutex->Release();
@@ -242,6 +239,7 @@ Win32Window::Win32Window(Theme *pTheme, string &oName)
     m_pCanvas = new Win32Canvas(this);
 	m_hWnd = NULL;
     m_pMindMeldMutex = new Mutex();
+    m_bMouseInWindow = false;
 }
 
 Win32Window::~Win32Window(void)
@@ -740,4 +738,30 @@ void Win32Window::SetLiveInToolbar(bool bLive)
     SetWindowLong(m_hWnd, GWL_STYLE, iStyle);
     SetWindowLong(m_hWnd, GWL_EXSTYLE, iExtStyle);
     ShowWindow(m_hWnd, TRUE);
+}
+
+bool Win32Window::LButtonDown(void)
+{
+    return GetAsyncKeyState(VK_LBUTTON) < 0;
+}
+
+void Win32Window::MouseLeaveCheck(void)
+{
+    Rect  oRect;
+    POINT sPos;
+    Pos   oPos;
+    
+    GetWindowPosition(oRect);
+    GetCursorPos(&sPos);
+    oPos.x = sPos.x;
+    oPos.y = sPos.y;
+    
+    if (!oRect.IsPosInRect(oPos))
+    {
+        if (m_bMouseInWindow)
+            MouseHasLeftWindow();
+        m_bMouseInWindow = false;
+    }
+    else
+        m_bMouseInWindow = true;
 }

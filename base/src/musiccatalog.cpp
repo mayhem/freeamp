@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.24 1999/12/06 13:29:49 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.25 1999/12/06 13:46:01 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -55,7 +55,7 @@ using namespace std;
 
 #define METADATABASE_VERSION 1
 
-MusicCatalog::MusicCatalog(FAContext *context, char *databasepath = NULL)
+MusicCatalog::MusicCatalog(FAContext *context, char *databasepath)
 {
     m_database = NULL;
     m_context = context;

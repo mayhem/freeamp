@@ -18,12 +18,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.1.2.1 1999/10/01 15:22:34 ijr Exp $
+   $Id: GTKFont.cpp,v 1.1.2.2 1999/10/02 00:40:14 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKFont.h"
 #include "GTKUtility.h"
-#include "debug.h"
+#include <unistd.h>
 
 GTKFont::GTKFont(string &oName, string &oFace, string &oDefault) :
                 Font(oName, oFace, oDefault)
@@ -47,7 +47,7 @@ GTKFont::GTKFont(string &oName, string &oFace, string &oDefault) :
         type = kFontTypeGdk;
     }
     else {
-        m_oFace = "default";
+        m_oFace = m_oDefault;
         type = kFontTypeGdk;
     }
     free(dup);
@@ -59,29 +59,76 @@ GTKFont::GTKFont(string &oName, string &oFace, string &oDefault) :
     first = true;
 }
 
-Error GTKFont::RenderFont(int iFontHeight, Rect &oClipRect, string &oText,
-                          int iOffset, const Color &oColor, bool bBold,
-                          bool bItalic, bool bUnderline, GTKBitmap *bitmap)
+Error GTKFont::Load(int iFontHeight, bool bBold, bool bItalic)
 {
-    string fontname = BuildFontString(bBold, bItalic, bUnderline, iFontHeight);
-    GdkGC *gc = gdk_gc_new((GdkWindow *)bitmap->GetBitmap());
-    gfont = gdk_font_load(fontname.c_str());
-    if (!gfont) {
-        fontname = "-*-" + m_oFace + string("-*");
+    if (bold != bBold || italic != bItalic || size != iFontHeight || !gfont) {
+        bold = bBold;
+        italic = bItalic;
+        size = iFontHeight;
+        gdk_threads_enter();
+        if (gfont)
+            gdk_font_unref(gfont);
+        string fontname = BuildFontString(bold, italic, size);
         gfont = gdk_font_load(fontname.c_str());
         if (!gfont) {
-            gfont = gdk_font_load("default");  
+            fontname = "-*-" + m_oFace + string("-*");
+            gfont = gdk_font_load(fontname.c_str());
             if (!gfont) {
-                cout << "oops, couldn't load a font...\n";
-                return kError_NoErr;
+                gfont = gdk_font_load("default");  
+                if (!gfont) {
+                    gdk_threads_leave();
+                    cout << "oops, couldn't load a font...\n";
+                    return kError_YouScrewedUp;
+                }
             }
-        }
-    } 
+        } 
+        gdk_threads_leave();
+    }
     return kError_NoErr;
 }
 
-string GTKFont::BuildFontString(bool bBold, bool bItalic, bool bUnderline,
-                                int iFontHeight)
+int GTKFont::GetLength(string &oText)
+{
+    assert(gfont);
+    
+    gdk_threads_enter();
+    int retvalue = gdk_string_measure(gfont, oText.c_str());
+    gdk_threads_leave();
+ 
+    return retvalue;
+}
+
+void GTKFont::Render(Rect &oClipRect, string &oText, int iOffset, 
+                     const Color &oColor, GTKBitmap *bitmap, bool bUnderline)
+{
+    assert(gfont);
+
+    gdk_threads_enter();
+    GdkGC *gc = gdk_gc_new((GdkWindow *)bitmap->GetBitmap());
+    gdk_rgb_gc_set_foreground(gc, (oColor.red << 16) | (oColor.green << 8) |
+                              oColor.blue);
+
+    GdkRectangle clipRect;
+    clipRect.x = oClipRect.x1;
+    clipRect.y = oClipRect.y1;
+    clipRect.width = oClipRect.Width();
+    clipRect.height = oClipRect.Height();
+
+    gdk_gc_set_clip_rectangle(gc, &clipRect);
+
+    gdk_draw_string(bitmap->GetBitmap(), gfont, gc, oClipRect.x1 + iOffset, 
+                    oClipRect.y1 + oClipRect.Height(), oText.c_str());
+
+// TODO: Underline...
+
+    gdk_flush();
+    gdk_gc_unref(gc);
+    gdk_threads_leave();
+
+    return;
+}
+
+string GTKFont::BuildFontString(bool bBold, bool bItalic, int iFontHeight)
 {
    // This isn't the greatest method, as it will probably return stuff we
    // don't have....
@@ -102,7 +149,9 @@ string GTKFont::BuildFontString(bool bBold, bool bItalic, bool bUnderline,
 
 GTKFont::~GTKFont(void)
 {
+    gdk_threads_enter();
     if (type == kFontTypeGdk)
         if (gfont)
             gdk_font_unref(gfont);
+    gdk_threads_leave();
 }

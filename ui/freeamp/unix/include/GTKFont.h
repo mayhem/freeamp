@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.h,v 1.1.2.1 1999/10/01 15:22:34 ijr Exp $
+   $Id: GTKFont.h,v 1.1.2.2 1999/10/02 00:40:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKFONT_H__
@@ -48,19 +48,21 @@ class GTKFont : public Font
                GTKFont(string &oName, string &oFace, string &oDefault);
       virtual ~GTKFont(void);
 
-      Error    RenderFont(int iFontHeight, Rect &oClipRect, string &oText,
-		          int iOffset, const Color &oColor, bool bBold, 
-			  bool bItalic, bool bUnderline, GTKBitmap *bitmap);
+      Error    Load(int iFontHeight, bool bBold, bool bItalic);
+      int      GetLength(string &oText);
+      void     Render(Rect &oClipRect, string &oText, int iOffset, 
+                      const Color &oColor, GTKBitmap *bitmap, bool bUnderline);
+      
     private:
       FontTypeEnum type;
 
       GdkFont *gfont;
-      string   BuildFontString(bool bBold, bool bItalic, bool bUnderLine, 
-		               int iFontHeight);
+      string   BuildFontString(bool bBold, bool bItalic, int iFontHeight);
 
       bool bold;
       bool italic;
       bool underline;
+      int  size;
       bool first;
 };
 

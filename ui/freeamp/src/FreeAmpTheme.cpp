@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.27 1999/10/01 23:31:31 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.28 1999/10/02 00:40:13 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -134,10 +134,11 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
    m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
    oThemePath = szTemp;
    SetThemePath(oThemePath);
-   
+  
+   iLen = 255; 
    m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
    SetDefaultFont(string(szTemp));
-   
+  
    eRet = LoadTheme(oThemeFile);
    if (IsError(eRet))					   
    {
@@ -676,6 +677,7 @@ void FreeAmpTheme::ReloadTheme(void)
     oThemePath = szTemp;
     SetThemePath(oThemePath);
 
+    iLen = 255;
     m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
     SetDefaultFont(string(szTemp));
 

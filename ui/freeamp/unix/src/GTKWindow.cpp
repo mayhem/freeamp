@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.8 1999/10/01 15:22:34 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.9 1999/10/02 00:40:14 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -134,8 +134,20 @@ Error GTKWindow::Run(Pos &oPos)
     return kError_NoErr;
 }
 
+void GTKWindow::SaveWindowPos(Pos &oPos)
+{
+    m_oWindowPos = oPos;
+}
+
 Error GTKWindow::Close(void)
 {
+    Rect oRect;
+    Pos oPos;
+    
+    GetWindowPosition(oRect);
+    oPos.x = oRect.x1;
+    oPos.y = oRect.y1;
+    SaveWindowPos(oPos);
     gtk_widget_destroy(mainWindow);
     gdk_flush();
     mainWindow = NULL;

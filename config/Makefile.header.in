@@ -1,6 +1,6 @@
 # Freeamp Makefile header 
 # contains all the compiler-related configure-extracted vars
-# $Id: Makefile.header.in,v 1.4.2.8 1999/10/01 06:12:56 robert Exp $
+# $Id: Makefile.header.in,v 1.4.2.9 1999/10/02 00:40:13 ijr Exp $
 
 SHELL = /bin/sh
 
@@ -77,15 +77,6 @@ EXTRALIBS = @EXTRALIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 
-FREEAMPOBJ =  base/src/hashtable.o base/src/log.o base/src/player.o
-FREEAMPOBJ += base/src/playlist.o base/src/propimpl.o base/src/registrar.o
-FREEAMPOBJ += base/src/registry.o base/src/thread.o io/src/eventbuffer.o
-FREEAMPOBJ += base/src/prefixprefs.o base/src/preferences.o
-FREEAMPOBJ += io/src/pmiregistry.o io/src/pmoregistry.o
-FREEAMPOBJ += io/src/pullbuffer.o io/src/streambuffer.o
-FREEAMPOBJ += lmc/src/lmcregistry.o ui/src/uiregistry.o
-FREEAMPOBJ += $(OSDEPOBJ)
-
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CFLAGS) $(RELOC)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(CFLAGS) $(CPPFLAGS) $(CXXFLAGS)
 CXXCOMPILE += $(RELOC)
@@ -95,10 +86,10 @@ CXXLINK = $(CXXLD) $(CXXFLAGS) $(LDFLAGS) $(RELOC) -o $@
 .SUFFIXES: .S .c .cpp .o .s .asm .asm1
 
 .cpp.o:
-	$(CXXCOMPILE) $(RELOC) -c $< -o $@
+	$(CXXCOMPILE) -c $< -o $@
 
 .c.o:
-	$(COMPILE) $(RELOC) -c $< -o $@
+	$(COMPILE) -c $< -o $@
 
 .asm.asm1:
 	$(PERL) -pe 's/\b_//g' $< > $@

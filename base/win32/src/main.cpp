@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.46 2000/02/09 21:21:25 elrod Exp $
+	$Id: main.cpp,v 1.47 2000/02/10 19:34:33 robert Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -44,6 +44,8 @@ void CreateHiddenWindow(void* arg);
 void SendCommandLineToHiddenWindow(void);
 bool SendCommandLineToRealJukebox(void);
 void ReclaimFileTypes(const char* path, bool askBeforeReclaiming);
+bool IsWinNT(void);
+bool IsMultiProcessor(void);
 
 const char* kHiddenWindow = "FreeAmp Hidden Window";
 HINSTANCE g_hinst = NULL;
@@ -74,6 +76,9 @@ int APIENTRY WinMain(HINSTANCE hInstance,
         CloseHandle(runOnceMutex);
         return 0;
     }
+
+    if (IsWinNT() && IsMultiProcessor())
+        SetProcessAffinityMask(GetCurrentProcess(), 0);
 
     WSADATA sGawdIHateMicrosoft;
     WSAStartup(0x0002,  &sGawdIHateMicrosoft);
@@ -779,3 +784,20 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
         RegCloseKey(appKey);
     }
 }
+
+bool IsWinNT(void)
+{
+   OSVERSIONINFO osv;
+   osv.dwOSVersionInfoSize=sizeof(osv);
+   GetVersionEx(&osv);
+   return osv.dwPlatformId==VER_PLATFORM_WIN32_NT;
+}
+
+bool IsMultiProcessor(void)
+{
+   SYSTEM_INFO sInfo;
+   
+   GetSystemInfo(&sInfo);
+   return sInfo.dwNumberOfProcessors > 1;
+}
+

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.239 2000/09/20 21:31:23 ijr Exp $
+        $Id: player.cpp,v 1.240 2000/09/21 21:39:04 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -2375,6 +2375,7 @@ ServiceEvent(Event * pC)
         case INFO_UnsignaturedTracksExist:
         case INFO_SignaturingStarted:
         case INFO_SignaturingStopped:
+        case INFO_VorbisInfo:
         case CMD_AddFiles:
         case CMD_LoadTheme:
         case CMD_ShowPreferences:

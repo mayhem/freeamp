@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.cpp,v 1.8 2000/09/19 07:31:00 ijr Exp $
+   $Id: vorbislmc.cpp,v 1.9 2000/09/21 21:39:04 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -57,6 +57,7 @@ extern    "C"
 
 const int iDecodeBlockSize = 8192;
 const int iFramesPerSecond = 10;
+const int iBitrateLoopsPerUpdate = iFramesPerSecond * 3;
 const int iInitialOutputBufferSize = 64512; 
 const char *szFailRead = "Cannot read vorbis data from input plugin.";
 const char *szFailWrite = "Cannot write audio data to output buffer.";
@@ -208,7 +209,7 @@ Error VorbisLMC::ExtractMediaInfo()
 
    VorbisInfoEvent *mie = new VorbisInfoEvent(ov_bitrate(&m_vf, 0),
                                               vi->channels, 
-                                              vi->rate,
+                                              vi->rate, 
                                               1. / (float)iFramesPerSecond);
    if (mie)
    {
@@ -272,6 +273,7 @@ void VorbisLMC::DecodeWork()
    OutputInfo    *info;
    vorbis_info   *vi;
    uint32         bytesCopied, bytesPerFrame;
+   int            bitrateLoops = 0;
 
    assert(m_pPmi);
    assert(m_pPmo);
@@ -344,6 +346,22 @@ void VorbisLMC::DecodeWork()
           bytesCopied %= bytesPerFrame;
           ((EventBuffer *)m_pOutputBuffer)->AcceptEvent(
              new PMOTimeInfoEvent(m_frameCounter));
+
+          bitrateLoops++;
+          if (bitrateLoops == iBitrateLoopsPerUpdate)
+          {
+             int b;
+
+             b = ov_bitrate_instant(&m_vf),
+             vi = ov_info(&m_vf, -1);
+             VorbisInfoEvent *mie = new VorbisInfoEvent(b,
+                                           vi->channels, 
+                                           vi->rate, 
+                                           1. / (float)iFramesPerSecond);
+             m_pTarget->AcceptEvent(mie);
+
+             bitrateLoops = 0;
+          }
       }
 
       Err = m_pOutputBuffer->BeginWrite(pOutBuffer, iDecodeBlockSize);

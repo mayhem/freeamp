@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.75.8.2 2000/06/07 01:55:51 skx Exp $
+        $Id: Win32MusicBrowser.h,v 1.75.8.3 2000/06/07 05:38:47 skx Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -265,8 +265,11 @@ class MusicBrowserUI : public UserInterface
                                   const vector<uint32>* oldIndexList);
     void  PlaylistListSorted();
     void  InitList();
+
 	void  InsertColumn( const char *title, int position );
 	void  RemoveAllColumns( );
+	void  ResizeColumns( );
+
     void  LVBeginDrag(HWND hwnd, NM_LISTVIEW* nmlv);
     void  UpdateTotalTime();
     void  GetSelectedPlaylistItems(vector<PlaylistItem*>* items);

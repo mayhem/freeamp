@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.61.8.1 2000/06/05 15:57:25 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.61.8.2 2000/06/07 05:38:48 skx Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -470,6 +470,8 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
 
 			free( buffer );
 
+			//  Resize the columns appropriately.
+			ResizeColumns();
 
             AddToolbarButtons(useTextLabels, useImages);
             UpdateButtonStates();

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: aps.h,v 1.10 2000/09/29 12:13:57 ijr Exp $
+        $Id: aps.h,v 1.11 2000/10/02 13:39:53 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -209,6 +209,9 @@ private:
                                      // if the server is down ;)
     string m_profilePath;            // store the path to the profile
     bool m_bRelatableOn;             // is this thing on?
+
+    string m_strProxyAddr;           // store the proxy address
+    int    m_nProxyPort;             // store the proxy port
 };
 
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.2 1999/10/19 07:13:28 elrod Exp $
+        $Id: gtkmusicbrowser.h,v 1.3 1999/10/20 16:16:36 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -97,7 +97,6 @@ class MusicBrowserUI : public UserInterface {
     GtkWidget *musicBrowserWindow;
     GtkWidget *musicBrowserTree;
     GtkWidget *playlistList;
-    GtkWidget *expandLabel;
     GtkWidget *playlistOMenu;
     GtkWidget *playlistMenu;    
 
@@ -131,7 +130,6 @@ class MusicBrowserUI : public UserInterface {
     void PopUpInfoEditor();
     void SaveCurrentPlaylist(char *path = NULL);
     void LoadPlaylist(string &oPlaylist);
-    void LoadToMaster(string &oPlaylist);
     void ImportPlaylist(char *path);
 };
 

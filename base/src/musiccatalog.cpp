@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.3 1999/10/19 16:46:58 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.4 1999/10/20 16:16:35 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -363,7 +363,11 @@ void MusicBrowser::DoSearchMusic(char *path)
                     file.append(DIR_MARKER_STR);
                     file.append(find.cFileName);
 
-                    PlaylistItem *plist = new PlaylistItem(file.c_str());
+                    char *tempurl = new char[file.length() + 15];
+                    uint32 length = file.length() + 15;
+
+                    FilePathToURL(file.c_str(), tempurl, &length);
+                    PlaylistItem *plist = new PlaylistItem(tempurl);
                     m_plm->RetrieveMetaData(plist);
 
                     while (plist->GetState() != kPlaylistItemState_Normal)

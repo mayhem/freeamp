@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.2 1999/10/19 07:13:20 elrod Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.3 1999/10/20 16:16:35 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -26,6 +26,7 @@ ____________________________________________________________________________*/
 #include <assert.h>
 #include <unistd.h>
 
+#include "player.h"
 #include "eventdata.h"
 #include "GTKPreferenceWindow.h"
 #include "GTKWindow.h"
@@ -303,21 +304,14 @@ GtkWidget *GTKPreferenceWindow::CreatePage1(void)
     GtkWidget *optionmenu = gtk_option_menu_new();
     GtkWidget *menu = gtk_menu_new();
 
-    Registrar registrar;
-    Registry pmo;
-    Registry ui;
-
-    registrar.SetSubDir("plugins");
-    registrar.SetSearchString("*.pmo");
-    registrar.InitializeRegistry(&pmo, m_pContext->prefs);
-    registrar.SetSearchString("*.ui");
-    registrar.InitializeRegistry(&ui, m_pContext->prefs);
+    Registry *pmo = m_pContext->player->GetPMORegistry();
+    Registry *ui = m_pContext->player->GetUIRegistry();
 
     int32 i = 0;
     int32 pos = 0;
     RegistryItem *item;
 
-    while ((item = ui.GetItem(i++))) {
+    while (ui && (item = ui->GetItem(i++))) {
         GtkWidget *menuitem = gtk_menu_item_new_with_label(item->Name());
         gtk_signal_connect(GTK_OBJECT(menuitem), "activate", 
                            GTK_SIGNAL_FUNC(ui_select), this);
@@ -344,7 +338,7 @@ GtkWidget *GTKPreferenceWindow::CreatePage1(void)
     i = 0;
     pos = 0;
 
-    while ((item = pmo.GetItem(i++))) {
+    while (pmo && (item = pmo->GetItem(i++))) {
         GtkWidget *menuitem = gtk_menu_item_new_with_label(item->Name());
         gtk_signal_connect(GTK_OBJECT(menuitem), "activate", 
                            GTK_SIGNAL_FUNC(pmo_select), this);

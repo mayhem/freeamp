@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.24 1999/04/21 04:20:47 elrod Exp $
+	$Id: main.cpp,v 1.25 1999/04/26 09:01:27 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -118,8 +118,13 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     WSAStartup(0x0002,  &sGawdIHateMicrosoft);
 
     FAContext *context = new FAContext;
-    context->prefs = new Win32Prefs();
+    Win32Prefs* prefs = new Win32Prefs();
+    //prefs->Initialize();
+
+    context->prefs = prefs;
     context->log = new LogFile("freeamp.log");
+
+    
 
     // find all the plug-ins we use
     Registrar* registrar;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.4 1999/04/26 02:50:20 elrod Exp $
+	$Id: preferences.h,v 1.5 1999/04/26 09:01:24 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PREFERENCES_H
@@ -51,8 +51,8 @@ extern const char* kLogDecodePref;
 extern const char* kLogInputPref;
 extern const char* kLogOutputPref;
 extern const char* kLogPerformancePref;
-extern const char* kSaveStreamPref;
-extern const char* kSaveStreamDirPref;
+extern const char* kSaveStreamsPref;
+extern const char* kSaveStreamsDirPref;
 
 class LibDirFindHandle;
 
@@ -148,11 +148,11 @@ class Preferences {
                             int32 width,
                             int32 height);
 
-    Error GetSaveStream(bool* value);
-    Error SetSaveStream(bool value);
+    Error GetSaveStreams(bool* value);
+    Error SetSaveStreams(bool value);
 
-    Error GetStreamSaveDirectory(char* path, uint32* len);
-    Error SetStreamSaveDirectory(char* path);
+    Error GetSaveStreamsDirectory(char* path, uint32* len);
+    Error SetSaveStreamsDirectory(char* path);
 
 };
 

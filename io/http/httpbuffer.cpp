@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: httpbuffer.cpp,v 1.18 1999/04/26 02:50:23 elrod Exp $
+   $Id: httpbuffer.cpp,v 1.19 1999/04/26 09:01:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -387,7 +387,7 @@ Error HttpBuffer::Open(void)
 
     bool bSave;
     unsigned  size = 255;
-    m_context->prefs->GetPrefBoolean(kSaveStreamPref, &bSave);
+    m_context->prefs->GetPrefBoolean(kSaveStreamsPref, &bSave);
     if (bSave)
     {
         char szPath[255], szFile[255];
@@ -400,7 +400,7 @@ Error HttpBuffer::Open(void)
         if (szStreamName[0] == 0)
            sprintf(szStreamName, "%s:%d", szHostName, iPort);
 
-        if (m_context->prefs->GetPrefString(kSaveStreamDirPref, szPath, &size) == 
+        if (m_context->prefs->GetPrefString(kSaveStreamsDirPref, szPath, &size) == 
             kError_NoPrefValue)
            strcpy(szPath, ".");
         if (szPath[strlen(szPath) - 1] == '/' ||

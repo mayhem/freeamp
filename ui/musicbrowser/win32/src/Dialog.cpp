@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.9 1999/11/03 19:02:26 elrod Exp $
+        $Id: Dialog.cpp,v 1.10 1999/11/03 23:14:54 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -748,7 +748,12 @@ void MusicBrowserUI::CreateToolbar(void)
     tbButtons[5].iString = index;
 
     SendMessage(m_hToolbar, TB_ADDBUTTONS, (WPARAM) 6, (LPARAM) &tbButtons);
-    SendMessage(m_hToolbar, TB_SETBUTTONSIZE, (WPARAM) 0, MAKELPARAM(72, toolbarHeight - TOOLBAR_INDENT)); 
+    SendMessage(m_hToolbar, TB_AUTOSIZE, (WPARAM) 0, (LPARAM) 0);
+
+    //GetClientRect(m_hRebar, &dummyRect);
+    SendMessage(m_hToolbar, TB_GETITEMRECT , (WPARAM) 0, (LPARAM) &dummyRect); 
+    SendMessage(m_hToolbar, TB_SETBUTTONSIZE, 0, 
+                    MAKELPARAM(dummyRect.right - dummyRect.left, toolbarHeight - TOOLBAR_INDENT)); 
 
     // Initialize REBARBANDINFO for all rebar bands
 	rbb.cbSize = sizeof(REBARBANDINFO);

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.14 1999/03/15 19:25:46 robert Exp $
+	$Id: soundcardpmo.h,v 1.14.2.1 1999/04/20 20:57:11 mhw Exp $
 ____________________________________________________________________________*/
 
 
@@ -37,18 +37,19 @@ ____________________________________________________________________________*/
 #include "mutex.h"
 #include "properties.h"
 #include "eventbuffer.h"
+#include "preferences.h"
+#include "facontext.h"
 
 #define BIT_SELECT  0x1f
 #define SLEEPTIME   256
 
 static const uint32 OBUFFERSIZE = 2 * 1152;
 
-
 class SoundCardPMO : public PhysicalMediaOutput, public EventBuffer
 {
 
 public:
-    SoundCardPMO();
+    SoundCardPMO(FAContext *context);
     virtual ~SoundCardPMO();
     
     virtual Error Init(OutputInfo* info);
@@ -68,7 +69,7 @@ public:
     virtual Error AcceptEvent(Event *);
     virtual int   GetBufferPercentage();
 
-    
+ 
  private:
 
 	void          WorkerThread(void); 
@@ -80,7 +81,10 @@ public:
     Error         Write(void *pBuffer);
 
  private:
-	Properties *    m_propManager;
+    FAContext*      m_context;
+
+    Properties *    m_propManager;
+    Preferences*    m_prefs;
 	WAVEFORMATEX*	m_wfex;
 	LPWAVEHDR*		m_wavehdr_array;
 	HWAVEOUT		m_hwo;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: prefdialog.cpp,v 1.5 1999/04/16 09:46:41 elrod Exp $
+	$Id: prefdialog.cpp,v 1.5.2.1 1999/04/20 20:57:20 mhw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -779,13 +779,12 @@ PrefPage2Proc(  HWND hwnd,
     return result;
 }
 
-bool DisplayPreferences(HWND hwndParent)
+bool DisplayPreferences(HWND hwndParent, Preferences* prefs)
 {
     bool result = false;
     PROPSHEETPAGE psp[2];
     PROPSHEETHEADER psh;
     HINSTANCE hinst = (HINSTANCE)GetWindowLong(hwndParent, GWL_HINSTANCE);
-    Preferences prefs;
 
     psp[0].dwSize = sizeof(PROPSHEETPAGE);
     psp[0].dwFlags = 0;
@@ -794,7 +793,7 @@ bool DisplayPreferences(HWND hwndParent)
     psp[0].pszIcon = NULL;
     psp[0].pfnDlgProc = PrefPage1Proc;
     psp[0].pszTitle = NULL;
-    psp[0].lParam = (LPARAM)&prefs;
+    psp[0].lParam = (LPARAM)prefs;
 
     psp[1].dwSize = sizeof(PROPSHEETPAGE);
     psp[1].dwFlags = 0;
@@ -803,7 +802,7 @@ bool DisplayPreferences(HWND hwndParent)
     psp[1].pszIcon = NULL;
     psp[1].pfnDlgProc = PrefPage2Proc;
     psp[1].pszTitle = NULL;
-    psp[1].lParam = (LPARAM)&prefs;
+    psp[1].lParam = (LPARAM)prefs;
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE;
@@ -818,3 +817,4 @@ bool DisplayPreferences(HWND hwndParent)
 
     return result;
 }
+

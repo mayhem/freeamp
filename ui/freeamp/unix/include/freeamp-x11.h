@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-x11.h,v 1.12 1999/01/22 06:02:51 jdw Exp $
+	$Id: freeamp-x11.h,v 1.12.2.1 1999/04/20 20:57:18 mhw Exp $
 ____________________________________________________________________________*/
 // FreeAmpUI.h
 
@@ -42,9 +42,11 @@ ____________________________________________________________________________*/
 #include "fawindow.h"
 #include "windowhash.h"
 
+class FAContext;
+
 class FreeAmpUI : public UserInterface {
  public:
-    FreeAmpUI();
+    FreeAmpUI(FAContext *context);
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
@@ -56,8 +58,12 @@ class FreeAmpUI : public UserInterface {
 
     EventQueue *m_playerEQ;
    virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
+
+ protected:
+    FAContext *m_context;
+
  private:
-   Properties *m_propManager;
+    Properties *m_propManager;
     int32 m_startupType;
     void Usage();
     bool m_noStartUp;

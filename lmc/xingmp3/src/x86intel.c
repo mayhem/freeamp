@@ -26,8 +26,8 @@
 /*	along with this program; if not, write to the Free Software */
 /*	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. */
 
-/*	$Id: x86intel.c,v 1.7 1999/03/05 08:58:18 mhw Exp $ */
-/*	Generated from Id: x86gas.s,v 1.8 1999/03/05 01:16:21 mhw Exp $ */
+/*	$Id: x86intel.c,v 1.7.2.1 1999/04/20 20:57:16 mhw Exp $ */
+/*	Generated from Id: x86gas.s,v 1.9 1999/03/05 08:58:18 mhw Exp $ */
 
 
 extern float wincoef[264];

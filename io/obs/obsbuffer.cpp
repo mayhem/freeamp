@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: obsbuffer.cpp,v 1.15 1999/04/15 21:50:57 robert Exp $
+   $Id: obsbuffer.cpp,v 1.15.4.1 1999/04/20 20:57:09 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -39,8 +39,7 @@ ____________________________________________________________________________*/
 #include "obsbuffer.h"
 #include "obsinput.h"
 #include "log.h"
-
-extern LogFile *g_Log;
+#include "facontext.h"
 
 const int iMaxHostNameLen = 64;
 const int iGetHostNameBuffer = 1024;
@@ -60,8 +59,9 @@ static char *g_ErrorArray[5] =
 };
 
 ObsBuffer::ObsBuffer(size_t iBufferSize, size_t iOverFlowSize, 
-                     size_t iWriteTriggerSize, char *szFile, ObsInput *pObs) :
-        StreamBuffer(iBufferSize, iOverFlowSize, iWriteTriggerSize)
+                     size_t iWriteTriggerSize, char *szFile, ObsInput *pObs,
+		     FAContext *context) :
+        StreamBuffer(iBufferSize, iOverFlowSize, iWriteTriggerSize, context)
 {
     m_hHandle = -1;
     m_pBufferThread = NULL;
@@ -207,7 +207,7 @@ void ObsBuffer::WorkerThread(void)
 {
    size_t          iToCopy, iActual; 
    int             iRead, iPacketNum = -1, iCurrNum, iRet, iHeaderSize;
-   int             iStructSize;
+   int           iStructSize;
    RTPHeader      *pHeader;
    void           *pBuffer;
    unsigned        char *pTemp, *pCopy;
@@ -221,7 +221,7 @@ void ObsBuffer::WorkerThread(void)
    {
       if (IsEndOfStream())
       {
-          g_Log->Log(LogInput, "Sleeping on EOS");
+          m_context->log->Log(LogInput, "Sleeping on EOS");
           m_pWriteSem->Wait();
           continue;
       }
@@ -241,7 +241,7 @@ void ObsBuffer::WorkerThread(void)
                        (struct sockaddr *)m_pSin, &iStructSize);
       if (iRead <= 0)
       {
-         g_Log->Log(LogInput, "iRead is less than 0");
+         m_context->log->Log(LogInput, "iRead is less than 0");
          SetEndOfStream(true);
          break;
       }
@@ -276,7 +276,7 @@ void ObsBuffer::WorkerThread(void)
           time_t t;
 
           time(&t);
-          g_Log->Log(LogPerf, "Lost packet (%d, %d): %s", 
+          m_context->log->Log(LogPerf, "Lost packet (%d, %d): %s", 
              iPacketNum, iCurrNum, ctime(&t)); 
       }
       iPacketNum = iCurrNum;
@@ -289,7 +289,7 @@ void ObsBuffer::WorkerThread(void)
       eError = EndWrite(iRead);
       if (IsError(eError))
       {
-         g_Log->Error("Obs: EndWrite returned: %d\n", eError);
+         m_context->log->Error("Obs: EndWrite returned: %d\n", eError);
          EndWrite(0);
       }
    }
@@ -297,5 +297,5 @@ void ObsBuffer::WorkerThread(void)
    delete pTemp;
    close(m_hHandle);
    m_hHandle = -1;
-   g_Log->Log(LogInput, "Worker thread done");
+   m_context->log->Log(LogInput, "Worker thread done");
 }

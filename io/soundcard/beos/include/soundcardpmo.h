@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.1 1999/02/10 09:32:23 elrod Exp $
+	$Id: soundcardpmo.h,v 1.1.2.1 1999/04/20 20:57:09 mhw Exp $
 ____________________________________________________________________________*/
 
 
@@ -52,11 +52,12 @@ enum {
 class BSoundPlayer;
 class RingBuffer;
 class Thread;
+class FAContext;
 
 class SoundCardPMO : public PhysicalMediaOutput
 {
 public:
-							SoundCardPMO();
+							SoundCardPMO(FAContext *context);
 	virtual					~SoundCardPMO();
     
 	virtual Error			Init(OutputInfo* info);
@@ -75,6 +76,7 @@ public:
 							}
 
 protected:
+	FAContext *				m_context;
 
 private:
 	static void				_DummyPlayerHook( void* arg );

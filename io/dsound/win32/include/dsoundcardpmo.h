@@ -65,12 +65,11 @@ typedef struct {
   LPDIRECTSOUNDBUFFER pDSSecondaryBuffer;
 } DSBufferManager;
 
-
 class DSoundCardPMO : public PhysicalMediaOutput, public EventBuffer
 {
 
 public:
-  DSoundCardPMO();
+  DSoundCardPMO(FAContext *context);
   virtual ~DSoundCardPMO();
 
   virtual Error   Init(OutputInfo* info);
@@ -90,8 +89,12 @@ public:
   virtual Error   AcceptEvent(Event *);
   virtual int     GetBufferPercentage();
 
+  DSBufferManager m_DSBufferManager;
+  HWND            m_hMainWndHandle;
+  int             m_nNbDSDevices;
+  DSDevice        *m_pDSDevices;
 
-private:
+ private:
   void            WorkerThread(void);
   virtual Error   Reset(bool user_stop);
   void            HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
@@ -103,7 +106,6 @@ private:
   int32           DSMonitorBufferState();
   Error           DSWriteToSecBuffer(int32&, void*, int32);
 
-private:
   Properties*     m_propManager;
   WAVEFORMATEX*   m_wfex;
 
@@ -122,12 +124,6 @@ private:
   Semaphore*      m_pDSWriteSem;  // Semaphore to access Sec Buffer for writing purpose
   bool            m_bDSEnumFailed;
   int             m_nCurrentDevice;
-
-public:
-  DSBufferManager m_DSBufferManager;
-  HWND            m_hMainWndHandle;
-  int             m_nNbDSDevices;
-  DSDevice        *m_pDSDevices;
 };
 
 #endif /* _DSOUNDCARDPMO_H_ */

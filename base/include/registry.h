@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.h,v 1.6 1999/03/07 07:29:45 elrod Exp $
+	$Id: registry.h,v 1.6.2.1 1999/04/20 20:57:01 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _REGISTRY_H_
@@ -28,7 +28,9 @@ ____________________________________________________________________________*/
 #include "list.h"
 #include "log.h"
 
-typedef void *(*InitializeFunction)(LogFile *);
+class FAContext;
+
+typedef void *(*InitializeFunction)(FAContext *);
 
 class RegistryItem {
  public:
@@ -49,9 +51,6 @@ class RegistryItem {
 
     virtual void SetModule(void* module);
     virtual const void* Module() const { return m_module;}
-
- private:
-     
 
  private:
     char*               m_path;

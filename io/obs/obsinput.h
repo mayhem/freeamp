@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.h,v 1.7 1999/03/24 18:11:53 robert Exp $
+        $Id: obsinput.h,v 1.7.2.1 1999/04/20 20:57:09 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSFILEINPUT_H_
@@ -32,11 +32,13 @@ ____________________________________________________________________________*/
 #include "pmi.h"
 #include "obsbuffer.h"
 
+class FAContext;
+
 class     ObsInput:public PhysicalMediaInput
 {
-   public:
+ public:
 
-   ObsInput();
+   ObsInput(FAContext *context);
    ObsInput(char *path);
    virtual ~ObsInput(void);
 
@@ -74,8 +76,10 @@ class     ObsInput:public PhysicalMediaInput
 		   return kError_UnknownErr; 
 	};
 
-   private:
+ protected:
+   FAContext  *m_context;
 
+ private:
    ObsBuffer  *m_pPullBuffer;
    Properties *m_propManager;
    char       *m_path;

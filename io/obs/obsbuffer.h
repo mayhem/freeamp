@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: obsbuffer.h,v 1.5 1999/03/05 23:17:31 robert Exp $
+   $Id: obsbuffer.h,v 1.5.2.1 1999/04/20 20:57:09 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSBUFFER_H_
@@ -75,7 +75,7 @@ class ObsBuffer : public StreamBuffer
 
                ObsBuffer(size_t iBufferSize, size_t iOverFlowSize,
                          size_t iWriteTriggerSize, char *szFile,
-                         ObsInput *pObsInput);
+                         ObsInput *pObsInput, FAContext *context);
       virtual ~ObsBuffer(void);
 
       Error    Open(void);
@@ -86,9 +86,9 @@ class ObsBuffer : public StreamBuffer
 
       static   void     StartWorkerThread(void *);
 
+      void            WorkerThread(void);
+
     private:
-
-
       int                 m_hHandle;
       char                m_szUrl[iMaxUrlLen];
       Thread             *m_pBufferThread;
@@ -96,10 +96,6 @@ class ObsBuffer : public StreamBuffer
       ID3Tag             *m_pID3Tag;
       struct sockaddr_in *m_pSin;
       ObsInput           *m_pObs;
-
-    public:
-
-      void            WorkerThread(void);
 };
 
 #endif

@@ -58,6 +58,7 @@ CLEAN :
 	-@erase "$(INTDIR)\soundcardpmo.obj"
 	-@erase "$(INTDIR)\thread.obj"
 	-@erase "$(INTDIR)\vc50.idb"
+	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
 	-@erase "$(OUTDIR)\soundcard.exp"
 	-@erase "$(OUTDIR)\soundcard.lib"
@@ -97,6 +98,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\soundcard.res" \
 	"$(INTDIR)\soundcardpmo.obj" \
 	"$(INTDIR)\thread.obj" \
+	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj"
 
 ".\soundcard.pmo" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -141,6 +143,7 @@ CLEAN :
 	-@erase "$(INTDIR)\thread.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
+	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(INTDIR)\win32thread.obj"
 	-@erase "$(OUTDIR)\soundcard.exp"
 	-@erase "$(OUTDIR)\soundcard.lib"
@@ -182,6 +185,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\soundcard.res" \
 	"$(INTDIR)\soundcardpmo.obj" \
 	"$(INTDIR)\thread.obj" \
+	"$(INTDIR)\win32prefs.obj" \
 	"$(INTDIR)\win32thread.obj"
 
 ".\soundcard.pmo" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -322,13 +326,13 @@ DEP_CPP_MUTEX=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\..\..\base\win32\src\preferences.cpp
+SOURCE=..\..\..\..\base\src\preferences.cpp
 
 !IF  "$(CFG)" == "soundcard - Win32 Release"
 
 DEP_CPP_PREFE=\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -341,7 +345,7 @@ DEP_CPP_PREFE=\
 
 DEP_CPP_PREFE=\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\win32\include\preferences.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -358,7 +362,9 @@ SOURCE=..\..\..\src\pullbuffer.cpp
 
 DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
@@ -374,7 +380,9 @@ DEP_CPP_PULLB=\
 
 DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
@@ -425,9 +433,11 @@ DEP_CPP_SOUND=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
 	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\thread.h"\
@@ -453,9 +463,11 @@ DEP_CPP_SOUND=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
+	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\id3v1.h"\
 	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\thread.h"\
@@ -507,17 +519,18 @@ DEP_CPP_THREA=\
 
 !ENDIF 
 
-SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
+SOURCE=..\..\..\..\base\win32\src\win32prefs.cpp
 
 !IF  "$(CFG)" == "soundcard - Win32 Release"
 
 DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\win32prefs.h"\
 	"..\..\..\..\config\config.h"\
 	
 
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
@@ -525,12 +538,43 @@ DEP_CPP_WIN32=\
 !ELSEIF  "$(CFG)" == "soundcard - Win32 Debug"
 
 DEP_CPP_WIN32=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
+
+!IF  "$(CFG)" == "soundcard - Win32 Release"
+
+DEP_CPP_WIN32T=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
 	"..\..\..\..\config\config.h"\
 	
 
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "soundcard - Win32 Debug"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 

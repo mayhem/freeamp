@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.h,v 1.5 1999/01/25 00:08:27 jdw Exp $
+	$Id: lcdui.h,v 1.5.2.1 1999/04/20 20:57:21 mhw Exp $
 ____________________________________________________________________________*/
 // LcdUI.h
 
@@ -40,7 +40,7 @@ enum {
 
 class LcdUI : public UserInterface {
  public:
-    LcdUI();
+    LcdUI(FAContext *context);
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
@@ -49,8 +49,12 @@ class LcdUI : public UserInterface {
     static void keyboardServiceFunction(void *);
     virtual ~LcdUI();
    virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
+
+ protected:
+    FAContext *m_context;
+
  private:
-   Properties *m_propManager;
+    Properties *m_propManager;
 
     int32 m_sock;
 

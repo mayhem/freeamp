@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.11 1999/04/16 09:46:41 elrod Exp $
+	$Id: utility.cpp,v 1.11.2.1 1999/04/20 20:57:20 mhw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -285,19 +285,22 @@ bool
 FileOpenDialog(HWND hwnd, 
                const char* title,
                const char* filter,
-               List<char*>* fileList)
+               List<char*>* fileList,
+               Preferences* prefs)
 {
     bool result = false;
-    Preferences prefs;
     OPENFILENAME ofn;
-    char szInitialDir[MAX_PATH + 1];
+    char szInitialDir[MAX_PATH + 1] = {0x00};
     uint32 initialDirSize = sizeof(szInitialDir);
     const int32 kBufferSize = MAX_PATH * 128;
     char* fileBuffer = new char[kBufferSize];
 
     *fileBuffer = 0x00;
 
-    prefs.GetOpenSaveDirectory( szInitialDir, &initialDirSize);
+    if(prefs)
+    {
+        prefs->GetOpenSaveDirectory( szInitialDir, &initialDirSize);
+    }
 
     // Setup open file dialog box structure
     ofn.lStructSize       = sizeof(OPENFILENAME);
@@ -365,7 +368,10 @@ FileOpenDialog(HWND hwnd,
 
             *(fileBuffer + ofn.nFileOffset - 1) = 0x00;
 
-            prefs.SetOpenSaveDirectory(fileBuffer);
+            if(prefs)
+            {
+                prefs->SetOpenSaveDirectory(fileBuffer);
+            }
         }
 
         result = true;
@@ -442,18 +448,21 @@ FileSaveDialog( HWND hwnd,
                 const char* title,
                 const char* filter,
                 char* path,
-                uint32* pathLength)
+                uint32* pathLength,
+                Preferences* prefs)
 {
     bool result = false;
-    Preferences prefs;
     OPENFILENAME ofn;
-    char szInitialDir[MAX_PATH + 1];
+    char szInitialDir[MAX_PATH + 1] = {0x00};
     char szFile[MAX_PATH + 1] = {0x00};
     uint32 initialDirSize = sizeof(szInitialDir);
   
     *path = 0x00;
 
-    prefs.GetOpenSaveDirectory(szInitialDir, &initialDirSize);
+    if(prefs)
+    {
+        prefs->GetOpenSaveDirectory( szInitialDir, &initialDirSize);
+    }
 
     // Setup open file dialog box structure
     ofn.lStructSize       = sizeof(OPENFILENAME);
@@ -502,7 +511,10 @@ FileSaveDialog( HWND hwnd,
 
             *(szFile + ofn.nFileOffset - 1) = 0x00;
 
-            prefs.SetOpenSaveDirectory(szFile);
+            if(prefs)
+            {
+                prefs->SetOpenSaveDirectory(szFile);
+            }
         }
 
         result = true;
@@ -743,3 +755,4 @@ UnloadDriver(const char* driverName)
 
     return result;
 }
+

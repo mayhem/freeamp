@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.h,v 1.14 1999/03/17 22:10:36 robert Exp $
+        $Id: soundcardpmo.h,v 1.14.2.1 1999/04/20 20:57:10 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SOUNDCARDPMO_H_
@@ -52,11 +52,13 @@ enum
    pmoError_MaximumError
 };
 
+class FAContext;
+
 class SoundCardPMO:public PhysicalMediaOutput, public EventBuffer
 {
-   public:
+ public:
 
-            SoundCardPMO();
+            SoundCardPMO(FAContext *context);
    virtual ~SoundCardPMO();
 
    virtual Error Init(OutputInfo * info);
@@ -75,8 +77,7 @@ class SoundCardPMO:public PhysicalMediaOutput, public EventBuffer
    virtual Error AcceptEvent(Event *);
    virtual int   GetBufferPercentage();
 
-   private:
-
+ private:
    void          WorkerThread(void); 
    virtual Error Reset(bool user_stop);
    void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.26 1999/04/20 01:42:10 dogcow Exp $
+	$Id: freeamp.cpp,v 1.26.2.1 1999/04/20 20:57:19 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -53,17 +53,18 @@ ____________________________________________________________________________*/
 
 extern "C" {
 
-UserInterface *Initialize() {
-    return new FreeAmpUI();
+UserInterface *Initialize(FAContext *context) {
+    return new FreeAmpUI(context);
 }
 
 	   }
 
-FreeAmpUI::FreeAmpUI() {
+FreeAmpUI::FreeAmpUI(FAContext *context) {
     int32 foo = 0;
     if (!(foo = XInitThreads())) {
 	fprintf(stderr, "FreeAmpUI: XInitThreads returned %d: Unexplained X errors may arise!\n",foo);
     }
+    m_context = context;
     m_windowHash = new WindowHash();
     m_done = false;
     m_initialized = false;

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.h,v 1.5 1998/10/19 00:09:04 elrod Exp $
+	$Id: registrar.h,v 1.5.2.1 1999/04/20 20:57:01 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _REGISTRAR_H_
@@ -32,7 +32,7 @@ ____________________________________________________________________________*/
 #include "win32impl.h"
 #endif
 
-class Registrar{
+class Registrar {
  public:
     Registrar(){m_subdir = NULL; m_search = NULL;}
     ~Registrar(){}

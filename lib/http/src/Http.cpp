@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.8 2000/06/22 15:13:36 elrod Exp $
+   $Id: Http.cpp,v 1.9 2000/08/18 12:04:56 sward Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -405,9 +405,14 @@ Error Http::Download(const string &url, bool fileDownload)
 
                     do
                     {
-                        err = Recv(s, buffer,
-                                   min(bufferSize, fileSize - bytesReceived),
-                                   0, count);
+                        if (min(bufferSize, fileSize - bytesReceived) != 0)
+						{
+							err = Recv(s, buffer,
+									min(bufferSize, fileSize - bytesReceived),
+									0, count);
+						}
+						else
+							count = 0;
                         if (IsError(err))
                             result = kError_UserCancel;
                         else

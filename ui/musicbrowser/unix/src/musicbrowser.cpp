@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.11 1999/11/20 10:53:39 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.12 1999/12/07 21:36:54 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -140,7 +140,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 mainBrowser->Close();
             else
                 mainBrowser->ShowPlaylist();
-            break; }
+            break; } 
         case CMD_ToggleMusicBrowserUI: {
             if (mainBrowser->Visible())
                 mainBrowser->Close();
@@ -153,6 +153,13 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
         case INFO_Playing: {
             if (mainBrowser->Visible())
                 mainBrowser->AcceptEvent(event);
+            break; }
+        case INFO_PrefsChanged: {
+            mainBrowser->AcceptEvent(event);
+            vector<GTKMusicBrowser *>::iterator i = browserWindows.begin();
+            for (; i != browserWindows.end(); i++)
+                if ((*i)->Visible())
+                    (*i)->AcceptEvent(event);
             break; }
         case INFO_MusicCatalogPlaylistAdded:
         case INFO_MusicCatalogPlaylistRemoved:

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.1.2.5 1999/10/14 22:57:54 robert Exp $
+        $Id: Win32MusicBrowser.h,v 1.1.2.6 1999/10/15 16:53:06 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -74,7 +74,8 @@ class MusicBrowserUI : public UserInterface
     virtual Error Init(int32);
 						 
     static void UIThreadFunc(void* arg);
-           void InitDialog(void);
+
+    void  InitDialog(HWND hwnd);
     void  ShowBrowser(bool bShowExpanded);
     void  HideBrowser(void);
 	void  ExpandCollapseEvent(void);
@@ -83,6 +84,9 @@ class MusicBrowserUI : public UserInterface
     void  SizeWindow(int iWidth, int iHeight);
     int   Notify(WPARAM wParam, NMHDR *pNMHDR);
     void  StartMusicSearch(void);
+    void  MoveUpEvent(void);
+    void  MoveDownEvent(void);
+    void  DeleteEvent(void);
  
  protected:
     FAContext *m_context;
@@ -91,9 +95,6 @@ class MusicBrowserUI : public UserInterface
 
     void SetStatusText(const char *text);
     void DeleteListEvent(void);
-    void DeleteEvent(void);
-    void MoveUpEvent(void);
-    void MoveDownEvent(void);
     void MoveItemEvent(int source, int dest);
     void AddTrackPlaylistEvent(char *path);
     void AddTrackPlaylistEvent(PlaylistItem *newitem);
@@ -113,21 +114,24 @@ class MusicBrowserUI : public UserInterface
     void ToggleVisEvent(void);
 
     void InitList(void);
+    void LoadPlaylist(string &oPlaylist);
 
     void InitTree(void);
     void FillArtists(void);
     void FillAlbums(TV_ITEM *pItem);
     void FillPlaylists(void);
     void FillTracks(TV_ITEM *pItem);
+    void FillPlaylistCombo(void);
 
+    void  UpdateButtonStates(void);
     void  MoveControls(int iPixelsToMove);
     Error CreateMainDialog(void);
     Error CloseMainDialog(void);
 
     EventQueue          *m_playerEQ;
     int32                m_state, m_startupType;
-    uint32               m_currentindex;
-  	HWND                 m_hWnd;		
+    int32                m_currentindex;
+  	HWND                 m_hWnd, m_hStatus;		
     PlaylistManager     *m_plm;
     bool                 m_initialized, isVisible;
     string               m_currentListName;

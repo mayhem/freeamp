@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.10.2.1.2.1 2000/04/08 22:41:11 robert Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.10.2.1.2.2 2000/04/08 23:42:20 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1589,7 +1589,6 @@ Error DownloadManager::Connect(int hHandle, const sockaddr *pAddr,
 #ifndef WIN32
     if (iRet == -1 && errno != EINPROGRESS)
     {
-       perror("connect");
        return kError_NoErr;
     }
 #endif

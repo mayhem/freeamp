@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.66 2001/01/06 00:08:57 robert Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.67 2001/01/08 12:51:19 skx Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -730,7 +730,11 @@ bool Win32PreferenceWindow::MainProc(HWND hwnd,
             {
                 case IDCANCEL:
                     //PostQuitMessage(0);
-                    SavePrefsValues(&m_originalValues);
+
+					// 
+					//  No changed message needs to be broadcast, really.
+                    //
+					//SavePrefsValues(&m_originalValues);
                     EndDialog(hwnd, FALSE);
                     break;
 

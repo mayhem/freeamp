@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.9 1999/10/25 20:31:02 robert Exp $
+        $Id: musiccatalog.cpp,v 1.10 1999/10/25 21:22:08 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -444,8 +444,10 @@ void MusicBrowser::PruneDatabase(void)
             char *filename = new char[length];
 
             if (IsntError(URLToFilePath(key, filename, &length)))
-                if (-1 == stat(key, &st))
+                if (-1 == stat(filename, &st)) {
                     m_database->Remove(key);
+                    key = NULL;
+                }
 
             delete [] filename;
         }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.68 2000/07/31 19:51:40 ijr Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.69 2000/08/16 18:55:19 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -205,6 +205,9 @@ void MusicBrowserUI::Init()
 
     m_plm = NULL;
     m_portableDevice = NULL;
+
+    m_sigsExist = false;
+    m_sigsStart = true;
 
     short pattern[8];
     HBITMAP bmp;
@@ -925,7 +928,49 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             }
             break;
         }
+        case INFO_UnsignaturedTracksExist:
+        {
+            if (m_context->catalog->GetNumNeedingSigs() > 0) {
+                m_sigsExist = true;
 
+                UpdateMenuStates();
+                AskSignatureDialog();
+
+                vector<MusicBrowserUI *>::iterator i;
+                for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+                    (*i)->AcceptEvent(event);
+            }
+            break;
+        }
+        case INFO_SignaturingStarted:
+        {
+            m_sigsExist = true;
+            m_sigsStart = false;
+
+            UpdateMenuStates();
+
+            vector<MusicBrowserUI *>::iterator i;
+            for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+                (*i)->AcceptEvent(event);
+
+            break;
+        }
+        case INFO_SignaturingStopped:
+        {
+            if (m_context->catalog->GetNumNeedingSigs() > 0)
+                m_sigsExist = true;
+            else
+                m_sigsExist = false;
+            m_sigsStart = true;
+
+            UpdateMenuStates();
+
+            vector<MusicBrowserUI *>::iterator i;
+            for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+                (*i)->AcceptEvent(event);
+
+            break;
+        }
         default:
             break;
     }

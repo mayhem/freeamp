@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.83 2000/08/02 01:47:30 ijr Exp $
+        $Id: Win32MusicBrowser.h,v 1.84 2000/08/16 18:55:19 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -345,6 +345,10 @@ class MusicBrowserUI : public UserInterface
     void DeviceChanged(uint32 event, PDEV_BROADCAST_HDR data);
     void CheckForCD();
 
+    void AskSignatureDialog();
+    void AskOptIn();
+    void HandleSignature();
+
     // Functions in EditTrackInfoDialog.cpp
     void CreateEditInfoLists(set<string>& artists,
                              set<string>& albums,
@@ -399,6 +403,8 @@ class MusicBrowserUI : public UserInterface
     Thread*             m_fillAllThread;
     Thread*             m_fillStreamsThread;
 
+    bool                m_sigsExist;
+    bool                m_sigsStart;
 };
 
 #endif

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.9 1998/10/23 00:41:04 jdw Exp $
+	$Id: registrar.cpp,v 1.10 1998/10/23 20:15:46 jdw Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -36,6 +36,7 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "registrar.h"
 #include "errors.h"
+#include "hashtable.h"
 
 Error 
 Registrar::
@@ -43,6 +44,7 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
 {
     Error error = kError_NoErr;
     char dir[MAX_PATH];
+    HashTable *pHT = new HashTable();
 
     if(registry == NULL)
         error = kError_InvalidParam;
@@ -105,6 +107,14 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
         {
             do
             {
+#ifndef WIN32
+		if (pHT) {
+		    if (pHT->Value(find.cFileName)) {
+			// only put things with same Name into registry once.
+			continue;
+		    }
+		}
+#endif
                 char file[MAX_PATH];
 
                 sprintf(file, "%s%s%s", dir, DIR_MARKER_STR, find.cFileName);
@@ -133,7 +143,10 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
                     {
                         error = kError_NoErr;
                         item->SetInitFunction(init);
-			            totalFilesFound++;
+			totalFilesFound++;
+#ifndef WIN32
+			pHT->Insert(find.cFileName,(void *)1);
+#endif
                     }
                 }
                 
@@ -160,7 +173,10 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
     if (libDirHandle) 
         prefs->GetLibDirClose(libDirHandle);
 #endif
-
+    if (pHT) {
+	delete pHT;
+	pHT = NULL;
+    }
     if (totalFilesFound == 0) 
 	    error = kError_NoFiles;
 

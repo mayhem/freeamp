@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.24 2000/10/02 13:13:44 ijr Exp $
+	$Id: id3v2.cpp,v 1.25 2000/10/02 16:16:38 sward Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -247,7 +247,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     {
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_GetASCII(pField, pData, iDataFieldLen, 0); 
+        ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 
         if (strlen(pData) > 0)
            metadata->SetTitle(pData);
     }
@@ -256,7 +256,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     {
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_GetASCII(pField, pData, iDataFieldLen, 0); 
+        ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 
         if (strlen(pData) > 0)
            metadata->SetAlbum(pData);
     }
@@ -267,7 +267,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     {
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_GetASCII(pField, pData, iDataFieldLen, 0); 
+        ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 
         if (strlen(pData) > 0)
            metadata->SetArtist(pData);
     }
@@ -277,7 +277,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     {
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_GetASCII(pField, pData, iDataFieldLen, 0); 
+        ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 
         if (strlen(pData) > 0)
            metadata->SetArtist(pData);
     }
@@ -286,7 +286,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     {
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_GetASCII(pField, pData, iDataFieldLen, 0); 
+        ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 
         if (strlen(pData) > 0)
            metadata->SetComment(pData);
     }
@@ -295,7 +295,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     {
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_GetASCII(pField, pData, iDataFieldLen, 0); 
+        ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 
         if (strlen(pData) > 0) 
            metadata->SetTime(atoi(pData) / 1000);
     }
@@ -304,7 +304,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     {
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_GetASCII(pField, pData, iDataFieldLen, 0); 
+        ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 
         if (strlen(pData) > 0)
            metadata->SetYear(atoi(pData));
     }
@@ -313,7 +313,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     {
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_GetASCII(pField, pData, iDataFieldLen, 0); 
+        ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 
         if (strlen(pData) > 0)
            metadata->SetSize(atoi(pData));
     }
@@ -322,7 +322,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     {
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_GetASCII(pField, pData, iDataFieldLen, 0); 
+        ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 
         if (strlen(pData) > 0)
            metadata->SetTrack(atoi(pData));
     }
@@ -331,7 +331,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     {
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_GetASCII(pField, pData, iDataFieldLen, 0); 
+        ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 
         if (strlen(pData) > 0)
            metadata->SetTrack(atoi(pData));
     }
@@ -343,7 +343,7 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
  
         pData[0] = 0;
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
-        ID3Field_GetASCII(pField, pData, iDataFieldLen, 0); 
+        ID3Field_GetASCII(pField, pData, iDataFieldLen, 1); 
         if (strlen(pData) > 0)
         {
            genre[0] = 0;

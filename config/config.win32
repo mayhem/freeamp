@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.33 2000/05/15 22:31:21 elrod Exp $
+	$Id: config.win32,v 1.34 2000/10/02 16:16:37 sward Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -87,6 +87,7 @@ ____________________________________________________________________________*/
 #define strcasecmp(a,b) stricmp(a,b)
 #define strncasecmp(a,b,c) strnicmp(a,b,c)
 typedef int socklen_t;
+typedef int fa_socklen_t;
 #endif
 
 #ifndef _MAX_PATH

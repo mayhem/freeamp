@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.92 2000/10/27 09:44:35 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.93 2000/10/27 19:58:37 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -95,6 +95,10 @@ void MusicCatalog::StartTimer(void)
 
 MusicCatalog::~MusicCatalog()
 {
+    m_killMBThread = true;
+    while (m_MBLookupThreadActive)
+        usleep(50);
+
     ClearCatalog();
     StopSearchMusic();
 
@@ -104,9 +108,6 @@ MusicCatalog::~MusicCatalog()
 
     if(m_watchTimer)
         m_context->timerManager->StopTimer(m_watchTimer);
-
-    if (m_MBLookupThreadActive)
-        m_killMBThread = true;
 
     delete m_artistList;
     delete m_unsorted;

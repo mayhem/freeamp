@@ -18,13 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: timer.cpp,v 1.1 2000/03/30 05:48:46 elrod Exp $
+	$Id: timer.cpp,v 1.2 2000/03/30 20:23:23 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
 #include "timer.h"
 
 #ifdef __linux__
+#include <unistd.h>
 #define GoToSleep(x) usleep(x*1000)
 #elif defined(WIN32)
 #include <windows.h>

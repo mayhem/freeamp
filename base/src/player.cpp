@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: player.cpp,v 1.2 1998/10/09 19:03:36 jdw Exp $
 ____________________________________________________________________________*/
 
 // player.cpp
@@ -272,6 +272,7 @@ int32 Player::serviceEvent(Event *pC) {
 		    if (setState(STATE_Playing)) {
 			SEND_NORMAL_EVENT(INFO_Playing);
 		    }
+		    myLMC->ChangePosition(myPlayList->getSkip());
 		    myLMC->Decode();
 		    //cout << "Kicked off decoder..." << endl;
 		    

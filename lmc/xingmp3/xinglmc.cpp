@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.2 1998/10/09 14:54:23 elrod Exp $
+	$Id: xinglmc.cpp,v 1.3 1998/10/09 19:03:36 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -42,7 +42,7 @@ extern "C" {
 #include "port.h"
 	   }
 
-extern int wait_n_times;
+int wait_n_times;
 
 #define TEST_TIME 0
 
@@ -51,6 +51,7 @@ XingLMC::
 XingLMC(PhysicalMediaInput* input, PhysicalMediaOutput* output)
 {
     //cout << "XingLMC::XingLMC: Creating XingLMC..." << endl;
+    wait_n_times = 0;
     decoderThread = NULL;
     xcqueue = new Queue<XingCommand *>(false); 
     seek_mutex = new Mutex();
@@ -402,7 +403,12 @@ void XingLMC::Reset() {
 
 
 bool XingLMC::ChangePosition(int32 position) {
-	return true;
+    bs_bufbytes = 0;
+    bs_bufptr = bs_buffer;
+    m_input->Seek(0,SEEK_FROM_START);
+    
+    wait_n_times = position;
+    return true;
 }
 
 void XingLMC::bs_clear() {

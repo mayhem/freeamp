@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: Mpg123UI.cpp,v 1.2 1998/10/09 19:03:37 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -41,7 +41,6 @@ ____________________________________________________________________________*/
 void mysigterm(int);
 void mysigint(int);
 
-int wait_n_times = 0;
 
 Mpg123UI::Mpg123UI() {
 
@@ -199,7 +198,6 @@ void Mpg123UI::setArgs(int argc, char **argv) {
 		    i++;
 		    pc = argv[i];
 		    skipFirst = atoi(pc);
-		    wait_n_times = skipFirst;
 		    cout << "skiping first " << skipFirst << " frames" << endl;
 		    break;
 		case 'c':

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.2 1998/10/09 14:54:22 elrod Exp $
+	$Id: playlist.h,v 1.3 1998/10/09 19:03:36 jdw Exp $
 ____________________________________________________________________________*/
 
 // playlist.h
@@ -33,6 +33,7 @@ class PlayListItem {
  public:
     char url[512];
     int32 type;
+    int32 startFrame;
 };
 
 class PlayList {

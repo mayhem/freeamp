@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.97 2000/09/24 19:26:25 ijr Exp $
+        $Id: Dialog.cpp,v 1.98 2000/09/29 16:04:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -1182,7 +1182,7 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
         m_context->prefs->GetPrefString(kMusicBrowserHeaderWidthsPref, buf, &size);
         sscanf(buf, " %d , %d , %d , %d", &a, &b, &c, &d);
 
-        if(a >= 1 && b >= 1 && c >= 1 && d >= 1)
+        if(a >= 1 && b >= 5 && c >= 5 && d >= 5)
         {
             ListView_SetColumnWidth(m_hPlaylistView, 1, a);
             ListView_SetColumnWidth(m_hPlaylistView, 2, b);

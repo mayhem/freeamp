@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.21 1999/11/23 19:13:39 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.22 1999/11/13 22:57:58 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -689,12 +689,13 @@ void GTKMusicBrowser::UpdateCatalog(void)
 
     vector<PlaylistItem *>::const_iterator l = unsorted->begin();
     for (; l != unsorted->end(); l++) {
-        item_new2 = gtk_tree_item_new_with_label((char *)(*l)->URL().c_str());
+        MetaData mdata = (*l)->GetMetaData();
+        item_new2 = gtk_tree_item_new_with_label((char *)mdata.Title().c_str());
         gtk_object_set_user_data(GTK_OBJECT(item_new2), *l);
         gtk_object_set_data(GTK_OBJECT(item_new2), "type", (gpointer)4);
         gtk_tree_append(GTK_TREE(item_subtree2), item_new2);
         gtk_widget_show(item_new2);
-        item_new2 = gtk_tree_item_new_with_label((char *)(*l)->URL().c_str());
+        item_new2 = gtk_tree_item_new_with_label((char *)mdata.Title().c_str());
         gtk_object_set_user_data(GTK_OBJECT(item_new2), *l);
         gtk_object_set_data(GTK_OBJECT(item_new2), "type", (gpointer)4);
         gtk_tree_append(GTK_TREE(all_subtree), item_new2);

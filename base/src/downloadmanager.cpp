@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.8 1999/11/13 13:03:20 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.9 1999/11/13 22:57:58 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1273,7 +1273,8 @@ void DownloadManager::SaveResumableDownloadItems()
                     ost << metadata.Track();
                     ost << metadata.Time();
                     ost << metadata.Size();
-               
+                    ost << '\0';     
+          
 #ifdef WIN32 
                     database.Insert(path, (char*)ost.str().c_str());  
 #else
@@ -1321,7 +1322,13 @@ void DownloadManager::LoadResumableDownloadItems()
  
                    sscanf(value + offset, " %d %n", &fieldLength[i], &temp);
                    printf("field %d: %d\n", i, fieldLength[i]);
-                   offset += temp;
+                   if (i == numFields - 1) {
+                       char intholder[10];
+                       sprintf(intholder, "%d", fieldLength[i]);
+                       offset += strlen(intholder) + 1;
+                   }
+                   else
+                       offset += temp;
                 }
 
                 string data = value;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.6 1999/11/23 19:08:42 robert Exp $
+   $Id: Window.h,v 1.7 1999/11/13 13:03:20 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -31,7 +31,7 @@ ____________________________________________________________________________*/
 #pragma warning(disable:4786)
 #endif
 
-#include <string>
+#include <string> 
 #include <vector>
 #include <map>
 

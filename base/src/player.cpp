@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.153 1999/11/13 01:53:07 ijr Exp $
+        $Id: player.cpp,v 1.154 1999/11/13 13:03:20 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -26,7 +26,7 @@ ____________________________________________________________________________*/
 #include <assert.h>
 #include <ctype.h>
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stat.h> 
 #ifdef WIN32
 #include <direct.h>
 #define MKDIR(z) mkdir(z)

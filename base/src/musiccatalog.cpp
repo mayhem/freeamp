@@ -18,14 +18,14 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.15 1999/11/23 09:14:08 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.16 1999/11/13 13:03:20 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
 // STL often creates symbols longer than that.
 // When symbols are longer than 255 characters, the warning is disabled.
 #ifdef WIN32
-#pragma warning(disable:4786)
+#pragma warning(disable:4786) 
 #endif
 
 #include <sys/stat.h>

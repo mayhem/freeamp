@@ -19,10 +19,10 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.29 1999/11/23 19:08:43 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.30 1999/11/13 13:03:20 elrod Exp $
 ____________________________________________________________________________*/
 
-#include <stdio.h>
+#include <stdio.h> 
 #include <sys/types.h>
 #include <sys/stat.h>
 #ifndef WIN32

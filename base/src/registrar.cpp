@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.17 1999/10/19 07:12:47 elrod Exp $
+	$Id: registrar.cpp,v 1.18 1999/10/28 04:44:55 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -169,6 +169,10 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
                     {
                         error = kError_NoErr;
                         item->SetInitFunction(init);
+
+#ifdef WIN32
+                        GetPluginDescription(file, item);
+#endif
 			            totalFilesFound++;
 #ifndef WIN32
 			            int32 *pInt = new int32;
@@ -215,3 +219,45 @@ CleanupRegistry(Registry* registry)
     
     return error;
 }
+
+#ifdef WIN32
+void 
+Registrar::
+GetPluginDescription(char* filePath, RegistryItem* item)
+{
+    DWORD versionSize;
+    DWORD dummyHandle;
+    void* data;
+
+    versionSize = GetFileVersionInfoSize(filePath, &dummyHandle);
+    //RAK: Something is not kosher here!
+    //     Boundschecker says that versionSize is 0
+    //     I added the code to gracefully handle that case
+    //     (fix the symptom, not the cause!)
+    if (versionSize > 0)
+       data = malloc(versionSize);
+    else
+       data = NULL;   
+
+    // actually get the verionsinfo for the file
+    if(data)
+    {
+        if(GetFileVersionInfo(filePath, dummyHandle, 
+                               versionSize, data))
+        {
+            char* fileDescription;
+            uint32 size;
+
+            // I need to learn how to correctly grab the proper language
+            // but for now we just hardcode English (US) Unicode
+            if(VerQueryValue(data, "\\StringFileInfo\\040904B0\\ProductName", (void**)&fileDescription, &size))
+            {     
+                //cout << fileDescription << endl;
+                item->SetDescription(fileDescription);
+            }
+        }
+
+        free(data);
+    }
+}
+#endif

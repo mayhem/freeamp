@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.h,v 1.7 1999/10/19 07:12:46 elrod Exp $
+	$Id: registrar.h,v 1.8 1999/10/28 04:44:55 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_REGISTRAR_H_
@@ -44,6 +44,10 @@ class Registrar {
     const char* SubDir(void) const {return m_subdir;}
     void SetSearchString(const char* search){m_search = search;}
     const char* SearchString(void) const {return m_search;}
+
+#ifdef WIN32
+    void GetPluginDescription(char* file, RegistryItem* item);
+#endif
 
  private:
     const char* m_subdir;

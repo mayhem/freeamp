@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.14 1999/11/07 23:08:42 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.15 1999/11/08 09:22:55 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -68,6 +68,12 @@ TreeViewWndProc(HWND hwnd,
                 WPARAM wParam, 
                 LPARAM lParam);
 
+BOOL CALLBACK 
+MusicSearchDlgProc(HWND hwnd, 
+                   UINT msg, 
+                   WPARAM wParam, 
+                   LPARAM lParam);
+
 class MusicBrowserUI : public UserInterface 
 {
  public:
@@ -95,6 +101,11 @@ class MusicBrowserUI : public UserInterface
                             LPARAM lParam);
 
     LRESULT ListViewWndProc(HWND hwnd, 
+                            UINT msg, 
+                            WPARAM wParam, 
+                            LPARAM lParam);
+
+    BOOL MusicSearchDlgProc(HWND hwnd, 
                             UINT msg, 
                             WPARAM wParam, 
                             LPARAM lParam);
@@ -208,6 +219,7 @@ class MusicBrowserUI : public UserInterface
 
     HWND                 m_hPlaylistHeader;
     DropTarget*          m_playlistDropTarget;
+    vector<string>       m_searchPathList;
 };
 
 #endif

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.h,v 1.1 1998/10/20 05:20:22 elrod Exp $
+	$Id: simpleui.h,v 1.2 1998/10/20 20:04:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SIMPLE_UI_H_
@@ -56,6 +56,9 @@ class SimpleUI : public UserInterface {
     void SetHwnd(HWND hwnd);
 
     Semaphore*      m_uiSemaphore;
+
+    bool            m_scrolling;
+
 
  protected:
       static void UIThreadFunc(void *);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: httpbuffer.h,v 1.8 1999/04/21 04:20:49 elrod Exp $
+   $Id: httpbuffer.h,v 1.9 1999/04/26 00:51:45 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPBUFFER_H_
@@ -91,6 +91,7 @@ class HttpBuffer : public StreamBuffer
       bool            m_bLoop;
       ID3Tag         *m_pID3Tag;
       HttpInput      *m_pHttp;
+      FILE           *m_fpSave;
 };
 
 #endif

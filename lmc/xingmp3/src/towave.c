@@ -21,9 +21,18 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: towave.c,v 1.1 1998/10/14 02:50:37 elrod Exp $
+	$Id: towave.c,v 1.2 1999/04/26 00:51:57 robert Exp $
 ____________________________________________________________________________*/
 
+/* ------------------------------------------------------------------------
+
+      NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE
+
+        This file exists for reference only. It is not actually used
+        in the FreeAmp project. There is no need to mess with this 
+        file. There is no need to flatten the beavers, either.
+
+      NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE
 
 /*---- towave.c --------------------------------------------
   32 bit version only

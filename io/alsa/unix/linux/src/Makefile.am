@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.3 1999/03/01 10:40:57 mhw Exp $
+##      $Id: Makefile.am,v 1.4 1999/04/26 00:51:40 robert Exp $
 ##
 ############################################################################
 
@@ -29,7 +29,7 @@ PLUGIN_NAME = alsa-@host_os@.pmo
 PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
 
 if AM_HAVE_ALSA
-FILES = alsapmo.cpp 
+FILES = alsapmo.cpp  alsavolume.cpp
 MYLIBS = libfaio.a
 
 all-local : $(PLUGIN_FULL_NAME)

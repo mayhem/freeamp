@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.15 1999/04/21 04:20:53 elrod Exp $
+	$Id: soundcardpmo.h,v 1.16 1999/04/26 00:51:53 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -39,6 +39,7 @@ ____________________________________________________________________________*/
 #include "eventbuffer.h"
 #include "preferences.h"
 #include "facontext.h"
+#include "win32volume.h"
 
 #define BIT_SELECT  0x1f
 #define SLEEPTIME   256
@@ -60,8 +61,7 @@ public:
     virtual Error Clear();
 
     virtual Error SetPropManager(Properties *p);
-    virtual void  SetVolume(int32);
-    virtual int32 GetVolume(void);
+    virtual VolumeManager *GetVolumeManager();
 
     static void   StartWorkerThread(void *);
     virtual Error BeginWrite(void *&pBuffer, size_t &iBytesToWrite);

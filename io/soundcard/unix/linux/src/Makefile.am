@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.8 1999/03/18 20:53:38 robert Exp $
+##      $Id: Makefile.am,v 1.9 1999/04/26 00:51:50 robert Exp $
 ##
 ############################################################################
 
@@ -29,7 +29,7 @@ PLUGIN_NAME = soundcard-@host_os@.pmo
 PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
 
 if AM_HAVE_LINUX
-FILES = soundcardpmo.cpp 
+FILES = soundcardpmo.cpp ossvolume.cpp
 MYLIBS = libfaio.a
 
 all-local : $(PLUGIN_FULL_NAME)

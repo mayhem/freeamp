@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.38 1999/04/21 04:20:43 elrod Exp $
+        $Id: player.h,v 1.39 1999/04/26 00:51:30 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -40,6 +40,7 @@ ____________________________________________________________________________*/
 #include "preferences.h"
 #include "properties.h"
 #include "propimpl.h"
+#include "volume.h"
 
 #include "lmc.h"
 
@@ -99,6 +100,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
 
    int32     ServiceEvent(Event *);
    void      CreateLMC(PlayListItem * pc, Event * pC);
+   void      GetVolumeManager();
 
    FAContext *m_context;
 
@@ -107,6 +109,8 @@ class Player : public EventQueue, Properties, PropertyWatcher
    // These are event loop handling functions
    void DoneOutputting(Event *pEvent) ;
    void Stop(Event *pEvent);
+   void GetVolume(Event *pEvent);
+   void SetVolume(Event *pEvent);
    void ChangePosition(Event *pEvent);
    void GetMediaInfo(Event *pEvent) ;
    void Play(Event *pEvent);
@@ -158,6 +162,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
    Mutex    *m_pmoMutex;
    Mutex    *m_uiMutex;
    PlayListManager *m_plm;
+   VolumeManager   *m_pVolumeManager;
 
    LogicalMediaConverter *m_lmc;
    UserInterface *m_ui;

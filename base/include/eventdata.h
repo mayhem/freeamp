@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.26 1999/04/08 07:39:03 elrod Exp $
+	$Id: eventdata.h,v 1.27 1999/04/26 00:51:29 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -165,6 +165,15 @@ class MediaTimeInfoEvent : public Event {
     virtual ~MediaTimeInfoEvent() {}
 };
 
+class VolumeEvent : public Event {                                            
+ private:                                                                     
+    int32 m_volume;                                                           
+ public:                                                                      
+    VolumeEvent(int32 t,int32 v=0) : m_volume(v) {m_type=t;}
+    int32 GetVolume() { return m_volume; }
+    virtual ~VolumeEvent() {}
+};                                                                            
+                                                                           
 class ChangePositionEvent : public Event {
  private:
     int32 m_frame;

@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.27 1999/04/21 04:20:54 elrod Exp $
+   $Id: xinglmc.h,v 1.28 1999/04/26 00:51:56 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -101,9 +101,6 @@ class     XingLMC:public LogicalMediaConverter
 
    virtual Error SetEQData(float *);
    virtual Error SetEQData(bool);
-
-   virtual void  SetVolume(int32);
-   virtual int32 GetVolume(void);
 
    virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
 

@@ -18,22 +18,23 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: volume.h,v 1.5 1999/04/26 00:51:32 robert Exp $
+	$Id: win32volume.h,v 1.1 1999/04/26 00:51:54 robert Exp $
 ____________________________________________________________________________*/
 
-#ifndef _VOLUME_H_
-#define _VOLUME_H_
+#ifndef _WIN32VOLUME_H_
+#define _WIN32VOLUME_H_
 
 #include "config.h"
+#include "volume.h"
 
-class VolumeManager 
+class Win32VolumeManager : public VolumeManager
 {
     public:
 
-    VolumeManager() { ; };
+    Win32VolumeManager();
 
-    virtual void SetVolume(int32) = 0;
-    virtual int32 GetVolume(void) = 0;
+    virtual void SetVolume(int32);
+    virtual int32 GetVolume(void);
 };
 
-#endif // _VOLUME_H_
+#endif // _OSSVOLUME_H_

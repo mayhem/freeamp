@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.78 1999/04/21 04:20:57 elrod Exp $
+   $Id: xinglmc.cpp,v 1.79 1999/04/26 00:51:58 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -281,20 +281,6 @@ Error XingLMC::SetPMO(PhysicalMediaOutput * o)
    {
       return kError_NullValueInvalid;
    }
-}
-
-void XingLMC::SetVolume(int32 iVolume)
-{
-   if (m_output)
-      m_output->SetVolume(iVolume);
-}
-
-int32 XingLMC::GetVolume(void)
-{
-   if (m_output)
-      return m_output->GetVolume();
-   else
-      return -1;
 }
 
 bool XingLMC::IsStreaming()

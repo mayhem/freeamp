@@ -18,22 +18,45 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: volume.h,v 1.5 1999/04/26 00:51:32 robert Exp $
+	$Id: ossvolume.cpp,v 1.1 1999/04/26 00:51:52 robert Exp $
 ____________________________________________________________________________*/
 
-#ifndef _VOLUME_H_
-#define _VOLUME_H_
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <linux/soundcard.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
 
-#include "config.h"
+#include "ossvolume.h"
 
-class VolumeManager 
+OSSVolumeManager::OSSVolumeManager()
+                 :VolumeManager()
 {
-    public:
 
-    VolumeManager() { ; };
+}
 
-    virtual void SetVolume(int32) = 0;
-    virtual int32 GetVolume(void) = 0;
-};
+void OSSVolumeManager::SetVolume(int32 v) 
+{
+    int mixFd = open("/dev/mixer",O_RDWR);
+    if (mixFd != -1) 
+    {
+        v |= (v << 8);
+        ioctl(mixFd, SOUND_MIXER_WRITE_PCM, &v);
+        close(mixFd);
+    }
+}
 
-#endif // _VOLUME_H_
+int32 OSSVolumeManager::GetVolume() 
+{
+    int mixFd = open("/dev/mixer",O_RDWR);
+    int volume = 0;
+    if (mixFd != -1) 
+    {
+        	ioctl(mixFd, SOUND_MIXER_READ_PCM, &volume);
+        	volume &= 0xFF;
+        	close(mixFd);
+    }
+    return volume;
+}
+

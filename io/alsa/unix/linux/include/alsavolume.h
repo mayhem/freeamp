@@ -18,22 +18,27 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: volume.h,v 1.5 1999/04/26 00:51:32 robert Exp $
+	$Id: alsavolume.h,v 1.1 1999/04/26 00:51:40 robert Exp $
 ____________________________________________________________________________*/
 
-#ifndef _VOLUME_H_
-#define _VOLUME_H_
+#ifndef _ALSAVOLUME_H_
+#define _ALSAVOLUME_H_
 
 #include "config.h"
+#include "volume.h"
 
-class VolumeManager 
+class ALSAVolumeManager : public VolumeManager
 {
     public:
 
-    VolumeManager() { ; };
+    ALSAVolumeManager(int iCard, int iDevice);
 
-    virtual void SetVolume(int32) = 0;
-    virtual int32 GetVolume(void) = 0;
+    virtual void SetVolume(int32);
+    virtual int32 GetVolume(void);
+
+    private:
+
+    int iCard, iDevice;
 };
 
-#endif // _VOLUME_H_
+#endif // _ALSAVOLUME_H_

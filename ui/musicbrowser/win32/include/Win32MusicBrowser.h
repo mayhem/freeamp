@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.82 2000/07/31 19:51:40 ijr Exp $
+        $Id: Win32MusicBrowser.h,v 1.83 2000/08/02 01:47:30 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -290,6 +290,7 @@ class MusicBrowserUI : public UserInterface
     void    FillPortables();
     void    FillWiredPlanet();
     void    FillStreams();
+    void    FillRelatable();
     void    UpdateStreams(vector<FreeAmpStreamInfo> &list);
     HTREEITEM MusicBrowserUI::CreateStreamFolder(string& treePath);
     void    FillFavorites();
@@ -368,6 +369,7 @@ class MusicBrowserUI : public UserInterface
     HTREEITEM           m_hNewPlaylistItem, m_hNewPortableItem;
     HTREEITEM           m_hWiredPlanetItem, m_hShoutCastItem, m_hIceCastItem;
     HTREEITEM           m_hFavoritesItem, m_hNewFavoritesItem;
+    HTREEITEM           m_hRelatableItem;
     int                 m_iCollapseMoveAmount;
     HCURSOR             m_hSavedCursor, m_hDragCursor, m_hNoDropCursor;
     HCURSOR             m_hSplitterCursor, m_hPointerCursor, m_hCurrentCursor;

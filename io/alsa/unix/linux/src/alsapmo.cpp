@@ -23,7 +23,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.8 1999/04/21 04:20:48 elrod Exp $
+        $Id: alsapmo.cpp,v 1.9 1999/04/21 16:30:37 mhw Exp $
 
  *  You can use -a <soundcard #>:<device #>...
  *  For example: mpg123 -a 1:0 aaa.mpg
@@ -278,21 +278,21 @@ Error AlsaPMO::Init(OutputInfo* info) {
     } else {
         // got info, so this is the beginning...
         PropValue *pv = NULL, *pProp;
-        int        iNewSize = iDefaultBufferSize;
+        int32      iNewSize = iDefaultBufferSize;
         Error      result;
 	uint32	   deviceNameSize = 128;
 
 	ai->device = (char *) malloc(deviceNameSize);
 	m_context->prefs->GetPrefString(kALSADevicePref, ai->device,
 					&deviceNameSize);
-	// cerr << "Using ALSA device: " << ai->device << endl;
 
         m_iDataSize = info->max_buffer_size;
-        m_propManager->GetProperty("OutputBuffer", &pProp);
-        if (pProp)
-        {
-            iNewSize = atoi(((StringPropValue *)pProp)->GetString()) * 1024;
-        }
+
+	m_context->prefs->GetOutputBufferSize(&iNewSize);
+	iNewSize *= 1024;
+
+	// cerr << "Using ALSA device: " << ai->device << endl;
+	// cerr << "Using output buffer size: " << iNewSize << endl;
 
         iNewSize -= iNewSize % m_iDataSize;
         result = Resize(iNewSize, 0, m_iDataSize);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.4 1999/04/21 07:06:31 dogcow Exp $
+        $Id: soundcardpmo.cpp,v 1.5 1999/04/21 16:30:39 mhw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -127,19 +127,8 @@ void SoundCardPMO::WaitToQuit()
 Error SoundCardPMO::SetPropManager(Properties * p)
 {
    PropValue *pProp;
-   int        iNewSize;
 
    m_propManager = p;
-   m_propManager->GetProperty("OutputBuffer", &pProp);
-   if (pProp)
-   {
-       iNewSize = atoi(((StringPropValue *)pProp)->GetString()) * 1024;
-       if (iNewSize > iInitialBufferSize)
-           Resize(iNewSize, iOverflowSize, iWriteTriggerSize);
-   }
-   else
-      Resize(iBufferSize, iOverflowSize, iWriteTriggerSize);
-
    return kError_NoErr;
 }
 
@@ -209,6 +198,13 @@ Error SoundCardPMO::Init(OutputInfo * info)
    struct audio_info audinf;
    struct audio_info sInfo;
    m_properlyInitialized = false;
+   int32 iNewSize;
+
+   m_context->prefs->GetOutputBufferSize(&iNewSize);
+   iNewSize *= 1024;
+   if (iNewSize > iInitialBufferSize)
+       Resize(iNewSize, iOverflowSize, iWriteTriggerSize);
+
    if (!info)
    {
       info = myInfo;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.22 1999/04/21 04:20:53 elrod Exp $
+        $Id: soundcardpmo.cpp,v 1.23 1999/04/21 16:30:38 mhw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -218,11 +218,9 @@ Error SoundCardPMO::Init(OutputInfo * info)
       }
 
       m_iDataSize = info->max_buffer_size;
-      m_propManager->GetProperty("OutputBuffer", &pProp);
-      if (pProp)
-      {
-          iNewSize = atoi(((StringPropValue *)pProp)->GetString()) * 1024;
-      }
+
+      m_context->prefs->GetOutputBufferSize(&iNewSize);
+      iNewSize *= 1024;
 
       iNewSize -= iNewSize % m_iDataSize;
       result = Resize(iNewSize, 0, m_iDataSize);

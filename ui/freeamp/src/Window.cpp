@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.8 1999/11/13 01:21:45 ijr Exp $
+   $Id: Window.cpp,v 1.9 1999/11/23 19:08:44 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -225,6 +225,11 @@ Error Window::SendControlMessage(Control *pControl,
     pControl->GetName(oControlName);
 
     return m_pTheme->HandleControlMessage(oControlName, eMesg);
+}
+
+bool Window::DoesControlExist(const string &oName)
+{
+    return m_oControlMap.find(oName) != m_oControlMap.end();
 }
 
 Control *Window::ControlFromPos(Pos &oPos)

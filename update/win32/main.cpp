@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.5.2.1.4.1 2000/03/23 18:13:19 elrod Exp $
+	$Id: main.cpp,v 1.5.2.1.4.2 2000/03/27 03:13:03 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -25,18 +25,29 @@ ____________________________________________________________________________*/
 #include <windows.h>
 #include <winsock.h>
 #include <commctrl.h>
+#include <setupapi.h>
 #include <stdio.h>
 #include <string.h>
-#include <iostream>
+#include <io.h>
+#include <sys/stat.h>
 
 /* Project Includes */
 #include "win32prefs.h"
 #include "updatemanager.h"
 
-const char* kMessage = "An instance of "the_BRANDING" is currently running. Please "
-                       "close the application before continuing the update.";
+const char* kMessage = "An instance of "the_BRANDING" is currently running. "
+                       "Please close the application before continuing the "
+                       "update.";
+
+const char* kReboot = The_BRANDING" needs to restart your computer in order "
+                      "to complete the update process.\r\n"
+                      "If you do not wish to restart your computer now you "
+                      "may do so later.\r\n\r\n"
+                      "Do you wish to restart your computer?";
 
 void MoveFiles(const char* src, const char* dest);
+bool MoveSystemFiles(const char* src);
+void MoveFileOnReboot(const char* src, const char* dest);
 
 int APIENTRY WinMain(	HINSTANCE hInstance, 
 						HINSTANCE hPrevInstance,
@@ -77,10 +88,40 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     // Move all those new files
     MoveFiles(updatePath, appPath);
 
+    strcat(updatePath, "\\_system_");
+
+    bool needToReboot;
+
+    needToReboot = MoveSystemFiles(updatePath);
+
     CloseHandle(runOnceMutex);
 
-    strcat(appPath, "\\freeamp.exe");
-    WinExec(appPath, SW_NORMAL);
+    if(needToReboot)
+    {
+        /*
+        // let ourselves know we need to reboot with a lock file
+        strcat(appPath, "\\NeedToRebootForUpdate");
+        creat(appPath, _S_IREAD | _S_IWRITE);
+
+        // but make sure it gets axed when the reboot occurs
+        MoveFileOnReboot(appPath, NULL);
+        */
+
+        int result;
+
+        result = MessageBox(NULL, kReboot, "Restart Your Computer?", 
+                            MB_ICONQUESTION|MB_YESNO);
+
+        if(result == IDYES)
+        {
+            ExitWindowsEx(EWX_REBOOT, 0);
+        }
+    }
+    else
+    {
+        strcat(appPath, "\\freeamp.exe");
+        WinExec(appPath, SW_NORMAL);
+    }
 
 	return 0;
 }
@@ -109,14 +150,14 @@ void MoveFiles(const char* src, const char* dest)
     {
         do
         {
-            strcpy(sp, findData.cFileName);
-            strcpy(dp, findData.cFileName);
-
             // skip these two special entries & the _system_ directory
             if( strcmp(findData.cFileName, ".") && 
                 strcmp(findData.cFileName, "..") &&
                 strcmp(findData.cFileName, "_system_"))
             {
+                strcpy(sp, findData.cFileName);
+                strcpy(dp, findData.cFileName);
+
                 if(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) 
                 {
                     // call ourselves on that directory
@@ -183,4 +224,106 @@ void MoveFiles(const char* src, const char* dest)
 
         FindClose(findFileHandle);
     }
+}
+
+bool MoveSystemFiles(const char* src)
+{
+    HANDLE findFileHandle = NULL;
+    WIN32_FIND_DATA findData;
+    char srcPath[MAX_PATH];
+    char destPath[MAX_PATH];
+    char* dp;
+    char* sp;
+    bool needToReboot = false;
+
+    strcpy(srcPath, src);
+    strcat(srcPath, "\\*.*");
+    sp = strrchr(srcPath, '\\') + 1;
+
+    GetSystemDirectory(destPath, sizeof(destPath));
+    strcat(destPath, "\\");
+    dp = strrchr(destPath, '\\') + 1;
+
+    // is there a _system_ directory for us to look at?
+    findFileHandle = FindFirstFile(srcPath, &findData);
+
+    if(findFileHandle != INVALID_HANDLE_VALUE)
+    {
+        do
+        {
+            // skip these two special entries
+            if( strcmp(findData.cFileName, ".") && 
+                strcmp(findData.cFileName, ".."))
+            {
+                strcpy(sp, findData.cFileName);
+                strcpy(dp, findData.cFileName);
+
+            
+
+                BOOL success;
+
+                success = TRUE;
+
+                success = DeleteFile(destPath);
+
+                if(success)
+                {
+                    // actually move the file
+                    success = MoveFile(srcPath, destPath);
+                }  
+        
+                if(!success)
+                {
+                    needToReboot = true;
+
+                    // First tell it to delete the old file
+                    MoveFileOnReboot(destPath, NULL);
+
+                    // Now replace it with the new one
+                    MoveFileOnReboot(srcPath, destPath);                
+                }
+            }
+
+        }while(FindNextFile(findFileHandle, &findData));
+
+        FindClose(findFileHandle);
+    }
+
+    return needToReboot;
+}
+
+void MoveFileOnReboot(const char* src, const char* dest)
+{
+    OSVERSIONINFO osid;
+
+	osid.dwOSVersionInfoSize = sizeof(osid);
+	GetVersionEx(&osid);
+
+	switch (osid.dwPlatformId)
+    {
+	    // Windows 95, 98
+	    case VER_PLATFORM_WIN32_WINDOWS:
+        {
+            char iniPath[MAX_PATH];
+            const char* kNULL = "NUL";
+
+            if(!dest)
+                dest = kNULL;
+    
+            GetWindowsDirectory(iniPath, sizeof(iniPath));
+            strcat(iniPath, "\\WININIT.INI");
+
+            WritePrivateProfileString("rename", dest, src, iniPath);
+ 		    break;
+        }
+
+	    // Windows NT
+	    case VER_PLATFORM_WIN32_NT:
+        {
+            MoveFileEx(src, dest, MOVEFILE_DELAY_UNTIL_REBOOT);
+		    break;    
+        }
+    }
+
+    
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.67.2.1.2.3.2.1 2000/03/22 20:02:29 elrod Exp $
+        $Id: Dialog.cpp,v 1.67.2.1.2.3.2.2 2000/03/27 03:13:03 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -96,7 +96,13 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
         {
 			Close();
             return 1;
-        }    
+        }
+
+        case WM_ENDSESSION:
+        {
+            SaveCurrentPlaylist();
+            break;
+        }
 
         case UWM_DROPURLS:
             filesAreURLs = true;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.27.2.1.2.1 2000/03/08 07:05:19 elrod Exp $
+	$Id: config.win32,v 1.27.2.1.2.1.2.1 2000/03/27 03:13:03 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -38,7 +38,7 @@ ____________________________________________________________________________*/
 
 #define BRANDING_URL "http://www.freeamp.org"
 #define BRANDING_UPDATE_SERVER "update.freeamp.org"
-#define BRANDING_UPDATE_PATH "/update/freeamp/"
+#define BRANDING_UPDATE_PATH "/update/freeamp_test/"
 #define BRANDING_DEFAULT_THEME "FreeAmp.fat"
 #define BRANDING_HELP_FILE "freeamp.hlp"
 

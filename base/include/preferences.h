@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.7 1999/07/06 23:10:52 robert Exp $
+	$Id: preferences.h,v 1.8 1999/07/10 04:59:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PREFERENCES_H
@@ -156,6 +156,15 @@ class Preferences {
 
     Error GetSaveStreamsDirectory(char* path, uint32* len);
     Error SetSaveStreamsDirectory(char* path);
+
+    Error GetUseProxyServer(bool* value);
+    Error SetUseProxyServer(bool value);
+
+    Error GetProxyServerAddress(char* host, uint32* len);
+    Error SetProxyServerAddress(char* host);
+
+    Error GetPrebufferLength(int32* value);
+    Error SetPrebufferLength(int32 value);
 
 };
 

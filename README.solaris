@@ -1,4 +1,0 @@
-Solaris mostly works, although it has strange problems with lockups.
-Still trying to track them down.
-
-$Id: README.solaris,v 1.2 1999/08/05 22:25:31 dogcow Exp $

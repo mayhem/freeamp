@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.152 1999/11/13 01:48:09 ijr Exp $
+        $Id: player.cpp,v 1.153 1999/11/13 01:53:07 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -609,6 +609,22 @@ Run()
 
          name = new char[len];
       }
+#ifdef unix
+#ifndef HAVE_GTK
+      if (!strcmp("freeamp.ui", name)) {
+          pref = kTextUIPref;
+
+          while ((error = m_context->prefs->GetPrefString(pref, name, &len)) ==
+                 kError_BufferTooSmall)
+          {
+              delete [] name;
+              len++;
+
+              name = new char[len];
+          }
+      }
+#endif
+#endif
    }
    else
    {

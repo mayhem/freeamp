@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.48 2000/03/01 06:10:43 elrod Exp $
+        $Id: MusicTree.cpp,v 1.49 2000/03/13 21:26:01 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -63,7 +63,12 @@ char* kShoutCast = "ShoutCast";
 char* kIceCast = "IceCast";
 
 void MusicBrowserUI::InitTree(void)
-{                          
+{
+    if(m_hMyMusicItem)
+        TreeView_DeleteItem(m_hMusicView, m_hMyMusicItem);
+    if(m_hPlaylistItem)
+        TreeView_DeleteItem(m_hMusicView, m_hPlaylistItem);
+    
     TV_INSERTSTRUCT insert;
         
     insert.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_CHILDREN |
@@ -813,9 +818,6 @@ HTREEITEM MusicBrowserUI::FindPlaylist(const string playlist)
 
 void MusicBrowserUI::MusicCatalogCleared()
 {
-    TreeView_DeleteItem(m_hMusicView, m_hMyMusicItem);
-    TreeView_DeleteItem(m_hMusicView, m_hPlaylistItem);
-
     InitTree();
 }
 

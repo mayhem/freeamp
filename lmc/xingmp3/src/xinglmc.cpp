@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.123 2000/02/11 04:31:25 robert Exp $
+   $Id: xinglmc.cpp,v 1.124 2000/03/13 21:26:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -182,7 +182,7 @@ Error XingLMC::AdvanceBufferToNextFrame()
 	Error          Err;
 
    Err = BeginRead(pBufferBase, iMaxFrameSize);
-   if (Err == kError_EndOfStream)
+   if (Err == kError_EndOfStream || Err == kError_Interrupt)
       return Err;
 
    if (Err != kError_NoErr)
@@ -782,13 +782,9 @@ void XingLMC::DecodeWork()
               return;
           }
 
-          if (iMaxFrameSize > (int)m_pInputBuffer->GetNumBytesInBuffer())
-          {
-              if ((int)m_pInputBuffer->GetNumBytesInBuffer() == m_frameBytes)
-                  iReadSize = m_frameBytes;
-              else    
-                  iReadSize = m_frameBytes + 1;
-          }        
+          if (iMaxFrameSize > (int)m_pInputBuffer->GetNumBytesInBuffer() &&
+              m_pInputBuffer->IsEndOfStream())
+              iReadSize = m_pInputBuffer->GetNumBytesInBuffer();
           else
               iReadSize = iMaxFrameSize;    
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.60 2000/02/29 10:01:58 elrod Exp $
+   $Id: soundcardpmo.cpp,v 1.61 2000/03/13 21:26:00 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -263,7 +263,6 @@ Error SoundCardPMO::Init(OutputInfo * info)
    m_num_headers = (m_pInputBuffer->GetBufferSize() / m_data_size) - 1;
    
    m_hdr_size = sizeof(WAVEHDR);
-   m_wavehdr_array = new WAVEHDR[m_num_headers];
 
    m_wfex = new WAVEFORMATEX;
 

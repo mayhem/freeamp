@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.31 2000/02/29 10:02:01 elrod Exp $
+   $Id: Theme.cpp,v 1.32 2000/03/13 21:26:00 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1185,6 +1185,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 
     if (oElement == string("Headlines"))
     {
+       string oURLPath;
+       
        if (m_pCurrentWindow)
        {
            m_oLastError = string("A <Headlines> tag must be outside any <Window> tags.");
@@ -1208,6 +1210,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            m_oLastError = string("the <Headlines> tag needs a XMLPath attribute");
            return kError_ParseError;
        }        
+	   if (oAttrMap.find("XMLURLPath") != oAttrMap.end())
+           oURLPath = oAttrMap["XMLURLPath"];
 
        if (oAttrMap.find("DownloadInterval") == oAttrMap.end())
        {
@@ -1223,6 +1227,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 
        m_pParsedHeadlines = new HeadlineInfo(oAttrMap["URL"],
                                              oAttrMap["XMLPath"],
+                                             oURLPath,
                                              atoi(oAttrMap["DownloadInterval"].c_str()),
                                              atoi(oAttrMap["ChangeInterval"].c_str()));
        return kError_NoErr;

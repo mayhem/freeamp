@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.69 2000/03/01 03:49:30 elrod Exp $
+        $Id: Dialog.cpp,v 1.70 2000/03/13 21:26:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -977,7 +977,7 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     m_sMinSize.x = 500;
     m_sMinSize.y = 300;
 
-    if (m_pParent == NULL)
+    if(m_pParent == NULL)
     {
 //       string lastPlaylist = FreeampDir(m_context->prefs);
 //       lastPlaylist += "\\currentlist.m3u";
@@ -994,19 +994,25 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
 
             m_initialCount = items.size();
 
-            m_plm->AddItems(&items);
+            if(m_initialCount)
+                m_plm->AddItems(&items);
         }
     }
     else
     {
         m_plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
-        LoadPlaylist(m_currentListName.c_str());
+
+        if(m_currentListName.size())
+            LoadPlaylist(m_currentListName.c_str());
     }       
 
     UpdateTotalTime();
     
     if(m_pParent)
+    {
         ShowWindow(m_hWnd, SW_SHOW);
+        SetForegroundWindow(m_hWnd);
+    }
     else
     {
         bool viewMusicBrowser = true;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.9 2000/03/01 03:49:28 elrod Exp $
+	$Id: utility.h,v 1.10 2000/03/13 21:25:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
@@ -63,5 +63,8 @@ void FindMusicFiles(const char* rootPath,
                     vector<string>& queries); 
 bool ResolveLink(string& path);
 #endif
+
+/* func to find the real filename of a path, irregardless of case */
+string FindFile(string oPath);
 
 #endif /* INCLUDED_UTILITY_H */

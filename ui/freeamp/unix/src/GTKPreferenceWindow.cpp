@@ -18,10 +18,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.27 2000/02/29 10:02:01 elrod Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.28 2000/03/13 21:26:00 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
+#include "config.h"
+
 #include <stdlib.h>
 #include <assert.h>
 #include <sys/stat.h>
@@ -1472,6 +1474,18 @@ void GTKPreferenceWindow::UpdateThemeList(void)
          if ((*i).second == originalValues.currentTheme) 
              originalValues.listboxIndex = proposedValues.listboxIndex 
                                          = currentValues.listboxIndex = iLoop;
+         else {
+             char *name = strrchr((*i).second.c_str(), '/');
+             if (name) {
+                 name++;
+                 if (name && *name) {
+                     if (!strcmp(name, originalValues.currentTheme.c_str())) 
+                         originalValues.listboxIndex = 
+                                             proposedValues.listboxIndex 
+                                           = currentValues.listboxIndex = iLoop;
+                 }
+             }
+         }
     }
 
     gtk_clist_select_row(GTK_CLIST(themeList), proposedValues.listboxIndex, 0);

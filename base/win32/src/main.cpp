@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.53 2000/03/01 03:49:28 elrod Exp $
+	$Id: main.cpp,v 1.54 2000/03/13 21:25:59 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -436,6 +436,12 @@ static LRESULT WINAPI HiddenWndProc(HWND hwnd,
             bool playNow = false;
 
             context->prefs->GetPlayImmediately(&playNow);
+            
+            // If a single theme or rpm file gets passed, don't affect 
+            // the play queue
+            if (strcasecmp("fat", array + strlen(array) - 3) == 0 ||
+                strcasecmp("rmp", array + strlen(array) - 3) == 0)
+                playNow = false;
 
             if(playNow)
             {

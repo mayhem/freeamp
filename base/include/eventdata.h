@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.49 2000/02/19 06:04:54 ijr Exp $
+        $Id: eventdata.h,v 1.50 2000/03/13 21:25:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -162,7 +162,7 @@ class     BrowserMessageEvent:public Event
 class     HeadlineMessageEvent:public Event
 {
    private:
-   char     *m_info;
+   char     *m_info, *m_url;
 
    public:
    virtual ~ HeadlineMessageEvent()
@@ -171,20 +171,30 @@ class     HeadlineMessageEvent:public Event
       {
          delete    m_info;
       }
+      if (m_url)
+      {
+         delete    m_url;
+      }
    }
    HeadlineMessageEvent()
    {
       m_type = INFO_HeadlineText;
       m_info = "";
+      m_url = "";
    }
-   HeadlineMessageEvent(const char *info)
+   HeadlineMessageEvent(const char *info, const char *url)
    {
       m_type = INFO_HeadlineText;
       m_info = strdup_new(info);
+      m_url = strdup_new(url);
    }
    const char *GetHeadlineMessage()
    {
       return m_info;
+   }
+   const char *GetHeadlineURL()
+   {
+      return m_url;
    }
 };
 

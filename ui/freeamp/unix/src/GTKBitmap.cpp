@@ -18,11 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.5 2000/02/04 16:13:43 ijr Exp $
+   $Id: GTKBitmap.cpp,v 1.6 2000/03/13 21:26:00 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
 #include "GTKBitmap.h"
+
+#include "utility.h"
 
 #include <gdk/gdk.h>
 extern "C" {
@@ -128,11 +130,17 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
     gulong rmask = 0xff, gmask = 0xff, bmask = 0xff;
     gulong rshift = 0, gshift = 0, bshift = 0;
 
-    if (stat(oFile.c_str(), &statbuf) == -1) 
-        return kError_LoadBitmapFailed;
+    string filename = oFile;
+
+    if (stat(filename.c_str(), &statbuf) == -1) {
+        filename = FindFile(filename);
+        if (stat(filename.c_str(), &statbuf) == -1) 
+            return kError_LoadBitmapFailed;
+    }
+
     size = statbuf.st_size;
 
-    file = fopen(oFile.c_str(), "rb");
+    file = fopen(filename.c_str(), "rb");
     if (!file) 
         return kError_LoadBitmapFailed;
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.92 2000/03/01 03:49:29 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.93 2000/03/13 21:26:00 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -490,6 +490,7 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          HeadlineMessageEvent *pInfo = (HeadlineMessageEvent *) e;
 
          oText = string(pInfo->GetHeadlineMessage());
+         m_oHeadlineUrl = string(pInfo->GetHeadlineURL());
          m_pWindow->ControlStringValue(oName, true, oText);
 
          break;
@@ -996,6 +997,28 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
                     NULL, NULL, SW_SHOWNORMAL);
 #else
        LaunchBrowser((char *)oUrl.c_str());
+#endif
+       return kError_NoErr;
+   }
+   
+   if (oControlName == string("HeadlineInfo") && eMesg == CM_Pressed)
+   {
+       if (m_oHeadlineUrl.length() == 0)
+          return kError_NoErr;
+          
+#ifdef WIN32   
+       Int32PropValue *pProp;
+       HWND            hWnd;
+       if (IsError(m_pContext->props->GetProperty("MainWindow", 
+                   (PropValue **)&pProp)))
+          hWnd = NULL;
+       else
+          hWnd = (HWND)pProp->GetInt32();
+             
+       ShellExecute(hWnd, "open", m_oHeadlineUrl.c_str(),
+                    NULL, NULL, SW_SHOWNORMAL);
+#else
+       LaunchBrowser((char *)m_oHeadlineUrl.c_str());
 #endif
        return kError_NoErr;
    }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.24 2000/02/10 21:32:30 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.25 2000/03/13 21:26:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -104,7 +104,7 @@ class FreeAmpTheme : public UserInterface, public Theme
         Pos              m_oWindowPos;
         bool             m_bSeekInProgress, m_bVolumeChangeInProgress;
         bool             m_bPaused, m_bInOptions, m_bPlayShown, m_bShowBuffers;
-        string           m_oCurrentWindow, m_oTitle, m_oStreamInfo;
+        string           m_oCurrentWindow, m_oTitle, m_oStreamInfo, m_oHeadlineUrl;
         TimeDisplayState m_eTimeDisplayState;
         UpdateManager   *m_pUpdateMan;
 };

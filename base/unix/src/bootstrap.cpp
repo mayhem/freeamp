@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.21 2000/02/29 10:01:57 elrod Exp $
+	$Id: bootstrap.cpp,v 1.22 2000/03/13 21:25:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -73,6 +73,9 @@ int main(int argc, char **argv)
     int        iProcess, i;
     char      *pCmdLine = NULL, *pPtr;
 
+    union { int val; } unsem;
+    unsem.val = 0;
+    
     context->prefs = unixPrefs;
     context->log = new LogFile("freeamp.log");
 
@@ -94,7 +97,7 @@ int main(int argc, char **argv)
 
         // Check to see if the process that created that semaphore still
         // exists
-        iProcess = semctl(iCmdSem, 0, GETVAL, 0);
+        iProcess = semctl(iCmdSem, 0, GETVAL, unsem);
         if (iProcess > 0 && !allow_mult)
         {
             if (kill(iProcess, 0) >= 0)
@@ -132,7 +135,8 @@ int main(int argc, char **argv)
         }
 
         // Set the current pid into the semaphore
-        semctl(iCmdSem, 0, SETVAL, getpid());
+        unsem.val = getpid();
+        semctl(iCmdSem, 0, SETVAL, unsem);
 
         // Create the shared memory segment
         iCmdMem = shmget(tMemKey, iSharedMemSize, IPC_CREAT | 0666);
@@ -218,11 +222,15 @@ int main(int argc, char **argv)
                     {
                         if (i == 0)
                         {
-                            if (strcmp("fat", pPtr + strlen(pPtr) - 3) == 0)
+                            if (!strcasecmp("fat", pPtr + strlen(pPtr) - 3) ||
+                                !strcasecmp("rmp", pPtr + strlen(pPtr) - 3))
                                bPlay = false;
 
                             if (bPlay) 
+                            {
+                                context->target->AcceptEvent(new Event(CMD_Stop));
                                 context->plm->RemoveAll();
+                            }    
                         }
 
                         pP->HandleSingleArg(pPtr);
@@ -241,8 +249,9 @@ int main(int argc, char **argv)
 
     if (!allow_mult) {
         if (pCmdLine)
-            shmdt(pCmdLine); 
-        semctl (iCmdSem, IPC_RMID, 0);
+            shmdt(pCmdLine);
+        unsem.val = 0; 
+        semctl (iCmdSem, 0, IPC_RMID, unsem);
         shmctl (iCmdMem, IPC_RMID, 0);
     }
 

@@ -102,9 +102,6 @@ Package=<4>
     Project_Dep_Name m3u
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name musicbrowser
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name obsinput
     End Project Dependency
     Begin Project Dependency
@@ -144,13 +141,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name fileinput
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name soundcard
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name xing
+    Project_Dep_Name zlib
     End Project Dependency
 }}}
 
@@ -311,21 +302,6 @@ Package=<5>
 
 Package=<4>
 {{{
-}}}
-
-###############################################################################
-
-Project: "theme"=..\..\..\UI\THEME\WIN32\PRJ\theme.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name zlib
-    End Project Dependency
 }}}
 
 ###############################################################################

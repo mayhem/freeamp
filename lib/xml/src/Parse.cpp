@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.1.2.11 1999/10/12 22:13:48 elrod Exp $
+   $Id: Parse.cpp,v 1.1.2.12 1999/10/14 07:09:46 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -222,6 +222,11 @@ Error Parse::DoParse(void)
 
         if (!bError)
         {
+            if(oAttrMap.size())
+            {
+                AttrMap::iterator i = oAttrMap.find("NAME");
+            }
+
             eRet = BeginElement(oElementName, oAttrMap);
             if (bEmptyTag && !IsError(eRet))
             eRet = EndElement(oElementName);

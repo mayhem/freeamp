@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.h,v 1.1.2.4 1999/10/06 17:53:22 robert Exp $
+   $Id: Parse.h,v 1.1.2.5 1999/10/14 07:09:46 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_PARSE_H__
@@ -38,7 +38,7 @@ using namespace std;
 
 #include "errors.h"
 
-typedef map<string, string, less<string> > AttrMap;
+typedef map<string, string > AttrMap;
 
 class Parse
 {

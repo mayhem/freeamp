@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.1.2.8 1999/10/13 23:07:56 robert Exp $
+	$Id: updatemanager.cpp,v 1.1.2.9 1999/10/14 07:09:37 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -153,7 +153,7 @@ Error UpdateManager::InternalRetrieveLatestVersionInfo(
 
     if(IsntError(result))
     {
-        result = ParseString(info);//ParseFile(string("c:\\temp\\version_info.xml"));
+        result = ParseFile(string("c:\\temp\\version_info.xml")); // ParseString(info);//
     }
     
     return result;
@@ -1044,11 +1044,23 @@ inline uint32 UpdateManager::CheckIndex(uint32 index)
 // parsing code
 Error UpdateManager::BeginElement(string &element, AttrMap &attrMap)
 {
-	m_path += string("/") + element;
+    if(attrMap.size())
+    {
+        AttrMap::iterator i = attrMap.find("NAME");
+    }
+
+    /*char temp[256];
+
+    OutputDebugString("BeginElement: \r\n");
+
+    sprintf(temp, "%d\r\n",attrMap.size());
+    OutputDebugString(temp);*/
+
+	/*m_path += string("/") + element;
 
 	if(m_path == "/VERSIONINFO/PLATFORM")
 	{
-        AttrMap::iterator i = attrMap.find("NAME");
+        AttrMap::iterator i = attrMap.find(string("NAME"));
 
 		if (i != attrMap.end())
         {
@@ -1111,7 +1123,7 @@ Error UpdateManager::BeginElement(string &element, AttrMap &attrMap)
 
         if(attrMap.find("LOCATION") != attrMap.end())
             cout << "Location: " << attrMap["LOCATION"] << endl;
-    }
+    }*/
 
     return kError_NoErr;
 }
@@ -1128,7 +1140,7 @@ Error UpdateManager::EndElement(string &element)
 {
     //cout << "EndElement: " << element << endl;
 
-	char *ptr;
+	/*char *ptr;
     int   offset;
     
     ptr = strrchr(m_path.c_str(), '/');
@@ -1136,7 +1148,7 @@ Error UpdateManager::EndElement(string &element)
        return kError_NoErr;
        
     offset = ptr - m_path.c_str();
-    m_path.erase(offset, m_path.length() - offset);   
+    m_path.erase(offset, m_path.length() - offset);   */
      
 	return kError_NoErr;
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: font.h,v 1.1.2.2 1999/09/28 22:59:34 robert Exp $
+   $Id: Font.h,v 1.1.2.1 1999/09/29 08:40:56 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_FONT_H__

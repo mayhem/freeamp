@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.28 1999/11/11 05:59:21 elrod Exp $
+        $Id: Dialog.cpp,v 1.29 1999/11/11 10:44:55 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -212,11 +212,7 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
                     return 1;
 
                 case ID_EDIT_REMOVE:
-                    MessageBox(hwnd, 
-                               "This feature is not yet implemented under win32.", 
-                               "doh!", 
-                               MB_OK);
-                    //RemoveEvent();
+                    RemoveEvent();
                     return 1;
 
                 case ID_EDIT_MOVEUP:

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.4 1999/10/25 03:30:42 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.5 1999/10/30 04:26:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -73,7 +73,9 @@ void MusicBrowserUI::GTKEventService(void)
 {
     weAreGTK = false;
 
-    mainBrowser = new GTKMusicBrowser(m_context, this);
+    string URL = string("file://") + FreeampDir(NULL) + 
+                 string("/currentlist.m3u");
+    mainBrowser = new GTKMusicBrowser(m_context, this, URL);
 
     m_context->gtkLock.Acquire();
     if (!m_context->gtkInitialized) {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.5 1999/10/25 21:22:08 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.6 1999/10/30 04:26:59 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -29,6 +29,11 @@ ____________________________________________________________________________*/
 #include "GTKWindow.h"
 #include "GTKCanvas.h"
 #include "GTKUtility.h" 
+
+static GtkTargetEntry main_drop[] =
+{
+    { "text/plain", 0, 1 }
+};
 
 void mouse_move(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
 {
@@ -72,6 +77,17 @@ void key_press(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     gdk_threads_enter();
 }
 
+void drop_file(GtkWidget *w, GdkDragContext *context, gint x, gint y,
+               GtkSelectionData *data, guint info, guint time, 
+               GTKWindow *ui)
+{
+    gdk_threads_leave();
+    if (data->data) {
+        p->DropFiles((char *)data->data);
+    }
+    gdk_threads_enter();
+}
+      
 gint do_timeout(GTKWindow *ui)
 {
     ui->TimerEvent();
@@ -100,6 +116,10 @@ GTKWindow::GTKWindow(Theme *pTheme, string &oName)
                        GTK_SIGNAL_FUNC(button_up), this);
     gtk_signal_connect(GTK_OBJECT(mainWindow), "key_press_event",
                        GTK_SIGNAL_FUNC(key_press), this);
+    gtk_drag_dest_set(mainWindow, GTK_DEST_DEFAULT_ALL, main_drop, 1, 
+                      GDK_ACTION_COPY);
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "drag_data_received", 
+                       GTK_SIGNAL_FUNC(drop_file), this);
     gdk_window_set_decorations(mainWindow->window, (GdkWMDecoration)0);
     gdk_threads_leave();
 
@@ -321,3 +341,12 @@ Error GTKWindow::Restore(void)
 {
     return kError_NoErr;
 }
+
+void GTKWindow::DropFiles(char *filename)
+{
+    vector<string> oFileList;
+    if (filename) {
+        oFileList.push_back(string(filename));
+        m_pTheme->DropFiles(&oFileList);
+    }
+}   

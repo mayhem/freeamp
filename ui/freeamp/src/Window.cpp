@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.3 1999/10/25 06:25:06 robert Exp $
+   $Id: Window.cpp,v 1.4 1999/10/30 04:26:58 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -323,7 +323,9 @@ void Window::HandleMouseLButtonDown(Pos &oScreenPos)
     }
 
     m_bMouseButtonDown = true;
+#ifndef HAVE_GTK
     CaptureMouse(true);
+#endif
        
     GetWindowPosition(m_oMoveStart);
     m_oMovePos = oScreenPos;
@@ -344,8 +346,10 @@ void Window::HandleMouseLButtonUp(Pos &oScreenPos)
     if (m_bMouseButtonDown)
     {
        m_bMouseButtonDown = false;
+#ifndef HAVE_GTK
        CaptureMouse(false);
-          
+#endif        
+  
        return; 
     }
     

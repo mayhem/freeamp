@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.2 1999/10/19 07:13:19 elrod Exp $
+   $Id: GTKWindow.h,v 1.3 1999/10/30 04:26:58 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKWINDOW__H_
@@ -55,7 +55,9 @@ class GTKWindow : public Window
      virtual Error Restore(void);
      
      GtkWidget *GetWindow(void) { return mainWindow; }
-     
+    
+     void DropFiles(char *filename);
+
     protected:
       Pos m_oWindowPos;
       

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.4 1999/10/19 07:13:02 elrod Exp $
+	$Id: soundcardpmo.h,v 1.5 1999/10/25 12:50:31 hiro Exp $
 ____________________________________________________________________________*/
 
 
@@ -109,7 +109,9 @@ private:
 	size_t					m_dataSize;
 	Semaphore				m_eventSem;
 	BLocker					m_pauseLock;
-    bigtime_t               m_timeBase;
+    int32                   m_bytesPerSample;
+    int32                   m_lastFrame;
+    int64                   m_totalBytesWritten;
 #if DEBUG_SAVE_PCM
 	FILE*					m_pcmSaveFile;
 #endif
@@ -128,3 +130,4 @@ SoundCardPMO::Unlock( void )
 }
 
 #endif /* _SOUNDCARDPMO_H_ */
+// vi: set ts=4:

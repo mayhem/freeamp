@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.126 2000/06/12 16:13:55 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.127 2000/06/12 18:07:50 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -515,9 +515,6 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
       }
       case INFO_PlaylistCurrentItemInfo:
       {
-         PlaylistCurrentItemInfoEvent *pInfo = 
-            (PlaylistCurrentItemInfoEvent *)e;
- 
          if (m_pContext->plm->GetCurrentIndex() != kInvalidIndex)
              UpdateMetaData(m_pContext->plm->GetCurrentItem());
          break;
@@ -1248,7 +1245,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
 
    if (oControlName == string("Help") && eMesg == CM_Pressed)
    {
-       ShowHelp(m_pContext, FreeAmp_Main_Window);
+       ShowHelp();
        return kError_NoErr;
    }
    if (oControlName == string("Credits") && eMesg == CM_Pressed)
@@ -1572,7 +1569,7 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
        
      case 'h':
      case 'H':
-        ShowHelp(m_pContext, FreeAmp_Main_Window);
+        ShowHelp();
         break;
 
      case '@':
@@ -1590,6 +1587,17 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
    }
 }
 
+void FreeAmpTheme::ShowHelp(void)
+{
+    if (!::ShowHelp(m_pContext, FreeAmp_Main_Window))
+    {
+        MessageDialog oBox(m_pContext);
+        string oMessage("Cannot find the help files. Please make sure that the h
+elp files are properly installed, and you are not running "the_BRANDING" from th
+e build directory.");
+        oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk, true);  
+    }
+}
 bool FreeAmpTheme::HandleMenuCommand(uint32 uCommand)
 {
     switch(uCommand)

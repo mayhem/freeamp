@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.31 2000/06/12 16:13:55 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.32 2000/06/12 18:07:50 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -87,6 +87,7 @@ class FreeAmpTheme : public UserInterface, public Theme
 
     protected:
 
+        void             ShowHelp(void);
         void             ReloadTheme(void);
         void             SetVolume(int iVolume, int iBalance);
         void             UpdateTimeDisplay(int iCurrentTime);

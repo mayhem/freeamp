@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.13 2000/06/12 16:13:55 robert Exp $
+	$Id: utility.h,v 1.14 2000/06/12 18:07:50 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
@@ -68,6 +68,6 @@ bool ResolveLink(string& path);
 /* func to find the real filename of a path, irregardless of case */
 string FindFile(string oPath);
 
-void ShowHelp(FAContext *context, const char *helptopic);
+bool ShowHelp(FAContext *context, const char *helptopic);
 
 #endif /* INCLUDED_UTILITY_H */

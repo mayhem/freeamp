@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.13 2000/06/06 12:45:06 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.14 2000/06/12 18:07:50 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -31,6 +31,7 @@ ____________________________________________________________________________*/
 #include "utility.h"
 #include "downloadui.h"
 #include "help.h"
+#include "utility.h"
 #include "gtkmessagedialog.h"
 
 static const char *szEMusicText =
@@ -338,19 +339,8 @@ void resume_internal(GtkWidget *w, DownloadUI *p)
 
 void DownloadUI::ShowHelp(void)
 {
-    string oHelpFile;
-    char   dir[_MAX_PATH];
-    uint32 len = _MAX_PATH;
-
-    m_context->prefs->GetInstallDirectory(dir, &len);
-    oHelpFile = string(dir) + string(DIR_MARKER_STR) + string("../share/");
-    oHelpFile += string(HELP_FILE);
-
-    struct stat st;
-
-    if (stat(oHelpFile.c_str(), &st) == 0 && st.st_mode & S_IFREG)
-        LaunchBrowser((char *)oHelpFile.c_str());
-    else {
+    if (!::ShowHelp(m_context, Download_Manager))
+    {
         GTKMessageDialog oBox;
         string oMessage("Cannot find the help files. Please make sure that the help files are properly installed, and you are not running "the_BRANDING" from the build directory.");
         oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk, true);

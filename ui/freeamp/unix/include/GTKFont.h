@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.h,v 1.5 1999/12/09 07:37:56 ijr Exp $
+   $Id: GTKFont.h,v 1.6 1999/12/14 18:57:55 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKFONT_H__
@@ -53,7 +53,7 @@ class GTKFont : public Font
     public:
 
                GTKFont(FAContext *context, string &oName, string &oFace, 
-                       string &oDefault);
+                       string &oFile, string &oDefault);
       virtual ~GTKFont(void);
 
       Error    Load(int iFontHeight, bool bBold, bool bItalic);

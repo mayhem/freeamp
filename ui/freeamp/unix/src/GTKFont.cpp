@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.9 1999/12/14 13:26:18 ijr Exp $
+   $Id: GTKFont.cpp,v 1.10 1999/12/14 18:57:56 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <sys/stat.h>
@@ -28,8 +28,8 @@ ____________________________________________________________________________*/
 #include "utility.h"
 
 GTKFont::GTKFont(FAContext *context, string &oName, string &oFace, 
-                 string &oDefault) :
-                Font(oName, oFace, oDefault)
+                 string &oFile, string &oDefault) :
+                Font(oName, oFace, oFile, oDefault)
 {
     m_context = context;
 

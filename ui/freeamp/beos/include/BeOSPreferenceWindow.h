@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSPreferenceWindow.h,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: BeOSPreferenceWindow.h,v 1.3 1999/10/23 08:25:00 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BEOSPREFERENCEWINDOW_H__
@@ -29,7 +29,8 @@ ____________________________________________________________________________*/
 class BeOSPreferenceWindow : public PreferenceWindow
 {
 public:
-                    BeOSPreferenceWindow( FAContext* context );
+                    BeOSPreferenceWindow( FAContext* context,
+                                          ThemeManager* themeMan );
     virtual         ~BeOSPreferenceWindow();
     virtual bool    Show( Window* pParent );
 

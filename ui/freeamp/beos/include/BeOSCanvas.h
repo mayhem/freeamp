@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSCanvas.h,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: BeOSCanvas.h,v 1.3 1999/10/23 08:25:00 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BEOSCANVAS_H__
@@ -56,6 +56,7 @@ public:
                                       Rect& oDestRect );
 
     BView*              GetBView( void ) { return m_canvasView; }
+    void                SetParent( BeOSWindow* parent );
 
 protected:
 
@@ -63,6 +64,7 @@ private:
     BeOSWindow*         m_pParent;
     BeOSBitmap*         m_pBufferBitmap;
     CanvasView*         m_canvasView;
+    bool                m_initialized;
 };
 
 #endif // INCLUDED_BEOSCANVAS_H__

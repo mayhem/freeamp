@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: CanvasView.cpp,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: CanvasView.cpp,v 1.3 1999/10/23 08:25:00 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "CanvasView.h"
@@ -29,7 +29,7 @@ ____________________________________________________________________________*/
 #include <be/interface/Window.h>
 
 #define CHECK_POINT CHECK_POINT_MSG("")
-#define CHECK_POINT_MSG(a) PRINT(( "File %s Line %d: %s\n", __FILE__, __LINE__, a ))
+#define CHECK_POINT_MSG(a) PRINT(( "File %s Line %d, %x: %s\n", __FILE__, __LINE__, this, a ))
 
 CanvasView::CanvasView(
             BeOSWindow* parent,
@@ -53,6 +53,7 @@ CanvasView::AttachedToWindow( void )
 {
     BView::AttachedToWindow();
     SetViewColor( B_TRANSPARENT_COLOR );
+    PRINT(( "CanvasView %x attached to window %x\n", this, Window() ));
 }
 
 void
@@ -92,9 +93,7 @@ CanvasView::MouseMoved(
     Pos pos;
     pos.x = int( p.x );
     pos.y = int( p.y );
-    CHECK_POINT;
     m_parent->HandleMouseMove( pos );
-    CHECK_POINT;
 }
 
 void

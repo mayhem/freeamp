@@ -18,10 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSMessageDialog.cpp,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: BeOSMessageDialog.cpp,v 1.3 1999/10/23 08:25:00 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "MessageDialog.h"
+#include <stdio.h>
 
 MessageDialog::MessageDialog()
 {
@@ -36,6 +37,7 @@ MessageDialog::Show( const char* szMessage,
                      const char* szTitle,
                      MessageDialogEnum eType )
 {
+    printf( "MessageDialog: %s\n", szMessage );
 }
 
 MessageDialogReturnEnum
@@ -43,4 +45,5 @@ MessageDialog::Show( const string& oMessage,
                      const string& oTitle,
                      MessageDialogEnum eType )
 {
+    printf( "MessageDialog: %s\n", oMessage.c_str() );
 }

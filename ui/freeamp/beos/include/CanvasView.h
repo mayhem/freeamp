@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: CanvasView.h,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: CanvasView.h,v 1.3 1999/10/23 08:25:00 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BEOSCANVASVIEW_H
@@ -49,6 +49,7 @@ public:
                             );
     virtual void        MouseUp( BPoint p );
 
+    void                SetParent( BeOSWindow* parent ) { m_parent = parent; }
     void                SetCanvasBitmap( BBitmap* bitmap ) { m_bitmap = bitmap; }
     BBitmap*            CanvasBitmap( void ) { return m_bitmap; }
 

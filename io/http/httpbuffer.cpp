@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: httpbuffer.cpp,v 1.5 1999/03/01 22:47:23 robert Exp $
+   $Id: httpbuffer.cpp,v 1.6 1999/03/03 11:55:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -26,11 +26,12 @@ ____________________________________________________________________________*/
 #include <assert.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/time.h>
 #include <errno.h>
 #ifdef WIN32
 #include <winsock.h>
+#include <time.h>
 #else
+#include <sys/time.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -52,7 +53,10 @@ const int iICY_OK = 200;
 const int iTransmitTimeout = 60;
 
 #define DB printf("%s:%d\n", __FILE__, __LINE__);
+
+#ifndef min
 #define min(a,b) ((a) < (b) ? (a) : (b))
+#endif
 
 static char *g_ErrorArray[9] =
 {

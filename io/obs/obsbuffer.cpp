@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: obsbuffer.cpp,v 1.7 1999/03/01 22:47:30 robert Exp $
+   $Id: obsbuffer.cpp,v 1.8 1999/03/03 11:55:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -24,10 +24,11 @@ ____________________________________________________________________________*/
 #include <assert.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/time.h>
 #ifdef WIN32
 #include <winsock.h>
+#include <time.h>
 #else
+#include <sys/time.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h> 

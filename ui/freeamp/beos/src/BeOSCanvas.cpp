@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSCanvas.cpp,v 1.5 1999/12/10 08:09:25 elrod Exp $
+   $Id: BeOSCanvas.cpp,v 1.6 2000/02/07 09:07:31 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSCanvas.h"
@@ -108,7 +108,7 @@ BeOSCanvas::RenderText( int iFontHeight, Rect& oClipRect,
     BFont font;
     font_height fontHeight;
     BRect clipRect( float(oClipRect.x1), float(oClipRect.y1),
-                    float(oClipRect.x2), float(oClipRect.y2) );
+                    float(oClipRect.x2-1), float(oClipRect.y2-1) );
     BRegion clipRegion;
     clipRegion.Set( clipRect );
 
@@ -124,19 +124,19 @@ BeOSCanvas::RenderText( int iFontHeight, Rect& oClipRect,
     {
         v->SetFont( be_plain_font );
     }
-    v->SetFontSize( (float)iFontHeight );
+    v->SetFontSize( (float)iFontHeight - 1 );
     v->GetFont( &font );
     font.GetHeight( &fontHeight );
     
     float width = v->StringWidth(oText.c_str(), oText.size());
     
     if(eAlign == eCenter)
-    	v->MovePenTo( float(oClipRect.x1) + (float(oClipRect.x2 - oClipRect.x1) - width)/2, float(oClipRect.y2-fontHeight.descent) );	
+        v->MovePenTo( float(oClipRect.x1) + (float(oClipRect.x2 - oClipRect.x1) - width)/2, float(oClipRect.y2-fontHeight.descent) );	
     else if (eAlign == eRight)
-    	v->MovePenTo( float(oClipRect.x2) - width, float(oClipRect.y2-fontHeight.descent) );
+        v->MovePenTo( float(oClipRect.x2) - width, float(oClipRect.y2-fontHeight.descent) );
     else
-		v->MovePenTo( float(oClipRect.x1), float(oClipRect.y2-fontHeight.descent) );
-		
+        v->MovePenTo( float(oClipRect.x1), float(oClipRect.y2-fontHeight.descent) );
+
     v->DrawString( oText.c_str() );
     v->Sync();
 

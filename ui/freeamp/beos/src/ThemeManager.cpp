@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.2 1999/12/10 05:05:46 elrod Exp $
+   $Id: ThemeManager.cpp,v 1.3 2000/02/07 09:07:31 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -46,7 +46,7 @@ Error ThemeManager::GetDefaultTheme(string &oThemePath)
 
     m_pContext->prefs->GetInstallDirectory(dir, &len);
     oThemePath = string(dir);
-    oThemePath += string("/themes/freeamp.fat");    
+    oThemePath += string("/themes/FreeAmp.fat");    
 
     return kError_NoErr;
 }
@@ -118,7 +118,7 @@ Error ThemeManager::UseTheme(string &oThemeFile)
     if (temp_dir) {
         temp_dir = temp_dir + 1;
 	strcpy(dir, temp_dir);
-        if (!strcmp(dir, m_oCurrentTheme.c_str()))
+        if (oThemeFile == m_oCurrentTheme)
         {
             return kError_NoErr;
         }

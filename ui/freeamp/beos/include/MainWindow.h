@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MainWindow.h,v 1.3 1999/10/23 08:25:00 hiro Exp $
+   $Id: MainWindow.h,v 1.4 2000/02/07 09:07:31 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BEOSMAINWINDOW_H
@@ -34,12 +34,13 @@ public:
                         MainWindow( BRect frame, const char* name );
     virtual             ~MainWindow();
     virtual bool        QuitRequested( void );
-    virtual void        WaitForQuit( void );
+    virtual void        WaitForQuit( BRect* windowRectOnExit );
 
 protected:
 
 private:
     Semaphore*          m_quitSem;
+    BRect               m_frame;
 };
 
 #endif // INCLUDED_BEOSMAINWINDOW_H

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSFont.cpp,v 1.3 1999/10/23 08:25:00 hiro Exp $
+   $Id: BeOSFont.cpp,v 1.4 2000/02/07 09:07:31 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSFont.h"
@@ -29,8 +29,9 @@ ____________________________________________________________________________*/
 #define CHECK_POINT CHECK_POINT_MSG("")
 #define CHECK_POINT_MSG(a) PRINT(( "File %s Line %d: %s\n", __FILE__, __LINE__, a ))
 
-BeOSFont::BeOSFont( string& oName, string& oFace, string& oDefault )
-:   Font( oName, oFace, oDefault )
+BeOSFont::BeOSFont( string& oName, string& oFace, string& oFile,
+                    string& oDefault )
+:   Font( oName, oFace, oFile, oDefault )
 {
     CHECK_POINT;
     PRINT(( "%s, %s, %s\n", oName.c_str(), oFace.c_str(), oDefault.c_str() ));

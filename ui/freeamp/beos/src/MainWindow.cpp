@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MainWindow.cpp,v 1.3 1999/10/23 08:25:00 hiro Exp $
+   $Id: MainWindow.cpp,v 1.4 2000/02/07 09:07:31 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "MainWindow.h"
@@ -43,12 +43,15 @@ MainWindow::~MainWindow()
 bool
 MainWindow::QuitRequested( void )
 {
+    m_frame = Frame();
     m_quitSem->Signal();
     return true;
 }
 
 void
-MainWindow::WaitForQuit( void )
+MainWindow::WaitForQuit( BRect* windowRectOnExit )
 {
     m_quitSem->Wait();
+
+    *windowRectOnExit = m_frame;
 }

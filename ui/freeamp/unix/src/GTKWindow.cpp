@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.25 2000/03/19 06:44:45 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.26 2000/03/19 07:08:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -473,9 +473,11 @@ void GTKWindow::SetMouseIn(void)
 
 void GTKWindow::SetMouseOut(void)
 {
-    if (m_bMouseInWindow)
-        MouseHasLeftWindow();
-    m_bMouseInWindow = false;
+    if (!m_bWindowMove) {
+        if (m_bMouseInWindow)
+            MouseHasLeftWindow();
+        m_bMouseInWindow = false;
+    }
 }
 
 Error GTKWindow::GetDesktopSize(int32 &iX, int32 &iY)

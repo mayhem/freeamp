@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.18 1998/12/12 22:36:39 jdw Exp $
+	$Id: freeamp.cpp,v 1.19 1998/12/13 01:45:39 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -845,7 +845,7 @@ void FreeAmpUI::SeekDialFunction(void *p, int32 c,int32 x,int32 y) {
 	    pMe->m_lcdWindow->SetCurrentTime(h,m,s);
 	    pMe->m_lcdWindow->SetDisplayState( pMe->m_oldLcdState);
 	    pMe->m_playerEQ->AcceptEvent(new ChangePositionEvent( pMe->m_seekSeconds / pMe->m_secondsPerFrame ));
-	    cout << "Changed position to" << pMe->m_seekSeconds / pMe->m_secondsPerFrame << endl;
+	    //cout << "Changed position to" << pMe->m_seekSeconds / pMe->m_secondsPerFrame << endl;
 	    break; }
 	case 1: {
 	    pMe->m_seekDelta = 0;

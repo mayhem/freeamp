@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.60 1998/12/12 22:36:38 jdw Exp $
+	$Id: player.cpp,v 1.61 1998/12/13 01:45:39 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -525,7 +525,7 @@ int32 Player::ServiceEvent(Event *pC) {
 	    case CMD_ChangePosition: {
 		if(m_lmc) {
 		    m_lmc->ChangePosition(((ChangePositionEvent *)pC)->GetPosition());        
-		    cout << "player: changed position to " << ((ChangePositionEvent *)pC)->GetPosition() << endl;
+		    //cout << "player: changed position to " << ((ChangePositionEvent *)pC)->GetPosition() << endl;
 		}
 		delete pC;
 		return 0;

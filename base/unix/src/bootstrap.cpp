@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.20.2.4.2.2 2000/03/04 07:21:01 ijr Exp $
+	$Id: bootstrap.cpp,v 1.20.2.4.2.3 2000/03/05 23:04:54 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -73,6 +73,9 @@ int main(int argc, char **argv)
     int        iProcess, i;
     char      *pCmdLine = NULL, *pPtr;
 
+    union { int val; } unsem;
+    unsem.val = 0;
+    
     context->prefs = unixPrefs;
     context->log = new LogFile("freeamp.log");
 
@@ -94,7 +97,7 @@ int main(int argc, char **argv)
 
         // Check to see if the process that created that semaphore still
         // exists
-        iProcess = semctl(iCmdSem, 0, GETVAL, 0);
+        iProcess = semctl(iCmdSem, 0, GETVAL, unsem);
         if (iProcess > 0 && !allow_mult)
         {
             if (kill(iProcess, 0) >= 0)
@@ -132,7 +135,8 @@ int main(int argc, char **argv)
         }
 
         // Set the current pid into the semaphore
-        semctl(iCmdSem, 0, SETVAL, getpid());
+        unsem.val = getpid();
+        semctl(iCmdSem, 0, SETVAL, unsem);
 
         // Create the shared memory segment
         iCmdMem = shmget(tMemKey, iSharedMemSize, IPC_CREAT | 0666);
@@ -245,8 +249,9 @@ int main(int argc, char **argv)
 
     if (!allow_mult) {
         if (pCmdLine)
-            shmdt(pCmdLine); 
-        semctl (iCmdSem, IPC_RMID, 0);
+            shmdt(pCmdLine);
+        unsem.val = 0; 
+        semctl (iCmdSem, 0, IPC_RMID, unsem);
         shmctl (iCmdMem, IPC_RMID, 0);
     }
 

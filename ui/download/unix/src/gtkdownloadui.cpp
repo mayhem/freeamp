@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.9.4.5 2000/03/04 19:54:04 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.9.4.6 2000/03/05 23:04:54 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -412,10 +412,6 @@ void DownloadUI::CreateDownloadUI(void)
     gtk_widget_set_usize(listwindow, 400, 140);
     gtk_widget_show(listwindow);
 
-    GtkWidget *sep = gtk_hseparator_new();
-    gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, TRUE, 0);
-    gtk_widget_show(sep);
-
     GtkWidget *table = gtk_table_new(7, 2, FALSE);
     gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
     gtk_widget_show(table);
@@ -499,7 +495,7 @@ void DownloadUI::CreateDownloadUI(void)
 
     CreateDownloadList(listwindow);
 
-    sep = gtk_hseparator_new();
+    GtkWidget *sep = gtk_hseparator_new();
     gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, TRUE, 5);
     gtk_widget_show(sep);
 

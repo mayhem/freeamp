@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.59.2.1.2.1 2000/03/04 05:33:34 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.59.2.1.2.2 2000/03/05 23:04:54 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -788,9 +788,9 @@ GtkCTreeNode *GTKMusicBrowser::FindPlaylistNode(string playlist)
 void GTKMusicBrowser::RemoveCatTrack(ArtistList *artist, AlbumList *album,
                                      PlaylistItem *item)
 {
-    gtk_clist_freeze(GTK_CLIST(musicBrowserTree));
-
     GtkCTreeNode *toRemove;
+
+    gtk_clist_freeze(GTK_CLIST(musicBrowserTree));
 
     toRemove = FindNode(kTreeTrack, artist, album, item, allTree);
  
@@ -811,20 +811,19 @@ void GTKMusicBrowser::RemoveCatTrack(ArtistList *artist, AlbumList *album,
                 gtk_ctree_remove_node(musicBrowserTree, art);
         }
     }
-
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
 }
 
 void GTKMusicBrowser::AddCatTrack(ArtistList *artist, AlbumList *album,
                                   PlaylistItem *item, bool expand)
 {
-    gtk_clist_freeze(GTK_CLIST(musicBrowserTree));
-
     char      *name[1];
     GdkPixmap *pixmap;
     GdkBitmap *mask;
     GtkStyle  *style = gtk_widget_get_style(musicBrowserWindow);
     TreeData  *data;
+
+    gtk_clist_freeze(GTK_CLIST(musicBrowserTree));
 
     if (!artist) {
         GtkCTreeNode *treeItem;
@@ -854,7 +853,6 @@ void GTKMusicBrowser::AddCatTrack(ArtistList *artist, AlbumList *album,
         gtk_ctree_sort_recursive(musicBrowserTree, allTree);
         gtk_ctree_sort_recursive(musicBrowserTree, uncatTree);
         gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
-
         return;
     }
 
@@ -869,13 +867,28 @@ void GTKMusicBrowser::AddCatTrack(ArtistList *artist, AlbumList *album,
                                                   &mask,
                                                   &style->bg[GTK_STATE_NORMAL],
                                                   artist_pix);
+
+            GtkCTreeNode *sib = GTK_CTREE_ROW(mainTree)->children;
+            /* skip uncat and all subtrees */
+            sib = GTK_CTREE_ROW(sib)->sibling;  
+            sib = GTK_CTREE_ROW(sib)->sibling; 
+
+            while (sib) {
+                GtkCListRow *row = (GtkCListRow *)GTK_CTREE_ROW(sib);
+                char *sibtext = GTK_CELL_PIXTEXT(row->cell[0])->text;
+                if (strcasecmp(name[0], sibtext) < 0)
+                    break;
+                sib = GTK_CTREE_ROW(sib)->sibling;
+            }
+            
             artTree = gtk_ctree_insert_node(musicBrowserTree, mainTree,
-                                            NULL, name, 5, pixmap, mask,
+                                            sib, name, 5, pixmap, mask,
                                             pixmap, mask, false, false);
             data = NewTreeData(kTreeArtist, NULL, artist);
             gtk_ctree_node_set_row_data(musicBrowserTree, artTree, data); 
             if (expand)
                 gtk_ctree_expand(musicBrowserTree, artTree);
+            gtk_ctree_sort_node(musicBrowserTree, artTree);
         }
         name[0] = (char *)album->name.c_str();
         pixmap = gdk_pixmap_create_from_xpm_d(musicBrowserWindow->window,
@@ -889,6 +902,7 @@ void GTKMusicBrowser::AddCatTrack(ArtistList *artist, AlbumList *album,
         gtk_ctree_node_set_row_data(musicBrowserTree, albTree, data);
         if (expand)
             gtk_ctree_expand(musicBrowserTree, albTree);
+        gtk_ctree_sort_node(musicBrowserTree, albTree);
     }
 
     name[0] = (char *)item->GetMetaData().Title().c_str();
@@ -911,7 +925,6 @@ void GTKMusicBrowser::AddCatTrack(ArtistList *artist, AlbumList *album,
     gtk_ctree_node_set_row_data(musicBrowserTree, newItem, data);
 
     gtk_ctree_sort_recursive(musicBrowserTree, allTree);
-    gtk_ctree_sort_node(musicBrowserTree, albTree);
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
 }
 
@@ -927,8 +940,6 @@ void GTKMusicBrowser::ClearTree(void)
 
 void GTKMusicBrowser::AddCatPlaylist(string playlist)
 {
-    gtk_clist_freeze(GTK_CLIST(musicBrowserTree));
-
     char *fullname = new char[playlist.length() + 1];
     strcpy(fullname, playlist.c_str());
     char *listname = fullname;
@@ -946,6 +957,7 @@ void GTKMusicBrowser::AddCatPlaylist(string playlist)
     GtkStyle  *style = gtk_widget_get_style(musicBrowserWindow);
     TreeData  *data;
     GtkCTreeNode *allItem;
+    gtk_clist_freeze(GTK_CLIST(musicBrowserTree));
     pixmap = gdk_pixmap_create_from_xpm_d(musicBrowserWindow->window, &mask,
                                           &style->bg[GTK_STATE_NORMAL],
                                           playlist_pix);
@@ -956,29 +968,24 @@ void GTKMusicBrowser::AddCatPlaylist(string playlist)
                        (char *)playlist.c_str(), (char *)playlist.c_str());
     gtk_ctree_node_set_row_data(musicBrowserTree, allItem, data);
 
-    delete [] fullname;
-
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
+    delete [] fullname;
 }
 
 void GTKMusicBrowser::RemoveCatPlaylist(string playlist)
 {
-    gtk_clist_freeze(GTK_CLIST(musicBrowserTree));
-
     GtkCTreeNode *toRemove;
 
     toRemove = FindPlaylistNode(playlist);
 
+    gtk_clist_freeze(GTK_CLIST(musicBrowserTree));
     if (toRemove)
         gtk_ctree_remove_node(musicBrowserTree, toRemove);
-
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
 }
 
 void GTKMusicBrowser::CreateMainTreeItems(void)
 {
-    gtk_clist_freeze(GTK_CLIST(musicBrowserTree));
-
     TreeData *data;
     char *name[1];
     GdkPixmap *pixmap;
@@ -1027,8 +1034,6 @@ void GTKMusicBrowser::CreateMainTreeItems(void)
     data = NewTreeData(kTreePlaylistHead, NULL, NULL, NULL, NULL, NULL,
                        "This tree item contains all of your playlists");
     gtk_ctree_node_set_row_data(musicBrowserTree, playlistTree, data);
-
-    gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
 }
    
 bool GTKMusicBrowser::CheckEmptyDatabase(void)
@@ -1116,6 +1121,8 @@ void GTKMusicBrowser::UpdateCatalog(void)
         gtk_ctree_node_set_row_data(musicBrowserTree, allItem, data);
     }
 
+    gtk_ctree_sort_recursive(musicBrowserTree, uncatTree);
+
     vector<ArtistList *>::iterator i = artistList->begin();
     for (; i != artistList->end(); i++) {
         GtkCTreeNode *artTree, *artItem = NULL;
@@ -1124,8 +1131,22 @@ void GTKMusicBrowser::UpdateCatalog(void)
         pixmap = gdk_pixmap_create_from_xpm_d(musicBrowserWindow->window, &mask,
                                           &style->bg[GTK_STATE_NORMAL],
                                           artist_pix);
+
+        GtkCTreeNode *sib = GTK_CTREE_ROW(mainTree)->children;
+        /* skip uncat and all subtrees */
+        sib = GTK_CTREE_ROW(sib)->sibling;
+        sib = GTK_CTREE_ROW(sib)->sibling;
+
+        while (sib) {
+            GtkCListRow *row = (GtkCListRow *)GTK_CTREE_ROW(sib);
+            char *sibtext = GTK_CELL_PIXTEXT(row->cell[0])->text;
+            if (strcasecmp(name[0], sibtext) < 0)
+                break;
+            sib = GTK_CTREE_ROW(sib)->sibling;
+        }
+
         artTree = gtk_ctree_insert_node(musicBrowserTree, mainTree,
-                                        NULL, name, 5, pixmap, mask, 
+                                        sib, name, 5, pixmap, mask, 
                                         pixmap, mask, false, false);
         data = NewTreeData(kTreeArtist, NULL, (*i));
         gtk_ctree_node_set_row_data(musicBrowserTree, artTree, data);
@@ -1166,6 +1187,7 @@ void GTKMusicBrowser::UpdateCatalog(void)
                 gtk_ctree_node_set_row_data(musicBrowserTree, allItem, data);
             }
         }
+        gtk_ctree_sort_recursive(musicBrowserTree, artTree);
     }
 
     gtk_ctree_sort_recursive(musicBrowserTree, allTree);
@@ -1196,6 +1218,7 @@ void GTKMusicBrowser::UpdateCatalog(void)
 
         delete [] fullname;
     } 
+    gtk_ctree_sort_recursive(musicBrowserTree, playlistTree);
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
 
     m_musicCatalog->ReleaseCatalogLock();
@@ -1807,12 +1830,12 @@ void GTKMusicBrowser::AddPlaylistItems(vector<PlaylistItem *> *items)
 
     uint32 minpos = (uint32)-1;
 
-    gtk_clist_freeze(GTK_CLIST(playlistList));
-
     // hack hack hack hack
     BADPLM = m_plm;
     sort(items->begin(), items->end(), comp_pi_pos());
     BADPLM = NULL;
+
+    gtk_clist_freeze(GTK_CLIST(playlistList));
 
     vector<PlaylistItem *>::iterator i = items->begin();
     for (; i != items->end(); i++) {
@@ -1912,10 +1935,9 @@ void GTKMusicBrowser::RemovePlaylistItems(vector<uint32> *indices)
 
     uint32 minpos = (uint32)-1;
 
-    gtk_clist_freeze(GTK_CLIST(playlistList));
-
     sort(indices->begin(), indices->end(), greater<uint32>());
 
+    gtk_clist_freeze(GTK_CLIST(playlistList));
     vector<uint32>::iterator i = indices->begin();
     for (; i != indices->end(); i++) {
         gtk_clist_remove(GTK_CLIST(playlistList), *i);
@@ -1984,6 +2006,7 @@ void GTKMusicBrowser::UpdatePlaylistList(void)
     }
     else
         gtk_clist_columns_autosize(GTK_CLIST(playlistList));
+
     gtk_clist_select_row(GTK_CLIST(playlistList), m_currentindex, 0);
     gtk_clist_moveto(GTK_CLIST(playlistList), m_currentindex, 0, 0.5, -1);
     gtk_clist_thaw(GTK_CLIST(playlistList));

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.17 2000/08/21 11:23:21 robert Exp $
+	$Id: id3v2.cpp,v 1.18 2000/08/24 08:51:14 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -454,7 +454,7 @@ bool ID3v2::WriteMetaData(const char* url, const MetaData& metadata)
         ID3Field_SetASCII(pField, (char *)metadata.Comment().c_str());
     }
 
-    sprintf(dummy, "%d", metadata.Time());
+    sprintf(dummy, "%d", metadata.Time() * 1000);
     pFrame = ID3Tag_FindFrameWithID(pTag, ID3FID_SONGLEN);
     if (!pFrame)
     {

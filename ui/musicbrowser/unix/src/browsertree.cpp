@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.24 2000/08/08 16:05:57 ijr Exp $
+        $Id: browsertree.cpp,v 1.25 2000/08/24 08:51:14 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1471,6 +1471,8 @@ void GTKMusicBrowser::TreeRightClick(int x, int y, uint32 time)
             itemfact = favPopup;
             break;
         case kTreeTrack:
+	case kTreeArtist:
+	case kTreeAlbum:
             itemfact = trackPopup;
             break;
         case kTreePlaylist:
@@ -1479,8 +1481,6 @@ void GTKMusicBrowser::TreeRightClick(int x, int y, uint32 time)
         case kTreeMyMusic:
         case kTreeAll:
         case kTreeUncat:
-        case kTreeArtist:
-        case kTreeAlbum:
             itemfact = otherPopup;
             break;
         case kTreeStreamsHead:

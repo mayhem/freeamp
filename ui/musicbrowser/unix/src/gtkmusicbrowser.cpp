@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.103 2000/08/21 09:21:23 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.104 2000/08/24 08:51:14 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1339,7 +1339,7 @@ void GTKMusicBrowser::PopUpInfoEditor(PlaylistItem *editee)
             }
         }
         if (list) {
-            infoeditorUI *infoedit = new infoeditorUI(m_context, NULL, list);
+            infoeditorUI *infoedit = new infoeditorUI(m_context, m_plm, list);
             infoedit->DisplayInfo();
         }
     }

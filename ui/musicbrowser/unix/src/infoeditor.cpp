@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.13 2000/07/31 19:51:40 ijr Exp $
+        $Id: infoeditor.cpp,v 1.14 2000/08/24 08:51:14 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -117,7 +117,7 @@ void infoeditorUI::DoApplyInfoEdit(void)
 
         if (newmeta != oldmeta) {
             (*i)->SetMetaData(&newmeta);
-            if (m_plm)
+            if (m_plm) 
                 m_plm->UpdateTrackMetaData(*i, true);
             m_context->catalog->UpdateSong(*i);
         }

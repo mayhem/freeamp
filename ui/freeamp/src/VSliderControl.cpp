@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.cpp,v 1.10 2000/03/17 21:47:10 ijr Exp $
+   $Id: VSliderControl.cpp,v 1.11 2000/05/06 21:44:11 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -63,6 +63,7 @@ VSliderControl::VSliderControl(Window *pWindow, string &oName, int iThumbs,
      m_bIsDrag = false;
      m_bInUpdate = false;
      m_bHasTroughBitmap = false;
+     m_bTroughMiddle = false;
      m_iCurrentTroughFrame = -1;
 };
 
@@ -72,7 +73,8 @@ VSliderControl::~VSliderControl(void)
 }
 
 void VSliderControl::SetTroughBitmap(Bitmap *pBitmap, Rect &oBitmapRect,
-                                     int iFrames, bool bHoriz, int iDelta)
+                                     int iFrames, bool bHoriz, int iDelta,
+                                     bool bMiddle)
 {
     m_oMutex.Acquire();
     m_pTroughBitmap = pBitmap;
@@ -81,6 +83,7 @@ void VSliderControl::SetTroughBitmap(Bitmap *pBitmap, Rect &oBitmapRect,
     m_bHorizontalTroughBitmap = bHoriz;
     m_iTroughDelta = iDelta;
     m_bHasTroughBitmap = true;
+    m_bTroughMiddle = bMiddle;
     m_oMutex.Release();
 }
 
@@ -416,10 +419,21 @@ void VSliderControl::BlitTrough(int iPos)
     Rect    oFrameRect, oDestRect;
 
     oDestRect = m_oRect;
+    
+    int iTotFrames = m_iTroughFrames;
+    if (m_bTroughMiddle)
+        iTotFrames *= 2;
 
-    int iFrameNumber = m_iNumThumbStates * (1 - iPos / m_iRange);
-    iFrameNumber = min(m_iNumThumbStates - 1, iFrameNumber);
+    int iFrameNumber = iTotFrames * (1 - iPos / m_iRange);
+    iFrameNumber = min(iTotFrames - 1, iFrameNumber);
 
+    if (m_bTroughMiddle) {
+        if (iFrameNumber >= m_iTroughFrames)
+            iFrameNumber = iFrameNumber - m_iTroughFrames;
+        else
+            iFrameNumber = (m_iTroughFrames - 1) - iFrameNumber;
+    }
+            
     m_iCurrentTroughFrame = iFrameNumber;
 
     if (m_bHorizontalTroughBitmap) {

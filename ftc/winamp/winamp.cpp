@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: winamp.cpp,v 1.2 2000/03/17 01:24:19 ijr Exp $
+   $Id: winamp.cpp,v 1.3 2000/05/06 21:44:11 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <string>
@@ -106,9 +106,15 @@ Error Winamp::ConvertToNative(string &oDir)
     sourcePath = oDir + string(DIR_MARKER_STR) + string("volbar.bmp");
     if (stat(sourcePath.c_str(), &st) == 0) {
         destPath = oDir + string(DIR_MARKER_STR) + string("volume.bmp");
-        if (stat(destPath.c_str(), &st) == 0) 
+        if (stat(destPath.c_str(), &st) != 0) 
             CopyFile(sourcePath.c_str(), destPath.c_str(), false);
     } 
+    
+    destPath = oDir + string(DIR_MARKER_STR) + string("balance.bmp");
+    if (stat(destPath.c_str(), &st) != 0) {
+        sourcePath = oDir + string(DIR_MARKER_STR) + string("volume.bmp");
+        CopyFile(sourcePath.c_str(), destPath.c_str(), false);
+    }
 
     return eErr;
 }

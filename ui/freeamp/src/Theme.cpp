@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.38 2000/04/28 00:42:54 robert Exp $
+   $Id: Theme.cpp,v 1.39 2000/05/06 21:44:11 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1186,16 +1186,26 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            iDelta = atoi(oAttrMap["DeltaBetweenFrames"].c_str());
        }
 
+       bool bMiddle = false;
+
+       if (oAttrMap.find("MaxInCenter") != oAttrMap.end())
+       {
+           if (oAttrMap["MaxInCenter"] == string("true"))
+               bMiddle = true;
+       } 
+
        if (m_eCurrentControl == eSliderControl)
            ((SliderControl *)m_pCurrentControl)->SetTroughBitmap(pBitmap, oRect, 
                                                                  iFrames, 
                                                                  bHoriz, 
-                                                                 iDelta);
+                                                                 iDelta,
+                                                                 bMiddle);
        else
            ((VSliderControl *)m_pCurrentControl)->SetTroughBitmap(pBitmap, oRect,
                                                                  iFrames,
                                                                  bHoriz,
-                                                                 iDelta);
+                                                                 iDelta,
+                                                                 bMiddle);
 
        return kError_NoErr;
     }

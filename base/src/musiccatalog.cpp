@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.52 2000/05/06 18:23:35 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.53 2000/05/06 21:44:11 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -369,10 +369,7 @@ Error MusicCatalog::AddSong(const char *url)
 
     if (!meta) {
         newtrack = new PlaylistItem(url);
-        m_context->plm->RetrieveMetaData(newtrack);
-
-        while (newtrack->GetState() != kPlaylistItemState_Normal)
-            usleep(5);
+        m_context->plm->RetrieveMetaDataNow(newtrack);
 
         MetaData tempdata = (MetaData)(newtrack->GetMetaData());
         WriteMetaDataToDatabase(url, tempdata);
@@ -386,11 +383,11 @@ Error MusicCatalog::AddSong(const char *url)
 
     m_catMutex->Acquire();
     if ((meta->Artist().size() == 0) || (meta->Artist() == " ")) {
-
         vector<PlaylistItem *>::iterator i = m_unsorted->begin();
         for (; i != m_unsorted->end(); i++)
              if ((*i)->URL() == url) {
                  m_catMutex->Release();
+                 delete meta;
                  return kError_DuplicateItem;
              }
 
@@ -429,7 +426,8 @@ Error MusicCatalog::AddSong(const char *url)
                         vector<PlaylistItem *>::iterator k = trList->begin();
                         for (; k != trList->end(); k++) {
                             if ((*k)->URL() == url) {
-                                delete newtrack;  
+                                delete newtrack;
+                                delete meta;  
                                 m_catMutex->Release();
                                 return kError_DuplicateItem;
                             }
@@ -1041,7 +1039,6 @@ MetaData *MusicCatalog::ReadMetaDataFromDatabase(const char *url)
     }
 
     delete [] fieldLength;
-
     delete [] dbasedata;
 
     return metadata;

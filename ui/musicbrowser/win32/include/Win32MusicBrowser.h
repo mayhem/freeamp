@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.65 2000/03/30 08:57:09 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.66 2000/04/10 21:03:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -263,6 +263,7 @@ class MusicBrowserUI : public UserInterface
     void    FillAlbums(TV_ITEM *pItem);
     void    FillPlaylists();
     void    FillTracks(TV_ITEM *pItem);
+	static unsigned long __stdcall fill_all_tracks(void* arg);
     void    FillAllTracks();
     void    FillUncatTracks();
     void    FillPortables();

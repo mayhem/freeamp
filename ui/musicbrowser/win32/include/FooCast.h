@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: FooCast.h,v 1.2 2000/03/01 03:49:30 elrod Exp $
+        $Id: FooCast.h,v 1.3 2000/04/10 21:03:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FOOCAST_H_
@@ -27,15 +27,21 @@ ____________________________________________________________________________*/
 #include <windows.h>
 #include <commctrl.h>
 
+#include "thread.h"
 
 class FooCast {
  public:
     FooCast(HWND hwndTree, HTREEITEM parentItem);
     ~FooCast();
 
+    static void refresh_stations(void* arg);
+    void RefreshStations();
+
  private:
     HWND m_hwndTree;
     HTREEITEM m_parentItem, m_busyItem;
+
+    Thread* m_refreshThread;
 
 };
 

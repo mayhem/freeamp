@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.11 1999/11/20 10:53:39 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.12 1999/11/20 21:34:13 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -74,6 +74,7 @@ class GTKMusicBrowser {
 
     char *mbSelName;
     PlaylistItem *mbSel;
+    GtkWidget *mbSelWidget;
  
     FAContext *GetContext(void) { return m_context; }
     void UpdateCatalog(void);

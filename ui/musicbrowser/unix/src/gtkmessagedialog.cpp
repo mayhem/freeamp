@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: gtkmessagedialog.cpp,v 1.2 1999/11/17 05:45:29 ijr Exp $
+   $Id: gtkmessagedialog.cpp,v 1.3 1999/11/20 21:34:14 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <gtk/gtk.h>
@@ -29,22 +29,52 @@ ____________________________________________________________________________*/
 
 GTKMessageDialog::GTKMessageDialog(void)
 {
+    hasEntry = false;
+    hasCheck = false;
 }
 
 GTKMessageDialog::~GTKMessageDialog(void)
 {
-
 }
 
 MessageDialogReturnEnum GTKMessageDialog::
                         Show(const char        *szMessage, 
                              const char        *szTitle, 
                              MessageDialogEnum  eType,
-                             bool inMain)
+                             bool inMain, bool bhasEntry,
+                             const char        *szCheckbox)
 {
     string oMessage(szMessage), oTitle(szTitle);
+    if (szCheckbox) {
+        checkText = szCheckbox;
+        hasCheck = true;
+    }
+    if (bhasEntry) 
+        hasEntry = true;
     
     return Show(oMessage, oTitle, eType, inMain);
+}
+
+bool GTKMessageDialog::GetCheckStatus(void)
+{
+    bool retvalue = false;
+    if (hasCheck) {
+        retvalue = GTK_IS_CHECK_BUTTON(checkBox);
+        retvalue = GTK_IS_TOGGLE_BUTTON(checkBox);
+        retvalue = GTK_TOGGLE_BUTTON(checkBox)->active;
+    }
+
+    return retvalue;
+}
+
+char *GTKMessageDialog::GetEntryText(void)
+{
+    char *retvalue = NULL;
+    if (hasEntry) {
+        retvalue = (char *)entryText.c_str();
+    }
+
+    return retvalue;
 }
 
 static gboolean message_destroy(GtkWidget *widget, gpointer p)
@@ -80,6 +110,11 @@ static void retry_click(GtkWidget *w, int *ret)
     *ret = 5;
 }
 
+static void entry_change(GtkWidget *w, GTKMessageDialog *p)
+{
+    p->SetText(gtk_entry_get_text(GTK_ENTRY(w)));
+}
+
 MessageDialogReturnEnum GTKMessageDialog::
                         Show(const string      &oMessage, 
                              const string      &oTitle, 
@@ -100,12 +135,26 @@ MessageDialogReturnEnum GTKMessageDialog::
 
     GtkWidget *message = gtk_label_new(oMessage.c_str());
     gtk_label_set_line_wrap(GTK_LABEL(message), TRUE);
-    gtk_container_add(GTK_CONTAINER(vbox), message);
+    gtk_box_pack_start(GTK_BOX(vbox), message, TRUE, TRUE, 5);
     gtk_widget_show(message);
+
+    if (hasCheck) {
+        checkBox = gtk_check_button_new_with_label(checkText.c_str());
+        gtk_box_pack_start(GTK_BOX(vbox), checkBox, FALSE, FALSE, 5);
+        gtk_widget_show(checkBox);
+    }
+
+    if (hasEntry) {
+        entryBox = gtk_entry_new();
+        gtk_box_pack_start(GTK_BOX(vbox), entryBox, FALSE, FALSE, 5);
+        gtk_signal_connect(GTK_OBJECT(entryBox), "changed",
+                           GTK_SIGNAL_FUNC(entry_change), this);
+        gtk_widget_show(entryBox);
+    }
 
     GtkWidget *hbox = gtk_hbox_new(FALSE, 10);
     gtk_container_set_border_width(GTK_CONTAINER(hbox), 5);
-    gtk_container_add(GTK_CONTAINER(vbox), hbox);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 5);
     gtk_widget_show(hbox);
 
     GtkWidget *button;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: gtkmessagedialog.h,v 1.1 1999/11/08 02:22:49 ijr Exp $
+   $Id: gtkmessagedialog.h,v 1.2 1999/11/20 21:34:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_MESSAGEDIALOG_H__
@@ -57,12 +57,27 @@ class GTKMessageDialog
        MessageDialogReturnEnum Show(const char *szMessage, 
                                     const char *szTitle, 
                                     MessageDialogEnum eType,
-                                    bool inMain = false);
+                                    bool inMain = false,
+                                    bool bhasEntry = false,
+                                    const char *szCheckbox = NULL);
        MessageDialogReturnEnum Show(const string &oMessage, 
                                     const string &oTitle, 
                                     MessageDialogEnum eType,
                                     bool inMain = false);
 
+       bool  GetCheckStatus();
+       char *GetEntryText();
+ 
+       void      SetText(char *text) { entryText = text; }
+
+  private:
+       bool       hasCheck;
+       GtkWidget *checkBox;
+       string     checkText;
+
+       bool       hasEntry;
+       string     entryText;
+       GtkWidget *entryBox;       
 };
 
 #endif

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.25.2.1 2000/02/24 03:54:44 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.25.2.2 2000/02/26 21:27:48 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1435,7 +1435,7 @@ void GTKPreferenceWindow::DeleteThemeEvent(void)
     }
     Error err = m_pThemeMan->DeleteTheme(m_oThemeList[themeToDelete]);
 
-    if (IsntError(err)) {
+    if (IsError(err)) {
         MessageDialog oBox(m_pContext);
         string        oErr, oMessage;
 

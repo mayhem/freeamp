@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.20.2.2 2000/02/27 07:10:04 ijr Exp $
+	$Id: bootstrap.cpp,v 1.20.2.3 2000/02/27 07:49:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -69,7 +69,7 @@ int main(int argc, char **argv)
     UnixPrefs *unixPrefs = new UnixPrefs;
     key_t      tSemKey = iSemKey;
     key_t      tMemKey = iMemKey;
-    int        iCmdSem, iCmdMem;
+    int        iCmdSem = -1, iCmdMem = -1;
     int        iProcess, i;
     char      *pCmdLine = NULL, *pPtr;
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.5 2000/02/26 20:03:05 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.6 2000/02/27 07:49:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -623,7 +623,7 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
           uint32        iLen = _MAX_PATH;
           string        oThemePath;
           MessageDialog oBox(m_pContext);
-	      string        oMessage(szKeepThemeMessage);
+          string        oMessage(szKeepThemeMessage);
 
           szSavedTheme = new char[iLen];
           szNewTheme = new char[iLen];
@@ -647,10 +647,12 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
           {
               ThemeManager *pMan;
               string        oThemePath(szNewTheme);
-              
+          
               pMan = new ThemeManager(m_pContext);
-              if (!IsError(pMan->AddTheme(oThemePath)))
+              if (IsntError(pMan->AddTheme(oThemePath))) {
                   m_pContext->prefs->SetPrefString(kThemePathPref, oThemePath.c_str());
+                  ReloadTheme();
+              }
               delete pMan;    
           }
           else

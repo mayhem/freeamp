@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: metadata.h,v 1.1.2.7 1999/09/09 02:42:00 elrod Exp $
+	$Id: metadata.h,v 1.1.2.8 1999/10/15 17:51:03 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_METADATA_H_
@@ -73,13 +73,13 @@ class MetaData {
     uint32 Year() const { return m_year; }
 
     Error SetTrack(uint32 track){ m_track = track; return kError_NoErr;}
-    uint32 Track() { return m_track; }
+    uint32 Track() const { return m_track; }
 
     Error SetTime(uint32 time){ m_time = time; return kError_NoErr;}
-    uint32 Time() { return m_time; }
+    uint32 Time() const { return m_time; }
 
     Error SetSize(uint32 bytes){ m_size = bytes; return kError_NoErr;}
-    uint32 Size() { return m_size; }
+    uint32 Size() const { return m_size; }
  
  protected:
     Error SetBuffer(char* dest, const char* src, uint32* len)

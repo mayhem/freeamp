@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: scrollview.cpp,v 1.1 1999/03/03 09:06:20 elrod Exp $
+	$Id: scrollview.cpp,v 1.2 1999/03/03 09:49:09 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -165,7 +165,7 @@ MouseMove(int32 x, int32 y, int32 modifiers)
                                 (float)(viewRect.bottom - viewRect.top));
 
 
-            int32 index = total * proportion;
+            int32 index = (int32)((float)total * proportion);
 
             m_target->ScrollTo(index);
 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.25 1999/10/01 01:56:51 dogcow Exp $
+        $Id: player.cpp,v 1.133.2.26 1999/10/01 08:07:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1559,15 +1559,15 @@ ToggleUI(Event *pEvent)
 {
    switch (pEvent->Type()) 
    {
-      case INFO_ToggleDownloadUI: {
+      case CMD_ToggleDownloadUI: {
            if (!m_downloadUI) {
               delete pEvent;
               return;
            }
            m_downloadUI->AcceptEvent(pEvent);
            break; }
-      case INFO_TogglePlaylistUI: 
-      case INFO_ToggleMusicBrowserUI: {
+      case CMD_TogglePlaylistUI: 
+      case CMD_ToggleMusicBrowserUI: {
            if (!m_browserUI) {
               delete pEvent;
               return;
@@ -1673,9 +1673,9 @@ ServiceEvent(Event * pC)
            SendEventToUI(pC);
            break;
 
-      case INFO_ToggleDownloadUI:
-      case INFO_TogglePlaylistUI:
-      case INFO_ToggleMusicBrowserUI:
+      case CMD_ToggleDownloadUI:
+      case CMD_TogglePlaylistUI:
+      case CMD_ToggleMusicBrowserUI:
            ToggleUI(pC);
            break;
       

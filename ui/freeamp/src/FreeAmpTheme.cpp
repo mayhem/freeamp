@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.23 1999/10/01 00:05:41 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.24 1999/10/01 08:07:02 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -480,17 +480,17 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    }
    if (oControlName == string("MyMusic") && eMesg == CM_Pressed)
    {
-       //m_pContext->target->AcceptEvent(new Event(INFO_ToggleMusicBrowserUI));
+       //m_pContext->target->AcceptEvent(new Event(CMD_ToggleMusicBrowserUI));
        return kError_NoErr;
    }
    if (oControlName == string("Playlist") && eMesg == CM_Pressed)
    {
-       //m_pContext->target->AcceptEvent(new Event(INFO_TogglePlaylistUI));
+       //m_pContext->target->AcceptEvent(new Event(CMD_TogglePlaylistUI));
        return kError_NoErr;
    }
    if (oControlName == string("Download") && eMesg == CM_Pressed)
    {
-       m_pContext->target->AcceptEvent(new Event(INFO_ToggleDownloadUI));
+       m_pContext->target->AcceptEvent(new Event(CMD_ToggleDownloadUI));
        return kError_NoErr;
    }
    if (oControlName == string("Options") && eMesg == CM_Pressed)

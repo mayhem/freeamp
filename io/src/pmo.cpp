@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.2 1999/07/02 01:13:49 robert Exp $
+        $Id: pmo.cpp,v 1.3 1999/07/02 05:51:18 dogcow Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -26,7 +26,7 @@ ____________________________________________________________________________*/
 #include <iostream.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
-#include <sys/soundcard.h>
+//#include <sys/soundcard.h>
 #include <errno.h>
 #include <string.h>
 #include <time.h>

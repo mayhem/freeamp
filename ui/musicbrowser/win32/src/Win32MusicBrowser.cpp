@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.11 1999/10/15 23:03:06 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.12 1999/10/15 23:15:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -584,32 +584,38 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
         }
 	    if (pTreeView->hdr.code == NM_DBLCLK)
         {
-            TV_ITEM        sItem;
+            TV_ITEM sItem;
+            TV_HITTESTINFO tv_htinfo;
+
+            GetCursorPos(&tv_htinfo.pt);
+
+            ScreenToClient(GetDlgItem(m_hWnd, IDC_MUSICTREE), &tv_htinfo.pt);
+
+            if(TreeView_HitTest(GetDlgItem(m_hWnd, IDC_MUSICTREE), &tv_htinfo))
+            {
             
-            sItem.hItem = TreeView_GetSelection(GetDlgItem(m_hWnd, IDC_MUSICTREE)); 
-            sItem.mask = TVIF_PARAM | TVIF_HANDLE;
-            TreeView_GetItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sItem);
+                sItem.hItem = TreeView_GetSelection(GetDlgItem(m_hWnd, IDC_MUSICTREE)); 
+                sItem.mask = TVIF_PARAM | TVIF_HANDLE;
+                TreeView_GetItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sItem);
         
-            if (sItem.hItem != m_hPlaylistItem &&
-                sItem.hItem != m_hCatalogItem)
-            {    
-                if (sItem.lParam < 0)
-                { 
-                    vector<string> *p;
-                    p = m_context->browser->m_catalog->m_playlists;
-                    LoadPlaylist((*p)[(-sItem.lParam) - 1]);
-                    SetFocus(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX));
-                }    
-                else    
-                    if (m_oMusicCrossRefs[sItem.lParam].iLevel == 3)
-                    {
-                        m_bListChanged = true;
-                        m_context->plm->AddItem(
-                           m_oMusicCrossRefs[sItem.lParam].
-                           pTrack->URL().c_str());
-                        UpdatePlaylistList();
+                if (sItem.hItem != m_hPlaylistItem &&
+                    sItem.hItem != m_hCatalogItem)
+                {    
+                    if (sItem.lParam < 0)
+                    { 
+                        vector<string> *p;
+                        p = m_context->browser->m_catalog->m_playlists;
+                        LoadPlaylist((*p)[(-sItem.lParam) - 1]);
+                        SetFocus(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX));
                     }    
-            }            
+                    else    
+                        if (m_oMusicCrossRefs[sItem.lParam].iLevel == 3)
+                        {
+                            m_context->plm->AddItem(m_oMusicCrossRefs[sItem.lParam].pTrack);
+                            UpdatePlaylistList();
+                        }    
+                }          
+            }
         }
         return 0;
     }    

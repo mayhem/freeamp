@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.45 2000/02/16 21:34:46 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.46 2000/02/16 22:49:37 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -574,7 +574,7 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             PlaylistItemRemovedEvent* pie = (PlaylistItemRemovedEvent*)event;
 
             if(pie->Manager() == m_plm)
-                PlaylistListItemRemoved(pie->Item(), pie->Index());
+                PlaylistListItemRemoved(pie->Items(), pie->Indices());
             else
             {
                 vector<MusicBrowserUI *>::iterator i;
@@ -583,7 +583,7 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 {
                     if((*i)->PLManager() == pie->Manager())
                     {
-                        (*i)->PlaylistListItemRemoved(pie->Item(), pie->Index());
+                        (*i)->PlaylistListItemRemoved(pie->Items(), pie->Indices());
                         break;
                     }
                 }

@@ -130,19 +130,43 @@ SOURCE=..\config\config.win32
 
 !IF  "$(CFG)" == "gdbm - Win32 Release"
 
-# PROP Exclude_From_Build 1
+# Begin Custom Build
+InputPath=..\config\config.win32
+
+"..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cp ..\config\config.win32 ..\config\config.h
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "gdbm - Win32 Debug"
 
-# PROP Exclude_From_Build 1
+# Begin Custom Build
+InputPath=..\config\config.win32
+
+"..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cp ..\config\config.win32 ..\config\config.h
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
 
-# PROP Exclude_From_Build 1
+# Begin Custom Build
+InputPath=..\config\config.win32
+
+"..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cp ..\config\config.win32 ..\config\config.h
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Debug"
 
-# PROP Exclude_From_Build 1
+# Begin Custom Build
+InputPath=..\config\config.win32
+
+"..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cp ..\config\config.win32 ..\config\config.h
+
+# End Custom Build
 
 !ENDIF 
 

@@ -62,8 +62,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                                    ..\..\..\..\base\win32\prj\plugins	copy soundcard.pmo\
-                               ..\..\..\..\base\win32\prj\plugins
+                                   ..\..\..\..\base\win32\prj\plugins	copy soundcard.pmo\
+                              ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 Debug"
@@ -95,8 +95,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                                    ..\..\..\..\base\win32\prj\plugins	copy soundcard.pmo\
-                               ..\..\..\..\base\win32\prj\plugins
+                                   ..\..\..\..\base\win32\prj\plugins	copy soundcard.pmo\
+                              ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Debug"
@@ -130,8 +130,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                                    ..\..\..\..\base\win32\prj\plugins	copy soundcard.pmo\
-                               ..\..\..\..\base\win32\prj\plugins
+                                   ..\..\..\..\base\win32\prj\plugins	copy soundcard.pmo\
+                              ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Release"
@@ -163,8 +163,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                                    ..\..\..\..\base\win32\prj\plugins	copy soundcard.pmo\
-                               ..\..\..\..\base\win32\prj\plugins
+                                   ..\..\..\..\base\win32\prj\plugins	copy soundcard.pmo\
+                              ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ENDIF 
@@ -204,7 +204,13 @@ InputPath=..\..\..\..\config\config.win32
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Debug"
 
-# PROP Exclude_From_Build 1
+# Begin Custom Build
+InputPath=..\..\..\..\config\config.win32
+
+"..\..\..\..\config\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\..\..\..\config\config.win32 ..\..\..\..\config\config.h
+
+# End Custom Build
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Release"
 

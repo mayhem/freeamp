@@ -18,12 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: beosprefs.cpp,v 1.2 1999/04/21 04:20:43 elrod Exp $
+	$Id: beosprefs.cpp,v 1.3 1999/04/21 20:24:16 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <unistd.h>
 #include <stdlib.h>
 
+#include "config.h"
 #include "beosprefs.h"
 
 class LibDirFindHandle {
@@ -63,7 +64,7 @@ Error BeOSPrefs::SetPrefString(const char* pref, char* buf) {
 HANDLE BeOSPrefs::GetFirstLibDir(char *path, uint32 *len) {
     // if no FREEAMP_PATH, libdirs = ~/.freeamp : @lib_installdir@/freeamp : .
     // if FREEAMP_PATH, then its FREEAMP_PATH
-    char *pEnv = getenv("FREEAMP_PATH");
+    char *pEnv = getenv(FREEAMP_PATH_ENV);
     char *pPath = NULL;
     if (pEnv) {
 //	cout << "Using env: " << pEnv << endl;

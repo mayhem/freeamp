@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.115 1999/04/21 16:30:36 mhw Exp $
+        $Id: player.cpp,v 1.116 1999/04/21 20:24:17 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -335,7 +335,7 @@ Usage(const char *progname)
    if (m_didUsage)
       return;
 
-   printf("FreeAmp version 1.2.1 -- Usage:\n\n");
+   printf("FreeAmp version " FREEAMP_VERSION " -- Usage:\n\n");
    printf("freeamp [-ui <UI plugin name>] <MP3 file/stream> "
 	  "[MP3 file/stream] ...\n\n");
    printf("Example command line:\n\n");

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.29 1999/04/21 16:53:21 robert Exp $
+	$Id: freeamp.cpp,v 1.30 1999/04/21 20:24:18 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -345,7 +345,7 @@ Error FreeAmpUI::Init(int32 startup_type)
      * XTextProperty structures and set their other 
      * fields properly. */
 
-    char *window_name = "FreeAmp v1.2.1";
+    char *window_name = "FreeAmp v" FREEAMP_VERSION;
     char *icon_name = "FreeAmp";
     XTextProperty windowName, iconName;
 

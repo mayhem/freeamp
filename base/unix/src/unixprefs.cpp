@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: unixprefs.cpp,v 1.5 1999/04/21 17:07:04 mhw Exp $
+	$Id: unixprefs.cpp,v 1.6 1999/04/21 20:24:17 mhw Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -357,6 +357,7 @@ UnixPrefs()
     FILE *prefsFile = fopen(m_prefsFilePath, "r");
     if (!prefsFile && errno != ENOENT)
     {
+	m_saveEnable = false;
 	fprintf(stderr, "Error opening %s: %s\n",
 		m_prefsFilePath, strerror(errno));
     }
@@ -676,7 +677,7 @@ GetFirstLibDir(char *path, uint32 *len)
 {
     // if no FREEAMP_PATH, use kLibraryPathPref
     // if FREEAMP_PATH, then its FREEAMP_PATH
-    char *pEnv = getenv("FREEAMP_PATH");
+    char *pEnv = getenv(FREEAMP_PATH_ENV);
     char *pPath = NULL;
     if (pEnv) {
 //	cout << "Using env: " << pEnv << endl;

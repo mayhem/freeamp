@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.1 1999/04/18 05:01:18 dogcow Exp $
+	$Id: utility.cpp,v 1.2 1999/04/21 20:24:17 mhw Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -31,7 +31,6 @@ ____________________________________________________________________________*/
 #include "errors.h"
 
 #define MAIN_KEY    HKEY_CURRENT_USER
-#define SUB_KEY     "SOFTWARE\\FreeAmp\\FreeAmp v1.0"
 #define INSTALL     "InstallDirectory"
 #define UI          "UI"
 #define DEFAULT_UI  "freeamp"

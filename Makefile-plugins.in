@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.13 1999/07/28 00:51:12 dogcow Exp $
+# $Id: Makefile-plugins.in,v 1.14 1999/07/28 00:51:57 dogcow Exp $
 
 RELOC = @FPIC@
 
@@ -35,7 +35,7 @@ PLUGINS += plugins/obsinput-$(HOST_OS).pmi
 PLUGINS += plugins/soundcard-$(HOST_OS).pmo
 PLUGINS += plugins/freeampcmd-$(HOST_OS).ui
 PLUGINS += plugins/mpg123-$(HOST_OS).ui
-PLUGINS += plugins/ncurses-$(HOST_OS).ui
+#PLUGINS += plugins/ncurses-$(HOST_OS).ui
 PLUGINS += plugins/lcd-$(HOST_OS).ui
 PLUGINS += plugins/irman-$(HOST_OS).ui
 PLUGINS += plugins/xingmp3-$(HOST_OS).lmc

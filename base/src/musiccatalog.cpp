@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.69 2000/08/09 00:45:44 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.70 2000/08/09 03:51:32 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -487,8 +487,10 @@ bool MusicCatalog::CaseCompare(string s1, string s2)
 
 void MusicCatalog::GenerateSignature(PlaylistItem *track)
 {
-    if (m_context->aps->GetCurrentProfileName() != "")
-        m_sigs->insert(track);
+    if (m_context->aps->GetCurrentProfileName() != "") {
+        PlaylistItem *copy = new PlaylistItem(*track);
+        m_sigs->insert(copy);
+    }
 }
 
 Error MusicCatalog::AddSong(const char *url)

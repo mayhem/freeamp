@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.222 2000/08/09 00:45:44 ijr Exp $
+        $Id: player.cpp,v 1.223 2000/08/09 03:51:32 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1410,6 +1410,11 @@ GenerateSigsWork(set<PlaylistItem *> *items)
         AcceptEvent(new BrowserMessageEvent(browserInfo.c_str()));
 
         m_signatureSem->Signal();
+    }
+
+    while (items->size() > 0) {
+        delete *(items->begin());
+        items->erase(items->begin());
     }
     delete items;
 }

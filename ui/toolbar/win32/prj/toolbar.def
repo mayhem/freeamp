@@ -1,7 +1,0 @@
-; themeui.def : Declares the module parameters for the DLL.
-
-LIBRARY      "toolbar"
-DESCRIPTION  'Toolbar UI Library'
-
-EXPORTS
-	Initialize

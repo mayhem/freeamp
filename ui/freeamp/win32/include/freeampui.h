@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.26 1999/04/01 17:02:58 elrod Exp $
+	$Id: freeampui.h,v 1.27 1999/04/02 19:34:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -60,9 +60,9 @@ ____________________________________________________________________________*/
 #include "scrollview.h"
 #include "resizeview.h"
 
-enum {	STATE_Stopped = 0, 
-		STATE_Playing, 
-		STATE_Paused };
+enum {	UIState_Stopped = 0, 
+		UIState_Playing, 
+		UIState_Paused };
 
 
 class FreeAmpUI : public UserInterface {

@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.h,v 1.5 1999/03/18 03:44:36 elrod Exp $
+	$Id: listview.h,v 1.6 1999/04/02 19:34:29 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _LIST_VIEW_H_
-#define _LIST_VIEW_H_
+#ifndef PREF_DIALOG_H
+#define PREF_DIALOG_H
 
 #include "config.h"
 #include "view.h"
@@ -156,4 +156,4 @@ class ListView : public View {
     
 };
 
-#endif /* _LIST_VIEW_H_ */
+#endif /* PREF_DIALOG_H */

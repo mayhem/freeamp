@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.cpp,v 1.15 1999/04/01 17:02:59 elrod Exp $
+	$Id: listview.cpp,v 1.16 1999/04/02 19:34:30 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -557,7 +557,7 @@ LeftButtonDoubleClick(int32 x, int32 y, int32 modifiers)
 
         plm->SetCurrent(index); 
 
-        if (ui->State() == STATE_Paused)
+        if (ui->State() == UIState_Paused)
             ui->Target()->AcceptEvent(new Event(CMD_PlayPaused));
         else
             ui->Target()->AcceptEvent(new Event(CMD_Play));

@@ -18,12 +18,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSWindow.cpp,v 1.4 1999/10/26 06:18:04 hiro Exp $
+   $Id: BeOSWindow.cpp,v 1.5 1999/12/10 05:05:46 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
 #define DEBUG 0
+
 #include <be/support/Debug.h>
+#include <be/app/AppDefs.h>
+#include <Screen.h>
 #include "Theme.h"
 #include "BeOSWindow.h"
 #include "BeOSCanvas.h"
@@ -209,6 +212,28 @@ BeOSWindow::Restore( void )
 {
     CHECK_POINT_MSG( "Restore" );
     return kError_NoErr;
+}
+
+bool  
+BeOSWindow::LButtonDown(void)
+{
+	BPoint pt;
+	uint32 buttons = 0;
+ 	m_canvasView->GetMouse(&pt, &buttons );
+ 	
+	return (buttons & B_PRIMARY_MOUSE_BUTTON);
+}
+
+Error
+BeOSWindow::GetDesktopSize(int &iX, int &iY)
+{
+	BScreen s;
+	BRect r = s.Frame();
+	
+	iX = (int)r.Width();
+	iY = (int)r.Height();
+	
+	return kError_NoErr;
 }
 
 void

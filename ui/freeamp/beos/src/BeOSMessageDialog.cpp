@@ -18,13 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSMessageDialog.cpp,v 1.3 1999/10/23 08:25:00 hiro Exp $
+   $Id: BeOSMessageDialog.cpp,v 1.4 1999/12/10 05:05:46 elrod Exp $
 ____________________________________________________________________________*/ 
 
+#include <Alert.h>
 #include "MessageDialog.h"
 #include <stdio.h>
 
-MessageDialog::MessageDialog()
+MessageDialog::MessageDialog(FAContext *context)
 {
 }
 
@@ -35,15 +36,66 @@ MessageDialog::~MessageDialog()
 MessageDialogReturnEnum
 MessageDialog::Show( const char* szMessage,
                      const char* szTitle,
-                     MessageDialogEnum eType )
+                     MessageDialogEnum eType,
+                     bool InEventLoop )
 {
+	MessageDialogReturnEnum result = kMessageReturnUnknown;
+	int32 button_index = 0;
+	BAlert *alert = NULL;
+	
+	
     printf( "MessageDialog: %s\n", szMessage );
+    
+    switch(eType)
+    {	
+    	case kMessageOk:
+    		alert = new BAlert(szTitle, szMessage, "OK");
+    		break;
+    		
+    	case kMessageYesNo:
+    		alert = new BAlert(szTitle, szMessage, "Yes", "No");
+    		break;
+    		
+    	case kMessageOkCancel:
+    	default:
+    		alert = new BAlert(szTitle, szMessage, "OK", "Cancel");
+    		break;
+	}
+    
+	button_index = alert->Go(); 
+	
+	switch(eType)
+	{
+		case kMessageOk:
+    		result = kMessageReturnOk;
+    		break;
+    		
+    	case kMessageYesNo:
+    		if(button_index == 0)
+    			result = kMessageReturnYes;
+    		else
+    			result = kMessageReturnNo;
+    		break;
+    	
+    	case kMessageOkCancel:
+    	default:
+    		if(button_index == 0)
+    			result = kMessageReturnOk;
+    		else
+    			result = kMessageReturnCancel;
+    		break;
+    	
+    	
+	}
+
+   	return result;
 }
 
 MessageDialogReturnEnum
 MessageDialog::Show( const string& oMessage,
                      const string& oTitle,
-                     MessageDialogEnum eType )
+                     MessageDialogEnum eType,
+                     bool InEventLoop )
 {
-    printf( "MessageDialog: %s\n", oMessage.c_str() );
+    return Show(oMessage.c_str(), oTitle.c_str(), eType, InEventLoop );
 }

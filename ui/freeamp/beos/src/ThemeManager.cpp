@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.1 1999/10/26 06:22:38 hiro Exp $
+   $Id: ThemeManager.cpp,v 1.2 1999/12/10 05:05:46 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -41,7 +41,7 @@ ThemeManager::~ThemeManager(void)
 
 Error ThemeManager::GetDefaultTheme(string &oThemePath)
 {
-    char              dir[MAX_PATH];
+    char              dir[_MAX_PATH];
     uint32            len = sizeof(dir);
 
     m_pContext->prefs->GetInstallDirectory(dir, &len);
@@ -55,7 +55,7 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
 {
     WIN32_FIND_DATA find;
     HANDLE          handle;
-    char            dir[MAX_PATH], *ptr;
+    char            dir[_MAX_PATH], *ptr;
     uint32          len = sizeof(dir);
     string          oThemePath, oThemeBasePath, oThemeFile;
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSCanvas.cpp,v 1.3 1999/10/23 08:25:00 hiro Exp $
+   $Id: BeOSCanvas.cpp,v 1.4 1999/12/10 05:05:46 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSCanvas.h"
@@ -28,6 +28,8 @@ ____________________________________________________________________________*/
 #include <be/support/Debug.h>
 #include <be/interface/Bitmap.h>
 #include <be/interface/Region.h>
+
+#include <string>
 
 #define CHECK_POINT CHECK_POINT_MSG("")
 #define CHECK_POINT_MSG(a) PRINT(( "File %s Line %d, %x: %s\n", __FILE__, __LINE__, this, a ))

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.25.2.2.2.2 2000/03/04 17:32:52 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.25.2.2.2.2.2.1 2000/03/16 23:01:59 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -350,6 +350,9 @@ void GTKPreferenceWindow::GetPrefsValues(Preferences* prefs,
         values->portablePlayers.insert(string(name));
 
     free(buffer);
+
+    prefs->GetAskToReclaimFiletypes(&values->askReclaimFiletypes);
+    prefs->GetReclaimFiletypes(&values->reclaimFiletypes);
 }
 
 void GTKPreferenceWindow::SavePrefsValues(Preferences* prefs, 
@@ -359,6 +362,8 @@ void GTKPreferenceWindow::SavePrefsValues(Preferences* prefs,
     prefs->SetShowToolbarImages(values->useImages);
     prefs->SetSaveCurrentPlaylistOnExit(values->savePlaylistOnExit);
     prefs->SetPlayImmediately(values->playImmediately);
+    prefs->SetAskToReclaimFiletypes(values->askReclaimFiletypes);
+    prefs->SetReclaimFiletypes(values->reclaimFiletypes);
 
     prefs->SetDefaultPMO(values->defaultPMO.c_str());
     prefs->SetInputBufferSize(values->inputBufferSize);
@@ -507,6 +512,32 @@ void play_now_toggle(GtkWidget *w, GTKPreferenceWindow *p)
     p->PlayImmediatelyToggle(i);
 }
 
+void GTKPreferenceWindow::ReclaimTypesToggle(int active)
+{
+    proposedValues.reclaimFiletypes = active;
+    if (!firsttime)
+        gtk_widget_set_sensitive(applyButton, TRUE);
+}
+
+void reclaim_types_toggle(GtkWidget *w, GTKPreferenceWindow *p)
+{
+    int i = GTK_TOGGLE_BUTTON(w)->active;
+    p->ReclaimTypesToggle(i);
+}
+
+void GTKPreferenceWindow::AskReclaimToggle(int active)
+{
+    proposedValues.askReclaimFiletypes = active;
+    if (!firsttime)
+        gtk_widget_set_sensitive(applyButton, TRUE);
+}
+
+void ask_reclaim_toggle(GtkWidget *w, GTKPreferenceWindow *p)
+{
+    int i = GTK_TOGGLE_BUTTON(w)->active;
+    p->AskReclaimToggle(i);
+}
+
 GtkWidget *GTKPreferenceWindow::CreatePage1(void)
 {
     firsttime = true;
@@ -616,6 +647,31 @@ GtkWidget *GTKPreferenceWindow::CreatePage1(void)
     gtk_signal_connect(GTK_OBJECT(check), "toggled",
                        GTK_SIGNAL_FUNC(play_now_toggle), this);
     if (!originalValues.playImmediately) 
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
+    gtk_widget_show(check);
+
+    frame = gtk_frame_new("File Associations");
+    gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 5);
+    gtk_widget_show(frame);
+
+    vbox = gtk_vbox_new(FALSE, 5);
+    gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
+    gtk_container_add(GTK_CONTAINER(frame), vbox);
+    gtk_widget_show(vbox);
+
+    check = gtk_check_button_new_with_label("Reclaim music file associations when application starts");
+    gtk_box_pack_start(GTK_BOX(vbox), check, FALSE, FALSE, 0);
+    gtk_signal_connect(GTK_OBJECT(check), "toggled",
+                       GTK_SIGNAL_FUNC(reclaim_types_toggle), this);
+    if (originalValues.reclaimFiletypes)
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
+    gtk_widget_show(check);
+
+    check = gtk_check_button_new_with_label("Ask before reclaiming music file associations");
+    gtk_box_pack_start(GTK_BOX(vbox), check, FALSE, FALSE, 0);
+    gtk_signal_connect(GTK_OBJECT(check), "toggled",
+                       GTK_SIGNAL_FUNC(ask_reclaim_toggle), this);
+    if (originalValues.askReclaimFiletypes)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
     gtk_widget_show(check);
 

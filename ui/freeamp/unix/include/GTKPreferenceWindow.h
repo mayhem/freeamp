@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.15 2000/01/16 20:07:42 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.15.6.1 2000/03/16 23:01:59 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -49,6 +49,8 @@ typedef struct PrefsStruct
     int32 inputBufferSize;
     int32 outputBufferSize;
     int32 preBufferLength;
+    bool  reclaimFiletypes;
+    bool  askReclaimFiletypes;
 
     // page 2
     int32 streamInterval;
@@ -113,6 +115,8 @@ typedef struct PrefsStruct
             listboxIndex == pref.listboxIndex &&
             outputIndex == pref.outputIndex && 
             alsaOutput == pref.alsaOutput &&
+            reclaimFiletypes == pref.reclaimFiletypes &&
+            askReclaimFiletypes == pref.askReclaimFiletypes &&
             true
         );
     }
@@ -231,6 +235,9 @@ class GTKPreferenceWindow : public PreferenceWindow
       void SetToolbar(bool text, bool pics);
       void SaveOnExitToggle(int active);
       void PlayImmediatelyToggle(int active);
+
+      void ReclaimTypesToggle(int active);
+      void AskReclaimToggle(int active);
 
       FAContext *GetContext(void) { return m_pContext; }
 };

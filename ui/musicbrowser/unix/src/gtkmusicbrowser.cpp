@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.3 1999/09/22 15:55:27 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.4 1999/09/22 18:58:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -531,6 +531,16 @@ void musicbrowserUI::CreatePlaylistList(GtkWidget *box)
     UpdatePlaylistList();
 }
 
+void musicbrowserUI::SetStatusText(const char *text)
+{
+    if (statusContext > 0) 
+        gtk_statusbar_pop(GTK_STATUSBAR(statusBar), statusContext);
+    else
+        statusContext = 1;
+
+    gtk_statusbar_push(GTK_STATUSBAR(statusBar), 1, text);
+}
+
 void musicbrowserUI::CreatePlaylist(void)
 {
     GtkWidget *vbox;
@@ -549,7 +559,7 @@ void musicbrowserUI::CreatePlaylist(void)
 
     musicBrowser = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(musicBrowser), "Playlist Editor");
-    gtk_window_set_policy(GTK_WINDOW(musicBrowser), TRUE, TRUE, TRUE);
+    gtk_window_set_policy(GTK_WINDOW(musicBrowser), TRUE, TRUE, FALSE);
     gtk_signal_connect(GTK_OBJECT(musicBrowser), "destroy",
                        GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
     gtk_container_set_border_width(GTK_CONTAINER(musicBrowser), 5);
@@ -558,6 +568,10 @@ void musicbrowserUI::CreatePlaylist(void)
     vbox = gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(musicBrowser), vbox);
     gtk_widget_show(vbox);
+
+    statusBar = gtk_statusbar_new();
+    gtk_box_pack_end(GTK_BOX(vbox), statusBar, TRUE, TRUE, 5);
+    gtk_widget_show(statusBar);
 
     CreateMenu(vbox);
 

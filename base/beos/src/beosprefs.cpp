@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: beosprefs.cpp,v 1.5 1999/08/06 08:42:14 dogcow Exp $
+        $Id: beosprefs.cpp,v 1.5.2.1 1999/09/22 18:58:20 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -38,6 +38,7 @@ ____________________________________________________________________________*/
 #include <be/storage/Directory.h>
 #include <be/storage/Path.h>
 
+#include "utility.h"
 #include "beosprefs.h"
 #include "prefixprefs.h"
 
@@ -46,15 +47,6 @@ ____________________________________________________________________________*/
 // (among others) which will in turn use delete to reclaim the memory.
 // This is NOT VALID! A strdup()ed string must be free()ed, not deleted!
 // WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
-char *strdup_new(char *str)
-{
-    char *n;
-
-    n = new char[strlen(str) + 1];
-    strcpy(n, str);
-
-    return n;
-}
 
 // default values
 const char*  kDefaultLibraryPath = ".:~/.freeamp:" UNIX_LIBDIR "/freeamp";

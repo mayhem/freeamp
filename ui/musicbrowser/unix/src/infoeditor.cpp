@@ -18,23 +18,14 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.1.2.1 1999/09/16 00:03:59 ijr Exp $
+        $Id: infoeditor.cpp,v 1.1.2.2 1999/09/22 18:58:21 ijr Exp $
 ____________________________________________________________________________*/
 
+#include "utility.h"
 #include "infoeditor.h"
 #include "metadata.h"
 #include "musicbrowser.h"
 
-char *strdup_new(char *old)
-{
-   assert(old);
-
-   char *s = new char[strlen(old) + 1];
-   strcpy(s, old);
-
-   return s;
-}
-   
 void infoeditorUI::DoApplyInfoEdit(void)
 {
     gchar *text;

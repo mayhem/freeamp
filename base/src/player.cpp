@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.17 1999/09/22 15:55:27 ijr Exp $
+        $Id: player.cpp,v 1.133.2.18 1999/09/22 18:58:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -123,7 +123,7 @@ EventQueue()
    string freeampdir = tempstr;
    freeampdir += DIR_MARKER_STR;
    freeampdir += "metadatabase";
-   m_musicBrowser->SetDatabase(tempstr);
+   m_musicBrowser->SetDatabase(freeampdir.c_str());
    delete tempstr;
 }
 
@@ -1541,6 +1541,7 @@ ServiceEvent(Event * pC)
 
       case INFO_UserMessage:
       case INFO_StatusMessage:
+      case INFO_BrowserMessage:
            UserMessage(pC);
            break;
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.7 1999/09/22 15:55:27 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.8 1999/09/22 18:58:21 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -129,8 +129,8 @@ MusicBrowser::MusicBrowser(FAContext *context, char *path)
     m_context = context;
     m_plm = context->plm;
     m_catalog = new MusicCatalog();
-    m_mutex = new Mutex();
-    
+    m_mutex = new Mutex();   
+ 
     if (path)
         SetDatabase(path);
 
@@ -205,6 +205,11 @@ void MusicBrowser::DoSearchMusic(char *path)
 
     Player *m_player = Player::GetPlayer(0);
 
+    string *info = new string("Searching: ");
+    (*info) += path;
+    m_player->AcceptEvent(new BrowserMessageEvent(info->c_str()));
+    delete info;
+   
     if (search[search.size() - 1] != DIR_MARKER)
        search.append(DIR_MARKER_STR);
 

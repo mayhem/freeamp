@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.30.4.7 1999/09/09 02:42:00 elrod Exp $
+        $Id: eventdata.h,v 1.30.4.8 1999/09/22 18:58:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -33,6 +33,7 @@ using namespace std;
 
 #include "event.h"
 #include "playlist.h"
+#include "utility.h"
 
 class     LogicalMediaConverter;
 
@@ -59,7 +60,7 @@ class     UserMessageEvent:public Event
    UserMessageEvent(const char *info)
    {
       m_type = INFO_UserMessage;
-      m_info = strdup(info);
+      m_info = strdup_new(info);
    }
    const char *GetInfo()
    {
@@ -89,9 +90,38 @@ class     StatusMessageEvent:public Event
    StatusMessageEvent(const char *info)
    {
       m_type = INFO_StatusMessage;
-      m_info = strdup(info);
+      m_info = strdup_new(info);
    }
    const char *GetStatusMessage()
+   {
+      return m_info;
+   }
+};
+
+class     BrowserMessageEvent:public Event
+{
+   private:
+   char     *m_info;
+
+   public:
+   virtual ~ BrowserMessageEvent()
+   {
+      if (m_info)
+      {
+         delete    m_info;
+      }
+   }
+   BrowserMessageEvent()
+   {
+      m_type = INFO_BrowserMessage;
+      m_info = "";
+   }
+   BrowserMessageEvent(const char *info)
+   {
+      m_type = INFO_BrowserMessage;
+      m_info = strdup_new(info);
+   }
+   const char *GetBrowserMessage()
    {
       return m_info;
    }

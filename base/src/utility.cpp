@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.2.2.6 1999/09/17 18:20:18 ijr Exp $
+	$Id: utility.cpp,v 1.2.2.7 1999/09/22 18:58:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -29,6 +29,16 @@ ____________________________________________________________________________*/
 
 #include "config.h"
 #include "utility.h"
+
+char *strdup_new(const char *str)
+{
+    char *n;
+
+    n = new char[strlen(str) + 1];
+    strcpy(n, str);
+ 
+    return n;
+}
 
 #ifdef WIN32
 

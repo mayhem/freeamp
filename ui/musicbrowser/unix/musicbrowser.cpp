@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.4 1999/09/22 15:55:27 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.5 1999/09/22 18:58:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h" 
-#include "event.h"
+#include "eventdata.h"
 #include "infoeditor.h"
 
 extern "C" {
@@ -39,6 +39,7 @@ musicbrowserUI::musicbrowserUI(FAContext *context)
     m_noStartUp = false;
     m_browserCreated = false;
     m_currentindex = 0;
+    statusContext = 0;
 }
 
 musicbrowserUI::~musicbrowserUI()
@@ -116,6 +117,11 @@ int32 musicbrowserUI::AcceptEvent(Event *event)
         case INFO_SearchMusicDone: {
             gdk_threads_enter();
             UpdateCatalog();
+            gdk_threads_leave();
+            break; }
+        case INFO_BrowserMessage: {
+            gdk_threads_enter();
+            SetStatusText(((BrowserMessageEvent *)event)->GetBrowserMessage());
             gdk_threads_leave();
             break; }
         default:

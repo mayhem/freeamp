@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.1.2.1 1999/09/16 00:03:59 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.1.2.2 1999/09/22 18:58:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -97,8 +97,13 @@ class musicbrowserUI : public UserInterface {
     GtkWidget *playlistList;
     GtkWidget *expandLabel;
     
+    void SetStatusText(const char *text);
+    GtkWidget *statusBar;
+    unsigned int statusContext;
+
     GtkWidget *artistSubTree;
     GtkWidget *playlistSubTree;
+    
   public:
     /* event callbacks */
 

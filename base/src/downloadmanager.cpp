@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.27 1999/09/27 01:51:17 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.28 1999/09/27 18:56:00 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -547,7 +547,7 @@ Error DownloadManager::Download(DownloadItem* item)
 
         uint32 length = _MAX_PATH;
 
-        URLToFilePath(item->DestinationURL().c_str(), destPath, &length);
+        URLToFilePath(item->DestinationFile().c_str(), destPath, &length);
 
         result = kError_ProtocolNotSupported;
 
@@ -975,7 +975,7 @@ void DownloadManager::CleanUpDownload(DownloadItem* item)
     char path[MAX_PATH];
     uint32 length = sizeof(path);
 
-    URLToFilePath(item->DestinationURL().c_str(), path, &length);
+    URLToFilePath(item->DestinationFile().c_str(), path, &length);
 
     remove(path);
 }
@@ -993,7 +993,7 @@ Error DownloadManager::SubmitToDatabase(DownloadItem* item)
         char path[MAX_PATH];
         uint32 length = sizeof(path);
 
-        URLToFilePath(item->DestinationURL().c_str(), path, &length);
+        URLToFilePath(item->DestinationFile().c_str(), path, &length);
 
 
         m_context->browser->WriteMetaDataToDatabase(path, item->GetMetaData());

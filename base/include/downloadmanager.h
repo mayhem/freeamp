@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.12 1999/09/25 20:53:10 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.13 1999/09/27 18:56:00 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -125,7 +125,7 @@ class DownloadItem {
             SetSourceURL(src);
 
         if(dest)
-            SetDestinationURL(dest);
+            SetDestinationFile(dest);
 
         if(metadata)
             SetMetaData(metadata);
@@ -159,9 +159,13 @@ class DownloadItem {
     Error GetSourceURL(char* buf, uint32* len) { return SetBuffer(buf, m_src.c_str(), len); }
     const string& SourceURL() const { return m_src; }
 
-    Error SetDestinationURL(const char* url) { m_dest = url; return kError_NoErr;}
-    Error GetDestinationURL(char* buf, uint32* len) { return SetBuffer(buf, m_dest.c_str(), len); }
-    const string& DestinationURL() const { return m_dest; }
+    Error SetSourceCookie(const char* cookie) { m_cookie = cookie; return kError_NoErr;}
+    Error GetSourceCookie(char* buf, uint32* len) { return SetBuffer(buf, m_src.c_str(), len); }
+    const string& SourceCookie() const { return m_cookie; }
+
+    Error SetDestinationFile(const char* file) { m_dest = file; return kError_NoErr;}
+    Error GetDestinationFile(char* buf, uint32* len) { return SetBuffer(buf, m_dest.c_str(), len); }
+    const string& DestinationFile() const { return m_dest; }
 
     DownloadItemState GetState() const { return m_state; }
     void SetState(DownloadItemState state) { m_state = state; }
@@ -208,6 +212,7 @@ class DownloadItem {
     MetaData m_metadata;
     string m_src;
     string m_dest;
+    string m_cookie;
     DownloadItemState m_state;
     bool m_allowResume;
     Error m_error;

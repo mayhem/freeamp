@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.cpp,v 1.21 2000/09/25 08:41:42 ijr Exp $
+        $Id: browsermenu.cpp,v 1.22 2000/09/25 12:52:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -513,7 +513,7 @@ static void emusic_web(GTKMusicBrowser *p, guint action, GtkWidget *w)
 
 static void show_about(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
-    p->ShowOptions(8);
+    p->ShowOptions(9);
 }
 
 static void options_show(GTKMusicBrowser *p, guint action, GtkWidget *w)

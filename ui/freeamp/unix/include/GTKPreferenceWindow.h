@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.26 2000/08/30 14:56:45 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.27 2000/09/25 12:52:16 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -91,9 +91,12 @@ typedef struct PrefsStruct
     string CDDevicePath;
     string CDDBServer;
 
+    string playlistHeaders;
+    
     bool operator == (const struct PrefsStruct& pref)
     {
         return (
+            playlistHeaders == pref.playlistHeaders &&
             CDDevicePath == pref.CDDevicePath &&
             CDDBServer == pref.CDDBServer &&
             pollCD == pref.pollCD &&
@@ -192,6 +195,7 @@ class GTKPreferenceWindow : public PreferenceWindow
       GtkWidget *CreateDirectories(void);
       GtkWidget *CreateProfiles(void);
       GtkWidget *CreateCD(void);
+      GtkWidget *CreatePlaylistHeaders(void);
       
       GtkWidget *saveMusicBox;
 

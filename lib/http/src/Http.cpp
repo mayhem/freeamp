@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.12 2000/09/01 10:57:59 ijr Exp $
+   $Id: Http.cpp,v 1.13 2000/09/25 12:52:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -90,7 +90,7 @@ Error Http::DownloadToString(const string &url, string &page)
 
     eRet = Download(url, false);
     if (IsntError(eRet))
-        page = string((char *)m_buffer);
+        page = string((char *)m_buffer, m_bytesInBuffer);
 
     if (m_buffer)
     {

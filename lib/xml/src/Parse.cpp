@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.7 2000/05/24 17:08:33 ijr Exp $
+   $Id: Parse.cpp,v 1.8 2000/09/25 12:52:16 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -110,6 +110,7 @@ int Parse::Scanf(const char *szFormat, char *szData)
     strcat(szCustomFormat, "%n");
 
     iOffset = 0;
+    assert(m_uScanOffset <= m_oXML.size());
     iRet = sscanf(m_oXML.c_str() + m_uScanOffset, szCustomFormat, 
                   szData, &iOffset);
     if (iRet > 0 || iOffset > 0)
@@ -125,7 +126,7 @@ bool Parse::Eof(void)
     if (m_fpFile)
        return feof(m_fpFile) != 0;
 
-    if (m_uScanOffset == m_oXML.size())
+    if (m_uScanOffset >= m_oXML.size())
        return true;
 
     return false;

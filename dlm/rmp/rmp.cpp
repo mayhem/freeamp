@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.cpp,v 1.10 2000/06/21 13:34:36 ijr Exp $
+	$Id: rmp.cpp,v 1.11 2000/09/25 12:52:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -164,6 +164,27 @@ Error RMP::PCData(string &oData)
         m_oTrackDir = oData;
         return kError_NoErr;
     }
+    if (m_oPath == string("/PACKAGE/COOKIE/NAME"))
+    {
+        m_oCookieName = oData;
+
+        return kError_NoErr;
+    }
+    if (m_oPath == string("/PACKAGE/COOKIE/VALUE"))
+    {
+        m_oCookieValue = oData;
+
+        return kError_NoErr;
+    }
+    if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/FILENAME"))
+    {
+        m_oFileName = oData;
+        return kError_NoErr;
+    }
+
+    if (!m_pMetaData)
+        return kError_NoErr;
+
     if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/TITLE"))
     {
     	m_pMetaData->SetTitle(oData.c_str());
@@ -184,11 +205,6 @@ Error RMP::PCData(string &oData)
     	m_pMetaData->SetGenre(oData.c_str());
         return kError_NoErr;
     }
-    if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/FILENAME"))
-    {
-    	m_oFileName = oData;
-        return kError_NoErr;
-    }
     if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/SIZE"))
     {
     	m_pMetaData->SetSize(atoi(oData.c_str()));
@@ -204,26 +220,14 @@ Error RMP::PCData(string &oData)
     	m_pMetaData->SetTime(atoi(oData.c_str()));
         return kError_NoErr;
     }
-	if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/FORMAT"))
+    if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/FORMAT"))
     {
-		uint32 bumpItUp = 0;
+	uint32 bumpItUp = 0;
 
-		if(*oData.c_str() == '.')
-			bumpItUp = 1;
+	if(*oData.c_str() == '.')
+            bumpItUp = 1;
 
     	m_pMetaData->SetFormatExtension(oData.c_str() + bumpItUp);
-        return kError_NoErr;
-    }
-    if (m_oPath == string("/PACKAGE/COOKIE/NAME"))
-    {
-        m_oCookieName = oData; 
-
-        return kError_NoErr;
-    }
-    if (m_oPath == string("/PACKAGE/COOKIE/VALUE"))
-    {
-        m_oCookieValue = oData; 
-        
         return kError_NoErr;
     }
         

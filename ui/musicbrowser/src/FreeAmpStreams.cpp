@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: FreeAmpStreams.cpp,v 1.2 2000/06/01 22:38:52 robert Exp $
+	$Id: FreeAmpStreams.cpp,v 1.3 2000/09/25 12:52:16 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -101,6 +101,9 @@ Error FreeAmpStreams::BeginElement(string &oElement, AttrMap &oAttrMap)
 
 Error FreeAmpStreams::PCData(string &data)
 {
+    if (m_info == NULL)
+        return kError_InvalidParam;
+
     if (m_curElement == string("Url"))
     {
         m_info->m_streamUrl = data;

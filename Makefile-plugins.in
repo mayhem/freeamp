@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.49 2000/03/17 04:15:58 robert Exp $
+# $Id: Makefile-plugins.in,v 1.50 2000/03/17 21:47:10 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -29,7 +29,7 @@ uninstall_plugins uninstall-plugins:
 OSDEPPLUGINS = @OSDEPPLUGINS@
 
 clean-plugins plugins-clean:
-	-rm -f $(CDDBOBJ) $(PLSOBJ) $(RMPOBJ) $(MISCOBJ) $(ZLIBOBJ) $(MUSICBROWSEROBJ) $(MAKETHEMEOBJ) $(LFIOBJ) $(HTTPOBJ) $(OBSPMI) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(DOWNLOADUIOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(FREEAMPUIOBJ) $(ID3V1OBJ) $(ID3V2OBJ) $(M3UOBJ) $(PMP300OBJ) $(XINGLMCOBJ) $(WAVPMOOBJ) MakeTheme plugins/*.*
+	-rm -f $(UNZIPOBJ) $(CDDBOBJ) $(PLSOBJ) $(RMPOBJ) $(MISCOBJ) $(ZLIBOBJ) $(MUSICBROWSEROBJ) $(MAKETHEMEOBJ) $(LFIOBJ) $(HTTPOBJ) $(OBSPMI) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(DOWNLOADUIOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(FREEAMPUIOBJ) $(ID3V1OBJ) $(ID3V2OBJ) $(M3UOBJ) $(PMP300OBJ) $(XINGLMCOBJ) $(WAVPMOOBJ) MakeTheme plugins/*.*
 
 PLUGINS =  lib/zlib/lib/libzlib.la
 PLUGINS += lib/unzip/lib/libunzip.la

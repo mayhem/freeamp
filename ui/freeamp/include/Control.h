@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.11 2000/03/16 07:24:59 ijr Exp $
+   $Id: Control.h,v 1.12 2000/03/17 21:47:10 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -54,6 +54,8 @@ enum ControlMessageEnum
     CM_SliderUpdate,
     CM_ValueChanged,
     CM_ChangeWindow,
+    CM_WindowEnter,
+    CM_WindowLeave,
 
     CM_LastValue
 };

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.31 2000/02/29 10:02:01 elrod Exp $
+   $Id: Window.cpp,v 1.32 2000/03/17 21:47:10 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -658,27 +658,38 @@ void Window::HandleMouseLButtonUp(Pos &oScreenPos)
     return;
 }
 
+void Window::MouseHasEnteredWindow(void)
+{
+    IncUsageRef();
+    string StatusControlName = string("WindowStatus");
+    m_pTheme->HandleControlMessage(StatusControlName, CM_WindowEnter);
+    DecUsageRef();
+}
+
 // Do you have any idea how much I wanted to call 
 // this ElvisHasLeftTheBuilding()?
 void Window::MouseHasLeftWindow(void)
 {
     IncUsageRef();
 
+    string StatusControlName = string("WindowStatus");
+    m_pTheme->HandleControlMessage(StatusControlName, CM_WindowLeave);
+
     if (m_pMouseInControl)
     {
        m_pMouseInControl->AcceptTransition(CT_MouseLeave);
        m_pMouseInControl = NULL;
-       DecUsageRef();
-       return;
     }
-    if (!m_pMouseInControl)
+    else if (!m_pMouseInControl)
     { 
        Pos oPos;
 
        GetMousePos(oPos);
        m_pMouseInControl = ControlFromPos(oPos);
-       if (m_pMouseInControl)
+       if (m_pMouseInControl) {
           m_pMouseInControl->AcceptTransition(CT_MouseEnter);
+          m_pTheme->HandleControlMessage(StatusControlName, CM_WindowEnter);
+       }
     }      
     DecUsageRef();
 }

@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.33 2000/02/29 10:02:01 elrod Exp $
+   $Id: Win32Window.cpp,v 1.34 2000/03/17 21:47:10 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -884,8 +884,12 @@ void Win32Window::MouseLeaveCheck(void)
             MouseHasLeftWindow();
         m_bMouseInWindow = false;
     }
-    else
+    else 
+    {
+        if (!m_bMouseInWindow)
+            MouseHasEnteredWindow();
         m_bMouseInWindow = true;
+    }
         
     ReleaseDC(m_hWnd, hDc);
 }

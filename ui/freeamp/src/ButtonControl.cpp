@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.7 2000/02/20 05:36:40 ijr Exp $
+   $Id: ButtonControl.cpp,v 1.8 2000/03/17 21:47:10 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -205,5 +205,10 @@ void ButtonControl::SetTargetWindow(string &oWindow)
     m_oMutex.Acquire();
     m_oTargetWindow = oWindow;
     m_oMutex.Release();
+}
+
+bool ButtonControl::UseToDragWindow(void)
+{
+    return m_oName == string("WindowStatus");
 }
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.23 2000/02/16 04:39:35 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.24 2000/03/17 21:47:10 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -74,7 +74,6 @@ void button_up(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     oPos.y = (int)e->button.y_root;
     gdk_threads_leave();
     ui->m_pMindMeldMutex->Acquire();
-    ui->SetMouseOut();
     if (e->button.button == 1)
         ui->HandleMouseLButtonUp(oPos);
     ui->m_pMindMeldMutex->Release();
@@ -428,14 +427,23 @@ bool GTKWindow::LButtonDown(void)
 
 void GTKWindow::MouseLeaveCheck(void)
 {
-    if (m_bMouseInWindow) {
-        if (gdk_window_at_pointer(NULL, NULL) != mainWindow->window) {
-            m_bMouseInWindow = false;
+    if (gdk_window_at_pointer(NULL, NULL) != mainWindow->window) {
+        if (m_bMouseInWindow) 
             MouseHasLeftWindow();
-        }
-        else 
-            m_bMouseInWindow = true;
+        m_bMouseInWindow = false;
     }
+    else {
+        if (!m_bMouseInWindow) 
+            MouseHasEnteredWindow();
+        m_bMouseInWindow = true;
+    } 
+}
+
+void GTKWindow::SetMouseIn(void)
+{
+    if (!m_bMouseInWindow)
+        MouseHasEnteredWindow();
+    m_bMouseInWindow = true;
 }
 
 Error GTKWindow::GetDesktopSize(int32 &iX, int32 &iY)

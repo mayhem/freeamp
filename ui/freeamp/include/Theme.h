@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.24 2000/09/20 12:00:58 robert Exp $
+   $Id: Theme.h,v 1.25 2000/10/09 10:30:22 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -79,6 +79,7 @@ class Theme : public Parse
       virtual void  HandleKeystroke(unsigned char cKey) = 0;
       virtual bool  HandleMenuCommand(uint32 uCommand) = 0;
       virtual void  HandleMouseWheelChange(int iSteps) = 0;
+      virtual void  HandleMouseWheelClick(void) = 0;
       virtual void  VolumeChanged(void) = 0;
       virtual void  InitControls(void) = 0;
       virtual void  InitWindow(void) = 0;

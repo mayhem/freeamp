@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.32 2000/09/20 12:00:58 robert Exp $
+   $Id: Window.h,v 1.33 2000/10/09 10:30:22 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -94,6 +94,8 @@ class Window
       virtual void  HandleMouseWheelChange(int iSteps);
       virtual void  MouseHasEnteredWindow(void);
       virtual void  MouseHasLeftWindow(void);
+      virtual void  HandleMouseMButtonDown(Pos &oPos);
+      virtual void  HandleMouseMButtonUp(Pos &oPos);
 
       virtual Error StartMouseCapture(Control *);
       virtual Error EndMouseCapture(void);

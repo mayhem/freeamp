@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.148 2000/10/06 12:15:43 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.149 2000/10/09 10:30:22 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1755,6 +1755,28 @@ void FreeAmpTheme::HandleMouseWheelChange(int iSteps)
 	iVol += iSteps * 5;
 	iVol = max(min(iVol, 100), 0);
     SetVolume(iVol, m_iBalance);
+}
+
+void FreeAmpTheme::HandleMouseWheelClick(void)
+{
+    int    iState;
+	string oControlName("Mute");
+
+    m_pWindow->ControlIntValue(oControlName, false, iState);
+    if (iState == 0)
+    {
+        m_iMuteVolume = m_iVolume;
+        m_iVolume = 0;
+        iState = 1;
+    }
+    else
+    {
+        m_iVolume = m_iMuteVolume;
+        m_iMuteVolume = -1;
+        iState = 0;
+    }
+    SetVolume(m_iVolume, m_iBalance);
+    m_pWindow->ControlIntValue(oControlName, true, iState);
 }
 
 void FreeAmpTheme::VolumeChanged(void)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.50 2000/09/28 09:22:25 ijr Exp $
+   $Id: Window.cpp,v 1.51 2000/10/09 10:30:22 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -682,6 +682,17 @@ void Window::HandleMouseLButtonUp(Pos &oScreenPos)
 
     DecUsageRef();
     
+    return;
+}
+
+void Window::HandleMouseMButtonDown(Pos &oScreenPos)
+{
+    return;
+}
+
+void Window::HandleMouseMButtonUp(Pos &oScreenPos)
+{
+    m_pTheme->HandleMouseWheelClick();
     return;
 }
 

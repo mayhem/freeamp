@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: musicbrowser.cpp,v 1.38 2000/06/06 16:00:57 ijr Exp $
+    $Id: musicbrowser.cpp,v 1.39 2000/06/14 07:02:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -82,10 +82,12 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 browserWindows.erase(browserWindows.begin());
             }
 
+            gdk_threads_enter();
             if (searching)
                 searching->Close();
             if (wiz)
                 wiz->Close();
+            gdk_threads_leave();
 
             m_playerEQ->AcceptEvent(new Event(INFO_ReadyToDieUI));
             break; }
@@ -100,12 +102,14 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             if (wiz)
 	        wiz->AcceptEvent(event);
             if (event->Type() == INFO_SearchMusicDone) {
+                gdk_threads_enter();
 	        if (searching) {
                     searching->Close();
 		}
 		if (wiz) {
 		    wiz->Close();
 		}
+                gdk_threads_leave();
             }
             break; }
         case CMD_ToggleMusicBrowserUI: {

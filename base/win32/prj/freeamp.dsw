@@ -74,6 +74,63 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name freeampdev
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name download
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name dsoundcard
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name fileinput
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name freeampui
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name gdbm
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name httpinput
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name id3v1
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name id3v2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name m3u
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name musicbrowser
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name obsinput
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rmp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name simple
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name soundcard
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name theme
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name toolbar
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name update
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name xing
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name zlib
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -167,6 +224,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name gdbm
+    End Project Dependency
 }}}
 
 ###############################################################################

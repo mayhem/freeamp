@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.1.2.6 1999/09/23 18:13:53 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.1.2.7 1999/09/24 00:28:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -129,6 +129,14 @@ Error Win32Canvas::BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRect)
    return m_pBufferBitmap->BlitRect(pSrcBitmap, oSrcRect, oDestRect);
 }
 
+Error Win32Canvas::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRect)
+{
+   if (!m_pBufferBitmap)
+      return kError_NoErr;
+      
+   return m_pBufferBitmap->MaskBlitRect(pSrcBitmap, oSrcRect, oDestRect);
+}
+
 void Win32Canvas::Paint(HDC hDC, Rect &oRect)
 {
    HDC   hMemDC;
@@ -155,7 +163,9 @@ HRGN Win32Canvas::GetMaskRgn(void)
    int         iScanLine, iRet, iLine, iStart;
    char       *pData;
    BITMAPINFO *pInfo;
+   BITMAP      sInfo;
    HRGN        hMask, hTemp;
+   HBITMAP     hMaskBitmap;
 
    hMask = CreateRectRgn(0,0,0,0);
    
@@ -163,26 +173,31 @@ HRGN Win32Canvas::GetMaskRgn(void)
    hMemDC = CreateCompatibleDC(hRootDC);
    ReleaseDC(NULL, hRootDC);
 
+   hMaskBitmap = ((Win32Bitmap *)m_pBGBitmap)->GetMaskBitmapHandle();
+
+   GetObject(hMaskBitmap, sizeof(BITMAP), (LPSTR)&sInfo);
+
    pInfo = (BITMAPINFO *)new char[sizeof(BITMAPINFOHEADER) + 2 * 
                                   sizeof(RGBQUAD)];
    pInfo->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-   pInfo->bmiHeader.biWidth = m_oBGRect.Width();
-   pInfo->bmiHeader.biHeight = m_oBGRect.Height();
+   pInfo->bmiHeader.biWidth = sInfo.bmWidth;
+   pInfo->bmiHeader.biHeight = sInfo.bmHeight;
    pInfo->bmiHeader.biPlanes = 1;
    pInfo->bmiHeader.biBitCount = 1;
    pInfo->bmiHeader.biCompression = BI_RGB;
    
-   pData = new char[m_oBGRect.Width() * 4];
-   for(iScanLine = 0; iScanLine < m_oBGRect.Height(); iScanLine++)
+   pData = new char[sInfo.bmWidth * 4];
+   for(iScanLine = 0; iScanLine < sInfo.bmHeight; iScanLine++)
    {
-       iRet = GetDIBits(hMemDC, ((Win32Bitmap *)m_pMaskBitmap)->GetBitmapHandle(),
-                        (m_oBGRect.Height() - 1)- iScanLine, 1, pData, pInfo, DIB_PAL_COLORS);
+       iRet = GetDIBits(hMemDC, hMaskBitmap, 
+                        (sInfo.bmHeight - 1)- iScanLine, 
+                        1, pData, pInfo, DIB_PAL_COLORS);
        if (iRet == 0)
        {
            return NULL;
        }    
            
-       for(iLine = 0, iStart = -1; iLine < m_oBGRect.Width(); iLine++)
+       for(iLine = 0, iStart = -1; iLine < sInfo.bmWidth; iLine++)
        {
        	  if ((pData[iLine / 8] & (0x80 >> (iLine % 8))) == 0)
           {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.1.2.7 1999/09/23 18:13:45 robert Exp $
+   $Id: Control.cpp,v 1.1.2.8 1999/09/24 00:28:26 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -184,7 +184,7 @@ void Control::BlitFrame(int iFrame, int iNumFramesInBitmap, Rect *pRect)
     oDestRect.y2++;
 
     pCanvas = m_pParent->GetCanvas();
-    pCanvas->BlitRect(m_pBitmap, oFrameRect, oDestRect);
+    pCanvas->MaskBlitRect(m_pBitmap, oFrameRect, oDestRect);
     
     pCanvas->Invalidate(oDestRect);
     pCanvas->Update();

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.7 1999/09/23 18:17:38 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.8 1999/09/24 00:28:27 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -275,7 +275,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        }
 
        eRet = ParsePos(oAttrMap["TransIndex"], oPos);
-       if (eRet != kError_NoErr)
+       if (eRet == kError_NoErr)
            pBitmap->SetTransIndexPos(oPos);
        
        if (!m_pParsedBitmaps)
@@ -283,7 +283,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            
        m_pParsedBitmaps->push_back(pBitmap);
 
-       return eRet;
+       return kError_NoErr;
     }
     if (oElement == string("Window"))
     {

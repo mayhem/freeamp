@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.h,v 1.1.2.8 1999/09/23 01:29:49 robert Exp $
+   $Id: Canvas.h,v 1.1.2.9 1999/09/24 00:28:25 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CANVAS_H__
@@ -57,6 +57,7 @@ class Canvas
      virtual Error Invalidate(Rect &oRect) = 0;
      virtual Error Update(void) = 0;
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec) = 0;
+     virtual Error MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec) = 0;
 
     protected:
 

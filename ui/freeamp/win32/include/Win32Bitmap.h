@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.h,v 1.1.2.4 1999/09/17 20:31:04 robert Exp $
+   $Id: Win32Bitmap.h,v 1.1.2.5 1999/09/24 00:28:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32BITMAP_H__
@@ -42,12 +42,17 @@ class Win32Bitmap : public Bitmap
      virtual Error LoadBitmapFromDisk(string &oFile);
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
                             Rect &oDestRect);
+     virtual Error MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
+                                Rect &oDestRect);
+     virtual void  SetTransIndexPos(Pos &oPos);
 
      HBITMAP       GetBitmapHandle(void);
+     HBITMAP       GetMaskBitmapHandle(void);
 
     protected:
     
      HBITMAP m_hBitmap;
+     HBITMAP m_hMaskBitmap;
 };
 
 #endif

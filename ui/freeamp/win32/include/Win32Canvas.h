@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.h,v 1.1.2.5 1999/09/23 01:30:05 robert Exp $
+   $Id: Win32Canvas.h,v 1.1.2.6 1999/09/24 00:28:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32CANVAS_H__
@@ -45,6 +45,7 @@ class Win32Canvas : public Canvas
      virtual Error Invalidate(Rect &oRect);
      virtual Error Update(void);
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec);
+     virtual Error MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec);
      virtual void  Paint(HDC hDC, Rect &oRect);
      virtual void  Erase(Rect &oRect);
      virtual HRGN  GetMaskRgn(void);

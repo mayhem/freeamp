@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.h,v 1.1.2.5 1999/09/23 18:17:35 robert Exp $
+   $Id: Bitmap.h,v 1.1.2.6 1999/09/24 00:28:24 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BITMAP_H__
@@ -51,6 +51,8 @@ class Bitmap
      virtual Error LoadBitmapFromDisk(string &oFile) = 0;
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
                             Rect &oDestRect) = 0;
+     virtual Error MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
+                                Rect &oDestRect) = 0;
 
     protected:
 

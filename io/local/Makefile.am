@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.7 1998/10/27 02:28:43 jdw Exp $
+##      $Id: Makefile.am,v 1.8 1998/12/01 20:10:09 jdw Exp $
 ##
 ############################################################################
 
@@ -48,4 +48,5 @@ all-local: localfile-local
 
 localfile-local: localfileinput.o 
 	gcc -shared -Wl,-soname,localfileinput-@target_os@.pmi -o localfileinput-@target_os@.pmi localfileinput.o 
+	mkdir -p @top_srcdir@/plugins
 	cp localfileinput-@target_os@.pmi @top_srcdir@/plugins

@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.6 1998/10/27 02:28:44 jdw Exp $
+##      $Id: Makefile.am,v 1.7 1998/12/01 20:10:10 jdw Exp $
 ##
 ############################################################################
 
@@ -49,5 +49,6 @@ CFLAGS = $(EXTRA_CFLAGS) $(REENT)
 
 all-local: $(MYLIBS)
 	gcc -shared -Wl,-soname,xingmp3-@target_os@.lmc -o xingmp3-@target_os@.lmc *.o
+	mkdir -p @top_srcdir@/plugins
 	cp xingmp3-@target_os@.lmc @top_srcdir@/plugins
 

@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.5 1998/11/25 20:13:43 jdw Exp $
+##      $Id: Makefile.am,v 1.6 1998/12/01 20:10:10 jdw Exp $
 ##
 ############################################################################
 
@@ -34,6 +34,7 @@ all-local: cmdline-local
 
 cmdline-local: freeamp-gtk.o
 	gcc -shared -Wl,-soname,freeampgtk-@target_os@.ui -o freeampgtk-@target_os@.ui freeamp-gtk.o $(GTK_LINK_TAIL)
+	mkdir -p @top_srcdir@/plugins
 	cp freeampgtk-@target_os@.ui @top_srcdir@/plugins
 else 
 FILES = 

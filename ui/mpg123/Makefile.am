@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.3 1998/10/22 00:52:02 jdw Exp $
+##      $Id: Makefile.am,v 1.4 1998/12/01 20:10:10 jdw Exp $
 ##
 ############################################################################
 
@@ -50,4 +50,5 @@ all-local: mpg123-local
 
 mpg123-local: Mpg123UI.o
 	gcc -shared -Wl,-soname,mpg123-@target_os@.ui -o mpg123-@target_os@.ui Mpg123UI.o
+	mkdir -p @top_srcdir@/plugins
 	cp mpg123-@target_os@.ui @top_srcdir@/plugins

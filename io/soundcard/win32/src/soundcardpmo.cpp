@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.59.2.2.2.1.2.1 2000/03/15 23:19:42 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.59.2.2.2.1.2.2 2000/03/15 23:37:35 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -186,17 +186,12 @@ bool SoundCardPMO::SetupVolumeControl(void)
 	mxlc.cbmxctrl = sizeof(MIXERCONTROL);
 	mxlc.pamxctrl = &mxc;
 
-    mxc.fdwControl = 69;
 	if (mixerGetLineControls((HMIXEROBJ)m_hmixer,
 		     				 &mxlc,
 							 MIXER_OBJECTF_HMIXER |
 							 MIXER_GETLINECONTROLSF_ONEBYTYPE)
 		!= MMSYSERR_NOERROR)
 		return false;
-
-    Debug_v("Type: %d (Mult: %d Uni: %d)", 
-        mxc.fdwControl, MIXERCONTROL_CONTROLF_MULTIPLE,
-        MIXERCONTROL_CONTROLF_UNIFORM);   
 
 	// record dwControlID
 	m_oDstLineName = mxl.szName;

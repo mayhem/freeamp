@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=gdbm - Win32 Debug
+CFG=gdbm - Win32 NASM Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -13,12 +13,14 @@ CFG=gdbm - Win32 Debug
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "gdbm.mak" CFG="gdbm - Win32 Debug"
+!MESSAGE NMAKE /f "gdbm.mak" CFG="gdbm - Win32 NASM Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
 !MESSAGE "gdbm - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "gdbm - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "gdbm - Win32 NASM Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "gdbm - Win32 NASM Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -39,7 +41,7 @@ CPP=cl.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -60,12 +62,54 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo /out:"..\gdbm.lib"
+
+!ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "gdbm___W"
+# PROP BASE Intermediate_Dir "gdbm___W"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "Release"
+# PROP Intermediate_Dir "Release"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\gdbm.lib"
+# ADD LIB32 /nologo /out:"..\gdbm.lib"
+
+!ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Debug"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "gdbm___0"
+# PROP BASE Intermediate_Dir "gdbm___0"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "Debug"
+# PROP Intermediate_Dir "Debug"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MDd /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\gdbm.lib"
 # ADD LIB32 /nologo /out:"..\gdbm.lib"
 
 !ENDIF 
@@ -74,6 +118,8 @@ LIB32=link.exe -lib
 
 # Name "gdbm - Win32 Release"
 # Name "gdbm - Win32 Debug"
+# Name "gdbm - Win32 NASM Release"
+# Name "gdbm - Win32 NASM Debug"
 # Begin Source File
 
 SOURCE=..\bucket.c
@@ -87,8 +133,8 @@ SOURCE=..\config.win32
 # Begin Custom Build
 InputPath=..\config.win32
 
-"..\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\config.win32 ..\config.h
+"config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\config.win32 config.h
 
 # End Custom Build
 
@@ -97,8 +143,28 @@ InputPath=..\config.win32
 # Begin Custom Build
 InputPath=..\config.win32
 
-"..\config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\config.win32 ..\config.h
+"config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\config.win32 config.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Release"
+
+# Begin Custom Build
+InputPath=..\config.win32
+
+"config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\config.win32 config.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "gdbm - Win32 NASM Debug"
+
+# Begin Custom Build
+InputPath=..\config.win32
+
+"config.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\config.win32 config.h
 
 # End Custom Build
 

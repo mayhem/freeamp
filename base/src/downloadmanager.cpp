@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.22 2000/03/13 21:25:59 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.23 2000/03/17 05:59:59 tdilliga Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -737,7 +737,7 @@ Error DownloadManager::Download(DownloadItem* item)
             Error err;
             int   ret;
             
-            err = Connect(s, (const struct sockaddr*)&addr, ret, item);
+            err = Connect(s, (struct sockaddr*)&addr, ret, item);
             if (IsError(err))
                 result = kError_UserCancel;
                 

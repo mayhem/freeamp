@@ -18,11 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.18 2000/01/10 19:38:52 elrod Exp $
+	$Id: config.win32,v 1.19 2000/01/10 20:19:44 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
 #define CONFIG_H
+
+// name of company
+#define BRANDING_COMPANY "FreeAmp"
 
 // name of player
 #define BRANDING "FreeAmp"

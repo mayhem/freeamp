@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.8 1999/11/11 20:07:49 robert Exp $
+	$Id: downloadui.cpp,v 1.9 1999/11/21 01:23:15 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -409,7 +409,8 @@ BOOL DownloadUI::InitDialog()
 					GWL_WNDPROC, 
 					(DWORD)ProgressWndProc );  
 
-    HICON appIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_EXE_ICON));
+    HINSTANCE hinst = (HINSTANCE)GetWindowLong(m_hwnd, GWL_HINSTANCE);
+    HICON appIcon = LoadIcon(hinst, MAKEINTRESOURCE(IDI_EXE_ICON));
 
     SetClassLong(m_hwnd, GCL_HICON, (LONG)appIcon);
 

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.12 1998/10/29 20:08:57 elrod Exp $
+	$Id: soundcardpmo.cpp,v 1.13 1998/10/30 00:54:29 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -129,7 +129,7 @@ Init(OutputInfo* info)
 	m_channels				= info->number_of_channels;
 	m_data_size				= info->max_buffer_size;
 
-	m_num_headers			= 20;
+	m_num_headers			= 2;
 	m_hdr_size				= sizeof(WAVEHDR);
 	m_wavehdr_array			= new LPWAVEHDR[m_num_headers];
 

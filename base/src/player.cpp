@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.39 1998/10/28 02:27:23 jdw Exp $
+	$Id: player.cpp,v 1.40 1998/10/30 00:54:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -691,16 +691,20 @@ int32 Player::ServiceEvent(Event *pC) {
 		    SendToUI(pC);
 		    
 		    ReleaseUIManipLock();
-		    return 0;
+
+            return 0;
 		    break; 
 	    }
 	    
 	    case INFO_MediaTimeInfo: {
-		GetUIManipLock();
-		SendToUI(pC);
-		ReleaseUIManipLock();
-		return 0;
-		break; 
+            if(m_playerState == STATE_Playing)
+            {
+		        GetUIManipLock();
+		        SendToUI(pC);
+		        ReleaseUIManipLock();
+            }
+		    return 0;
+		    break; 
 	    }
 	    case INFO_LMCError: {
 		LMCErrorEvent *e = (LMCErrorEvent *)pC;

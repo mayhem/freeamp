@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.18.2.2.2.2 2000/03/03 23:28:50 robert Exp $
+	$Id: downloadui.cpp,v 1.18.2.2.2.3 2000/03/07 00:42:35 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -297,6 +297,7 @@ Error DownloadUI::AcceptEvent(Event* event)
                                 if (dlinse->Item()->GetState() == 
                                     kDownloadItemState_Downloading)
                                 {    
+                                    SetButtonStates(dlinse->Item());
                                     ListView_SetItemState(m_hwndList, i, 
                                         LVIS_SELECTED | LVIS_FOCUSED, 
                                         LVIS_SELECTED | LVIS_FOCUSED);
@@ -889,7 +890,6 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                 ImageList_Draw( himl, 0, hDc, 0, 0, uiFlags);
             }
 
-#if 1
             // draw the progress column
 
             rcClip.left += ListView_GetColumnWidth(m_hwndList, 0);
@@ -1103,9 +1103,6 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                 default:
                     break;
             }
-#endif
-
-#if 1
             uint32 pad = kPrePadding;
 
             if(progressWidth)
@@ -1139,7 +1136,6 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                 // Draw the focus rect
                 DrawFocusRect(hDc, &dis->rcItem);
             }
-#endif
 
             // paint the actual bitmap
             BitBlt(dis->hDC, dis->rcItem.left, dis->rcItem.top,
@@ -1519,33 +1515,31 @@ BOOL DownloadUI::Command(int32 command, HWND src)
                        {
 		                    case IDC_PAUSE:
                             {
-                                m_dlm->CancelDownload(dli, true);
                                 m_dlm->PauseDownloads();
-                                EnableWindow(m_hwndPause, FALSE);
-                                EnableWindow(m_hwndCancel, TRUE);
-                                EnableWindow(m_hwndResume, TRUE);
+                                m_dlm->CancelDownload(dli, true);
                                 break;
                             }
 
                             case IDC_CANCEL:
 		                    {
                                 m_dlm->CancelDownload(dli, false);  
-                                EnableWindow(m_hwndPause, FALSE);
-                                EnableWindow(m_hwndCancel, FALSE);
-                                EnableWindow(m_hwndResume, TRUE);
                                 break;
                             }
 
                             case IDC_RESUME:
                             {
-                                m_dlm->QueueDownload(dli, true); 
-                                m_dlm->ResumeDownloads();
-                                EnableWindow(m_hwndPause, TRUE);
-                                EnableWindow(m_hwndCancel, TRUE);
-                                EnableWindow(m_hwndResume, FALSE);
+                                char szText[100];
+                                GetWindowText(m_hwndResume, szText, 100);
+
+                                if (strcmp(szText, "Start") == 0)
+                                    m_dlm->ResumeDownloads();
+                                else
+                                    m_dlm->QueueDownload(dli, true); 
+                                    
                                 break;
                             }
                         }
+                        SetButtonStates(dli);
                     }
                 }
             }
@@ -1626,49 +1620,7 @@ BOOL DownloadUI::Notify(int32 controlId, NMHDR* nmh)
             if(nmh->code == LVN_ITEMCHANGED)
             {
                 ListView_RedrawItems(m_hwndInfo, 0, ListView_GetItemCount(m_hwndInfo) - 1);
-
-                DownloadItem* dli = (DownloadItem*)nmlv->lParam;
-
-                SetWindowText(m_hwndResume, "Resume");
-                switch(dli->GetState())
-                {
-                    case kDownloadItemState_Queued:
-                        EnableWindow(m_hwndPause, FALSE);
-                        EnableWindow(m_hwndCancel, TRUE);
-                        EnableWindow(m_hwndResume, m_dlm->IsPaused());
-                        SetWindowText(m_hwndResume, "Start");
-                        break;
-                        
-                    case kDownloadItemState_Downloading:
-                        EnableWindow(m_hwndPause, TRUE);
-                        EnableWindow(m_hwndCancel, TRUE);
-                        EnableWindow(m_hwndResume, FALSE);
-                        break;
-                    
-                    case kDownloadItemState_Cancelled:
-                    case kDownloadItemState_Error:
-                        EnableWindow(m_hwndPause, FALSE);
-                        EnableWindow(m_hwndCancel, FALSE);
-                        EnableWindow(m_hwndResume, TRUE);
-                        break;
-
-                    case kDownloadItemState_Paused:
-                        EnableWindow(m_hwndPause, FALSE);
-                        EnableWindow(m_hwndCancel, TRUE);
-                        EnableWindow(m_hwndResume, TRUE);
-                        break;
-                    
-                    case kDownloadItemState_Done:
-                        EnableWindow(m_hwndPause, FALSE);
-                        EnableWindow(m_hwndCancel, FALSE);
-                        EnableWindow(m_hwndResume, FALSE);
-                        break;
-
-                    default:
-                        break;
-                }
-
-                //OutputDebugString("LVN_ITEMCHANGING\r\n");
+                SetButtonStates((DownloadItem*)nmlv->lParam);
             }
 
             break;
@@ -1679,6 +1631,51 @@ BOOL DownloadUI::Notify(int32 controlId, NMHDR* nmh)
     return result;
 }
 
+
+void DownloadUI::SetButtonStates(DownloadItem *dli)
+{
+   switch(dli->GetState())
+   {
+       case kDownloadItemState_Queued:
+           EnableWindow(m_hwndPause, FALSE);
+           EnableWindow(m_hwndCancel, TRUE);
+           EnableWindow(m_hwndResume, m_dlm->IsPaused());
+           SetWindowText(m_hwndResume, "Start");
+           break;
+           
+       case kDownloadItemState_Downloading:
+           EnableWindow(m_hwndPause, TRUE);
+           EnableWindow(m_hwndCancel, TRUE);
+           EnableWindow(m_hwndResume, FALSE);
+           SetWindowText(m_hwndResume, "Resume");
+           break;
+       
+       case kDownloadItemState_Cancelled:
+       case kDownloadItemState_Error:
+           EnableWindow(m_hwndPause, FALSE);
+           EnableWindow(m_hwndCancel, FALSE);
+           EnableWindow(m_hwndResume, TRUE);
+           SetWindowText(m_hwndResume, "Resume");
+           break;
+
+       case kDownloadItemState_Paused:
+           EnableWindow(m_hwndPause, FALSE);
+           EnableWindow(m_hwndCancel, TRUE);
+           EnableWindow(m_hwndResume, TRUE);
+           SetWindowText(m_hwndResume, "Resume");
+           break;
+       
+       case kDownloadItemState_Done:
+           EnableWindow(m_hwndPause, FALSE);
+           EnableWindow(m_hwndCancel, FALSE);
+           EnableWindow(m_hwndResume, FALSE);
+           SetWindowText(m_hwndResume, "Resume");
+           break;
+
+       default:
+           break;
+   }
+}
 
 BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd, 
 						            UINT msg, 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.4 2000/03/06 23:40:31 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.5 2000/03/07 00:42:35 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -88,6 +88,7 @@ DownloadManager::DownloadManager(FAContext* context)
     m_current = 0;
     m_downloadsPaused = true;
 	m_downloadIndex = -1;
+    m_exit = false;
  
     Registrar registrar;
 
@@ -140,6 +141,8 @@ DownloadManager::~DownloadManager()
     uint32 index = 0;
     uint32 size = 0;
     DownloadItem* item = NULL;
+
+    m_exit = true;
 
     m_runDownloadThread = false;
     m_queueSemaphore.Signal();
@@ -716,10 +719,15 @@ Error DownloadManager::Download(DownloadItem* item)
         // connect and send request
         if(IsntError(result))
         {
-            //*m_debug << "connect" << endl;
-
-            if(connect(s,(const struct sockaddr*)&addr, sizeof(struct sockaddr)))
-                result = kError_CannotBind;
+            Error err;
+            int   ret;
+            
+            err = Connect(s, (const struct sockaddr*)&addr, ret, item);
+            if (IsError(err))
+                result = kError_UserCancel;
+                
+            if (ret < 0)    
+                result = kError_ConnectFailed;
 
             if(item->GetState() != kDownloadItemState_Downloading)
                 result = kError_UserCancel;
@@ -733,7 +741,7 @@ Error DownloadManager::Download(DownloadItem* item)
                                          "Accept: */*\n" 
                                          "User-Agent: FreeAmp/%s\n";
 
-                const char* kRange = "Range: %lu-\n"
+                const char* kRange = "Range: bytes=%lu-\n"
                                      "If-Range: %s\n";
 
                 const char* kCookie = "Cookie: %s\n";
@@ -788,6 +796,15 @@ Error DownloadManager::Download(DownloadItem* item)
             
                 strcat(query, "\n");
 
+                // Quick hack to save the query for debug
+                //FILE *f;
+                //f = fopen("c:\\temp\\foo.txt", "w");
+                //if (f)
+                //{
+                //   fwrite(query, 1, strlen(query), f);
+                //   fclose(f);
+                //}   
+                
                 //cout << query << endl;
 
                 int count;
@@ -822,6 +839,7 @@ Error DownloadManager::Download(DownloadItem* item)
 
             if(buffer)
             {
+                Error err;
                 result = kError_NoErr;
 
                 do
@@ -839,7 +857,9 @@ Error DownloadManager::Download(DownloadItem* item)
                         }
                     }
 
-                    count = recv(s, buffer + total, bufferSize - total - 1, 0);
+                    err = Recv(s, buffer + total, bufferSize - total - 1, 0, count, item);
+                    if (IsError(err))
+                        result = kError_UserCancel;
 
                     if(count > 0)
                         total += count;
@@ -852,7 +872,7 @@ Error DownloadManager::Download(DownloadItem* item)
                         result = kError_UserCancel;
 
 
-                }while(!IsHTTPHeaderComplete(buffer, total) && IsntError(result));
+                }while(IsntError(result) && !IsHTTPHeaderComplete(buffer, total));
             }
 
             // parse header
@@ -887,8 +907,10 @@ Error DownloadManager::Download(DownloadItem* item)
 
                         int openFlags = O_BINARY|O_CREAT|O_RDWR|O_APPEND;
 
+                        //Debug_v("response: %d", returnCode);
                         if(returnCode != 206) // server oked partial download
                         {
+                            //Debug_v("No a resume!");
                             item->SetBytesReceived(0);
                             openFlags |= O_TRUNC;
                         }
@@ -899,6 +921,8 @@ Error DownloadManager::Download(DownloadItem* item)
 
                         if(fd >= 0)
                         {
+                            Error err;
+                            
                             result = kError_NoErr;
                             int wcount = 0;
 
@@ -926,8 +950,11 @@ Error DownloadManager::Download(DownloadItem* item)
 
                             do
                             {
-                                count = recv(s, buffer, bufferSize, 0);
-
+                            
+                                err = Recv(s, buffer, bufferSize, 0, count, item);
+                                if (IsError(err))
+                                    result = kError_UserCancel;
+                            
                                 if(count > 0)
                                 {
                                     wcount = write(fd, buffer, count);
@@ -1487,3 +1514,74 @@ bool DownloadManager::DoesDBDirExist(char* path)
     return result;
 }
 
+Error DownloadManager::Connect(int hHandle, const sockaddr *pAddr, 
+                               int &iRet, DownloadItem *item)
+{
+    fd_set              sSet; 
+    struct timeval      sTv;
+
+#if defined(WIN32)
+	unsigned long lMicrosoftSucksBalls = 1;
+	ioctlsocket(hHandle, FIONBIO, &lMicrosoftSucksBalls);
+#elif defined(__BEOS__)
+//	int on = 1;
+//	setsockopt( hHandle, SOL_SOCKET, SO_NONBLOCK, &on, sizeof( on ) );
+#else
+    fcntl(hHandle, F_SETFL, fcntl(hHandle, F_GETFL) | O_NONBLOCK);
+#endif
+
+    iRet = connect(hHandle, (const sockaddr *)pAddr,sizeof(*pAddr));
+    for(; iRet && !m_exit && 
+        item->GetState() == kDownloadItemState_Downloading;)
+    {
+        sTv.tv_sec = 0; sTv.tv_usec = 0;
+        FD_ZERO(&sSet); FD_SET(hHandle, &sSet);
+        iRet = select(hHandle + 1, NULL, &sSet, NULL, &sTv);
+        if (!iRet)
+        {
+           usleep(100000);
+           continue;
+        }
+
+        if (iRet < 0)
+           return kError_NoErr;
+           
+        break;
+    }
+    
+    if (m_exit || item->GetState() != kDownloadItemState_Downloading)
+       return kError_Interrupt;
+       
+    return kError_NoErr;
+}
+
+Error DownloadManager::Recv(int hHandle, char *pBuffer, int iSize, 
+                            int iFlags, int &iRead, DownloadItem *item)
+{
+    fd_set              sSet; 
+    struct timeval      sTv;
+    int                 iRet;
+
+    for(; !m_exit && item->GetState() == kDownloadItemState_Downloading;)
+    {
+        sTv.tv_sec = 0; sTv.tv_usec = 0;
+        FD_ZERO(&sSet); FD_SET(hHandle, &sSet);
+        iRet = select(hHandle + 1, &sSet, NULL, NULL, &sTv);
+        if (!iRet)
+        {
+		   usleep(10000);
+           continue;
+        }
+        iRead = recv(hHandle, pBuffer, iSize, iFlags);
+        if (iRead < 0)
+        {
+           return kError_NoErr;
+        }
+        break;
+    }
+
+    if (m_exit || item->GetState() != kDownloadItemState_Downloading)
+       return kError_Interrupt;
+       
+    return kError_NoErr;
+}                            

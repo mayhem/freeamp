@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.7.2.1 2000/02/25 23:09:19 robert Exp $
+	$Id: downloadui.h,v 1.7.2.1.2.1 2000/03/07 00:42:35 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -81,6 +81,7 @@ class DownloadUI : public UserInterface {
 
     uint32 CalcStringEllipsis(HDC hdc, string& displayString, int32 columnWidth);
     void UpdateOverallProgress();
+    void SetButtonStates(DownloadItem *dli);
 
  private:
     FAContext*		    m_context;

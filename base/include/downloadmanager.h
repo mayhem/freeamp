@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.7.2.1 2000/02/25 03:04:14 elrod Exp $
+	$Id: downloadmanager.h,v 1.7.2.1.2.1 2000/03/07 00:42:35 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -255,6 +255,9 @@ class DownloadManager {
     void SaveResumableDownloadItems();
     bool DoesDBDirExist(char* path);
 
+    Error Recv(int hHandle, char *pBuffer, int iSize, int iFlags, int &iRet, DownloadItem *item);
+    Error Connect(int hHandle, const sockaddr *pAddr, int &iRet, DownloadItem *item);
+
  private:
 
     FAContext* m_context;
@@ -275,7 +278,7 @@ class DownloadManager {
 
     Semaphore m_queueSemaphore;
     Mutex m_quitMutex;
-    bool  m_downloadsPaused;
+    bool  m_downloadsPaused, m_exit;
 };
 
 #endif // INCLUDED_DOWNLOAD_MANAGER_H_

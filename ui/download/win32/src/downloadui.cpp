@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.20 2000/03/01 03:49:29 elrod Exp $
+	$Id: downloadui.cpp,v 1.21 2000/03/02 22:09:27 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -642,7 +642,7 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                 ostringstream ost;
                 float total = m_totalBytes;
                 float recvd = m_doneBytes;
-                uint32 percent;
+                uint32 percent = 0;
                 RECT clientRect;
                 HDC hDc;
                 HBITMAP hBitmap, hSavedBitmap;
@@ -668,7 +668,8 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                 ost.precision(2);
                 ost.flags(ios_base::fixed);
 
-                percent = (uint32)recvd/total*100;
+                if(total)
+                    percent = (uint32)recvd/total*100;
 
                 ost << percent << "%, " << m_doneItems << " of " << m_totalItems << " items (";
 

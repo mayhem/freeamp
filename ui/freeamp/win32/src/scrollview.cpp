@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: scrollview.cpp,v 1.5 1999/03/24 07:41:02 elrod Exp $
+	$Id: scrollview.cpp,v 1.6 1999/03/24 20:03:21 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -175,10 +175,19 @@ MouseMove(int32 x, int32 y, int32 modifiers)
 
                 m_thumbRect = rect;
 
-                float proportion = ((float)(rect.top - viewRect.top)/
-                                    (float)(viewRect.bottom - viewRect.top));
+                float proportion = ((float)(m_thumbRect.top - viewRect.top)/
+                                    (float)((viewRect.bottom - viewRect.top) - 
+                                        (m_thumbRect.bottom - m_thumbRect.top)));
 
                 int32 index = (int32)((float)total * proportion);
+
+                /*char buf[256];
+
+                sprintf(buf, "%d/(%d - %d)= %f\r\n",m_thumbRect.top - viewRect.top, 
+                                                    viewRect.bottom - viewRect.top,
+                                                    m_thumbRect.bottom - m_thumbRect.top, 
+                                                    proportion);
+                OutputDebugString(buf);*/
 
                 /*proportion = ((float)(rect.bottom - rect.top)/
                                     (float)(viewRect.bottom - viewRect.top));
@@ -190,6 +199,9 @@ MouseMove(int32 x, int32 y, int32 modifiers)
                 OutputDebugString(buf);
 
                 index += proportion;*/
+
+                if(index > m_max - m_largeStep)
+                    index = m_max - m_largeStep;
 
                 m_position = index;
 
@@ -405,6 +417,9 @@ DetermineThumbRect()
 
         m_thumbRect.top += (int32)d;
 		m_thumbRect.bottom = m_thumbRect.top + thumb;
+
+        assert(m_thumbRect.top >= viewRect.top);
+        assert(m_thumbRect.top < viewRect.bottom);
     }
 }
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.45 1999/03/24 07:41:01 elrod Exp $
+	$Id: freeampui.cpp,v 1.46 1999/03/24 20:03:21 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2565,6 +2565,7 @@ UpdatePlayList()
         {
             int32 i = 0;
             PlayListItem* playlistItem;
+            List<ListItem*> listitemList;
 
             m_playlistView->MakeEmpty();
             
@@ -2581,11 +2582,15 @@ UpdatePlayList()
                                                     smallFontWidth);
                 item->SetUserValue(playlistItem);
 
-                m_playlistView->AddItem(item);
+                ListItem* i = item;
+
+                listitemList.AddItem(i);
 
                 /*OutputDebugString(playlistItem->StringForPlayerToDisplay());
                 OutputDebugString("\r\n");*/
             }
+
+            m_playlistView->AddList(&listitemList);
         }       
         else
         {

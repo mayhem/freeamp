@@ -18,11 +18,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ctrlobj.h,v 1.2 1998/10/15 16:22:15 elrod Exp $
+	$Id: ctrlobj.h,v 1.3 1998/10/15 16:23:17 elrod Exp $
 ____________________________________________________________________________*/
-
-// ctrlobj.h
-// Controller Input and Output  Object
 
 #ifndef _CTRLOBJ_H_
 #define _CTRLOBJ_H_

@@ -1,6 +1,6 @@
 # Freeamp Makefile header 
 # contains all the compiler-related configure-extracted vars
-# $Id: Makefile.header.in,v 1.1.2.1 1999/05/17 19:55:26 dogcow Exp $
+# $Id: Makefile.header.in,v 1.1.2.2 1999/05/17 23:58:43 dogcow Exp $
 
 SHELL = /bin/sh
 
@@ -54,7 +54,6 @@ HOST_OS = @host_os@
 CFLAGS = -Wall @CFLAGS@ -D_REENTRANT
 OSDEP = @OSDEP@
 OSINC = @OSINC@
-FPIC = @FPIC@
 LINKMOD = @LINKMOD@ $(LDFLAGS)
 
 OSDEPOBJ = @OSDEPOBJ@
@@ -84,8 +83,33 @@ FREEAMPOBJ += io/src/pullbuffer.o io/src/streambuffer.o
 FREEAMPOBJ += lmc/src/lmcregistry.o ui/src/uiregistry.o
 FREEAMPOBJ += $(OSDEPOBJ)
 
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CFLAGS)
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CFLAGS) $(RELOC)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(CFLAGS) $(CPPFLAGS) $(CXXFLAGS)
+CXXCOMPILE += $(RELOC)
 
-CXXLINK = $(CXXLD) $(CXXFLAGS) $(LDFLAGS) -o $@
+CXXLINK = $(CXXLD) $(CXXFLAGS) $(LDFLAGS) $(RELOC) -o $@
+
+.SUFFIXES: .S .c .cpp .o .s .asm .asm1
+
+.cpp.o:
+	$(CXXCOMPILE) $(RELOC) -c $< -o $@
+
+.c.o:
+	$(COMPILE) $(RELOC) -c $< -o $@
+
+.asm.asm1:
+	$(PERL) -pe 's/\b_//g' $< > $@
+
+.asm1.:
+	$(NASM) -f elf -o $@ $<
+
+.s.o:
+	$(COMPILE) -c $< -o $@
+
+.S.o:
+	$(COMPILE) -c $< -o $@
+
+@SET_MAKE@
+
+PIMAKE = $(MAKE) $(MAKEFLAGS) -f Makefile-plugins
 

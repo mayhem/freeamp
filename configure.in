@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.38.4.1 1999/05/17 19:55:24 dogcow Exp $
+dnl $Id: configure.in,v 1.38.4.2 1999/05/17 23:58:42 dogcow Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -436,5 +436,5 @@ fi
 AC_SUBST(XINGASM)
 
 AC_CONFIG_HEADER(config/config.h)
-AC_OUTPUT(Makefile config/Makefile.header)
+AC_OUTPUT(Makefile Makefile-plugins config/Makefile.header)
 

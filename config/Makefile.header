@@ -1,3 +1,115 @@
-EXTRA_CXXFLAGS = -g -O2
-EXTRA_CFLAGS = -g -O2
-# CC = egcs
+# Generated automatically from Makefile.header.in by configure.
+# Freeamp Makefile header 
+# contains all the compiler-related configure-extracted vars
+# $Id: Makefile.header,v 1.6.4.1 1999/05/17 23:58:43 dogcow Exp $
+
+SHELL = /bin/sh
+
+srcdir = .
+top_srcdir = ..
+prefix = /usr/local
+exec_prefix = ${prefix}
+
+bindir = ${exec_prefix}/bin
+sbindir = ${exec_prefix}/sbin
+libexecdir = ${exec_prefix}/libexec
+datadir = ${prefix}/share
+sysconfdir = ${prefix}/etc
+sharedstatedir = ${prefix}/com
+localstatedir = ${prefix}/var
+libdir = ${exec_prefix}/lib
+infodir = ${prefix}/info
+mandir = ${prefix}/man
+includedir = ${prefix}/include
+
+DESTDIR =
+
+top_builddir = .
+
+AUTOCONF = @AUTOCONF@
+
+INSTALL = ../config/install-sh -c
+INSTALL_PROGRAM = ${INSTALL}
+INSTALL_DATA = ${INSTALL} -m 644
+INSTALL_SCRIPT = ${INSTALL_PROGRAM}
+transform = s,x,x,
+
+CPU = sparc
+
+host_alias = sparc-sun-solaris2.7
+host_triplet = sparc-sun-solaris2.7
+CC = gcc
+CXX = c++
+CXXLD = $(CXX)
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_CONFIG = @GTK_CONFIG@
+GTK_LIBS = @GTK_LIBS@
+MAKEINFO = @MAKEINFO@
+NASM = 
+PACKAGE = @PACKAGE@
+PERL = perl
+RANLIB = ranlib
+VERSION = @VERSION@
+HOST_OS = solaris
+CFLAGS = -Wall -g -O2  -I/usr/openwin/include -DSOLDEBUGMUTEX -D_REENTRANT
+OSDEP = unix/solaris
+OSINC = -Ibase/unix/include -Ibase/unix/solaris/include -Iui/freeamp/unix/include -Iui/freeamp/unix/res
+LINKMOD = gcc -shared $(LDFLAGS)
+
+OSDEPOBJ = base/unix/src/bootstrap.o base/unix/src/unixprefs.o base/unix/src/win32impl.o base/unix/solaris/src/solaristhread.o base/unix/solaris/src/debug.o base/unix/solaris/src/mutex.o base/unix/solaris/src/semaphore.o base/unix/solaris/src/utility.o
+
+INCLUDES = -Ibase/include -Iconfig -Iio/include -Iui/include -Ilmc/include $(OSINC) -Iio/soundcard/$(OSDEP)/include -Iui/lcd/include -Iui/irman/include -Ilmc/xingmp3/include
+CXXFLAGS = $(EXTRA_CXXFLAGS)
+ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
+mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
+CONFIG_HEADER = ./config/config.h
+CONFIG_CLEAN_FILES = 
+PROGRAMS =  $(bin_PROGRAMS)
+
+DEFS = -I. -I$(srcdir) -I./config -DUNIX_LIBDIR=\"$(libdir)\" -D$(HOST_OS)
+CPPFLAGS = 
+LDFLAGS =    -L/usr/openwin/lib -R/usr/openwin/lib
+X_CFLAGS =  -I/usr/openwin/include
+X_LIBS =  -L/usr/openwin/lib -R/usr/openwin/lib -lX11 -lXext -lXpm
+X_EXTRA_LIBS = -lsocket  -lnsl
+X_PRE_LIBS =  -lSM -lICE
+
+FREEAMPOBJ =  base/src/hashtable.o base/src/log.o base/src/player.o
+FREEAMPOBJ += base/src/playlist.o base/src/propimpl.o base/src/registrar.o
+FREEAMPOBJ += base/src/registry.o base/src/thread.o io/src/eventbuffer.o
+FREEAMPOBJ += base/src/prefixprefs.o base/src/preferences.o
+FREEAMPOBJ += io/src/pmiregistry.o io/src/pmoregistry.o
+FREEAMPOBJ += io/src/pullbuffer.o io/src/streambuffer.o
+FREEAMPOBJ += lmc/src/lmcregistry.o ui/src/uiregistry.o
+FREEAMPOBJ += $(OSDEPOBJ)
+
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CFLAGS) $(RELOC)
+CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(CFLAGS) $(CPPFLAGS) $(CXXFLAGS)
+CXXCOMPILE += $(RELOC)
+
+CXXLINK = $(CXXLD) $(CXXFLAGS) $(LDFLAGS) $(RELOC) -o $@
+
+.SUFFIXES: .S .c .cpp .o .s .asm .asm1
+
+.cpp.o:
+	$(CXXCOMPILE) -c $< -o $@
+
+.c.o:
+	$(COMPILE) -c $< -o $@
+
+.asm.asm1:
+	$(PERL) -pe 's/\b_//g' $< > $@
+
+.asm1.:
+	$(NASM) -f elf -o $@ $<
+
+.s.o:
+	$(COMPILE) -c $< -o $@
+
+.S.o:
+	$(COMPILE) -c $< -o $@
+
+
+
+PIMAKE = $(MAKE) $(MAKEFLAGS) -f Makefile-plugins
+

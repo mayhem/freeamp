@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.24 2000/02/09 21:21:27 elrod Exp $
+        $Id: gtkmusicbrowser.h,v 1.24.2.1.2.2.2.1.2.1 2000/04/09 15:56:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -109,6 +109,10 @@ class GTKMusicBrowser {
 
     bool isVisible;
     void UpdatePlaylistList(void);
+    void AddPlaylistItems(vector<PlaylistItem *> *items);
+    void RemovePlaylistItems(vector<uint32> *indices);
+    void RenumberPlaylistList(int starting);
+    void UpdatePlaylistItem(PlaylistItem *item);
 
     Properties *m_propManager;
 
@@ -120,6 +124,8 @@ class GTKMusicBrowser {
     bool iSetRepeatMode;
 
     uint32 m_playingindex;
+
+    bool m_bIgnoringMusicCatalogMessages;
 
     PlaylistManager *m_plm;
     MusicCatalog *m_musicCatalog;
@@ -159,6 +165,11 @@ class GTKMusicBrowser {
     GtkCTreeNode *playlistTree;
 
     GtkWidget *NewPixmap(char **data);
+
+    GtkStyle *normStyle;
+    GtkStyle *boldStyle;
+
+    void ChangeCurrentPlayingIndex(uint32 oldindex, uint32 newindex);
 
     void SetStatusText(const char *text);
     GtkWidget *statusBar;
@@ -217,7 +228,9 @@ class GTKMusicBrowser {
     void AddTrackPlaylistEvent(char *path);
     void AddTrackPlaylistEvent(PlaylistItem *newitem);
     void AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist, 
-                                bool end = false);
+                                bool end = false, bool forcePlay = false,
+                                bool forceNoPlay = false);
+    void AddTracksDoubleClick(vector<PlaylistItem *> *newlist);
     void PlayEvent();
     void StartMusicSearch(bool runMain = true, bool intro = false);
     void SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType type);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.cpp,v 1.5 2000/02/08 20:03:16 robert Exp $
+   $Id: VSliderControl.cpp,v 1.5.2.1.2.1 2000/03/07 18:53:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -82,6 +82,9 @@ void VSliderControl::Transition(ControlTransitionEnum  eTrans,
                                Pos                   *pPos)
 {
     Rect oRect;
+
+    if (m_eCurrentState == CS_Dragging && eTrans == CT_SetValue)
+        return;
 
     switch(eTrans)
     {
@@ -293,16 +296,15 @@ void VSliderControl::HandleDrag(ControlTransitionEnum  eTrans,
 void VSliderControl::MoveThumb(int iCurrentPos, int iNewPos)
 {
     Canvas *pCanvas;
-    Rect    oRect;
+    Rect    oEraseRect, oRect;
 
-    oRect.y1 = m_oRect.y1 + iCurrentPos;
-    oRect.y2 = oRect.y1 + m_iThumbHeight + 1;
-    oRect.x1 = m_oRect.x1;
-    oRect.x2 = m_oRect.x2 + 1;
+    oEraseRect.y1 = m_oRect.y1 + iCurrentPos;
+    oEraseRect.y2 = oEraseRect.y1 + m_iThumbHeight + 1;
+    oEraseRect.x1 = m_oRect.x1;
+    oEraseRect.x2 = m_oRect.x2 + 1;
     
     pCanvas = m_pParent->GetCanvas();
-    pCanvas->Erase(oRect);
-    pCanvas->Invalidate(oRect);
+    pCanvas->Erase(oEraseRect);
 
     oRect.y1 = m_oRect.y1 + iNewPos;
     oRect.y2 = oRect.y1 + m_iThumbHeight;
@@ -312,19 +314,21 @@ void VSliderControl::MoveThumb(int iCurrentPos, int iNewPos)
     switch(m_eCurrentState)
     {
        case CS_Normal:
-          BlitFrame(0, 3, &oRect);
+          BlitFrame(0, 3, &oRect, false);
           break;
 
        case CS_Dragging:
        case CS_MouseOver:
-          BlitFrame(1, 3, &oRect);
+          BlitFrame(1, 3, &oRect, false);
           break;
 
        case CS_Disabled:
-          BlitFrame(2, 3, &oRect);
+          BlitFrame(2, 3, &oRect, false);
           break;
 
        default:
           break;
     }
+    oEraseRect.Union(oRect);
+    pCanvas->Invalidate(oEraseRect);
 }

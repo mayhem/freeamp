@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.53 1999/12/28 02:53:27 elrod Exp $
+	$Id: playlist.h,v 1.53.4.1 2000/02/25 03:04:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -126,7 +126,7 @@ class PlaylistItem {
 
     const MetaData& GetMetaData() const { return m_metadata; }
 
-    Error SetURL(const char* url) { m_url = url; return kError_NoErr;}
+    Error SetURL(const char* url) { m_url = string(url); return kError_NoErr;}
     Error GetURL(char* buf, uint32* len) { return SetBuffer(buf, m_url.c_str(), len); }
     const string& URL() const { return m_url; }
 

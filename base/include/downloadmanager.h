@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.7 2000/01/16 02:48:26 robert Exp $
+	$Id: downloadmanager.h,v 1.7.2.1.2.4.2.1 2000/03/17 23:54:11 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -30,6 +30,15 @@ ____________________________________________________________________________*/
 #include <deque>
 #include <functional>
 #include <fstream>
+
+#ifdef WIN32
+#include <io.h>
+#else
+#undef socklen_t
+#include <sys/socket.h>
+#include <netdb.h>
+#include <unistd.h>
+#endif
 
 using namespace std;
 
@@ -43,6 +52,10 @@ using namespace std;
 #include "metadata.h"
 #include "registry.h"
 #include "downloadformat.h"
+
+#ifndef WIN32
+#include <arpa/inet.h>
+#endif
 
 #define kInvalidIndex 0xFFFFFFFF
 
@@ -65,6 +78,7 @@ class DownloadItem {
         m_error = kError_NoErr;
         m_bytesTotal = 0;
         m_bytesReceived = 0;
+		m_normalDownload = false;
     }
 
     DownloadItem(const char* src, const char* dest = NULL, const MetaData* metadata = NULL)
@@ -108,19 +122,19 @@ class DownloadItem {
 
     const MetaData& GetMetaData() const { return m_metadata; }
 
-    Error SetSourceURL(const char* url) { m_src = url; return kError_NoErr;}
+    Error SetSourceURL(const char* url) { m_src = string(url); return kError_NoErr;}
     Error GetSourceURL(char* buf, uint32* len) { return SetBuffer(buf, m_src.c_str(), len); }
     const string& SourceURL() const { return m_src; }
 
-    Error SetSourceCookie(const char* cookie) { m_cookie = cookie; return kError_NoErr;}
+    Error SetSourceCookie(const char* cookie) { m_cookie = string(cookie); return kError_NoErr;}
     Error GetSourceCookie(char* buf, uint32* len) { return SetBuffer(buf, m_cookie.c_str(), len); }
     const string& SourceCookie() const { return m_cookie; }
 
-    Error SetDestinationFile(const char* file) { m_dest = file; return kError_NoErr;}
+    Error SetDestinationFile(const char* file) { m_dest = string(file); return kError_NoErr;}
     Error GetDestinationFile(char* buf, uint32* len) { return SetBuffer(buf, m_dest.c_str(), len); }
     const string& DestinationFile() const { return m_dest; }
 
-    Error SetPlaylistName(const char* file) { m_playlist = file; return kError_NoErr;}
+    Error SetPlaylistName(const char* file) { m_playlist = string(file); return kError_NoErr;}
     Error GetPlaylistName(char* buf, uint32* len) { return SetBuffer(buf, m_playlist.c_str(), len); }
     const string& PlaylistName() const { return m_playlist; }
 
@@ -138,6 +152,10 @@ class DownloadItem {
 
     void SetNormalDownload(void) { m_normalDownload = true; };
 	bool IsNormalDownload(void) { return m_normalDownload; };
+
+    Error SetMTime(const char* mtime) { m_mtime = string(mtime); return kError_NoErr;}
+    Error GetMTime(char* buf, uint32* len) { return SetBuffer(buf, m_mtime.c_str(), len); }
+    const string& MTime() const { return m_mtime; }
 
  protected:
     Error SetBuffer(char* dest, const char* src, uint32* len)
@@ -174,6 +192,7 @@ class DownloadItem {
     string m_dest;
     string m_cookie;
     string m_playlist;
+    string m_mtime;
     DownloadItemState m_state;
     bool m_allowResume;
     Error m_error;
@@ -255,6 +274,10 @@ class DownloadManager {
     void SaveResumableDownloadItems();
     bool DoesDBDirExist(char* path);
 
+    Error Recv(int hHandle, char *pBuffer, int iSize, int iFlags, int &iRet, DownloadItem *item);
+    Error Send(int hHandle, char *pBuffer, int iSize, int iFlags, int &iRet, DownloadItem *item);
+    Error Connect(int hHandle, const sockaddr *pAddr, int &iRet, DownloadItem *item);
+
  private:
 
     FAContext* m_context;
@@ -275,7 +298,7 @@ class DownloadManager {
 
     Semaphore m_queueSemaphore;
     Mutex m_quitMutex;
-    bool  m_downloadsPaused;
+    bool  m_downloadsPaused, m_exit;
 };
 
 #endif // INCLUDED_DOWNLOAD_MANAGER_H_

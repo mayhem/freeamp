@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.16 2000/02/16 02:20:48 ijr Exp $
+	$Id: lcdui.cpp,v 1.16.8.1 2000/03/29 18:25:23 hklein Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -143,15 +143,15 @@ Error LcdUI::Init(int32 startupType) {
     }
     cout << "done connecting" << endl;
     sock_send_string(m_sock, "hello\n");
+    sock_send_string(m_sock, "client_set -name freeamp\n");
     sock_send_string(m_sock, "screen_add FA\n");
-    sock_send_string(m_sock, "screen_set FA name {"BRANDING"}\n");
+    sock_send_string(m_sock, "screen_set FA -name {"BRANDING"} -heartbeat off -priority 32\n");
     sock_send_string(m_sock, "widget_add FA songname scroller\n");
+    sock_send_string(m_sock, "widget_add FA album scroller\n");
     sock_send_string(m_sock, "widget_add FA timeline string\n");
     sock_send_string(m_sock, "widget_add FA artist scroller\n");
     sock_send_string(m_sock, "widget_set FA songname 1 1 20 1 h 2 {Welcome To "the_BRANDING"!}\n");
     sock_send_string(m_sock, "widget_set FA timeline 1 4 {total       00:00:00}\n");
-    sock_send_string(m_sock, "widget_del FA heartbeat\n");
-    //sock_send_string(m_sock, "screen_set FA priority 32\n");
 #else 
     lcd.string(1,1," Welcome To "the_BRANDING"!");
     lcd.flush();
@@ -329,6 +329,19 @@ Error LcdUI::AcceptEvent(Event *e) {
 	    case INFO_MediaInfo: {
 		MediaInfoEvent *pmvi = (MediaInfoEvent *)e;
 		if (pmvi) {
+
+
+		MetaData md;
+		    char bar[128];
+                    const PlaylistItem *pItem;
+                    pItem = m_plm->GetCurrentItem();
+
+                    md = pItem->GetMetaData();
+
+
+		   //cout << "artist" << (char *)md.Artist().c_str() << endl;
+
+
 		    //cout << "writing lcd" << endl;
 		    //cout << "total seconds" << pmvi->m_totalSeconds << endl;
 		    m_totalHours = (int32)pmvi->m_totalSeconds / 3600;
@@ -342,10 +355,41 @@ Error LcdUI::AcceptEvent(Event *e) {
 		    char *foo = strrchr(pmvi->m_filename,'/');
 		    if (foo) foo++; else foo = pmvi->m_filename;
 #if LCDPROC_4
-		    char bar[128];
-		    sprintf(bar,"widget_set FA songname 1 1 20 3 h 2 {%s}\n",foo);
-		    sock_send_string(m_sock,bar);
-		    sock_send_string(m_sock,"widget_set FA artist 1 3 2 1 h 1 { }\n");
+
+                    if (md.Title().c_str()[0] == '\0')        // check id3 title, if not exists print filename, else title
+		    {
+		    	sprintf(bar,"widget_set FA songname 1 1 20 3 h 2 {%s}\n",foo);
+		    	sock_send_string(m_sock,bar);
+		    } else
+		    {
+		    	sprintf(bar,"widget_set FA songname 1 1 20 3 h 2 {%s}\n",(char *)md.Title().c_str());
+		    	sock_send_string(m_sock,bar);
+		    }
+
+                    if (md.Album().c_str()[0] == '\0')        // check id3 album, if not exists clear line, else print album
+                    {
+			sprintf(bar,"widget_set FA album 1 2 20 1 h 2 { }\n");
+                        sock_send_string(m_sock,bar);
+		    } else
+		    {
+		    	sprintf(bar,"widget_set FA album 1 2 20 1 h 2 {%s}\n",(char *)md.Album().c_str());
+		    	sock_send_string(m_sock,bar);
+		    }
+
+                    if (md.Album().c_str()[0] == '\0')        
+		    {
+                        sprintf(bar,"widget_set FA artist 1 3 20 1 h 3 { }\n");
+                        sock_send_string(m_sock,bar);
+		    } else
+		    {
+		    	sprintf(bar,"widget_set FA artist 1 3 20 1 h 3 {%s}\n",(char *)md.Artist().c_str());
+		    	sock_send_string(m_sock,bar);
+		    }
+
+//	id3 end
+
+
+
 #else
 		    lcd.string(1,1,foo);
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.67 2000/02/16 21:34:45 elrod Exp $
+        $Id: Dialog.cpp,v 1.67.2.1.2.3.2.3 2000/03/27 23:24:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -96,7 +96,13 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
         {
 			Close();
             return 1;
-        }    
+        }
+
+        case WM_ENDSESSION:
+        {
+            SaveCurrentPlaylist();
+            break;
+        }
 
         case UWM_DROPURLS:
             filesAreURLs = true;
@@ -978,7 +984,7 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     m_sMinSize.x = 500;
     m_sMinSize.y = 300;
 
-    if (m_pParent == NULL)
+    if(m_pParent == NULL)
     {
 //       string lastPlaylist = FreeampDir(m_context->prefs);
 //       lastPlaylist += "\\currentlist.m3u";
@@ -995,19 +1001,25 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
 
             m_initialCount = items.size();
 
-            m_plm->AddItems(&items);
+            if(m_initialCount)
+                m_plm->AddItems(&items);
         }
     }
     else
     {
         m_plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
-        LoadPlaylist(m_currentListName.c_str());
+
+        if(m_currentListName.size())
+            LoadPlaylist(m_currentListName.c_str());
     }       
 
     UpdateTotalTime();
     
     if(m_pParent)
+    {
         ShowWindow(m_hWnd, SW_SHOW);
+        SetForegroundWindow(m_hWnd);
+    }
     else
     {
         bool viewMusicBrowser = true;
@@ -1019,6 +1031,8 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
             ExpandCollapseEvent();  
         }
     }
+
+    m_initialized = true;
 }
 
 void MusicBrowserUI::AddToolbarButtons(bool textLabels, bool images)
@@ -1871,7 +1885,7 @@ void MusicBrowserUI::ShowHelp(uint32 topic)
 
     m_context->prefs->GetInstallDirectory(dir, &len);
     oHelpFile = string(dir);
-    oHelpFile += string("\\freeamp.hlp");    
+    oHelpFile += string("\\"BRANDING_HELP_FILE);    
 
     WinHelp(m_hWnd, oHelpFile.c_str(), HELP_CONTEXT, topic);
 }        
@@ -2032,8 +2046,8 @@ FileOpenDialog(HWND hwnd,
     ofn.nFileOffset       = 0;
     ofn.nFileExtension    = 0;
     ofn.lpstrDefExt       = "MP3";
-    ofn.lCustData         = (DWORD)&url_list;
-    ofn.lpfnHook          = OpenFileHookProc;
+    ofn.lCustData         = (DWORD)(allowURL ? &url_list : NULL);
+    ofn.lpfnHook          = (allowURL ? OpenFileHookProc : NULL);
     ofn.lpTemplateName    = (allowURL ? MAKEINTRESOURCE(IDD_OPENURL) : NULL);
 
     if(GetOpenFileName(&ofn) || ofn.lCustData)

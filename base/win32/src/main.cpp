@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.49 2000/02/18 10:14:49 elrod Exp $
+	$Id: main.cpp,v 1.49.2.2.2.1.2.1.2.2 2000/04/10 20:57:30 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -27,7 +27,8 @@ ____________________________________________________________________________*/
 #include <commctrl.h>
 #include <stdio.h>
 #include <string.h>
-#include <iostream>
+#include <sys/stat.h>
+#include <direct.h>
 
 /* Project Includes */
 #include "player.h"
@@ -50,6 +51,10 @@ bool IsMultiProcessor(void);
 const char* kHiddenWindow = "FreeAmp Hidden Window";
 HINSTANCE g_hinst = NULL;
 static const char *themeExtension = "fat";
+const char* kReboot = The_BRANDING" needs for you to restart your computer "
+                      "in order to complete the update process.\r\nPlease "
+                      "restart your computer before attempting to use "
+                      the_BRANDING".";
 
 int APIENTRY WinMain(HINSTANCE hInstance, 
 					 HINSTANCE hPrevInstance,
@@ -59,6 +64,35 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     HANDLE runOnceMutex;
     
     g_hinst = hInstance;
+
+    // should we allow FreeAmp to run?
+    struct stat st;
+    char path[MAX_PATH];
+    char arg0[MAX_PATH];
+
+    getcwd(path, sizeof(path));
+
+    strcpy(arg0, __argv[0]);
+    char* slash = strrchr(arg0, '\\');
+
+    if(slash)
+    {
+        *slash = 0x00;
+
+        if(strcasecmp(path, arg0))
+        {
+            chdir(arg0);
+            strcpy(path, arg0);
+        }
+    }
+
+    strcat(path, "\\NeedToRebootForUpdate");
+    if(!stat(path, &st))
+    {
+        MessageBox(NULL, kReboot, "You Need To Reboot...", 
+                            MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND);
+        return 0;
+    }
 
 	if(SendCommandLineToRealJukebox())
 	{
@@ -77,8 +111,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
         return 0;
     }
 
-    if (IsWinNT() && IsMultiProcessor())
-        SetProcessAffinityMask(GetCurrentProcess(), 0);
+    //if (IsWinNT() && IsMultiProcessor())
+    //    SetProcessAffinityMask(GetCurrentProcess(), 0);
 
     WSADATA sGawdIHateMicrosoft;
     WSAStartup(0x0002,  &sGawdIHateMicrosoft);
@@ -117,7 +151,6 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     delete registrar;
 
     bool reclaimFileTypes, askBeforeReclaiming;
-    char path[MAX_PATH];
     uint32 length = sizeof(path);
     context->prefs->GetReclaimFiletypes(&reclaimFileTypes);
     context->prefs->GetAskToReclaimFiletypes(&askBeforeReclaiming);
@@ -260,7 +293,7 @@ bool SendCommandLineToRealJukebox()
                                 regErr = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
 													  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\realjbox.exe",
 													  0, 
-													  KEY_ALL_ACCESS,
+													  KEY_WRITE|KEY_READ,
 													  &key);
 
                                 if(regErr == ERROR_SUCCESS)
@@ -427,6 +460,12 @@ static LRESULT WINAPI HiddenWndProc(HWND hwnd,
             bool playNow = false;
 
             context->prefs->GetPlayImmediately(&playNow);
+            
+            // If a single theme or rpm file gets passed, don't affect 
+            // the play queue
+            if (strcasecmp("fat", array + strlen(array) - 3) == 0 ||
+                strcasecmp("rmp", array + strlen(array) - 3) == 0)
+                playNow = false;
 
             if(playNow)
             {
@@ -509,7 +548,7 @@ static LRESULT WINAPI HiddenWndProc(HWND hwnd,
                 if(giveToDLM)
                     dlm->ReadDownloadFile(url);
                 else if(giveToTheme)
-                    context->target->AcceptEvent(new LoadThemeEvent(url, ""));
+                    context->player->AddTheme(url);
                 else
                     plm->AddItem(url);
 
@@ -627,7 +666,7 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
         result = RegOpenKeyEx(HKEY_CLASSES_ROOT,
 							  kFileTypes[index][0],
 							  0, 
-                              KEY_ALL_ACCESS,
+                              KEY_WRITE|KEY_READ,
                               &typeKey);
 
         if(result == ERROR_SUCCESS)
@@ -701,7 +740,7 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
         result = RegOpenKeyEx(	HKEY_CLASSES_ROOT,
 							    buf,
 							    0, 
-							    KEY_ALL_ACCESS,
+							    KEY_WRITE|KEY_READ,
 							    &appKey);
 
         if(result == ERROR_SUCCESS)
@@ -803,7 +842,7 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
     result = RegOpenKeyEx(HKEY_CURRENT_USER,
                           "Software\\Netscape\\Netscape Navigator\\Viewers",
                           0, 
-                          KEY_ALL_ACCESS,
+                          KEY_WRITE|KEY_READ,
                           &appKey);
 
     if(result == ERROR_SUCCESS)

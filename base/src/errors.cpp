@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.cpp,v 1.6 2000/01/15 01:54:56 robert Exp $
+	$Id: errors.cpp,v 1.6.4.1 2000/03/04 07:21:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -29,7 +29,7 @@ const char* ErrorString[] = {
     "An invalid parameter was used", //             kError_InvalidParam     = 2,
     "There was an error loading the library", //    kError_LoadLibFailed    = 3,
     "Could not find the function", //               kError_FindFuncFailed   = 4,
-    "kError_NoFiles", //              = 5,
+    "No files were found", //              = 5,
     "Unable to locate preferences", //              kError_NoPrefs = 6,
     "The buffer was too small to hold the data", // kError_BufferTooSmall = 7,
     "Memory allocation failed", //                  kError_OutOfMemory = 8,
@@ -81,8 +81,8 @@ const char* ErrorString[] = {
     "Access is not authorized", //                  kError_AccessNotAuthorized = 54,
     "Access is forbidden", //                       kError_AccessForbidden = 55,  
     "The requested range is not acceptable", //     kError_RangeNotExceptable = 56,
-    "kError_WriteFile", //            = 57,
-    "kError_ReadFile", //             = 58,
+    "Could not write to the file", //            = 57,
+    "Could not read from the file", //             = 58,
     "Invalid version", //                           kError_InvalidVersion = 59,
     "An update is already being performed", //      kError_AlreadyUpdating = 60,
     "Failed to delete file", //                     kError_UnlinkFailed = 61,

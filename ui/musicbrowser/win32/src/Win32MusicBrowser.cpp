@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.46 2000/02/16 22:49:37 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.46.4.1.2.2 2000/03/27 03:13:03 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -132,7 +132,7 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
 
     Init();
 
-    if (m_pParent == NULL)
+    if(m_pParent == NULL)
     {
        m_plm = m_context->plm;
 
@@ -162,7 +162,8 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
                 m_initialCount = items.size();
                 m_autoPlayHack = true;
 
-                m_plm->AddItems(&items);
+                if(m_initialCount)
+                    m_plm->AddItems(&items);
             }           
        }
     }
@@ -280,7 +281,6 @@ Error MusicBrowserUI::Init(int32 startup_level)
     }
 
     m_playerEQ = m_context->target;
-    m_initialized = true;
     m_uiThread = Thread::CreateThread();
     m_uiThread->Create(MusicBrowserUI::UIThreadFunc, this);
 
@@ -316,6 +316,29 @@ void MusicBrowserUI::DisplayBrowserMessage(const char* msg)
     SendMessage(m_hStatus, SB_SETTEXT, 0, (LPARAM)msg);
 }
 
+void MusicBrowserUI::SaveCurrentPlaylist()
+{
+    bool savePlaylist = true;
+
+    m_context->prefs->GetSaveCurrentPlaylistOnExit(&savePlaylist);
+
+    if(savePlaylist)
+    {
+        char path[MAX_PATH];
+        char url[MAX_PATH + 7];
+        uint32 length = sizeof(path);
+
+        m_context->prefs->GetInstallDirectory(path, &length);
+
+        strcat(path, "\\freeamp.m3u");
+
+        length = sizeof(url);
+        FilePathToURL(path, url, &length);
+
+        m_plm->WritePlaylist(url);
+    }
+}
+
 Error MusicBrowserUI::AcceptEvent(Event *event)
 {
     switch (event->Type()) 
@@ -346,25 +369,7 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
 
         case CMD_Cleanup: 
         {
-            bool savePlaylist = true;
-
-            m_context->prefs->GetSaveCurrentPlaylistOnExit(&savePlaylist);
-
-            if(savePlaylist)
-            {
-                char path[MAX_PATH];
-                char url[MAX_PATH + 7];
-                uint32 length = sizeof(path);
-
-                m_context->prefs->GetInstallDirectory(path, &length);
-
-                strcat(path, "\\freeamp.m3u");
-
-                length = sizeof(url);
-                FilePathToURL(path, url, &length);
-
-                m_plm->WritePlaylist(url);
-            }
+            SaveCurrentPlaylist();
 
             CloseMainDialog();
             m_uiThread->Join();
@@ -668,51 +673,29 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
 
         case CMD_TogglePlaylistUI: 
         {
-            if (m_initialized && isVisible)
+            if(m_initialized && isVisible)
             {
                 isVisible = false;
             }
             else 
             {
                 isVisible = true;
-                if (m_initialized)
+
+                if(m_initialized)
                 {
 					ShowBrowser(true);
                 }
-                else 
-                {
-                    m_initialized = true;
-                }
             }
+
             if (m_state == STATE_EXPANDED)
                 ExpandCollapseEvent();
+
             break; 
         }
 
         case CMD_ToggleMusicBrowserUI: 
         {
             ShowBrowser(true);
-
-            /*if (m_initialized && isVisible) 
-            {
-				HideBrowser();
-                isVisible = false;
-            }
-            else 
-            {
-                isVisible = true;
-                if (m_initialized)
-                {
-					ShowBrowser(true);
-                }
-                else 
-                {
-                    m_initialized = true;
-                }
-            }*/
-
-            //if (m_state == STATE_COLLAPSED)
-                //ExpandCollapseEvent();
             break; 
         }
 

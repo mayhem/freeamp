@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.59 2000/02/14 22:03:37 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.59.2.2.2.1.2.2 2000/03/15 23:37:35 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -191,7 +191,7 @@ bool SoundCardPMO::SetupVolumeControl(void)
 							 MIXER_OBJECTF_HMIXER |
 							 MIXER_GETLINECONTROLSF_ONEBYTYPE)
 		!= MMSYSERR_NOERROR)
-		return FALSE;
+		return false;
 
 	// record dwControlID
 	m_oDstLineName = mxl.szName;
@@ -220,7 +220,7 @@ int32 SoundCardPMO::GetVolume()
 								 MIXER_OBJECTF_HMIXER |
 								 MIXER_GETCONTROLDETAILSF_VALUE);
 	if (ret != MMSYSERR_NOERROR)
-		return 0;
+		return false;
 
     return  (int)(((float)((mxcdVolume.dwValue - m_dwMinimum) * 100) /  
                   (float)(m_dwMaximum - m_dwMinimum)) + 0.5); 
@@ -232,8 +232,11 @@ void SoundCardPMO::SetVolume(int32 volume)
     
     dwVal = (volume * (m_dwMaximum - m_dwMinimum) / 100);
 
-	MIXERCONTROLDETAILS_UNSIGNED mxcdVolume = { dwVal };
+	MIXERCONTROLDETAILS_UNSIGNED mxcdVolume[2];
 	MIXERCONTROLDETAILS mxcd;
+    
+    memcpy(&mxcdVolume[0], &dwVal, sizeof(MIXERCONTROLDETAILS_UNSIGNED));
+    memcpy(&mxcdVolume[1], &dwVal, sizeof(MIXERCONTROLDETAILS_UNSIGNED));
     
 	mxcd.cbStruct = sizeof(MIXERCONTROLDETAILS);
 	mxcd.dwControlID = m_dwVolumeControlID;
@@ -263,7 +266,6 @@ Error SoundCardPMO::Init(OutputInfo * info)
    m_num_headers = (m_pInputBuffer->GetBufferSize() / m_data_size) - 1;
    
    m_hdr_size = sizeof(WAVEHDR);
-   m_wavehdr_array = new WAVEHDR[m_num_headers];
 
    m_wfex = new WAVEFORMATEX;
 

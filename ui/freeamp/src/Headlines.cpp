@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Headlines.cpp,v 1.3 2000/02/08 20:03:16 robert Exp $
+   $Id: Headlines.cpp,v 1.3.4.1.4.1 2000/04/10 23:10:09 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -54,11 +54,13 @@ ____________________________________________________________________________*/
 
 HeadlineInfo::HeadlineInfo(const string &oUrl,
                            const string &oXMLPath, 
+                           const string &oXMLURLPath, 
                            int iDownloadInterval,
                            int iHeadlineChangeInterval)
 {
     m_oUrl = oUrl;
     m_oXMLPath = oXMLPath;
+    m_oXMLURLPath = oXMLURLPath;
     m_iDownloadInterval = iDownloadInterval;
     m_iHeadlineChangeInterval = iHeadlineChangeInterval;
 }
@@ -72,6 +74,7 @@ void HeadlineInfo::operator=(const HeadlineInfo &oOther)
 {
     m_oUrl = oOther.m_oUrl;
     m_oXMLPath = oOther.m_oXMLPath;
+    m_oXMLURLPath = oOther.m_oXMLURLPath;
     m_iDownloadInterval = oOther.m_iDownloadInterval;
     m_iHeadlineChangeInterval = oOther.m_iHeadlineChangeInterval;
 }
@@ -140,7 +143,10 @@ void Headlines::WorkerThread(void)
         {
             m_iIndex = m_iIndex % m_oHeadlines.size();
             m_pContext->target->AcceptEvent(new HeadlineMessageEvent(
-                                       m_oHeadlines[m_iIndex].c_str()));
+                    m_oHeadlines[m_iIndex].c_str(),
+                    (m_iIndex >= m_oHeadlineURLs.size()) ? "" : 
+                     m_oHeadlineURLs[m_iIndex].c_str()));
+                                       
             m_iIndex++;
         }
         usleep(m_oInfo.m_iHeadlineChangeInterval * 1000000);
@@ -162,8 +168,16 @@ Error Headlines::Download(void)
 
     m_pContext->target->AcceptEvent(new StatusMessageEvent(""));
     m_oHeadlines.clear(); 
+
+    printf("Page: '%s'\n", oPage.c_str());
+    eRet = ParseString(oPage);
+    if (IsntError(eRet))
+    {
+        if (m_oHeadlines.size() != m_oHeadlineURLs.size())
+            m_oHeadlineURLs.clear();
+    }
     
-    return ParseString(oPage);
+    return eRet;
 }
 
 Error Headlines::BeginElement(string &oElement, AttrMap &oAttrMap)
@@ -178,6 +192,11 @@ Error Headlines::PCData(string &oData)
     if (m_oPath == m_oInfo.m_oXMLPath)
     {
         m_oHeadlines.push_back(oData);
+        return kError_NoErr;
+    }
+    if (m_oPath == m_oInfo.m_oXMLURLPath)
+    {
+        m_oHeadlineURLs.push_back(oData);
         return kError_NoErr;
     }
     return kError_NoErr;

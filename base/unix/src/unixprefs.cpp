@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.23 2000/02/13 03:26:44 ijr Exp $
+        $Id: unixprefs.cpp,v 1.23.4.1 2000/03/05 23:04:54 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -540,7 +540,7 @@ SetDefaults()
 
     size = sizeof(buf);
     if (GetPrefString(kSaveMusicDirPref, buf, &size) == kError_NoPrefValue) {
-        string tempdir = FreeampDir(NULL);
+        string tempdir = string(getenv("HOME"));
         tempdir += "/MyMusic";
         SetPrefString(kSaveMusicDirPref, tempdir.c_str());
     }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.6 2000/02/08 20:03:16 robert Exp $
+   $Id: ButtonControl.cpp,v 1.6.6.1 2000/03/15 21:18:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -117,11 +117,12 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
     {    
        if (m_oTargetWindow.length() == 0)
        {
-           m_pParent->SendControlMessage(this, CM_Pressed);
            if (m_oName == "ReloadTheme")
            {
+              m_pParent->SendControlMessage(this, CM_Pressed);
               return;
            }   
+           m_pParent->SendControlMessage(this, CM_Pressed);
        }    
        else 
        {   

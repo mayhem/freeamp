@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32prefs.cpp,v 1.15 2000/01/21 01:03:20 elrod Exp $
+	$Id: win32prefs.cpp,v 1.15.10.1 2000/04/10 20:57:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -59,7 +59,7 @@ Win32Prefs()
     result = RegOpenKeyEx(	kMainKey,
 							prefsKey,
 							0, 
-							KEY_ALL_ACCESS,
+							KEY_WRITE|KEY_READ,
 							&m_prefsKey);
 
     delete [] prefsKey;
@@ -95,7 +95,7 @@ Win32Prefs(const char* componentName)
         result = RegOpenKeyEx(	kMainKey,
 							    prefsKey,
 							    0, 
-							    KEY_ALL_ACCESS,
+							    KEY_WRITE|KEY_READ,
 							    &m_prefsKey);
 
         delete [] prefsKey;

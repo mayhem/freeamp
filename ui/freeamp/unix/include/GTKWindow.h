@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.7 1999/12/14 11:20:46 ijr Exp $
+   $Id: GTKWindow.h,v 1.7.10.1 2000/03/20 23:51:55 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKWINDOW__H_
@@ -59,9 +59,9 @@ class GTKWindow : public Window
 
      GtkWidget *GetWindow(void) { return mainWindow; }
    
-     void MouseLeaveCheck(void); 
-     void SetMouseIn(void) { m_bMouseInWindow = true; }
-     void SetMouseOut(void) { m_bMouseInWindow = false; }
+     void SetMouseIn(void);
+     void SetMouseOut(void);
+     void MouseLeaveCheck(void);
      void ModifyTimer(bool stop);
 
      void DropFiles(char *filename);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.45 2000/02/16 21:34:45 elrod Exp $
+        $Id: MusicTree.cpp,v 1.45.2.1.2.1.2.1 2000/03/22 20:02:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -57,7 +57,12 @@ char* kShoutCast = "ShoutCast";
 char* kIceCast = "IceCast";
 
 void MusicBrowserUI::InitTree(void)
-{                          
+{
+    if(m_hMyMusicItem)
+        TreeView_DeleteItem(m_hMusicView, m_hMyMusicItem);
+    if(m_hPlaylistItem)
+        TreeView_DeleteItem(m_hMusicView, m_hPlaylistItem);
+    
     TV_INSERTSTRUCT insert;
         
     insert.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_CHILDREN |
@@ -784,10 +789,8 @@ HTREEITEM MusicBrowserUI::FindPlaylist(const string playlist)
 
 void MusicBrowserUI::MusicCatalogCleared()
 {
-    TreeView_DeleteItem(m_hMusicView, m_hMyMusicItem);
-    TreeView_DeleteItem(m_hMusicView, m_hPlaylistItem);
-
-    InitTree();
+    if(m_initialized)   
+        InitTree();
 }
 
 void MusicBrowserUI::MusicCatalogTrackChanged(const ArtistList *oldArtist,
@@ -1159,7 +1162,18 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
         }
         else // might need to add the artist
         {
-            if(TreeView_GetNextSibling(m_hMusicView, m_hUncatItem))
+            HTREEITEM root = TreeView_GetRoot(m_hMusicView);
+
+            TV_ITEM tv_item;
+
+            tv_item.hItem = root;
+            tv_item.mask = TVIF_STATE;
+            tv_item.stateMask = TVIS_EXPANDEDONCE;
+            tv_item.state = 0;
+
+            TreeView_GetItem(m_hMusicView, &tv_item);
+
+            if(tv_item.state & TVIS_EXPANDEDONCE)
             {
                 TV_INSERTSTRUCT insert;
                 TreeData        data;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.23 2000/02/09 21:21:28 elrod Exp $
+        $Id: musicbrowser.cpp,v 1.23.2.1.2.1.2.1.2.1 2000/04/09 15:56:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -99,6 +99,7 @@ void MusicBrowserUI::GTKEventService(void)
     if (!m_context->gtkInitialized) {
         m_context->gtkInitialized = true;
         g_thread_init(NULL);
+        gtk_set_locale();
         gtk_init(&m_argc, &m_argv);
         gdk_rgb_init();
         weAreGTK = true;
@@ -168,15 +169,22 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 mainBrowser->ShowMusicBrowser();
             break; }
         case CMD_AddFiles:
-        case INFO_PlaylistCurrentItemInfo: 
+        case INFO_MusicCatalogRegenerating:
+        case INFO_MusicCatalogDoneRegenerating:
+        case INFO_PlaylistCurrentItemInfo:
+        case INFO_PlaylistItemUpdated:
         case INFO_PrefsChanged: {
             mainBrowser->AcceptEvent(event);
             vector<GTKMusicBrowser *>::iterator i = browserWindows.begin();
             for (; i != browserWindows.end(); i++)
                     (*i)->AcceptEvent(event);
             break; }
+        case INFO_PlaylistItemAdded:
+        case INFO_PlaylistItemsAdded:
+        case INFO_PlaylistItemRemoved:
         case INFO_PlaylistRepeat:
         case INFO_PlaylistShuffle:
+        case INFO_PlaylistSorted:
         case INFO_Paused:
         case INFO_Stopped:
         case INFO_Playing:

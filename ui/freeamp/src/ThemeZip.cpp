@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.14 2000/03/16 07:24:59 ijr Exp $
+   $Id: ThemeZip.cpp,v 1.15 2000/03/16 10:52:13 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <time.h>
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #ifdef WIN32
 #include <windows.h>
 #include <winsock.h>
+#include <direct.h>
 #define unlink(a) _unlink(a)
 #else
 #define TRUE 1

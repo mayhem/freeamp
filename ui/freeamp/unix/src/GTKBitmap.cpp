@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.12 2000/06/13 20:24:32 ijr Exp $
+   $Id: GTKBitmap.cpp,v 1.13 2000/06/13 21:33:50 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -99,7 +99,7 @@ GTKBitmap::~GTKBitmap(void)
         gdk_gc_unref(m_GC);
     m_GC = NULL; 
 
-    if (m_cache)
+    if (m_image && m_cache)
         gdk_image_destroy(m_image);
     gdk_threads_leave();
 }
@@ -138,6 +138,7 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
     }
 
     m_cache = false;
+    m_image = NULL;
 
 #ifdef USING_GDKPIXBUF
     GdkPixbuf *pixbuf;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.47 2000/06/13 20:24:32 ijr Exp $
+   $Id: Theme.cpp,v 1.48 2000/06/13 21:33:50 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1206,7 +1206,8 @@ DB
 
        if (oAttrMap.find("Pos") != oAttrMap.end() &&
            m_eCurrentControl != eButtonControl &&
-           m_eCurrentControl != eMultiStateControl)
+           m_eCurrentControl != eMultiStateControl &&
+           m_eCurrentControl != ePixSliderControl)
        {
            m_oLastError = string("the Pos attribute in the <Position> tag can only be used "
                                  "for a MultiStateControl or a ButtonControl");

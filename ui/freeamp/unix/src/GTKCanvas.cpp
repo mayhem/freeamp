@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.1.2.2 1999/09/08 22:46:37 robert Exp $
+   $Id: GTKCanvas.cpp,v 1.1.2.3 1999/09/09 00:27:07 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -38,7 +38,7 @@ GTKCanvas::~GTKCanvas(void)
 
 }
 
-Error GTKCanvas::DrawText(int iFontHeight, Rect &oClipRect, string &oText)
+Error GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect, string &oText)
 {
    return kError_NoErr;
 }

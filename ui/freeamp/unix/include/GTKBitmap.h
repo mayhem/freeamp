@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.h,v 1.1.2.1 1999/08/25 23:02:04 robert Exp $
+   $Id: GTKBitmap.h,v 1.1.2.2 1999/09/09 00:27:03 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __GTKBITMAP_H__
@@ -37,7 +37,7 @@ class GTKBitmap : public Bitmap
               GTKBitmap(string &oName);
      virtual ~GTKBitmap(void);
 
-     virtual Error LoadBitmap(string &oFile);
+     virtual Error LoadBitmapFromDisk(string &oFile);
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
                             Rect &oDestRect);
 

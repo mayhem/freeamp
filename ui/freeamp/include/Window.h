@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.4 1999/09/08 23:26:40 elrod Exp $
+   $Id: Window.h,v 1.1.2.5 1999/09/09 00:26:56 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __WINDOW__H_
@@ -34,7 +34,6 @@ ____________________________________________________________________________*/
 #include <string>
 #include <vector>
 #include <map>
-#include <deque>
 
 using namespace std;
 

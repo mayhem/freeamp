@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.1.2.2 1999/09/08 22:46:36 robert Exp $
+   $Id: GTKBitmap.cpp,v 1.1.2.3 1999/09/09 00:27:06 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -38,7 +38,7 @@ GTKBitmap::~GTKBitmap(void)
 {
 }
 
-Error GTKBitmap::LoadBitmap(string &oFile)
+Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
 {
    return kError_NoErr;
 }

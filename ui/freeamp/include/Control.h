@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
+   $Id: Control.h,v 1.1.2.4 1999/09/09 00:26:55 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef __CONTROL_H__
@@ -32,6 +32,7 @@ ____________________________________________________________________________*/
 #endif
 
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <vector>
 
@@ -81,12 +82,21 @@ enum ControlStateEnum
     CS_LastState
 };
 
-struct TransitionInfo
+class TransitionInfo
 {
-    ControlStateEnum      eState;
-    ControlTransitionEnum eAction;
-    ControlStateEnum      eNextState;
+    public:
+
+       ControlStateEnum      eState;
+       ControlTransitionEnum eAction;
+       ControlStateEnum      eNextState;
 };
+
+// I HATE MICROSOFT   I HATE MICROSOFT   I HATE MICROSOFT   I HATE MICROSOFT
+// These two functions are not necessary under gcc 2.95, but MSVC++ won't compile
+// without them. BILL GATES MUST DIE!
+bool operator<(const TransitionInfo &A, const TransitionInfo &b);
+bool operator==(const TransitionInfo &A, const TransitionInfo &b);
+// I HATE MICROSOFT   I HATE MICROSOFT   I HATE MICROSOFT   I HATE MICROSOFT
 
 class Window;
 class Control
@@ -94,7 +104,7 @@ class Control
     public:
 
                Control(Window *pParent, string &oName, 
-                       const TransitionInfo *pTransitions);
+                       TransitionInfo *pTransitions);
       virtual ~Control(void);
  
       void  SetRect(Rect &oRect);

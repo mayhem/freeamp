@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.1.2.2 1999/09/08 23:26:40 elrod Exp $
+   $Id: Win32Canvas.cpp,v 1.1.2.3 1999/09/09 00:27:12 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "Win32Canvas.h"
@@ -33,7 +33,7 @@ Win32Canvas::~Win32Canvas(void)
 
 }
 
-Error Win32Canvas::DrawText(int iFontHeight, Rect &oClipRect, string &oText)
+Error Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect, string &oText)
 {
    return kError_NoErr;
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
+   $Id: ButtonControl.cpp,v 1.1.2.4 1999/09/09 00:26:57 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -31,7 +31,8 @@ ____________________________________________________________________________*/
 // Frame 2: Pressed
 // Frame 3: Disabled
 
-static const TransitionInfo pTransitions[] =
+
+static TransitionInfo pTransitions[] =
 {
     { CS_Normal,    CT_MouseEnter,       CS_MouseOver },
     { CS_Normal,    CT_Disable,          CS_Disabled  },

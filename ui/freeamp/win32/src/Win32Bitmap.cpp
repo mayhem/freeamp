@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.1.2.2 1999/09/08 23:26:40 elrod Exp $
+   $Id: Win32Bitmap.cpp,v 1.1.2.3 1999/09/09 00:27:11 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -34,7 +34,7 @@ Win32Bitmap::~Win32Bitmap(void)
 {
 }
 
-Error Win32Bitmap::LoadBitmap(string &oFile)
+Error Win32Bitmap::LoadBitmapFromDisk(string &oFile)
 {
    return kError_NoErr;
 }

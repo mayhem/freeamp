@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
+   $Id: SliderControl.cpp,v 1.1.2.4 1999/09/09 00:27:01 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -30,7 +30,7 @@ ____________________________________________________________________________*/
 // Frame 1: Selected slider
 // Frame 2: Disabled slider
 
-static const TransitionInfo pTransitions[] =
+static TransitionInfo pTransitions[] =
 {  
     { CS_Normal,    CT_MouseEnter,       CS_MouseOver }, 
     { CS_Normal,    CT_Disable,          CS_Disabled  }, 

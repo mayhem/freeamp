@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.4 1999/09/09 00:27:00 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -88,7 +88,7 @@ void FreeAmpTheme::ParseArgs()
       {
          if (m_iStartupType == PRIMARY_UI)
          {
-            m_pPlaylistManager->AddItem(arg, 0);
+            //m_pPlaylistManager->AddItem(arg, 0);
          }
       }
    }

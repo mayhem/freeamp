@@ -18,14 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
+   $Id: TextControl.cpp,v 1.1.2.4 1999/09/09 00:27:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "TextControl.h"
 #include "Window.h"
 
-static const TransitionInfo pTransitions[] =
+static TransitionInfo pTransitions[] =
 {  
     { CS_Normal,    CT_SetValue,         CS_Normal    },
     { CS_Normal,    CT_Hide,             CS_Hidden    },
@@ -63,5 +63,5 @@ void TextControl::TextChanged(void)
 
     pCanvas = m_pParent->GetCanvas();
     pCanvas->Erase(m_oRect);
-    pCanvas->DrawText(m_oRect.Height(), m_oRect, m_oValue); 
+    pCanvas->RenderText(m_oRect.Height(), m_oRect, m_oValue); 
 }

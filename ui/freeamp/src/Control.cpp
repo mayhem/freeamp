@@ -18,14 +18,27 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
+   $Id: Control.cpp,v 1.1.2.4 1999/09/09 00:26:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
 #include "Control.h"
 #include "Window.h"
 
-Control::Control(Window *pWindow, string &oName, const TransitionInfo *pInfo)
+// I HATE MICROSOFT   I HATE MICROSOFT   I HATE MICROSOFT   I HATE MICROSOFT
+bool operator<(const TransitionInfo &A, const TransitionInfo &b)
+{
+    assert(0);
+    return 0;
+}
+bool operator==(const TransitionInfo &A, const TransitionInfo &b)
+{
+    assert(0);
+    return 0;
+}
+// I HATE MICROSOFT   I HATE MICROSOFT   I HATE MICROSOFT   I HATE MICROSOFT
+
+Control::Control(Window *pWindow, string &oName, TransitionInfo *pInfo)
 {
     int iLoop;
 
@@ -106,7 +119,7 @@ void Control::AcceptTransition(ControlTransitionEnum eTrans, Pos *pPos)
 {
     vector<TransitionInfo>::iterator i;
 
-    for(i = m_oTransitions.begin(); i < m_oTransitions.end(); i++)
+    for(i = m_oTransitions.begin(); i != m_oTransitions.end(); i++)
     {
         if ((*i).eState == m_eCurrentState && (*i).eAction == eTrans)   
         {

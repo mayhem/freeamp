@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.174 2000/02/09 21:21:25 elrod Exp $
+        $Id: player.cpp,v 1.175 2000/02/16 00:44:08 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -499,7 +499,12 @@ SetArgs(int32 argc, char **argv)
             }
         }
     }
-
+    
+    if(m_autoplay)
+    {
+        AcceptEvent(new Event(CMD_Play));
+    }  
+    
     delete [] path;
     delete [] url;
 

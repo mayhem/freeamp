@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: timer.cpp,v 1.2 2000/03/30 20:23:23 ijr Exp $
+	$Id: timer.cpp,v 1.3 2000/03/31 19:16:34 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -30,6 +30,9 @@ ____________________________________________________________________________*/
 #elif defined(WIN32)
 #include <windows.h>
 #define GoToSleep(x) Sleep(x)
+#elif defined(HAVE_BEOS)
+#include <be/kernel/OS.h>
+#define GoToSleep(x) snooze(x*1000)
 #else
     #error GoToSleep needs to be defined for this platform
 #endif

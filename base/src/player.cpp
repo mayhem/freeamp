@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.49 1998/11/07 05:39:35 jdw Exp $
+	$Id: player.cpp,v 1.50 1998/11/07 07:20:44 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -258,20 +258,20 @@ void Player::Run(){
         RegistryItem* item = NULL;
 		UserInterface *ui = NULL;
         int32 i = 0;
-	int32 uisActivated = 0;
+	    int32 uisActivated = 0;
 	
         while(item = m_uiRegistry->GetItem(i++))
         {
             if(!CompareNames(item->Name(),name))
             {
-		m_ui = (UserInterface *)item->InitFunction()();
+		        m_ui = (UserInterface *)item->InitFunction()();
 		
-		m_ui->SetTarget((EventQueue *)this);
-		m_ui->SetPlayListManager(m_plm);
+		        m_ui->SetTarget((EventQueue *)this);
+		        m_ui->SetPlayListManager(m_plm);
                 m_ui->SetArgs(m_argc, m_argv);
-		m_ui->Init();
+		        m_ui->Init();
                 RegisterActiveUI(m_ui);
-		uisActivated++;
+		        uisActivated++;
                 break;
             }
         }

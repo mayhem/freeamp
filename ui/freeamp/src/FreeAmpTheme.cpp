@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.2 2000/02/23 18:29:56 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.3 2000/02/23 18:50:54 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -437,7 +437,18 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
              UpdateMetaData(pInfo->Item());
          break;
       }
-      
+
+      case INFO_MusicCatalogTrackRemoved:
+      {
+         if ((int32)m_pContext->plm->GetCurrentIndex() < 0)
+         {
+             m_oTitle = szWelcomeMsg;
+             m_pWindow->ControlStringValue("Title", true, m_oTitle);
+             string title = BRANDING;
+             m_pWindow->SetTitle(title);
+         }    
+         break;   
+      }
       case INFO_StreamInfo:
       {
          char *szTitle;
@@ -1295,8 +1306,6 @@ void FreeAmpTheme::UpdateTimeDisplay(int iCurrentSeconds)
     else    
         sprintf(szText, "0:00");
 
-return;
-            
     oText = string(szText);
     if (m_eTimeDisplayState == kTimeRemaining && 
         m_pWindow->DoesControlExist("TimeRemaining") &&

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.cpp,v 1.9 1999/12/28 02:53:31 elrod Exp $
+        $Id: EditTrackInfoDialog.cpp,v 1.10 2000/01/04 19:07:57 robert Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -36,6 +36,7 @@ ____________________________________________________________________________*/
 #include "resource.h"
 #include "EditTrackInfoDialog.h"
 #include "help.h"
+
 
 EditTrackInfoDialog::EditTrackInfoDialog(FAContext* context,
                                          HWND hwnd, 

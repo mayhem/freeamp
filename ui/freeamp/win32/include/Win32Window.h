@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.12 1999/12/21 20:32:01 robert Exp $
+   $Id: Win32Window.h,v 1.13 2000/01/04 19:07:51 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -36,6 +36,7 @@ ____________________________________________________________________________*/
 
 using namespace std;
 
+class Bitmap;
 class Win32Window : public Window
 {
     public:
@@ -68,6 +69,10 @@ class Win32Window : public Window
      LRESULT       WindowProc(HWND hwnd, UINT msg, 
                                WPARAM wParam, LPARAM lParam);
 
+             void  ConvertTo256Color(vector<Bitmap *> *pList);
+             void  Create256ColorPalette(BYTE pColorMap[236][3], 
+                                         RGBQUAD *pWinColorMap);
+
     protected:
      
      void  SaveWindowPos(Pos &oPos);
@@ -82,6 +87,7 @@ class Win32Window : public Window
      void  AddToSystemMenu(HWND hWnd);
     
      HWND     m_hWnd;
+	 HPALETTE m_hPal;
      Pos      m_oWindowPos;
      Mutex   *m_pMindMeldMutex;
 	 bool     m_bMouseInWindow;

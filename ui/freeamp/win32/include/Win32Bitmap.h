@@ -18,13 +18,16 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.h,v 1.7 1999/12/13 12:49:48 robert Exp $
+   $Id: Win32Bitmap.h,v 1.8 2000/01/04 19:07:49 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32BITMAP_H__
 #define INCLUDED_WIN32BITMAP_H__
 
 #include <string>
+#include <map>
+
+using namespace std;
 
 #include <windows.h>
 #include "Bitmap.h"
@@ -47,12 +50,14 @@ class Win32Bitmap : public Bitmap
      virtual bool  IsPosVisible(Pos &oPos);
 
      HBITMAP       GetBitmapHandle(void);
-     BITMAPINFO   *GetBitmapInfo(void) { return &m_sBitmapInfo; };
-     void         *GetBitmapBits(void) { return m_pBitmapData; };
      HBITMAP       GetMaskBitmapHandle(void);
-     BYTE         *Bits(int32 x, int32 y);
-     void          SaveBitmap(char *szFile);
-
+     void          UpdateHistogram(WORD *pHist);
+     void          ConvertTo256Color(WORD            *pHist,
+                                     RGBQUAD         *pColorTable);
+     void          SaveBitmap(char    *szFile, 
+                              RGBQUAD *pColorTable);
+	 virtual void  SetPalette(HPALETTE hPal);
+	 
     protected:
 
      void          CreateMaskBitmap(void);
@@ -60,9 +65,9 @@ class Win32Bitmap : public Bitmap
     
      HBITMAP     m_hBitmap;
      HBITMAP     m_hMaskBitmap;
-	 BITMAPINFO  m_sBitmapInfo;
-	 void       *m_pBitmapData;
-	 int32       m_iBytesPerLine, m_iHeight, m_iWidth;
+	 int32       m_iHeight, m_iWidth;
+     void       *m_pBitmapData;
+	 HPALETTE    m_hPal;
 };
 
 #endif

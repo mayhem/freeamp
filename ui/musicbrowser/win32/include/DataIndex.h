@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DataIndex.h,v 1.6 1999/12/28 02:53:30 elrod Exp $
+        $Id: DataIndex.h,v 1.7 2000/01/04 19:07:56 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DATAINDEX_H_
@@ -104,6 +104,7 @@ class TreeDataIndex
       vector<TreeData> m_oTreeData;  
 };
 
-
+bool operator<(const TreeData &A, const TreeData &b);
+bool operator==(const TreeData &A, const TreeData &b);
 
 #endif

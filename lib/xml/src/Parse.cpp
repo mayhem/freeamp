@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.3 1999/11/05 01:19:38 robert Exp $
+   $Id: Parse.cpp,v 1.4 2000/01/04 19:07:43 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -260,7 +260,7 @@ void Parse::GetErrorString(string &oError)
     
     szError = new char[m_oLastError.length() + 100];
     sprintf(szError, "%s on line %d.", 
-            m_oLastError.c_str(), m_iErrorLine);
+            m_oLastError.c_str(), m_iErrorLine - 1);
     oError = string(szError);
     delete szError;
 }

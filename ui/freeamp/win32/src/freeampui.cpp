@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.29 1999/03/14 08:49:19 elrod Exp $
+	$Id: freeampui.cpp,v 1.30 1999/03/15 02:00:47 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -913,7 +913,7 @@ Notify(int32 command, LPNMHDR notifyMsgHdr)
                     lpttt->lpszText = "Previous Song"; 
                     break;
                 case kPlaylistControl:
-                    lpttt->lpszText = "Display Playlist (disabled)"; 
+                    lpttt->lpszText = "Open Playlist"; 
                     break;
                 case kSongInfoControl:
                     lpttt->lpszText = "Change Display Mode"; 
@@ -941,13 +941,22 @@ Notify(int32 command, LPNMHDR notifyMsgHdr)
                         m_volumeInfoView->Show();
 
                         uint32 volume;
+                        MMRESULT result;
 
-                        waveOutGetVolume((HWAVEOUT)WAVE_MAPPER, (DWORD*)&volume);
+                        //result = waveOutSetVolume((HWAVEOUT)WAVE_MAPPER, MAKELONG(0x5000, 0x5000));
 
-                        //volume = (uint32)(100 * ((float)LOWORD(volume)/(float)0xffff));
+                        result = waveOutGetVolume((HWAVEOUT)WAVE_MAPPER, (DWORD*)&volume);
 
-                        m_volumeInfoView->SetVolume(volume);
-
+                        if(result == MMSYSERR_NOERROR) 
+                        {
+                            volume = (uint32)(100 * ((float)LOWORD(volume)/(float)0xffff));
+                            m_volumeInfoView->SetVolume(volume);
+                        }
+                        else
+                        {
+                            m_volumeInfoView->SetVolume(666);
+                        }
+                        
                         break;
                     }
 

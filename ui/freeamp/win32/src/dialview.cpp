@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dialview.cpp,v 1.2 1999/03/14 08:27:04 elrod Exp $
+	$Id: dialview.cpp,v 1.3 1999/03/15 02:00:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -170,7 +170,7 @@ LeftButtonDown(int32 x, int32 y, int32 modifiers)
     ShowCursor(FALSE);
 
     MapWindowPoints(Window(), HWND_DESKTOP, (LPPOINT)&rect, 2);
-    ClipCursor(&rect);
+    //ClipCursor(&rect);
 
     NMHDR nmhdr;
 

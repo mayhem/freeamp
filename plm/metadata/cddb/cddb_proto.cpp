@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb_proto.cpp,v 1.3 2000/03/21 23:24:55 elrod Exp $
+	$Id: cddb_proto.cpp,v 1.4 2000/03/22 06:06:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -40,6 +40,7 @@ ____________________________________________________________________________*/
 #include <netdb.h>
 #include <pwd.h>
 #include <unistd.h>
+#define closesocket(z) close(z)
 #else
 #include <winsock.h>
 #endif // WIN32

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.51 2000/03/17 23:19:13 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.52 2000/03/22 06:06:52 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -148,11 +148,13 @@ plugins/download.ui: $(DOWNLOADUIOBJ)
 #	$(LINKMOD) -o $@ $(DOWNLOADUIOBJ) $(STATICLD)
 
 # musicbrowser ui
-UNIXMUSICBROWSEROBJ  = ui/musicbrowser/unix/src/gtkmusicbrowser.o 
+UNIXMUSICBROWSEROBJ  = ui/musicbrowser/unix/src/gtkmusicbrowser.o
+UNIXMUSICBROWSEROBJ += ui/musicbrowser/unix/src/browsermenu.o
+UNIXMUSICBROWSEROBJ += ui/musicbrowser/unix/src/browsertree.o
+UNIXMUSICBROWSEROBJ += ui/musicbrowser/unix/src/browserlist.o
 UNIXMUSICBROWSEROBJ += ui/musicbrowser/unix/src/musicbrowser.o 
 UNIXMUSICBROWSEROBJ += ui/musicbrowser/unix/src/infoeditor.o 
 UNIXMUSICBROWSEROBJ += ui/musicbrowser/unix/src/fileselector.o 
-UNIXMUSICBROWSEROBJ += ui/musicbrowser/unix/src/browsermenu.o 
 UNIXMUSICBROWSEROBJ += ui/musicbrowser/unix/src/musicsearch.o 
 UNIXMUSICBROWSEROBJ += ui/musicbrowser/unix/src/gtkmessagedialog.o 
 UNIXMUSICBROWSEROBJ += ui/musicbrowser/unix/src/introwizard.o

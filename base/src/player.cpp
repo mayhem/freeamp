@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.82 1999/03/05 23:17:20 robert Exp $
+        $Id: player.cpp,v 1.83 1999/03/05 23:42:20 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -722,11 +722,11 @@ void Player::CreateLMC(PlayListItem * pc, Event * pC)
       m_lmc = NULL;
    }
 
-   pmi_item = ChoosePMI(pc->m_url);
+   pmi_item = ChoosePMI(pc->URL());
    if (!pmi_item)
    {
       g_Log->Error("Cannot determine what pmi to use for %s\n",
-                   pc->m_url);
+                   pc->URL());
       return;
    }
 
@@ -768,7 +768,7 @@ void Player::CreateLMC(PlayListItem * pc, Event * pC)
       }
       pmo = NULL;
 
-      error = lmc->SetTo(pc->m_url);
+      error = lmc->SetTo(pc->URL());
       if (IsError(error))
       {
          g_Log->Error("Cannot initialize input lmc: %d\n", error);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.10 1999/03/06 23:12:42 robert Exp $
+        $Id: obsinput.cpp,v 1.11 1999/03/08 02:16:54 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -199,17 +199,33 @@ int32 ObsInput::GetNumBytesInBuffer()
    return 0;
 }
 
-void ObsInput:: Pause()
+void ObsInput::Pause()
 {
    if (m_pPullBuffer)
+   {
+      m_pPullBuffer->DidDiscardBytes();
       m_pPullBuffer->Pause();
+   }
 }
 
-void ObsInput::
-Resume()
+void ObsInput::Break()
 {
    if (m_pPullBuffer)
-      m_pPullBuffer->Resume();
+       m_pPullBuffer->BreakBlocks();
+}
+
+bool ObsInput::Resume()
+{
+   bool bRet;
+
+   if (!m_pPullBuffer)
+      return false;
+
+   bRet = m_pPullBuffer->DidDiscardBytes();
+
+   m_pPullBuffer->Resume();
+
+   return bRet;
 }
 
 Error     ObsInput::

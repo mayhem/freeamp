@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: streambuffer.h,v 1.3 1999/03/04 07:23:47 robert Exp $
+   $Id: streambuffer.h,v 1.4 1999/03/08 02:16:53 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _STREAMBUFFER_H_
@@ -48,10 +48,11 @@ class StreamBuffer : public PullBuffer
 		                  { m_bPause = true; };     
 		virtual  void     Resume()
 		                  { m_bPause = false; };     
+      virtual  bool     DidDiscardBytes();
 
     protected:
 
-	   bool      m_bBufferingUp, m_bPause;
+	   bool      m_bBufferingUp, m_bPause, m_bDiscardedBytes;
 		Mutex    *m_pStreamMutex;
 };
 

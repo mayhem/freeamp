@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.12 1999/03/07 20:59:33 robert Exp $
+   $Id: pullbuffer.cpp,v 1.13 1999/03/08 02:16:57 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -179,8 +179,11 @@ Error PullBuffer::Resize(size_t iNewSize,
 {
    unsigned char *pNew;
 
-   if (iNewSize <= m_iBufferSize)
+   if (iNewSize < m_iBytesInBuffer)
+   {
+       g_Log->Error("Pullbuffer: Not resized. Too many bytes in buffer.\n");
        return kError_BufferTooSmall;
+   }
 
    // Nothing should've been read from the buffer yet!
    if (m_iReadIndex != 0)

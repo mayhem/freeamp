@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.cpp,v 1.14 1999/02/08 00:03:12 jdw Exp $
+	$Id: fawindow.cpp,v 1.15 1999/03/08 02:17:01 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -341,7 +341,7 @@ FALcdWindow::FALcdWindow(Display *display, int32 screen_num,GC gc, Window parent
     strcpy(m_text,"Welcome to FreeAmp");
     m_mainTextWiggleBegin = 0;
     m_wiggleLeft = false;
-    m_displayState = TotalTimeState;
+    m_displayState = CurrentTimeState;
     m_totalHours = m_totalMinutes = m_totalSeconds = m_currHours = m_currMinutes = m_currSeconds = 0;
 };
 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: log.cpp,v 1.1 1999/02/13 01:35:36 robert Exp $
+        $Id: log.cpp,v 1.2 1999/03/08 02:16:46 robert Exp $
 ____________________________________________________________________________*/
 #include <stdio.h>
 #include <stdarg.h>
@@ -54,6 +54,9 @@ LogFile::~LogFile(void)
 bool LogFile::Open(void)
 {
     m_fpLog = fopen(m_szLogFile, "a");
+    if (m_fpLog == NULL)
+       printf("Cannot open logfile freeamp.log\n");
+
     return m_fpLog != NULL;
 }
 
@@ -71,8 +74,7 @@ void LogFile::Error(char *format, ...)
     va_list argptr;
 
     if (m_fpLog == NULL)
-        if (!Open())
-           return;
+       return;
 
     szBuffer = new char[iMaxLogLineLen];
 

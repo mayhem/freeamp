@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.31 1999/03/07 20:59:19 robert Exp $
+        $Id: player.h,v 1.32 1999/03/08 02:16:45 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -127,6 +127,7 @@ class     Player:public EventQueue, Properties, PropertyWatcher
 
    PropertiesImpl m_props;
    bool      m_didUsage;
+   bool      m_autoplay;
    Preferences *m_prefs;
    Semaphore *m_pTermSem;
    static Player *m_thePlayer;

@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.24 1999/03/07 20:59:35 robert Exp $
+   $Id: xinglmc.h,v 1.25 1999/03/08 02:16:59 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -117,7 +117,8 @@ class     XingLMC:public LogicalMediaConverter
 
    static void DecodeWorkerThreadFunc(void *);
    void        DecodeWork();
-	Error       BeginRead(void *&pBuffer, unsigned int iBytesNeeded);
+	Error       BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
+                         bool bBufferUp = true);
 	Error       AdvanceBufferToNextFrame();
 	Error       GetHeadInfo();
 
@@ -131,7 +132,7 @@ class     XingLMC:public LogicalMediaConverter
    PhysicalMediaOutput *m_output;
 
    int       m_iMaxWriteSize;
-   int       m_frameBytes, m_iBufferUpBytes;
+   int       m_frameBytes, m_iBufferUpInterval, m_iBufferSize;
 	MPEG_HEAD m_sMpegHead;
 	int32     m_iBitRate;
    bool      m_isPaused, m_bBufferingUp;

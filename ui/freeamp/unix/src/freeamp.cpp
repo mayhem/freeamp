@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.22 1999/03/06 23:12:47 robert Exp $
+	$Id: freeamp.cpp,v 1.23 1999/03/08 02:17:02 robert Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -843,7 +843,6 @@ void FreeAmpUI::SeekDialFunction(void *p, int32 c,int32 x,int32 y) {
 	case 0: {
 	    pMe->m_seekDelta = 0;
 	    pMe->m_currSeconds = pMe->m_seekSeconds;
-       printf("Seek to: %d\n", pMe->m_seekSeconds);
 	    int32 s = pMe->m_seekSeconds;
 	    int32 h = s / 3600;
 	    int32 m = (s % 3600) / 60;

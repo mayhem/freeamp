@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.11 1998/10/24 00:39:28 jdw Exp $
+##      $Id: Makefile.am,v 1.12 1998/10/26 19:45:52 jdw Exp $
 ##
 ############################################################################
 
@@ -61,6 +61,21 @@ INCLUDES = -I@top_srcdir@/base/include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS)
 CXXFLAGS = $(EXTRA_CXXFLAGS) -D__@target_os@__ -Wl,-export-dynamic
 
 
+install_plugins:
+	$(mkinstalldirs) $(DESTDIR)$(libdir)/freeamp/plugins
+	@list=`ls plugins/*.*`; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo "  $(INSTALL_PROGRAM) $$p $(DESTDIR)$(libdir)/freeamp/`echo $$p|sed '$(transform)'`"; \
+	     $(INSTALL_PROGRAM) $$p $(DESTDIR)$(libdir)/freeamp/`echo $$p|sed '$(transform)'`; \
+	  else :; fi; \
+	done
 
+uninstall_plugins:
+	@list=`ls plugins/*.*`; for p in $$list; do \
+	  if test -f $(DESTDIR)$(libdir)/freeamp/$$p; then \
+	    echo "  rm -f $(DESTDIR)$(libdir)/freeamp/`echo $$p|sed '$(transform)'`"; \
+	    rm -f $(DESTDIR)$(libdir)/freeamp/`echo $$p|sed '$(transform)'`; \
+	  else :; fi; \
+	done
 
 

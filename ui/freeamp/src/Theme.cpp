@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.12 1999/11/18 01:42:36 robert Exp $
+   $Id: Theme.cpp,v 1.13 1999/11/19 01:01:11 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -98,6 +98,7 @@ Theme::Theme(FAContext *context)
     m_eCurrentControl = eUndefinedControl;
     m_pThemeMan = new ThemeManager(m_pContext);
     m_bThemeLoaded = false;
+    m_bCreditsShown = false;
     
     string funkyName = "Frunobulax"; 
 #ifdef WIN32
@@ -1073,7 +1074,15 @@ void Theme::PostWindowCreate(void)
 void Theme::ShowThemeCredits(void)
 {
     string oText;
+
+    if (m_bCreditsShown)
+    {
+       m_bCreditsShown = false;
+       m_pWindow->ControlStringValue("Title", true, m_oSavedText);
+       return;
+    }
     
+    m_pWindow->ControlStringValue("Title", false, m_oSavedText);
     if (m_oThemeName.size() > 0)
     {
         oText = m_oThemeName;
@@ -1091,4 +1100,5 @@ void Theme::ShowThemeCredits(void)
        oText = "<No theme credit info available>";
        
     m_pWindow->ControlStringValue("Title", true, oText);
+    m_bCreditsShown = true;
 }

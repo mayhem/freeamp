@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.12 1999/10/15 23:15:14 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.13 1999/10/16 21:52:20 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -43,25 +43,6 @@ static int pControls[] =
    IDC_PLAYLISTBOX,
    IDC_PLAYLISTCOMBO,
    IDC_SEARCH,        
-   IDC_COLLAPSE,      
-   IDC_UP,            
-   IDC_DELETE,        
-   IDC_ADD,           
-   IDC_DOWN,          
-   IDC_NEWLIST,       
-   IDC_CLEARLIST,
-   -1     
-};   
-
-static int pBottomControls[] =
-{
-   IDC_COLLAPSE,      
-   IDC_SEARCH,        
-   -1     
-};   
-
-static int pSideControls[] =
-{
    IDC_UP,            
    IDC_DELETE,        
    IDC_ADD,           
@@ -76,6 +57,7 @@ const char* kAudioFileFilter =
             "*.mpg;*.mp1;*.mp2;*.mp3;*.mpp\0"
             "All Files (*.*)\0"
             "*.*\0";
+
 
 bool  FileOpenDialog(HWND hwnd, 
                      const char* title,
@@ -125,6 +107,7 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
         case WM_INITDIALOG:
         {
         	g_ui->InitDialog(hwnd);
+        	g_ui->SetMinMaxInfo();
             return 1;
         }
 
@@ -142,13 +125,6 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
 		case WM_NOTIFY:
             return g_ui->Notify(wParam, (LPNMHDR)lParam);
             
-        case WM_SHOWWINDOW:
-        {
-            assert(g_ui != NULL);
-            
-        	g_ui->SetMinMaxInfo();
-            return 1;
-		}
 //		case WM_GETMINMAXINFO:
 //            g_ui->GetMinMaxInfo((MINMAXINFO *)lParam);
 //            break;
@@ -186,6 +162,13 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
                 case IDC_PLAYLISTCOMBO:
                    if (HIWORD(wParam) == CBN_SELCHANGE)
                        g_ui->PlaylistComboChanged();
+                return 1;
+                case ID_VIEW_MUSICCATALOG:
+                   g_ui->ExpandCollapseEvent();
+                return 1;
+                case ID_FILE_OPENPLAYLIST:
+                   g_ui->OpenPlaylist();
+                return 1;
             }    
         }        
     }
@@ -248,34 +231,47 @@ void MusicBrowserUI::HideBrowser(void)
 
 void MusicBrowserUI::ExpandCollapseEvent(void)
 {
-    RECT sControl, sWindow;
+    RECT         sWindow;
+    HMENU        hMenu;
+    MENUITEMINFO sItem;
     
     GetWindowRect(m_hWnd, &sWindow);
     if (m_state == STATE_COLLAPSED)
     {
-       GetWindowRect(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sControl);
-	   MoveControls(sControl.right - sControl.left + iSpacer);
-       
        m_state = STATE_EXPANDED;
        SetWindowText(GetDlgItem(m_hWnd, IDC_COLLAPSE), "<< Collapse");
        SetWindowText(m_hWnd, "Music Browser");
+       sItem.dwTypeData = "View &playlist only";
+       
+       SetWindowPos(m_hWnd, NULL, 0, 0, 
+        			(sWindow.right - sWindow.left) + m_iCollapseMoveAmount,
+                    sWindow.bottom - sWindow.top,
+                    SWP_NOMOVE);
+       
+	   MoveControls(m_iCollapseMoveAmount);
     }            
     else
     {                
-       RECT sTemp;
-       
-       GetWindowRect(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sTemp);
-	   MoveControls(-(sTemp.right - sWindow.left));
        m_state = STATE_COLLAPSED;
        SetWindowText(GetDlgItem(m_hWnd, IDC_COLLAPSE), "Expand >>");
        SetWindowText(m_hWnd, "Playlist Manager");
-    }
+       sItem.dwTypeData = "View &music browser";
        
-    GetWindowRect(GetDlgItem(m_hWnd, IDC_UP), &sControl);
-    SetWindowPos(m_hWnd, HWND_TOP, 0, 0, 
-    			(sControl.right - sWindow.left) + iSpacer,
-                 sWindow.bottom - sWindow.top,
-                 SWP_NOMOVE);
+       SetWindowPos(m_hWnd, NULL, 0, 0, 
+        			(sWindow.right - sWindow.left) - m_iCollapseMoveAmount,
+                    sWindow.bottom - sWindow.top,
+                    SWP_NOMOVE);
+       
+	   MoveControls(-m_iCollapseMoveAmount);
+    }
+
+    hMenu = GetMenu(m_hWnd);
+    hMenu = GetSubMenu(hMenu, 2);
+    sItem.cbSize = sizeof(MENUITEMINFO);
+    sItem.fMask = MIIM_TYPE;
+    sItem.fType = MFT_STRING;
+    sItem.cch = strlen(sItem.dwTypeData);
+    SetMenuItemInfo(hMenu, ID_VIEW_MUSICCATALOG, false, &sItem);
 }
 
 void MusicBrowserUI::MoveControls(int iPixelsToMove)
@@ -298,100 +294,6 @@ void MusicBrowserUI::MoveControls(int iPixelsToMove)
 
 void MusicBrowserUI::SizeWindow(int iWidth, int iHeight)
 {
-#if 0
-    RECT   sRect, sClient;
-    POINT  sPoint, sClientPoint;
-    int   *iIndex, iSpaceLeftX, iSpaceLeftY, iCenterPost;
-
-    GetWindowRect(m_hWnd, &sClient);
-    sPoint.x = sClient.right;
-    sPoint.y = sClient.bottom;
-    ScreenToClient(m_hWnd, &sPoint);
-
-	// Move the close button
-    GetWindowRect(GetDlgItem(m_hWnd, IDOK), &sRect);
-	SetWindowPos(GetDlgItem(m_hWnd, IDOK), NULL,
-       sPoint.x - m_iXMargin - (sRect.right - sRect.left),
-       sPoint.y - m_iYMargin - (sRect.bottom - sRect.top),
-       0, 0, SWP_NOZORDER | SWP_NOSIZE);
-
-    GetWindowRect(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sRect);
-    iSpaceLeftX = (sClient.right - sClient.left) - m_iXListMargin;
-    iSpaceLeftY = (sClient.bottom - sRect.top) - m_iYListMargin;
-
-	SetWindowPos(GetDlgItem(m_hWnd, IDC_MUSICTREE), NULL,
-       0, 0,
-       (iSpaceLeftX - (m_iLeftListMargin + m_iCenterListMargin)) / 2,
-       iSpaceLeftY,
-       SWP_NOMOVE | SWP_NOZORDER);
-
-	// move the combo box
-  	GetWindowRect(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sRect);
-    sClientPoint.x = sRect.right;
-  	GetWindowRect(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), &sRect);
-    sClientPoint.y = sRect.top;
-    ScreenToClient(m_hWnd, &sClientPoint);
-	SetWindowPos(GetDlgItem(m_hWnd, IDC_PLAYLISTCOMBO), NULL,
-       sClientPoint.x + m_iCenterListMargin, sClientPoint.y,
-       (iSpaceLeftX - (m_iLeftListMargin + m_iCenterListMargin)) / 2,
-       sRect.bottom - sRect.top,
-       SWP_NOZORDER);
-
-	// Move the playlistbox
-  	GetWindowRect(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sRect);
-    sClientPoint.x = sRect.right;
-  	GetWindowRect(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), &sRect);
-    sClientPoint.y = sRect.top;
-    ScreenToClient(m_hWnd, &sClientPoint);
-	SetWindowPos(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), NULL,
-       sClientPoint.x + m_iCenterListMargin, 
-       sClientPoint.y,
-       (iSpaceLeftX - (m_iLeftListMargin + m_iCenterListMargin)) / 2,
-       sClient.bottom - sRect.top - m_iYListMargin,
-       SWP_NOZORDER);
-
-	iCenterPost = sClientPoint.x + m_iCenterListMargin; 
-
-	// Move search button
-    GetWindowRect(GetDlgItem(m_hWnd, IDC_SEARCH), &sRect);
-    sClientPoint.x = sRect.left;
-    sClientPoint.y = sRect.top;
-    ScreenToClient(m_hWnd, &sClientPoint);
-
-	SetWindowPos(GetDlgItem(m_hWnd, IDC_SEARCH), NULL,
-       sClientPoint.x,
-       sPoint.y - m_iYMargin - (sRect.bottom - sRect.top),
-       0, 0, SWP_NOZORDER | SWP_NOSIZE);
-
-	// Move collapse/expand button
-	SetWindowPos(GetDlgItem(m_hWnd, IDC_COLLAPSE), NULL,
-       iCenterPost,
-       sPoint.y - m_iYMargin - (sRect.bottom - sRect.top),
-       0, 0, SWP_NOZORDER | SWP_NOSIZE);
-
-	// Move the playlist text
-    GetWindowRect(GetDlgItem(m_hWnd, IDC_PLAYLISTTEXT), &sRect);
-    sClientPoint.x = sRect.left;
-    sClientPoint.y = sRect.top;
-    ScreenToClient(m_hWnd, &sClientPoint);
-	SetWindowPos(GetDlgItem(m_hWnd, IDC_PLAYLISTTEXT), NULL,
-       iCenterPost, sClientPoint.y,
-       0, 0, SWP_NOZORDER | SWP_NOSIZE);
-
-	// move the side controls
-    for(iIndex = pSideControls; *iIndex >= 0; iIndex++)
-    {
-    	GetWindowRect(GetDlgItem(m_hWnd, *iIndex), &sRect);
-        sClientPoint.x = sRect.left;
-        sClientPoint.y = sRect.top;
-        ScreenToClient(m_hWnd, &sClientPoint);
-        
-	    SetWindowPos(GetDlgItem(m_hWnd, *iIndex), NULL,
-           sPoint.x - m_iXMargin - (sRect.right - sRect.left),
-           sClientPoint.y,
-           0, 0, SWP_NOZORDER | SWP_NOSIZE);
-    }
-#endif                     
 }
 
 void MusicBrowserUI::GetMinMaxInfo(MINMAXINFO *pInfo)
@@ -407,26 +309,11 @@ void MusicBrowserUI::GetMinMaxInfo(MINMAXINFO *pInfo)
 
 void MusicBrowserUI::SetMinMaxInfo(void)
 {
-    RECT         sRect, sCloseRect, sListRect, sTreeRect;
+	RECT  sLoc, sLoc2;
     
-    if (m_sMinSize.x >= 0)
-       return;
-       
-    GetWindowRect(m_hWnd, &sRect);
-    m_sMinSize.x = sRect.right - sRect.left;
-    m_sMinSize.y = sRect.bottom - sRect.top;
-    
-    GetWindowRect(GetDlgItem(m_hWnd, IDOK), &sCloseRect);
-    m_iXMargin = sRect.right - sCloseRect.right;
-    m_iYMargin = sRect.bottom - sCloseRect.bottom;
-
-    GetWindowRect(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), &sListRect);
-    m_iXListMargin = sRect.right - sListRect.right;
-    m_iYListMargin = sRect.bottom - sListRect.bottom;
-
-    GetWindowRect(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sTreeRect);
-    m_iLeftListMargin = sTreeRect.left - sRect.left;
-    m_iCenterListMargin	= sListRect.left - sTreeRect.right;
+	GetWindowRect(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sLoc);
+	GetWindowRect(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), &sLoc2);
+    m_iCollapseMoveAmount = sLoc2.left - sLoc.left;
 }
 
 void MusicBrowserUI::InitDialog(HWND hWnd)
@@ -464,6 +351,8 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     InitTree();                      
     InitList();
     FillPlaylistCombo();
+
+    m_context->plm->SetActivePlaylist(kPlaylistKey_MasterPlaylist);
     
     m_hStatus= CreateStatusWindow(WS_CHILD | WS_VISIBLE,
                                   "", m_hWnd, IDC_STATUS);
@@ -587,8 +476,8 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
             TV_ITEM sItem;
             TV_HITTESTINFO tv_htinfo;
 
+            memset(&tv_htinfo, 0, sizeof(TV_HITTESTINFO));
             GetCursorPos(&tv_htinfo.pt);
-
             ScreenToClient(GetDlgItem(m_hWnd, IDC_MUSICTREE), &tv_htinfo.pt);
 
             if(TreeView_HitTest(GetDlgItem(m_hWnd, IDC_MUSICTREE), &tv_htinfo))
@@ -611,8 +500,12 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
                     else    
                         if (m_oMusicCrossRefs[sItem.lParam].iLevel == 3)
                         {
-                            m_context->plm->AddItem(m_oMusicCrossRefs[sItem.lParam].pTrack);
+                            PlaylistItem *item;
+                            
+                            item = new PlaylistItem(*m_oMusicCrossRefs[sItem.lParam].pTrack);
+                            m_context->plm->AddItem(item, false);
                             UpdatePlaylistList();
+                            m_bListChanged = true;
                         }    
                 }          
             }
@@ -847,8 +740,12 @@ void MusicBrowserUI::WritePlaylist(void)
     Error              eRet = kError_NoErr;
 
     if (!m_bListChanged || m_currentListName.length() == 0)
+    {
+       Debug_v("Skipping write -- master playlist or playlist not changed");
        return;
-    
+    }   
+
+    Debug_v("Saving playlist %s", m_currentListName.c_str());
     _splitpath(m_currentListName.c_str(), NULL, NULL, NULL, ext);
     for(i = 0; ; i++)
     {
@@ -954,6 +851,31 @@ void MusicBrowserUI::CreatePlaylist(void)
 {
 }
 
+//    const char* kPlaylistFileFilter =
+//            "MPEG Audio Streams (.mpg, .mp1, .mp2, .mp3, .mpp)\0"
+//            "*.mpg;*.mp1;*.mp2;*.mp3;*.mpp\0"
+//            "All Files (*.*)\0"
+//            "*.*\0";
+
+void MusicBrowserUI::OpenPlaylist(void)
+{
+    int32              i, offset = 0;
+    PlaylistFormatInfo format;
+    char               szFilter[512];
+        
+    for(i = 0; ; i++)
+    {
+       if (m_context->plm->GetSupportedPlaylistFormats(&format, i) != kError_NoErr)
+          break;
+    
+//       strcpy(szFilter
+       
+       Debug_v("Ext: '%s' Desc: '%s'", 
+            format.GetExtension(),
+            format.GetDescription());
+    }
+    
+}
 
 void MusicBrowserUI::AddEvent(void)
 {

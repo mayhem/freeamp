@@ -180,10 +180,6 @@ PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\..\..\base\src\database.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\..\base\src\debug.cpp
 # End Source File
 # Begin Source File
@@ -230,6 +226,10 @@ SOURCE=..\res\musicbrowser.rc
 # Begin Group "common"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\..\base\src\database.cpp
+# End Source File
 # Begin Source File
 
 SOURCE=..\..\..\..\base\src\downloadmanager.cpp

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.1.2.9 1999/10/15 23:15:13 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.1.2.10 1999/10/16 21:52:16 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -90,6 +90,8 @@ class MusicBrowserUI : public UserInterface
     void  DeleteEvent(void);
     void  DeleteListEvent(void);
     void  PlaylistComboChanged(void);
+    void  OpenPlaylist(void);
+    
  
  protected:
     FAContext *m_context;
@@ -133,18 +135,17 @@ class MusicBrowserUI : public UserInterface
 
     EventQueue          *m_playerEQ;
     int32                m_state, m_startupType;
-    uint32               m_currentindex;
+    int32                m_currentindex;
   	HWND                 m_hWnd, m_hStatus;		
     PlaylistManager     *m_plm;
-    bool                 m_initialized, isVisible, m_bListChanged;
+    bool                 m_initialized, isVisible, m_bListChanged, 
+                         m_bSearchInProgress;
     string               m_currentListName;
     Thread              *m_uiThread;
     POINT                m_sMinSize;
-    int                  m_iXMargin, m_iYMargin;
-    int                  m_iXListMargin, m_iYListMargin;
-    int                  m_iLeftListMargin, m_iCenterListMargin;
     HTREEITEM	         m_hPlaylistItem, m_hCatalogItem;
     vector<TreeCrossRef> m_oMusicCrossRefs;
+    int                  m_iCollapseMoveAmount;
 };
 
 #endif

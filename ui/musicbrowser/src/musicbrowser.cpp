@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.7 1999/10/15 23:03:04 robert Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.8 1999/10/16 21:52:14 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -59,6 +59,7 @@ MusicBrowserUI::MusicBrowserUI(FAContext *context)
     m_hWnd = NULL;    
     m_sMinSize.x = -1;
     m_bListChanged = false;
+    m_bSearchInProgress = false;
 #endif
 }
 
@@ -168,8 +169,16 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 gdk_threads_leave();
             }
 #else
-            SendMessage(m_hStatus, SB_SETTEXT, 0, 
-                        (LPARAM)"Music search completed.");
+            if (m_bSearchInProgress)
+                SendMessage(m_hStatus, SB_SETTEXT, 0, 
+                            (LPARAM)"Music search completed.");
+            else                
+                SendMessage(m_hStatus, SB_SETTEXT, 0, 
+                            (LPARAM)"Music search interrupted -- your database may be incomplete.");
+                            
+            SetWindowText(GetDlgItem(m_hWnd, IDC_SEARCH), "Music Search");
+            m_bSearchInProgress = false;
+                        
             InitTree();
             FillPlaylistCombo();
 #endif                
@@ -313,13 +322,13 @@ void MusicBrowserUI::AddTrackPlaylistEvent(char *path)
 
 void MusicBrowserUI::AddTrackPlaylistEvent(PlaylistItem *newitem)
 {
-    m_plm->AddItem(newitem, m_currentindex);
+    m_plm->AddItem(newitem, m_currentindex, false);
     UpdatePlaylistList();
 }
 
 void MusicBrowserUI::AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist)
 {
-    m_plm->AddItems(newlist, m_currentindex);
+    m_plm->AddItems(newlist, m_currentindex, false);
     UpdatePlaylistList();
 }
 
@@ -331,13 +340,23 @@ void MusicBrowserUI::PlayEvent(void)
 
 void MusicBrowserUI::StartMusicSearch(void)
 {
+    vector<string> oPathList;
 #if HAVE_GTK
-    m_context->browser->SearchMusic(ROOT_DIR);
+    
+    oPathList.push_back(string(ROOT_DIR));
+    m_context->browser->SearchMusic(oPathList);
 #else
     DWORD  dwDrives;
     char  *szPath = "X:\\";
     int32  i, ret;
 
+    if (m_bSearchInProgress)
+    {
+        m_bSearchInProgress = false;
+        m_context->browser->StopSearchMusic();
+        return;
+    }
+        
     dwDrives = GetLogicalDrives();
     for(i = 0; i < sizeof(DWORD) * 8; i++)
     {
@@ -346,9 +365,13 @@ void MusicBrowserUI::StartMusicSearch(void)
           szPath[0] = 'A' + i;
           ret = GetDriveType(szPath);
           if (ret != DRIVE_CDROM && ret != DRIVE_REMOVABLE)
-             m_context->browser->SearchMusic(szPath);
+              oPathList.push_back(string(szPath));
        }   
     }
+    m_context->browser->SearchMusic(oPathList);
+
+    m_bSearchInProgress = true;
+    SetWindowText(GetDlgItem(m_hWnd, IDC_SEARCH), "Stop Search");
 #endif    
 }
 

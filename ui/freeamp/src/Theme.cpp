@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.22 1999/12/17 03:23:23 ijr Exp $
+   $Id: Theme.cpp,v 1.22.2.1 2000/01/04 02:17:06 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -202,7 +202,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
 
             oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
             return kError_InvalidParam;
-        }    
+        }   
         SetThemePath(oTempPath);
 	 
         eRet = oZip.DecompressThemeZip(oFile, oTempPath);

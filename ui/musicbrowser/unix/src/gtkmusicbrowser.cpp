@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.48.2.4 2000/01/04 01:28:21 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.48.2.5 2000/01/04 02:17:06 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -2602,7 +2602,7 @@ void GTKMusicBrowser::Close(bool inMain)
         }
     }
  
-    if (m_plm) 
+    if (m_plm && m_currentListName.length() != 0) 
         SaveCurrentPlaylist(NULL);
 
     if (m_initialized) {

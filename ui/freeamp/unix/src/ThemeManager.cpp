@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.10 1999/12/22 17:23:14 ijr Exp $
+   $Id: ThemeManager.cpp,v 1.10.2.1 2000/01/04 02:17:06 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -69,13 +69,17 @@ Error ThemeManager::GetDefaultTheme(string &oThemePath)
 
     GetThemeList(oThemeList);
 
-    string themeName = BRANDING_DEFAULT_THEME;
+    char *themeName = new char[strlen(BRANDING_DEFAULT_THEME) + 1];
+    strcpy(themeName, BRANDING_DEFAULT_THEME);
+
     char *dot;
 
-    if ((dot = strchr(themeName.c_str(), '.')))
+    if ((dot = strchr(themeName, '.')))
         *dot = '\0';
 
-    oThemePath = oThemeList[themeName];
+    string strName = themeName;
+
+    oThemePath = oThemeList[strName];
 
     return kError_NoErr;
 }

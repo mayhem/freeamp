@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.18.2.3 2000/01/04 01:28:21 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.18.2.4 2000/01/04 02:17:06 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -41,6 +41,7 @@ UserInterface *Initialize(FAContext *context) {
 MusicBrowserUI::MusicBrowserUI(FAContext *context)
 {
     m_context = context;
+    closedAlready = false;
     searching = NULL;
 }
 
@@ -155,6 +156,10 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
 {
     switch (event->Type()) {
         case CMD_Cleanup: {
+            if (closedAlready)
+                break;
+
+            closedAlready = true;
             mainBrowser->Close(false);
             delete mainBrowser;
 

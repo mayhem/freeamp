@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.61.2.2 2000/01/04 01:28:21 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.61.2.3 2000/01/04 02:17:06 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -221,7 +221,7 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
 
        oThemePath = oThemeList[oBase]; 
    }
-  
+ 
    iLen = 255; 
    m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
    SetDefaultFont(string(szTemp));

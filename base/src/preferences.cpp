@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.20 1999/10/25 10:29:41 elrod Exp $
+        $Id: preferences.cpp,v 1.21 1999/10/25 11:30:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -43,10 +43,6 @@ const char* kInputBufferSizePref = "InputBufferSize";
 const char* kOutputBufferSizePref = "OutputBufferSize";
 const char* kStreamBufferIntervalPref = "StreamBufferInterval";
 const char* kDecoderThreadPriorityPref = "DecoderThreadPriority";
-const char* kWindowPositionLeftPref = "WindowPositionLeft";
-const char* kWindowPositionTopPref = "WindowPositionTop";
-const char* kWindowPositionWidthPref = "WindowPositionWidth";
-const char* kWindowPositionHeightPref = "WindowPositionHeight";
 const char* kSaveStreamsPref = "SaveStreams";
 const char* kSaveStreamsDirPref = "SaveStreamsDirectory";
 const char* kUseProxyPref = "UseProxy";
@@ -541,53 +537,6 @@ GetLogPerformance(bool* value)
 {
     return GetPrefBoolean(kLogPerformancePref, value);
 }
-
-Error 
-Preferences::
-GetWindowPosition(  int32* left,
-                    int32* top,
-                    int32* width,
-                    int32* height)
-{
-    Error result;
-
-    result = GetPrefInt32(kWindowPositionLeftPref, left);
-
-    if(IsntError(result))
-        result = GetPrefInt32(kWindowPositionTopPref, top);
-
-    if(IsntError(result))
-        result = GetPrefInt32(kWindowPositionWidthPref, width);
-
-    if(IsntError(result))
-        result = GetPrefInt32(kWindowPositionHeightPref, height);
-
-    return result;
-}
-
-Error 
-Preferences::
-SetWindowPosition(  int32 left,
-                    int32 top,
-                    int32 width,
-                    int32 height)
-{
-    Error result;
-
-    result = SetPrefInt32(kWindowPositionLeftPref, left);
-
-    if(IsntError(result))
-        result = SetPrefInt32(kWindowPositionTopPref, top);
-
-    if(IsntError(result))
-        result = SetPrefInt32(kWindowPositionWidthPref, width);
-
-    if(IsntError(result))
-        result = SetPrefInt32(kWindowPositionHeightPref, height);
-
-    return result;
-}
-
 
 Error 
 Preferences::

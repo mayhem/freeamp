@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32prefs.cpp,v 1.8 1999/10/19 07:12:57 elrod Exp $
+	$Id: win32prefs.cpp,v 1.9 1999/10/25 11:30:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -275,7 +275,7 @@ SetDefaults()
     char buf[1024];
     uint32 size;
     bool dummyBool;
-    int32 dummyInt32;
+    //int32 dummyInt32;
 
     // Where are we starting the program from?
     GetCurrentDirectory(sizeof(cwd), cwd);
@@ -327,15 +327,6 @@ SetDefaults()
     // set default for minimizing to tray
     if (GetPrefBoolean(kLiveInTrayPref, &dummyBool) == kError_NoPrefValue)
         SetPrefBoolean(kLiveInTrayPref, kDefaultLiveInTray);
-
-    // set default for window position
-    if (GetPrefInt32(kWindowPositionLeftPref, &dummyInt32) == kError_NoPrefValue)
-    {
-        SetPrefInt32(kWindowPositionLeftPref, kDefaultWindowPosition);
-        SetPrefInt32(kWindowPositionTopPref, kDefaultWindowPosition);
-        SetPrefInt32(kWindowPositionWidthPref, kDefaultWindowPosition);
-        SetPrefInt32(kWindowPositionHeightPref, kDefaultWindowPosition);
-    }
 
     Preferences::SetDefaults();
 

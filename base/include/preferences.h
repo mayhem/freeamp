@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.14 1999/10/25 10:29:41 elrod Exp $
+	$Id: preferences.h,v 1.15 1999/10/25 11:30:40 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -44,10 +44,6 @@ extern const char* kInputBufferSizePref;
 extern const char* kOutputBufferSizePref;
 extern const char* kStreamBufferIntervalPref;
 extern const char* kDecoderThreadPriorityPref;
-extern const char* kWindowPositionLeftPref;
-extern const char* kWindowPositionTopPref;
-extern const char* kWindowPositionWidthPref;
-extern const char* kWindowPositionHeightPref;
 extern const char* kUseDebugLogPref;
 extern const char* kLogMainPref;
 extern const char* kLogDecodePref;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: IntroductionWizard.cpp,v 1.16 2000/08/24 19:11:17 ijr Exp $
+        $Id: IntroductionWizard.cpp,v 1.17 2000/08/25 13:35:22 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -820,11 +820,11 @@ static BOOL CALLBACK IntroWizardRelatableTwo(HWND hwnd,
                                 "based on the files located on your computer and the music you\n"
                                 "listen to on the Web. The more you use the player, the better it\n"
                                 "works! Enter a profile name in the window below.  Then start\n"
-                                "listening to music.  After you have listened to a few songs, hit\n"
-                                "the 'Suggest' button on the player to view a personalized music\n"
-                                "playlist.  If you'd like to find music streams that are playing\n"
-                                "songs you like, check out the 'Recommended Streams' item in the\n"
-                                "'My Music' tree.\n\n"
+                                "listening to music.  After you have listened to a few songs,\n"
+                                "select the 'Recommend Playlist' item under the Relatable menu to\n"
+								"view a personalized music playlist.  If you'd like to find music\n"
+								"streams that are playing songs you like, check out the\n"
+								"'Recommended Streams' item in the 'My Music' tree.\n\n"
                                 "Note: You can create additional music profiles by selecting\n"
 			                    "'Profiles' under the 'Options' menu in the My Music window. Check\n"
 								"out the Help menu for details on all the Relatable features,\n"

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.83 2000/06/01 17:15:11 elrod Exp $
+        $Id: Dialog.cpp,v 1.83.4.1 2000/06/05 16:39:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -325,6 +325,7 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
                 case ID_SORT_LOCATION:
                 case ID_SORT_FILENAME:
                 case ID_SORT_RANDOMIZE:
+                case ID_SORT_COMMENT:
                 case IDC_RANDOMIZE:
                     SortEvent(LOWORD(wParam));
                     return 1;

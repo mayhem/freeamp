@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.h,v 1.2 1999/10/19 07:12:46 elrod Exp $
+	$Id: updatemanager.h,v 1.3 1999/11/11 07:46:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UPDATE_MANAGER_H_
@@ -123,7 +123,9 @@ class UpdateManager : public Parse {
     virtual ~UpdateManager();
     
     void SetPlatform(const string& platform) { m_currentPlatform = platform; }
+    void SetArchitecture(const string& arch) { m_currentArchitecture = arch; }
     const string&  GetPlatform() { return m_currentPlatform; }
+    const string&  GetArchitecture() { return m_currentArchitecture; }
     virtual Error DetermineLocalVersions() { return kError_FeatureNotSupported; }
     Error RetrieveLatestVersionInfo(UMCallBackFunction function = NULL,
                                     void* cookie = NULL);
@@ -172,7 +174,9 @@ class UpdateManager : public Parse {
 
     string m_path;
     string m_versionPlatform;
+    string m_versionArchitecture;
     string m_currentPlatform;
+    string m_currentArchitecture;
 
 };
 

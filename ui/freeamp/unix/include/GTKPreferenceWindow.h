@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.14 2000/01/05 20:12:13 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.15 2000/01/16 20:07:42 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -75,6 +75,7 @@ typedef struct PrefsStruct
     bool useTextLabels;
     bool useImages; 
     bool savePlaylistOnExit;
+    bool playImmediately;
 
     string saveMusicDirectory;
     PortableSet portablePlayers;
@@ -84,6 +85,7 @@ typedef struct PrefsStruct
     bool operator == (const struct PrefsStruct& pref)
     {
         return (
+            playImmediately == pref.playImmediately &&
             useTextLabels == pref.useTextLabels &&
             useImages == pref.useImages &&
             savePlaylistOnExit == pref.savePlaylistOnExit &&
@@ -228,6 +230,7 @@ class GTKPreferenceWindow : public PreferenceWindow
       void SaveMusicSet(char *newpath, bool set);
       void SetToolbar(bool text, bool pics);
       void SaveOnExitToggle(int active);
+      void PlayImmediatelyToggle(int active);
 
       FAContext *GetContext(void) { return m_pContext; }
 };

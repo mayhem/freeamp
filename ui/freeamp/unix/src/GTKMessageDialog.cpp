@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKMessageDialog.cpp,v 1.6 1999/11/17 05:45:29 ijr Exp $
+   $Id: GTKMessageDialog.cpp,v 1.7 2000/01/16 20:07:42 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <gtk/gtk.h>
@@ -52,6 +52,12 @@ static gboolean message_destroy(GtkWidget *widget, gpointer p)
     bool inmain = (bool)p;
     if (inmain)
         gtk_main_quit();
+    return FALSE;
+}
+
+static gint kill_me(GtkWidget *widget, GdkEvent *ev, int *ret)
+{
+    *ret = 6;
     return FALSE;
 }
 
@@ -89,13 +95,16 @@ MessageDialogReturnEnum MessageDialog::
     if (!InEventLoop)
         gdk_threads_enter();
 
+    int iRet = 0;
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_modal(GTK_WINDOW(window), TRUE);
     gtk_signal_connect(GTK_OBJECT(window), "destroy",
                        GTK_SIGNAL_FUNC(message_destroy), (gpointer)InEventLoop);
+    gtk_signal_connect(GTK_OBJECT(window), "delete_event",
+                       GTK_SIGNAL_FUNC(kill_me), &iRet);
     gtk_window_set_title(GTK_WINDOW(window), oTitle.c_str());
     gtk_container_set_border_width(GTK_CONTAINER(window), 5);
-    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_MOUSE);
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 
     GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(window), vbox);
@@ -112,7 +121,6 @@ MessageDialogReturnEnum MessageDialog::
     gtk_widget_show(hbox);
 
     GtkWidget *button;
-    int iRet = 0;
     switch (eType) {
         case kMessageOk: {
             button = gtk_button_new_with_label("OK");
@@ -185,15 +193,15 @@ MessageDialogReturnEnum MessageDialog::
 
     gtk_widget_show(window);
 
-    if (!InEventLoop)
+    if (!InEventLoop) {
         gdk_threads_leave();
+        while (iRet == 0)
+            usleep(20);
+    }
     else {
         gtk_main();
         gdk_threads_leave();
     }
-
-    while (iRet == 0)
-        usleep(20);
 
     switch (iRet) {
         case 1:

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.50 2000/01/10 19:38:53 elrod Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.51 2000/01/16 20:07:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1205,40 +1205,48 @@ static void music_search(GTKMusicBrowser *p, guint action, GtkWidget *w)
 
 void GTKMusicBrowser::AddFileCMD()
 {
+    bool playNow = true;
+    m_context->prefs->GetPlayImmediately(&playNow);
+
     FileSelector *filesel = new FileSelector("Select a file to play");
     if (filesel->Run(false)) {
         char *returnpath = filesel->GetReturnPath();
         char *ext = m_context->player->GetExtension(returnpath);
-        uint32 length = strlen(returnpath) + 10;
-        char *tempurl = new char[length];
-        if (IsntError(FilePathToURL(returnpath, tempurl, &length))) {
+        if (ext) {
+            uint32 length = strlen(returnpath) + 10;
+            char *tempurl = new char[length];
+            if (IsntError(FilePathToURL(returnpath, tempurl, &length))) {
 
-            DeleteListEvent();
+                if (playNow)
+                    DeleteListEvent();
 
-            if (m_plm->IsSupportedPlaylistFormat(ext)) {
-                string tobeloaded = tempurl;
-                LoadPlaylist(tobeloaded);
-            }
-            else {
-                char *filereturn = strdup_new(filesel->GetReturnPath());
-                if (filereturn) {
-                    char *temp;
-                    char *first= strtok(filereturn, "\n");
-
-                    while ((temp = strtok(NULL, "\n"))) {
-                        AddTrackPlaylistEvent(temp);
-                        m_currentindex++;
-                    }
-                    AddTrackPlaylistEvent(first);
+                if (m_plm->IsSupportedPlaylistFormat(ext)) {
+                    string tobeloaded = tempurl;
+                    LoadPlaylist(tobeloaded);
                 }
-                delete [] filereturn;
-            }
-        }
-        delete [] tempurl;
-        delete ext;
+                else {
+                    char *filereturn = strdup_new(filesel->GetReturnPath());
+                    if (filereturn) {
+                        char *temp;
+                        char *first= strtok(filereturn, "\n");
 
-        m_currentindex = 0; 
-        PlayEvent();
+                        while ((temp = strtok(NULL, "\n"))) {
+                            AddTrackPlaylistEvent(temp);
+                            m_currentindex++;
+                        }
+                        AddTrackPlaylistEvent(first);
+                    }
+                    delete [] filereturn;
+                }
+            }
+            delete ext;
+            delete [] tempurl;
+        }
+
+        if (playNow) {
+            m_currentindex = 0; 
+            PlayEvent();
+        }
     }
     delete filesel;
 }
@@ -1886,7 +1894,7 @@ void GTKMusicBrowser::LoadPlaylist(string &oPlaylist)
     if (oPlaylist.length() == 0) 
         return;
 
-    if (m_currentListName.length() != 0)
+    if (m_currentListName.length() != 0 && !master)
         SaveCurrentPlaylist(NULL);
 
     if (!strncmp("file://", oPlaylist.c_str(), 7)) {

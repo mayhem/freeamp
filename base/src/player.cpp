@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.170 2000/01/15 01:54:58 robert Exp $
+        $Id: player.cpp,v 1.171 2000/01/16 20:07:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -819,7 +819,9 @@ Run()
    delete[] name;
    delete[] musicBrowserName;
    delete[] downloadName;
+#ifdef WIN32
    delete[] toolbarName;
+#endif
 }
 
 void 

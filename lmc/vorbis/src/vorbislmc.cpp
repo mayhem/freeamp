@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.cpp,v 1.1 2000/04/28 00:42:54 robert Exp $
+   $Id: vorbislmc.cpp,v 1.2 2000/05/04 14:20:34 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -171,6 +171,7 @@ Error VorbisLMC::InitDecoder()
    m_section = -1;
 
    m_pContext->prefs->GetOutputBufferSize(&iNewSize);
+   iNewSize = max(iNewSize, iMinimumOutputBufferSize);
    iNewSize *= 1024;
 
    result = m_pOutputBuffer->Resize(iNewSize, iNewSize / 6);

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: soundcardpmo.h,v 1.27 2000/06/09 14:26:12 ksteinbe Exp $
+    $Id: soundcardpmo.h,v 1.28 2000/09/20 10:17:54 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -56,7 +56,6 @@ public:
  
  private:
 
-    bool          SetupVolumeControl( HWND );
     void          WorkerThread(void); 
     virtual Error Reset(bool user_stop);
     void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);

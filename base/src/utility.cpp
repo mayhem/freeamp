@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: utility.cpp,v 1.32 2000/06/22 15:27:17 elrod Exp $
+    $Id: utility.cpp,v 1.33 2000/08/25 10:39:44 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -328,7 +328,7 @@ char *FreeampDir(Preferences *pref)
 char *FreeampDir(Preferences *prefs)
 {
     char *homeDir = getenv("HOME");
-    const char *fadir = "/.freeamp";
+    const char *fadir = "/."BRANDING_APP_NAME;
     char *s;
 
     if (!homeDir) {

@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.26 2000/08/25 07:09:43 ijr Exp $
+        $Id: unixprefs.cpp,v 1.27 2000/08/25 10:39:44 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -46,7 +46,7 @@ ____________________________________________________________________________*/
 // WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
 
 // default values
-const char*  kDefaultLibraryPath = ".:~/.freeamp:" UNIX_LIBDIR "/freeamp";
+const char*  kDefaultLibraryPath = ".:~/."BRANDING_APP_NAME":"UNIX_LIBDIR"/"BRANDING_APP_NAME;
 const char*  kDefaultUI = "freeamp.ui";
 const char*  kDefaultTextUI = "freeampcmd.ui";
 const char*  kDefaultPMO = "soundcard.pmo";
@@ -360,7 +360,7 @@ UnixPrefs()
 {
     const char *old_suffix = "/.freeamp_prefs";
     char *old_prefsFilePath;
-    const char *fadir = "/.freeamp";
+    const char *fadir = "/."BRANDING_APP_NAME;
     const char *suffix = "/preferences";
     char *homeDir = getenv("HOME"); 
 

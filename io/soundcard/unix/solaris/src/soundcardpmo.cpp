@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.9 1999/07/02 05:51:18 dogcow Exp $
+        $Id: soundcardpmo.cpp,v 1.10 1999/07/19 21:07:58 dogcow Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -99,9 +99,30 @@ SoundCardPMO::~SoundCardPMO()
    }
 }
 
-VolumeManager *SoundCardPMO::GetVolumeManager()
+void SoundCardPMO::SetVolume(int32 v)
 {
-   return new SolarisVolumeManager();
+  struct audio_info ainfo;
+  int mixFd = open("/dev/audioctl",O_RDWR);
+  if (mixFd != -1) {
+    ioctl(mixFd, AUDIO_GETINFO, &ainfo);
+    ainfo.play.gain = v;
+    ioctl(mixFd, AUDIO_SETINFO, &ainfo);
+    close(mixFd);
+  }
+}
+
+int32 SoundCardPMO::GetVolume()
+{
+  struct audio_info ainfo;
+  int mixFd = open("/dev/audioctl",O_RDWR);
+  int volume = 0;
+  if (mixFd != -1) {
+    ioctl(mixFd, AUDIO_GETINFO, &ainfo);
+    volume = ainfo.play.gain;
+    volume &= 0xFF;
+    close(mixFd);
+  }
+  return volume;
 }
 
 int SoundCardPMO::audio_fd = -1;

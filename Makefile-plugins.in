@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.9 1999/07/16 19:48:45 robert Exp $
+# $Id: Makefile-plugins.in,v 1.10 1999/07/19 21:07:58 dogcow Exp $
 
 RELOC = @FPIC@
 
@@ -73,7 +73,6 @@ plugins/obsinput-$(HOST_OS).pmi: $(OBSPMI)
 #
 # PMO section
 
-SCPMOsolarisOBJ = io/soundcard/unix/solaris/src/volume.o
 SCPMOlinuxOBJ = 
 
 SCPMObeosOBJ = io/soundcard/beos/src/ringbuffer.o 

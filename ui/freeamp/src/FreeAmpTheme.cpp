@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.12 1999/09/26 03:23:38 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.13 1999/09/27 02:02:31 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -464,13 +464,9 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
        return kError_NoErr;
    }
-   if (oControlName == string("NextTheme") && eMesg == CM_Pressed)
+   if (eMesg == CM_ChangeWindow)
    {
-       if (m_oCurrentWindow == string("MainWindow"))
-       	   m_oCurrentWindow = string("WindowShade");
-       else
-       	   m_oCurrentWindow = string("MainWindow");
-           
+       m_pWindow->ControlStringValue(oControlName, false, m_oCurrentWindow);
        SelectWindow(m_oCurrentWindow);
    
        return kError_NoErr;
@@ -512,7 +508,6 @@ void FreeAmpTheme::InitControls(void)
 	if (m_iVolume >= 0)
     {  
        bSet = true;
- 	   Debug_v("Volume: %d", m_iVolume);
        m_pWindow->ControlIntValue(string("Volume"), true, m_iVolume);
     }
     else 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.10 1999/09/27 00:00:49 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.11 1999/09/27 02:02:32 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -30,6 +30,8 @@ ____________________________________________________________________________*/
 #include "SliderControl.h"
 #include "TextControl.h"
 #include "debug.h"
+
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 #ifdef WIN32
 #include "Win32Window.h"
@@ -52,6 +54,7 @@ Theme::Theme(void)
     m_pParsedFonts = m_pFonts = NULL;
 	m_bReloadTheme = false;
     m_bReloadWindow = false;
+    m_eCurrentControl = eUndefinedControl;
 }
 
 Theme::~Theme(void)
@@ -283,7 +286,6 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 #else
        pBitmap = new Win32Bitmap(oAttrMap["Name"]);
 #endif
-
        eRet = ParseColor(oAttrMap["TransColor"], oColor);
        if (eRet == kError_NoErr)
            pBitmap->SetTransColor(oColor);
@@ -390,6 +392,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
 
+       m_eCurrentControl = eButtonControl;
        m_pCurrentControl = new ButtonControl(m_pCurrentWindow, 
                                              oAttrMap["Name"]);
        return kError_NoErr;
@@ -403,6 +406,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
 
+       m_eCurrentControl = eDialControl;
        m_pCurrentControl = new DialControl(m_pCurrentWindow, 
                                            oAttrMap["Name"]);
        return kError_NoErr;
@@ -416,6 +420,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
 
+       m_eCurrentControl = eSliderControl;
        m_pCurrentControl = new SliderControl(m_pCurrentWindow,
                                              oAttrMap["Name"]);
        return kError_NoErr;
@@ -431,6 +436,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
 
+       m_eCurrentControl = eTextControl;
        m_pCurrentControl = new TextControl(m_pCurrentWindow,
                                            oAttrMap["Name"]);
                                                
@@ -442,7 +448,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        Color  oColor(0, 0, 0);
        Font  *pFont;
        
-       if (m_pCurrentControl == NULL)
+       if (m_pCurrentControl == NULL || m_eCurrentControl != eTextControl)
        {
            m_oLastError = string("The <Style> tag must be inside of a "
                                  "<TextControl> tag");
@@ -477,6 +483,21 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        
        return kError_NoErr;
 	}
+
+    if (oElement == string("ChangeWindow"))
+    {
+       if (m_pCurrentControl == NULL || m_eCurrentControl != eButtonControl)
+       {
+           m_oLastError = string("The <Style> tag must be inside of a "
+                                 "<ButtonControl> tag");
+           return kError_InvalidParam;
+       }
+
+       ((ButtonControl *)m_pCurrentControl)->SetTargetWindow(oAttrMap["Window"]);
+       
+       return kError_NoErr;
+	}
+
 
     if (oElement == string("Position"))
     {
@@ -562,6 +583,7 @@ Error Theme::EndElement(string &oElement)
     if (oElement == string("Bitmap") ||
         oElement == string("BackgroundBitmap") ||
         oElement == string("Font") ||
+        oElement == string("ChangeWindow") ||
         oElement == string("MaskBitmap"))
        return kError_NoErr;
 
@@ -599,6 +621,7 @@ Error Theme::EndElement(string &oElement)
     {
        m_pCurrentWindow->AddControl(m_pCurrentControl);
        m_pCurrentControl = NULL;
+       m_eCurrentControl = eUndefinedControl;
 
        return kError_NoErr;
     }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.1.2.8 1999/09/26 03:23:31 robert Exp $
+   $Id: Theme.h,v 1.1.2.9 1999/09/27 02:02:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -43,6 +43,16 @@ using namespace std;
 #include "Font.h"
 
 typedef map<string, string, less<string> > AttrMap;
+
+enum ControlTypeEnum
+{
+    eButtonControl,
+    eTextControl,
+    eSliderControl,
+    eDialControl,
+    
+    eUndefinedControl
+};
 
 class Theme : public Parse
 {
@@ -89,6 +99,7 @@ class Theme : public Parse
       vector<Font *>   *m_pFonts, *m_pParsedFonts;
       bool              m_bReloadTheme, m_bReloadWindow;
       string            m_oReloadWindow, m_oReloadFile;
+      ControlTypeEnum   m_eCurrentControl;
 };
 
 #endif

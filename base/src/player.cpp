@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.20 1999/09/26 01:47:59 elrod Exp $
+        $Id: player.cpp,v 1.133.2.21 1999/09/27 02:02:21 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -182,7 +182,7 @@ Player::
    TYPICAL_DELETE(m_uiRegistry);
    TYPICAL_DELETE(m_lmcExtensions);
    TYPICAL_DELETE(m_musicBrowser);
-   TYPICAL_DELETE(m_downloadManager);
+//   TYPICAL_DELETE(m_downloadManager);
 }
 
 void      

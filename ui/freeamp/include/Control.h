@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.1.2.8 1999/09/26 03:23:29 robert Exp $
+   $Id: Control.h,v 1.1.2.9 1999/09/27 02:02:27 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -49,6 +49,7 @@ enum ControlMessageEnum
     CM_MouseLeave,
     CM_SliderUpdate,
     CM_ValueChanged,
+    CM_ChangeWindow,
 
     CM_LastValue
 };
@@ -121,13 +122,13 @@ class Control
       void  SetTip(const string &oTip);
       void  GetDesc(string &oDesc);
       void  GetTip(string &oTip);
-      bool  PosInControl(Pos &oPos);
  
       Error Show(bool bSet, bool &bShow);
       Error Enable(bool bHide, bool &bEnable);
       Error IntValue(bool bSet, int &iValue);
       Error StringValue(bool bSet, string &oValue);
 
+      virtual bool PosInControl(Pos &oPos);
       virtual void Init(void) = 0;
       virtual void AcceptTransition(ControlTransitionEnum eTrans,
                                     Pos *pMousePos = NULL);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.1.2.8 1999/09/27 00:00:47 robert Exp $
+   $Id: ButtonControl.cpp,v 1.1.2.9 1999/09/27 02:02:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -94,9 +94,17 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
           break;
     }
 
-	if (m_eCurrentState == CS_MouseOver &&
+	if (m_eCurrentState == CS_MouseOver && 
         eTrans == CT_MouseLButtonUp)
-       m_pParent->SendControlMessage(this, CM_Pressed);
+    {    
+       if (m_oTargetWindow == string(""))
+           m_pParent->SendControlMessage(this, CM_Pressed);
+       else 
+       {   
+           m_oValue = m_oTargetWindow;
+           m_pParent->SendControlMessage(this, CM_ChangeWindow);
+       }
+    }       
 
     switch(m_eCurrentState)
     {
@@ -137,3 +145,9 @@ bool ButtonControl::PosInControl(Pos &oPos)
     
     return bRet;    
 }        
+
+void ButtonControl::SetTargetWindow(string &oWindow)
+{
+	m_oTargetWindow = oWindow;
+}
+

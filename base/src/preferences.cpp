@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.40 2000/04/06 22:36:41 ijr Exp $
+        $Id: preferences.cpp,v 1.41 2000/04/17 19:41:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -34,6 +34,7 @@ const char* kTextUIPref = "TextUI";
 const char* kMusicBrowserUIPref = "MusicBrowserUI";
 const char* kDownloadManagerUIPref = "DownloadManagerUI";
 const char* kToolbarUIPref = "ToolbarUI";
+const char* kSecondaryUIPref = "SecondaryUI";
 const char* kPMOPref = "PMO";
 const char* kALSADevicePref = "ALSADevice";
 const char* kESOUNDHostPref = "EsounDHost";
@@ -118,6 +119,7 @@ const char *kDefaultCDDevicePath = "/dev/cdrom";
 const char *kDefaultDownloadManagerUI = "download.ui";
 const char *kDefaultMusicBrowserUI = "musicbrowser.ui";
 const char *kDefaultToolbarUI = "toolbar.ui";
+const char *kDefaultSecondaryUI = "";
 const bool kDefaultCheckForUpdates = false;
 const int32 kDefaultPlaylistRepeat = 0;
 const bool kDefaultPlaylistShuffle = false;
@@ -251,6 +253,11 @@ SetDefaults()
     if (GetPrefString(kToolbarUIPref, dummyString,
         (uint32 *)&dummyInt) == kError_NoPrefValue)
         SetPrefString(kToolbarUIPref, kDefaultToolbarUI);
+
+    dummyInt = 255;
+    if (GetPrefString(kSecondaryUIPref, dummyString,
+        (uint32 *)&dummyInt) == kError_NoPrefValue)
+        SetPrefString(kSecondaryUIPref, kDefaultSecondaryUI);
 
     if (GetPrefBoolean(kCheckForUpdatesPref, &dummyBool) == kError_NoPrefValue)
         SetPrefBoolean(kCheckForUpdatesPref, kDefaultCheckForUpdates);
@@ -455,6 +462,20 @@ Preferences::
 SetDefaultTextUI(const char* name)
 {
     return SetPrefString(kTextUIPref, name);
+}
+
+Error 
+Preferences::
+GetSecondaryUI(char* name, uint32* len)
+{
+    return GetPrefString(kSecondaryUIPref, name, len);
+}
+
+Error 
+Preferences::
+SetSecondaryUI(const char* name)
+{
+    return SetPrefString(kSecondaryUIPref, name);
 }
 
 Error 

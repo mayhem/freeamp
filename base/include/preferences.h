@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.31 2000/04/06 22:36:40 ijr Exp $
+	$Id: preferences.h,v 1.32 2000/04/17 19:41:40 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -35,6 +35,7 @@ extern const char* kTextUIPref;
 extern const char* kMusicBrowserUIPref;
 extern const char* kDownloadManagerUIPref;
 extern const char* kToolbarUIPref;
+extern const char* kSecondaryUIPref;
 extern const char* kPMOPref;
 extern const char* kALSADevicePref;
 extern const char* kESOUNDHostPref;
@@ -129,6 +130,9 @@ class Preferences {
 
     Error GetDefaultTextUI(char* name, uint32* len);
     Error SetDefaultTextUI(const char* name);
+
+    Error GetSecondaryUI(char* name, uint32* len);
+    Error SetSecondaryUI(const char* name);
 
     Error GetDefaultPMO(char* name, uint32* len);
     Error SetDefaultPMO(const char* name);

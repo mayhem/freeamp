@@ -18,8 +18,15 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.188 2000/04/07 01:14:43 ijr Exp $
+        $Id: player.cpp,v 1.189 2000/04/17 19:41:40 elrod Exp $
 ____________________________________________________________________________*/
+
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #include <iostream.h>
 #include <stdlib.h>
@@ -33,6 +40,8 @@ ____________________________________________________________________________*/
 #else
 #define MKDIR(z) mkdir(z, 0755)
 #endif
+
+#include <set>
 
 #include "config.h"
 #include "event.h"
@@ -695,6 +704,53 @@ Run()
 
       strcpy(name, orig);
    }
+
+    // at this point add in any extra UIs that might be wanted
+    len = 255;
+    char* secondaries = new char[len];
+    while  ((error = m_context->prefs->GetPrefString(kSecondaryUIPref,
+                                                     secondaries, &len)) ==
+           kError_BufferTooSmall)
+    {
+       delete[] secondaries;
+       len++;
+
+       secondaries = new char[len];
+    }
+
+    // We use a set to make sure that only one of each is invoked
+    set<string> secondaryUIList;
+    char* cp = secondaries;
+    char* ui = cp;
+
+    while(cp = strchr(cp, ';'))
+    {
+        *cp = 0x00;
+        secondaryUIList.insert(string(ui));
+        //MessageBox(NULL, name, "name", MB_OK);
+
+        cp++;
+        ui = cp;
+    }
+
+    if(*ui)
+    {
+        secondaryUIList.insert(string(ui));
+        //MessageBox(NULL, name, "name", MB_OK);
+    }
+
+    set<string>::const_iterator i;
+
+    for(i = secondaryUIList.begin(); i != secondaryUIList.end(); i++)
+    {
+        char* ui = new char[(*i).size() + 1];
+
+        strcpy(ui, (*i).c_str());
+
+        m_argUIList->push_back(ui);
+    }
+
+    delete [] secondaries;
 
 #ifdef HAVE_GTK
    if (strcmp("freeamp.ui", name))

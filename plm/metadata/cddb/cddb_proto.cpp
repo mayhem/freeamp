@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb_proto.cpp,v 1.6 2000/04/04 02:18:56 ijr Exp $
+	$Id: cddb_proto.cpp,v 1.7 2000/04/17 19:41:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -375,6 +375,7 @@ int CDDB::cddb_read_serverlist(struct cddb_conf *conf,
                                struct cddb_server *proxy)
 {
     conf->conf_access = CDDB_ACCESS_REMOTE;    
+    list->list_len = 0;
 
     char *host = new char[1024];
     uint32 length = 1024;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.12 1999/11/07 22:30:52 elrod Exp $
+	$Id: utility.cpp,v 1.13 1999/11/12 19:04:03 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -107,7 +107,7 @@ void ResolvePath(char** path)
         char* fullPath = new char[strlen(cwd) + strlen(*path) + 2];
         
         strcpy(fullPath, cwd);
-        strcat(fullPath, "\\");
+        strcat(fullPath, DIR_MARKER_STR);
         strcat(fullPath, *path);
 
         delete [] *path;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.36 1999/11/10 13:37:59 elrod Exp $
+        $Id: eventdata.h,v 1.37 1999/11/12 19:04:00 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -705,6 +705,25 @@ public:
 	DownloadItem* Item() { return m_item; }
 private:
     DownloadItem* m_item;
+};
+
+class LoadThemeEvent : public Event {
+public:
+    LoadThemeEvent(const char *url, const char *saved) 
+         { m_type = CMD_LoadTheme; 
+           m_url = strdup(url); 
+           m_saved = strdup(saved);
+         }
+	virtual ~LoadThemeEvent() 
+         { free((void *)m_url); }
+
+   const char *URL(void) { return m_url; };
+   const char *SavedTheme(void) { return m_saved; };
+
+private:
+
+   const char *m_url;
+   const char *m_saved;
 };
 
 class ShowPreferencesEvent:public Event

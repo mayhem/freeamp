@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mbcd.h,v 1.4 2000/10/13 10:18:14 robert Exp $
+	$Id: mbcd.h,v 1.5 2000/10/13 14:51:33 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MBCD_H
@@ -38,6 +38,7 @@ using namespace std;
 #include "config.h"
 #include "errors.h"
 #include "metadata.h"
+#include "mutex.h"
 #include "database.h"
 #include "musicbrainz/mb_c.h"
 
@@ -61,6 +62,7 @@ class MusicBrainzCD : public MetaDataFormat {
     musicbrainz_t o;
     vector<int> m_trackLens;
     int         m_nextTrack;
+	Mutex       m_mutex;
 };
 
 #endif

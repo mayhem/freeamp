@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.12 1999/11/07 02:06:23 elrod Exp $
+        $Id: Dialog.cpp,v 1.13 1999/11/07 02:36:17 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -938,6 +938,9 @@ void MusicBrowserUI::BeginDrag(HWND hwnd, NM_TREEVIEW* nmtv)
     DWORD dwEffect = 0;
 
     DoDragDrop(data, src, DROPEFFECT_COPY|DROPEFFECT_SCROLL, &dwEffect); 
+
+    data->Release();
+    src->Release();
 
 }
 

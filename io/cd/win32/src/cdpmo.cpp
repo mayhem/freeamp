@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.9 2000/06/22 18:53:10 elrod Exp $
+        $Id: cdpmo.cpp,v 1.7 2000/06/10 11:07:39 ksteinbe Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -161,7 +161,7 @@ Error CDPMO::Init(OutputInfo *info)
    cddbid = 0;
    cdindexid = "";
 
-   if (IsError(m_pContext->prefs->GetPrefString(kCDDevicePathPref, device, &len))) {
+   if (IsError(m_pContext->prefs->GetCDDevicePath(device, &len))) {
        CDInfoEvent *cie = new CDInfoEvent(tracks, cddbid, (char *)cdindexid.c_str());
        m_pTarget->AcceptEvent(cie);
 	   m_locker.Release();
@@ -363,7 +363,7 @@ void CDPMO::WorkerThread(void)
 
    m_locker.Acquire();
 
-   if (IsError(m_pContext->prefs->GetPrefString(kCDDevicePathPref, device, &len))) {
+   if (IsError(m_pContext->prefs->GetCDDevicePath(device, &len))) {
 	   m_locker.Release();
        return;
    }

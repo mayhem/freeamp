@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.105 2000/08/24 17:40:38 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.106 2000/08/24 20:37:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -157,6 +157,14 @@ void GTKMusicBrowser::SubmitPlaylist(void)
                                  (*i)->URL().c_str());
 
         pInterface->APSSubmitPlaylist(&InputPlaylist);
+    }
+    else {
+        string caption = "Learn Playlist Error";
+        string message = "In order to train the Relatable Engine, you need to have tracks selected in the My Music tree, have tracks selected in the playlist, or just have an active playlist.  You don't have any of this right now, so the Relatable Engine has nothing to learn.";
+
+        GTKessageDialog *dialog = new GTKMessageDialog();
+        dialog->Show(message.c_str(), caption.c_str(), kMessageOk);
+        delete dialog;
     }
 
     delete items;    

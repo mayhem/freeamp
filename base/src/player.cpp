@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.229 2000/08/24 14:37:05 robert Exp $
+        $Id: player.cpp,v 1.230 2000/08/24 20:37:57 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1423,8 +1423,7 @@ GenerateSigsWork(set<string> *items)
         decInfo.sendInfo = false;
 
         lmc->SetDecodeInfo(decInfo);
-        lmc->SetEQData(m_eqValues, m_eqPreamp);
-        lmc->SetEQData(m_eqEnabled);
+        lmc->SetEQData(false);
 
         error = pmo->SetTo(url.c_str());
         if (error == kError_FileNotFound) {

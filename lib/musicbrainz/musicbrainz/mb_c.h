@@ -18,7 +18,7 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-     $Id: mb_c.h,v 1.1 2000/09/19 15:20:53 robert Exp $
+     $Id: mb_c.h,v 1.3 2000/09/21 13:03:03 robert Exp $
 
 ----------------------------------------------------------------------------*/
 #ifndef _MB_C_H_
@@ -56,11 +56,11 @@ int       mb_GetResultRDFLen   (musicbrainz_t o);
 int       mb_GetNumItems       (musicbrainz_t o);
 
 void      mb_SetPCMDataInfo    (musicbrainz_t o, int samplesPerSecond, 
-		                int numChannels, int bitsPerSample);
+                                int numChannels, int bitsPerSample);
 int       mb_GenerateSignature (musicbrainz_t o, char *data, int size,
-		                char **signature, char *collectionID);
-void      mb_GenerateSignatureNow(musicbrainz_t o, char **signature,
-		                  char *collectionID);
+                                char signature[17], char *collectionID);
+void      mb_GenerateSignatureNow(musicbrainz_t o, char signature[17],
+                                char *collectionID);
 
 #ifdef __cplusplus
 }

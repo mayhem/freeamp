@@ -18,11 +18,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.5 1999/10/22 23:30:15 robert Exp $
+	$Id: utility.h,v 1.6 1999/11/12 21:29:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
 #define INCLUDED_UTILITY_H
+
+#include <string>
+
+using namespace std;
 
 #include "config.h"
 #include "errors.h"
@@ -40,6 +44,10 @@ void ToLower(char *s);
 
 #ifndef WIN32
 void LaunchBrowser(char* url);
+#endif
+
+#ifdef WIN32
+bool ResolveLink(string& path);
 #endif
 
 #endif /* INCLUDED_UTILITY_H */

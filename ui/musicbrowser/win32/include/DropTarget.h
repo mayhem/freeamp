@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DropTarget.h,v 1.1 1999/11/07 02:06:23 elrod Exp $
+        $Id: DropTarget.h,v 1.2 1999/11/12 21:29:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DROPTARGET_H_
@@ -48,13 +48,27 @@ class FAR DropTarget : public IDropTarget
     STDMETHOD(Drop)(LPDATAOBJECT pDataObj, DWORD grfKeyState, 
         POINTL pt, LPDWORD pdwEffect); 
  
+    unsigned long ScrollThreadFunction();
  private:
-    ULONG m_refs;  
-	HWND m_hwnd;
-    BOOL m_bAcceptFmt;
-	BOOL m_bEnabled;
-	POINT m_ptPrevious;
-	ULONG m_uDEPrevious;
+    void CheckAutoScroll(POINT pt);
+    void AutoScroll(int scrollCode);
+    static unsigned long __stdcall scrollThreadFunction(void* arg);
+
+
+    ULONG           m_refs;  
+	HWND            m_hwnd;
+    BOOL            m_bAcceptFmt;
+	BOOL            m_bEnabled;
+	POINT           m_ptPrevious;
+	ULONG           m_uDEPrevious;
+    HBRUSH          m_insertBrush;
+    int             m_oldItem; 
+    RECT            m_insertRect;
+    HANDLE		    m_threadHandle;	
+	unsigned long	m_threadId;
+    bool            m_scroll;
+    bool            m_scrolling;
+    int             m_scrollCode;
 };  
 
 #endif // INCLUDED_DROPTARGET_H_

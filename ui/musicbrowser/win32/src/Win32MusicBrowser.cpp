@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.20 1999/11/11 05:59:21 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.21 1999/11/12 21:29:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -207,7 +207,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             PlaylistItemAddedEvent* pie = (PlaylistItemAddedEvent*)event;
 
             if(pie->Manager() == m_oPlm)
-                AddPlaylistListItem(pie->Item());
+                PlaylistListItemAdded(pie->Item());
             else
             {
                 vector<MusicBrowserUI *>::iterator i;
@@ -216,7 +216,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 {
                     if((*i)->PLManager() == pie->Manager())
                     {
-                        (*i)->AddPlaylistListItem(pie->Item());
+                        (*i)->PlaylistListItemAdded(pie->Item());
                         break;
                     }
                 }
@@ -230,7 +230,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             PlaylistItemUpdatedEvent* pie = (PlaylistItemUpdatedEvent*)event;
 
             if(pie->Manager() == m_oPlm)
-                UpdatePlaylistListItem(pie->Item());
+                PlaylistListItemUpdated(pie->Item());
             else
             {
                 vector<MusicBrowserUI *>::iterator i;
@@ -239,7 +239,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 {
                     if((*i)->PLManager() == pie->Manager())
                     {
-                        (*i)->UpdatePlaylistListItem(pie->Item());
+                        (*i)->PlaylistListItemUpdated(pie->Item());
                         break;
                     }
                 }

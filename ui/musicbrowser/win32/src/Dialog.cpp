@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.30 1999/11/11 20:07:57 robert Exp $
+        $Id: Dialog.cpp,v 1.31 1999/11/12 21:29:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -1044,7 +1044,7 @@ void MusicBrowserUI::MouseMove(uint32 uFlags, POINT &sPoint)
 
         SelectObject(hdc, oldBrush);
 
-        ReleaseDC(m_hWnd, hdc);
+        ReleaseDC(NULL, hdc);
     }
     else
     {
@@ -1115,7 +1115,7 @@ void MusicBrowserUI::MouseButtonDown(int keys, int x, int y)
 
         SelectObject(hdc, oldBrush);
 
-        ReleaseDC(m_hWnd, hdc);
+        ReleaseDC(NULL, hdc);
     }
 }
 
@@ -1146,7 +1146,7 @@ void MusicBrowserUI::MouseButtonUp(int keys, int x, int y)
 
         SelectObject(hdc, oldBrush);
 
-        ReleaseDC(m_hWnd, hdc);
+        ReleaseDC(NULL, hdc);
 
 
         RECT catalogRect, playlistRect, titleRect;

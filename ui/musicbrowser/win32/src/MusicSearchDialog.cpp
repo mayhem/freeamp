@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicSearchDialog.cpp,v 1.1 1999/11/08 09:22:56 elrod Exp $
+        $Id: MusicSearchDialog.cpp,v 1.2 1999/11/12 21:29:53 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -34,7 +34,7 @@ ____________________________________________________________________________*/
 #include "utility.h"
 #include "resource.h"
 #include "Win32MusicBrowser.h"
-
+#include "help.h"
 
 BOOL CALLBACK MusicSearchDlgProc(HWND hwnd, 
                                  UINT msg, 
@@ -117,6 +117,22 @@ BOOL MusicBrowserUI::MusicSearchDlgProc(HWND hwnd,
         {
             switch(LOWORD(wParam))
             {
+                case IDHELP:
+                {
+                    string            oHelpFile;
+                    char              dir[MAX_PATH];
+                    uint32            len = sizeof(dir);
+
+                    m_context->prefs->GetInstallDirectory(dir, &len);
+                    oHelpFile = string(dir);
+                    oHelpFile += string("\\");
+                    oHelpFile += string(HELP_FILE);
+
+                    //WinHelp(m_hWnd, oHelpFile.c_str(), HELP_FINDER, 0);
+                    WinHelp(m_hWnd, oHelpFile.c_str(), HELP_CONTEXT, Music_Browser_Drive_Selection);
+                    break;
+                }
+
                 case IDCANCEL:
                     EndDialog(hwnd, FALSE);
                     break;

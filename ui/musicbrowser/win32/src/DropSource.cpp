@@ -18,12 +18,13 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DropSource.cpp,v 1.2 1999/11/07 02:36:17 elrod Exp $
+        $Id: DropSource.cpp,v 1.3 1999/11/12 21:29:53 elrod Exp $
 ____________________________________________________________________________*/
 
 // system header files
 #include <windows.h>
 #include <commctrl.h>
+#include <stdio.h>
 
 // project header files
 #include "DropSource.h"
@@ -118,8 +119,11 @@ DropSource::DropSource(HWND hwndTree, NM_TREEVIEW* nmtv)
     //ImageList_DragEnter(GetParent(hwndTree), nmtv->ptDrag.x, nmtv->ptDrag.y);
     ImageList_BeginDrag(himl, 
                         0, 
-                        nmtv->ptDrag.x - rcItem.left, 
-                        nmtv->ptDrag.y - rcItem.top);
+                        0,
+                        (rcItem.bottom - rcItem.top)/2);// + (rcItem.bottom - rcItem.top)/2);
+
+                        //nmtv->ptDrag.x - rcItem.left, 
+                        //nmtv->ptDrag.y - rcItem.top);
 
     ImageList_Destroy(himl);
  

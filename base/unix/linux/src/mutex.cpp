@@ -19,15 +19,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mutex.cpp,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: mutex.cpp,v 1.2 1998/11/15 20:21:29 jdw Exp $
 ____________________________________________________________________________*/
-
+#include "config.h"
 
 #include <string.h>
 #include <pthread.h>
 #include <iostream.h>
-
-#include "config.h"
 
 #if HAVE_BASELINUXTHREADS
 #if HAVE_ENHLINUXTHREADS

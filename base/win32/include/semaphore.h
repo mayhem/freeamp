@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.h,v 1.2 1998/10/15 13:33:50 elrod Exp $
+	$Id: semaphore.h,v 1.3 1998/10/19 00:09:05 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -32,16 +32,15 @@ ____________________________________________________________________________*/
 #define WAIT_FOREVER INFINITE
 
 class Semaphore {
- private:
-    int count;
-   	HANDLE m_sem;	
- 
  public:
     Semaphore(int cnt = 0);
     ~Semaphore();
     void Wait();
     void Signal();
-
+ 
+ private:
+    int m_count;
+   	HANDLE m_sem;	
 };
 
 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.h,v 1.4 1998/10/17 21:38:06 elrod Exp $
+	$Id: registrar.h,v 1.5 1998/10/19 00:09:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _REGISTRAR_H_
@@ -50,12 +50,6 @@ class Registrar{
     const char* m_search;
     
 };
-
-//Error InitializeLMCRegistry(LMCRegistry* registry);
-//Error InitializePMORegistry(PMORegistry* registry);
-//Error InitializePMIRegistry(PMIRegistry* registry);
-//Error InitializeUIRegistry(UIRegistry* registry);
-
 
 #endif // _REGISTRAR_H_
 

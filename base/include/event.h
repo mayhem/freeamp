@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.5 1998/10/16 22:25:30 jdw Exp $
+	$Id: event.h,v 1.6 1998/10/19 00:09:04 elrod Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -31,10 +31,6 @@ ____________________________________________________________________________*/
 
 class Event {
 
- private:
-    int32 event;
-    void *arg;
-    int32 sizeofArg;
  public:
     Event(int32);
     Event(int32,void *);
@@ -43,7 +39,12 @@ class Event {
     ~Event();
     int32 GetEvent();
     void *GetArgument();
-    
+
+ private:
+    int32 m_event;
+    void* m_arg;
+    int32 m_sizeofArg;
+ 
 };
 
 class EventQueue {

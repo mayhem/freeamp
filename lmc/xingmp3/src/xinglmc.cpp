@@ -22,7 +22,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.5 1998/10/17 18:26:11 jdw Exp $
+	$Id: xinglmc.cpp,v 1.6 1998/10/19 00:09:05 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -87,7 +87,7 @@ void XingLMC::Init() {
 	    memset(buf,0,sizeof(buf));
 	    m_input->Read(m_input,buf,128);
 	    Id3TagInfo tag_info(buf);
-	    if (tag_info.contains_info) {
+	    if (tag_info.m_containsInfo) {
 		end -= 128;
 	    }
 //	    cout << "now here: " << m_input->Seek(m_input,backhere,SEEK_FROM_START) << endl;

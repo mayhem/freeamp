@@ -18,14 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.cpp,v 1.2 1998/10/15 13:33:50 elrod Exp $
+	$Id: semaphore.cpp,v 1.3 1998/10/19 00:09:05 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "semaphore.h"
 
 
 Semaphore::Semaphore(int cnt) {
-    count = cnt;
+    m_count = cnt;
     m_sem = CreateSemaphore(NULL, 
 		    				cnt,
 							1024,

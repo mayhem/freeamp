@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.6 1998/10/14 17:33:24 jdw Exp $
+	$Id: playlist.h,v 1.7 1998/10/19 00:09:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -29,26 +29,22 @@ ____________________________________________________________________________*/
 
 class PlayListItem {
  public:
-    char *url;
-    int32 type;
-    int32 startFrame;
+    char* m_url;
+    int32 m_type;
+    int32 m_startFrame;
 
     PlayListItem();
     ~PlayListItem();
 };
 
 class PlayList {
- private:
-    Vector<PlayListItem *> *pMediaElems;
-    int32 current;
-    int32 skipNum;
  public:
     PlayList();
     ~PlayList();
     void Add(char *,int);
-    void SetSkip(int32 f) { skipNum = f; } // logical media units to skip at beginning
+    void SetSkip(int32 f) { m_skipNum = f; } // logical media units to skip at beginning
     void Shuffle();
-    int32 GetSkip() { return skipNum; }
+    int32 GetSkip() { return m_skipNum; }
     PlayListItem *GetFirst();
     PlayListItem *GetNext();
     PlayListItem *GetPrev();
@@ -56,6 +52,12 @@ class PlayList {
     void SetFirst();
     void SetNext();
     void SetPrev();
+
+ private:
+    Vector<PlayListItem *>* m_pMediaElems;
+    int32                   m_current;
+    int32                   m_skipNum;
+ 
 };
 
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.8 1998/10/16 22:25:30 jdw Exp $
+	$Id: player.h,v 1.9 1998/10/19 00:09:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -75,34 +75,33 @@ class Player : public EventQueue {
     int32 ServiceEvent(Event *);
 
  private:
-    static Player           *thePlayer;
-    Semaphore               *event_sem;
-    PlayerState             playerState;
-    Queue<Event *>          *event_queue;
-    Thread                  *event_service_thread;
-    int32                   quitWaitingFor;  // keeps track of how many CIO's 
+    static Player*          m_thePlayer;
+    Semaphore*              m_eventSem;
+    PlayerState             m_playerState;
+    Queue<Event *>*         m_eventQueue;
+    Thread*                 m_eventServiceThread;
+    int32                   m_quitWaitingFor;  // keeps track of how many CIO's 
                                              // and COO's haven't sent in 
                                              // their "Ready To Die" infos.
-    int32                   imQuitting;
-    Vector<EventQueue *>    *ui_vector;
-    Vector<EventQueue *>    *ui_death_vector;
+    int32                   m_imQuitting;
+    Vector<EventQueue *>*   m_uiVector;
+    Vector<EventQueue *>*   m_uiDeathVector;
     
-    Mutex                   *uiManipLock;
-    Mutex                   *m_lmcMutex;
-    Mutex                   *m_pmiMutex;
-    Mutex                   *m_pmoMutex;
-    Mutex                   *m_uiMutex;
-    PlayList                *myPlayList;
+    Mutex*                  m_uiManipLock;
+    Mutex*                  m_lmcMutex;
+    Mutex*                  m_pmiMutex;
+    Mutex*                  m_pmoMutex;
+    Mutex*                  m_uiMutex;
+    PlayList*               m_myPlayList;
     
-    LogicalMediaConverter   *myLMC;
+    LogicalMediaConverter*  m_myLMC;
 
     LMCRef                  m_lmcRef;
 
-    LMCRegistry             *m_lmcRegistry;
-    PMIRegistry             *m_pmiRegistry;
-    PMORegistry             *m_pmoRegistry;
-    UIRegistry              *m_uiRegistry;
-
+    LMCRegistry*            m_lmcRegistry;
+    PMIRegistry*            m_pmiRegistry;
+    PMORegistry*            m_pmoRegistry;
+    UIRegistry*             m_uiRegistry;
 
 };
 

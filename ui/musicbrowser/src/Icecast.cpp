@@ -18,8 +18,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Icecast.cpp,v 1.2 2000/05/04 10:21:07 robert Exp $
+	$Id: Icecast.cpp,v 1.3 2000/05/15 22:44:12 elrod Exp $
 ____________________________________________________________________________*/
+
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #include <stdio.h>
 #include <assert.h>

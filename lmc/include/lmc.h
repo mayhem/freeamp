@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.10 1998/10/27 21:07:49 jdw Exp $
+	$Id: lmc.h,v 1.11 1998/11/08 01:20:01 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
@@ -30,6 +30,8 @@ ____________________________________________________________________________*/
 #include "pmo.h"
 #include "pmi.h"
 
+class MediaInfoEvent;
+
 class LogicalMediaConverter {
  public:
     virtual ~LogicalMediaConverter() {}
@@ -39,6 +41,9 @@ class LogicalMediaConverter {
     virtual Error Resume() = 0;
     virtual Error Reset() = 0;
     virtual Error ChangePosition(int32) = 0;
+
+    virtual bool CanDecode() = 0;
+    virtual Error ExtractMediaInfo(MediaInfoEvent **) = 0;
 
     virtual Error SetPMI(PhysicalMediaInput *) = 0;
     virtual Error SetPMO(PhysicalMediaOutput *) = 0;

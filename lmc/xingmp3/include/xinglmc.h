@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.h,v 1.12 1998/10/31 02:52:58 jdw Exp $
+	$Id: xinglmc.h,v 1.13 1998/11/08 01:20:01 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -89,6 +89,9 @@ public:
     virtual Error Resume();
     virtual Error Reset();
     virtual Error ChangePosition(int32 position);
+
+    virtual bool CanDecode();
+    virtual Error ExtractMediaInfo(MediaInfoEvent **);
 
     virtual Error SetPMI(PhysicalMediaInput *);
     virtual Error SetPMO(PhysicalMediaOutput *);

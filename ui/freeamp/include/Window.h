@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.24 2000/05/14 21:20:46 robert Exp $
+   $Id: Window.h,v 1.25 2000/05/15 16:38:23 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -159,8 +159,10 @@ class Window
     protected:
 
       Control *ControlFromPos(Pos &oPos);
-      void     GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight, 
+      void     GetReloadWindowPos(Rect &oOldRect, 
+                                  int iNewWidth, int iNewHeight, 
                                   Rect &oNewRect);
+      void     GetWindowVisibleArea(Rect &oRect);
 
       // For locking the window in preparatiom for a VMM
       virtual void  LockUsageRef(void);

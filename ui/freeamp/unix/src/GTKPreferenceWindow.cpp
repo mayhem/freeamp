@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.45 2000/07/31 19:51:39 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.46 2000/08/02 15:24:19 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1789,8 +1789,10 @@ void GTKPreferenceWindow::AddProfileEvent(void)
 
     char *name = gtk_entry_get_text(GTK_ENTRY(profileEntry));
     if (name) {
-        if (aps->CreateProfile(name) != APS_NOERROR)
+        if (aps->CreateProfile(name) != APS_NOERROR) {
+cout << "profile creating failed\n";
             return;
+        }
 
         char *iText[1];
         iText[0] = name;

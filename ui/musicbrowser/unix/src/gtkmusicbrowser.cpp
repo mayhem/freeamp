@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.96 2000/07/31 19:51:40 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.97 2000/08/02 15:24:19 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -126,8 +126,11 @@ void GTKMusicBrowser::GenPlaylist(vector<PlaylistItem *> *seed)
         nResponse = m_context->aps->APSGetPlaylist(&InputPlaylist, 
                                                    &ResultPlaylist);
     }
-    else 
-        nResponse = m_context->aps->APSGetPlaylist(NULL, &ResultPlaylist);
+    else {
+        APSPlaylist InputPlaylist;
+        nResponse = m_context->aps->APSGetPlaylist(&InputPlaylist, 
+                                                   &ResultPlaylist);
+    }
    
     if (nResponse == APS_NOERROR) {
         if (ResultPlaylist.Size() > 0) {

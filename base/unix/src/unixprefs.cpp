@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.13.2.5 1999/09/22 18:58:21 ijr Exp $
+        $Id: unixprefs.cpp,v 1.13.2.6 1999/10/01 15:22:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include <errno.h>
 #endif
 
+#include <string>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -526,6 +527,20 @@ SetDefaults()
     size = sizeof(buf); 
     if (GetPrefString(kESOUNDHostPref, buf, &size) == kError_NoPrefValue)
         SetPrefString(kESOUNDHostPref, kDefaultESOUNDHost);
+
+    size = sizeof(buf);
+    if (GetPrefString(kDatabaseDirPref, buf, &size) == kError_NoPrefValue) {
+        string tempdir = FreeampDir(NULL);
+        tempdir += "/db/";
+        SetPrefString(kDatabaseDirPref, tempdir.c_str());
+    }
+
+    size = sizeof(buf);
+    if (GetPrefString(kSaveMusicDirPref, buf, &size) == kError_NoPrefValue) {
+        string tempdir = FreeampDir(NULL);
+        tempdir += "/MyMusic";
+        SetPrefString(kSaveMusicDirPref, tempdir.c_str());
+    }
 
     Preferences::SetDefaults();
 

@@ -18,12 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.24 1999/10/01 08:07:02 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.25 1999/10/01 15:22:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 #ifndef WIN32
 #include "GTKUtility.h"
+#include "GTKPreferenceWindow.h"
 #else
 #include "Win32PreferenceWindow.h"
 #endif
@@ -92,7 +93,6 @@ void FreeAmpTheme::WorkerThread(void)
    char   szTemp[255];
    unsigned int  iLen = 255;
    Error  eRet;
-   bool   bSet = false;
 
    m_pContext->prefs->GetPrefString(kMainWindowPosPref, szTemp, &iLen);
    sscanf(szTemp, " %d , %d", &m_oWindowPos.x, &m_oWindowPos.y);
@@ -480,12 +480,12 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    }
    if (oControlName == string("MyMusic") && eMesg == CM_Pressed)
    {
-       //m_pContext->target->AcceptEvent(new Event(CMD_ToggleMusicBrowserUI));
+       m_pContext->target->AcceptEvent(new Event(CMD_ToggleMusicBrowserUI));
        return kError_NoErr;
    }
    if (oControlName == string("Playlist") && eMesg == CM_Pressed)
    {
-       //m_pContext->target->AcceptEvent(new Event(CMD_TogglePlaylistUI));
+       m_pContext->target->AcceptEvent(new Event(CMD_TogglePlaylistUI));
        return kError_NoErr;
    }
    if (oControlName == string("Download") && eMesg == CM_Pressed)
@@ -495,12 +495,12 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    }
    if (oControlName == string("Options") && eMesg == CM_Pressed)
    {
-	   PreferenceWindow *pWindow;
+       PreferenceWindow *pWindow;
        
 #ifdef WIN32
-	   pWindow = new Win32PreferenceWindow(m_pContext);
+       pWindow = new Win32PreferenceWindow(m_pContext);
 #else
-
+       pWindow = new GTKPreferenceWindow(m_pContext);
 #endif       
        pWindow->Show(m_pWindow);
        delete pWindow;

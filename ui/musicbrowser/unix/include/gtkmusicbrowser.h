@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.1.2.5 1999/09/28 05:16:52 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.1.2.6 1999/10/01 15:22:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -108,7 +108,8 @@ class MusicBrowserUI : public UserInterface {
 
     /* gtk-specific code in callbacl*/
     void ExpandCollapseEvent();
-    
+    void ToggleVisEvent();
+
     /* no gtk specific code */
     void DeleteListEvent();
     void DeleteEvent();

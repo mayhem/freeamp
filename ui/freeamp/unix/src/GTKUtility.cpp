@@ -18,9 +18,10 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.1.2.3 1999/09/28 20:22:13 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.1.2.4 1999/10/01 15:22:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
+#include <string>
 #include "thread.h"
 #include "GTKUtility.h"
 #include "facontext.h"
@@ -42,7 +43,7 @@ void IconifyWindow(GdkWindow *win)
 void WarpPointer(GdkWindow *win, int x, int y)
 {
     Window window = GDK_WINDOW_XWINDOW(win);
-    XWarpPointer(GDK_DISPLAY(), None, window, 0, 0, 0, 0, x, y);
+    XWarpPointer(GDK_DISPLAY(), window, window, 0, 0, 0, 0, x, y);
 }
 
 static void runGTK(void *c)
@@ -79,9 +80,21 @@ void InitializeGTK(FAContext *context)
 void ShutdownGTK(void)
 {
     if (weAreGTK) {
-        gdk_threads_enter();
         gtk_main_quit();
-        gdk_threads_leave();
         gtkThread->Join();
     }
+}
+
+bool ListFonts(char *mask)
+{
+    int count;
+    int maxnames = 32767;
+    char **fontnames;
+    bool retvalue = false;
+    string realmask = string("-*-") + string(mask) + string("-*");
+    fontnames = XListFonts(GDK_DISPLAY(), realmask.c_str(), maxnames, &count);
+    XFreeFontNames(fontnames);
+    if (count > 0)
+        retvalue = true;
+    return retvalue;
 }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.32 1999/10/01 07:30:31 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.33 1999/10/01 15:22:33 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -563,7 +563,7 @@ Error DownloadManager::Download(DownloadItem* item)
         struct sockaddr_in  addr;
         struct hostent      host;
         SOCKET s = -1;
-        char* file;
+        char* file = NULL;
         char* destPath = NULL;
         bool useProxy;
 
@@ -593,7 +593,7 @@ Error DownloadManager::Download(DownloadItem* item)
             if(useProxy)
             {
                 numFields = sscanf(proxyname, 
-                                   "http://%[^:/]:%d", hostname, &port);
+                                   "http://%[^:/]:%u", hostname, &port);
 
                 strcpy(proxyname, item->SourceURL().c_str());
                 file = proxyname;
@@ -601,7 +601,7 @@ Error DownloadManager::Download(DownloadItem* item)
             else
             {
                 numFields = sscanf(item->SourceURL().c_str(), 
-                               "http://%[^:/]:%d", hostname, &port);
+                               "http://%[^:/]:%u", hostname, &port);
 
                 file = strchr(item->SourceURL().c_str() + 7, '/');
             }
@@ -742,7 +742,7 @@ Error DownloadManager::Download(DownloadItem* item)
 
                 count = send(s, query, strlen(query), 0);
 
-                if(count != strlen(query))
+                if(count != (int)strlen(query))
                 {
                     result = kError_IOError;
                 }
@@ -851,7 +851,7 @@ Error DownloadManager::Download(DownloadItem* item)
 
                             if(cp)
                             {
-                                if(cp - buffer < total)
+                                if(cp - buffer < (int)total)
                                 {
                                     write(fd, cp, total - (cp - buffer));
                                     item->SetBytesReceived(total - (cp - buffer) + item->GetBytesReceived());
@@ -1120,7 +1120,8 @@ void DownloadManager::SaveResumableDownloadItems()
     
     if(DoesDBDirExist(path))
     {
-        strcat(path, "\\ResumeDownloadDB");
+        strcat(path, DIR_MARKER_STR);
+        strcat(path, "ResumeDownloadDB");
 
         Database database(path);  
 
@@ -1138,7 +1139,7 @@ void DownloadManager::SaveResumableDownloadItems()
                 if(item && item->GetState() == kDownloadItemState_Paused)
                 {
                     ostringstream ost;
-                    ostringstream num;
+                    char num[256];
                     const char* kDatabaseDelimiter = " ";
                     MetaData metadata = item->GetMetaData();
 
@@ -1150,12 +1151,10 @@ void DownloadManager::SaveResumableDownloadItems()
                     ost << item->DestinationFile().size() << kDatabaseDelimiter;
                     ost << item->PlaylistName().size() << kDatabaseDelimiter;
 
-                    num << item->GetTotalBytes();
-                    ost << num.str().size() << kDatabaseDelimiter;
-                    num.str("");
-                    num << item->GetBytesReceived();
-                    ost << num.str().size() << kDatabaseDelimiter;
-                    num.str("");
+                    sprintf(num, "%d", item->GetTotalBytes());
+                    ost << strlen(num) << kDatabaseDelimiter;
+                    sprintf(num, "%d", item->GetBytesReceived());
+                    ost << strlen(num) << kDatabaseDelimiter;
 
                     // metadata lengths
                     ost << metadata.Artist().size() << kDatabaseDelimiter;
@@ -1164,19 +1163,14 @@ void DownloadManager::SaveResumableDownloadItems()
                     ost << metadata.Comment().size() << kDatabaseDelimiter;
                     ost << metadata.Genre().size() << kDatabaseDelimiter;
 
-                    num << metadata.Year();
-                    ost << num.str().size() << kDatabaseDelimiter;
-                    num.str("");
-                    num << metadata.Track();
-                    ost << num.str().size() << kDatabaseDelimiter;
-                    num.str("");
-                    num << metadata.Time();
-                    ost << num.str().size() << kDatabaseDelimiter;
-                    num.str("");
-                    num << metadata.Size();
-                    ost << num.str().size() << kDatabaseDelimiter;
-                    num.str("");
-                
+                    sprintf(num, "%d", metadata.Year());
+                    ost << strlen(num) << kDatabaseDelimiter;
+                    sprintf(num, "%d", metadata.Track());
+                    ost << strlen(num) << kDatabaseDelimiter;
+                    sprintf(num, "%d", metadata.Time());
+                    ost << strlen(num) << kDatabaseDelimiter;
+                    sprintf(num, "%d", metadata.Size());
+                    ost << strlen(num) << kDatabaseDelimiter;
 
                     // now stuff all the data in there
                     ost << item->SourceURL();
@@ -1194,8 +1188,12 @@ void DownloadManager::SaveResumableDownloadItems()
                     ost << metadata.Track();
                     ost << metadata.Time();
                     ost << metadata.Size();
-                
+               
+#ifdef WIN32 
                     database.Insert(path, (char*)ost.str().c_str());  
+#else
+                    database.Insert(path, (char*)ost.str());
+#endif
                 }
             }
         }
@@ -1211,7 +1209,8 @@ void DownloadManager::LoadResumableDownloadItems()
 
     if(DoesDBDirExist(path))
     {
-        strcat(path, "\\ResumeDownloadDB");
+        strcat(path, DIR_MARKER_STR);
+        strcat(path, "ResumeDownloadDB");
 
         Database database(path);  
 
@@ -1219,7 +1218,7 @@ void DownloadManager::LoadResumableDownloadItems()
         {
             char *key = NULL;
 
-            while(key = database.NextKey(key)) 
+            while((key = database.NextKey(key))) 
             {
                 char* value = database.Value(key);
 

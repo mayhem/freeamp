@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.14 1999/09/28 22:59:39 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.15 1999/10/01 15:22:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -238,7 +238,7 @@ Error Theme::Run(Pos &oWindowPos)
 
 Error Theme::Close(void)
 {
-	if (m_pWindow)
+    if (m_pWindow)
        return m_pWindow->Close();
     else
        return kError_NoErr;
@@ -434,8 +434,6 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 
     if (oElement == string("TextControl"))
     {
-       Color  oColor;
-       
        if (m_pCurrentControl)
        {
            m_oLastError = string("Controls cannot be nested");
@@ -563,9 +561,6 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 
     if (oElement == string("Info"))
     {
-       Bitmap *pBitmap = NULL;
-       Rect oRect;
-
        if (m_pCurrentControl == NULL)
        {
           m_oLastError = string("The <Info> tag must be inside of a "

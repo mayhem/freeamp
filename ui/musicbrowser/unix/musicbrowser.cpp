@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.10 1999/09/28 05:16:53 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.11 1999/10/01 15:22:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h" 
@@ -52,10 +52,10 @@ MusicBrowserUI::~MusicBrowserUI()
 
 Error MusicBrowserUI::Init(int32 startup_level) 
 {
-//    if ((m_startupType = startup_level) != SECONDARY_UI_STARTUP) {
-//        cout << "The musicbrowser cannot run as the primary ui\n"; 
-//        return kError_InitFailedSafely;
-//    }
+    if ((m_startupType = startup_level) != SECONDARY_UI_STARTUP) {
+        cout << "The musicbrowser cannot run as the primary ui\n"; 
+        return kError_InitFailedSafely;
+    }
 
     m_argc = m_context->argc;
     m_argv = m_context->argv;
@@ -132,7 +132,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 gdk_threads_leave();
             }
             break; }
-        case INFO_TogglePlaylistUI: {
+        case CMD_TogglePlaylistUI: {
             gdk_threads_enter();
             if (m_initialized && isVisible) {
                 gtk_widget_hide(musicBrowser);
@@ -151,7 +151,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 ExpandCollapseEvent();
             gdk_threads_leave();
             break; }
-        case INFO_ToggleMusicBrowserUI: {
+        case CMD_ToggleMusicBrowserUI: {
             gdk_threads_enter();
             if (m_initialized && isVisible) {
                 gtk_widget_hide(musicBrowser);

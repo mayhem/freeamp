@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.7 1999/09/28 05:16:52 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.8 1999/10/01 15:22:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -199,6 +199,24 @@ void MusicBrowserUI::ExpandCollapseEvent(void)
 void expand_collapse_internal(GtkWidget *widget, MusicBrowserUI *p)
 {
     p->ExpandCollapseEvent();
+}
+
+void MusicBrowserUI::ToggleVisEvent(void)
+{
+    Event *e;
+    if (m_state == STATE_COLLAPSED)
+        e = new Event(CMD_TogglePlaylistUI);
+    else
+        e = new Event(CMD_ToggleMusicBrowserUI);
+    gdk_threads_leave();
+    AcceptEvent(e);
+    gdk_threads_enter();
+    delete e;
+}
+
+void toggle_vis_internal(GtkWidget *widget, MusicBrowserUI *p)
+{
+    p->ToggleVisEvent();
 }
 
 void delete_list_internal(GtkWidget *widget, MusicBrowserUI *p)
@@ -547,7 +565,7 @@ void MusicBrowserUI::CreatePlaylist(void)
     gtk_window_set_title(GTK_WINDOW(musicBrowser), "Playlist Editor");
     gtk_window_set_policy(GTK_WINDOW(musicBrowser), TRUE, TRUE, TRUE);
     gtk_signal_connect(GTK_OBJECT(musicBrowser), "destroy",
-                       GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
+                       GTK_SIGNAL_FUNC(toggle_vis_internal), this);
     gtk_container_set_border_width(GTK_CONTAINER(musicBrowser), 5);
 
 
@@ -668,7 +686,7 @@ void MusicBrowserUI::CreatePlaylist(void)
     button = gtk_button_new_with_label("  Close  ");
     gtk_box_pack_end(GTK_BOX(controlhbox), button, FALSE, FALSE, 3);
     gtk_signal_connect(GTK_OBJECT(button), "clicked",
-                       GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
+                       GTK_SIGNAL_FUNC(toggle_vis_internal), this);
     gtk_widget_show(button);
 
     gtk_widget_show(musicBrowser);

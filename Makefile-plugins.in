@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.14 1999/10/01 06:19:24 robert Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.15 1999/10/01 15:22:33 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -29,7 +29,8 @@ OSDEPPLUGINS = @OSDEPPLUGINS@
 clean-plugins plugins-clean:
 	-rm -f $(LFIOBJ) $(HTTPOBJ) $(OBSPMI) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(THEMEUIOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(FREEAMPUIOBJ) $(ID3V1OBJ) $(ID3V2OBJ) $(M3UOBJ) $(PMP300OBJ) $(XINGLMCOBJ) plugins/*.*
 
-PLUGINS =  plugins/localfileinput.pmi
+PLUGINS =  lib/zlib/lib/libzlib.a
+PLUGINS += plugins/localfileinput.pmi
 PLUGINS += plugins/httpinput.pmi
 PLUGINS += plugins/obsinput.pmi
 
@@ -37,10 +38,8 @@ PLUGINS += plugins/soundcard.pmo
 
 PLUGINS += plugins/freeampcmd.ui
 PLUGINS += plugins/mpg123.ui
-#PLUGINS += plugins/ncurses.ui
 PLUGINS += plugins/lcd.ui
 PLUGINS += plugins/irman.ui
-#PLUGINS += plugins/theme.ui
 
 PLUGINS += plugins/xingmp3.lmc
 
@@ -48,7 +47,6 @@ PLUGINS += plugins/id3v1.mdf
 # PLUGINS += plugins/id3v2.mdf  not yet...
 
 PLUGINS += plugins/m3u.plf
-PLUGINS += lib/zlib/lib/libzlib.a
 
 plugins plugins-cc: $(PLUGINS) $(OSDEPPLUGINS)
 
@@ -123,13 +121,14 @@ THEMEUIOBJ = ui/theme/src/Theme.o ui/theme/src/Bitmap.o \
              ui/theme/src/Window.o ui/theme/src/ButtonControl.o \
              ui/theme/src/Control.o ui/theme/src/TextControl.o \
              ui/theme/src/DialControl.o ui/theme/src/Font.o \
-             ui/theme/unix/src/GTKMessageDialog.o \
+             ui/theme/src/FreeAmpTheme.o ui/theme/src/ThemeZip.o \
+             ui/theme/unix/src/GTKMessageDialog.o ui/theme/unix/src/GTKFont.o \
              ui/theme/unix/src/GTKWindow.o ui/theme/unix/src/GTKBitmap.o \
              ui/theme/unix/src/GTKCanvas.o ui/theme/unix/src/GTKUtility.o \
-             ui/theme/src/FreeAmpTheme.o 
+             ui/theme/unix/src/GTKPreferenceWindow.o 
 
 plugins/theme.ui: $(THEMEUIOBJ)
-	$(LINKMOD) -o $@ $(THEMEUIOBJ) $(GTK_LIBS)
+	$(LINKMOD) -o $@ $(THEMEUIOBJ) $(GTK_LIBS) -Llib/zlib/lib -lzlib
 
 # cmdline
 CMDUIOBJ = ui/cmdline/cmdlineUI.o
@@ -241,7 +240,7 @@ lib/zlib/lib/libzlib.a: $(ZLIBOBJ)
 	$(LIBMOD) $@ $(ZLIBOBJ)
 
 depend:
-	makedepend -fMakefile-plugins -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(LFIOBJ) $(THEMEUIOBJ) $(HTTPOBJ) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(GTKUIOBJ) $(FREEAMPUIOBJ) $(XINGLMCOBJ) $(PMP300OBJ) $(M3UOBJ) $(ID3V1OBJ) $(ID3V2OBJ) | sed -e 's,\.o,.cpp,g'`
+	makedepend -fMakefile-plugins -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(LFIOBJ) $(THEMEUIOBJ) $(MUSICBROWSEROBJ) $(HTTPOBJ) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(GTKUIOBJ) $(FREEAMPUIOBJ) $(XINGLMCOBJ) $(PMP300OBJ) $(M3UOBJ) $(ID3V1OBJ) $(ID3V2OBJ) | sed -e 's,\.o,.cpp,g'`
  
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 

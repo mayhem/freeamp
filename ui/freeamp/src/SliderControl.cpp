@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.1.2.7 1999/09/23 18:13:47 robert Exp $
+   $Id: SliderControl.cpp,v 1.1.2.8 1999/10/01 15:22:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -67,9 +67,7 @@ SliderControl::~SliderControl(void)
 
 void SliderControl::Init(void)
 {
-    Rect oRect;
-
-	m_iThumbWidth = m_oBitmapRect.Width() / 3;
+    m_iThumbWidth = m_oBitmapRect.Width() / 3;
     
     m_iRange = m_oRect.Width() - m_iThumbWidth;
 
@@ -124,7 +122,7 @@ void SliderControl::Transition(ControlTransitionEnum  eTrans,
 	        m_oOrigin.x += oRect.x1;
 	        m_oOrigin.y += oRect.y1;
 	        
-	        m_pParent->SetMousePos(m_oOrigin);
+//	        m_pParent->SetMousePos(m_oOrigin);
 	        m_pParent->EndMouseCapture();
 	        m_pParent->HideMouse(false);
 	        m_oOrigin.x = -1;
@@ -167,19 +165,18 @@ void SliderControl::HandleJump(ControlTransitionEnum  eTrans,
                                Pos                   *pPos)
 {
     int     iNewPos;
-    Rect    oRect;
 
-	iNewPos = pPos->x - m_oRect.x1 - (m_iThumbWidth / 2);
+    iNewPos = pPos->x - m_oRect.x1 - (m_iThumbWidth / 2);
     iNewPos = min(max(iNewPos, 0), m_iRange);
     if (iNewPos == m_iCurrentPos)
        return;
 
-	MoveThumb(m_iCurrentPos, iNewPos);
+    MoveThumb(m_iCurrentPos, iNewPos);
 
     m_iCurrentPos = iNewPos;
     m_oLastPos = *pPos;
     
-	m_iValue = (m_iCurrentPos * 100) / m_iRange;
+    m_iValue = (m_iCurrentPos * 100) / m_iRange;
     m_bIsDrag = true;
 }
 
@@ -187,7 +184,6 @@ void SliderControl::HandleDrag(ControlTransitionEnum  eTrans,
                                Pos                   *pPos)
 {
     int     iDelta, iNewPos;
-    Rect    oRect;
 
     // Is this the beginning of a drag?
     if (m_oOrigin.x == -1)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.1.2.5 1999/09/27 22:16:50 robert Exp $
+   $Id: Parse.cpp,v 1.1.2.6 1999/10/01 15:22:33 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -60,7 +60,7 @@ Error Parse::ParseFile(const string &oFile)
     fpFile = fopen(oFile.c_str(), "r");
     if (fpFile == NULL)
     {
-       m_oLastError = string("File ") + oFile + string("not found"); 
+       m_oLastError = string("File ") + oFile + string(" not found"); 
        return kError_FileNotFound;
     }   
 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.26 1999/10/01 08:07:01 elrod Exp $
+        $Id: player.cpp,v 1.133.2.27 1999/10/01 15:22:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -104,6 +104,9 @@ EventQueue()
 
     m_lmcExtensions = NULL;
 
+    m_browserUI = NULL;
+    m_downloadUI = NULL;
+
     m_pmo = NULL;
     m_lmc = NULL;
     m_ui = NULL;
@@ -143,16 +146,12 @@ EventQueue()
         MKDIR(tempDir);
     }
 
-    delete [] tempDir;
-
-
-    char *tempstr = FreeampDir(m_context->prefs);
-    string freeampdir = tempstr;
+    string freeampdir = tempDir;
     freeampdir += DIR_MARKER_STR;
     freeampdir += "metadatabase";
     m_musicBrowser->SetDatabase(freeampdir.c_str());
-    delete tempstr;
 
+    delete [] tempDir;
     m_downloadManager = new DownloadManager(m_context);
     m_context->downloadManager = m_downloadManager;
 }

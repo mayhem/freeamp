@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.1.2.1 1999/10/01 06:12:59 robert Exp $
+   $Id: ThemeZip.cpp,v 1.1.2.2 1999/10/01 15:22:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -80,7 +80,6 @@ Error ThemeZip::CompressThemeZip(const string &oDestFile,
    for(i = oFileList.begin(); i != oFileList.end(); i++)
    {
        char *pPtr;
-       int   iOffset;
 
        oFile = *(*i);
        printf("File: %s\n", oFile.c_str());

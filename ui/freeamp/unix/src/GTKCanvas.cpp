@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.1.2.7 1999/09/28 05:16:53 ijr Exp $
+   $Id: GTKCanvas.cpp,v 1.1.2.8 1999/10/01 15:22:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -55,12 +55,22 @@ void GTKCanvas::Init(void)
     m_pBufferBitmap->MaskBlitRect(m_pBGBitmap, m_oBGRect, oDestRect);
 }
 
-Error GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect,
-                            string &oText, AlignEnum eAlign, 
-                            string &oFont, const Color &oColor)
+int GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect,
+                          string &oText, AlignEnum eAlign, 
+                          Font *pFont, const Color &oColor,
+                          bool bBold, bool bItalic, bool bUnderline)
 {
    Erase(oClipRect);
-   return kError_NoErr;
+   return 0;
+}
+
+int GTKCanvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
+                                string &oText, int iOffset,
+                                Font *pFont, const Color &oColor,
+                                bool bBold, bool bItalic, bool bUnderline)
+{
+   Erase(oClipRect);
+   return 0;
 }
 
 Error GTKCanvas::Invalidate(Rect &oRect)
@@ -106,6 +116,7 @@ void GTKCanvas::Paint(Rect &oRect)
     }
     gdk_window_set_back_pixmap(w->window, m_pBufferBitmap->GetBitmap(), 0);
     gdk_window_clear(w->window);
+    gdk_flush();
     gdk_threads_leave();
 }
 

@@ -18,19 +18,50 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.h,v 1.1.2.3 1999/10/01 15:22:34 ijr Exp $
+   $Id: GTKFont.h,v 1.1.2.1 1999/10/01 15:22:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef INCLUDED_GTKUTILITY__H_
-#define INCLUDED_GTKUTILITY__H_
+#ifndef INCLUDED_GTKFONT_H__
+#define INCLUDED_GTKFONT_H__
 
+#include <string>
 #include <gdk/gdk.h>
-#include "facontext.h"
+#include "GTKBitmap.h"
 
-void IconifyWindow(GdkWindow *win);
-void WarpPointer(GdkWindow *win, int x, int y);
-void InitializeGTK(FAContext *context);
-void ShutdownGTK(void);
+using namespace std;
 
-bool ListFonts(char *);
+#include "Font.h"
+
+enum FontTypeEnum 
+{
+    kFontTypeGdk,
+    kFontTypeGdkFontSet,
+    kFontTypeTTF,
+    kFontTypeBitmap,
+    kFontTypeUnknown
+}; 
+
+class GTKFont : public Font
+{
+    public:
+
+               GTKFont(string &oName, string &oFace, string &oDefault);
+      virtual ~GTKFont(void);
+
+      Error    RenderFont(int iFontHeight, Rect &oClipRect, string &oText,
+		          int iOffset, const Color &oColor, bool bBold, 
+			  bool bItalic, bool bUnderline, GTKBitmap *bitmap);
+    private:
+      FontTypeEnum type;
+
+      GdkFont *gfont;
+      string   BuildFontString(bool bBold, bool bItalic, bool bUnderLine, 
+		               int iFontHeight);
+
+      bool bold;
+      bool italic;
+      bool underline;
+      bool first;
+};
+
 #endif

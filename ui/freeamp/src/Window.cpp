@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.1.2.10 1999/09/29 20:12:42 robert Exp $
+   $Id: Window.cpp,v 1.1.2.11 1999/10/01 15:22:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -211,19 +211,18 @@ void Window::HandleMouseMove(Pos &oScreenPos)
     Pos      oPos;
     Rect     oRect;
 
-	if (m_bMouseButtonDown)
+    if (m_bMouseButtonDown)
     {
-       GetWindowPosition(oRect);
-       oRect.x1 += (oScreenPos.x - m_oMovePos.x);
-       oRect.x2 += (oScreenPos.x - m_oMovePos.x);
-       oRect.y1 += (oScreenPos.y - m_oMovePos.y);
-       oRect.y2 += (oScreenPos.y - m_oMovePos.y);
-       SetWindowPosition(oRect);
+       m_oMoveStart.x1 += (oScreenPos.x - m_oMovePos.x);
+       m_oMoveStart.x2 += (oScreenPos.x - m_oMovePos.x);
+       m_oMoveStart.y1 += (oScreenPos.y - m_oMovePos.y);
+       m_oMoveStart.y2 += (oScreenPos.y - m_oMovePos.y);
 
        m_oMovePos = oScreenPos;
+       SetWindowPosition(m_oMoveStart);
        
        return; 
-	}
+    }
 
     GetWindowPosition(oRect);
     oPos.x = oScreenPos.x - oRect.x1;
@@ -289,9 +288,10 @@ void Window::HandleMouseLButtonDown(Pos &oScreenPos)
        return;
     }
 
-	m_bMouseButtonDown = true;
+    m_bMouseButtonDown = true;
     CaptureMouse(true);
        
+    GetWindowPosition(m_oMoveStart);
     m_oMovePos = oScreenPos;
 
     return;

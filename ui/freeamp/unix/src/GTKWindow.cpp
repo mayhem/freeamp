@@ -18,10 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.7 1999/09/28 20:22:13 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.8 1999/10/01 15:22:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
+#include <unistd.h>
 #include "facontext.h"
 #include "Theme.h"
 #include "GTKWindow.h"
@@ -32,8 +33,8 @@ void mouse_move(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
 {
     Pos oPos;
 
-    oPos.x = (int)e->motion.x;
-    oPos.y = (int)e->motion.y;
+    oPos.x = (int)e->motion.x_root;
+    oPos.y = (int)e->motion.y_root;
     gdk_threads_leave();
     ui->HandleMouseMove(oPos);
     gdk_threads_enter();
@@ -43,8 +44,8 @@ void button_down(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
 {
     Pos oPos;
 
-    oPos.x = (int)e->button.x;
-    oPos.y = (int)e->button.y;
+    oPos.x = (int)e->button.x_root;
+    oPos.y = (int)e->button.y_root;
     gdk_threads_leave();
     if (e->button.button == 1) 
         ui->HandleMouseLButtonDown(oPos);
@@ -54,8 +55,8 @@ void button_down(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
 void button_up(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
 {
     Pos oPos;
-    oPos.x = (int)e->button.x;
-    oPos.y = (int)e->button.y;
+    oPos.x = (int)e->button.x_root;
+    oPos.y = (int)e->button.y_root;
     gdk_threads_leave();
     if (e->button.button == 1)
         ui->HandleMouseLButtonUp(oPos);
@@ -103,8 +104,9 @@ Error GTKWindow::Run(Pos &oPos)
                        GTK_SIGNAL_FUNC(gtk_widget_destroy), NULL);
     gtk_widget_set_uposition(mainWindow, m_oWindowPos.x, m_oWindowPos.y);
     gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
-
-    gtk_widget_set_events(mainWindow, GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
+    gtk_widget_set_events(mainWindow, GDK_SUBSTRUCTURE_MASK | GDK_STRUCTURE_MASK
+                          | GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | 
+                          GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
     gtk_widget_realize(mainWindow);
 
     gtk_signal_connect(GTK_OBJECT(mainWindow), "motion_notify_event",
@@ -113,9 +115,7 @@ Error GTKWindow::Run(Pos &oPos)
                        GTK_SIGNAL_FUNC(button_down), this);
     gtk_signal_connect(GTK_OBJECT(mainWindow), "button_release_event",
                        GTK_SIGNAL_FUNC(button_up), this);
-   
-  //  gdk_window_set_decorations(mainWindow->window, (GdkWMDecoration)0);
-
+    gdk_window_set_decorations(mainWindow->window, (GdkWMDecoration)0);
     gdk_threads_leave();
     
     Init();
@@ -129,13 +129,16 @@ Error GTKWindow::Run(Pos &oPos)
  
     initialized = true;
 
-    for (;;) ;
+    while (mainWindow) 
+       sleep(1);
     return kError_NoErr;
 }
 
 Error GTKWindow::Close(void)
 {
     gtk_widget_destroy(mainWindow);
+    gdk_flush();
+    mainWindow = NULL;
     return kError_NoErr;
 }
 
@@ -170,7 +173,7 @@ Error GTKWindow::SetTitle(string &oTitle)
 Error GTKWindow::CaptureMouse(bool bCapture)
 {
     if (bCapture) {
-        gdk_pointer_grab(mainWindow->window, FALSE, (GdkEventMask)(GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK), mainWindow->window, NULL, 0);
+        gdk_pointer_grab(mainWindow->window, FALSE, (GdkEventMask)(GDK_SUBSTRUCTURE_MASK | GDK_STRUCTURE_MASK | GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK), mainWindow->window, NULL, 0);
     }
     else {
         gdk_pointer_ungrab(0);
@@ -204,7 +207,8 @@ Error GTKWindow::SetWindowPosition(Rect &oWindowRect)
 
 Error GTKWindow::GetWindowPosition(Rect &oWindowRect) 
 {
-    gdk_window_get_position(mainWindow->window, &oWindowRect.x1, &oWindowRect.y1);
+    gdk_window_get_position(mainWindow->window, &oWindowRect.x1, 
+                            &oWindowRect.y1);
     return kError_NoErr;
 }
 

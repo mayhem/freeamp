@@ -1,6 +1,6 @@
 # Freeamp Makefile header 
 # contains all the compiler-related configure-extracted vars
-# $Id: Makefile.header.in,v 1.3 1999/12/06 12:27:24 ijr Exp $
+# $Id: Makefile.header.in,v 1.4 1999/12/08 03:18:30 ijr Exp $
 
 SHELL = /bin/sh
 
@@ -86,9 +86,12 @@ CXXCOMPILE += $(RELOC)
 
 CXXLINK = $(CXXLD) $(CXXFLAGS) $(LDFLAGS) $(RELOC) -o $@
 
-.SUFFIXES: .S .c .cpp .o .s .doh .asm .asm1
+.SUFFIXES: .S .c .cpp .lo .o .s .doh .asm .asm1
 
 .cpp.o:
+	$(CXXCOMPILE) -c $< -o $@
+
+.cpp.lo:
 	$(CXXCOMPILE) -c $< -o $@
 
 .cpp.doh:

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.17 1999/12/07 21:36:54 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.18 1999/12/08 03:18:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -117,6 +117,8 @@ class GTKMusicBrowser {
     bool m_browserCreated;
 
     bool master;
+
+    uint32 m_playingindex;
 
     PlaylistManager *m_plm;
     MusicCatalog *m_musicCatalog;

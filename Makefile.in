@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.41 1999/11/29 22:44:10 ijr Exp $
+# $Id: Makefile.in,v 1.42 1999/12/08 03:18:30 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -21,7 +21,7 @@ lib/gdbm/lib/libfagdbm.a: $(GDBMOBJ)
 	+test -d lib/gdbm/lib || mkdir lib/gdbm/lib
 	$(LIBMOD) $@ $(GDBMOBJ)
 
-PARSEOBJ += lib/xml/src/Parse.o
+PARSEOBJ = lib/xml/src/Parse.o
 
 lib/xml/lib/libfaxml.a: $(PARSEOBJ)
 	+test -d lib/xml/lib || mkdir lib/xml/lib

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.217 2000/08/04 17:54:04 ijr Exp $
+        $Id: player.cpp,v 1.218 2000/08/04 23:28:55 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1793,6 +1793,13 @@ Next(Event *pEvent)
 {
    if (m_playerState != PlayerState_Stopped)
    {
+       PlaylistItem *item = m_plm->GetCurrentItem();
+       if (item)
+       {
+          MetaData mdata = (MetaData)item->GetMetaData();
+          m_APSInterface->WriteToLog(mdata.GUID(), APSInterface::SongSkip);
+       }
+
       AcceptEvent(new Event(CMD_Stop));
    }
 
@@ -1819,6 +1826,13 @@ Previous(Event *pEvent)
 {
    if (m_playerState != PlayerState_Stopped)
    {
+       PlaylistItem *item = m_plm->GetCurrentItem();
+       if (item)
+       {
+          MetaData mdata = (MetaData)item->GetMetaData();
+          m_APSInterface->WriteToLog(mdata.GUID(), APSInterface::SongSkip);
+       }
+
       AcceptEvent(new Event(CMD_Stop));
    }
 
@@ -2332,6 +2346,5 @@ void Player::synclog_timer(void* arg)
 
 void Player::SyncLog()
 {
-cout << "sync!\n";
     m_context->aps->SyncLog();
 }

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.19 1998/11/06 21:05:11 jdw Exp $
+	$Id: main.cpp,v 1.20 1998/11/09 07:53:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -41,6 +41,17 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 {
     // Initialize the preferences in case the user moved the app
    Preferences* prefs;
+   HANDLE runOnceMutex;
+
+   runOnceMutex = CreateMutex(	NULL,
+							    TRUE,
+							    "FreeAmp Should Only Run One Time!");
+
+   if(GetLastError() == ERROR_ALREADY_EXISTS)
+   {
+        return 0;
+   }
+
 
    prefs = new Preferences;
    prefs->Initialize();

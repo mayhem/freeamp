@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: FreeAmpStreams.h,v 1.1 2000/06/01 20:32:15 robert Exp $
+	$Id: FreeAmpStreams.h,v 1.2 2000/06/01 22:38:52 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMPSTREAMS_H
@@ -49,32 +49,35 @@ struct FreeAmpStreamInfo
 /*
 
 The data will look like this:
-<directory>
-   <service name="Wired Planet">
-       <service name="Fuss">
-           <resource href="http://icecast.server.com:8000/stream">
-               <name>Fuss stream</name>
-               <description>This is some description</description>
-               <genre>fuss hop</genre>
-               <url>http://www.icecast.org</url>
-               <bitrate>64000</bitrate>
-               <users>316</users>
-               <maxusers>350</maxusers>
-           </resource>
-       </service>
-       <resource href="http://icecast.server.com:8000/stream">
-           <name>Some stream</name>
-           <description>This is some description</description>
-           <genre>fuss hop</genre>
-           <url>http://www.icecast.org</url>
-           <bitrate>64000</bitrate>
-           <users>316</users>
-           <maxusers>350</maxusers>
-        </resource>
-   <service>
-</directory>
 
 And it should be available at:
+
+<Directory>
+   <Service Name="Wired Planet">
+       <Service Name="Fuss">
+           <Stream>
+               <Url>http://icecast.server.com:8000/stream</Url>
+               <Name>Fuss stream</Name>
+               <Description>This is some description</Description>
+               <Genre>fuss hop</Genre>
+               <WebUrl>http://www.icecast.org</WebUrl>
+               <Bitrate>64000</Bitrate>
+               <Users>316</Users>
+               <MaxUsers>350</MaxUsers>
+           </Stream>
+       </Service>
+       <Stream> 
+           <Url>http://icecast.server.com:8000/stream</Url>
+           <Name>Some stream</Name>
+           <Description>This is some description</Description>
+           <Genre>fuss hop</Genre>
+           <WebUrl>http://www.icecast.org</WebUrl>
+           <Bitrate>64000</Bitrate>
+           <Users>316</Users>
+           <MaxUsers>350</MaxUsers>
+        </Stream>
+   </Service>
+</Directory>
 
 http://www.freeamp.org/streams.xml
 
@@ -87,6 +90,8 @@ class FreeAmpStreams : public Parse
     virtual ~FreeAmpStreams(void);
 
        Error ParseStreamXML(const string &xml, 
+                            vector<FreeAmpStreamInfo> &list);
+       Error ParseFileXML  (const string &file, 
                             vector<FreeAmpStreamInfo> &list);
 
  protected:

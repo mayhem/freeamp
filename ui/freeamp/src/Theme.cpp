@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.19 1999/10/04 17:57:59 ijr Exp $
+   $Id: Theme.cpp,v 1.1.2.20 1999/10/06 03:07:15 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -43,6 +43,10 @@ ____________________________________________________________________________*/
 #include "GTKWindow.h"
 #include "GTKBitmap.h"
 #include "GTKFont.h"
+#elif defined(__BEOS__)
+#include "BeOSWindow.h"
+#include "BeOSBitmap.h"
+#include "BeOSFont.h"
 #endif
 
 const int iThemeVersionMajor = 1;
@@ -288,6 +292,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        pBitmap = new Win32Bitmap(oAttrMap["Name"]);
 #elif defined(HAVE_GTK)
        pBitmap = new GTKBitmap(oAttrMap["Name"]);
+#elif defined(__BEOS__)
+       pBitmap = new BeOSBitmap(oAttrMap["Name"]);
 #endif
 
 	   if (oAttrMap.find("TransColor") != oAttrMap.end())
@@ -342,6 +348,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        pFont = new Win32Font(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
 #elif defined (HAVE_GTK)
        pFont = new GTKFont(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
+#elif defined (__BEOS__)
+       pFont = new BeOSFont(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
 #endif
        if (!m_pParsedFonts)
            m_pParsedFonts = new vector<Font *>;
@@ -367,6 +375,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        m_pCurrentWindow = new Win32Window(this, oAttrMap["Name"]);
 #elif defined(HAVE_GTK)
        m_pCurrentWindow = new GTKWindow(this, oAttrMap["Name"]);
+#elif defined(__BEOS__)
+       m_pCurrentWindow = new BeOSWindow(this, oAttrMap["Name"]);
 #endif
 
        return kError_NoErr;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.35 1999/10/06 00:48:46 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.36 1999/10/06 03:07:15 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -29,6 +29,8 @@ ____________________________________________________________________________*/
 #include "GTKPreferenceWindow.h"
 #elif defined(WIN32)
 #include "Win32PreferenceWindow.h"
+#elif defined(__BEOS__)
+#include "BeOSPreferenceWindow.h"
 #endif
 
 #include "FreeAmpTheme.h"
@@ -97,7 +99,7 @@ Error FreeAmpTheme::Init(int32 startup_type)
 void FreeAmpTheme::WorkerThread(void)
 {
    char   szTemp[255];
-   unsigned int  iLen = 255;
+   uint32 iLen = 255;
    Error  eRet;
 
    m_pContext->prefs->GetPrefString(kMainWindowPosPref, szTemp, &iLen);
@@ -130,7 +132,7 @@ void WorkerThreadStart(void* arg)
 void FreeAmpTheme::LoadFreeAmpTheme(void)
 {
    char          szTemp[255];
-   unsigned int  iLen = 255;
+   uint32        iLen = 255;
    string        oThemePath, oThemeFile("theme.xml");
    Error         eRet;
 
@@ -538,7 +540,11 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
 #ifdef WIN32
        pWindow = new Win32PreferenceWindow(m_pContext);
 #else
+#ifdef __BEOS__
+       pWindow = new BeOSPreferenceWindow(m_pContext);
+#else
        pWindow = new GTKPreferenceWindow(m_pContext);
+#endif
 #endif       
        if (pWindow->Show(m_pWindow))
        	  ReloadTheme();
@@ -679,7 +685,7 @@ void FreeAmpTheme::InitWindow(void)
 void FreeAmpTheme::ReloadTheme(void)
 {
     char          szTemp[255];
-    unsigned int  iLen = 255;
+    uint32        iLen = 255;
     string        oThemePath, oThemeFile("theme.xml");
     Error         eRet;
 

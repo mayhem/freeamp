@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.18 1999/11/02 20:24:40 robert Exp $
+	$Id: preferences.h,v 1.19 1999/11/19 10:35:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -210,8 +210,8 @@ class Preferences {
     Error GetVolume(int32* value);
     Error SetVolume(int32 value);  
 
-    Error GetUserName(char* name, uint32* len);
-    Error SetUserName(const char* name);
+    Error GetUsersName(char* name, uint32* len);
+    Error SetUsersName(const char* name);
 
     Error GetSaveMusicDirectory(char* path, uint32* len);
     Error SetSaveMusicDirectory(const char* path);

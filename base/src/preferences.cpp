@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.25 1999/11/02 20:24:43 robert Exp $
+        $Id: preferences.cpp,v 1.26 1999/11/19 10:35:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -767,14 +767,14 @@ SetVolume(int32 value)
 
 Error
 Preferences::
-GetUserName(char* name, uint32* len)
+GetUsersName(char* name, uint32* len)
 {
     return GetPrefString(kUserNamePref, name, len);
 }
 
 Error
 Preferences::
-SetUserName(const char* name)
+SetUsersName(const char* name)
 {
     return SetPrefString(kUserNamePref, name);
 }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: list.h,v 1.5 1999/03/08 14:31:24 elrod Exp $
+	$Id: list.h,v 1.6 1999/03/18 23:00:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LIST_H_
@@ -262,8 +262,9 @@ AddItem(T &item, int32 index)
 		        delete [] m_list;
 
 		        m_list = pNewObjs;
-		        memset(&(m_list[m_insertionPoint+1]),0,m_insertionPoint + m_threshhold - 2);
-		        m_currentLength += m_threshhold;
+                m_currentLength += m_threshhold;
+
+		        memset(&(m_list[m_insertionPoint+1]),0, m_currentLength - m_insertionPoint - 1);
 	        } 
             else 
             {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.cpp,v 1.11 1999/03/18 08:09:05 elrod Exp $
+	$Id: listview.cpp,v 1.12 1999/03/18 23:00:56 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -903,7 +903,7 @@ DeleteSelection()
     bool result = false;
 
     // remove selected items from list
-    List<ListItem*>* selectList = new List<ListItem*>();
+    //List<ListItem*>* selectList = new List<ListItem*>();
     List<PlayListItem*>* playlistList = new List<PlayListItem*>();
 
     FreeAmpUI* ui = (FreeAmpUI*)GetWindowLong(Window(), GWL_USERDATA);
@@ -923,7 +923,7 @@ DeleteSelection()
 
             playlistItem = (PlayListItem*)listItem->UserValue();
 
-            playlistList->AddItem(playlistItem, 0);
+            playlistList->AddItem(playlistItem);
 
             delete listItem;
         }

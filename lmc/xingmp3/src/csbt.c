@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: csbt.c,v 1.3.10.1 2000/08/11 18:27:45 robert Exp $
+	$Id: csbt.c,v 1.3.10.2 2000/10/13 08:30:09 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  csbt.c  ***************************************************
@@ -50,7 +50,7 @@ void fdct8(MPEG *m, float *, float *);
 void fdct8_dual(MPEG *m, float *, float *);
 void fdct8_dual_mono(MPEG *m, float *, float *);
 
-void window(float *, int , short *pcm);
+void window(MPEG *m, float *, int , short *pcm);
 void window_dual(MPEG *m, float *, int , short *pcm);
 void window16(MPEG *m, float *, int , short *pcm);
 void window16_dual(MPEG *m, float *, int , short *pcm);
@@ -113,7 +113,7 @@ void sbt_mono(MPEG *m, float *sample, short *pcm, int n)
    for (i = 0; i < n; i++)
    {
       fdct32(m, sample, m->csbt.vbuf + m->csbt.vb_ptr);
-      window(m->csbt.vbuf, m->csbt.vb_ptr, pcm);
+      window(m, m->csbt.vbuf, m->csbt.vb_ptr, pcm);
       sample += 64;
       m->csbt.vb_ptr = (m->csbt.vb_ptr - 32) & 511;
       pcm += 32;
@@ -147,7 +147,7 @@ void sbt_dual_mono(MPEG *m, float *sample, short *pcm, int n)
    for (i = 0; i < n; i++)
    {
       fdct32_dual_mono(m,sample, m->csbt.vbuf + m->csbt.vb_ptr);
-      window(m->csbt.vbuf, m->csbt.vb_ptr, pcm);
+      window(m,m->csbt.vbuf, m->csbt.vb_ptr, pcm);
       sample += 64;
       m->csbt.vb_ptr = (m->csbt.vb_ptr - 32) & 511;
       pcm += 32;
@@ -163,7 +163,7 @@ void sbt_dual_left(MPEG *m, float *sample, short *pcm, int n)
    for (i = 0; i < n; i++)
    {
       fdct32_dual(m,sample, m->csbt.vbuf + m->csbt.vb_ptr);
-      window(m->csbt.vbuf, m->csbt.vb_ptr, pcm);
+      window(m,m->csbt.vbuf, m->csbt.vb_ptr, pcm);
       sample += 64;
       m->csbt.vb_ptr = (m->csbt.vb_ptr - 32) & 511;
       pcm += 32;
@@ -179,7 +179,7 @@ void sbt_dual_right(MPEG *m, float *sample, short *pcm, int n)
    for (i = 0; i < n; i++)
    {
       fdct32_dual(m,sample, m->csbt.vbuf + m->csbt.vb_ptr);
-      window(m->csbt.vbuf, m->csbt.vb_ptr, pcm);
+      window(m,m->csbt.vbuf, m->csbt.vb_ptr, pcm);
       sample += 64;
       m->csbt.vb_ptr = (m->csbt.vb_ptr - 32) & 511;
       pcm += 32;

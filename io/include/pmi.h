@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.29 2000/04/28 00:42:54 robert Exp $
+	$Id: pmi.h,v 1.29.10.1 2000/10/13 08:30:07 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMI_H_
@@ -31,6 +31,7 @@ ____________________________________________________________________________*/
 #include "config.h"
 
 #if HAVE_UNISTD_H
+#undef socklen_t
 #include <unistd.h>
 #elif HAVE_IO_H
 #include <io.h>

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: csbtL3.c,v 1.2.26.1 2000/08/11 18:27:45 robert Exp $
+	$Id: csbtL3.c,v 1.2.26.2 2000/10/13 08:30:09 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  csbtL3.c  ***************************************************
@@ -42,7 +42,7 @@ void sbt_mono_L3(MPEG *m, float *sample, short *pcm, int ch)
    for (i = 0; i < 18; i++)
    {
       fdct32(m,sample, m->csbt.vbuf + m->csbt.vb_ptr);
-      window(m->csbt.vbuf, m->csbt.vb_ptr, pcm);
+      window(m,m->csbt.vbuf, m->csbt.vb_ptr, pcm);
       sample += 32;
       m->csbt.vb_ptr = (m->csbt.vb_ptr - 32) & 511;
       pcm += 32;

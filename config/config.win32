@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.11 1999/08/20 19:24:25 robert Exp $
+	$Id: config.win32,v 1.12 1999/08/20 19:57:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -53,6 +53,7 @@ ____________________________________________________________________________*/
 #define usleep(x) ::Sleep(x/1000)
 #define strcasecmp(a,b) stricmp(a,b)
 #define strncasecmp(a,b,c) strnicmp(a,b,c)
+typedef int socklen_t;
 #endif
 
 /* define our datatypes */
@@ -129,8 +130,5 @@ typedef short			int32;
 #endif
 #endif /* NULL */
 
-#ifdef WIN32
-typedef int socklen_t;
-#endif
 
 #endif /* CONFIG_H */

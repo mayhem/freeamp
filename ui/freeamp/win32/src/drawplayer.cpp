@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: drawplayer.cpp,v 1.29 1998/11/10 05:46:16 elrod Exp $
+	$Id: drawplayer.cpp,v 1.30 1998/11/10 06:19:56 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1764,6 +1764,10 @@ LRESULT WINAPI MainWndProc( HWND hwnd,
                         if(i == kSeekControl)
                         {
                             KillTimer(hwnd, 0x02);
+
+                            g_displayInfo.hours = g_displayInfo.seekhours;
+                            g_displayInfo.minutes = g_displayInfo.seekminutes;
+                            g_displayInfo.seconds = g_displayInfo.seekseconds;
 
                             if(g_ui->m_state == STATE_Playing)
                             {

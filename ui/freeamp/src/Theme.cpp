@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.10 1999/11/13 01:21:45 ijr Exp $
+   $Id: Theme.cpp,v 1.11 1999/11/17 02:55:32 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -195,7 +195,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
         free(pTemp);
         if (MKDIR(oTempPath.c_str()))
         {
-            MessageDialog oBox;
+            MessageDialog oBox(m_pContext);
             string        oErr, oMessage(szCannotCreateTempDirError);
 
             oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
@@ -210,7 +210,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
         
             if (oFile.length() > 0)
             {
-                MessageDialog oBox;
+                MessageDialog oBox(m_pContext);
        
                 string        oErr, oMessage(szThemeNotFoundError);
 
@@ -228,7 +228,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
         }
         if (IsError(eRet))
         {
-            MessageDialog oBox;
+            MessageDialog oBox(m_pContext);
             string        oErr, oMessage(szThemeUnzipError);
 
             oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKMessageDialog.cpp,v 1.4 1999/11/13 01:21:46 ijr Exp $
+   $Id: GTKMessageDialog.cpp,v 1.5 1999/11/17 02:55:33 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <gtk/gtk.h>
@@ -27,7 +27,7 @@ ____________________________________________________________________________*/
 #include "MessageDialog.h"
 
 
-MessageDialog::MessageDialog(void)
+MessageDialog::MessageDialog(FAContext *context);
 {
 }
 

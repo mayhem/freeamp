@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MessageDialog.h,v 1.3 1999/11/08 02:22:48 ijr Exp $
+   $Id: MessageDialog.h,v 1.4 1999/11/17 02:55:30 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_MESSAGEDIALOG_H__
@@ -35,6 +35,7 @@ ____________________________________________________________________________*/
 
 using namespace std;
 
+#include "facontext.h"
 
 enum MessageDialogEnum
 {
@@ -58,7 +59,7 @@ class MessageDialog
 {
   public:
     
-                MessageDialog(void);
+                MessageDialog(FAContext *context);
        virtual ~MessageDialog(void);                  
 
        MessageDialogReturnEnum Show(const char *szMessage, 
@@ -68,6 +69,9 @@ class MessageDialog
                                     const string &oTitle, 
                                     MessageDialogEnum eType);
 
+  private:
+  
+       FAContext *m_context;
 };
 
 #endif

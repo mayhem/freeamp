@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.55 1999/04/17 03:13:31 elrod Exp $
+	$Id: freeampui.cpp,v 1.56 1999/04/18 07:05:06 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -892,7 +892,15 @@ Command(int32 command,
 
         case kMinimizeControl:
         {
-            ShowWindow(m_hwnd, SW_MINIMIZE);
+            bool liveInTray;
+
+            m_prefs->GetLiveInTray(&liveInTray);
+
+            if(liveInTray)
+                ShowWindow(m_hwnd, SW_HIDE);
+            else
+                ShowWindow(m_hwnd, SW_MINIMIZE);
+
             break;
         }
 

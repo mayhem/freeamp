@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.18 1999/11/10 06:57:19 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.19 1999/11/10 12:49:51 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -129,6 +129,9 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
 
     m_playerState = PLAYERSTATE_STOPPED;
     m_initialCount = 0;
+    m_hNewPlaylistItem = NULL;
+    m_hPlaylistView = NULL;
+    m_hMusicCatalog = NULL;
 }
 
 MusicBrowserUI::~MusicBrowserUI()
@@ -468,6 +471,12 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             ChangePlayerState(event->Type());
                         
 	        break; 
+        }
+
+        case CMD_AddFiles:
+        {
+            AddFileEvent();
+            break;
         }
 
         default:

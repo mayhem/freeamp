@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.13 1999/12/17 03:23:23 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.14 2000/01/05 20:12:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -227,6 +227,7 @@ class GTKPreferenceWindow : public PreferenceWindow
 
       void SaveMusicSet(char *newpath, bool set);
       void SetToolbar(bool text, bool pics);
+      void SaveOnExitToggle(int active);
 
       FAContext *GetContext(void) { return m_pContext; }
 };

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.48 1999/12/29 13:07:18 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.49 2000/01/05 20:12:13 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -2443,8 +2443,16 @@ GTKMusicBrowser::GTKMusicBrowser(FAContext *context, MusicBrowserUI *masterUI,
         m_plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
         master = false;
     }
-  
-    LoadPlaylist(playlistURL);
+
+    if (master) {
+        bool saveOnExit;
+        m_context->prefs->GetSaveCurrentPlaylistOnExit(&saveOnExit);
+
+        if (saveOnExit)
+            LoadPlaylist(playlistURL);
+    }
+    else   
+        LoadPlaylist(playlistURL);
 }
 
 GTKMusicBrowser::~GTKMusicBrowser(void)
@@ -2501,25 +2509,34 @@ void GTKMusicBrowser::Close(bool inMain)
     gdk_threads_enter();
     isVisible = false;
 
-    if (m_plm && m_currentListName.length() == 0 && m_plm->CountItems() > 0) {
-        gdk_window_raise(musicBrowser->window);
-        GTKMessageDialog oBox;
-        string oMessage = string("Do you want to save this playlist to disk? ");
+    if (master) {
+        bool saveOnExit;
+        m_context->prefs->GetSaveCurrentPlaylistOnExit(&saveOnExit);
 
-        if (oBox.Show(oMessage.c_str(), "Save Confirmation", kMessageYesNo,
-                      inMain) == kMessageReturnYes) {
+        if (saveOnExit && m_plm)
+            SaveCurrentPlaylist(NULL);
+    }
+    else {
+        if (m_plm && m_currentListName.length() == 0 && m_plm->CountItems() > 0) {
+            gdk_window_raise(musicBrowser->window);
+            GTKMessageDialog oBox;
+            string oMessage = string("Do you want to save this playlist to disk? ");
 
-            FileSelector *filesel = new FileSelector("Save This Playlist to Disk");
-            if (filesel->Run())
-                m_currentListName = filesel->GetReturnPath();
+            if (oBox.Show(oMessage.c_str(), "Save Confirmation", kMessageYesNo,
+                          inMain) == kMessageReturnYes) {
 
-            delete filesel;
+                FileSelector *filesel = new FileSelector("Save This Playlist to Disk");
+                if (filesel->Run())
+                    m_currentListName = filesel->GetReturnPath();
+
+                delete filesel;
+            }
         }
+
+        if (m_plm)
+            SaveCurrentPlaylist(NULL);
     }
  
-    if (m_plm) 
-        SaveCurrentPlaylist(NULL);
-
     if (m_initialized) {
         gtk_widget_hide(musicBrowser);
         if (!master && m_plm) {

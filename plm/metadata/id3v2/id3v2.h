@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.h,v 1.2 1999/10/19 07:13:13 elrod Exp $
+	$Id: id3v2.h,v 1.3 1999/10/25 00:15:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_ID3V2_H
@@ -44,6 +44,7 @@ class ID3v2 : public MetaDataFormat
 
     virtual bool ReadMetaData(const char* url, MetaData* metadata);
     virtual bool WriteMetaData(const char* url, const MetaData& metadata);
+    virtual MetaDataOrder Order() { return MetaDataOrder_High; }
 
  private:
 

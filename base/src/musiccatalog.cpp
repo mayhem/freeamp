@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.22 1999/11/20 10:53:39 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.23 1999/11/25 17:51:08 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -53,7 +53,7 @@ using namespace std;
 #include "utility.h"
 #include "debug.h"
 
-#define DBASEDELIM ":"
+#define METADATABASE_VERSION 1
 
 MusicCatalog::MusicCatalog(FAContext *context)
 {
@@ -472,7 +472,7 @@ void MusicBrowser::SetDatabase(const char *path)
     if (m_database)
         delete m_database;
 
-    m_database = new Database(path);
+    m_database = new Database(path, METADATABASE_VERSION);
 
     if (!m_database->Working()) {
         delete m_database;

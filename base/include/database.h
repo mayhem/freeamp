@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.h,v 1.2 1999/10/19 07:12:45 elrod Exp $
+        $Id: database.h,v 1.3 1999/11/25 17:51:08 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -28,10 +28,12 @@ ____________________________________________________________________________*/
 #include "gdbm_fa.h"
 #include "mutex.h"
 
+#define DATABASE_VERSION_KEY "FREEAMP_DATABASE_VERSION"
+
 class Database
 {
  public:
-   Database(const char *name = NULL);
+   Database(const char *name = NULL, int version = -1);
    ~Database();
    bool  Working(void);
    
@@ -43,6 +45,9 @@ class Database
    void  Sync(void);
 
  private:
+   bool  TestDatabaseVersion(int version);
+   void  StoreDatabaseVersion(int version);
+
    GDBM_FILE m_dbase;
    Mutex    *m_lock;
 };

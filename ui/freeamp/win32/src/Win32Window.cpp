@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.30 2000/02/11 04:31:26 robert Exp $
+   $Id: Win32Window.cpp,v 1.31 2000/02/14 22:39:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -409,6 +409,20 @@ Error Win32Window::Run(Pos &oPos)
 
     return kError_NoErr;
 }			
+
+void Win32Window::ProcessWaitingMessages(void)
+{
+    MSG msg;
+    
+    while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) 
+    {
+        if (msg.message == WM_QUIT)
+           return;
+           
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+}
 
 void Win32Window::Init(void)
 {

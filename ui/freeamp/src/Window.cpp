@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.26 2000/02/14 22:03:38 robert Exp $
+   $Id: Window.cpp,v 1.27 2000/02/14 22:39:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -109,6 +109,7 @@ void Window::LockUsageRef(void)
         if (m_iUsageCount > 0)
         {
             m_pUsageMutex->Release();
+            ProcessWaitingMessages();
             m_pUsageSem->Wait();
         }
         else

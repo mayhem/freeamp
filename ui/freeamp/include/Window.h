@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.18 2000/02/14 22:03:37 robert Exp $
+   $Id: Window.h,v 1.19 2000/02/14 22:39:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -123,17 +123,18 @@ class Window
       virtual Error GetMousePos(Pos &oMousePos) = 0;
       virtual Error SetWindowPosition(Rect &oWindowRect) = 0;
       virtual Error GetWindowPosition(Rect &oWindowRect) = 0;
-
+	  
     protected:
 
       Control *ControlFromPos(Pos &oPos);
       void     GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight, 
                                   Rect &oNewRect);
 
-      void     IncUsageRef(void);
-	  void     DecUsageRef(void);
-	  void     LockUsageRef(void);
-	  void     UnlockUsageRef(void);
+              void  IncUsageRef(void);
+              void  DecUsageRef(void);
+              void  LockUsageRef(void);
+              void  UnlockUsageRef(void);
+      virtual void  ProcessWaitingMessages(void) { ; };
      
       string                    m_oName;
       vector<Control *>         m_oControls;

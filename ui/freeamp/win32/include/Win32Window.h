@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.15 2000/02/01 23:32:11 robert Exp $
+   $Id: Win32Window.h,v 1.16 2000/02/14 22:39:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -86,6 +86,7 @@ class Win32Window : public Window
      void  SetLiveInToolbar(bool bLive);
 	 void  MouseLeaveCheck(void);
      void  AddToSystemMenu(HWND hWnd);
+     void  ProcessWaitingMessages(void);
     
      HWND     m_hWnd;
 	 HPALETTE m_hPal;

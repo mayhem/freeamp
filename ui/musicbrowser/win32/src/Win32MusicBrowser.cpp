@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.16 1999/11/08 14:51:43 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.17 1999/11/09 01:39:16 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -281,6 +281,29 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                     if((*i)->PLManager() == pie->Manager())
                     {
                         (*i)->PlaylistListItemRemoved(pie->Item(), pie->Index());
+                        break;
+                    }
+                }
+            }
+          
+            break; 
+        }
+        
+        case INFO_PlaylistSorted:
+        {
+            PlaylistSortedEvent* pie = (PlaylistSortedEvent*)event;
+
+            if(pie->Manager() == m_oPlm)
+                PlaylistListSorted();
+            else
+            {
+                vector<MusicBrowserUI *>::iterator i;
+
+                for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+                {
+                    if((*i)->PLManager() == pie->Manager())
+                    {
+                        (*i)->PlaylistListSorted();
                         break;
                     }
                 }

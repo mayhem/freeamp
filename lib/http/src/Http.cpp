@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.16 2000/10/20 11:46:23 robert Exp $
+   $Id: Http.cpp,v 1.17 2000/10/24 09:19:20 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -224,10 +224,12 @@ Error Http::Download(const string &url, bool fileDownload)
         }
         else
         {
+            const char *ptr;
             numFields = sscanf(url.c_str(), 
                            "http://%[^:/]:%hu", hostname, &port);
 
-            file = string(strchr(url.c_str() + 7, '/'));
+            ptr = strchr(url.c_str() + 7, '/');
+            file = string(ptr ? ptr : "");
         }
         EncodeURI(file);
 

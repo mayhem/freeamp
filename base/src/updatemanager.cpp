@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.3 1999/10/20 23:51:27 elrod Exp $
+	$Id: updatemanager.cpp,v 1.4 1999/10/21 03:47:44 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -149,7 +149,7 @@ Error UpdateManager::RetrieveLatestVersionInfo(UMCallBackFunction function,
                 function(&event, cookie);
             }
         }
-        else
+        else if(result != kError_UserCancel)
         {
             if(function)
             {
@@ -291,7 +291,7 @@ Error UpdateManager::UpdateComponents(UMCallBackFunction function,
                 function(&event, cookie);
             }
         }
-        else
+        else if(result != kError_UserCancel)
         {
             if(function)
             {

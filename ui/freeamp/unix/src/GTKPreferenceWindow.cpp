@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.1.2.1 1999/10/01 15:22:34 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.1.2.2 1999/10/07 21:40:24 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -39,6 +39,10 @@ GTKPreferenceWindow::GTKPreferenceWindow(FAContext *context) :
 GTKPreferenceWindow::~GTKPreferenceWindow(void)
 {
     g_pCurrentPrefWindow = NULL;
+
+    vector<string *>::iterator i;
+    for (i = m_oThemeList.begin(); i != m_oThemeList.end(); i++)
+        delete (*i);
 } 
 
 bool GTKPreferenceWindow::Show(Window *pWindow)
@@ -57,8 +61,6 @@ void GTKPreferenceWindow::GetPrefsValues(Preferences* prefs,
     prefs->GetInputBufferSize(&values->inputBufferSize);
     prefs->GetOutputBufferSize(&values->outputBufferSize);
     prefs->GetPrebufferLength(&values->preBufferLength);
-    prefs->GetStayOnTop(&values->stayOnTop);
-    prefs->GetLiveInTray(&values->liveInTray);
 
     prefs->GetStreamBufferInterval(&values->streamInterval);
     prefs->GetSaveStreams(&values->saveStreams);
@@ -77,6 +79,10 @@ void GTKPreferenceWindow::GetPrefsValues(Preferences* prefs,
     prefs->GetLogInput(&values->logInput);
     prefs->GetLogOutput(&values->logOutput);
     prefs->GetLogPerformance(&values->logPerformance);
+
+    size = 256;
+    prefs->GetThemeDefaultFont(values->defaultFont, &size);
+    m_oThemeMan.GetCurrentTheme(values->currentTheme);
 }
 
 void GTKPreferenceWindow::SavePrefsValues(Preferences* prefs, 
@@ -88,8 +94,6 @@ void GTKPreferenceWindow::SavePrefsValues(Preferences* prefs,
     prefs->SetInputBufferSize(values->inputBufferSize);
     prefs->SetOutputBufferSize(values->outputBufferSize);
     prefs->SetPrebufferLength(values->preBufferLength);
-    prefs->SetStayOnTop(values->stayOnTop);
-    prefs->SetLiveInTray(values->liveInTray);
 
     prefs->SetStreamBufferInterval(values->streamInterval);
     prefs->SetSaveStreams(values->saveStreams);
@@ -105,4 +109,7 @@ void GTKPreferenceWindow::SavePrefsValues(Preferences* prefs,
     prefs->SetLogInput(values->logInput);
     prefs->SetLogOutput(values->logOutput);
     prefs->SetLogPerformance(values->logPerformance);
+
+    prefs->SetThemeDefaultFont(values->defaultFont);
+    m_oThemeMan.UseTheme(currentValues.currentTheme);
 }

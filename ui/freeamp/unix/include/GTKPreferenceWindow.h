@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.1.2.1 1999/10/01 15:22:34 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.1.2.2 1999/10/07 21:40:24 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -26,6 +26,7 @@ ____________________________________________________________________________*/
 
 #include "config.h"
 #include "PreferenceWindow.h"
+#include "ThemeManager.h"
 #include "preferences.h"
 #include "log.h"
 #include "registrar.h"
@@ -61,6 +62,11 @@ typedef struct PrefsStruct
     bool logDecoder;
     bool logPerformance;
 
+    // page 5
+    char   defaultFont[256];
+    bool   fontChanged;
+    string currentTheme;
+    
     PrefsStruct()
     {
         memset(defaultUI, 0x00, sizeof(defaultUI));
@@ -92,6 +98,9 @@ class GTKPreferenceWindow : public PreferenceWindow
       FAContext   *m_pContext;
       PrefsStruct  originalValues;
       PrefsStruct  currentValues;
+
+      vector<string *> m_oThemeList;
+      ThemeManager     m_oThemeMan;
 };
 
 #endif

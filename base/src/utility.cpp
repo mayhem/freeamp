@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.2.2.13 1999/10/07 07:15:48 elrod Exp $
+	$Id: utility.cpp,v 1.2.2.14 1999/10/07 21:40:24 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -30,6 +30,8 @@ ____________________________________________________________________________*/
 #include <direct.h>
 #define MKDIR(z) mkdir(z)
 #else
+#include <sys/stat.h>
+#include <unistd.h>
 #define MKDIR(z) mkdir(z, 0755)
 #endif
 

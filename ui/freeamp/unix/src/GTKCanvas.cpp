@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.5 2000/01/18 20:40:39 ijr Exp $
+   $Id: GTKCanvas.cpp,v 1.6 2000/03/16 08:00:02 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -156,6 +156,7 @@ void GTKCanvas::Erase(Rect &oRect)
 {
     Rect newRect = oRect;
     newRect.y2++;
+    newRect.x2++;
     if (m_pBufferBitmap)
         m_pBufferBitmap->MaskBlitRect(m_pBGBitmap, newRect, newRect);
 }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.8 1999/04/01 17:02:59 elrod Exp $
+	$Id: utility.cpp,v 1.9 1999/04/02 22:48:42 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -119,7 +119,7 @@ DetermineControlRegions(DIB* bitmap,
     for(i = 0; i < numControls; i++)
     {
         // empty region
-        controlRegions[i] = CreateRectRgn(0,0,0,0);
+        /*LEAK-2*/controlRegions[i] = CreateRectRgn(0,0,0,0);
     }
 
     regionColors = new uint32[numControls];

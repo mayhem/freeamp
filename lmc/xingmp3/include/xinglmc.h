@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.25 1999/03/08 02:16:59 robert Exp $
+   $Id: xinglmc.h,v 1.26 1999/04/02 22:48:38 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -49,14 +49,6 @@ extern    "C"
 
 #define BS_BUFBYTES 60000U
 #define PCM_BUFBYTES 60000U
-
-typedef enum
-{
-   XING_Stop = 1,
-   XING_Pause,
-   XING_Resume
-}
-XingCommand;
 
 typedef struct
 {
@@ -127,7 +119,6 @@ class     XingLMC:public LogicalMediaConverter
    Semaphore  *m_pauseSemaphore;
    AUDIO       m_audioMethods;
    Mutex      *m_seekMutex;
-   Queue <XingCommand *> *m_xcqueue;
    PhysicalMediaInput *m_input;
    PhysicalMediaOutput *m_output;
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.48 1999/04/02 19:34:30 elrod Exp $
+	$Id: freeampui.cpp,v 1.49 1999/04/02 22:48:41 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -449,7 +449,7 @@ UserInterface()
 
     m_uiSemaphore = new Semaphore();
 
-    m_uiThread = Thread::CreateThread();
+    /*LEAK-2*/m_uiThread = Thread::CreateThread();
     m_uiThread->Create(ui_thread_function, this);
 
     m_uiSemaphore->Wait();

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.28 1999/03/17 22:10:39 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.29 1999/04/02 22:48:37 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -175,6 +175,7 @@ Error SoundCardPMO::Init(OutputInfo * info)
    {
        ReportError("Internal buffer sizing error occurred.");
        g_Log->Error("Resize output buffer failed.");
+
        return result;
    }
 
@@ -528,11 +529,13 @@ void SoundCardPMO::WorkerThread(void)
           {
               if (IsError(Init(((PMOInitEvent *)pEvent)->GetInfo())))
               {
-                  delete pEvent;
+                  delete (PMOInitEvent *)pEvent;
                   break;
               }
+              delete (PMOInitEvent *)pEvent;
           }
-          delete pEvent;
+		  else
+    		  delete pEvent;
 
           continue;
       }
@@ -549,22 +552,29 @@ void SoundCardPMO::WorkerThread(void)
           pEvent = GetEvent();
 
           if (pEvent->Type() == PMO_Init)
+		  {
               Init(((PMOInitEvent *)pEvent)->GetInfo());
-
+			  delete (PMOInitEvent *)pEvent;
+		  }
+		  else
           if (pEvent->Type() == PMO_Reset)
+		  {
               Reset(false);
-
+			  delete (PMOResetEvent *)pEvent;
+		  }
+		  else
           if (pEvent->Type() == PMO_Info)
+		  {
               HandleTimeInfoEvent((PMOTimeInfoEvent *)pEvent);
-
+			  delete (PMOTimeInfoEvent *)pEvent;
+		  } 
+		  else
           if (pEvent->Type() == PMO_Quit)
           {
               Reset(false);
-              delete pEvent;
+              delete (PMOQuitEvent *)pEvent;
               break;
           }
-
-          delete pEvent;
 
           continue;
       }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.6 1999/03/02 01:03:20 robert Exp $
+   $Id: pullbuffer.h,v 1.7 1999/03/02 02:57:59 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PULLBUFFER_H_
@@ -83,7 +83,7 @@ class PullBuffer
 
       bool           m_bEOS, m_bReadOpPending, m_bWriteOpPending;
       unsigned char *m_pPullBuffer;
-      unsigned char  m_iReadIndex, m_iWriteIndex;
+      int            m_iReadIndex, m_iWriteIndex;
       size_t         m_iBytesInBuffer, m_iOverflowSize, m_iBufferSize;
       size_t         m_iWriteTriggerSize;
 };

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.78 1999/03/02 01:03:18 robert Exp $
+        $Id: player.cpp,v 1.79 1999/03/02 02:57:58 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -73,8 +73,8 @@ EventQueue()
    assert(g_Log);
 
    assert(g_Log->Open());
-   //g_Log->AddLogLevel(LogInput);
-   //g_Log->AddLogLevel(LogDecode);
+   g_Log->AddLogLevel(LogInput);
+   g_Log->AddLogLevel(LogDecode);
 
    // cout << "Creating player..." << endl;
    m_eventSem = new Semaphore();

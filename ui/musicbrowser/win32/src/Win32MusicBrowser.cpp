@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.72 2000/09/24 19:26:25 ijr Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.73 2000/10/06 09:16:13 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -351,7 +351,8 @@ void MusicBrowserUI::MusicSearchDone()
 
 void MusicBrowserUI::DisplayBrowserMessage(const char* msg)
 {
-    SendMessage(m_hStatus, SB_SETTEXT, 0, (LPARAM)msg);
+    if (m_initialized)
+        SendMessage(m_hStatus, SB_SETTEXT, 0, (LPARAM)msg);
 }
 
 void MusicBrowserUI::SaveCurrentPlaylist()

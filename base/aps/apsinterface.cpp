@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.34 2000/10/02 13:45:37 ijr Exp $
+        $Id: apsinterface.cpp,v 1.35 2000/10/06 09:16:13 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -812,15 +812,18 @@ int APSInterface::SyncLog()
         }
        
         fIn.close();
-        nRes = m_pYpClient->SyncLog(TheLog, 
-                                    (*m_pProfileMap)[m_strCurrentProfile]);
-       
-        if (nRes == 0)
+        if (TheLog.size() > 0)
         {
-           // empty the log file
-           fIn.open(logfilename.c_str(), ios_base::out | ios_base::trunc);
-           if (fIn.is_open())
-              fIn.close();
+            nRes = m_pYpClient->SyncLog(TheLog, 
+                                        (*m_pProfileMap)[m_strCurrentProfile]);
+       
+            if (nRes == 0)
+            {
+               // empty the log file
+               fIn.open(logfilename.c_str(), ios_base::out | ios_base::trunc);
+               if (fIn.is_open())
+                   fIn.close();
+            }
         }
     }
                       

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.244 2000/10/05 11:47:33 ijr Exp $
+        $Id: player.cpp,v 1.245 2000/10/06 09:16:13 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1403,7 +1403,7 @@ void
 Player::
 KillSigThread(Event *pEvent)
 {
-	m_sigStopMutex->Acquire();
+    m_sigStopMutex->Acquire();
     if (m_signatureThread) {
         m_bKillSignature = true;
         if (m_sigspmo) {
@@ -1416,7 +1416,7 @@ KillSigThread(Event *pEvent)
         m_signatureThread = NULL;
     }
     m_signatureThread = NULL;
-	m_sigStopMutex->Release();
+    m_sigStopMutex->Release();
 }
     
 typedef struct GenerateSigsStruct {
@@ -1432,7 +1432,7 @@ GenerateSignature(Event *pEvent)
     GenerateSignatureEvent *gse = (GenerateSignatureEvent *)pEvent;
     set<string> *tracks = gse->Tracks();
 
-	m_sigStopMutex->Acquire();
+    m_sigStopMutex->Acquire();
     if (m_signatureThread) {
         m_bKillSignature = true;
         if (m_sigspmo) {
@@ -1444,7 +1444,7 @@ GenerateSignature(Event *pEvent)
         delete m_signatureThread;
         m_signatureThread = NULL;
     }
-	m_sigStopMutex->Release();
+    m_sigStopMutex->Release();
         
     m_signatureThread = Thread::CreateThread();
     if (m_signatureThread) {

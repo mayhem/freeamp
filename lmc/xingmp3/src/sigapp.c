@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigapp.c,v 1.3 2000/09/29 12:44:05 robert Exp $
+        $Id: sigapp.c,v 1.4 2000/10/06 09:16:13 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -193,6 +193,7 @@ int ff_decode(char *filename, char ascii_sig[37],
    audio.decode_info(&decinfo);
 
    mb = mb_New();
+   printf("%d %d %d\n", decinfo.samprate, decinfo.channels, decinfo.bits);
    mb_SetPCMDataInfo(mb, decinfo.samprate, decinfo.channels, decinfo.bits);
    cvt_to_wave_init(decinfo.bits);
 

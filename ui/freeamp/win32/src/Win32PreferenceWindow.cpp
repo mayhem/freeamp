@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.63 2000/10/06 11:45:50 ijr Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.64 2000/10/12 20:22:40 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1965,21 +1965,28 @@ bool Win32PreferenceWindow::PrefProfileProc(HWND hwnd,
                         APSInterface *pAPS = m_pContext->aps;
                         if (pAPS)
                         {
-							vector<string> *profiles = pAPS->GetKnownProfiles();
+                            vector<string> *profiles = pAPS->GetKnownProfiles();
 
                             int nRes = pAPS->CreateProfile(szCurSel);
-                            SendDlgItemMessage(hwnd, IDC_PROFILE_LIST,
-                                               LB_ADDSTRING, NULL, 
-                                               (LPARAM)(LPCTSTR)szCurSel);
-                            SendDlgItemMessage(hwnd, IDC_PROFILE_LIST,
-                                               LB_SELECTSTRING, -1,
-                                               (LPARAM)(LPCTSTR)szCurSel);
+                            if (nRes != APS_NOERROR)
+                            {
+                                SendDlgItemMessage(hwnd, IDC_PROFILE_LIST,
+                                                   LB_ADDSTRING, NULL, 
+                                                   (LPARAM)(LPCTSTR)szCurSel);
+                                SendDlgItemMessage(hwnd, IDC_PROFILE_LIST,
+                                                   LB_SELECTSTRING, -1,
+                                                   (LPARAM)(LPCTSTR)szCurSel);
 
-							if (!profiles || profiles->size() == 0)
-								m_pContext->target->AcceptEvent(new Event(INFO_UnsignaturedTracksExist));
+  			       if (!profiles || profiles->size() == 0)
+                                   m_pContext->target->AcceptEvent(new Event(INFO_UnsignaturedTracksExist));
+                            }
+                            else 
+                            {
+                                MessageBox(hwnd, "For some reason, the Relatable server could not be contacted to create a new profile.  Perhaps you need to set up a Proxy Server on the 'Streaming' pane?", "Create Profile Error", MB_OK|MB_SETFOREGROUND);
+                            }
 
-							if (profiles)
-								delete profiles;
+                            if (profiles)
+                                delete profiles;
                         }
                     }
                     break;

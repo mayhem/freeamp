@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.27 2000/10/04 20:03:10 ijr Exp $
+	$Id: id3v2.cpp,v 1.28 2000/10/12 20:22:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -230,7 +230,6 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     pTag = ID3Tag_New();
     ID3Tag_Link(pTag, path);
 
- /*
     if (!ID3Tag_HasTagType(pTag, ID3TT_ID3V1) &&
         !ID3Tag_HasTagType(pTag, ID3TT_ID3V2) &&
         !ID3Tag_HasTagType(pTag, ID3TT_MUSICMATCH))
@@ -238,13 +237,12 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
         ID3Tag_Delete(pTag);
         return false;
     }
-*/
 
 #if (ID3LIB_PATCH_VERSION >= 13) || (ID3LIB_MINOR_VERSION > 7) || \
     (ID3LIB_MAJOR_VERSION > 3)
     int num = 0;
 #else
-	int num = 1;
+    int num = 1;
 #endif
 
     pData = new char[iDataFieldLen];

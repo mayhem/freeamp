@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.121 2000/10/06 09:16:13 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.122 2000/10/12 20:22:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -991,8 +991,6 @@ void GTKMusicBrowser::CreatePlaylist(void)
     gtk_box_pack_start(GTK_BOX(masterPlaylistBox), hbox, FALSE, FALSE, 5);
     gtk_widget_show(hbox);
 
-    GtkWidget *playlistLabel;
-
     if (master)
         playlistLabel = gtk_label_new("Currently listening to:");
     else {
@@ -1641,6 +1639,15 @@ void GTKMusicBrowser::SaveCurrentPlaylist(char *path)
             m_context->catalog->AddPlaylist(writeURL);
         }
         delete [] writeURL;
+    }
+
+    if (!master && !m_bCDMode) {
+        string labelstr = string("Editing playlist: ");
+        if (m_currentListName.length() == 0)
+            labelstr += string("New Playlist");
+        else
+            labelstr += m_currentListName;
+        gtk_label_set_text(GTK_LABEL(playlistLabel), labelstr.c_str());
     }
 }
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.57 2000/10/01 18:45:06 ijr Exp $
+   $Id: Theme.cpp,v 1.58 2000/10/12 20:22:40 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -519,7 +519,6 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        {
            string oBitmapErr;
 
-DB
            pBitmap->GetErrorString(oBitmapErr);
            m_oLastError = string("Cannot load bitmap ") +
                           oAttrMap["File"] + string(": ") + oBitmapErr;

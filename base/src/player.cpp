@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.245 2000/10/06 09:16:13 ijr Exp $
+        $Id: player.cpp,v 1.246 2000/10/12 20:22:40 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1753,7 +1753,7 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
    {
       AcceptEvent(new MissingFileEvent((PlaylistItem *)
                                        m_plm->GetCurrentItem()));
-      m_plm->GotoNextItem();
+      //m_plm->GotoNextItem();
       AcceptEvent(new Event(CMD_Play));
       goto epilogue;
    }
@@ -1775,6 +1775,7 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
 
    if (pmo)
    {
+       m_pmo = NULL;
        delete pmo;
    }
 
@@ -1785,6 +1786,7 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
 
    if (lmc)
    {
+       m_lmc = NULL;
        delete lmc;
    }
 }
@@ -2246,7 +2248,7 @@ SetEQData(Event *pEvent)
    else
        m_eqEnabled = ((SetEqualizerDataEvent *) pEvent)->GetEnableState();
 
-   if (m_lmc)
+   if (m_lmc && m_pmo)
    {
        if (((SetEqualizerDataEvent *) pEvent)->IsEQData())
        {

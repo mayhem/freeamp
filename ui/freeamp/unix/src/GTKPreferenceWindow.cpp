@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.58 2000/09/29 14:47:08 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.59 2000/10/12 20:22:40 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1874,7 +1874,15 @@ void GTKPreferenceWindow::AddProfileEvent(void)
             delete profiles;
 
         if (aps->CreateProfile(name) != APS_NOERROR) 
+        {
+            MessageDialog oBox(GetContext());
+            oBox.Show("For some reason, the Relatable server could not be "
+                      "contacted to create a new profile.  Perhaps you need "
+                      "to set up a Proxy Server on the 'Streaming' pane?",
+                      "Create Profile Error", kMessageOk, true);
+
             return;
+        }
     }
     UpdateProfileList();
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.8 1999/10/23 04:54:42 ijr Exp $
+	$Id: utility.cpp,v 1.9 1999/10/23 05:09:03 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -431,46 +431,44 @@ void ToLower(char *s)
 #ifndef WIN32
 void LaunchBrowser(char* url)
 {
-   char        *url2;
-   char         lockfile[255];
-   int          lockfile_fd;
-   struct stat  sb;
-   char        *home, *browser;
+    char         url2[_MAX_PATH];
+    char         lockfile[255];
+    int          lockfile_fd;
+    struct stat  sb;
+    char        *home, *browser;
 
-   browser = "netscape";
+    browser = "netscape";
 
-   url2 = new char[strlen(url) + 10];
-   sprintf(url2, "openURL(%s)", url);
+    sprintf(url2, "openURL(%s)", url);
 
-   if (strcmp(browser, "netscape") == 0)
-   {
-      home=getenv("HOME");
-      if(!home)
-         home="/";
+    if (!strcmp(browser, "netscape"))
+    {
+        home = getenv("HOME");
+        if (!home)
+            home = "/";
 
-      sprintf(lockfile,"%.200s/.netscape/lock",home);
-      if(fork()>0)
-         _exit(0);
+        sprintf(lockfile,"%.200s/.netscape/lock",home);
+        if (fork() > 0)
+            return;
 
-      if((lockfile_fd=lstat(lockfile, &sb))!=-1)
-      {
-         execlp("netscape", "netscape", "-remote", url2, NULL);
-      } else
-      {
-         execlp("netscape", "netscape", url, NULL);
-      }
-      perror("Could not launch netscape");
-   }
-   else
-   {
-      char *command = new char[strlen(browser) + strlen(url) + 10];
-      sprintf(command, "%s \"%s\"", browser, url);
+        if ((lockfile_fd = lstat(lockfile, &sb))!=-1)
+        {
+            execlp("netscape", "netscape", "-remote", url2, NULL);
+        } 
+        else
+        {
+            execlp("netscape", "netscape", url, NULL);
+        }
+        perror("Could not launch netscape");
+    }
+    else
+    {
+        char *command = new char[strlen(browser) + strlen(url) + 10];
+        sprintf(command, "%s \"%s\"", browser, url);
 
-      system(command);
+        system(command);
 
-      delete [] command;
-   }
-
-   delete [] url2;
+        delete [] command;
+    }
 }
 #endif

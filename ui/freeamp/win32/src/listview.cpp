@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.cpp,v 1.10 1999/03/18 06:36:28 elrod Exp $
+	$Id: listview.cpp,v 1.11 1999/03/18 08:09:05 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -100,6 +100,57 @@ KeyPressed(int32 keyCode)
 {
     switch(keyCode) 
     { 
+
+        case VK_PRIOR: 
+        {
+            if(m_anchorIndex > 0)
+            {
+                m_anchorIndex-=7;
+
+                if(m_anchorIndex < 0)
+                    m_anchorIndex = 0;
+
+                Select(m_anchorIndex, false);
+
+                if(m_anchorIndex >= 0 && m_firstVisible > m_anchorIndex)
+                {
+                    m_firstVisible = m_anchorIndex;
+
+                    ScrollTo(m_firstVisible);
+
+                    if(m_scroller)
+                        m_scroller->SetPosition(m_firstVisible);
+                }
+            }
+
+            break; 
+        }
+
+        case VK_NEXT: 
+        {
+            if(m_anchorIndex < CountItems() - 1)
+            {
+                m_anchorIndex+=7;
+
+                if(m_anchorIndex > CountItems() - 1)
+                    m_anchorIndex = CountItems() - 1; 
+
+                Select(m_anchorIndex, false);
+
+                if(m_anchorIndex > m_firstVisible + 7)
+                {
+                    m_firstVisible += m_anchorIndex - m_firstVisible;
+
+                    ScrollTo(m_firstVisible); 
+
+                    if(m_scroller)
+                        m_scroller->SetPosition(m_firstVisible);
+                }
+            }
+
+            break; 
+        }
+
         case VK_UP: 
         {
             if(m_anchorIndex > 0)

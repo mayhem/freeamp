@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.39 1999/03/18 07:55:27 elrod Exp $
+	$Id: freeampui.cpp,v 1.40 1999/03/18 08:09:05 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -476,6 +476,8 @@ KeyDown(int32 keyCode)
 {
     switch(keyCode) 
     { 
+        case VK_PRIOR:
+        case VK_NEXT:
         case VK_UP: 
         case VK_DOWN: 
         case VK_HOME: 

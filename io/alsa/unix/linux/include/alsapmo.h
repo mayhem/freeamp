@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: alsapmo.h,v 1.6 1999/04/26 00:51:39 robert Exp $
+	$Id: alsapmo.h,v 1.7 1999/04/26 15:48:36 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -54,7 +54,6 @@ struct audio_info_struct
     int channels;
     long rate;
     void * mixer_handle;
-    int mixer_channel;
     snd_mixer_channel_t channel;
 };
 

@@ -23,7 +23,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.12 1999/04/26 00:51:42 robert Exp $
+        $Id: alsapmo.cpp,v 1.13 1999/04/26 15:48:38 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -93,7 +93,6 @@ AlsaPMO::AlsaPMO(FAContext *context) :
    ai->channels = -1;
    ai->rate = -1;
    ai->mixer_handle=0;
-   ai->mixer_channel=-1;
 
 	ai->device = (char *) malloc(deviceNameSize);
 	m_context->prefs->GetPrefString(kALSADevicePref, ai->device,

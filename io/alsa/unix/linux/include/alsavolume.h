@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: alsavolume.h,v 1.1 1999/04/26 00:51:40 robert Exp $
+	$Id: alsavolume.h,v 1.2 1999/04/26 15:48:37 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _ALSAVOLUME_H_
@@ -38,7 +38,7 @@ class ALSAVolumeManager : public VolumeManager
 
     private:
 
-    int iCard, iDevice;
+    int iCard, iDevice, iChannel;
 };
 
 #endif // _ALSAVOLUME_H_

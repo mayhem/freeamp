@@ -18,11 +18,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.4 1999/04/21 04:20:43 elrod Exp $
+	$Id: bootstrap.cpp,v 1.5 1999/07/20 01:06:00 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <be/app/Application.h>
 
 #include "config.h"
 #include "player.h"
@@ -77,8 +81,24 @@ int main(int argc, char **argv) {
     //testBuffer();
     //testHashTable();
 
+	// *** BeOS specific section begin ***
+
+	// Add the current directory to the ADDON_PATH environment var.
+	char*	old_addon_path = getenv( "ADDON_PATH" );
+	char*	new_addon_path = new char[ strlen( old_addon_path ) + 20 ];
+	sprintf( new_addon_path, "ADDON_PATH=%s:.", old_addon_path );
+	if ( putenv( new_addon_path ) != 0 )
+	{
+		cerr << "couldn't add . to the environment variable ADDON_PATH" << endl;
+	}
+
+	// BSoundPlayer needs BApplication.
+	BApplication*	app = new BApplication( "application/x-vnd.freeamp-freeamp" );
+
+	// *** BeOS specific section end ***
+
     FAContext *context = new FAContext;
-    context->prefs = new UnixPrefs();
+    context->prefs = new BeOSPrefs();
     context->log = new LogFile("freeamp.log");
     Registrar *registrar= new Registrar();
     LMCRegistry *lmc;

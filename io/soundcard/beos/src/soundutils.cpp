@@ -1,4 +1,4 @@
-// $Id: soundutils.cpp,v 1.1 1999/02/10 09:32:24 elrod Exp $
+// $Id: soundutils.cpp,v 1.2 1999/07/20 01:02:11 hiro Exp $
 
 #include "config.h"
 #include "soundutils.h"
@@ -24,7 +24,7 @@ get_audio_format( const OutputInfo* info, media_raw_audio_format* format )
 		break;
 	}
 
-	format->format = media_raw_audio_format::B_AUDIO_FLOAT;
+//	format->format = media_raw_audio_format::B_AUDIO_SHORT;
 	format->channel_count = info->number_of_channels;
 	format->frame_rate = info->samples_per_second;
 	format->byte_order = 2;	// LITTLE_ENDIAN

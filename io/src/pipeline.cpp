@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pipeline.cpp,v 1.4 1999/07/05 23:11:17 robert Exp $
+        $Id: pipeline.cpp,v 1.4.4.1 1999/09/21 03:32:29 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -43,7 +43,7 @@ ____________________________________________________________________________*/
 PipelineUnit::PipelineUnit(FAContext *context)
 {
     m_pContext = context;
-    m_pTarget = NULL;
+    m_pTarget = context->target;
     m_bPause = false;
     m_pPropManager = NULL;
     m_bExit = false;
@@ -104,13 +104,6 @@ void PipelineUnit::ReportError(const char *szError)
 
     m_pTarget->AcceptEvent(new LMCErrorEvent(szError));
 }   
-
-void PipelineUnit::SetTarget(EventQueue *target)
-{
-    m_pMutex->Acquire();
-    m_pTarget = target; 
-    m_pMutex->Release();
-}
 
 void PipelineUnit::Pause(void)
 {

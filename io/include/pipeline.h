@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pipeline.h,v 1.1.4.1 1999/09/09 02:42:07 elrod Exp $
+	$Id: pipeline.h,v 1.1.4.2 1999/09/21 03:32:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PIPELINE_H_
@@ -60,7 +60,6 @@ public:
     virtual void  Clear(void);
 
     virtual void  SetPropManager(Properties *);
-    virtual void  SetTarget(EventQueue *target);
     virtual void  SetInputBuffer(PullBuffer *pBuffer);
 
     virtual void  ReportError(const char *szError);

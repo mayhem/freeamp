@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.15 1999/09/17 20:30:18 robert Exp $
+        $Id: player.cpp,v 1.133.2.16 1999/09/21 03:32:29 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -509,7 +509,6 @@ Run()
             {
                m_ui = (UserInterface *) item->InitFunction()(m_context);
 
-               //m_ui->SetTarget((EventQueue *) this);
                //m_ui->SetPropManager((Properties *) this);
                //m_ui->SetPlaylistManager(m_plm);
                //m_ui->SetArgs(m_argc, m_argv);
@@ -957,7 +956,6 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
    {
       pmi = (PhysicalMediaInput *) pmi_item->InitFunction()(m_context);
       pmi->SetPropManager((Properties *) this);
-      pmi->SetTarget((EventQueue *)this);
    }
 
    char defaultPMO[256];
@@ -984,7 +982,6 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
    {
       pmo = (PhysicalMediaOutput *) item->InitFunction()(m_context);
       pmo->SetPropManager((Properties *) this);
-      pmo->SetTarget((EventQueue *)this);
       if (m_iVolume < 0)
          m_iVolume = pmo->GetVolume();
       
@@ -997,7 +994,6 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
       lmc = (LogicalMediaConverter *) lmc_item->InitFunction()(m_context);
 
       lmc->SetPropManager((Properties *) this);
-      lmc->SetTarget((EventQueue *) this);
    }
 
    lmc->SetPMI(pmi);

@@ -18,10 +18,9 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKMessageDialog.cpp,v 1.1.2.1 1999/09/20 23:25:14 robert Exp $
+   $Id: GTKMessageDialog.cpp,v 1.1.2.2 1999/09/21 03:32:29 ijr Exp $
 ____________________________________________________________________________*/ 
 
-#include <windows.h>
 #include "MessageDialog.h"
 
 

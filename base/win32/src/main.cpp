@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.26.6.6 1999/10/17 06:37:56 ijr Exp $
+	$Id: main.cpp,v 1.26.6.7 1999/10/19 01:16:55 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -37,7 +37,6 @@ ____________________________________________________________________________*/
 #include "log.h"
 #include "facontext.h"
 #include "win32prefs.h"
-#include "win32updatemanager.h"
 
 static
 BOOL
@@ -124,11 +123,6 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     context->prefs = new Win32Prefs();
     context->log = new LogFile("freeamp.log");
 
-    context->updateManager = new Win32UpdateManager(context);
-    context->updateManager->DetermineLocalVersions();
-    context->updateManager->SetPlatform(string("WIN32"));
-    //context->updateManager->RetrieveLatestVersionInfo();
-
     // find all the plug-ins we use
     Registrar* registrar;
     Registry* lmc;
@@ -183,7 +177,6 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 
     // clean up our act
     delete player;
-    delete context->updateManager;
 	delete context;
 
     CloseHandle(runOnceMutex);

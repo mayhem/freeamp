@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.22 1999/10/18 05:35:24 elrod Exp $
+	$Id: playlist.h,v 1.40.4.23 1999/10/19 01:16:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -246,16 +246,18 @@ class PlaylistManager {
 
     // External playlist support
     Error GetSupportedPlaylistFormats(PlaylistFormatInfo* format, uint32 index);
-    Error ReadPlaylist(char* url, vector<PlaylistItem*>* items = NULL, 
+    Error ReadPlaylist(const char* url, 
+                       vector<PlaylistItem*>* items = NULL, 
                        PLMCallBackFunction function = NULL,
                        void* cookie = NULL);
 
-    Error WritePlaylist(char* url, PlaylistFormatInfo* format, 
+    Error WritePlaylist(const char* url, 
+                        PlaylistFormatInfo* format, 
                         vector<PlaylistItem*>* items = NULL,
                         PLMCallBackFunction function = NULL,
                         void* cookie = NULL);
 
-    Error WritePlaylist(char* url,
+    Error WritePlaylist(const char* url,
                         vector<PlaylistItem*>* items = NULL,
                         PLMCallBackFunction function = NULL,
                         void* cookie = NULL);
@@ -279,7 +281,7 @@ class PlaylistManager {
 
     Error DownloadItemFromPortable(DeviceInfo* device,
                                    PlaylistItem* item,
-                                   char* url,
+                                   const char* url,
                                    PLMCallBackFunction function = NULL,
                                    void* cookie = NULL);
     // Utility Functions

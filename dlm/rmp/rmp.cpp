@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.cpp,v 1.1.2.6 1999/10/17 05:40:11 ijr Exp $
+	$Id: rmp.cpp,v 1.1.2.7 1999/10/19 01:16:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -85,7 +85,7 @@ Error RMP::GetSupportedFormats(DownloadFormatInfo* info, uint32 index)
     return result;
 }
 
-Error RMP::ReadDownloadFile(char* url, vector<DownloadItem*>* list)
+Error RMP::ReadDownloadFile(const char* url, vector<DownloadItem*>* list)
 {
     Error result = kError_InvalidParam;
 

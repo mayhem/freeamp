@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadformat.h,v 1.1.2.3 1999/10/17 05:40:09 ijr Exp $
+	$Id: downloadformat.h,v 1.1.2.4 1999/10/19 01:16:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_FORMAT_H_
@@ -47,7 +47,7 @@ class DownloadFormat {
     virtual ~DownloadFormat() {}
 
     virtual Error GetSupportedFormats(DownloadFormatInfo* info, uint32 index) = 0;
-    virtual Error ReadDownloadFile(char* url, vector<DownloadItem*>* items) = 0;
+    virtual Error ReadDownloadFile(const char* url, vector<DownloadItem*>* items) = 0;
     
 };
 

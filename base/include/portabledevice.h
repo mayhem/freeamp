@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portabledevice.h,v 1.1.2.11 1999/10/17 05:40:09 ijr Exp $
+	$Id: portabledevice.h,v 1.1.2.12 1999/10/19 01:16:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PORTABLE_DEVICE_H_
@@ -125,7 +125,7 @@ class PortableDevice {
 
     virtual Error DownloadSong(DeviceInfo* device, 
                                PlaylistItem* item,
-                               char* url,
+                               const char* url,
                                PLMCallBackFunction function = NULL,
                                void* cookie = NULL) = 0;
 };

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.h,v 1.1.2.6 1999/10/17 05:40:11 ijr Exp $
+	$Id: rmp.h,v 1.1.2.7 1999/10/19 01:16:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_RMP_H
@@ -45,7 +45,7 @@ class RMP : public DownloadFormat, public Parse {
     virtual ~RMP();
 
     virtual Error GetSupportedFormats(DownloadFormatInfo* info, uint32 index);
-    virtual Error ReadDownloadFile(char* url, vector<DownloadItem*>* items);
+    virtual Error ReadDownloadFile(const char* url, vector<DownloadItem*>* items);
 
  protected:
  

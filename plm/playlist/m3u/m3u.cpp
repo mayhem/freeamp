@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.1.2.6 1999/10/18 17:30:07 elrod Exp $
+	$Id: m3u.cpp,v 1.1.2.7 1999/10/19 01:16:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -31,6 +31,7 @@ using namespace std;
 #include "config.h"
 #include "errors.h"
 #include "errno.h"
+#include "utility.h"
 
 #include "m3u.h"
 
@@ -85,7 +86,8 @@ Error M3U::GetSupportedFormats(PlaylistFormatInfo* info, uint32 index)
     return result;
 }
 
-Error M3U::ReadPlaylist(char* url, vector<PlaylistItem*>* list,
+Error M3U::ReadPlaylist(const char* url, 
+                        vector<PlaylistItem*>* list,
                         PLMCallBackFunction function,
                         void* cookie)
 {
@@ -102,6 +104,9 @@ Error M3U::ReadPlaylist(char* url, vector<PlaylistItem*>* list,
         char path[_MAX_PATH];
         PlaylistItem* item;
         char* cp = NULL;
+        uint32 length = sizeof(root);
+
+        //URLToFilePath(url, root, &length);
 
         strcpy(root, url);
 
@@ -186,7 +191,7 @@ Error M3U::ReadPlaylist(char* url, vector<PlaylistItem*>* list,
     return result;
 }
 
-Error M3U::WritePlaylist(char* url, PlaylistFormatInfo* format, 
+Error M3U::WritePlaylist(const char* url, PlaylistFormatInfo* format, 
                          vector<PlaylistItem*>* list,
                          PLMCallBackFunction function,
                          void* cookie)
@@ -204,6 +209,11 @@ Error M3U::WritePlaylist(char* url, PlaylistFormatInfo* format,
         if(!strcasecmp("m3u", format->GetExtension()))
         {
             FILE* fp = NULL;
+            char path[_MAX_PATH];
+        
+            uint32 length = sizeof(path);
+
+            URLToFilePath(url, path, &length);
 
             result = kError_FileNoAccess;
 

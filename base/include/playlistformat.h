@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlistformat.h,v 1.1.2.10 1999/10/17 05:40:09 ijr Exp $
+	$Id: playlistformat.h,v 1.1.2.11 1999/10/19 01:16:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_FORMAT_H_
@@ -47,10 +47,11 @@ class PlaylistFormat {
     virtual ~PlaylistFormat() {}
 
     virtual Error GetSupportedFormats(PlaylistFormatInfo* info, uint32 index) = 0;
-    virtual Error ReadPlaylist(char* url, vector<PlaylistItem*>* items,
+    virtual Error ReadPlaylist( const char* url, 
+                                vector<PlaylistItem*>* items,
                                 PLMCallBackFunction function = NULL,
                                 void* cookie = NULL) = 0;
-    virtual Error WritePlaylist(char* url, PlaylistFormatInfo* format, 
+    virtual Error WritePlaylist(const char* url, PlaylistFormatInfo* format, 
                                 vector<PlaylistItem*>* items,
                                 PLMCallBackFunction function = NULL,
                                 void* cookie = NULL) = 0;

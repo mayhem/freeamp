@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.16 1999/10/17 05:40:21 ijr Exp $
+	$Id: pmp300.cpp,v 1.1.2.17 1999/10/19 01:16:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -1093,7 +1093,7 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
 
 Error PMP300::DownloadSong(DeviceInfo* device, 
                            PlaylistItem* item,
-                           char* url,
+                           const char* url,
                            PLMCallBackFunction function,
                            void* cookie)
 

@@ -179,12 +179,13 @@ END
 
 IDD_PREF6 DIALOGEX 0, 0, 233, 174
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Update"
+CAPTION "Update - Disabled in beta 1"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Description",-1,3,103,227,48
-    PUSHBUTTON      "Update Components",IDC_UPDATE,121,157,90,14
-    PUSHBUTTON      "Check for Latest Versions",IDC_CHECK,23,157,90,14
+    PUSHBUTTON      "Update Components",IDC_UPDATE,121,157,90,14,WS_DISABLED
+    PUSHBUTTON      "Check for Latest Versions",IDC_CHECK,23,157,90,14,
+                    WS_DISABLED
     LTEXT           "This is a test. This text will tell the user what the hell the component actually does.By filling in this text I can see how the text will appear to the user when it is asctually filled in by the program and see if it looks good or bad the way it is.",
                     IDC_DESCRIPTION,10,114,214,33
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 

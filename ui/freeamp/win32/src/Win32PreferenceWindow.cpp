@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.1.2.8 1999/10/17 06:37:57 ijr Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.1.2.9 1999/10/19 01:16:57 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -45,6 +45,8 @@ const char* kThemeFileFilter =
             "*.fat\0"
             "All Files (*.*)\0"
             "*.*\0";
+
+UpdateManager* g_updateManager = NULL;
 
 uint32 CalcStringEllipsis(HDC hdc, string& displayString, int32 columnWidth);
 
@@ -199,7 +201,14 @@ bool Win32PreferenceWindow::DisplayPreferences(HWND hwndParent, Preferences* pre
 
     currentValues = originalValues;
 
+    g_updateManager = new Win32UpdateManager(m_pContext);
+    g_updateManager->DetermineLocalVersions();
+    g_updateManager->SetPlatform(string("WIN32"));
+
     result = (PropertySheet(&psh) > 0);
+
+    delete g_updateManager;
+    g_updateManager = NULL;
 
     return result;
 }
@@ -1829,7 +1838,7 @@ bool Win32PreferenceWindow::PrefPage6Proc(HWND hwnd,
             UpdateItem* item = NULL;
             uint32 i = 0;
 
-            while(item = m_pContext->updateManager->ItemAt(i++))
+            while(item = g_updateManager->ItemAt(i++))
             {
                 lv_item.mask = LVIF_PARAM | LVIF_STATE;
                 lv_item.state = 0;
@@ -1859,14 +1868,15 @@ bool Win32PreferenceWindow::PrefPage6Proc(HWND hwnd,
 
                 case IDC_CHECK:
                 {
-                    Thread* thread = Thread::CreateThread();
+                    /*Thread* thread = Thread::CreateThread();
 
                     if(thread)
                     {
                         thread->Create(check_function, m_pContext->updateManager);
-                    }
-                    //m_pContext->updateManager->RetrieveLatestVersionInfo();
-                    //ListView_RedrawItems(hwndList, 0, ListView_GetItemCount(hwndList) - 1);
+                    }*/
+
+                    g_updateManager->RetrieveLatestVersionInfo();
+                    ListView_RedrawItems(hwndList, 0, ListView_GetItemCount(hwndList) - 1);
                     
                     break;
                 }                

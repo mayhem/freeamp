@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.3.8.10 1999/10/17 05:40:09 ijr Exp $
+	$Id: facontext.h,v 1.3.8.11 1999/10/19 01:16:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FACONTEXT_H_
@@ -57,7 +57,7 @@ class FAContext
           target(0),
 	  browser(0),
           downloadManager(0),
-          updateManager(0),
+          //updateManager(0),
           player(0),
 #ifndef WIN32	  
 	  gtkInitialized(false),
@@ -84,7 +84,7 @@ class FAContext
     EventQueue *target;
     MusicBrowser *browser;
     DownloadManager *downloadManager;
-    UpdateManager *updateManager;
+    //UpdateManager *updateManager;
     Player *player;
 #ifndef WIN32
     Mutex gtkLock;

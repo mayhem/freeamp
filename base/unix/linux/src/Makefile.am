@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.6 1999/01/23 23:14:41 jdw Exp $
+##      $Id: Makefile.am,v 1.7 1999/03/01 10:40:57 mhw Exp $
 ##
 ############################################################################
 
@@ -40,4 +40,4 @@ noinst_LIBRARIES = $(MYLIBS)
 libfasys_a_SOURCES = $(FILES)
 
 INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I@top_srcdir@/io/include -I@top_srcdir@/ui/include
-CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT) -D__@target_os@__
+CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT) -D__@host_os@__

@@ -18,14 +18,14 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.1 1999/01/25 23:22:28 robert Exp $
+##      $Id: Makefile.am,v 1.2 1999/03/01 10:40:58 mhw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
 PLUGIN_DIR = @top_srcdir@/plugins/
-PLUGIN_NAME = obsinput-@target_os@.pmi
+PLUGIN_NAME = obsinput-@host_os@.pmi
 PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
 
 
@@ -36,7 +36,7 @@ TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 else
 FILES = obsinput.cpp obsbuffer.cpp
 MYLIBS = libfaio.a
-TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
+TRGT_SYS_HEADS = @top_srcdir@/base/unix/@host_os@/include
 
 all-local : $(PLUGIN_FULL_NAME)
 

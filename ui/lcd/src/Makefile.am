@@ -18,14 +18,14 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.2 1999/01/18 17:28:56 jdw Exp $
+##      $Id: Makefile.am,v 1.3 1999/03/01 10:41:00 mhw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
 PLUGIN_DIR = @top_srcdir@/plugins/
-PLUGIN_NAME = lcd-@target_os@.ui
+PLUGIN_NAME = lcd-@host_os@.ui
 PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
 
 
@@ -33,7 +33,7 @@ PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
 # FILES = MtxOrb.c lcdui.cpp lcd.c drv_base.c
 FILES = lcdui.cpp sockets.c
 MYLIBS = libfaui.a
-TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
+TRGT_SYS_HEADS = @top_srcdir@/base/unix/@host_os@/include
 
 all-local : $(PLUGIN_FULL_NAME)
 

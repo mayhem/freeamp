@@ -18,14 +18,14 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.6 1999/01/28 20:55:20 jdw Exp $
+##      $Id: Makefile.am,v 1.7 1999/03/01 10:41:00 mhw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
 PLUGIN_DIR = @top_srcdir@/plugins/
-PLUGIN_NAME = mpg123-@target_os@.ui
+PLUGIN_NAME = mpg123-@host_os@.ui
 PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
 
 if AM_HAVE_WIN32
@@ -35,7 +35,7 @@ TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 else
 FILES = Mpg123UI.cpp
 MYLIBS = libfaui.a
-TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
+TRGT_SYS_HEADS = @top_srcdir@/base/unix/@host_os@/include
 
 all-local : $(PLUGIN_FULL_NAME)
 

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cwin.c,v 1.2 1998/11/10 07:58:02 jdw Exp $
+	$Id: cwin.c,v 1.3 1999/03/01 10:40:59 mhw Exp $
 ____________________________________________________________________________*/
 
 /****  cwin.c  ***************************************************
@@ -104,6 +104,7 @@ void window(float *vbuf, int vb_ptr, short *pcm)
 
 
 /*------------------------------------------------------------*/
+#ifndef ASM_WINDOW_DUAL
 void window_dual(float *vbuf, int vb_ptr, short *pcm)
 {
    int i, j;			/* dual window interleaves output */
@@ -174,6 +175,7 @@ void window_dual(float *vbuf, int vb_ptr, short *pcm)
       pcm += 2;
    }
 }
+#endif	/* ndef ASM_WINDOW_DUAL */
 /*------------------------------------------------------------*/
 /*------------------- 16 pt window ------------------------------*/
 void window16(float *vbuf, int vb_ptr, short *pcm)

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cwinm.c,v 1.1 1998/10/14 02:50:36 elrod Exp $
+	$Id: cwinm.c,v 1.2 1999/03/01 10:40:59 mhw Exp $
 ____________________________________________________________________________*/
 
 /****  cwinm.c  ***************************************************
@@ -43,7 +43,7 @@ portable C
 #pragma warning(disable:4244 4056)
 #endif
 
-static float wincoef[264] =
+float wincoef[264] =
 {				/* window coefs */
 #include "tableawd.h"
 };

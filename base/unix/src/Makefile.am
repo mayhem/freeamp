@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.3 1998/10/23 21:45:30 jdw Exp $
+##      $Id: Makefile.am,v 1.4 1999/03/01 10:40:57 mhw Exp $
 ##
 ############################################################################
 
@@ -39,7 +39,7 @@ endif
 noinst_LIBRARIES = $(MYLIBS)
 libfaunix_a_SOURCES = $(FILES)
 
-INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@top_srcdir@/base/unix/@target_os@/include -I@top_srcdir@/ui/dummy/include -I@top_srcdir@/lmc/include
+INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@top_srcdir@/base/unix/@host_os@/include -I@top_srcdir@/ui/dummy/include -I@top_srcdir@/lmc/include
 CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT) -DUNIX_LIBDIR="\"@libdir@\""
 
 

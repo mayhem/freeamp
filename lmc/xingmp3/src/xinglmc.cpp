@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.49 1999/02/28 00:21:36 robert Exp $
+   $Id: xinglmc.cpp,v 1.50 1999/03/01 10:40:59 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -607,13 +607,30 @@ Error XingLMC::Decode(int32 iSkipNumFrames)
    return kError_NoErr;
 }
 
+#if MP3_PROF
+extern "C"
+{
+   etext();
+   monstartup();
+   _mcleanup();
+}
+#endif
+
 void XingLMC::DecodeWorkerThreadFunc(void *pxlmc)
 {
    if (pxlmc)
    {
       XingLMC  *xlmc = (XingLMC *) pxlmc;
 
+#if MP3_PROF
+      monstartup(0x08040000, etext);
+#endif
+
       xlmc->DecodeWork();
+
+#if MP3_PROF
+      _mcleanup();
+#endif
    }
 }
 

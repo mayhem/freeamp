@@ -18,20 +18,20 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.7 1998/12/14 19:58:30 jdw Exp $
+##      $Id: Makefile.am,v 1.8 1999/03/01 10:41:00 mhw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
 PLUGIN_DIR = @top_srcdir@/plugins/
-PLUGIN_NAME = freeamp-@target_os@.ui
+PLUGIN_NAME = freeamp-@host_os@.ui
 PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
 
 if AM_ENABLE_X11
 FILES = freeamp.cpp windowhash.cpp fawindow.cpp res.cpp
 MYLIBS = libfaui.a
-TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
+TRGT_SYS_HEADS = @top_srcdir@/base/unix/@host_os@/include
 
 all-local : $(PLUGIN_FULL_NAME)
 

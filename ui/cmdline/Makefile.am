@@ -18,14 +18,14 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.11 1998/12/12 22:36:39 jdw Exp $
+##      $Id: Makefile.am,v 1.12 1999/03/01 10:41:00 mhw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
 PLUGIN_DIR = @top_srcdir@/plugins/
-PLUGIN_NAME = freeampcmd-@target_os@.ui
+PLUGIN_NAME = freeampcmd-@host_os@.ui
 PLUGIN_FULL_NAME = $(PLUGIN_DIR)$(PLUGIN_NAME)
 
 if AM_HAVE_WIN32
@@ -35,7 +35,7 @@ TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 else
 FILES = cmdlineUI.cpp
 MYLIBS = libfaui.a
-TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
+TRGT_SYS_HEADS = @top_srcdir@/base/unix/@host_os@/include
 
 all-local : $(PLUGIN_FULL_NAME)
 

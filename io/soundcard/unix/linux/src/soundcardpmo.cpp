@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.9 1999/02/28 00:21:33 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.10 1999/03/01 10:40:59 mhw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -226,14 +226,14 @@ Write(int32 & rtn, void *pBuffer, int32 length)
    do
    {
       rtn = write(audio_fd, pBuffer, length);
+      if (rtn > 0) {
+         pBuffer = (void *) ((char *) pBuffer + rtn);
+	 length -= rtn;
+      }
    }
-   while ((rtn != length) && (errno == EINTR));
-   if (rtn != length)
+   while (length != 0 && (errno == 0 || errno == EINTR));
+   if (length != 0)
    {
-
-//      cerr << "Wrote " << length << ", and got " << rtn << " back" << endl;
-      // cerr << "errno: " << errno << endl << "str: " << strerror(errno) <<
-      // endl;
       rtn = -1;
       return kError_OutputUnsuccessful;
    }

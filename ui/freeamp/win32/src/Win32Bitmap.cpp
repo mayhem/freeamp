@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.2 1999/10/19 07:13:26 elrod Exp $
+   $Id: Win32Bitmap.cpp,v 1.3 1999/10/20 18:23:09 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -180,7 +180,7 @@ bool Win32Bitmap::IsPosVisible(Pos &oPos)
    hMemDC = CreateCompatibleDC(hRootDC);
    ReleaseDC(NULL, hRootDC);
 
-   hSaved = SelectObject(hMemDC, m_hMaskBitmap);
+   hSaved = (HBITMAP)SelectObject(hMemDC, m_hMaskBitmap);
    sColor = GetPixel(hMemDC, oPos.x, oPos.y);
    SelectObject(hMemDC, hSaved);
    DeleteDC(hMemDC);

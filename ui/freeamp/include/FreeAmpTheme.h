@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: FreeAmpTheme.h,v 1.3 1999/10/20 18:23:01 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -31,6 +31,12 @@ ____________________________________________________________________________*/
 #include "playlist.h"
 #include "Theme.h"
 #include "ThemeManager.h"
+
+enum TimeDisplayState
+{
+    kNormal,
+    kTimeRemaining
+};
 
 class FreeAmpTheme : public UserInterface, public Theme
 {
@@ -47,6 +53,7 @@ class FreeAmpTheme : public UserInterface, public Theme
         virtual void  HandleKeystroke(unsigned char cKey);
         virtual Error HandleControlMessage(string &oControlName, 
                                            ControlMessageEnum eMesg);
+        virtual void  DropFiles(vector<string> *pFileList);
         virtual void  InitControls(void);
         virtual void  InitWindow(void);
                 void  ShowOptions(void);
@@ -58,6 +65,8 @@ class FreeAmpTheme : public UserInterface, public Theme
         void             ParseArgs();
         void             ReloadTheme(void);
         void             SetVolume(int iVolume);
+        void             UpdateTimeDisplay(void);
+        void             UpdateMetaData(const PlaylistItem *pItem);
 
         FAContext       *m_pContext;
         int              m_iCurrentSeconds, m_iTotalSeconds, m_iSeekSeconds;
@@ -67,6 +76,7 @@ class FreeAmpTheme : public UserInterface, public Theme
         Pos              m_oWindowPos;
         bool             m_bSeekInProgress, m_bPlayShown;
         string           m_oCurrentWindow, m_oTitle;
+        TimeDisplayState m_eTimeDisplayState;
 };
 
 #endif

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.3 1999/10/19 07:12:46 elrod Exp $
+	$Id: utility.h,v 1.4 1999/10/20 18:22:30 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
@@ -35,6 +35,8 @@ char *strdup_new(const char *str);
 char *FreeampDir(Preferences *prefs);
 Error FilePathToURL(const char* path, char* url, uint32* length);
 Error URLToFilePath(const char* url, char* path, uint32* length);
+void ToUpper(char *s);
+void ToLower(char *s);
 
 
 #endif /* INCLUDED_UTILITY_H */

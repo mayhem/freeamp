@@ -18,12 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.3 1999/10/19 07:12:48 elrod Exp $
+	$Id: utility.cpp,v 1.4 1999/10/20 18:22:31 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 #include <stdio.h>
 
 #ifdef WIN32
@@ -410,3 +411,19 @@ Error URLToFilePath(const char* url, char* path, uint32* length)
 
     return result;
 }
+
+void ToUpper(char *s)
+{
+    char *p;
+    
+    for(p = s; *p != NULL; p++)
+       *p = toupper(*p);
+}       
+
+void ToLower(char *s)
+{
+    char *p;
+    
+    for(p = s; *p != NULL; p++)
+       *p = tolower(*p);
+}       

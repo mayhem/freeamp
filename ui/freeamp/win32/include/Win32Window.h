@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.2 1999/10/19 07:13:21 elrod Exp $
+   $Id: Win32Window.h,v 1.3 1999/10/20 18:23:06 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -62,6 +62,7 @@ class Win32Window : public Window
 
 	 virtual HWND  GetWindowHandle(void);
              void  SaveWindowPos(Pos &oPos);
+             void  DropFiles(HDROP dropHandle);
 
     protected:
     

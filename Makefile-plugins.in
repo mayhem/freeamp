@@ -1,9 +1,10 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.17 1999/08/20 22:58:30 robert Exp $
+# $Id: Makefile-plugins.in,v 1.18 1999/09/01 23:41:17 dogcow Exp $
 
 RELOC = @FPIC@
 
 include config/Makefile.header
+INSTALL_PROGRAM = @INSTALL@
 
 plugins-install install_plugins: install-plugins
 

@@ -1,8 +1,9 @@
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.32 1999/08/20 22:58:31 robert Exp $
+# $Id: Makefile.in,v 1.33 1999/09/01 23:41:17 dogcow Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = @FPIC@ for plugins.
+INSTALL_PROGRAM = @INSTALL@
 
 include config/Makefile.header
 
@@ -73,7 +74,7 @@ depend:
 	makedepend -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(FREEAMPOBJ) | sed -e 's,\.o,.cpp,g'`
 	+$(PIMAKE) depend
 
-Makefile: Makefile.in Makefile-plugins.in
+Makefile: Makefile.in Makefile-plugins.in config/Makefile.header.in
 	./config.status
 	@echo 'Makefile has been rebuilt; please run `make` again.'
 

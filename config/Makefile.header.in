@@ -1,6 +1,6 @@
 # Freeamp Makefile header 
 # contains all the compiler-related configure-extracted vars
-# $Id: Makefile.header.in,v 1.5 1999/08/20 19:24:24 robert Exp $
+# $Id: Makefile.header.in,v 1.6 1999/09/01 23:41:17 dogcow Exp $
 
 SHELL = /bin/sh
 
@@ -29,7 +29,7 @@ top_builddir = .
 AUTOCONF = @AUTOCONF@
 
 INSTALL = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@
+# INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 transform = @program_transform_name@
@@ -85,9 +85,8 @@ FREEAMPOBJ += io/src/pullbuffer.o io/src/streambuffer.o
 FREEAMPOBJ += lmc/src/lmcregistry.o ui/src/uiregistry.o
 FREEAMPOBJ += $(OSDEPOBJ)
 
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CFLAGS) $(RELOC)
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CFLAGS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(CFLAGS) $(CPPFLAGS) $(CXXFLAGS)
-CXXCOMPILE += $(RELOC)
 
 CXXLINK = $(CXXLD) $(CXXFLAGS) $(LDFLAGS) $(RELOC) -o $@
 

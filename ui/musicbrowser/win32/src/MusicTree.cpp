@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.26 1999/11/21 01:23:15 elrod Exp $
+        $Id: MusicTree.cpp,v 1.27 1999/11/24 07:33:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -34,7 +34,7 @@ ____________________________________________________________________________*/
 #include "DropSource.h"
 #include "DropObject.h"
 
-char* kMusicCatalog = "My Music Catalog";
+char* kMusicCatalog = "My Music";
 char* kAllTracks = "<All>";
 char* kUncatagorized = "<Uncategorized>";
 char* kPlaylists = "My Playlists";
@@ -1171,6 +1171,87 @@ void MusicBrowserUI::GetSelectedMusicTreeItems(vector<PlaylistItem*>* items)
             }
         }
     }
+}
+
+bool MusicBrowserUI::IsItemSelected(HTREEITEM item)
+{
+    bool result = false;
+    BOOL success = FALSE;
+    HWND hwnd = m_hMusicCatalog;
+    TV_ITEM tv_item;
+
+    tv_item.hItem = item;
+    tv_item.mask = TVIF_STATE;
+    tv_item.stateMask = TVIS_SELECTED;
+    tv_item.state = 0;
+
+    success = TreeView_GetItem(hwnd, &tv_item);
+
+    if(success && (tv_item.state & TVIS_SELECTED))
+    {
+        result = true;
+    }
+
+    return result;
+}
+
+uint32 MusicBrowserUI::CountSelectedItems(HTREEITEM root)
+{
+    uint32 result = 0;
+    BOOL success = FALSE;
+    HWND hwnd = m_hMusicCatalog;
+    TV_ITEM tv_item;
+
+    tv_item.hItem = root;
+    tv_item.mask = TVIF_STATE;
+    tv_item.stateMask = TVIS_SELECTED;
+    tv_item.state = 0;
+
+    do
+    {
+        success = TreeView_GetItem(hwnd, &tv_item);
+
+        HTREEITEM childItem = TreeView_GetChild(hwnd, tv_item.hItem);
+
+        if(success && (tv_item.state & TVIS_SELECTED))
+        {
+            result++;
+        }
+        
+        if(success && childItem)
+        {
+            result += CountSelectedItems(childItem);        
+        }
+
+    }while(success && (tv_item.hItem = TreeView_GetNextSibling(hwnd, tv_item.hItem)));
+    
+    return result;
+}
+
+uint32 MusicBrowserUI::GetSelectedTrackCount()
+{
+    uint32 result = 0;
+    HTREEITEM rootItem = TreeView_GetChild(m_hMusicCatalog, m_hCatalogItem);
+
+    if(rootItem)
+    {
+        result = CountSelectedItems(rootItem);
+    }
+
+    return result;
+}
+
+uint32 MusicBrowserUI::GetSelectedPlaylistCount()
+{
+    uint32 result = 0;
+    HTREEITEM rootItem = TreeView_GetChild(m_hMusicCatalog, m_hPlaylistItem);
+
+    if(rootItem)
+    {
+        result = CountSelectedItems(rootItem);
+    }
+
+    return result;
 }
 
 void MusicBrowserUI::UpdateTrackName(PlaylistItem* track, 

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.48 2000/07/31 19:51:40 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.49 2000/08/01 17:29:19 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -68,7 +68,8 @@ typedef enum {
    kTreeCDHead,
    kTreeStreamsHead,
    kTreeFavoriteStreamsHead,
-   kTreeStreamFolder
+   kTreeStreamFolder,
+   kTreeRelatableHead
 } TreeNodeType;
 
 enum {
@@ -119,6 +120,7 @@ class GTKMusicBrowser {
 
     vector<PlaylistItem *> *CDTracks;
 
+    void FillRelatable(bool force = false);
     void FillStreams(void);
     void CloseStreams(void);
     void HandleStreamList(vector<FreeAmpStreamInfo> & list);
@@ -206,6 +208,7 @@ class GTKMusicBrowser {
     GtkItemFactory *trackPopup;
     GtkItemFactory *playlistCatPopup;
     GtkItemFactory *otherPopup;
+    GtkItemFactory *relatablePopup;
     
     GtkCTreeNode *mainTree;
     GtkCTreeNode *allTree;
@@ -215,7 +218,10 @@ class GTKMusicBrowser {
     GtkCTreeNode *streamTree;
     GtkCTreeNode *favoritesTree;
     GtkCTreeNode *streamSpace;
+    GtkCTreeNode *relatableTree;
+    GtkCTreeNode *relatableSpace;
 
+    bool relatableExpanded;
     bool streamExpanded;
  
     GtkWidget *NewPixmap(char **data);

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.72 2000/08/08 18:37:34 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.73 2000/08/09 02:52:30 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -153,11 +153,15 @@ SoundCardPMO::~SoundCardPMO()
       g_pHeaderMutex = NULL;
    }
 
+/* GetInstance() returns only one pointer, so any deletion will cause segfaults
+   TODO: Add destruction/management of m_volume, perhaps to Win32Volume
+
    if ( m_volume )
    {
         delete m_volume;
         m_volume = NULL;
    }
+*/
 }
 
 bool SoundCardPMO::SetupVolumeControl( HWND hWnd)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.27 1999/11/24 07:33:07 elrod Exp $
+        $Id: MusicTree.cpp,v 1.28 1999/11/26 06:00:40 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -847,7 +847,6 @@ void MusicBrowserUI::TVBeginDrag(HWND hwnd, NM_TREEVIEW* nmtv)
         }
 
         GetSelectedPlaylistItems(urls);
-
 
         HIMAGELIST himl;
         RECT rcItem;

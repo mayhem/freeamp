@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.4 1999/10/30 04:26:58 ijr Exp $
+   $Id: Window.cpp,v 1.5 1999/11/03 19:45:13 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -46,16 +46,23 @@ Window::Window(Theme *pTheme, string &oName)
 
 Window::~Window(void)
 {
-    if (m_bIsVulcanMindMeldHost)
+    if (!m_bIsVulcanMindMeldHost)
     {
-       ClearControls();
        delete m_pCanvas;
     }   
+    else
+       ClearControls();
 }
 
 void Window::VulcanMindMeldHost(bool bHost)
 {
     m_bIsVulcanMindMeldHost = bHost;
+    
+    if (bHost)
+    {
+       delete m_pCanvas;
+       m_pCanvas = NULL;
+    }
 }
 
 Error Window::VulcanMindMeld(Window *pOther)

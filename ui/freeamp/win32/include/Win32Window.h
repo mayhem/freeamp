@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.7 1999/11/02 20:25:06 robert Exp $
+   $Id: Win32Window.h,v 1.8 1999/11/03 19:45:14 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -62,15 +62,19 @@ class Win32Window : public Window
      virtual Error Restore(void);
 
 	 virtual HWND  GetWindowHandle(void);
-             void  SaveWindowPos(Pos &oPos);
-             void  DropFiles(HDROP dropHandle);
-             void  Notify(int32 command, LPNMHDR notifyMsgHdr);
-             void  CreateTooltips(void);
-             void  Paint(void);
-             void  TimerEvent(void);
-             void  SetStayOnTop(bool bStay);
-             
+     LRESULT       WindowProc(HWND hwnd, UINT msg, 
+                               WPARAM wParam, LPARAM lParam);
+
     protected:
+     
+     void  SaveWindowPos(Pos &oPos);
+     void  DropFiles(HDROP dropHandle);
+     void  Notify(int32 command, LPNMHDR notifyMsgHdr);
+     void  CreateTooltips(void);
+     void  Paint(void);
+     void  TimerEvent(void);
+     void  SetStayOnTop(bool bStay);
+     void  SetLiveInToolbar(bool bLive);
     
      HWND     m_hWnd;
      Pos      m_oWindowPos;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: propimpl.h,v 1.6 1999/11/02 20:24:41 robert Exp $
+	$Id: propimpl.h,v 1.7 1999/11/03 19:44:49 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PROPIMPL_H_
@@ -42,7 +42,7 @@ using namespace std;
 #include "config.h"
 #include "mutex.h"
 #include "properties.h"
-#include "hashtable.h"
+#include "debug.h"
 
 class PropElem 
 {
@@ -50,7 +50,13 @@ class PropElem
        PropElem() 
          { m_val = NULL; }
       ~PropElem() 
-         { if (m_val) delete m_val; }
+         {  
+            if (m_val) 
+            {
+               Debug_v("Propelem: delete %p", m_val);
+               delete m_val; 
+            }   
+         }
          
       vector<PropertyWatcher *> m_propWatchers;
       PropValue *m_val;

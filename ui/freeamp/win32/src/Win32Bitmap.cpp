@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.4 1999/11/01 19:06:22 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.5 1999/11/03 19:45:17 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -38,16 +38,20 @@ Win32Bitmap::Win32Bitmap(int iWidth, int iHeight, string &oName)
            :Bitmap(oName)
 {
    HDC hDc;
+
    
    hDc = GetDC(NULL);
    m_hBitmap = CreateCompatibleBitmap(hDc, iWidth, iHeight);
    ReleaseDC(NULL, hDc);
+   m_hMaskBitmap = NULL;
 }
 
 Win32Bitmap::~Win32Bitmap(void)
 {
    if (m_hBitmap)
        DeleteObject(m_hBitmap);
+   if (m_hMaskBitmap)
+       DeleteObject(m_hMaskBitmap);
 }
 
 Error Win32Bitmap::LoadBitmapFromDisk(string &oFile)
@@ -134,7 +138,6 @@ void Win32Bitmap::CreateMaskBitmap(void)
                         pData, pInfo, DIB_RGB_COLORS);
        if (!iRet)
        {
-          Debug_v("GetDIBits failed. Last Error: %d", GetLastError());
           break;
        }   
 
@@ -155,7 +158,6 @@ void Win32Bitmap::CreateMaskBitmap(void)
                         pMaskData, pMaskInfo, DIB_RGB_COLORS);
        if (!iRet)
        {
-          Debug_v("SetDIBits failed. Last Error: %d", GetLastError());
           break;
        }   
    }

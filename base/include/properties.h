@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: properties.h,v 1.4 1999/10/19 07:12:46 elrod Exp $
+	$Id: properties.h,v 1.5 1999/11/03 19:44:48 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PROPERTIES_H_
@@ -63,7 +63,7 @@ class Int32PropValue : public PropValue {
     Int32PropValue(int32 i) {
 	m_int = i;
     }
-    virtual ~Int32PropValue() { }
+    virtual ~Int32PropValue() {}
     int32 GetInt32() { return m_int; }
  private:
     int32 m_int;

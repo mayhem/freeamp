@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.38 1999/12/16 09:02:54 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.39 1999/12/18 03:35:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -211,8 +211,16 @@ void MusicBrowserUI::Init()
     m_playerState = PLAYERSTATE_STOPPED;
     m_initialCount = 0;
     m_itemsAddedBeforeWeWereCreated = 0;
-    m_hNewPlaylistItem = NULL;
+
+    m_hMusicCatalog = NULL;
     m_hPlaylistView = NULL;
+
+    m_hCatalogItem = NULL;
+    m_hAllItem = NULL;
+    m_hUncatItem = NULL; 
+    m_hPlaylistItem = NULL; 
+    m_hNewPlaylistItem = NULL;
+    
     m_hMusicCatalog = NULL;
     m_hPortableItem = NULL;
     m_hNewPortableItem = NULL;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.55 1999/12/17 11:20:31 elrod Exp $
+        $Id: Dialog.cpp,v 1.56 1999/12/18 03:35:58 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -1420,32 +1420,50 @@ void MusicBrowserUI::UpdateButtonMenuStates()
     SendMessage(m_hToolbar, TB_ENABLEBUTTON, 
             ID_EDIT_ADDTRACK, 0); 
 
-    HTREEITEM treeSelect = TreeView_GetSelection(m_hMusicCatalog);
+    //HTREEITEM treeSelect = TreeView_GetSelection(m_hMusicCatalog);
 
-    if(treeSelect && m_hMusicCatalog == GetFocus())
+    uint32 trackCount = 0;
+    uint32 playlistCount = 0;
+
+    trackCount = GetSelectedTrackCount();
+    playlistCount = GetSelectedPlaylistCount();
+
+    if((trackCount + playlistCount) && m_hMusicCatalog == GetFocus())
     {
-        if(treeSelect != m_hNewPlaylistItem &&
-            treeSelect != m_hNewPlaylistItem)
+        if(!IsItemSelected(m_hNewPlaylistItem) &&
+            !IsItemSelected(m_hNewPlaylistItem))
         {
             EnableMenuItem(hMenu, ID_EDIT_ADDTRACK, MF_ENABLED );
             SendMessage(m_hToolbar, TB_ENABLEBUTTON, 
                         ID_EDIT_ADDTRACK, MAKELPARAM(TRUE, 0)); 
         }
 
-        if(treeSelect != m_hNewPlaylistItem && 
-           treeSelect != m_hPortableItem &&
-           treeSelect != m_hNewPortableItem)
+        if(!IsItemSelected(m_hPlaylistItem) &&
+           !IsItemSelected(m_hNewPlaylistItem) && 
+           !IsItemSelected(m_hPortableItem) &&
+           !IsItemSelected(m_hNewPortableItem) &&
+           !IsItemSelected(m_hAllItem))
         {
             EnableMenuItem(hMenu, ID_EDIT_REMOVE, MF_ENABLED);
             SendMessage(m_hToolbar, TB_ENABLEBUTTON, 
                     ID_EDIT_REMOVE, MAKELPARAM(TRUE, 0)); 
         }
 
-        if(treeSelect != m_hNewPlaylistItem && treeSelect != m_hAllItem &&
-           treeSelect != m_hCatalogItem && treeSelect != m_hUncatItem &&
-           treeSelect != m_hPlaylistItem && treeSelect != m_hPortableItem &&
-           m_hPlaylistItem != TreeView_GetParent(m_hMusicCatalog, treeSelect) &&
-           treeSelect != m_hNewPortableItem &&
+        if(!IsItemSelected(m_hPlaylistItem) &&
+           !IsItemSelected(m_hNewPlaylistItem) && 
+           !IsItemSelected(m_hPortableItem) &&
+           !IsItemSelected(m_hNewPortableItem) &&
+           trackCount)
+        {
+            EnableMenuItem(hMenu, ID_EDIT_EDITINFO, MF_ENABLED);
+            SendMessage(m_hToolbar, TB_ENABLEBUTTON, 
+                    ID_EDIT_EDITINFO, MAKELPARAM(TRUE, 0));
+        }
+
+        /*if(!IsItemSelected(m_hNewPlaylistItem) && !IsItemSelected(m_hAllItem) &&
+           !IsItemSelected(m_hCatalogItem) && !IsItemSelected(m_hUncatItem) &&
+           !IsItemSelected(m_hPlaylistItem) && !IsItemSelected(m_hPortableItem) &&
+           (playlistCount && !trackCount) &&
            !IsItemSelected(m_hCatalogItem) &&
            !IsItemSelected(m_hUncatItem) &&
            !IsItemSelected(m_hAllItem))
@@ -1453,7 +1471,7 @@ void MusicBrowserUI::UpdateButtonMenuStates()
             EnableMenuItem(hMenu, ID_EDIT_EDITINFO, MF_ENABLED);
             SendMessage(m_hToolbar, TB_ENABLEBUTTON, 
                     ID_EDIT_EDITINFO, MAKELPARAM(TRUE, 0)); 
-        }        
+        }*/       
 
         sMenuItem.cbSize = sizeof(MENUITEMINFO);
         sMenuItem.fMask =  MIIM_DATA|MIIM_TYPE;

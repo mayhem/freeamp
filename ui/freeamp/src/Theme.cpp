@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.40 2000/05/14 21:20:46 robert Exp $
+   $Id: Theme.cpp,v 1.41 2000/05/15 12:52:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1604,6 +1604,7 @@ Error Theme::EndElement(string &oElement)
            m_pParsedWindows = new vector<Window *>;
 
        m_pParsedWindows->push_back(m_pCurrentWindow);
+       m_oPanels.clear();
            
        m_pCurrentWindow = NULL;
 

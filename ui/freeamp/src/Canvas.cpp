@@ -18,14 +18,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.6 2000/05/15 09:34:41 robert Exp $
+   $Id: Canvas.cpp,v 1.7 2000/05/15 12:52:02 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "Canvas.h"
 #include "Window.h"
 #include "debug.h"
-
-#include "Win32Bitmap.h"
 
 Canvas::Canvas(void)
 {
@@ -89,7 +87,7 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
         if ((*i)->m_bIsOpen)
         {
             m_pBGBitmap->MakeTransparent((*i)->m_oOpenRect);
-            if ((*i)->m_pClosedBitmap)
+            if (!(*i)->m_pClosedBitmap)
             {
                 oDestRect.x1 = (*i)->m_oOffset.x;
                 oDestRect.y1 = (*i)->m_oOffset.y;
@@ -104,6 +102,5 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
             }
         }
     }
-    //((Win32Bitmap *)m_pBGBitmap)->BlitIt(0,0);
 }
 

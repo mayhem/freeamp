@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.110 2000/05/15 12:17:12 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.111 2000/05/15 12:52:02 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1249,15 +1249,15 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        int iState;
 
        m_pWindow->ControlIntValue(oControlName, false, iState);
-       if (iState == 0)
+       if (iState == 1)
        {
            m_eq->Enable(true);
-           iState = 1;
+           iState = 0;
        }
        else
        {
            m_eq->Enable(false);
-           iState = 0;
+           iState = 1;
        }
        m_pWindow->ControlIntValue(oControlName, true, iState);
        return kError_NoErr;
@@ -1364,7 +1364,7 @@ void FreeAmpTheme::InitControls(void)
     bEnable = true;
     m_pWindow->ControlEnable(string("StopIndicator"), true, bEnable);
 
-    iState = m_eq->IsEnabled() == true; 
+    iState = m_eq->IsEnabled() == false; 
     m_pWindow->ControlIntValue(string("EqEnable"), true, iState);
 
     iState = m_iMuteVolume != -1; 

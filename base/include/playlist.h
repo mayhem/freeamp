@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.12 1999/08/30 04:50:58 elrod Exp $
+	$Id: playlist.h,v 1.40.4.13 1999/08/30 12:23:17 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -251,6 +251,8 @@ class PlaylistManager {
     // Portable player communication
     Error GetSupportedPortables(DeviceInfo* device, uint32 index);
     bool IsPortableAvailable(DeviceInfo* device);
+
+    Error GetDeviceInfo(DeviceInfo* device);
 
     Error InitializeDevice(DeviceInfo* device, 
                             callback_function function = NULL);

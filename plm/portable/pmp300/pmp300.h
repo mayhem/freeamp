@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.h,v 1.1.2.2 1999/08/30 08:43:34 elrod Exp $
+	$Id: pmp300.h,v 1.1.2.3 1999/08/30 12:23:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMP300_H
@@ -38,6 +38,7 @@ using namespace std;
 #include "playlist.h"
 
 class PMP300 : public PortableDevice {
+
  public:
     PMP300(FAContext *context);
     virtual ~PMP300();
@@ -45,6 +46,8 @@ class PMP300 : public PortableDevice {
     virtual Error GetSupportedDevices(DeviceInfo* device, uint32 index);
 
     virtual bool IsDeviceAvailable(DeviceInfo* device);
+
+    virtual Error GetDeviceInfo(DeviceInfo* device);
 
     virtual Error InitializeDevice(DeviceInfo* device, 
                                    callback_function function = NULL);

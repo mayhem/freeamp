@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portabledevice.h,v 1.1.2.6 1999/08/30 08:43:28 elrod Exp $
+	$Id: portabledevice.h,v 1.1.2.7 1999/08/30 12:23:17 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PORTABLE_DEVICE_H_
@@ -35,6 +35,12 @@ using namespace std;
 #include "errors.h"
 #include "facontext.h"
 
+typedef enum {
+    kConnection_Unknown, 
+    kConnection_Parallel, 
+    kConnection_USB
+} ConnectionType;
+
 class PortableDevice;
 
 typedef PortableDevice* DeviceRef;
@@ -44,10 +50,11 @@ typedef bool (*callback_function)(void * cookie);
 class PlaylistItem;
 
 class DeviceInfo {
-
  public:
 
-    DeviceInfo():m_ref(NULL) {}
+    DeviceInfo():m_ref(NULL),m_type(kConnection_Unknown),
+                 m_bytesTotal(0),m_bytesUsed(0),m_port(0),
+                 m_numEntries(0) {}
     
     virtual ~DeviceInfo() {}
 
@@ -59,8 +66,19 @@ class DeviceInfo {
     { m_device = device; return kError_NoErr; }
     const char* GetDevice() { return m_device.c_str(); }
 
-    Error SetCapacity(uint32 bytes) { m_capacity = bytes; return kError_NoErr; }
-    uint32 GetCapacity() { return m_capacity; }
+    Error SetCapacity(uint32 bytesTotal, uint32 bytesUsed) 
+    { m_bytesTotal = bytesTotal; m_bytesUsed = bytesUsed; return kError_NoErr; }
+    void GetCapacity(uint32* bytesTotal, uint32* bytesUsed) 
+    { if(bytesTotal) *bytesTotal = m_bytesTotal; if(bytesTotal) *bytesUsed = m_bytesUsed; }
+
+    Error SetNumEntries(uint32 count) { m_numEntries = count; return kError_NoErr; }
+    uint32 GetNumEntries() const { return m_numEntries; }
+
+    Error SetConnectionType(ConnectionType type) { m_type = type; return kError_NoErr; }
+    ConnectionType GetConnectionType() const { return m_type; }
+
+    Error SetPortAddress(uint32 port) { m_port = port; return kError_NoErr; }
+    uint32 GetPortAddress() const { return m_port; }
 
     Error SetRef(DeviceRef ref) { m_ref = ref; return kError_NoErr; }
     DeviceRef GetRef() { return m_ref; }
@@ -70,11 +88,15 @@ class DeviceInfo {
     string m_manufacturer;
     string m_device;
     DeviceRef m_ref;
-    uint32 m_capacity;
+    uint32 m_bytesTotal;
+    uint32 m_bytesUsed;
+    ConnectionType m_type;
+    uint32 m_port;
+    uint32 m_numEntries;
 };
 
 class PortableDevice {
-
+ 
  public:
 
     PortableDevice(FAContext *context) {}
@@ -83,6 +105,8 @@ class PortableDevice {
     virtual Error GetSupportedDevices(DeviceInfo* device, uint32 index) = 0;
 
     virtual bool IsDeviceAvailable(DeviceInfo* device) = 0;
+
+    virtual Error GetDeviceInfo(DeviceInfo* device) = 0;
 
     virtual Error InitializeDevice(DeviceInfo* device, 
                                    callback_function function = NULL) = 0;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: metadata.h,v 1.1.2.5 1999/08/29 20:24:32 elrod Exp $
+	$Id: metadata.h,v 1.1.2.6 1999/08/30 12:23:17 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _METADATA_H_
@@ -44,6 +44,7 @@ class MetaData {
         m_year = 0;
         m_track = 0;
         m_time = 0;
+        m_size = 0;
     }
 
     virtual ~MetaData(){}
@@ -76,6 +77,9 @@ class MetaData {
 
     Error SetTime(uint32 time){ m_time = time; return kError_NoErr;}
     uint32 Time() { return m_time; }
+
+    Error SetSize(uint32 bytes){ m_size = bytes; return kError_NoErr;}
+    uint32 Size() { return m_size; }
  
  protected:
     Error SetBuffer(char* dest, const char* src, uint32* len)
@@ -116,6 +120,7 @@ class MetaData {
     uint32 m_year;
     uint32 m_track;
     uint32 m_time;
+    uint32 m_size;
 
 };
 

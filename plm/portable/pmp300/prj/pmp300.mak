@@ -56,7 +56,9 @@ CLEAN :"riolib - Win32 ReleaseCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\pmp300.obj"
+	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\vc50.idb"
+	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(OUTDIR)\pmp300.exp"
 	-@erase "$(OUTDIR)\pmp300.lib"
 	-@erase ".\pmp300.ppp"
@@ -64,8 +66,8 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /I "..\..\\" /I "..\..\..\include" /I\
- "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I "..\sba" /I "..\..\\" /I "..\..\..\include"\
+ /I "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
  "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
  "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include" /D "WIN32" /D "NDEBUG" /D\
  "_WINDOWS" /Fp"$(INTDIR)\pmp300.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD\
@@ -78,15 +80,17 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\pmp300.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
- advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
- odbccp32.lib /nologo /subsystem:windows /dll /incremental:no\
+LINK32_FLAGS=riolib.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
+ comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
+ odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:no\
  /pdb:"$(OUTDIR)\pmp300.pdb" /machine:I386 /def:".\pmp300.def" /out:"pmp300.ppp"\
- /implib:"$(OUTDIR)\pmp300.lib" 
+ /implib:"$(OUTDIR)\pmp300.lib" /libpath:"..\sba" 
 DEF_FILE= \
 	".\pmp300.def"
 LINK32_OBJS= \
 	"$(INTDIR)\pmp300.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\win32prefs.obj" \
 	"..\sba\riolib.lib"
 
 ".\pmp300.ppp" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -125,8 +129,10 @@ CLEAN :"riolib - Win32 DebugCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\pmp300.obj"
+	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
+	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(OUTDIR)\pmp300.exp"
 	-@erase "$(OUTDIR)\pmp300.lib"
 	-@erase "$(OUTDIR)\pmp300.pdb"
@@ -136,12 +142,12 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\\" /I "..\..\..\include" /I\
- "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
- "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
- "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include" /D "WIN32" /D "_DEBUG" /D\
- "_WINDOWS" /Fp"$(INTDIR)\pmp300.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD\
- /c 
+CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\sba" /I "..\..\\" /I\
+ "..\..\..\include" /I "..\..\include" /I "..\..\..\..\io\include" /I\
+ "..\..\..\..\base\include" /I "..\..\..\..\base\win32\include" /I\
+ "..\..\..\..\config" /I "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include"\
+ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\pmp300.pch" /YX\
+ /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
@@ -150,15 +156,18 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\pmp300.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
- advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
- odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
+LINK32_FLAGS=riolib.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
+ comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
+ odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
  /pdb:"$(OUTDIR)\pmp300.pdb" /debug /machine:I386 /def:".\pmp300.def"\
- /out:"pmp300.ppp" /implib:"$(OUTDIR)\pmp300.lib" /pdbtype:sept 
+ /out:"pmp300.ppp" /implib:"$(OUTDIR)\pmp300.lib" /pdbtype:sept\
+ /libpath:"..\sba" 
 DEF_FILE= \
 	".\pmp300.def"
 LINK32_OBJS= \
 	"$(INTDIR)\pmp300.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\win32prefs.obj" \
 	"..\sba\riolib.lib"
 
 ".\pmp300.ppp" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -197,7 +206,9 @@ CLEAN :"riolib - Win32 NASM ReleaseCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\pmp300.obj"
+	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\vc50.idb"
+	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(OUTDIR)\pmp300.exp"
 	-@erase "$(OUTDIR)\pmp300.lib"
 	-@erase ".\pmp300.ppp"
@@ -205,8 +216,8 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /I "..\..\\" /I "..\..\..\include" /I\
- "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I "..\sba" /I "..\..\\" /I "..\..\..\include"\
+ /I "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
  "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
  "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include" /D "WIN32" /D "NDEBUG" /D\
  "_WINDOWS" /Fp"$(INTDIR)\pmp300.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD\
@@ -219,15 +230,17 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\pmp300.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
- advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
- odbccp32.lib /nologo /subsystem:windows /dll /incremental:no\
+LINK32_FLAGS=riolib.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
+ comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
+ odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:no\
  /pdb:"$(OUTDIR)\pmp300.pdb" /machine:I386 /def:".\pmp300.def" /out:"pmp300.ppp"\
- /implib:"$(OUTDIR)\pmp300.lib" 
+ /implib:"$(OUTDIR)\pmp300.lib" /libpath:"..\sba" 
 DEF_FILE= \
 	".\pmp300.def"
 LINK32_OBJS= \
 	"$(INTDIR)\pmp300.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\win32prefs.obj" \
 	"..\sba\riolib.lib"
 
 ".\pmp300.ppp" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -266,8 +279,10 @@ CLEAN :"riolib - Win32 NASM DebugCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\pmp300.obj"
+	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
+	-@erase "$(INTDIR)\win32prefs.obj"
 	-@erase "$(OUTDIR)\pmp300.exp"
 	-@erase "$(OUTDIR)\pmp300.lib"
 	-@erase "$(OUTDIR)\pmp300.pdb"
@@ -277,12 +292,12 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\..\\" /I "..\..\..\include" /I\
- "..\..\include" /I "..\..\..\..\io\include" /I "..\..\..\..\base\include" /I\
- "..\..\..\..\base\win32\include" /I "..\..\..\..\config" /I\
- "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include" /D "WIN32" /D "_DEBUG" /D\
- "_WINDOWS" /Fp"$(INTDIR)\pmp300.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD\
- /c 
+CPP_PROJ=/nologo /MDd /W3 /Gm /GX /Zi /Od /I "..\sba" /I "..\..\\" /I\
+ "..\..\..\include" /I "..\..\include" /I "..\..\..\..\io\include" /I\
+ "..\..\..\..\base\include" /I "..\..\..\..\base\win32\include" /I\
+ "..\..\..\..\config" /I "..\..\..\..\ui\include" /I "..\..\..\..\lmc\include"\
+ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\pmp300.pch" /YX\
+ /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Debug/
 CPP_SBRS=.
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /o NUL /win32 
@@ -291,15 +306,18 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\pmp300.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
- advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
- odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
+LINK32_FLAGS=riolib.lib kernel32.lib user32.lib gdi32.lib winspool.lib\
+ comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib\
+ odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes\
  /pdb:"$(OUTDIR)\pmp300.pdb" /debug /machine:I386 /def:".\pmp300.def"\
- /out:"pmp300.ppp" /implib:"$(OUTDIR)\pmp300.lib" /pdbtype:sept 
+ /out:"pmp300.ppp" /implib:"$(OUTDIR)\pmp300.lib" /pdbtype:sept\
+ /libpath:"..\sba" 
 DEF_FILE= \
 	".\pmp300.def"
 LINK32_OBJS= \
 	"$(INTDIR)\pmp300.obj" \
+	"$(INTDIR)\preferences.obj" \
+	"$(INTDIR)\win32prefs.obj" \
 	"..\sba\riolib.lib"
 
 ".\pmp300.ppp" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -426,6 +444,8 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
+	"..\sba\rio.h"\
+	"..\sba\std.h"\
 	
 
 "$(INTDIR)\pmp300.obj" : $(SOURCE) $(DEP_CPP_PMP30) "$(INTDIR)"
@@ -448,6 +468,8 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
+	"..\sba\rio.h"\
+	"..\sba\std.h"\
 	
 
 "$(INTDIR)\pmp300.obj" : $(SOURCE) $(DEP_CPP_PMP30) "$(INTDIR)"
@@ -470,6 +492,8 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
+	"..\sba\rio.h"\
+	"..\sba\std.h"\
 	
 
 "$(INTDIR)\pmp300.obj" : $(SOURCE) $(DEP_CPP_PMP30) "$(INTDIR)"
@@ -492,9 +516,78 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
+	"..\sba\rio.h"\
+	"..\sba\std.h"\
 	
 
 "$(INTDIR)\pmp300.obj" : $(SOURCE) $(DEP_CPP_PMP30) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\..\..\base\src\preferences.cpp
+DEP_CPP_PREFE=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\..\base\win32\src\win32prefs.cpp
+
+!IF  "$(CFG)" == "pmp300 - Win32 Release"
+
+DEP_CPP_WIN32=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "pmp300 - Win32 Debug"
+
+DEP_CPP_WIN32=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Release"
+
+DEP_CPP_WIN32=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Debug"
+
+DEP_CPP_WIN32=\
+	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
+	"..\..\..\..\base\win32\include\win32prefs.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32prefs.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

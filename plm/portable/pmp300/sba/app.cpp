@@ -509,6 +509,9 @@ int main( int iCountArg, char* paszArg[] )
 		DisplayDirectory( cRio, bVerbose );
 
 	// restore
+
 	CLEANUP_RETURN( TRUE );
+
+    
 }
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.67.2.4 1999/08/30 08:43:34 elrod Exp $
+	$Id: freeampui.cpp,v 1.67.2.5 1999/08/30 12:23:21 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -645,11 +645,12 @@ Destroy()
 	    // Windows NT
 	    case VER_PLATFORM_WIN32_NT:
         {
+#if !defined( _M_ALPHA )
 		    if(osid.dwMajorVersion >= 4)
             {
                 UnloadDriver("portio");
             }
-
+#endif // !defined( _M_ALPHA )
             break;
         }
     }

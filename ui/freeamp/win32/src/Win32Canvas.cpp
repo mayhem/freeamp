@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.13 2000/05/15 09:34:41 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.14 2000/05/19 16:12:49 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -95,7 +95,7 @@ int Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect,
    
    DeleteObject(SelectObject(hMemDC, m_pBufferBitmap->GetBitmapHandle()));
    
-   hFont = CreateFont(iFontHeight, 0, 0, 0, bBold ? FW_BOLD : FW_NORMAL, 
+   hFont = CreateFont(-iFontHeight, 0, 0, 0, bBold ? FW_BOLD : FW_NORMAL, 
                       bItalic, bUnderline, 0, DEFAULT_CHARSET,
  					  OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
                       DEFAULT_PITCH, oFontFace.c_str()); 
@@ -156,7 +156,7 @@ int Win32Canvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
    
    DeleteObject(SelectObject(hMemDC, m_pBufferBitmap->GetBitmapHandle()));
    
-   hFont = CreateFont(iFontHeight, 0, 0, 0, bBold ? FW_BOLD : FW_NORMAL, 
+   hFont = CreateFont(-iFontHeight, 0, 0, 0, bBold ? FW_BOLD : FW_NORMAL, 
                       bItalic, bUnderline, 0, DEFAULT_CHARSET,
  					  OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
                       DEFAULT_PITCH, oFontFace.c_str()); 

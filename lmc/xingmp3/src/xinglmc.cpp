@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.54 1999/03/04 07:24:00 robert Exp $
+   $Id: xinglmc.cpp,v 1.55 1999/03/05 08:58:18 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -48,7 +48,11 @@ ____________________________________________________________________________*/
 #include "lmc.h"
 #include "log.h"
 
+#if MP3_PROF
+extern LogFile *g_Log;
+#else
 LogFile *g_Log = NULL;
+#endif
 
 #define DB printf("%08x: %s:%d\n", pthread_self(), __FILE__, __LINE__);
 
@@ -61,7 +65,9 @@ extern    "C"
 {
    LogicalMediaConverter *Initialize(LogFile *pLogFile)
    {
+#if !MP3_PROF
       g_Log = pLogFile;
+#endif
 
       return new XingLMC();
    }

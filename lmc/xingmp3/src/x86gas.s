@@ -20,7 +20,7 @@
 #	along with this program; if not, write to the Free Software
 #	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #	
-#	$Id: x86gas.s,v 1.8 1999/03/05 01:16:21 mhw Exp $
+#	$Id: x86gas.s,v 1.9 1999/03/05 08:58:18 mhw Exp $
 #
 
 #%% extern wincoef,dword
@@ -236,12 +236,12 @@ window_dual:	#%% proc
 .equ L_out,	164
 .equ L_locals,	140	# Bytes used for locals
 
-.globl fdct32
+.globl asm_fdct32
 	.align 16
 #%% end-not-inline
-#%% ! void fdct32(float in[], float out[])
+#%% ! void asm_fdct32(float in[], float out[])
 #%% ! {
-fdct32:		#%% proc
+asm_fdct32:	#%% proc
 #%% if-not-inline
 	pushl %ebp
 	pushl %edi

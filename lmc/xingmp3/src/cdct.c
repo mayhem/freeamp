@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cdct.c,v 1.3 1999/03/01 10:40:59 mhw Exp $
+	$Id: cdct.c,v 1.4 1999/03/05 08:58:18 mhw Exp $
 ____________________________________________________________________________*/
 
 /****  cdct.c  ***************************************************
@@ -88,35 +88,40 @@ static void back_bf(int m, int n, float x[], float f[])
    }
 }
 /*------------------------------------------------------------*/
+#ifndef unix
 #define _EQUALIZER_ENABLE_
+#endif
+
 #ifdef  _EQUALIZER_ENABLE_
 extern float equalizer[32];
 extern int enableEQ;
 #endif
-#undef _EQUALIZER_ENABLE_
 
-#ifndef ASM_FDCT32
 void fdct32(float x[], float c[])
 {
    float a[32];			/* ping pong buffers */
    float b[32];
+   float *src = x;
    int p, q;
 
-#define _EQUALIZER_ENABLE_
 #ifdef  _EQUALIZER_ENABLE_
    int i;
    if (enableEQ) {
-           for(i=0; i<32; i++)
-                   x[i] *= equalizer[i];
+       for(i=0; i<32; i++)
+	   b[i] = x[i] * equalizer[i];
+       src = b;
    }
 #endif  /* _EQUALIZER_ENABLE_ */
 #undef  _EQUALIZER_ENABLE_
 
+#ifdef ASM_FDCT32
+   asm_fdct32(src, c);
+#else
 /* special first stage */
    for (p = 0, q = 31; p < 16; p++, q--)
    {
-      a[p] = x[p] + x[q];
-      a[16 + p] = coef32[p] * (x[p] - x[q]);
+      a[p] = src[p] + src[q];
+      a[16 + p] = coef32[p] * (src[p] - src[q]);
    }
    forward_bf(2, 16, a, b, coef32 + 16);
    forward_bf(4, 8, b, a, coef32 + 16 + 8);
@@ -126,8 +131,8 @@ void fdct32(float x[], float c[])
    back_bf(4, 8, b, a);
    back_bf(2, 16, a, b);
    back_bf(1, 32, b, c);
+#endif	/* ASM_FDCT32 */
 }
-#endif	/* ndef ASM_FDCT32 */
 /*------------------------------------------------------------*/
 void fdct32_dual(float x[], float c[])
 {

@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.116 2000/10/02 13:47:24 ijr Exp $
+dnl $Id: configure.in,v 1.117 2000/10/02 17:28:24 robert Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -417,8 +417,6 @@ save_CPPFLAGS="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS -I/usr/local/include"
 AC_LANG_SAVE
 AC_LANG_C
-AC_CHECK_HEADERS(orb/orbit.h, have_orbit="true", have_orbit="false")
-
 AC_CHECK_HEADERS(freetype.h, have_freetype="true", have_freetype="false")
 
 if test "$have_freetype" = "false"; then

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.88 2000/09/27 12:16:39 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.89 2000/10/05 12:29:30 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -265,6 +265,7 @@ class MusicBrowserUI : public UserInterface
     void  NewFavoriteEvent();
     void  EditStreamInfoEvent();
     void  RemoveFavoriteEvent();
+	void  TipEvent(PlaylistItem *item = NULL);
 
     // Functions in PlaylistView.cpp
     void  PlaylistListItemAdded(const PlaylistItem* item);

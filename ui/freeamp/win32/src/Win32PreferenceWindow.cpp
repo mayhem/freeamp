@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.61 2000/10/04 20:03:10 ijr Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.62 2000/10/05 12:29:30 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -2290,6 +2290,16 @@ bool Win32PreferenceWindow::PrefAboutProc(HWND hwnd,
                                     SW_SHOWNORMAL);
                     break;
                 }
+				case IDC_GOTORELATABLE:
+				{
+					ShellExecute(	hwnd,
+									"open",
+									"http://www.relatable.com/",
+									NULL,
+									NULL,
+									SW_SHOWNORMAL);
+					break;
+				}
             }
 
             break;

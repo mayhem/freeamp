@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.98 2000/09/29 16:04:34 ijr Exp $
+        $Id: Dialog.cpp,v 1.99 2000/10/05 12:29:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -185,15 +185,19 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
 
                 case ID_POPUP_RENAME:
                     RenameEvent();
-                    break;
+                    return 1;
 
                 case ID_POPUP_ADDTRACK_PLAY:
                     AddTrackAndPlayEvent();
-                    break;
+                    return 1;
 
                 case ID_POPUP_PLAY:
                     PlayNowEvent();
-                    break;
+                    return 1;
+
+				case ID_POPUP_TIP:
+					TipEvent();
+					return 1;
 
                 case ID_FILE_NEWPLAYLIST:
                     NewPlaylist();
@@ -274,6 +278,10 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
 				case ID_SL_QUERY_NOMAX:
 					GenSLPlaylistEvent(-1.0);
 					return 1;
+
+				case ID_RELATABLE_EDITPROFILE:
+                    m_context->target->AcceptEvent(new ShowPreferencesEvent(7));
+                    return 1;
 
                 case ID_EDIT_STARTSIGNATURING:
                     HandleSignature();
@@ -372,6 +380,15 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
                                     NULL, 
                                     NULL, 
                                     SW_SHOWNORMAL);
+					return 1;
+
+				case ID_HELP_RELATABLEWEBSITE:
+					ShellExecute(	hwnd,
+									"open",
+									"http://www.relatable.com/",
+									NULL,
+									NULL,
+									SW_SHOWNORMAL);
                     return 1;
 
                 case ID_HELP_ABOUT:
@@ -1862,6 +1879,11 @@ void MusicBrowserUI::UpdateMenuStates()
     SetMenuItemInfo(hMenu, ID_EDIT_STARTSIGNATURING, false,
                     &sMenuItem);
 
+    bool advancedRelate = false;
+    m_context->prefs->GetPrefBoolean(kAdvancedRelatablePref, &advancedRelate);
+    EnableMenuItem(hMenu, ID_EDIT_SUBMITPLAYLIST,
+		           advancedRelate ? MF_ENABLED : MF_GRAYED);
+ 
     hMenu = GetSubMenu(hMenuRoot, 1);
 
     // Can we move items up and down?

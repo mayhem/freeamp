@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.116 1999/04/21 20:24:17 mhw Exp $
+        $Id: player.cpp,v 1.117 1999/04/22 08:24:00 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -365,7 +365,7 @@ CompareNames(const char *p1, const char *p2)
          // no plugin.ui match, try  plugin-arch.ui
          char      foo[512];
 
-         sprintf(foo, "%s-%s.ui", p2, AC_HOST_OS);
+         sprintf(foo, "%s-%s.ui", p2, HOST_OS);
          // cout << "Comparing: " << p1 << " to " << foo << endl;
          if (strcmp(p1, foo))
          {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.13 1999/04/22 04:51:28 mhw Exp $
+	$Id: config.h.in,v 1.14 1999/04/22 08:24:01 mhw Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -44,8 +44,11 @@ ____________________________________________________________________________*/
 #define HAVE_LINUX_LIBC5 0
 #define HAVE_SOLARIS 0
 
-#define AC_HOST_OS "unknown"
-#define AC_HOST_CPU "unknown"
+#define HOST_OS "unknown"
+#define HOST_CPU "unknown"
+
+#undef ASM_X86
+#undef ASM_X86_OLD
 
 #define MP3_PROF 0
 

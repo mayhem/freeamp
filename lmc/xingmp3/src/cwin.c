@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cwin.c,v 1.4 1999/04/21 04:20:54 elrod Exp $
+	$Id: cwin.c,v 1.5 1999/04/22 08:24:01 mhw Exp $
 ____________________________________________________________________________*/
 
 /****  cwin.c  ***************************************************
@@ -32,6 +32,9 @@ MPEG audio decoder, float window routines
 portable C
 
 ******************************************************************/
+
+#include "config.h"
+
 /*-------------------------------------------------------------------------*/
 void window(float *vbuf, int vb_ptr, short *pcm)
 {
@@ -108,7 +111,7 @@ void window(float *vbuf, int vb_ptr, short *pcm)
 
 
 /*------------------------------------------------------------*/
-#ifndef ASM_WINDOW_DUAL
+#ifndef ASM_X86_OLD
 void window_dual(float *vbuf, int vb_ptr, short *pcm)
 {
 #ifdef ASM_X86
@@ -183,7 +186,7 @@ void window_dual(float *vbuf, int vb_ptr, short *pcm)
    }
 #endif
 }
-#endif	/* ndef ASM_WINDOW_DUAL */
+#endif	/* ndef ASM_X86_OLD */
 /*------------------------------------------------------------*/
 /*------------------- 16 pt window ------------------------------*/
 void window16(float *vbuf, int vb_ptr, short *pcm)

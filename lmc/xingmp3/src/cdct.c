@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cdct.c,v 1.5 1999/04/21 04:20:54 elrod Exp $
+	$Id: cdct.c,v 1.6 1999/04/22 08:24:01 mhw Exp $
 ____________________________________________________________________________*/
 
 /****  cdct.c  ***************************************************
@@ -34,6 +34,7 @@ portable C
 
 ******************************************************************/
 
+#include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <float.h>
@@ -116,7 +117,7 @@ void fdct32(float x[], float c[])
 
 #ifdef ASM_X86
    fdct32_asm(src, c);
-#elif defined(ASM_FDCT32)
+#elif defined(ASM_X86_OLD)
    asm_fdct32(src, c);
 #else
 /* special first stage */

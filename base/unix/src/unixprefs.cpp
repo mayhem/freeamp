@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.13 1999/08/10 14:38:46 ijr Exp $
+        $Id: unixprefs.cpp,v 1.14 1999/08/20 19:24:23 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -41,7 +41,7 @@ ____________________________________________________________________________*/
 // (among others) which will in turn use delete to reclaim the memory.
 // This is NOT VALID! A strdup()ed string must be free()ed, not deleted!
 // WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
-char *strdup_new(char *str)
+char *strdup_new(const char *str)
 {
     char *n;
 

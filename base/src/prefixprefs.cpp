@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: prefixprefs.cpp,v 1.2 1999/04/21 04:20:43 elrod Exp $
+	$Id: prefixprefs.cpp,v 1.3 1999/08/20 19:24:22 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -56,13 +56,14 @@ PrefixPrefs::
 SetDefaults()
 {
     // Nothing to do
+    return kError_NoErr;
 }
 
 Error
 PrefixPrefs::
 Save()
 {
-    m_parent->Save();
+    return m_parent->Save();
 }
 
 Preferences *

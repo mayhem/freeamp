@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.15 1999/04/22 18:07:58 mhw Exp $
+	$Id: cmdlineUI.cpp,v 1.16 1999/07/13 18:42:25 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -111,10 +111,10 @@ cmdlineUI::~cmdlineUI() {
 
 void cmdlineUI::keyboardServiceFunction(void *pclcio) {
     cmdlineUI *pMe = (cmdlineUI *)pclcio;
-    char *pkey = new char[1];
+    //char *pkey = new char[1];
     char chr;
-    size_t rtn;
-    int fn = STDIN_FILENO;
+    //size_t rtn;
+    //int fn = STDIN_FILENO;
     for (;;) {
 	::getKey();
 	read(stdinfd,&chr,1);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: esdvolume.cpp,v 1.2 1999/05/25 19:19:35 mhw Exp $
+	$Id: esdvolume.cpp,v 1.3 1999/07/13 18:42:06 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -31,33 +31,29 @@ ____________________________________________________________________________*/
 
 #include "esdvolume.h"
 
-ESDVolumeManager::ESDVolumeManager()
+ESDVolumeManager::ESDVolumeManager(int iStream)
                  :VolumeManager()
 {
-
+   this->iStream = iStream;
+   this->iVolume = ESD_VOLUME_BASE;
 }
 
-void ESDVolumeManager::SetVolume(int32 v) 
-{ // This OSS code will work for the moment.
-    int mixFd = open("/dev/mixer",O_RDWR);
-    if (mixFd != -1) 
-    {
-        v |= (v << 8);
-        ioctl(mixFd, SOUND_MIXER_WRITE_PCM, &v);
-        close(mixFd);
-    }
-}
-
-int32 ESDVolumeManager::GetVolume() 
+void ESDVolumeManager::SetVolume(int32 v)
 {
-    int mixFd = open("/dev/mixer",O_RDWR);
-    int volume = 0;
-    if (mixFd != -1) 
+    int esd = esd_open_sound(NULL);
+    iVolume = v;
+    if (esd > 0)
     {
-        	ioctl(mixFd, SOUND_MIXER_READ_PCM, &volume);
-        	volume &= 0xFF;
-        	close(mixFd);
+/* do nothing for now...
+        v = ESD_VOLUME_BASE * (v & 0xff) / 50;
+        esd_set_stream_pan(esd, iStream, v, v); */
+        close(esd);
     }
-    return volume;
+
+}
+
+int32 ESDVolumeManager::GetVolume()
+{
+    return iVolume;
 }
 

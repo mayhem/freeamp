@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cdct.c,v 1.6 1999/04/22 08:24:01 mhw Exp $
+	$Id: cdct.c,v 1.7 1999/07/13 18:42:11 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cdct.c  ***************************************************
@@ -100,10 +100,10 @@ extern int enableEQ;
 
 void fdct32(float x[], float c[])
 {
-   float a[32];			/* ping pong buffers */
-   float b[32];
+   //float a[32];			/* ping pong buffers */
+   //float b[32];
    float *src = x;
-   int p, q;
+   //int p, q;
 
 #ifdef  _EQUALIZER_ENABLE_
    int i;

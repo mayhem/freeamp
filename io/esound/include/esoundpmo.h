@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: esoundpmo.h,v 1.2 1999/05/25 19:19:35 mhw Exp $
+        $Id: esoundpmo.h,v 1.3 1999/07/13 18:42:05 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _ESOUNDDPMO_H_
@@ -49,45 +49,33 @@ enum
 
 class FAContext;
 
-class EsounDPMO:public PhysicalMediaOutput, public EventBuffer
+class EsounDPMO:public PhysicalMediaOutput
 {
  public:
 
-            EsounDPMO(FAContext *context);
-   virtual ~EsounDPMO();
+              EsounDPMO(FAContext *context);
+     virtual ~EsounDPMO();
 
-   virtual Error Init(OutputInfo * info);
-   virtual Error Pause();
-   virtual Error Resume();
-   virtual Error Break();
-   virtual void  WaitToQuit();
-   virtual Error Clear();
-   virtual Error SetPropManager(Properties * p);
-   virtual VolumeManager *GetVolumeManager();
+     virtual Error Init(OutputInfo * info);
+     virtual VolumeManager *GetVolumeManager();
 
-   static void   StartWorkerThread(void *);
-   virtual Error BeginWrite(void *&pBuffer, size_t &iBytesToWrite);
-   virtual Error EndWrite  (size_t iNumBytesWritten);
-   virtual Error AcceptEvent(Event *);
-   virtual int   GetBufferPercentage();
+     static void   StartWorkerThread(void *);
 
- private:
-   void          WorkerThread(void); 
-   virtual Error Reset(bool user_stop);
-   void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
+   private:
+     void          WorkerThread(void);
+     virtual Error Reset(bool user_stop);
+     void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
 
-   Properties  *m_propManager;
-   bool         m_properlyInitialized;
-   int16        buffer[OBUFFERSIZE];
-   int16       *bufferp[MAXCHANNELS];
-   uint32       channels;
-   static int   audio_fd;
-   OutputInfo  *myInfo;
-   int32        getprocessed(void);
-   Thread      *m_pBufferThread;
-   Mutex       *m_pPauseMutex;
-   int          m_iOutputBufferSize, m_iTotalBytesWritten, m_iBytesPerSample;
-   int          m_iLastFrame, m_iDataSize;
+     bool         m_properlyInitialized;
+     uint32       channels;
+     int   audio_fd;
+     OutputInfo  *myInfo;
+     Thread      *m_pBufferThread;
+     Mutex       *m_pPauseMutex;
+     int          m_iOutputBufferSize, m_iBytesPerSample, m_iTotalFragments;
+     long long    m_iTotalBytesWritten;
+     int          m_iLastFrame;
+     unsigned     m_iDataSize;
 };
 
-#endif /* _ESOUNDPMO_H_ */
+#endif /* _ESOUNDPMO_H_ */ 

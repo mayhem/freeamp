@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: iupL1.c,v 1.1 1998/10/14 02:50:37 elrod Exp $
+	$Id: iupL1.c,v 1.2 1999/07/13 18:42:18 robert Exp $
 ____________________________________________________________________________*/
 
 /****  iupL1.c  ***************************************************
@@ -94,9 +94,9 @@ static void unpack_sfL1()	/* unpack scale factor */
 /*-- done --*/
 }
 /*-------------------------------------------------------------------------*/
-#define UNPACKL1_N(n)  s[k]     =  (cs_factorL1[k]*(load(n)-((1 << n-1) -1)))>>(n-1);   \
+#define UNPACKL1_N(n)  s[k]     =  (cs_factorL1[k]*(load(n)-((1 << (n-1)) -1)))>>(n-1);   \
     goto dispatch;
-#define UNPACKL1J_N(n) tmp        =  (load(n)-((1 << n-1) -1));                 \
+#define UNPACKL1J_N(n) tmp        =  (load(n)-((1 << (n-1)) -1));                 \
     s[k]       =  (cs_factorL1[k]*tmp)>>(n-1);               \
     s[k+1]     =  (cs_factorL1[k+1]*tmp)>>(n-1);             \
     k++;       /* skip right chan dispatch */                \

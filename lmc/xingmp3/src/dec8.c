@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dec8.c,v 1.1 1998/10/14 02:50:36 elrod Exp $
+	$Id: dec8.c,v 1.2 1999/07/13 18:42:16 robert Exp $
 ____________________________________________________________________________*/
 
 /****  dec8.c  ***************************************************
@@ -114,7 +114,7 @@ static int kdeci = 8 * 288;
 static short xsave;
 
 /*------------------------------------------*/
-static output_code;
+static int output_code;
 static int convert(unsigned char *pcm);
 static int convert_8bit(unsigned char *pcm);
 static int convert_u(unsigned char *pcm);
@@ -267,8 +267,8 @@ int audio_decode8_init(MPEG_HEAD * h, int framebytes_arg,
 {
    int istat;
    int outvals;
-   static int sr_table[][4] =
-   {22, 24, 16, 0, 44, 48, 32, 0};
+   static int sr_table[2][4] =
+   {{22, 24, 16, 0}, {44, 48, 32, 0}};
    static int first_pass = 1;
 
    if (first_pass)

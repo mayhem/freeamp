@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.cpp,v 1.7 1999/04/21 04:21:01 elrod Exp $
+	$Id: irmanui.cpp,v 1.8 1999/07/13 18:42:28 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -168,7 +168,7 @@ void IRManUI::irServiceFunction(void *pclcio) {
 			        int32 vol = ((Int32PropValue *) pv)->GetInt32(); 
              
 			        vol += 5;
-			        if (vol > 100) vol == 100;
+			        if (vol > 100) vol = 100;
 			        Int32PropValue *ipv = new Int32PropValue(vol);
 			        pMe->m_propManager->SetProperty("pcm_volume",(PropValue *)ipv);
              }
@@ -181,7 +181,7 @@ void IRManUI::irServiceFunction(void *pclcio) {
              {
 			        int32 vol = ((Int32PropValue *) pv)->GetInt32(); 
 			        vol -= 5;
-			        if (vol < 0) vol == 0;
+			        if (vol < 0) vol = 0;
 			        Int32PropValue *ipv = new Int32PropValue(vol);
 			        pMe->m_propManager->SetProperty("pcm_volume",(PropValue *)ipv);
              }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.32 1999/07/13 18:37:16 robert Exp $
+   $Id: pullbuffer.cpp,v 1.33 1999/07/13 18:42:09 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -395,7 +395,7 @@ Error PullBuffer::BeginRead(void *&pBuffer, size_t iBytesNeeded)
    } 
    if (m_iOverflowSize != 0 && iOverflow > 0)
    {
-       assert(m_iOverflowSize >= iOverflow);
+       assert(m_iOverflowSize >= (size_t)iOverflow);
        memcpy(m_pPullBuffer + m_iBufferSize, m_pPullBuffer, iOverflow);
    }
 

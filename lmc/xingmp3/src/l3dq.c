@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: l3dq.c,v 1.2 1998/12/15 04:57:53 jdw Exp $
+	$Id: l3dq.c,v 1.3 1999/07/13 18:42:20 robert Exp $
 ____________________________________________________________________________*/
 
 /****  quant.c  ***************************************************
@@ -145,9 +145,11 @@ void dequant(SAMPLE Sample[], int *nsamp,
       }
    }
 /* fill in cb_info -- */
+   /* This doesn't seem used anywhere...
    cb_info->lb_type = gr->block_type;
    if (gr->block_type == 2)
       cb_info->lb_type;
+   */
    cb_info->cbs0 = cbs0;
    cb_info->ncbl = ncbl;
 

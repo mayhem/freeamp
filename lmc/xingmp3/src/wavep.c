@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: wavep.c,v 1.1 1998/10/14 02:50:37 elrod Exp $
+	$Id: wavep.c,v 1.2 1999/07/13 18:42:24 robert Exp $
 ____________________________________________________________________________*/
 
 /*---- wavep.c --------------------------------------------
@@ -37,6 +37,8 @@ portable version
 #include <math.h>
 #ifdef WIN32
 #include <io.h>
+#else
+#include <unistd.h>
 #endif
 #include "port.h"
 
@@ -61,7 +63,7 @@ BYTE_WAVE;
 static BYTE_WAVE wave =
 {
    "RIFF",
-   sizeof(BYTE_WAVE) - 8, 0, 0, 0,
+   {(sizeof(BYTE_WAVE) - 8), 0, 0, 0},
    "WAVE",
    "fmt ",
    16, 0, 0, 0,

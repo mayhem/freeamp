@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.15 1999/04/21 04:20:44 elrod Exp $
+	$Id: registrar.cpp,v 1.16 1999/07/13 18:42:01 robert Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -211,7 +211,7 @@ CleanupRegistry(Registry* registry)
     RegistryItem*   item    = NULL;
     int32           index   = 0;
 
-    while(item = registry->GetItem(index++))
+    while((item = registry->GetItem(index++)))
     {
         HMODULE module = NULL;
 

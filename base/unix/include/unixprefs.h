@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: unixprefs.h,v 1.2 1999/04/21 04:20:44 elrod Exp $
+	$Id: unixprefs.h,v 1.3 1999/07/13 18:42:02 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -77,8 +77,8 @@ class UnixPrefs : public Preferences
     static char *m_libDirs;
 
     char *m_prefsFilePath;
+    int m_errorLineNumber;      // 0 if no error
     bool m_saveEnable, m_changed;
-    int m_errorLineNumber;	// 0 if no error
 
     List<UnixPrefEntry *> m_entries;
     HashTable<UnixPrefEntry *> m_ht;

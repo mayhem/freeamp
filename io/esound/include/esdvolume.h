@@ -18,7 +18,7 @@
        along with this program; if not, write to the Free Software
        Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
        
-       $Id: esdvolume.h,v 1.2 1999/05/25 19:19:35 mhw Exp $
+       $Id: esdvolume.h,v 1.3 1999/07/13 18:42:04 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _ESDVOLUME_H_
@@ -31,10 +31,14 @@ class ESDVolumeManager : public VolumeManager
 {
     public:
 
-    ESDVolumeManager();
+    ESDVolumeManager(int iStream);
 
     virtual void SetVolume(int32);
     virtual int32 GetVolume(void);
+    
+    private:
+    
+    int iStream, iVolume;
 };
 
 #endif // _ESDVOLUME_H_

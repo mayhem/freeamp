@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.8 1999/04/26 00:51:38 robert Exp $
+        $Id: unixprefs.cpp,v 1.9 1999/07/13 18:42:03 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -390,7 +390,7 @@ UnixPrefs()
             if (*p)
             {
                 char *end;
-                char *out;
+                // char *out;
                 int32 length;
                 
                 entry->key = ReadQuotableString(p, (const char **)&end, ":#");
@@ -597,7 +597,7 @@ UnixPrefs::
 GetPrefString(const char* pref, char* buf, uint32* len)
 {
     UnixPrefEntry *entry;
-    int32 index;
+    // int32 index;
 
     m_mutex.Acquire();
 

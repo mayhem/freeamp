@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.47 1999/12/04 00:29:31 elrod Exp $
+        $Id: Dialog.cpp,v 1.48 1999/12/07 23:29:51 robert Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -1742,8 +1742,7 @@ FileOpenDialog(HWND hwnd,
     // Setup open file dialog box structure
     ofn.lStructSize       = sizeof(OPENFILENAME);
     ofn.hwndOwner         = hwnd;
-    ofn.hInstance         = (HINSTANCE)GetWindowLong(hwnd, 
-                                                     GWL_HINSTANCE);
+    ofn.hInstance         = g_hinst;
     ofn.lpstrFilter       = filter;
     ofn.lpstrCustomFilter = NULL;
     ofn.nMaxCustFilter    = 0;
@@ -1758,7 +1757,7 @@ FileOpenDialog(HWND hwnd,
 					        OFN_PATHMUSTEXIST |
   	     			        OFN_HIDEREADONLY | 
 					        OFN_ALLOWMULTISELECT |
-					        OFN_EXPLORER |
+					        OFN_EXPLORER | 
                             OFN_ENABLEHOOK |
                             OFN_ENABLETEMPLATE;
     ofn.nFileOffset       = 0;
@@ -1810,7 +1809,6 @@ FileOpenDialog(HWND hwnd,
 
         result = true;
     }
-
 
     /*if(CommDlgExtendedError() == CDERR_NOHINSTANCE)
     {   

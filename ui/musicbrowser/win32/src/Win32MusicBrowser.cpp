@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.34 1999/12/03 21:07:57 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.35 1999/12/07 23:29:53 robert Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -669,20 +669,12 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
         case CMD_AddFiles:
         {
             Int32PropValue *prop;
-            
+
             if(IsntError(m_context->props->GetProperty("MainWindow", (PropValue **)&prop)))
             {
                 HWND hwnd = (HWND)prop->GetInt32();
-
-                //if(!isVisible)
-                //    ShowBrowser(true);
-
-                AddFileEvent(m_hWnd);
-                
-
-                //MessageBox(NULL, "\'Open Files\' in not implemented under win32 right now." 
-                //                 "To add files use the \'My Music\' window.", "Sorry!", MB_OK);
-                //m_oPlm->AddItem("file://c|/local/mpegs/Air - Moon Safari - 01 - La Femme D'argent.mp3");
+    
+                AddFileEvent(hwnd);
             }
             
             break;

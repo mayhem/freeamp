@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.14 1999/12/08 03:18:31 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.15 1999/12/13 17:03:19 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -158,6 +158,7 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
         case INFO_Paused:
         case INFO_Stopped:
         case INFO_Playing:
+        case INFO_MusicCatalogCleared:
         case INFO_MusicCatalogPlaylistAdded:
         case INFO_MusicCatalogPlaylistRemoved:
         case INFO_MusicCatalogTrackChanged:

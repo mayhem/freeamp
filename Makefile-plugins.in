@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.31 1999/12/08 15:33:41 robert Exp $
+# $Id: Makefile-plugins.in,v 1.32 1999/12/13 17:03:18 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -23,6 +23,7 @@ uninstall_plugins uninstall-plugins:
 	    rm -f $(DESTDIR)$(libdir)/freeamp/`echo $$p|sed '$(transform)'`; \
 	  else :; fi; \
 	done
+	-rmdir $(DESTDIR)/$(libdir)/freeamp/plugins
 
 OSDEPPLUGINS = @OSDEPPLUGINS@
 

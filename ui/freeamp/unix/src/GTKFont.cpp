@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.7 1999/12/09 19:36:37 ijr Exp $
+   $Id: GTKFont.cpp,v 1.8 1999/12/13 17:03:18 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <sys/stat.h>
@@ -275,6 +275,7 @@ void GTKFont::Render(Rect &oClipRect, string &oText, int iOffset,
            ycoord -= ttfont->descent;
        else
            ycoord -= ttfont->descent / 2;
+       ycoord++;
        EFont_draw_string(bitmap->GetBitmap(), gc, oClipRect.x1 + iOffset, 
                          ycoord, (char *)oText.c_str(), ttfont);
     }

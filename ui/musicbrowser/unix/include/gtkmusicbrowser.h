@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.18 1999/12/08 03:18:31 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.19 1999/12/13 17:03:18 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -172,6 +172,21 @@ class GTKMusicBrowser {
                           char *message = NULL);
 
     void SetToolbarType();
+
+    GtkCTreeNode *FindNode(TreeNodeType type, ArtistList *artist,
+                           AlbumList *album, PlaylistItem *item,
+                           GtkCTreeNode *searchFrom = NULL);
+    GtkCTreeNode *FindPlaylistNode(string playlist);
+
+    void CreateMainTreeItems(void);
+
+    void ClearTree(void);
+    void AddCatTrack(ArtistList *artist, AlbumList *album, PlaylistItem *item,
+                     bool expand = false);
+    void RemoveCatTrack(ArtistList *artist, AlbumList *album, 
+                        PlaylistItem *item);
+    void AddCatPlaylist(string playlist);
+    void RemoveCatPlaylist(string playlist);
 
   public:
     ClickState GetClickState() { return m_clickState; }

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.164 1999/12/10 06:25:38 elrod Exp $
+        $Id: player.cpp,v 1.165 1999/12/13 17:03:18 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1833,6 +1833,7 @@ ServiceEvent(Event * pC)
         case INFO_MusicCatalogPlaylistAdded:
         case INFO_MusicCatalogPlaylistRemoved:
         case INFO_MusicCatalogTrackChanged:
+        case INFO_MusicCatalogCleared:
         case CMD_AddFiles:
         case CMD_LoadTheme:
         case CMD_ShowPreferences:

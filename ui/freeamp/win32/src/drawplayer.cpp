@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: drawplayer.cpp,v 1.22 1998/11/09 11:16:35 elrod Exp $
+	$Id: drawplayer.cpp,v 1.23 1998/11/09 11:45:08 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -341,7 +341,7 @@ static void DrawPlayer(HDC hdc, ControlInfo* state)
                         BitBlt( bufferdc, 
                                 rect.left, 
                                 rect.top, 
-                                rect.right - rect.left, 
+                                11, 
                                 rect.bottom - rect.top, 
                                 memdc, 
                                 srcOffset,

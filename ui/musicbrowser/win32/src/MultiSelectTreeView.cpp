@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.9 1999/12/28 02:53:31 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.10 1999/12/29 16:00:22 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -188,6 +188,9 @@ TreeViewWndProc(HWND hwnd,
                 LPARAM lParam)
 {
     MusicBrowserUI* ui = (MusicBrowserUI*)GetProp(hwnd, "this" );
+
+    //if(msg == 0x110c)
+    //    return 0;
 
     return ui->TreeViewWndProc(hwnd, msg, wParam, lParam);
 }

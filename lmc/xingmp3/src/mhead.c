@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mhead.c,v 1.2 1998/10/31 01:47:55 jdw Exp $
+	$Id: mhead.c,v 1.3 1998/10/31 02:52:58 jdw Exp $
 ____________________________________________________________________________*/
 
 /*------------ mhead.c ----------------------------------------------
@@ -201,7 +201,7 @@ int head_info2(unsigned char *buf, unsigned int n, MPEG_HEAD * h, int *br)
    framebytes = head_info(buf, n, h);
 
    if (framebytes == 0)
-      return 0;
+      return 0; 
 
    if (h->option == 1)
    {				/* layer III */

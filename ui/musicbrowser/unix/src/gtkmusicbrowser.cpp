@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.34 1999/12/08 03:18:31 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.35 1999/12/09 08:15:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -2276,10 +2276,10 @@ int32 GTKMusicBrowser::AcceptEvent(Event *e)
                 UpdatePlayPause();
                 gdk_threads_leave();
             }
-            break; }    
+            break; }  
+        case INFO_MusicCatalogTrackChanged: 
         case INFO_MusicCatalogTrackAdded:
         case INFO_MusicCatalogTrackRemoved:
-        case INFO_MusicCatalogTrackChanged:
         case INFO_MusicCatalogPlaylistRemoved:
         case INFO_MusicCatalogPlaylistAdded: {
             if (m_initialized) {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.27 1999/12/08 03:18:31 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.28 1999/12/09 08:14:59 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -287,10 +287,18 @@ Error MusicCatalog::AddSong(const char *url)
         AcceptEvent(new MusicCatalogTrackAddedEvent(newtrack, NULL, NULL));
     }
     else {
-        if (meta->Album() == " " || meta->Album().size() == 0)
+        bool changed = false;
+        if (meta->Album() == " " || meta->Album().size() == 0) {
             meta->SetAlbum("Unknown");
-        if (meta->Title() == " " || meta->Title().size() == 0)
+            changed = true;
+        }
+        if (meta->Title() == " " || meta->Title().size() == 0) {
             meta->SetTitle("Unknown");
+            changed = true;
+        }
+  
+        if (changed)
+            WriteMetaDataToDatabase(url, *meta);
 
         bool found_artist = false;
         vector<ArtistList *>::iterator i = m_artistList->begin();

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.79 2000/06/19 20:40:41 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.80 2000/06/21 13:28:25 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -33,6 +33,7 @@ ____________________________________________________________________________*/
 
 #include <windows.h>
 #include <commctrl.h>
+#include <dbt.h>
 
 #include <vector>
 #include <string>
@@ -336,6 +337,7 @@ class MusicBrowserUI : public UserInterface
     bool IsItemSelected(HTREEITEM item);
 
     void RefreshCDList(vector<PlaylistItem*>* tracks);
+    void DeviceChanged(uint32 event, PDEV_BROADCAST_HDR data);
 
     // Functions in EditTrackInfoDialog.cpp
     void CreateEditInfoLists(set<string>& artists,

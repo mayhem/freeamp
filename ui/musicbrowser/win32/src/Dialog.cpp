@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.85 2000/06/12 16:13:55 robert Exp $
+        $Id: Dialog.cpp,v 1.86 2000/06/21 13:28:25 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -410,6 +410,12 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
         case WM_INITMENU:
         {
             UpdateMenuStates();
+            break;
+        }
+
+        case WM_DEVICECHANGE:
+        {   
+            DeviceChanged(wParam, (PDEV_BROADCAST_HDR)lParam);
             break;
         }
 

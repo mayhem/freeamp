@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.6.2.1 2000/02/23 22:05:35 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.6.2.2 2000/02/25 00:17:38 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -129,9 +129,39 @@ Error Win32UpdateManager::UpdateComponents(UMCallBackFunction function,
 
             if(findFileHandle != INVALID_HANDLE_VALUE)
             {
-                MoveFileEx(updatePath, appPath, MOVEFILE_REPLACE_EXISTING);
+                BOOL success;
+
+                success = DeleteFile(appPath);
+
+                if(success)
+                {
+                    // actually move the file
+                    success = MoveFile(updatePath, appPath);
+                }
+                
+                if(!success)
+                {
+                    LPVOID lpMessageBuffer;
+
+		            FormatMessage(
+		              FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		              FORMAT_MESSAGE_FROM_SYSTEM,
+		              NULL,
+		              GetLastError(),
+		              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		              (LPTSTR) &lpMessageBuffer,
+		              0,
+		              NULL );
+
+		            // now display this string
+ 		            MessageBox(NULL, (char*)lpMessageBuffer, 0, MB_OK);
+
+		            // Free the buffer allocated by the system
+		            LocalFree( lpMessageBuffer );
+                }
+
                 FindClose(findFileHandle);
-            }            
+            }
 
             m_context->target->AcceptEvent(new Event(CMD_QuitPlayer));
 

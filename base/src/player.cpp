@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.44 1998/11/03 02:24:52 jdw Exp $
+	$Id: player.cpp,v 1.45 1998/11/03 09:13:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -475,7 +475,8 @@ int32 Player::ServiceEvent(Event *pC) {
 	    }
 	    
 	    case CMD_ChangePosition: {
-		m_lmc->ChangePosition(((ChangePositionEvent *)pC)->GetPosition());        
+        if(m_lmc)
+		    m_lmc->ChangePosition(((ChangePositionEvent *)pC)->GetPosition());        
 		return 0;
 		break;
 	    }

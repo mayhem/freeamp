@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.3 1998/10/19 07:51:44 elrod Exp $
+	$Id: preferences.cpp,v 1.4 1998/11/03 09:13:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "preferences.h"
@@ -30,7 +30,7 @@ const HKEY  kMainKey = HKEY_CURRENT_USER;
 const char* kFreeAmpKey = "SOFTWARE\\FreeAmp\\FreeAmp v1.0";
 const char* kInstallDirPref = "InstallDirectory";
 const char* kUIPref = "UI";
-const char* kDefaultUI = "simple.ui";
+const char* kDefaultUI = "freeamp.ui";
 
 
 Preferences::

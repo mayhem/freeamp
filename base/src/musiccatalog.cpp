@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.1.2.1 1999/10/13 23:07:54 robert Exp $
+        $Id: musiccatalog.cpp,v 1.1.2.2 1999/10/14 00:35:14 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -40,6 +40,7 @@ ____________________________________________________________________________*/
 #include "musicbrowser.h"
 #include "player.h"
 #include "utility.h"
+#include "debug.h"
 
 #define DBASEDELIM ":"
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.3 1999/10/13 23:08:08 robert Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.4 1999/10/14 00:35:16 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -151,12 +151,16 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             break; }
 
         case INFO_SearchMusicDone: {
+#if HAVE_GTK
             if (m_initialized) {
                 gdk_threads_enter();
                 UpdateCatalog();
                 SetStatusText("");
                 gdk_threads_leave();
             }
+#else
+            SetWindowText(GetDlgItem(m_hWnd, IDC_STATUS), "Music search completed.");
+#endif                
             break; }
         case INFO_BrowserMessage: {
 #if HAVE_GTK
@@ -304,8 +308,21 @@ void MusicBrowserUI::StartMusicSearch(void)
 #if HAVE_GTK
     m_context->browser->SearchMusic(ROOT_DIR);
 #else
-	// Enumerate drives and then call search for each one
-    m_context->browser->SearchMusic("E:\\");
+    DWORD  dwDrives;
+    char  *szPath = "X:\\";
+    int32  i, ret;
+
+    dwDrives = GetLogicalDrives();
+    for(i = 0; i < sizeof(DWORD) * 8; i++)
+    {
+       if (dwDrives & (1 << i))
+       {
+          szPath[0] = 'A' + i;
+          ret = GetDriveType(szPath);
+          if (ret != DRIVE_CDROM && ret != DRIVE_REMOVABLE)
+             m_context->browser->SearchMusic(szPath);
+       }   
+    }
 #endif    
 }
 

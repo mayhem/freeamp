@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.3 1999/10/13 23:08:16 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.4 1999/10/14 00:35:18 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -391,7 +391,7 @@ void MusicBrowserUI::InitDialog(void)
     TV_ITEM         sItem;
     TV_INSERTSTRUCT sInsert;
     
-    hList = ImageList_Create(14, 14, ILC_COLOR8, 3, 0);
+    hList = ImageList_Create(16, 16, ILC_COLOR8, 3, 0);
     hShell = GetModuleHandle("SHELL32.DLL");
     dwIcon = 4;     // 'Closed folder' Icon
     ImageList_AddIcon(hList, LoadIcon(hShell, MAKEINTRESOURCE(dwIcon)));
@@ -405,13 +405,14 @@ void MusicBrowserUI::InitDialog(void)
                           hList, TVSIL_NORMAL); 
                           
     sItem.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_CHILDREN |
-                 TVIF_SELECTEDIMAGE; 
+                 TVIF_SELECTEDIMAGE | TVIF_PARAM; 
         
     sItem.pszText = "My Music Catalog";
     sItem.cchTextMax = lstrlen(sInsert.item.pszText);
     sItem.iImage = 0;
     sItem.iSelectedImage = 1;
     sItem.cChildren= 1;
+    sItem.lParam = 0;
         
     sInsert.item = sItem;
     sInsert.hInsertAfter = TVI_FIRST;
@@ -437,15 +438,117 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
     pTreeView = (NM_TREEVIEW *)pHdr;
     
 	if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
-        pTreeView->itemNew.hItem == m_hPlaylistItem)
-        Debug_v("Expand playlist");
+        pTreeView->itemNew.hItem == m_hPlaylistItem &&
+        TreeView_GetChild(
+        GetDlgItem(m_hWnd, IDC_MUSICTREE), m_hPlaylistItem) == NULL)
+        FillPlaylists();
 
 	if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
-        pTreeView->itemNew.hItem == m_hCatalogItem)
-        Debug_v("Expand catalog");
+        pTreeView->itemNew.hItem == m_hCatalogItem &&
+        TreeView_GetChild(
+        GetDlgItem(m_hWnd, IDC_MUSICTREE), m_hCatalogItem) == NULL)
+        FillArtists();
+
+	if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
+        pTreeView->itemNew.lParam == 1 &&
+        TreeView_GetChild(
+        GetDlgItem(m_hWnd, IDC_MUSICTREE), pTreeView->itemNew.hItem) == NULL)
+        FillAlbums(&pTreeView->itemNew);
 
 	return 1;
 }
+
+void MusicBrowserUI::FillArtists(void)
+{
+    TV_INSERTSTRUCT                sInsert;
+    vector<ArtistList *>::iterator i;
+
+    sInsert.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_CHILDREN |
+                 TVIF_SELECTEDIMAGE | TVIF_PARAM; 
+
+    for(i = m_context->browser->m_catalog->m_artistList->begin();
+        i != m_context->browser->m_catalog->m_artistList->end(); i++)
+    {
+       sInsert.item.pszText = (char *)(*i)->name.c_str();
+       sInsert.item.cchTextMax = (*i)->name.length();
+       sInsert.item.iImage = 0;
+       sInsert.item.iSelectedImage = 1;
+       sInsert.item.cChildren= 1;
+       sInsert.item.lParam = 1;
+       sInsert.hInsertAfter = TVI_SORT;
+       sInsert.hParent = m_hCatalogItem;
+       TreeView_InsertItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sInsert);
+    }    
+}
+
+void MusicBrowserUI::FillAlbums(TV_ITEM *pItem)
+{
+    TV_INSERTSTRUCT                sInsert;
+    TV_ITEM                        sItem;
+    char                           szText[255];
+    vector<ArtistList *>::iterator i;
+    vector<AlbumList *>::iterator  j;
+    
+    sItem.mask = TVIF_TEXT | TVIF_HANDLE;
+    sItem.pszText = szText;
+    sItem.cchTextMax = 255;
+    sItem.hItem = pItem->hItem;
+    TreeView_GetItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sItem);
+
+    sInsert.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_CHILDREN |
+                 TVIF_SELECTEDIMAGE | TVIF_PARAM; 
+
+    for(i = m_context->browser->m_catalog->m_artistList->begin();
+        i != m_context->browser->m_catalog->m_artistList->end(); i++)
+    {
+       if (strcmp((*i)->name.c_str(), szText) == 0)
+       {
+           for(j = (*i)->m_albumList->begin(); 
+               j != (*i)->m_albumList->end(); j++)
+           {
+               if ((*j)->name == string(" ") || 
+                   (*j)->name.length() == 0)
+                   sInsert.item.pszText = "Unknown";
+               else    
+                   sInsert.item.pszText = (char *)(*j)->name.c_str();
+                   
+               sInsert.item.cchTextMax = (*j)->name.length();
+               sInsert.item.iImage = 0;
+               sInsert.item.iSelectedImage = 1;
+               sInsert.item.cChildren= 1;
+               sInsert.item.lParam = 2;
+               sInsert.hInsertAfter = TVI_SORT;
+               sInsert.hParent = pItem->hItem;
+               TreeView_InsertItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sInsert);
+           }
+           break;
+       }
+    }    
+}
+
+void MusicBrowserUI::FillPlaylists(void)
+{
+    TV_INSERTSTRUCT                sInsert;
+    vector<ArtistList *>::iterator i;
+
+    sInsert.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_CHILDREN |
+                 TVIF_SELECTEDIMAGE | TVIF_PARAM; 
+
+    for(i = m_context->browser->m_catalog->m_artistList->begin();
+        i != m_context->browser->m_catalog->m_artistList->end(); i++)
+    {
+       sInsert.item.pszText = (char *)(*i)->name.c_str();
+       sInsert.item.cchTextMax = (*i)->name.length();
+       sInsert.item.iImage = 0;
+       sInsert.item.iSelectedImage = 1;
+       sInsert.item.cChildren= 1;
+       sInsert.item.lParam = 1;
+       sInsert.hInsertAfter = TVI_SORT;
+       sInsert.hParent = m_hPlaylistItem;
+       TreeView_InsertItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sInsert);
+    }    
+}
+
 
 void MusicBrowserUI::UpdateCatalog(void)
 {

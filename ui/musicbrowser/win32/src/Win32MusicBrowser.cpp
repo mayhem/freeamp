@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.13 1999/11/07 12:48:10 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.14 1999/11/07 23:08:42 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -270,13 +270,23 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
         }
         case INFO_BrowserMessage: 
         {
-            SendMessage(m_hStatus, SB_SETTEXT, 0, (LPARAM)
-                          ((BrowserMessageEvent *)event)->GetBrowserMessage());
+            const char* cancelMsg = "(Press ESC to Cancel)  ";
+            string message;
+
+            if(m_bSearchInProgress)
+            {
+                message = cancelMsg;
+            }
+
+            message += ((BrowserMessageEvent *)event)->GetBrowserMessage();
+
+            SendMessage(m_hStatus, SB_SETTEXT, 0, (LPARAM)message.c_str());
+
             break; 
         }
         case CMD_TogglePlaylistUI: 
         {
-            if (m_initialized && isVisible) 
+            if (m_initialized && isVisible)
             {
                 isVisible = false;
             }

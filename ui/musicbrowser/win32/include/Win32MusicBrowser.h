@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.13 1999/11/07 02:06:23 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.14 1999/11/07 23:08:42 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -131,7 +131,7 @@ class MusicBrowserUI : public UserInterface
 
     // Functions in Event.cpp
     int   Notify(WPARAM wParam, NMHDR *pNMHDR);
-    void  StartMusicSearch(void);
+    void  StartStopMusicSearch(void);
     void  MoveUpEvent(void);
     void  MoveDownEvent(void);
     void  AddEvent(void);

@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.41 1998/10/30 23:42:50 jdw Exp $
+	$Id: player.cpp,v 1.42 1998/11/01 21:49:14 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -698,7 +698,8 @@ int32 Player::ServiceEvent(Event *pC) {
             return 0;
 		    break; 
 	    }
-	    
+		case INFO_ID3TagInfo:
+		case INFO_MPEGInfo:
 	    case INFO_MediaTimeInfo: {
             if(m_playerState == STATE_Playing)
             {

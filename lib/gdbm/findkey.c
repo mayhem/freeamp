@@ -109,7 +109,7 @@ _gdbm_findkey (dbf, key, dptr, new_hash_val)
       && *new_hash_val == dbf->cache_entry->ca_data.hash_val
       && dbf->cache_entry->ca_data.key_size == key.dsize
       && dbf->cache_entry->ca_data.dptr != NULL
-      && bcmp (dbf->cache_entry->ca_data.dptr, key.dptr, key.dsize) == 0)
+      && memcmp (dbf->cache_entry->ca_data.dptr, key.dptr, key.dsize) == 0)
     {
       /* This is it. Return the cache pointer. */
       *dptr = dbf->cache_entry->ca_data.dptr+key.dsize;
@@ -125,7 +125,7 @@ _gdbm_findkey (dbf, key, dptr, new_hash_val)
       key_size = dbf->bucket->h_table[elem_loc].key_size;
       if (bucket_hash_val != *new_hash_val
 	 || key_size != key.dsize
-	 || bcmp (dbf->bucket->h_table[elem_loc].key_start, key.dptr,
+	 || memcmp (dbf->bucket->h_table[elem_loc].key_start, key.dptr,
 			(SMALL < key_size ? SMALL : key_size)) != 0) 
 	{
 	  /* Current elem_loc is not the item, go to next item. */
@@ -138,7 +138,7 @@ _gdbm_findkey (dbf, key, dptr, new_hash_val)
 	  /* This may be the one we want.
 	     The only way to tell is to read it. */
 	  file_key = _gdbm_read_entry (dbf, elem_loc);
-	  if (bcmp (file_key, key.dptr, key_size) == 0)
+	  if (memcmp (file_key, key.dptr, key_size) == 0)
 	    {
 	      /* This is the item. */
 	      *dptr = file_key+key.dsize;

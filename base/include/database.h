@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.h,v 1.1.2.2 1999/08/18 23:00:23 elrod Exp $
+        $Id: database.h,v 1.1.2.3 1999/08/31 15:10:52 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -26,7 +26,7 @@ ____________________________________________________________________________*/
 #define _DATABASE_H_
 
 #include <sys/stat.h>
-#include "gdbm.h"
+#include "gdbm_fa.h"
 #include "mutex.h"
 #include "errors.h"
 

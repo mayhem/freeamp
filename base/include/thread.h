@@ -18,9 +18,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: thread.h,v 1.1 1998/10/13 22:46:12 elrod Exp $
+	$Id: thread.h,v 1.2 1998/10/13 23:58:10 elrod Exp $
 ____________________________________________________________________________*/
-
 
 #ifndef THREAD_H
 #define THREAD_H
@@ -55,7 +54,7 @@ public:
 
 	virtual Priority GetPriority() const = 0;
 	virtual Priority SetPriority(Priority priority) = 0;
-    
+
     static Thread* CreateThread();
 };
 

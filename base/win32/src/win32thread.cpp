@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32thread.cpp,v 1.1 1998/10/13 22:45:22 elrod Exp $
+	$Id: win32thread.cpp,v 1.2 1998/10/13 23:58:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <process.h>
@@ -69,6 +69,9 @@ win32Thread::
 Create(thread_function function, void* arg)
 {
 	bool result = false;
+
+    m_function      = function;
+    m_arg           = arg;
 
 	m_threadHandle = (HANDLE) _beginthreadex(
 									NULL,

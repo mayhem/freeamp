@@ -22,7 +22,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.7 1998/10/13 22:09:05 jdw Exp $
+	$Id: xinglmc.cpp,v 1.8 1998/10/13 23:58:10 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -35,7 +35,6 @@ ____________________________________________________________________________*/
 #include "xinglmc.h"
 #include "event.h"
 #include "eventdata.h"
-#include "player.h"
 #include "mutex.h"
 
 extern "C" {
@@ -43,7 +42,7 @@ extern "C" {
 #include "port.h"
 
 int wait_n_times;
-	   }
+}
 
 #define TEST_TIME 0
 
@@ -211,20 +210,18 @@ void XingLMC::Stop() {
 bool XingLMC::Decode() {
     // kick off thread w/ DecodeWorkerThreadFunc(void *);
     if (!decoderThread) {
-	decoderThread = new Thread();
+        decoderThread = Thread::CreateThread();
 	decoderThread->Create(XingLMC::DecodeWorkerThreadFunc,this);
     }
 
 	return true;
 }
 
-THREAD_RETURN THREAD_LINKAGE XingLMC::DecodeWorkerThreadFunc(void *pxlmc) {
+void XingLMC::DecodeWorkerThreadFunc(void *pxlmc) {
     if (pxlmc) {
 	XingLMC *xlmc = (XingLMC *)pxlmc;
 	xlmc->DecodeWork();
     }
-
-	return 0;
 }
 
 

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.8 1998/10/13 22:09:05 jdw Exp $
+	$Id: player.cpp,v 1.9 1998/10/13 23:58:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -31,11 +31,11 @@ ____________________________________________________________________________*/
 #include "vector.h"
 #include "ctrlobj.h"
 #include "queue.h"
-
-
+#ifdef __linux__
 #include "localfileinput.h"
 #include "soundcardpmo.h"
 #include "xinglmc.h"
+#endif
 #include "semaphore.h"
 
 #include "eventdata.h"
@@ -55,7 +55,7 @@ Player::Player() {
     event_sem = new Semaphore();
     event_queue = new Queue<Event *>();
     //cout << "Created queue" << endl;
-    event_service_thread = new Thread();
+    event_service_thread = Thread::CreateThread();
     event_service_thread->Create(Player::EventServiceThreadFunc,this);
     //cout << "Started event thread" << endl;
     cio_vector = new Vector<CIO *>();
@@ -135,8 +135,7 @@ Player::~Player() {
         coManipLock = NULL;
     }
 }
-
-THREAD_RETURN THREAD_LINKAGE Player::EventServiceThreadFunc(void *pPlayer) {
+void Player::EventServiceThreadFunc(void *pPlayer) {
     //cout << "Beginning event service" << endl;
     Player *pP = (Player *)pPlayer;
     Event *pC;
@@ -154,8 +153,6 @@ THREAD_RETURN THREAD_LINKAGE Player::EventServiceThreadFunc(void *pPlayer) {
     }
 //    cout << "EventServiceThreadFunc: quitting on " << rtnVal << endl;
     // Time to quit!!!
-
-	return 0;
 }
 
 int32 Player::RegisterCOO(COO *ed) {
@@ -254,6 +251,7 @@ int32 Player::ServiceEvent(Event *pC) {
 			myLMC = NULL;
 		    }
 		    
+#ifdef __linux__
 		    PhysicalMediaInput* pmi = NULL;
 		    //cout << "Done deleting myLMC" << endl;
 		    if(pc->type == 0)
@@ -267,6 +265,7 @@ int32 Player::ServiceEvent(Event *pC) {
 		    myLMC->SetInfoEventQueue((EventQueue *)this);
 		    myLMC->SetPMI(pmi);
 		    myLMC->SetPMO(scPMO);
+#endif
 		    myLMC->Init();
 		    if (SetState(STATE_Playing)) {
 			SEND_NORMAL_EVENT(INFO_Playing);

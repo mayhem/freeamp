@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.h,v 1.2 1998/10/13 21:53:29 jdw Exp $
+	$Id: xinglmc.h,v 1.3 1998/10/13 23:58:10 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -72,7 +72,7 @@ public:
 
     void DecodeWork();
 private:
-    static THREAD_RETURN THREAD_LINKAGE DecodeWorkerThreadFunc(void *);
+    static void DecodeWorkerThreadFunc(void *);
 
     int32 bs_fill();
     void bs_clear();

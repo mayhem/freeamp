@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: unixprefs.cpp,v 1.3 1999/04/21 16:30:37 mhw Exp $
+	$Id: unixprefs.cpp,v 1.4 1999/04/21 16:53:19 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -42,7 +42,7 @@ const char*  kDefaultLibraryPath = ".:~/.freeamp:" UNIX_LIBDIR "/freeamp";
 const char*  kDefaultUI = "freeamp-" AC_HOST_OS ".ui";
 const char*  kDefaultTextUI = "freeampcmd-" AC_HOST_OS ".ui";
 const char*  kDefaultPMO = "soundcard-" AC_HOST_OS ".pmo";
-const char*  kDefaultALSADevice = "1:0";
+const char*  kDefaultALSADevice = "1:1";
 
 
 class LibDirFindHandle {

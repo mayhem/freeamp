@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Separator.h,v 1.1 2000/03/24 01:18:41 hiro Exp $
+        $Id: Separator.h,v 1.2 2000/07/17 23:19:50 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDE_SEPARATOR_H__
@@ -48,6 +48,7 @@ protected:
 
 private:
     static uint8    s_cursorBits[68];
+    static BCursor* s_cursor;
     bool            m_tracking;
     BPoint          m_hotSpot;
     vector<BView*>  m_prev;

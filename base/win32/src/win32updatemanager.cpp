@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.9 2000/05/09 10:21:01 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.10 2000/05/22 13:50:19 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -39,7 +39,7 @@ ____________________________________________________________________________*/
 #include <iostream>
 #include <algorithm>
 #include <sstream>
-
+#include <iomanip>
 
 using namespace std;
 
@@ -326,7 +326,9 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
 
                             ostringstream ost;
 
-                            ost << sysTime.wYear << "-" << sysTime.wMonth << "-" << sysTime.wDay;
+                            ost << sysTime.wYear << "-" <<
+                                setw(2) << setfill('0') << sysTime.wMonth << "-" <<
+                                setw(2) << setfill('0') << sysTime.wDay;
 
                             item->SetLocalFileTime(ost.str());
 

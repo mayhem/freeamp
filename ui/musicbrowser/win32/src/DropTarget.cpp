@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DropTarget.cpp,v 1.7 2000/03/01 03:49:30 elrod Exp $
+        $Id: DropTarget.cpp,v 1.8 2000/05/22 13:50:19 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -246,6 +246,23 @@ STDMETHODIMP DropTarget::DragEnter(LPDATAOBJECT pDataObj,
     {
         return NOERROR;
     }
+
+    /*IEnumFORMATETC* ief;
+
+    if(S_OK == pDataObj->EnumFormatEtc(DATADIR_GET, &ief))
+    {
+        FORMATETC e;
+        ULONG i;
+
+        while (S_OK == ief->Next(1, &e, &i))
+        {
+
+            ief->Skip(1);
+        }
+
+
+
+    }*/
 
     // Does the drag source provide our private format?     
     fmtetc.cfFormat = RegisterClipboardFormat(CFSTR_FREEAMP_CATALOGITEM);

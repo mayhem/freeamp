@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.17 2000/04/24 23:04:01 elrod Exp $
+   $Id: Win32PreferenceWindow.h,v 1.18 2000/05/22 13:50:19 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -64,7 +64,6 @@ typedef struct PrefsStruct
     bool convertUnderscores;
 
     // page 2
-    int32 streamInterval;
     bool saveStreams;
     string saveStreamsDirectory;
     bool useProxyServer;
@@ -108,7 +107,6 @@ typedef struct PrefsStruct
             decoderThreadPriority == pref.decoderThreadPriority &&
             stayOnTop == pref.stayOnTop &&
             liveInTray == pref.liveInTray &&
-            streamInterval == pref.streamInterval &&
             saveStreams == pref.saveStreams &&
             saveStreamsDirectory == pref.saveStreamsDirectory &&
             useProxyServer == pref.useProxyServer &&

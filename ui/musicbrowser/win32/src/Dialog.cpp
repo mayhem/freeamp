@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.77 2000/05/15 22:25:28 elrod Exp $
+        $Id: Dialog.cpp,v 1.78 2000/05/22 13:50:19 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -348,7 +348,7 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
                     return 1;
 
                 case ID_HELP_ABOUT:
-                    m_context->target->AcceptEvent(new ShowPreferencesEvent(6));
+                    m_context->target->AcceptEvent(new ShowPreferencesEvent(7));
                     return 1;
             }    
         }     

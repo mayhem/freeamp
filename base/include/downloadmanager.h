@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.2 1999/09/15 21:23:10 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.3 1999/09/15 21:31:23 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -189,22 +189,6 @@ class DownloadManager {
  public:
     DownloadManager(FAContext* context);
     virtual ~DownloadManager();
-   
-    // Functions for adding items to Download Manager
-    // Adding an item implicitly queues it for
-    // downloading.
-    Error AddItem(const char* url);
-    Error AddItem(DownloadItem* item);
-    Error AddItems(vector<DownloadItem*>* list);
-
-    // Functions for removing items from Download Manager
-    // Removing an item implicitly cancels a download
-    // that is occurring.
-    Error RemoveItem(DownloadItem* item);
-    Error RemoveItem(uint32 index);
-    Error RemoveItems(uint32 index, uint32 count);
-    Error RemoveItems(vector<DownloadItem*>* items);
-    Error RemoveAll();
 
     // Changes item state to queued if it is cancelled or error.
     // This will indicate to the download thread that it should
@@ -232,15 +216,24 @@ class DownloadManager {
     bool            HasItem(DownloadItem* item);
 
  protected:
+    // Functions for adding items to Download Manager
+    // Adding an item implicitly queues it for
+    // downloading.
+    Error AddItem(const char* url);
+    Error AddItem(DownloadItem* item);
+    Error AddItems(vector<DownloadItem*>* list);
+
+    // Functions for removing items from Download Manager
+    // Removing an item implicitly cancels a download
+    // that is occurring.
+    Error RemoveItem(DownloadItem* item);
+    Error RemoveItem(uint32 index);
+    Error RemoveItems(uint32 index, uint32 count);
+    Error RemoveItems(vector<DownloadItem*>* items);
+    Error RemoveAll();
+
     inline uint32 CheckIndex(uint32 index);
-    uint32 InternalIndexOf(vector<DownloadItem*>* list, DownloadItem* item);
-    
-    // Functions for controlling downloading
-    Error StartDownload(DownloadItem* item);
-    Error StartDownload(uint32 index);
-    Error StopDownload(DownloadItem* item, bool allowResume);
-    Error StopDownload(uint32 index, bool allowResume);
-    
+    uint32 InternalIndexOf(vector<DownloadItem*>* list, DownloadItem* item);    
 
  private:
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.cpp,v 1.5 2000/04/18 02:04:01 robert Exp $
+	$Id: id3v1.cpp,v 1.6 2000/04/26 13:08:17 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -347,12 +347,10 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
 
 bool ID3v1::WriteMetaData(const char* url, const MetaData& metadata)
 {
-    bool result = false;
+    bool result = true;
 
-    // This assert is here to point out to you that the id3v2 libary
-    // also handles id3v1 tags and you should therefore use the
-    // id3v2 object to write metadata.
-    assert(0);
+    // The id3v2 libary also handles id3v1 tags and you should therefore 
+	// use the id3v2 object to write metadata.
 
     return result;
 }

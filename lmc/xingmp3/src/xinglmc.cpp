@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.93 1999/07/15 20:20:03 robert Exp $
+   $Id: xinglmc.cpp,v 1.94 1999/07/21 19:24:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -35,7 +35,7 @@ ____________________________________________________________________________*/
 #include <stdio.h>
 #include <iostream.h>
 #include <assert.h>
-
+#include <string.h>
 
 #include "config.h"
 #include "errors.h"
@@ -266,6 +266,25 @@ Error XingLMC::GetHeadInfo()
    }
 
    return (Error)lmcError_DecodeFailed;
+}
+
+/*
+ * Quick function to determine if this LMC can handle a file, by looking at
+ * the file extension.  This might be better done by a hashtable outside of
+ * the LMC, but this is good for now. - ijr
+ */
+bool XingLMC::CanHandleExt(char *ext)
+{
+   bool ret = false;
+   if (!strncasecmp(ext, "MP3", 3))
+      ret = true;
+   else if (!strncasecmp(ext, "MP2", 3))
+      ret = true;
+   else if (!strncasecmp(ext, "MP1", 3))
+      ret = true;
+   else if (!strncasecmp(ext, "MPG", 3))
+      ret = true;
+   return ret;
 }
 
 Error XingLMC::CanDecode()

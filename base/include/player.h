@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.41 1999/07/16 19:48:46 robert Exp $
+        $Id: player.h,v 1.42 1999/07/21 19:24:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -77,6 +77,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
    void      testQueue();
    static void EventServiceThreadFunc(void *);
    virtual int32 AcceptEvent(Event *);
+   virtual RegistryItem *ChooseLMC(char *szUrl, char *szTitle = NULL);
    virtual RegistryItem *ChoosePMI(char *szUrl, char *szTitle = NULL);
 
    // Properties
@@ -103,7 +104,8 @@ class Player : public EventQueue, Properties, PropertyWatcher
    FAContext *m_context;
 
  private:
-
+   char *GetExtension(char *title);
+   
    // These are event loop handling functions
    void DoneOutputting(Event *pEvent) ;
    void Stop(Event *pEvent);

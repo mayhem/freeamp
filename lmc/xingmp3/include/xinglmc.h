@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.31 1999/07/02 19:05:09 robert Exp $
+   $Id: xinglmc.h,v 1.32 1999/07/21 19:24:50 ijr Exp $
 
 ____________________________________________________________________________*/
 
@@ -92,6 +92,7 @@ class     XingLMC:public LogicalMediaConverter
    virtual Error SetEQData(float *);
    virtual Error SetEQData(bool);
 
+   virtual bool CanHandleExt(char *ext);
  private:
 
    static void          DecodeWorkerThreadFunc(void *);

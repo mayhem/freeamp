@@ -18,7 +18,7 @@
          along with this program; if not, write to the Free Software
          Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
          
-         $Id: fawindow.cpp,v 1.19 1999/07/20 22:55:26 robert Exp $
+         $Id: fawindow.cpp,v 1.20 1999/07/21 19:24:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -153,6 +153,8 @@ DoEvent(XEvent e)
    switch (e.type)
    {
    case MotionNotify:
+      while (XCheckTypedEvent(m_display, e.type, &e))
+         ; // speed up 
       if (e.xmotion.state & Button1Mask)
       {
           XMoveWindow(m_display, m_me, e.xmotion.x_root - m_buttonClickSpotX, e.xmotion.y_root - m_buttonClickSpotY);

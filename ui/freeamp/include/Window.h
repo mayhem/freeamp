@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.14 2000/01/05 00:23:24 robert Exp $
+   $Id: Window.h,v 1.15 2000/01/13 22:23:44 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -141,6 +141,7 @@ class Window
       bool                      m_bIsVulcanMindMeldHost;
       Rect                      m_oMoveStart;
 	  int32                     m_iDesktopWidth, m_iDesktopHeight;
+	  bool                      m_bMindMeldInProgress;
 };
 
 #endif

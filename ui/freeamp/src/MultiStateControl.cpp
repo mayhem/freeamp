@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MultiStateControl.cpp,v 1.5 1999/11/03 03:53:01 ijr Exp $
+   $Id: MultiStateControl.cpp,v 1.6 2000/01/13 22:23:46 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -164,7 +164,7 @@ void MultiStateControl::Transition(ControlTransitionEnum  eTrans,
           m_pParent->SendControlMessage(this, CM_MouseLeave);
           break;
        case CT_SetValue:
-       	  m_iState = min(max(m_iValue, 0), m_iNumStates);
+       	  m_iState = min(max(m_iValue, 0), m_iNumStates - 1);
           break;
        case CT_Hide:
        {

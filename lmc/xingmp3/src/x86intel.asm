@@ -26,7 +26,7 @@
 ;	along with this program; if not, write to the Free Software
 ;	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ;
-;	$Id: x86intel.asm,v 1.15 1999/03/05 00:50:57 mhw Exp $
+;	$Id: x86intel.asm,v 1.16 1999/03/05 01:16:21 mhw Exp $
 ;	Generated from Id: x86gas.s,v 1.7 1999/03/04 07:28:16 mhw Exp $
 ;
 
@@ -330,9 +330,7 @@ _fdct32 proc near
 	mov esi,DWORD PTR [esp+L_out]	; esi = f
 
 
-;	lea ecx,_coef32-128	; coef = coef32 - (32 * 4)
-	lea ecx,_coef32
-	sub ecx,128		; coef = coef32 - (32 * 4)
+	lea ecx,_coef32-128	; coef = coef32 - (32 * 4)
 	mov DWORD PTR [esp+4],1		; m = 1
 	mov ebp,16		; n = 32 / 2
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.67.2.1 2000/02/28 06:21:41 elrod Exp $
+        $Id: Dialog.cpp,v 1.67.2.1.2.1 2000/03/06 23:03:09 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -1001,7 +1001,9 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     else
     {
         m_plm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
-        LoadPlaylist(m_currentListName.c_str());
+
+        if(m_currentListName.size())
+            LoadPlaylist(m_currentListName.c_str());
     }       
 
     UpdateTotalTime();

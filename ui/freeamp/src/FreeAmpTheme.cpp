@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.147 2000/10/06 12:13:04 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.148 2000/10/06 12:15:43 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -484,7 +484,6 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          {
              pFoo = (pFoo ? ++pFoo : info->m_filename);
              m_oTitle = string(pFoo);
-             printf("%s\n", pFoo);
              m_pWindow->ControlStringValue(oName, true, m_oTitle);
              oText = string(BRANDING": ") + string(pFoo);
              m_pWindow->SetTitle(oText);

@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: obsbuffer.cpp,v 1.3 1999/01/31 01:38:51 robert Exp $
+   $Id: obsbuffer.cpp,v 1.4 1999/02/01 18:20:47 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -87,7 +87,7 @@ Error ObsBuffer::Open(void)
 {
     int    iRet, iPort;
     struct ip_mreq sMreq;
-    char   cReuse=0;
+    int    iReuse=0;
     char   szAddr[100];
 
     iRet = sscanf(m_szUrl, "obs://%[^:]:%d", szAddr, &iPort);
@@ -101,13 +101,13 @@ Error ObsBuffer::Open(void)
     m_pSin = (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in));
     assert(m_pSin);
 
-    cReuse = 1;
+    iReuse = 1;
     m_pSin->sin_family = AF_INET;
     m_pSin->sin_port = htons(iPort);
     m_pSin->sin_addr.s_addr = htonl(INADDR_ANY);
 
     iRet = setsockopt(m_hHandle, SOL_SOCKET, SO_REUSEADDR, 
-                      &cReuse, sizeof(char));
+                      &iReuse, sizeof(int));
     if (iRet < 0)
     {
        close(m_hHandle);

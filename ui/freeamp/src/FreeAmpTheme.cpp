@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.9 1999/10/23 04:54:42 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.10 1999/10/25 22:44:52 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -62,7 +62,6 @@ extern    "C"
 {
    UserInterface *Initialize(FAContext * context)
    {
-	  Debug_v("##Clear");
       return new FreeAmpTheme(context);
    }
 }

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlinecoo.cpp,v 1.3 1998/10/13 21:53:29 jdw Exp $
+	$Id: cmdlinecoo.cpp,v 1.4 1998/10/13 22:09:05 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -71,7 +71,7 @@ int32 CommandLineCOO::acceptCOOEvent(Event *e) {
 		break; }
 	    case CMD_Cleanup: {
 		Event *e = new Event(INFO_ReadyToDieCOO,this);
-		Player::getPlayer()->acceptEvent(e);
+		Player::GetPlayer()->AcceptEvent(e);
 		break; }
 	    default:
 		break;

@@ -22,7 +22,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.6 1998/10/13 21:53:29 jdw Exp $
+	$Id: xinglmc.cpp,v 1.7 1998/10/13 22:09:05 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -47,7 +47,7 @@ int wait_n_times;
 
 #define TEST_TIME 0
 
-#define SEND_EVENT(e) if (myEQ) myEQ->acceptEvent(e);
+#define SEND_EVENT(e) if (myEQ) myEQ->AcceptEvent(e);
 
 void XingLMC::SetInfoEventQueue(EventQueue *eq) {
     myEQ = eq;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: CommandLineCIO.cpp,v 1.2 1998/10/13 21:53:29 jdw Exp $
+	$Id: CommandLineCIO.cpp,v 1.3 1998/10/13 22:09:05 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -93,14 +93,14 @@ void *CommandLineCIO::keyboardServiceFunction(void *pclcio) {
 	    case 'p':
 	    case 'P': {
 		Event *e = new Event(CMD_TogglePause);
-		Player::getPlayer()->acceptEvent(e);
+		Player::GetPlayer()->AcceptEvent(e);
 		break;
 	    }
 	    case '-': {
 		Event *e = new Event(CMD_PrevMediaPiece);
-		Player::getPlayer()->acceptEvent(e);
+		Player::GetPlayer()->AcceptEvent(e);
 		e = new Event(CMD_Play);
-		Player::getPlayer()->acceptEvent(e);
+		Player::GetPlayer()->AcceptEvent(e);
 		break;
 	    }
 	    case '=':
@@ -108,14 +108,14 @@ void *CommandLineCIO::keyboardServiceFunction(void *pclcio) {
 	    case 'n':
 	    case 'N': {
 		Event *e = new Event(CMD_NextMediaPiece);
-		Player::getPlayer()->acceptEvent(e);
+		Player::GetPlayer()->AcceptEvent(e);
 		e = new Event(CMD_Play);
-		Player::getPlayer()->acceptEvent(e);
+		Player::GetPlayer()->AcceptEvent(e);
 		break; }
 	    case 'q':
 	    case 'Q': {
 		Event *e = new Event(CMD_QuitPlayer);
-		Player::getPlayer()->acceptEvent(e);
+		Player::GetPlayer()->AcceptEvent(e);
 		break; }
 	    default:
 		break;
@@ -130,11 +130,11 @@ int32 CommandLineCIO::acceptCIOEvent(Event *e) {
 	switch (e->getEvent()) {
 	    case INFO_PlayListDonePlay: {
 		Event *e = new Event(CMD_QuitPlayer);
-		Player::getPlayer()->acceptEvent(e);
+		Player::GetPlayer()->AcceptEvent(e);
 		break; }
 	    case CMD_Cleanup: {
 		Event *e = new Event(INFO_ReadyToDieCIO,this);
-		Player::getPlayer()->acceptEvent(e);
+		Player::GetPlayer()->AcceptEvent(e);
 		break; }
 	    default:
 		break;
@@ -157,9 +157,9 @@ void CommandLineCIO::setArgs(int argc, char **argv) {
     }
     pl->setFirst();
     Event *e = new Event(CMD_SetPlaylist,pl);
-    Player::getPlayer()->acceptEvent(e);
+    Player::GetPlayer()->AcceptEvent(e);
     e = new Event(CMD_Play);
-    Player::getPlayer()->acceptEvent(e);
+    Player::GetPlayer()->AcceptEvent(e);
 }
 
 void CommandLineCIO::processSwitch(char *pc) {

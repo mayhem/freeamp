@@ -18,12 +18,19 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.2 1999/03/05 06:34:14 elrod Exp $
+	$Id: utility.h,v 1.3 1999/03/18 03:44:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UTILITY_H_
 #define _UTILITY_H_
 
+/* system headers */
+#define STRICT
+#define WIN32_LEAN_AND_MEAN 
+#include <windows.h>
+
+/* project headers */  
+#include "list.h"
 #include "dib.h"
 
 HRGN
@@ -35,5 +42,15 @@ DetermineControlRegions(DIB* bitmap,
                         HRGN controlRegions[],
 			            Color controlColors[],
                         int32 numControls);
+
+bool FileOpenDialog(HWND hwndParent, 
+                    List<char*>* fileList,
+                    char* filter);
+
+bool FileSaveDialog(HWND hwndParent, 
+                    char* buffer,
+                    uint32* bufferLength,
+                    char* filter);
+
 
 #endif /* _UTILITY_H_ */

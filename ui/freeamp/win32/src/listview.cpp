@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.cpp,v 1.8 1999/03/16 09:23:16 elrod Exp $
+	$Id: listview.cpp,v 1.9 1999/03/18 03:44:37 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -155,41 +155,7 @@ KeyPressed(int32 keyCode)
 
         case VK_DELETE: 
         {
-            // remove selected items from list
-            List<ListItem*>* selectList = new List<ListItem*>();
-            List<PlayListItem*>* playlistList = new List<PlayListItem*>();
-
-            FreeAmpUI* ui = (FreeAmpUI*)GetWindowLong(Window(), GWL_USERDATA);
-            PlayListManager* plm = ui->GetPlayListManager();
-
-            ListItem* listItem = NULL;
-            PlayListItem* playlistItem = NULL;
-            int32 i = m_lastSelected;
-
-	        while(listItem = ItemAt(i--)) 
-            {
-		        if(listItem->IsSelected())
-                {
-                    RemoveItem(listItem);
-
-                    playlistItem = (PlayListItem*)listItem->UserValue();
-
-                    playlistList->AddItem(playlistItem, 0);
-
-                    delete listItem;
-                }
-	        }
-
-            plm->RemoveList(playlistList);
-
-            i = 0;
-
-            while(playlistItem = playlistList->ItemAt(i++)) 
-            {
-                delete playlistItem;
-            }
-
-            delete playlistList;
+            DeleteSelection();
 
             break; 
         }
@@ -846,6 +812,53 @@ RemoveAll()
         UpdateScrollBar();
         Invalidate();
     }
+
+    return result;
+}
+
+bool
+ListView::
+DeleteSelection()
+{
+    bool result = false;
+
+    // remove selected items from list
+    List<ListItem*>* selectList = new List<ListItem*>();
+    List<PlayListItem*>* playlistList = new List<PlayListItem*>();
+
+    FreeAmpUI* ui = (FreeAmpUI*)GetWindowLong(Window(), GWL_USERDATA);
+    PlayListManager* plm = ui->GetPlayListManager();
+
+    ListItem* listItem = NULL;
+    PlayListItem* playlistItem = NULL;
+    int32 i = m_lastSelected;
+
+	while(listItem = ItemAt(i--)) 
+    {
+		if(listItem->IsSelected())
+        {
+            result = true;
+
+            RemoveItem(listItem);
+
+            playlistItem = (PlayListItem*)listItem->UserValue();
+
+            playlistList->AddItem(playlistItem, 0);
+
+            delete listItem;
+        }
+	}
+
+    plm->RemoveList(playlistList);
+
+    i = 0;
+
+    while(playlistItem = playlistList->ItemAt(i++)) 
+    {
+        delete playlistItem;
+    }
+
+    delete playlistList;
 
     return result;
 }

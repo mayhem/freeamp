@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.99 1999/03/17 18:20:12 elrod Exp $
+        $Id: player.cpp,v 1.100 1999/03/18 03:44:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -787,7 +787,26 @@ void Player::CreateLMC(PlayListItem * pc, Event * pC)
       pmi->SetTarget((EventQueue *)this);
    }
 
-   item = m_pmoRegistry->GetItem(0);
+   char defaultPMO[256];
+   uint32 size = sizeof(defaultPMO);
+
+   m_prefs->GetDefaultPMO(defaultPMO, &size);
+
+   int32 i = 0;
+
+   while(item = m_pmoRegistry->GetItem(i++))
+   {
+        if(!strcmp(defaultPMO, item->Name()))
+        {
+            break;
+        }
+   }
+
+   // if the default isn't around then just use first one 
+   // is there a better way?
+   if(!item)
+      item = m_pmoRegistry->GetItem(0);
+
    if (item)
    {
       pmo = (PhysicalMediaOutput *) item->InitFunction()(g_Log);

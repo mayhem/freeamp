@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.4 1999/03/07 07:30:40 elrod Exp $
+	$Id: preferences.h,v 1.5 1999/03/18 03:44:35 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -48,7 +48,13 @@ class Preferences {
     Error SetInstallDirectory(char* path);
 
     Error GetDefaultUI(char* name, uint32* len);
-    Error SetDefaultUI(char* path);
+    Error SetDefaultUI(char* name);
+
+    Error GetDefaultPMO(char* name, uint32* len);
+    Error SetDefaultPMO(char* name);
+
+    Error GetOpenSaveDirectory(char* path, uint32* len);
+    Error SetOpenSaveDirectory(char* path);
 
     HANDLE GetFirstLibDir(char *path, uint32 *len);
     Error GetNextLibDir(HANDLE hLibDirFind,char *path, uint32 *len);

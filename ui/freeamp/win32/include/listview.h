@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.h,v 1.4 1999/03/08 12:08:30 elrod Exp $
+	$Id: listview.h,v 1.5 1999/03/18 03:44:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LIST_VIEW_H_
@@ -78,6 +78,8 @@ class ListView : public View {
     virtual ListItem*   RemoveItem(int32 index);
     virtual bool        RemoveItems(int32 index, int32 count);
     virtual bool        RemoveAll();
+
+    virtual bool        DeleteSelection();
 
     virtual	void SetListType(list_view_type type);
 

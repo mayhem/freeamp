@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: controlinfo.h,v 1.1 1999/03/03 09:03:40 elrod Exp $
+	$Id: controlinfo.h,v 1.2 1999/03/18 03:44:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _CONTROL_INFO_H_
@@ -51,8 +51,12 @@ extern Color g_controlColors[];
 #define kPlaylistDisplayControl 19
 #define kPanelBackingControl    20
 #define kScrollbarControl       21
+#define kAddControl             22
+#define kDeleteControl          23
+#define kSaveControl            24
+#define kLoadControl            25
 
-#define kFinalControl           22
+#define kFinalControl           26
 
 #define kNumControls            kFinalControl
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.10 1999/03/07 08:44:10 elrod Exp $
+	$Id: preferences.cpp,v 1.11 1999/03/18 03:44:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <unistd.h>
@@ -56,6 +56,24 @@ Error Preferences::SetDefaultUI(char* name) {
     return kError_NoErr;
 }
 
+Error Preferences::GetDefaultPMO(char* name, uint32* len) {
+    strcpy(name, "");
+    return kError_NoErr;
+}
+
+Error Preferences::SetDefaultPMO(char* name) {
+    return kError_NoErr;
+}
+
+Error Preferences::GetOpenSaveDirectory(char* path, uint32* len)
+{
+    return kError_NoErr;
+}
+
+Error Preferences::SetOpenSaveDirectory(char* path)
+{
+    return kError_NoErr;
+}
 
 Error Preferences::GetPrefString(const char* pref, char* buf, uint32* len) {
     return kError_NoErr;

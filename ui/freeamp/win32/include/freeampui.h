@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.23 1999/03/16 09:23:16 elrod Exp $
+	$Id: freeampui.h,v 1.24 1999/03/18 03:44:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -125,8 +125,9 @@ class FreeAmpUI : public UserInterface {
 
     void UpdatePlayList();
 
-    bool OpenSong(List<char*>* filelist);
+    bool OpenSong(List<char*>* fileList);
 
+    void AddFileListToPlayList(List<char*>* fileList);
 
  public:
     
@@ -199,6 +200,11 @@ class FreeAmpUI : public UserInterface {
 
     DIB*                m_scrollbarBitmap;
 
+    DIB*                m_addBitmap;
+    DIB*                m_deleteBitmap;
+    DIB*                m_saveBitmap;
+    DIB*                m_loadBitmap;
+
 
 	int32			    m_width;
 	int32			    m_height;
@@ -240,6 +246,11 @@ class FreeAmpUI : public UserInterface {
     ListView*           m_playlistView;
 
     ScrollView*         m_scrollbarView;
+
+    ButtonView*         m_addView;
+    ButtonView*         m_deleteView;
+    ButtonView*         m_loadView;
+    ButtonView*         m_saveView;
 
 
 };

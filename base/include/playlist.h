@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.34 1999/03/17 03:53:45 elrod Exp $
+	$Id: playlist.h,v 1.35 1999/03/18 03:44:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -318,6 +318,7 @@ class PlayListManager {
     const PlayListItem** Items() const;
 
     Error ExpandM3U(char *szM3UFile, List<char *> &MP3List);
+    Error ExportAsM3U(const char* file);
 
 
  protected:

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSWindow.cpp,v 1.8 2000/02/07 09:07:31 hiro Exp $
+   $Id: BeOSWindow.cpp,v 1.9 2000/02/09 16:58:15 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #define DEBUG 0
@@ -75,7 +75,7 @@ BeOSWindow::VulcanMindMeld( Window* other )
 
     if ( !m_mainWindow )
     {
-        m_mainWindow = new MainWindow( BRect(0,0,0,0), m_oName.c_str() );
+        m_mainWindow = new MainWindow( BRect(0,0,0,0), m_oName.c_str(), this );
     }
     else
     {

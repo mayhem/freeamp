@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.15 2000/06/21 19:03:49 ijr Exp $
+	$Id: utility.h,v 1.16 2000/10/04 22:49:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
@@ -51,6 +51,8 @@ Error FilePathToURL(const char* path, char* url, uint32* length);
 Error URLToFilePath(const char* url, char* path, uint32* length);
 void ToUpper(char *s);
 void ToLower(char *s);
+
+void ReplaceSpaces(string &in, string &encoded); // "Blah blah" to "Blah%20blah"
 
 #ifndef WIN32
 void LaunchBrowser(const char* url);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.118 2000/10/02 08:17:46 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.119 2000/10/04 22:49:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1373,6 +1373,35 @@ void GTKMusicBrowser::SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType
     }
     else
         m_plm->Sort(order, type);
+}
+
+void GTKMusicBrowser::TipArtist(PlaylistItem *tipee)
+{
+   PlaylistItem *tip = NULL;
+   if (tipee)
+       tip = tipee;
+
+   if (!tip) {
+       if (GetClickState() == kContextPlaylist) {
+           if (m_lastindex == kInvalidIndex)
+               return;
+
+           tip = m_plm->ItemAt(*(m_plSelected.begin()));
+       }
+       else
+           return;
+   }
+   
+   string artistname = tip->GetMetaData().Artist();
+
+   if (artistname.size() == 0 || artistname == "Unknown")
+       return;
+
+   string encoded;
+   ReplaceSpaces(artistname, encoded);
+   string url = string("http://www.fairtunes.com/servlet/ArtistLookupServlet?redirectPage=http://www.fairtunes.com/search.jsp&searchTerms=") + encoded;
+
+   LaunchBrowser(url.c_str());
 }
 
 void GTKMusicBrowser::PopUpInfoEditor(PlaylistItem *editee)

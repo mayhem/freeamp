@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: utility.cpp,v 1.34 2000/09/28 08:08:00 ijr Exp $
+    $Id: utility.cpp,v 1.35 2000/10/04 22:49:39 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -465,6 +465,26 @@ void ToLower(char *s)
     for(p = s; *p != '\0'; p++)
        *p = tolower(*p);
 }      
+
+void ReplaceSpaces(string &in, string &encoded)
+{
+    encoded = "";
+    
+    for (unsigned int i = 0; i < in.size(); i++)
+    {
+        if (in[i] == ' ')
+            encoded += "%20";
+        else if ((unsigned char)in[i] > 127)
+        {
+            char enc[10];
+            sprintf(enc, "%%%02X", in[i] & 0xFF);
+            enc[3] = 0;
+            encoded += enc;
+        }
+        else
+            encoded += in[i];
+    }
+}
 
 #ifdef WIN32
 #elif __BEOS__

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browserlist.cpp,v 1.15 2000/09/25 08:41:42 ijr Exp $
+        $Id: browserlist.cpp,v 1.16 2000/10/04 22:49:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -999,6 +999,11 @@ static void add_fav_pop(GTKMusicBrowser *p, guint action, GtkWidget *w)
     p->AddPLStreamToFavs();
 }
 
+static void tip_pop(GTKMusicBrowser *p, guint action, GtkWidget *w)
+{
+    p->TipArtist();
+}
+
 void GTKMusicBrowser::PlaylistRightClick(int x, int y, uint32 time)
 {
     if (m_lastindex == kInvalidIndex)
@@ -1054,7 +1059,9 @@ void GTKMusicBrowser::CreatePlaylistList(GtkWidget *box)
      {"/sep1",         NULL,      0,                        0, "<Separator>" },
      {"/Remove",       NULL,      (void(*)(...))delete_pop,     0, 0 },
      {"/sep2",         NULL,      0,                        0, "<Separator>" },
-     {"/Edit Info",    NULL,      (void(*)(...))edit_pop,      0, 0 }
+     {"/Edit Info",    NULL,      (void(*)(...))edit_pop,      0, 0 },
+     {"/sep3",         NULL,      0,                        0, "<Separator>" },
+     {"/Tip This Artist", NULL,   (void(*)(...))tip_pop,       0, 0 }
     };
  
     int nmenu_items = sizeof(popup_items) / sizeof(popup_items[0]);

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.10 1999/03/06 02:01:07 robert Exp $
+	$Id: soundcardpmo.h,v 1.11 1999/03/06 06:00:22 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -55,6 +55,7 @@ public:
     virtual Error Write(int32&,void*,int32);
     virtual Error Pause();
     virtual Error Resume();
+    virtual Error Break();
     virtual void  WaitToQuit();
     virtual Error Clear();
 
@@ -93,7 +94,7 @@ public:
 	bool			m_initialized;
 
     Thread         *m_pBufferThread;
-    Semaphore      *m_pPauseSem;
+    Mutex          *m_pPauseMutex;
     bool            m_bPause;
     int             m_iOutputBufferSize, m_iTotalBytesWritten, m_iBytesPerSample;
     int             m_iLastFrame;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.7 1999/03/04 07:23:56 robert Exp $
+   $Id: pullbuffer.cpp,v 1.8 1999/03/06 06:00:25 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -73,7 +73,7 @@ PullBuffer::~PullBuffer(void)
    delete m_pMutex;
 }
 
-void PullBuffer::Break(void)
+void PullBuffer::BreakBlocks(void)
 {
    m_bExit = true;
    m_pReadSem->Signal();

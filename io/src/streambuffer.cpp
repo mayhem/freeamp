@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: streambuffer.cpp,v 1.5 1999/03/04 07:23:58 robert Exp $
+   $Id: streambuffer.cpp,v 1.6 1999/03/06 06:00:26 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -26,9 +26,6 @@ ____________________________________________________________________________*/
 #include <assert.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
 
 #include "streambuffer.h"
 

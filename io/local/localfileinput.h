@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.h,v 1.10 1999/01/28 20:02:21 robert Exp $
+        $Id: localfileinput.h,v 1.11 1999/03/06 06:00:18 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LOCALFILEINPUT_H_
@@ -59,7 +59,6 @@ class     LocalFileInput:public PhysicalMediaInput
    {
       return m_path;
    }
-   virtual const char *GetErrorString(int32);
    
    virtual Error SetPropManager(Properties *p) 
 	{ 

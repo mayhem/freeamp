@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.9 1999/03/06 03:56:27 elrod Exp $
+   $Id: pullbuffer.h,v 1.10 1999/03/06 06:00:16 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PULLBUFFER_H_
@@ -52,7 +52,7 @@ class PullBuffer
       virtual  Error    EndRead    (size_t iBytesUsed);
 
       virtual  Error    DiscardBytes();
-      virtual  void     Break();
+      virtual  void     BreakBlocks();
 
       Error    Clear        (void);
       Error    Resize       (size_t iNewSize,

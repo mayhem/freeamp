@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb_proto.cpp,v 1.5 2000/04/04 01:55:20 ijr Exp $
+	$Id: cddb_proto.cpp,v 1.6 2000/04/04 02:18:56 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -744,9 +744,9 @@ int CDDB::cddb_read_data(struct disc_data *data)
        if (conf->conf_proxy)
            delete proxy_ptr;
        delete [] http_string;
-	   delete list;
-	   delete conf;
-	   delete hello;
+       delete list;
+       delete conf;
+       delete hello;
        return -1;
    }
     
@@ -761,6 +761,10 @@ int CDDB::cddb_read_data(struct disc_data *data)
               if (conf->conf_proxy) 
                   delete proxy_ptr;
               delete [] http_string;
+              delete list;
+              delete conf;
+              delete hello;
+              delete query;
               return -1;
            } 
            break; }
@@ -768,11 +772,11 @@ int CDDB::cddb_read_data(struct disc_data *data)
            if (cddb_query(sock, CDDB_MODE_HTTP, query, http_string) < 0) {
               if (conf->conf_proxy) 
                   delete proxy_ptr;
-              delete http_string;
-			  delete list;
-			  delete conf;
-			  delete hello;
-			  delete query;
+              delete [] http_string;
+	      delete list;
+	      delete conf;
+	      delete hello;
+	      delete query;
               return -1;
            }
            shutdown(sock, 2);
@@ -782,11 +786,11 @@ int CDDB::cddb_read_data(struct disc_data *data)
                                            hello, http_string, 512)) < 0) {
                if (conf->conf_proxy) 
                    delete proxy_ptr;
-               delete http_string;
-			   delete list;
-			   delete conf;
-			   delete hello;
-			   delete query;
+               delete [] http_string;
+               delete list;
+	       delete conf;
+	       delete hello;
+	       delete query;
                return -1;
             }
             break; }
@@ -807,12 +811,12 @@ int CDDB::cddb_read_data(struct disc_data *data)
    switch (list->list_host[index].host_protocol) {
        case CDDB_MODE_CDDBP: {
            if (cddb_read(sock, CDDB_MODE_CDDBP, entry, data) < 0) {
-               delete http_string;
-			   delete list;
-			   delete conf;
-			   delete hello;
-			   delete entry;
-			   delete query;
+               delete [] http_string;
+	       delete list;
+	       delete conf;
+	       delete hello;
+	       delete entry;
+	       delete query;
                return -1;
            }
 
@@ -820,12 +824,12 @@ int CDDB::cddb_read_data(struct disc_data *data)
            break; }
        case CDDB_MODE_HTTP: {
            if (cddb_read(sock, CDDB_MODE_HTTP, entry, data, http_string) < 0) {
-               delete http_string;
-			   delete list;
-			   delete conf;
-			   delete hello;
-			   delete entry;
-			   delete query;
+               delete [] http_string;
+	       delete list;
+	       delete conf;
+	       delete hello;
+	       delete entry;
+	       delete query;
                return -1;
            }
 

@@ -11,18 +11,40 @@
  *                                                                  *
  ********************************************************************
 
- function: predefined encoding modes
- last mod: $Id: modes.h,v 1.2 2000/09/21 20:46:25 robert Exp $
+ function: modified discrete cosine transform prototypes
+ last mod: $Id: mdct.h,v 1.1 2000/09/21 20:46:25 robert Exp $
 
  ********************************************************************/
 
-#ifndef _V_MODES_H_
-#define _V_MODES_H_
+#ifndef _OGG_mdct_H_
+#define _OGG_mdct_H_
 
-#include "vorbis/mode_A.h"
-#include "vorbis/mode_B.h"
-#include "vorbis/mode_C.h"
-#include "vorbis/mode_D.h"
-#include "vorbis/mode_E.h"
+#include "vorbis/codec.h"
+
+typedef struct {
+  int n;
+  int log2n;
+  
+  double *trig;
+  int    *bitrev;
+
+} mdct_lookup;
+
+extern void mdct_init(mdct_lookup *lookup,int n);
+extern void mdct_clear(mdct_lookup *l);
+extern void mdct_forward(mdct_lookup *init, double *in, double *out);
+extern void mdct_backward(mdct_lookup *init, double *in, double *out);
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+

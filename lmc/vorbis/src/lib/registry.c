@@ -11,18 +11,36 @@
  *                                                                  *
  ********************************************************************
 
- function: predefined encoding modes
- last mod: $Id: modes.h,v 1.2 2000/09/21 20:46:25 robert Exp $
+ function: registry for time, floor, res backends and channel mappings
+ last mod: $Id: registry.c,v 1.1 2000/09/21 20:46:25 robert Exp $
 
  ********************************************************************/
 
-#ifndef _V_MODES_H_
-#define _V_MODES_H_
+#include "vorbis/codec.h"
+#include "registry.h"
+#include "misc.h"
 
-#include "vorbis/mode_A.h"
-#include "vorbis/mode_B.h"
-#include "vorbis/mode_C.h"
-#include "vorbis/mode_D.h"
-#include "vorbis/mode_E.h"
+/* seems like major overkill now; the backend numbers will grow into
+   the infrastructure soon enough */
 
-#endif
+extern vorbis_func_time      time0_exportbundle;
+extern vorbis_func_floor     floor0_exportbundle;
+extern vorbis_func_residue   residue0_exportbundle;
+extern vorbis_func_mapping   mapping0_exportbundle;
+
+vorbis_func_time      *_time_P[]={
+  &time0_exportbundle,
+};
+
+vorbis_func_floor     *_floor_P[]={
+  &floor0_exportbundle,
+};
+
+vorbis_func_residue   *_residue_P[]={
+  &residue0_exportbundle,
+};
+
+vorbis_func_mapping   *_mapping_P[]={
+  &mapping0_exportbundle,
+};
+

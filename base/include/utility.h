@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.4 1999/10/20 18:22:30 robert Exp $
+	$Id: utility.h,v 1.5 1999/10/22 23:30:15 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
@@ -38,5 +38,8 @@ Error URLToFilePath(const char* url, char* path, uint32* length);
 void ToUpper(char *s);
 void ToLower(char *s);
 
+#ifndef WIN32
+void LaunchBrowser(char* url);
+#endif
 
 #endif /* INCLUDED_UTILITY_H */

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.4 1999/10/22 16:22:16 ijr Exp $
+   $Id: Theme.cpp,v 1.5 1999/10/22 23:30:38 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -754,7 +754,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     if (oElement == string("ControlBitmap"))
     {
        Bitmap *pBitmap = NULL;
-       Rect oRect;
+       Rect    oRect;
+       bool    bHoriz = true;
 
        if (m_pCurrentControl == NULL)
        {
@@ -772,6 +773,12 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        {
            m_oLastError = string("the <ControlBitmap> tag needs a Name attribute");
            return kError_ParseError;
+       }        
+       
+       if (oAttrMap.find("Style") != oAttrMap.end())
+       {
+           if (oAttrMap["Style"] == string("Vert"))
+               bHoriz = false;
        }        
 
        eRet = ParseRect(oAttrMap["Rect"], oRect);
@@ -791,7 +798,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
 
-       m_pCurrentControl->SetBitmap(pBitmap, oRect);
+       m_pCurrentControl->SetBitmap(pBitmap, oRect, bHoriz);
        return kError_NoErr;
     }
 

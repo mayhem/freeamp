@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.6 1999/10/22 16:22:16 ijr Exp $
+	$Id: utility.cpp,v 1.7 1999/10/22 23:30:17 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -31,6 +31,7 @@ ____________________________________________________________________________*/
 #include <direct.h>
 #define MKDIR(z) mkdir(z)
 #else
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #define MKDIR(z) mkdir(z, 0755)
@@ -426,3 +427,44 @@ void ToLower(char *s)
     for(p = s; *p != '\0'; p++)
        *p = tolower(*p);
 }      
+
+#ifndef WIN32
+void LaunchBrowser(char* url)
+{
+   char         url2[URL_SIZE];
+   char         lockfile[255];
+   int          lockfile_fd;
+   struct stat  sb;
+   char        *home, *browser;
+
+   browser = "netscape";
+   sprintf(url2, "openURL(%s)", url);
+
+   if (strcmp(browser, "netscape") == 0)
+   {
+      home=getenv("HOME");
+      if(!home)
+         home="/";
+
+      sprintf(lockfile,"%.200s/.netscape/lock",home);
+      if(fork()>0)
+         _exit(0);
+
+      if((lockfile_fd=lstat(lockfile, &sb))!=-1)
+      {
+         execlp("netscape", "netscape", "-remote", url2, NULL);
+      } else
+      {
+         execlp("netscape", "netscape", url, NULL);
+      }
+      perror("Could not launch netscape");
+   }
+   else
+   {
+      char command[256];
+      sprintf(command, "%s \"%s\"", browser, url);
+
+      system(command);
+   }
+}
+#endif

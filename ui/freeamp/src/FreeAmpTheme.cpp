@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.7 1999/10/22 16:22:16 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.8 1999/10/22 23:30:37 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -633,6 +633,15 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        
        m_pWindow->ControlStringValue("Info", true, oDesc);
        UpdateTimeDisplay();                      
+   }
+   if (oControlName == string("Logo") && eMesg == CM_Pressed)
+   {
+#ifdef WIN32   
+       ShellExecute(NULL, "open", BRANDING_URL,
+                    NULL, NULL, SW_SHOWNORMAL);
+#else
+       LaunchBrowser(BRANDING_URL);
+#endif
    }
    
    return kError_NoErr;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.36 2000/05/20 12:32:00 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.37 2000/05/22 16:55:24 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1793,7 +1793,7 @@ static void save_music_browse(GtkWidget *w, GTKPreferenceWindow *p)
 
 void GTKPreferenceWindow::WatchDirSet(char *newpath, bool set)
 {
-    proposedValues.saveMusicDirectory = newpath;
+    proposedValues.watchThisDirectory = newpath;
     gtk_widget_set_sensitive(applyButton, TRUE);
     if (set)
         gtk_entry_set_text(GTK_ENTRY(watchDirBox), newpath);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.8 1999/03/07 07:30:40 elrod Exp $
+	$Id: preferences.cpp,v 1.9 1999/03/07 08:42:32 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <unistd.h>
@@ -87,7 +87,7 @@ HANDLE Preferences::GetFirstLibDir(char *path, uint32 *len) {
 	pCol = strchr(pPart,':');
 	if (pCol) *pCol = '\0';
 	char *pFoo = strdup(pPart);
-	pldfh->m_pLibDirs->Insert(pFoo);
+	pldfh->m_pLibDirs->AddItem(pFoo);
 	pPart = pCol + sizeof(char);
     }
 

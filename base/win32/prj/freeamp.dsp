@@ -162,6 +162,10 @@ SOURCE=..\..\src\database.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\debug.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\downloadmanager.cpp
 # End Source File
 # Begin Source File

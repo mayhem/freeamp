@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.h,v 1.1.2.6 1999/09/26 03:23:43 robert Exp $
+   $Id: Win32Bitmap.h,v 1.1.2.7 1999/09/27 00:00:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32BITMAP_H__
@@ -56,7 +56,6 @@ class Win32Bitmap : public Bitmap
     
      HBITMAP  m_hBitmap;
      HBITMAP  m_hMaskBitmap;
-     COLORREF m_sTransColor;
 };
 
 #endif

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.h,v 1.1.2.7 1999/09/26 03:23:27 robert Exp $
+   $Id: Bitmap.h,v 1.1.2.8 1999/09/27 00:00:42 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BITMAP_H__
@@ -47,7 +47,7 @@ class Bitmap
 
      virtual void  GetName(string &oName);
      virtual void  GetErrorString(string &oName);
-     virtual void  SetTransIndexPos(Pos &oPos);
+     virtual void  SetTransColor(Color &oColor);
      virtual bool  IsPosVisible(Pos &oPos) = 0;
      virtual Error LoadBitmapFromDisk(string &oFile) = 0;
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
@@ -58,7 +58,8 @@ class Bitmap
     protected:
 
      string  m_oBitmapName, m_oLastError;
-     Pos     m_oTransIndexPos;
+     Color   m_oTransColor;
+     bool    m_bHasTransColor;
 };
 
 #endif

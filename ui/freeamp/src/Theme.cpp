@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.9 1999/09/26 03:23:40 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.10 1999/09/27 00:00:49 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -276,7 +276,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     if (oElement == string("Bitmap"))
     {
        Bitmap *pBitmap;
-       Pos     oPos;
+       Color   oColor;
 
 #ifndef WIN32
        pBitmap = new GTKBitmap(oAttrMap["Name"]);
@@ -284,9 +284,9 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        pBitmap = new Win32Bitmap(oAttrMap["Name"]);
 #endif
 
-       eRet = ParsePos(oAttrMap["TransIndex"], oPos);
+       eRet = ParseColor(oAttrMap["TransColor"], oColor);
        if (eRet == kError_NoErr)
-           pBitmap->SetTransIndexPos(oPos);
+           pBitmap->SetTransColor(oColor);
 
        oCompleteFile = m_oThemePath + oAttrMap["File"];
        eRet = pBitmap->LoadBitmapFromDisk(oCompleteFile);
@@ -310,7 +310,6 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     if (oElement == string("Font"))
     {
        Font *pFont;
-       Pos   oPos;
 
        pFont = new Font(oAttrMap["Name"], oAttrMap["Face"]);
        if (!m_pParsedFonts)
@@ -563,7 +562,6 @@ Error Theme::EndElement(string &oElement)
     if (oElement == string("Bitmap") ||
         oElement == string("BackgroundBitmap") ||
         oElement == string("Font") ||
-        oElement == string("Style") ||
         oElement == string("MaskBitmap"))
        return kError_NoErr;
 
@@ -580,6 +578,8 @@ Error Theme::EndElement(string &oElement)
 
     if (oElement == string("Action") ||
         oElement == string("Position") ||
+        oElement == string("Style") ||
+        oElement == string("Info") ||
         oElement == string("ControlBitmap"))
     {
        if (m_pCurrentControl == NULL)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.1.2.9 1999/09/26 03:23:37 robert Exp $
+   $Id: Control.cpp,v 1.1.2.10 1999/09/27 00:00:48 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -193,19 +193,7 @@ void Control::BlitFrame(int iFrame, int iNumFramesInBitmap, Rect *pRect)
 
 bool Control::PosInControl(Pos &oPos)
 {
-    bool bRet;
-    
-    bRet = m_oRect.IsPosInRect(oPos);
-//    if (bRet && m_pBitmap)
-//    {
-//    	Pos oLocalPos;
-//        
-//        oLocalPos.x = (oPos.x - m_oRect.x1) + m_oBitmapRect.x1;
-//        oLocalPos.y = (oPos.y - m_oRect.y1) + m_oBitmapRect.y1;
-//        return m_pBitmap->IsPosVisible(oLocalPos);
-//    }    
-    
-    return bRet;    
+    return m_oRect.IsPosInRect(oPos);
 }        
 
 void Control::SetDesc(const string &oDesc)

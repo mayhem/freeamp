@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.1.2.7 1999/09/23 18:13:44 robert Exp $
+   $Id: ButtonControl.cpp,v 1.1.2.8 1999/09/27 00:00:47 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -121,3 +121,19 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
     }
 }
 
+bool ButtonControl::PosInControl(Pos &oPos)
+{
+    bool bRet;
+    
+    bRet = m_oRect.IsPosInRect(oPos);
+    if (bRet && m_pBitmap)
+    {
+    	Pos oLocalPos;
+        
+        oLocalPos.x = (oPos.x - m_oRect.x1) + m_oBitmapRect.x1;
+        oLocalPos.y = (oPos.y - m_oRect.y1) + m_oBitmapRect.y1;
+        return m_pBitmap->IsPosVisible(oLocalPos);
+    }    
+    
+    return bRet;    
+}        

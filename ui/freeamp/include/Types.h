@@ -18,11 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Types.h,v 1.1.2.4 1999/09/26 03:23:32 robert Exp $
+   $Id: Types.h,v 1.1.2.5 1999/09/27 00:00:44 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TYPES_H__
 #define INCLUDED_TYPES_H__
+
+#include <string.h>
 
 struct Pos
 {
@@ -72,6 +74,10 @@ struct Color
         this->green = green;
         this->blue = blue;
     };    
+    bool IsEqual(Color &oOther)
+    {
+        return !memcmp(&red, &oOther.red, sizeof(unsigned char) * 3);
+    }    
     unsigned char red, green, blue;
 };
 

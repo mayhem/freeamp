@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.1.2.9 1999/09/26 03:23:48 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.1.2.10 1999/09/27 00:00:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -57,7 +57,7 @@ Error Win32Bitmap::LoadBitmapFromDisk(string &oFile)
    if (m_hBitmap == NULL)
    	   return kError_LoadBitmapFailed;
 
-   if (m_oTransIndexPos.x >= 0)
+   if (m_bHasTransColor)
       CreateMaskBitmap();
 
    return kError_NoErr;
@@ -75,7 +75,6 @@ HBITMAP Win32Bitmap::GetMaskBitmapHandle(void)
 
 void Win32Bitmap::CreateMaskBitmap(void)
 {
-   HBITMAP     hSaved;
    BITMAP      sInfo;
    BITMAPINFO *pInfo, *pMaskInfo;
    HDC         hRootDC, hMemDC;
@@ -88,16 +87,6 @@ void Win32Bitmap::CreateMaskBitmap(void)
    hMemDC = CreateCompatibleDC(hRootDC);
    ReleaseDC(NULL, hRootDC);
 
-   hSaved = SelectObject(hMemDC, m_hBitmap);
-   m_sTransColor = GetPixel(hMemDC, m_oTransIndexPos.x, m_oTransIndexPos.y);
-   if (m_sTransColor == CLR_INVALID)
-       return;
-       
-   sTrans.blue = m_sTransColor & 0xFF;
-   sTrans.green = (m_sTransColor >> 8) & 0xFF;
-   sTrans.red = (m_sTransColor >> 16) & 0xFF;
-   SelectObject(hMemDC, hSaved);
-   
    if (m_hMaskBitmap)
       DeleteObject(m_hMaskBitmap);
 
@@ -137,10 +126,12 @@ void Win32Bitmap::CreateMaskBitmap(void)
    	   for(iCol = 0, pColorPtr = (Color *)pData; 
            iCol < sInfo.bmWidth; iCol++, pColorPtr++)
        {    
-   		  if (pColorPtr->red != sTrans.red ||
-              pColorPtr->green != sTrans.green ||
-   		      pColorPtr->blue != sTrans.blue)
+   		  if (pColorPtr->red != m_oTransColor.blue ||
+   		      pColorPtr->green != m_oTransColor.green ||
+   		      pColorPtr->blue != m_oTransColor.red)
+          {
              pMaskData[iCol / 8] |= (0x80 >> (iCol % 8));
+          }   
        }      
              
        iRet = SetDIBits(hMemDC, m_hMaskBitmap, 
@@ -221,7 +212,7 @@ Error Win32Bitmap::MaskBlitRect(Bitmap *pOther, Rect &oSrcRect,
    DeleteObject(SelectObject(hMaskDC, pSrcBitmap->m_hMaskBitmap));
    DeleteObject(SelectObject(hDestDC, m_hBitmap));
 
-   SetBkColor(hSrcDC, m_sTransColor);
+   SetBkColor(hSrcDC, RGB(m_oTransColor.red,m_oTransColor.green,m_oTransColor.blue));
    BitBlt(hDestDC, oDestRect.x1, oDestRect.y1, 
                    oDestRect.Width(), oDestRect.Height(),
           hSrcDC, oSrcRect.x1, oSrcRect.y1, SRCINVERT);

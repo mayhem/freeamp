@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.h,v 1.1.2.5 1999/09/17 20:30:45 robert Exp $
+   $Id: ButtonControl.h,v 1.1.2.6 1999/09/27 00:00:43 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BUTTONCONTROL_H__
@@ -46,6 +46,7 @@ class ButtonControl : public Control
 
       void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
       virtual void Init(void);
+      virtual bool PosInControl(Pos &oPos);
 
     private:
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.17 2000/10/24 09:19:20 robert Exp $
+   $Id: Http.cpp,v 1.18 2000/10/31 11:48:02 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -175,6 +175,16 @@ EncodeURI(string & URI)
    {
       string    hex = "%";
       char      num[8];
+
+      // Do not replace %## sequences -- they are already encoded and
+      // ready to roll
+      if (URI[convert] == '%' && URI.length() - convert > 2 &&
+          isdigit(URI[convert + 1]) && 
+          isdigit(URI[convert + 2]))  
+      {
+          convert++;
+          continue;
+      }
 
       sprintf(num, "%02x", URI[convert] & 0xFF);
       hex += num;

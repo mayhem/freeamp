@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.55 2000/03/28 01:34:53 elrod Exp $
+	$Id: main.cpp,v 1.56 2000/03/30 05:48:46 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -61,6 +61,8 @@ const char* kReboot = The_BRANDING" needs for you to restart your computer "
                       "in order to complete the update process.\r\nPlease "
                       "restart your computer before attempting to use "
                       the_BRANDING".";
+
+
 
 int APIENTRY WinMain(HINSTANCE hInstance, 
 					 HINSTANCE hPrevInstance,

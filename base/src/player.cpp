@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.184 2000/03/28 01:34:53 elrod Exp $
+        $Id: player.cpp,v 1.185 2000/03/30 05:48:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -830,6 +830,9 @@ Run()
    }
    m_eventServiceThread = Thread::CreateThread();
    m_eventServiceThread->Create(Player::EventServiceThreadFunc, this);
+
+
+
 
    delete[] name;
    delete[] musicBrowserName;

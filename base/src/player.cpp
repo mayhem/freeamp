@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.30 1998/10/23 00:41:04 jdw Exp $
+	$Id: player.cpp,v 1.31 1998/10/23 01:42:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -559,11 +559,15 @@ int32 Player::ServiceEvent(Event *pC) {
 	    
 	    case CMD_NextMediaPiece:
 		    m_myPlayList->SetNext();
+            AcceptEvent(new Event(CMD_Stop));
+            AcceptEvent(new Event(CMD_Play));
 		    return 0;
 	    break;
 	    
         case CMD_PrevMediaPiece:
             m_myPlayList->SetPrev();
+            AcceptEvent(new Event(CMD_Stop));
+            AcceptEvent(new Event(CMD_Play));
             return 0;
             break;
 		
@@ -648,28 +652,24 @@ int32 Player::ServiceEvent(Event *pC) {
 		    return 0;
 		
 		GetUIManipLock();
-		//cout << "got comaniplock " << endl;
 		Event* pe = new Event(CMD_Terminate);
-		//cout << "sending to coo's" << endl;
 		SendToUI(pe);
-		//cout << "done sending to coo's" << endl;
 		delete pe;
-		//cout << "ending inforeadytodieCOO" << endl;
 		return 1;
 		break; 
 	    }
 	    
 	    case INFO_MediaVitalStats: {
-		    // decoder doesn't yet grab song title...
-		    //cout << "Servicing media vital stats..." << endl;
 		    GetUIManipLock();
-		    //cout << "got lock" << endl;
+
+            MediaVitalInfo *pmvi = (MediaVitalInfo*)pC->GetArgument();
+            pmvi->indexOfSong = m_myPlayList->Current() + 1; // zero based
+            pmvi->totalSongs = m_myPlayList->Total();
+        
 		    SendToUI(pC);
-		    //cout << "sent to all" << endl;
+
 		    ReleaseUIManipLock();
-		    //cout << "Released manip lock..." << endl;
-		    delete ((MediaVitalInfo *)pC->GetArgument());
-		    //cout << "Done servicing mediavitalstats event" << endl;
+		    delete pmvi;
 		    return 0;
 		    break; 
         }

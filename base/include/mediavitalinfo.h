@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mediavitalinfo.h,v 1.3 1998/10/19 00:09:04 elrod Exp $
+	$Id: mediavitalinfo.h,v 1.4 1998/10/23 01:42:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _MEDIA_VITAL_INFO_H_
@@ -51,6 +51,8 @@ class MediaVitalInfo {
     int32 m_freq; // is Hz
     float m_totalTime;
     Id3TagInfo m_tagInfo;
+    int32 indexOfSong;
+    int32 totalSongs;
 
     MediaVitalInfo( const char *t,
                     const char *fn, 
@@ -67,6 +69,8 @@ class MediaVitalInfo {
         m_bps = bitspersecond;
         m_freq = fr;
         m_totalTime = tt;
+        indexOfSong = 0;
+        totalSongs = 0;
 
         if (t) {
 	        strncpy(m_songTitle,t,511);

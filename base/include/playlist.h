@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.36 1999/03/20 10:33:17 elrod Exp $
+	$Id: playlist.h,v 1.37 1999/03/20 18:51:57 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -37,6 +37,10 @@ ____________________________________________________________________________*/
 #include "pmi.h"
 
 const int iMaxFileNameLen = 1024;
+
+#ifndef WIN32
+#include "std.h"
+#endif
 
 class PlayListItem {
 

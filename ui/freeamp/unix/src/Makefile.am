@@ -18,14 +18,14 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.2 1998/11/16 02:49:29 jdw Exp $
+##      $Id: Makefile.am,v 1.3 1998/11/19 03:27:20 jdw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
 if AM_ENABLE_X11
-FILES = freeamp.cpp
+FILES = freeamp.cpp windowhash.cpp fawindow.cpp
 MYLIBS = libfauicmdline.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 
@@ -40,7 +40,7 @@ all-local:
 endif
 
 cmdline-local: freeamp.o
-	gcc -shared -Wl,-soname,freeampgui-@target_os@.ui -o freeampgui-@target_os@.ui freeamp.o -L/usr/X11R6/lib -lX11 -lXext -lXpm
+	gcc -shared -Wl,-soname,freeampgui-@target_os@.ui -o freeampgui-@target_os@.ui freeamp.o windowhash.o fawindow.o -L/usr/X11R6/lib -lX11 -lXext -lXpm
 	cp freeampgui-@target_os@.ui @top_srcdir@/plugins
 
 if AM_HAVE_LINUXTHREADS

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.5 1999/12/08 22:57:12 robert Exp $
+   $Id: Control.h,v 1.6 2000/02/08 20:03:16 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -38,6 +38,7 @@ ____________________________________________________________________________*/
 
 using namespace std;
 
+#include "mutex.h"
 #include "Types.h"
 #include "Bitmap.h"
 #include "Canvas.h"
@@ -167,6 +168,7 @@ class Control
       bool                   m_bHorizontalBitmap;
       int                    m_iValue;
       string                 m_oValue;
+	  Mutex                  m_oMutex;
 };
 
 #endif

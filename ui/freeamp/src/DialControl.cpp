@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: DialControl.cpp,v 1.5 1999/12/14 11:20:46 ijr Exp $
+   $Id: DialControl.cpp,v 1.6 2000/02/08 20:03:16 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -79,7 +79,9 @@ void DialControl::Transition(ControlTransitionEnum  eTrans,
            break;
 
        case CT_MouseLButtonDown:
+           m_oMutex.Acquire();
            m_iLastPos = pMousePos->y;
+           m_oMutex.Release();
            break;
 
        default:
@@ -89,8 +91,15 @@ void DialControl::Transition(ControlTransitionEnum  eTrans,
     if (m_eCurrentState == CS_Dragging && 
         m_eLastState != CS_Dragging)
     {    
+       Pos oTemp;
+       
 	   m_pParent->StartMouseCapture(this);
-       m_pParent->GetMousePos(m_oOrigin);
+       m_pParent->GetMousePos(oTemp);
+       
+       m_oMutex.Acquire();
+       m_oOrigin = oTemp;
+       m_oMutex.Release();
+       
 	   m_pParent->HideMouse(true);
        return;
     }
@@ -112,15 +121,24 @@ void DialControl::Transition(ControlTransitionEnum  eTrans,
     if (iFrames == 0)
        return;
        
+    m_oMutex.Acquire();
     m_iCurrentFrame = ((m_iCurrentFrame + m_iNumFrames) - iFrames) % m_iNumFrames;
+    m_oMutex.Release();
+    
     BlitFrame(m_iCurrentFrame, m_iNumFrames);
 
+    m_oMutex.Acquire();
     iValue = m_iValue - iFrames;
     if (iValue != m_iValue && iValue <= 100 && iValue >= 0)
     {
         m_iValue = iValue;
+
+        m_oMutex.Release();
         m_pParent->SendControlMessage(this, CM_SliderUpdate);
+        m_oMutex.Acquire();
     }    
-    
+
     m_iLastPos = pMousePos->y;
+    
+    m_oMutex.Release();
 }

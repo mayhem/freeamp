@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Headlines.cpp,v 1.2 2000/02/05 19:32:08 robert Exp $
+   $Id: Headlines.cpp,v 1.3 2000/02/08 20:03:16 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -386,7 +386,7 @@ Error Headlines::DownloadHeadlines(string &oUrl, string &oPage)
     if(s > 0)
         closesocket(s);
 
-    delete buffer;
+    free(buffer);
 
     return result;
 }

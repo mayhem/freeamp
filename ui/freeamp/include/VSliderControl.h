@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.h,v 1.1 1999/12/08 15:38:54 robert Exp $
+   $Id: VSliderControl.h,v 1.2 2000/02/08 20:03:16 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_VSLIDERCONTROL_H__
@@ -48,7 +48,7 @@ class VSliderControl : public Control
       int  m_iRange;
       int  m_iCurrentPos;
       int  m_iThumbHeight;
-      bool m_bIsDrag;
+      bool m_bIsDrag, m_bInUpdate;
 };
 
 #endif

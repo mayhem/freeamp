@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.5 1999/12/18 02:23:50 robert Exp $
+   $Id: ButtonControl.cpp,v 1.6 2000/02/08 20:03:16 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -71,6 +71,8 @@ ButtonControl::~ButtonControl(void)
 
 void ButtonControl::Init(void)
 {
+    m_oMutex.Acquire();
+
     m_eCurrentState = CS_Normal;
     if (m_oRect.x2 == -1 && m_oRect.y2 == -1)
     {
@@ -79,6 +81,7 @@ void ButtonControl::Init(void)
         m_oRect.y2 = m_oRect.y1 + 
                      (m_oBitmapRect.y2 - m_oBitmapRect.y1);
     }    
+    m_oMutex.Release();
 
     Transition(CT_None, NULL);
 }
@@ -116,11 +119,16 @@ void ButtonControl::Transition(ControlTransitionEnum  eTrans,
        {
            m_pParent->SendControlMessage(this, CM_Pressed);
            if (m_oName == "ReloadTheme")
+           {
               return;
+           }   
        }    
        else 
        {   
+           m_oMutex.Acquire();
            m_oValue = m_oTargetWindow;
+           m_oMutex.Release();
+           
            m_pParent->SendControlMessage(this, CM_ChangeWindow);
            return;
        }
@@ -153,6 +161,8 @@ bool ButtonControl::PosInControl(Pos &oPos)
 {
     bool bRet;
     
+    m_oMutex.Acquire();
+    
     bRet = m_oRect.IsPosInRect(oPos);
     if (bRet && m_pBitmap)
     {
@@ -160,14 +170,20 @@ bool ButtonControl::PosInControl(Pos &oPos)
         
         oLocalPos.x = (oPos.x - m_oRect.x1) + m_oBitmapRect.x1;
         oLocalPos.y = (oPos.y - m_oRect.y1) + m_oBitmapRect.y1;
+        m_oMutex.Release();
+        
         return m_pBitmap->IsPosVisible(oLocalPos);
     }    
+    
+    m_oMutex.Release();
     
     return bRet;    
 }        
 
 void ButtonControl::SetTargetWindow(string &oWindow)
 {
+    m_oMutex.Acquire();
 	m_oTargetWindow = oWindow;
+    m_oMutex.Release();
 }
 

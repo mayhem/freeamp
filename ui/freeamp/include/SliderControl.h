@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.h,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: SliderControl.h,v 1.3 2000/02/08 20:03:16 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_SLIDERCONTROL_H__
@@ -44,11 +44,11 @@ class SliderControl : public Control
 
               void MoveThumb(int iCurrentPos, int iNewPos);
 					  
-      Pos  m_oOrigin, m_oLastPos;
-      int  m_iRange;
-      int  m_iCurrentPos;
-      int  m_iThumbWidth;
-      bool m_bIsDrag;
+      Pos   m_oOrigin, m_oLastPos;
+      int   m_iRange;
+      int   m_iCurrentPos;
+      int   m_iThumbWidth;
+      bool  m_bIsDrag, m_bInUpdate;
 };
 
 #endif

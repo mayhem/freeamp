@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.6 1999/12/18 02:23:53 robert Exp $
+   $Id: TextControl.cpp,v 1.7 2000/02/08 20:03:16 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -58,6 +58,8 @@ void TextControl::SetStyle(Font *pFont, string &oAlign,
                            Color &oColor, bool bBold,
                            bool bItalic, bool bUnderline)
 {
+    m_oMutex.Acquire();
+
     m_oColor = oColor;
     m_bBold = bBold;
     m_bItalic = bItalic;
@@ -73,6 +75,8 @@ void TextControl::SetStyle(Font *pFont, string &oAlign,
        m_eAlign = eLeft;
 
     m_bStyleSet = true;
+
+    m_oMutex.Release();
 }
 
 bool TextControl::StyleHasBeenSet(void)
@@ -95,7 +99,6 @@ void TextControl::Init(void)
 void TextControl::Transition(ControlTransitionEnum  eTrans,
                              Pos                   *pMousePos)
 {
-
     if (m_eCurrentState == CS_MouseOver && 
         eTrans == CT_MouseLButtonUp)
        m_pParent->SendControlMessage(this, CM_Pressed);
@@ -124,25 +127,32 @@ void TextControl::TextChanged(void)
 {
     Canvas *pCanvas;
     int    iRet;
+
+    m_oMutex.Acquire();
     
     m_iMarqueePos = 0;
     pCanvas = m_pParent->GetCanvas();
+    m_oMutex.Release();
 
     pCanvas->Erase(m_oRect);
     iRet = pCanvas->RenderText(m_oRect.Height(), m_oRect, 
                                m_oValue, m_eAlign, 
                                m_pFont, m_oColor, m_bBold, 
                                m_bItalic, m_bUnderline); 
-    m_bWantsTimingMessages = (iRet > 0);
-}
 
+    m_oMutex.Acquire();
+    m_bWantsTimingMessages = (iRet > 0);
+    m_oMutex.Release();
+}
 
 void TextControl::MarqueeText(void)
 {
     Canvas *pCanvas;
     int    iRet;
 
+    m_oMutex.Acquire();
 	m_iMarqueePos += m_iMarqueeScrollIncrement;
+    m_oMutex.Release();
     
     pCanvas = m_pParent->GetCanvas();
     pCanvas->Erase(m_oRect);
@@ -152,7 +162,9 @@ void TextControl::MarqueeText(void)
                                      m_bItalic, m_bUnderline); 
     if (iRet < 0)
     {
+       m_oMutex.Acquire();
        m_iMarqueePos = -iRet;                           
+       m_oMutex.Release();
        pCanvas->RenderOffsetText(m_oRect.Height(), m_oRect, 
                                  m_oValue, m_iMarqueePos, 
                                  m_pFont, m_oColor, m_bBold, 

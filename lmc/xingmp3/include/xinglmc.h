@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.35 1999/10/25 07:13:54 elrod Exp $
+   $Id: xinglmc.h,v 1.36 1999/11/05 22:56:41 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -78,7 +78,7 @@ class     XingLMC:public LogicalMediaConverter
             XingLMC(FAContext *context);
    virtual ~XingLMC();
 
-   virtual uint32 CalculateSongLength();
+   virtual uint32 CalculateSongLength(const char *url);
 
    virtual Error ChangePosition(int32 position);
 
@@ -104,8 +104,12 @@ class     XingLMC:public LogicalMediaConverter
                                   bool bBufferUp = true);
    Error                BlockingBeginRead(void *&pBuffer, 
                                           unsigned int iBytesNeeded);
+   Error                EndRead(size_t iBytesUsed);
    Error                AdvanceBufferToNextFrame();
    Error                GetHeadInfo();
+   bool                 GetBitstreamStats(float &fTotalSeconds, float &fMsPerFrame,
+                                          int &iTotalFrames, int &iSampleRate, 
+                                          int &iLayer);
 
    PhysicalMediaInput  *m_pPmi;
    PhysicalMediaOutput *m_pPmo;
@@ -122,6 +126,10 @@ class     XingLMC:public LogicalMediaConverter
    char                *m_szUrl;
    const char          *m_szError;
    AUDIO                m_audioMethods; 
+   
+   // These vars are used for a nasty hack.
+   FILE                *m_fpFile;
+   char                *m_pLocalReadBuffer;
 };
 
 #endif /* _XINGLMC_H */

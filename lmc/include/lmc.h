@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.25 1999/10/25 07:13:54 elrod Exp $
+	$Id: lmc.h,v 1.26 1999/11/05 22:56:40 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_LMC_H_
@@ -60,7 +60,7 @@ class LogicalMediaConverter : public PipelineUnit
     
     virtual vector<char *> *GetExtensions(void) = 0;
 
-    virtual uint32 CalculateSongLength() = 0;
+    virtual uint32 CalculateSongLength(const char *) = 0;
 
     protected:
 

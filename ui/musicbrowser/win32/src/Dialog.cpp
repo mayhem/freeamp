@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.10 1999/11/03 23:14:54 elrod Exp $
+        $Id: Dialog.cpp,v 1.11 1999/11/05 22:56:49 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -130,7 +130,7 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
         case WM_EMPTYDBCHECK:
             EmptyDBCheck();
             return 1;
-            
+
         case WM_COMMAND:
         {
         	switch(LOWORD(wParam))

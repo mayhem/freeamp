@@ -18,12 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlistformat.h,v 1.1.2.1 1999/08/23 19:18:39 elrod Exp $
+	$Id: playlistformat.h,v 1.1.2.2 1999/08/24 23:42:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_FORMAT_H_
 #define _PLAYLIST_FORMAT_H_
 
+#include <string>
 #include <assert.h>
 
 #include "config.h"
@@ -34,74 +35,20 @@ class PlaylistFormat {
 
  public:
 
-    PlaylistFormat()
-    {
-        m_extension = NULL;
-        m_description = NULL;
-    }
+    PlaylistFormat() {}
+    
+    virtual ~PlaylistFormat() {}
 
-    PlaylistFormat(const PlaylistFormat& format)
-    {
-        m_extension = NULL;
-        m_description = NULL;
+    Error SetExtension(const char* extension){ m_extension = extension; return kError_NoErr; }
+    const char* GetExtension() const { return m_extension.c_str(); }
 
-        *this = format;
-    }
-
-    virtual ~PlaylistFormat()
-    {
-        if(m_extension) delete [] m_extension;
-        if(m_description) delete [] m_description;
-    }
-
-    Error SetExtension(const char* extension){ return SetBuffer(&m_extension, extension); }
-    const char* GetExtension() const { return m_extension; }
-
-    Error SetDescription(const char* description) { return SetBuffer(&m_description, description); }
-    const char* GetDescription() { return m_description; }
-
-    PlaylistFormat& operator = (PlaylistFormat& format)
-    {
-        SetExtension(format.m_extension);
-        SetDescription(format.m_description);
-
-        return *this;
-    }
-
- protected:
-    Error SetBuffer(char** buf, const char* src)
-    {
-        Error result = kError_InvalidParam;
-
-        assert(buf);
-        assert(src);
-
-        if(buf && src)
-        {
-            if(*buf)
-            {
-                delete [] *buf;
-                *buf = NULL;
-            }
-
-            result = kError_OutOfMemory;
-
-            *buf = new char[strlen(src) + 1];
-
-            if(*buf)
-            {
-                strcpy(buf, src);
-                result = kError_NoErr;
-            }
-        }
-
-        return result;
-    }
+    Error SetDescription(const char* description) { m_description = description; return kError_NoErr; }
+    const char* GetDescription() { return m_description.c_str(); }
 
  private:
   
-    char* m_extension;
-    char* m_description;
+    string m_extension;
+    string m_description;
 };
 
 

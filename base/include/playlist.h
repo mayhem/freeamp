@@ -18,55 +18,47 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.4 1999/08/23 23:07:09 elrod Exp $
+	$Id: playlist.h,v 1.40.4.5 1999/08/24 23:42:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
 #define _PLAYLIST_H_
 
 #include <assert.h>
+#include <string>
 #include <vector>
+#include <functional>
 
 using namespace std;
 
 #include "config.h"
 
 #include "errors.h"
-#include "event.h"
-#include "registry.h"
 #include "mutex.h"
-#include "pmi.h"
 #include "thread.h"
 #include "metadata.h"
-
-class PlaylistItem {
-
- public:
-    PlaylistItem(char* url, MetaData* metadata = NULL);
-    virtual ~PlaylistItem();
-
-    Error SetMetaData(MetaData* metadata);
-    const MetaData* GetMetaData() const;
-
-    const char* GetURL() const;
-    
- private:
-    MetaData m_metadata;
-    char* m_url;
-
-};
+#include "playlistformat.h"
+#include "portabledevice.h"
 
 typedef enum {
-    kPlaylistSortKey_Artist,
+    kPlaylistSortKey_FirstKey,
+    kPlaylistSortKey_Artist = kPlaylistSortKey_FirstKey,
     kPlaylistSortKey_Album,
     kPlaylistSortKey_Title,
     kPlaylistSortKey_Year,
     kPlaylistSortKey_Track,
     kPlaylistSortKey_Genre,
     kPlaylistSortKey_Time,
-    kPlaylistSortKey_Random
+    kPlaylistSortKey_Location,
+    kPlaylistSortKey_LastKey,
+    kPlaylistSortKey_Random // not used with normal sort function
 
 } PlaylistSortKey;
+
+typedef enum {
+    PlaylistSortType_Ascending,
+    PlaylistSortType_Descending
+} PlaylistSortType;
 
 typedef enum {
     kPlaylistKey_FirstKey,
@@ -86,6 +78,63 @@ typedef enum {
 
 #define kInvalidIndex 0xFFFFFFFF
 
+class PlaylistItem {
+
+ public:
+    PlaylistItem(const char* url, const MetaData* metadata = NULL);
+    virtual ~PlaylistItem();
+
+    Error SetMetaData(const MetaData* metadata);
+    const MetaData& GetMetaData() const { return m_metadata; }
+
+    Error GetURL(char* buf, uint32* len) { return SetBuffer(buf, m_url.c_str(), len); }
+    const string& URL() const { return m_url; }
+
+ protected:
+    Error SetBuffer(char* dest, const char* src, uint32* len)
+    {
+        Error result = kError_InvalidParam;
+
+        assert(dest);
+        assert(src);
+        assert(len);
+
+        if(dest && src)
+        {
+            uint32 srclen = strlen(src) + 1;
+
+            if(*len >= srclen)
+            {
+                strcpy(dest, src);
+                result = kError_NoErr;
+            }
+            else
+            {
+                result = kError_BufferTooSmall;
+            }
+
+            *len = srclen;
+        }
+
+        return result;
+    }
+
+ private:
+    MetaData m_metadata;
+    string m_url;
+};
+
+class PlaylistItemSort : public binary_function<PlaylistItem*, PlaylistItem*, bool> {
+
+ public:
+    PlaylistItemSort(PlaylistSortKey sortKey) : m_sortKey(sortKey) { }
+
+    bool operator() (PlaylistItem* item1, PlaylistItem* item2) const;
+   
+ private:
+    PlaylistSortKey m_sortKey;
+};
+
 class PlaylistManager {
 
  public:
@@ -94,7 +143,7 @@ class PlaylistManager {
 
     // Playlist actions
     Error SetCurrentItem(PlaylistItem* item);
-    const PlaylistItem* GetCurrentItem() const;
+    const PlaylistItem* GetCurrentItem();
     
     Error SetCurrentIndex(uint32 index);
     uint32 GetCurrentIndex() const;
@@ -105,7 +154,7 @@ class PlaylistManager {
     Error SetShuffleMode(bool shuffle);
     bool GetShuffleMode() const {return m_shuffle;}
     Error SetRepeatMode(RepeatMode mode);
-    RepeatMode GetRepeatMode() const {return m_repeat;}
+    RepeatMode GetRepeatMode() const {return m_repeatMode;}
     Error ToggleRepeatMode();
     Error ToggleShuffleMode();
 
@@ -131,7 +180,8 @@ class PlaylistManager {
     Error MoveItems(vector<PlaylistItem*>* items, uint32 index);
 
     // Functions for sorting
-    Error Sort(PlaylistSortKey key, bool ascending = true);
+    Error Sort(PlaylistSortKey key, PlaylistSortType type = PlaylistSortType_Ascending);
+    PlaylistSortKey GetPlaylistSortKey() const;
 
     // Which playlist are we dealing with for purposes of editing:
     // 1) Master Playlist - list of songs to play
@@ -194,12 +244,13 @@ class PlaylistManager {
     vector<PlaylistItem*>*  m_activeList; 
     vector<PlaylistItem*>   m_shuffleList;
 
-    uint32      m_current;
-    bool        m_shuffle;
-    RepeatMode  m_repeatMode;
-    PlaylistKey m_playlistKey;
+    uint32          m_current;
+    bool            m_shuffle;
+    RepeatMode      m_repeatMode;
+    PlaylistKey     m_playlistKey;
+    PlaylistSortKey m_sortKey;
 
-    char*       m_externalPlaylist;
+    string      m_externalPlaylist;
     DeviceInfo  m_portableDevice;
 
     Mutex       m_mutex;

@@ -18,12 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: metadata.h,v 1.1.2.1 1999/08/23 19:18:39 elrod Exp $
+	$Id: metadata.h,v 1.1.2.2 1999/08/24 23:42:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _METADATA_H_
 #define _METADATA_H_
 
+#include <string>
 #include <assert.h>
 
 #include "config.h"
@@ -36,102 +37,66 @@ class MetaData {
 
     MetaData()
     {
-        m_artist = NULL;
-        m_album = NULL;
-        m_title = NULL;
-        m_comment = NULL;
-        m_genre = NULL;
         m_year = -1;
         m_track = -1;
         m_time = -1;
-        
     }
 
-    MetaData(const MetaData& metadata)
-    {
-        m_artist = NULL;
-        m_album = NULL;
-        m_title = NULL;
-        m_comment = NULL;
-        m_genre = NULL;
-        m_year = -1;
-        m_track = -1;
-        m_time = -1;
+    virtual ~MetaData(){}
 
-        *this = metadata;
-    }
+    Error SetArtist(const char* artist){ m_artist = artist; return kError_NoErr;}
+    Error GetArtist(char* buf, uint32* len) { return SetBuffer(buf, m_artist.c_str(), len); }
+    const string& Artist() const { return m_artist; }
 
-    virtual ~MetaData()
-    {
-        if(m_artist) delete [] m_artist;
-        if(m_album) delete [] m_album;
-        if(m_title) delete [] m_title;
-        if(m_comment) delete [] m_comment;
-    }
+    Error SetAlbum(const char* album) { m_album = album; return kError_NoErr; }
+    Error GetAlbum(char* buf, uint32* len) { return SetBuffer(buf, m_album.c_str(), len); }
+    const string& Album() const { return m_album; }
 
-    Error SetArtist(const char* artist){ return SetBuffer(&m_artist, artist); }
-    const char* GetArtist() const { return m_artist; }
+    Error SetTitle(const char* title){ m_title = title; return kError_NoErr; }
+    Error GetTitle(char* buf, uint32* len) { return SetBuffer(buf, m_title.c_str(), len); }
+    const string& Title() const { return m_title; }
 
-    Error SetAlbum(const char* album) { return SetBuffer(&m_album, album); }
-    const char* GetAlbum() { return m_album; }
+    Error SetComment(const char* comment){ m_comment = comment; return kError_NoErr; }
+    Error GetComment(char* buf, uint32* len) { return SetBuffer(buf, m_comment.c_str(), len); }
+    const string& Comment() const { return m_comment; }
 
-    Error SetTitle(const char* title){ return SetBuffer(&m_title, title); }
-    const char* GetTitle() { return m_title; }
+    Error SetGenre(const char* genre) { m_genre = genre; return kError_NoErr; }
+    Error GetGenre(char* buf, uint32* len) { return SetBuffer(buf, m_genre.c_str(), len); }
+    const string& Genre() const { return m_genre; }
 
-    Error SetYear(uint32 year) { m_year = year; }
-    uint32 Year() { return m_year; }
+    Error SetYear(uint32 year) { m_year = year; return kError_NoErr;}
+    uint32 Year() const { return m_year; }
 
-    Error SetGenre(const char* genre) { return SetBuffer(&m_genre, genre); }
-    const char* GetGenre() { return m_genre; }
+    Error SetTrack(uint32 track){ m_track = track; return kError_NoErr;}
+    uint32 Track() { return m_track; }
 
-    Error SetTrack(uint32 track){ m_track = track; }
-    uint32 GetTrack() { return m_track; }
-
-    Error SetTime(uint32 time){ m_time = time; }
-    uint32 GetTime() { return m_time; }
-
-    Error SetComment(const char* comment){ return SetBuffer(&m_comment, comment); }
-    const char* GetComment() { return m_comment; }
-
-    MetaData& operator = (MetaData& metadata)
-    {
-        SetArtist(metadata.m_artist);
-        SetAlbum(metadata.m_album);
-        SetTitle(metadata.m_title);
-        SetComment(metadata.m_comment);
-        SetGenre(metadata.m_genre);
-        SetYear(metadata.m_year);
-        SetTrack(metadata.m_track);
-        SetTime(metadata.m_time);
-
-        return *this;
-    }
-
+    Error SetTime(uint32 time){ m_time = time; return kError_NoErr;}
+    uint32 Time() { return m_time; }
+ 
  protected:
-    Error SetBuffer(char** buf, const char* src)
+    Error SetBuffer(char* dest, const char* src, uint32* len)
     {
         Error result = kError_InvalidParam;
 
-        assert(buf);
+        assert(dest);
         assert(src);
+        assert(len);
 
-        if(buf && src)
+        if(dest && src)
         {
-            if(*buf)
+            uint32 srclen = strlen(src) + 1;
+
+            if(*len >= srclen)
             {
-                delete [] *buf;
-                *buf = NULL;
-            }
-
-            result = kError_OutOfMemory;
-
-            *buf = new char[strlen(src) + 1];
-
-            if(*buf)
-            {
-                strcpy(buf, src);
+                strcpy(dest, src);
                 result = kError_NoErr;
             }
+            else
+            {
+                result = kError_BufferTooSmall;
+            }
+
+            *len = srclen;
         }
 
         return result;
@@ -139,11 +104,11 @@ class MetaData {
 
  private:
   
-    char* m_artist;
-    char* m_album;
-    char* m_title;
-    char* m_genre;
-    char* m_comment;
+    string m_artist;
+    string m_album;
+    string m_title;
+    string m_genre;
+    string m_comment;
     uint32 m_year;
     uint32 m_track;
     uint32 m_time;

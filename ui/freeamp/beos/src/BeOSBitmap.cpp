@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSBitmap.cpp,v 1.5 2000/02/07 09:07:31 hiro Exp $
+   $Id: BeOSBitmap.cpp,v 1.6 2000/03/20 22:40:34 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSBitmap.h"
@@ -202,3 +202,5 @@ BeOSBitmap::MaskBlitRect( Bitmap* pSrcBitmap, Rect& oSrcRect, Rect& oDestRect )
 
     return kError_NoErr;
 }
+
+// vi: set ts=4:

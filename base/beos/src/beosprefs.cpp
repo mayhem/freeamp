@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: beosprefs.cpp,v 1.5.2.3 1999/10/01 04:49:21 hiro Exp $
+        $Id: beosprefs.cpp,v 1.5.2.4 1999/10/04 13:45:21 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include <errno.h>
 #endif
 
+#include <string>
 #include <unistd.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -504,6 +505,20 @@ SetDefaults()
     if (GetPrefString(kALSADevicePref, buf, &size) == kError_NoPrefValue)
         SetPrefString(kALSADevicePref, kDefaultALSADevice);
     
+    size = sizeof(buf);
+    if (GetPrefString(kDatabaseDirPref, buf, &size) == kError_NoPrefValue) {
+        string tempdir = FreeampDir(NULL);
+        tempdir += "/db";
+        SetPrefString(kDatabaseDirPref, tempdir.c_str());
+    }
+
+    size = sizeof(buf);
+    if (GetPrefString(kSaveMusicDirPref, buf, &size) == kError_NoPrefValue) {
+        string tempdir = FreeampDir(NULL);
+        tempdir += "/MyMusic";
+        SetPrefString(kSaveMusicDirPref, tempdir.c_str());
+    }
+
     Preferences::SetDefaults();
 
     return kError_NoErr;

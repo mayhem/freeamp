@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.32 1999/12/03 02:13:08 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.33 1999/12/03 03:23:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -232,6 +232,9 @@ MusicBrowserUI::~MusicBrowserUI()
           delete (*i);
     }   
     
+    if(!m_pParent)
+        m_context->prefs->SetViewMusicBrowser(m_state == STATE_EXPANDED);
+
     CloseMainDialog();
 
     delete m_uiThread;
@@ -606,8 +609,9 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                     m_initialized = true;
                 }
             }
-            if (m_state == STATE_COLLAPSED)
-                ExpandCollapseEvent();
+
+            //if (m_state == STATE_COLLAPSED)
+                //ExpandCollapseEvent();
             break; 
         }
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.20 1999/11/26 06:00:39 elrod Exp $
+	$Id: preferences.h,v 1.21 1999/12/03 03:23:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -76,6 +76,7 @@ extern const char* kUsersPortablePlayersPref;
 extern const char* kShowToolbarTextLabelsPref;
 extern const char* kShowToolbarImagesPref;
 extern const char* kSaveCurrentPlaylistOnExitPref;
+extern const char* kViewMusicBrowserPref;
 
 class LibDirFindHandle;
 
@@ -236,6 +237,9 @@ class Preferences {
 
     Error GetSaveCurrentPlaylistOnExit(bool* value);
     Error SetSaveCurrentPlaylistOnExit(bool value);
+
+    Error GetViewMusicBrowser(bool* value);
+    Error SetViewMusicBrowser(bool value);
 
 };
 

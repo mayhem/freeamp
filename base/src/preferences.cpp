@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.27 1999/11/26 06:00:39 elrod Exp $
+        $Id: preferences.cpp,v 1.28 1999/12/03 03:23:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -69,6 +69,7 @@ const char* kUsersPortablePlayersPref = "UsersPortablePlayers";
 const char* kShowToolbarTextLabelsPref = "ShowToolbarTextLabels";
 const char* kShowToolbarImagesPref = "ShowToolbarImages";
 const char* kSaveCurrentPlaylistOnExitPref = "SaveCurrentPlaylistOnExit";
+const char* kViewMusicBrowserPref = "ViewMusicBrowser";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -113,7 +114,8 @@ const bool kDefaultAskToReclaimFiletypesPref = true;
 const char* kDefaultUsersPortablePlayers = "";
 const bool kDefaultShowToolbarTextLabels = true;
 const bool kDefaultShowToolbarImages = true;
-const bool kDefaultSaveCurrentPlaylistOnExit = true;
+const bool kDefaultSaveCurrentPlaylistOnExit = false;
+const bool kDefaultViewMusicBrowser = true;
 
 Error
 Preferences::
@@ -255,6 +257,10 @@ SetDefaults()
 
     if (GetPrefBoolean(kSaveCurrentPlaylistOnExitPref, &dummyBool) == kError_NoPrefValue)
         SetPrefBoolean(kSaveCurrentPlaylistOnExitPref, kDefaultSaveCurrentPlaylistOnExit);
+
+    if (GetPrefBoolean(kViewMusicBrowserPref, &dummyBool) == kError_NoPrefValue)
+        SetPrefBoolean(kViewMusicBrowserPref, kDefaultViewMusicBrowser);
+
 
     return kError_NoErr;
 }
@@ -891,6 +897,21 @@ SetSaveCurrentPlaylistOnExit(bool value)
 {
     return SetPrefBoolean(kSaveCurrentPlaylistOnExitPref, value);
 }
+
+Error
+Preferences::
+GetViewMusicBrowser(bool* value)
+{
+    return GetPrefBoolean(kViewMusicBrowserPref, value);
+}
+
+Error
+Preferences::
+SetViewMusicBrowser(bool value)
+{
+    return SetPrefBoolean(kViewMusicBrowserPref, value);
+}
+
 
 LibDirFindHandle *
 Preferences::

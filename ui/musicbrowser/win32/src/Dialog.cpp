@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.44 1999/12/03 02:15:29 elrod Exp $
+        $Id: Dialog.cpp,v 1.45 1999/12/03 03:23:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -659,7 +659,7 @@ void MusicBrowserUI::SetMinMaxInfo(void)
     
 	GetWindowRect(m_hMusicCatalog, &sLoc);
 	GetWindowRect(m_hPlaylistView, &sLoc2);
-    m_iCollapseMoveAmount = sLoc2.left - sLoc.left;
+    //m_iCollapseMoveAmount = sLoc2.left - sLoc.left;
 }
 
 void MusicBrowserUI::InitDialog(HWND hWnd)
@@ -810,10 +810,21 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     {
         m_oPlm->SetActivePlaylist(kPlaylistKey_ExternalPlaylist);
         LoadPlaylist(m_currentListName.c_str());
-    }   
+    }       
     
-    if (m_pParent)
+    if(m_pParent)
         ShowWindow(m_hWnd, SW_SHOW);
+    else
+    {
+        bool viewMusicBrowser = true;
+
+        m_context->prefs->GetViewMusicBrowser(&viewMusicBrowser);
+
+        if(!viewMusicBrowser)
+        {
+            ExpandCollapseEvent();  
+        }
+    }
 }
 
 #define ID_TOOLBAR         13000

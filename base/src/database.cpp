@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.10 2000/10/17 10:24:03 ijr Exp $
+        $Id: database.cpp,v 1.11 2000/11/15 11:22:12 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -46,6 +46,7 @@ Database::Database(const char *name, int version)
     m_dbase = gdbm_open((char *)name, 0, GDBM_WRCREAT|GDBM_NOLOCK|GDBM_SYNC, 
                         S_IRWXU, NULL);
     
+    m_upgraded = false;
     assert(m_dbase);
 
     if (version >= 0) {
@@ -55,6 +56,7 @@ Database::Database(const char *name, int version)
                                 GDBM_NEWDB|GDBM_NOLOCK|GDBM_SYNC, S_IRWXU, 
                                 NULL);
             assert(m_dbase);
+            m_upgraded = true;
         }
         StoreDatabaseVersion(version);
     }
@@ -75,6 +77,11 @@ bool Database::Working(void)
     if (!m_dbase)
         return false;
     return true;
+}
+
+bool Database::IsUpgraded(void)
+{
+    return m_upgraded;
 }
 
 int Database::Insert(const char *key, const char *content)

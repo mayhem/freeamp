@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: musicbrowser.cpp,v 1.43 2000/11/13 22:49:19 robert Exp $
+    $Id: musicbrowser.cpp,v 1.44 2000/11/15 11:22:13 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -183,6 +183,20 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             {
                 LaunchBrowser(ev->URL().c_str());
             }
+            gdk_threads_leave();
+            delete dialog;
+
+            break; }
+        case INFO_DatabaseUpgraded: {
+            GTKMessageDialog *dialog = new GTKMessageDialog();
+            string message = "Due to internal changes, "the_BRANDING" has "
+                             "modified the format of the database that stores "
+                             "the My Music tree.  Unfortunately, this means "
+                             "that you need to Search For Music again to "
+                             "rebuild "the_BRANDING"'s internal catalog.";
+
+            gdk_threads_enter();
+            dialog->Show(message.c_str(), "Database Upgraded", kMessageOk); 
             gdk_threads_leave();
             delete dialog;
 

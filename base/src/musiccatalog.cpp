@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.93 2000/10/27 19:58:37 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.94 2000/11/15 11:22:12 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -50,7 +50,7 @@ using namespace std;
 #include "pmo.h"
 #include "debug.h"
 
-#define METADATABASE_VERSION 1
+#define METADATABASE_VERSION 2
 
 MusicCatalog::MusicCatalog(FAContext *context, char *databasepath)
 {
@@ -806,6 +806,8 @@ void MusicCatalog::SetDatabase(const char *path)
     }
 
     if (m_database) {
+        if (m_database->IsUpgraded())
+            m_context->target->AcceptEvent(new Event(INFO_DatabaseUpgraded));
         RePopulateFromDatabase();
         if (m_timeout == 0)
             PruneDatabase(true, true);
@@ -1513,6 +1515,11 @@ void MusicCatalog::watch_timer(void *arg)
 
 void MusicCatalog::WatchTimer(void)
 {
+    bool welcome;
+    m_context->prefs->GetPrefBoolean(kWelcomePref, &welcome);
+    if (welcome)
+        return;
+
 #ifndef DEBUG_MUTEXES
     if (!m_timerMutex->Acquire(0)) {
 #else

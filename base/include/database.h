@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.h,v 1.4 2000/05/24 17:08:33 ijr Exp $
+        $Id: database.h,v 1.5 2000/11/15 11:22:12 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -44,12 +44,15 @@ class Database
    char *NextKey(char *key);
    void  Sync(void);
 
+   bool  IsUpgraded(void);
+
  private:
    bool  TestDatabaseVersion(int version);
    void  StoreDatabaseVersion(int version);
 
    GDBM_FILE m_dbase;
    Mutex    *m_lock;
+   bool      m_upgraded;
 };
 
 #endif

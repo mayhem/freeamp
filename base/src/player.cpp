@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133 1999/08/06 08:42:14 dogcow Exp $
+        $Id: player.cpp,v 1.133.2.1 1999/08/16 18:37:17 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -842,8 +842,8 @@ CreatePMO(PlayListItem * pc, Event * pC)
    PhysicalMediaOutput *pmo = NULL;
    PhysicalMediaInput *pmi = NULL;
    LogicalMediaConverter *lmc = NULL;
-   RegistryItem *pmi_item = pc->GetPMIRegistryItem();
-   RegistryItem *lmc_item = pc->GetLMCRegistryItem();
+   RegistryItem *pmi_item = NULL;
+   RegistryItem *lmc_item = NULL;
    RegistryItem *item;
 
    if (!pc)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.34 2000/03/23 01:51:03 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.35 2000/03/23 06:18:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -81,8 +81,9 @@ typedef struct {
 
 class GTKMusicBrowser {
  public:
-    GTKMusicBrowser(FAContext *, MusicBrowserUI *masterUI,
-                    string playlistURL = string(""));
+    GTKMusicBrowser(FAContext *, MusicBrowserUI *masterUI, 
+                    string playlistURL = string(""),
+                    bool cdCreationMode = false);
     virtual ~GTKMusicBrowser();
 
     void ShowPlaylist(void);
@@ -124,6 +125,8 @@ class GTKMusicBrowser {
     bool   scheduleCDredraw;
     void   UpdateCDTree(PlaylistItem *update);
     void   RegenerateCDTree(void);
+
+    bool m_bCDMode;
 
     bool isVisible;
     void UpdatePlaylistList(void);
@@ -210,6 +213,8 @@ class GTKMusicBrowser {
 
     GtkStyle *normStyle;
     GtkStyle *boldStyle;
+    GtkStyle *redStyle;
+    GtkStyle *greenStyle;
 
     void ChangeCurrentPlayingIndex(uint32 oldindex, uint32 newindex);
 
@@ -286,7 +291,7 @@ class GTKMusicBrowser {
     void LoadPlaylist(string &oPlaylist);
     void ImportPlaylist(char *path);
 
-    void CreateNewEditor(char *playlisturl);
+    void CreateNewEditor(char *playlisturl, bool cd_mode = false);
 
     void ShowOptions(int page = 0);
     void StopMenu(void);

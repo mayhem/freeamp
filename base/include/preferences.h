@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.29 2000/03/17 01:29:32 robert Exp $
+	$Id: preferences.h,v 1.30 2000/03/23 06:18:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -85,6 +85,7 @@ extern const char* kCDDevicePathPref;
 extern const char* kCDDBServerPref;
 extern const char* kConvertUnderscoresToSpacesPref;
 extern const char* kAllowMultipleInstancesPref;
+extern const char* kAudioCDLengthPref;
 
 class LibDirFindHandle;
 
@@ -268,6 +269,9 @@ class Preferences {
 
     Error GetWAVOutDirectory(char* path, uint32* len);
     Error SetWAVOutDirectory(const char* path);
+
+    Error GetAudioCDLength(int32* value);
+    Error SetAudioCDLength(int32  value);
 };
 
 #endif /* _PREFERENCES_H */

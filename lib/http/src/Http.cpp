@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.3 2000/04/14 22:45:59 robert Exp $
+   $Id: Http.cpp,v 1.4 2000/04/19 00:55:51 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -50,6 +50,10 @@ ____________________________________________________________________________*/
 #endif  
 
 #include "Http.h"
+
+#ifndef min
+#define min(a, b)  (((a) < (b)) ? (a) : (b))
+#endif
 
 const unsigned short kHttpPort = 80;
 const unsigned int kMaxHostNameLen = 64;

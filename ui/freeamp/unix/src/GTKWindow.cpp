@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.31 2000/04/08 05:35:59 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.31.2.1 2000/05/09 09:58:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -217,6 +217,8 @@ Error GTKWindow::Run(Pos &oPos)
     gdk_threads_leave();
  
     initialized = true;
+
+    Window::Run(m_oWindowPos);
 
     quitLoop = false;
     while (!quitLoop) 

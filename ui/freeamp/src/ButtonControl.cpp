@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.9 2000/03/28 01:34:54 elrod Exp $
+   $Id: ButtonControl.cpp,v 1.9.2.1 2000/05/09 09:58:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -205,6 +205,12 @@ void ButtonControl::SetTargetWindow(string &oWindow)
 {
     m_oMutex.Acquire();
     m_oTargetWindow = oWindow;
+    m_oMutex.Release();
+}
+
+void ButtonControl::SetAdornmentWindow(string &oWindow)
+{
+    m_oMutex.Acquire();
     m_oMutex.Release();
 }
 

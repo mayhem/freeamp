@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.18 2000/03/17 23:19:13 ijr Exp $
+   $Id: Theme.h,v 1.18.2.1 2000/05/09 09:58:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -101,6 +101,7 @@ class Theme : public Parse
 
     private:
 
+      Window *FindWindow(string &oName);
       Bitmap *FindBitmap(string &oName);
       Font   *FindFont(string &oName);
       Error   ParseState(string &oStateString, ControlStateEnum &eState);

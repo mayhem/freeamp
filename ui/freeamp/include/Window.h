@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.23 2000/03/17 21:47:10 ijr Exp $
+   $Id: Window.h,v 1.23.2.1 2000/05/09 09:58:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -59,13 +59,14 @@ class Window
       virtual ~Window(void);
 
       void    GetName(string &oName);
+      void    AddAdornment(Window *pAdornment, Pos &oPos);
       Canvas *GetCanvas(void);
       void    AddControl(Control *pControl);
       void    ClearControls(void);
       void    Keystroke(unsigned char cKey);
       bool    MenuCommand(uint32 uCommand);
       void    VolumeChanged(void);
-	  void    EnableTimer(bool bEnable);
+      void    EnableTimer(bool bEnable);
 
       virtual void SetStayOnTop(bool bStay);
       virtual void SetLiveInToolbar(bool bLive);
@@ -101,12 +102,12 @@ class Window
       
       // VulcanMinkMeld is called when this window should 'become' the
       // other window. 
-	  virtual Error VulcanMindMeld(Window *pOther);
+      virtual Error VulcanMindMeld(Window *pOther);
               void  VulcanMindMeldHost(bool bIsHost);
 
       // Run handles OS dependent messages and calls the functions below
       // or passes the messages on to child controls
-      virtual Error Run(Pos &oWindowPos) = 0;
+      virtual Error Run(Pos &oWindowPos);
       virtual Error Close(void) = 0;
       virtual Error Show(void) = 0;
       virtual Error Hide(void) = 0;
@@ -117,8 +118,8 @@ class Window
       virtual Error HideMouse(bool bHide) = 0;
       virtual Error Minimize(void) = 0;
       virtual Error Restore(void) = 0;
-	  virtual bool  LButtonDown(void) = 0;
-	  virtual Error GetDesktopSize(int32 &iX, int32 &iY) = 0;
+      virtual bool  LButtonDown(void) = 0;
+      virtual Error GetDesktopSize(int32 &iX, int32 &iY) = 0;
       virtual void  BringWindowToFront(void) = 0;
       
       // Mouse position is in screen coordinates
@@ -128,7 +129,7 @@ class Window
       virtual Error GetWindowPosition(Rect &oWindowRect) = 0;
 
       // Call this function whenever the are pending GUI messages
-	  // that might cause a deadlock
+      // that might cause a deadlock
       virtual void  ProcessWaitingMessages(void) { ; };
 
       // For deadlock avaoidance
@@ -147,6 +148,8 @@ class Window
      
       string                    m_oName;
       vector<Control *>         m_oControls;
+      vector<Window *>          m_oAdornments;
+      vector<Pos>               m_oAdornmentPos;
       ControlMap                m_oControlMap;
       Canvas                   *m_pCanvas;
       bool                      m_bExit, m_bWindowMove, m_bLButtonDown;
@@ -157,11 +160,11 @@ class Window
       bool                      m_bStayOnTop, m_bLiveInToolbar;
       bool                      m_bIsVulcanMindMeldHost;
       Rect                      m_oMoveStart;
-	  int32                     m_iDesktopWidth, m_iDesktopHeight;
-	  bool                      m_bMindMeldInProgress, m_bTimerEnabled;
-	  Mutex                    *m_pUsageMutex;
-	  Semaphore                *m_pUsageSem;
-	  int32                     m_iUsageCount;
+      int32                     m_iDesktopWidth, m_iDesktopHeight;
+      bool                      m_bMindMeldInProgress, m_bTimerEnabled;
+      Mutex                    *m_pUsageMutex;
+      Semaphore                *m_pUsageSem;
+      int32                     m_iUsageCount;
 };
 
 #endif

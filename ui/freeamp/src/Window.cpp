@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.33 2000/04/06 22:36:41 ijr Exp $
+   $Id: Window.cpp,v 1.33.2.1 2000/05/09 09:58:28 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -55,9 +55,9 @@ Window::Window(Theme *pTheme, string &oName)
     m_bIsVulcanMindMeldHost = false;
     m_bMindMeldInProgress = false;
     
-	m_pUsageMutex = new Mutex();
-	m_pUsageSem = new Semaphore();
-	m_iUsageCount = 0;
+    m_pUsageMutex = new Mutex();
+    m_pUsageSem = new Semaphore();
+    m_iUsageCount = 0;
 }
 
 Window::~Window(void)
@@ -68,8 +68,8 @@ Window::~Window(void)
        ClearControls();
     }   
 
-	delete m_pUsageMutex;
-	delete m_pUsageSem;
+    delete m_pUsageMutex;
+    delete m_pUsageSem;
 }
 
 void Window::IncUsageRef(void)
@@ -127,6 +127,26 @@ void Window::UnlockUsageRef(void)
     m_pUsageMutex->Release();
 }
 
+Error Window::Run(Pos &oWindowPos)
+{
+    vector<Window *>::iterator j;
+    vector<Pos>::iterator      i;
+    Pos                        oTemp;
+    
+    IncUsageRef();
+    for(j = m_oAdornments.begin(), i = m_oAdornmentPos.begin(); 
+        j != m_oAdornments.end(); j++, i++)
+    {
+        oTemp = oWindowPos;
+        oTemp.x += i->x;
+        oTemp.y += i->y;
+        (*j)->Run(oTemp);
+    }
+    DecUsageRef();
+
+    return kError_NoErr;
+}
+
 void Window::VulcanMindMeldHost(bool bHost)
 {
     m_bIsVulcanMindMeldHost = bHost;
@@ -178,6 +198,7 @@ Error Window::VulcanMindMeld(Window *pOther)
 void Window::Init(void)
 {
     vector<Control *>::iterator i;
+    vector<Window *>::iterator j;
 
     IncUsageRef();
 
@@ -190,6 +211,9 @@ void Window::Init(void)
     }    
         
     m_pTheme->InitControls();    
+
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->Init();
     
     DecUsageRef();
 }
@@ -204,6 +228,14 @@ void Window::AddControl(Control *pControl)
     m_oControlMap.insert(pair<string, Control *>(oName, pControl));
     m_oControls.push_back(pControl);
 
+    DecUsageRef();
+}
+
+void Window::AddAdornment(Window *pAdornment, Pos &oPos)
+{
+    IncUsageRef();
+    m_oAdornments.push_back(pAdornment);
+    m_oAdornmentPos.push_back(oPos);
     DecUsageRef();
 }
 
@@ -233,7 +265,8 @@ void Window::GetName(string &oName)
 
 Error Window::ControlEnable(const string &oTarget, bool bSet, bool &bEnable)
 {
-    ControlMapIterator i;
+    ControlMapIterator         i;
+    vector<Window *>::iterator j;
 
     IncUsageRef();
        
@@ -245,6 +278,9 @@ Error Window::ControlEnable(const string &oTarget, bool bSet, bool &bEnable)
         i->second->Enable(bSet, bEnable);
     }
 
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->ControlEnable(oTarget, bSet, bEnable);
+    
     DecUsageRef();
 
     return kError_NoErr;
@@ -257,6 +293,7 @@ Error Window::ControlShow(const string &oTarget, bool bSet, bool &bShow)
     Error               eRet;
     Control            *pControl;
     ControlMapIterator  i;
+    vector<Window *>::iterator j;
 
     IncUsageRef();
 
@@ -274,8 +311,11 @@ Error Window::ControlShow(const string &oTarget, bool bSet, bool &bShow)
         oPos.x -= oRect.x1;
         oPos.y -= oRect.y1;
         if (bSet && bShow && pControl->PosInControl(oPos))
-    	    pControl->AcceptTransition(CT_MouseEnter);
+          pControl->AcceptTransition(CT_MouseEnter);
     }        
+
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->ControlShow(oTarget, bSet, bShow);
 
     DecUsageRef();
 
@@ -284,7 +324,8 @@ Error Window::ControlShow(const string &oTarget, bool bSet, bool &bShow)
 
 Error Window::ControlIntValue(const string &oTarget, bool bSet, int &iValue)
 {
-    ControlMapIterator  i;
+    ControlMapIterator         i;
+    vector<Window *>::iterator j;
 
     IncUsageRef();
        
@@ -295,6 +336,8 @@ Error Window::ControlIntValue(const string &oTarget, bool bSet, int &iValue)
     {
          i->second->IntValue(bSet, iValue);
     }        
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->ControlIntValue(oTarget, bSet, iValue);
 
     DecUsageRef();
 
@@ -303,7 +346,8 @@ Error Window::ControlIntValue(const string &oTarget, bool bSet, int &iValue)
 
 Error Window::ControlStringValue(const string &oTarget, bool bSet, string &oValue)
 {
-    ControlMapIterator  i;
+    ControlMapIterator         i;
+    vector<Window *>::iterator j;
 
     IncUsageRef();
        
@@ -315,6 +359,9 @@ Error Window::ControlStringValue(const string &oTarget, bool bSet, string &oValu
         i->second->StringValue(bSet, oValue);
     }        
 
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->ControlStringValue(oTarget, bSet, oValue);
+
     DecUsageRef();
 
     return kError_NoErr;
@@ -322,7 +369,9 @@ Error Window::ControlStringValue(const string &oTarget, bool bSet, string &oValu
 
 Error Window::ControlGetDesc(const string &oTarget, string &oDesc)
 {
-    ControlMapIterator  i;
+    ControlMapIterator         i;
+    vector<Window *>::iterator j;
+    Error                      eRet;
 
     IncUsageRef();
        
@@ -331,9 +380,19 @@ Error Window::ControlGetDesc(const string &oTarget, string &oDesc)
 
     for (i = keyRange.first; i != keyRange.second; i++)
     {
-         i->second->GetDesc(oDesc);
-         DecUsageRef();
-         return kError_NoErr;
+        i->second->GetDesc(oDesc);
+        DecUsageRef();
+        return kError_NoErr;
+    }        
+
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+    {
+        eRet = (*j)->ControlGetDesc(oTarget, oDesc);
+        if (eRet == kError_NoErr)
+        {
+            DecUsageRef();
+            return kError_NoErr;
+        }
     }        
 
     DecUsageRef();
@@ -343,7 +402,9 @@ Error Window::ControlGetDesc(const string &oTarget, string &oDesc)
 
 Error Window::ControlGetTip(const string &oTarget, string &oTip)
 {
-    ControlMapIterator  i;
+    ControlMapIterator         i;
+    vector<Window *>::iterator j;
+    Error                      eRet;
 
     IncUsageRef();
        
@@ -355,6 +416,16 @@ Error Window::ControlGetTip(const string &oTarget, string &oTip)
          i->second->GetTip(oTip);
          DecUsageRef();
          return kError_NoErr;
+    }        
+
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+    {
+        eRet = (*j)->ControlGetTip(oTarget, oTip);
+        if (eRet == kError_NoErr)
+        {
+            DecUsageRef();
+            return kError_NoErr;
+        }
     }        
 
     DecUsageRef();
@@ -380,10 +451,21 @@ Error Window::SendControlMessage(Control *pControl,
 
 bool Window::DoesControlExist(const string &oName)
 {
-    bool bRet;
+    bool                       bRet;
+    vector<Window *>::iterator j;
 
     IncUsageRef();
     bRet = m_oControlMap.find(oName) != m_oControlMap.end();
+
+    if (!bRet)
+    {
+        for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        {
+            bRet = (*j)->DoesControlExist(oName);
+            if (bRet)
+               break;
+        }
+    }
     DecUsageRef();
     
     return bRet;
@@ -392,6 +474,7 @@ bool Window::DoesControlExist(const string &oName)
 Control *Window::ControlFromPos(Pos &oPos)
 {
     vector<Control *>::iterator i;
+    vector<Window *>::iterator  j;
     bool                        bShown;
     Control                    *pControl;
 
@@ -408,6 +491,15 @@ Control *Window::ControlFromPos(Pos &oPos)
             return pControl;
         }    
     }        
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+    {
+        pControl = (*j)->ControlFromPos(oPos);
+        if (pControl)
+        {
+            DecUsageRef();
+            return pControl;
+        }
+    }
 
     DecUsageRef();
 
@@ -676,6 +768,7 @@ void Window::MouseHasEnteredWindow(void)
 // this ElvisHasLeftTheBuilding()?
 void Window::MouseHasLeftWindow(void)
 {
+    vector<Window *>::iterator j;
     IncUsageRef();
 
     string StatusControlName = string("WindowStatus");
@@ -697,12 +790,16 @@ void Window::MouseHasLeftWindow(void)
           m_pTheme->HandleControlMessage(StatusControlName, CM_WindowEnter);
        }
     }      
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->MouseHasLeftWindow();
+
     DecUsageRef();
 }
 
 void Window::TimerEvent(void)
 {
     vector<Control *>::iterator i;
+    vector<Window *>::iterator  j;
 
     if (!m_bTimerEnabled)
        return;
@@ -714,44 +811,62 @@ void Window::TimerEvent(void)
         if ((*i)->WantsTimingMessages())
             (*i)->AcceptTransition(CT_Timer);
     }  
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->TimerEvent();
     
     DecUsageRef();
 }
 
 void Window::EnableTimer(bool bEnable)
 {
+    vector<Window *>::iterator  j;
+
     IncUsageRef();
     m_bTimerEnabled = bEnable;
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->EnableTimer(bEnable);
     DecUsageRef();
 }  
 
 void Window::SetStayOnTop(bool bStay)
 {
+    vector<Window *>::iterator  j;
     IncUsageRef();
     m_bStayOnTop = bStay;
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->SetStayOnTop(bStay);
     DecUsageRef();
 }
 
 void Window::SetLiveInToolbar(bool bLive)
 {
+    vector<Window *>::iterator  j;
+
     IncUsageRef();
     m_bLiveInToolbar = bLive;
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->SetLiveInToolbar(bLive);
     DecUsageRef();
 }
 
 void Window::Keystroke(unsigned char cKey)
 {
-//    IncUsageRef();
+    vector<Window *>::iterator  j;
     m_pTheme->HandleKeystroke(cKey);
-//    DecUsageRef();
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->Keystroke(cKey);
 }
 
 bool Window::MenuCommand(uint32 uCommand)
 {
-    bool bRet;
+    bool                        bRet;
+    vector<Window *>::iterator  j;
 
     IncUsageRef();
     bRet = m_pTheme->HandleMenuCommand(uCommand);
+    for(j = m_oAdornments.begin(); !bRet && j != m_oAdornments.end(); j++)
+        bRet = (*j)->MenuCommand(uCommand);
+
     DecUsageRef();
     
     return bRet;
@@ -759,8 +874,11 @@ bool Window::MenuCommand(uint32 uCommand)
 
 void Window::VolumeChanged(void)
 {
+    vector<Window *>::iterator  j;
     IncUsageRef();
     m_pTheme->VolumeChanged();
+    for(j = m_oAdornments.begin(); j != m_oAdornments.end(); j++)
+        (*j)->VolumeChanged();
     DecUsageRef();
 }
 
@@ -768,6 +886,8 @@ void Window::GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight,
                                 Rect &oNewRect)
 {
     int  iSizeX, iSizeY;
+
+    // TODO: not update for adorments yet
  
     oNewRect = oOldRect;
     oNewRect.x2 = oNewRect.x1 + iNewWidth;

@@ -18,8 +18,10 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.5 2000/05/22 13:00:26 robert Exp $
+   $Id: Http.cpp,v 1.6 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
+
+#include "config.h"
 
 #include <stdio.h> 
 #include <sys/types.h>
@@ -39,11 +41,11 @@ ____________________________________________________________________________*/
 #include <unistd.h>
 #endif
 
-#if defined(unix) || defined(__BEOS__)
+#if defined(unix) || defined(__BEOS__) || defined(_BSD_SOURCE)
 #define SOCKET int
 #endif
 
-#if defined(unix)
+#if defined(unix) || defined(_BSD_SOURCE)
 #include <arpa/inet.h>
 #define closesocket(x) close(x)
 #define O_BINARY 0

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-       $Id: ttfont.cpp,v 1.5 2000/05/20 12:32:00 ijr Exp $
+       $Id: ttfont.cpp,v 1.6 2000/05/25 18:21:24 ijr Exp $
  ____________________________________________________________________________*/ 
 
 /*
@@ -156,7 +156,7 @@ calc_size(Efont * f, int *width, int *height, char *text)
 }
 
 static void
-render_text(TT_Raster_Map * rmap, TT_Raster_Map * rchr, Efont * f, char *text,
+render_text(TT_Raster_Map *rmap, TT_Raster_Map *rchr, Efont *f, char *text,
 	    int *xor, int *yor)
 {
    TT_Glyph_Metrics    metrics;

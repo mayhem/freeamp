@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: isbt.c,v 1.4 2000/05/24 17:08:33 ijr Exp $
+	$Id: isbt.c,v 1.5 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  isbt.c  ***************************************************
@@ -95,8 +95,8 @@ static float wincoef[264] =
 /* extern windows because of asm */
 static signed int vb_ptr;
 
-// static WININT vbuf[512];
-//static WININT vbuf2[512];
+/* static WININT vbuf[512];
+   static WININT vbuf2[512]; */
 extern WININT vbuf[512];
 extern WININT vbuf2[512];
 

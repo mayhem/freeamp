@@ -18,17 +18,18 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pthreadthread.h,v 1.3 2000/05/24 11:28:46 ijr Exp $
+	$Id: pthreadthread.h,v 1.4 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PTHREAD_THREAD_H
 #define INCLUDED_PTHREAD_THREAD_H
+#include "config.h"
 
 #include <pthread.h>
 #include "thread.h"
 
 #include "mutex.h"
-
+#include "semaphore.h"
 
 class pthreadThread : public Thread{
 
@@ -57,6 +58,7 @@ private:
 	Mutex          *m_suspendMutex;
 	thread_function m_function;
 	void           *m_arg;
+	Semaphore       m_semaphore;
 };
 
 #endif /* _LINUX_THREAD_H */

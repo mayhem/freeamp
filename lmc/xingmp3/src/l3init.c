@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: l3init.c,v 1.3 2000/05/24 17:08:33 ijr Exp $
+	$Id: l3init.c,v 1.4 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  tinit.c  ***************************************************
@@ -131,7 +131,7 @@ int L3table_init(void)
    }
 
 /*-------------------------*/
-// quant_init_sf_band(sr_index);   replaced by code in sup.c
+/* quant_init_sf_band(sr_index);   replaced by code in sup.c */
 
 
 /*================ antialias ===============================*/

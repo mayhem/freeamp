@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: wcvt.c,v 1.2 1999/10/19 07:13:09 elrod Exp $
+	$Id: wcvt.c,v 1.3 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
 
 /*---- wcvt.c --------------------------------------------
@@ -71,7 +71,7 @@ unsigned int cvt_to_wave(unsigned char *pcm, unsigned int bytes_in)
    short tmp;
    unsigned short *w;
 
-// printf("\n wave convert");
+/* printf("\n wave convert"); */
 
    if (cvt_flag == 0)
       return bytes_in;

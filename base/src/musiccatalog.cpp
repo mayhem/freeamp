@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.59 2000/05/24 14:31:40 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.60 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -84,7 +84,9 @@ void MusicCatalog::StartTimer(void)
 MusicCatalog::~MusicCatalog()
 {
     ClearCatalog();
+    StopSearchMusic();
 
+    m_mutex->Acquire();
     m_catMutex->Acquire();
 
     if(m_watchTimer)

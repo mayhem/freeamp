@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dec8.c,v 1.4 2000/05/24 17:08:33 ijr Exp $
+	$Id: dec8.c,v 1.5 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  dec8.c  ***************************************************
@@ -278,7 +278,7 @@ int audio_decode8_init(MPEG_HEAD * h, int framebytes_arg,
    }
 
    if ((h->sync & 1) == 0)
-      return 0;			// fail mpeg 2.5
+      return 0;			/* fail mpeg 2.5 */
 
    output_code = convert_code >> 2;
    if (output_code < 1)

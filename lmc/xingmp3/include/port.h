@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: port.h,v 1.2 1999/10/19 07:13:08 elrod Exp $
+	$Id: port.h,v 1.3 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef O_BINARY
@@ -79,15 +79,16 @@ static int getch()
 #endif
 
 
-// JDW //
-//#ifdef LITTLE_SHORT16
-//#define cvt_to_wave_init(a)
-//#define cvt_to_wave(a, b)  b
-//#else
-//void cvt_to_wave_init(int bits);
-//unsigned int cvt_to_wave(void *a, unsigned int b);
-//
-//#endif
+/* JDW 
+#ifdef LITTLE_SHORT16
+#define cvt_to_wave_init(a)
+#define cvt_to_wave(a, b)  b
+#else
+void cvt_to_wave_init(int bits);
+unsigned int cvt_to_wave(void *a, unsigned int b);
+
+#endif
+*/
 #ifdef LITTLE_SHORT16
 #define cvt_to_wave_init(a)
 #define cvt_to_wave(a, b) b

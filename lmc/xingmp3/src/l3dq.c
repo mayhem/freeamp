@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: l3dq.c,v 1.7 2000/05/24 17:08:33 ijr Exp $
+	$Id: l3dq.c,v 1.8 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  quant.c  ***************************************************
@@ -192,7 +192,7 @@ void dequant(SAMPLE Sample[], int *nsamp,
    }
 
    cb_info->cbmax = cbmax[0];
-   cb_info->cbtype = 0;		// type = long
+   cb_info->cbtype = 0;		/* type = long */
 
    if (cbs0 >= 12)
       return;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pthreadthread.cpp,v 1.5 2000/05/24 14:31:40 ijr Exp $
+	$Id: pthreadthread.cpp,v 1.6 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -67,9 +67,10 @@ void *
 pthreadThread::
 InternalThreadFunction()
 {
+    m_semaphore.Wait();
+
     if (m_function) 
         m_function(m_arg);
-
     return NULL;
 }
 
@@ -85,8 +86,11 @@ Create(thread_function function, void* arg, bool detach)
     {
 	result = false;
     }
-    if (detach) 
+    if (detach && result) {
         pthread_detach(m_threadHandle);
+    }
+
+    m_semaphore.Signal();
 
     return result;
 }

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.202 2000/05/24 17:08:33 ijr Exp $
+        $Id: player.cpp,v 1.203 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -2090,7 +2090,7 @@ void Player::CDTimer()
     if(IsError(pmo->Init(NULL))) 
     {
         CDInfoEvent *cie = new CDInfoEvent(0, 0, "");
-        m_context->player->AcceptEvent(cie);
+        AcceptEvent(cie);
     }
 
     delete pmo;

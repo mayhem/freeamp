@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: timer.cpp,v 1.10 2000/05/24 11:28:46 ijr Exp $
+	$Id: timer.cpp,v 1.11 2000/05/25 18:21:24 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -170,7 +170,6 @@ void TimerManager::timer_function(void* arg)
 
     t->function(t->userValue);
 
-    //t->thread->Join();
     delete t->thread;
     delete t;
 }

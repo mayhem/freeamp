@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.7 1999/11/10 02:43:26 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.8 1999/11/13 01:48:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -52,6 +52,9 @@ Error MusicBrowserUI::Init(int32 startup_level)
         cout << "The musicbrowser cannot run as the primary ui\n"; 
         return kError_InitFailedSafely;
     }
+
+    if (!getenv("DISPLAY"))
+        return kError_InitFailedSafely;
 
     m_playerEQ = m_context->target;
 

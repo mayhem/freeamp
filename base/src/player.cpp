@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.151 1999/11/13 01:21:45 ijr Exp $
+        $Id: player.cpp,v 1.152 1999/11/13 01:48:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -598,7 +598,7 @@ Run()
       name = new char[len];
 
 #ifdef unix
-      if (!getenv("DISPLAY"))
+      if (!getenv("DISPLAY")) 
 	  pref = kTextUIPref;
 #endif
       while ((error = m_context->prefs->GetPrefString(pref, name, &len)) ==

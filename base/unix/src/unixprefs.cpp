@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.18 1999/11/10 06:40:15 ijr Exp $
+        $Id: unixprefs.cpp,v 1.19 1999/11/13 01:48:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -447,7 +447,6 @@ UnixPrefs()
                 if (!entry->value && !m_errorLineNumber)
                     m_errorLineNumber = lineNumber;
                 p = end;
-                
                 length = strlen(p);
                 if (p[length - 1] != '\n')
                 {

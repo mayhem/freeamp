@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.5 1999/11/08 02:22:48 ijr Exp $
+        $Id: downloadui.cpp,v 1.6 1999/11/13 01:48:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -58,6 +58,9 @@ Error DownloadUI::Init(int32 startup_level)
         cout << "The Download Manager cannot run as the primary ui\n"; 
         return kError_InitFailedSafely;
     }
+
+    if (!getenv("DISPLAY"))
+        return kError_InitFailedSafely;
 
     gtkThread = Thread::CreateThread();
     gtkThread->Create(DownloadUI::UIThreadFunc, this);

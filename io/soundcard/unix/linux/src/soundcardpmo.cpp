@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.42 2000/06/22 19:05:16 elrod Exp $
+        $Id: soundcardpmo.cpp,v 1.43 2000/06/30 06:29:34 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -502,7 +502,7 @@ void SoundCardPMO::WorkerThread(void)
       }
 
       iRet = write(audio_fd, pBuffer, m_iDataSize);
-      if (iRet < 0)
+      if ((int)iRet < 0)
       {
          m_pInputBuffer->EndRead(0);
          ReportError("Could not write sound data to the soundcard.");

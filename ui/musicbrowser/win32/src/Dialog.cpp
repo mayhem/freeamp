@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.101 2001/01/04 06:40:18 ijr Exp $
+        $Id: Dialog.cpp,v 1.102 2001/01/05 17:18:56 skx Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -545,6 +545,7 @@ void MusicBrowserUI::ShowBrowser(bool bShowExpanded)
 	ShowWindow(m_hWnd, SW_SHOW);
     SetForegroundWindow(m_hWnd);
     PostMessage(m_hWnd, UWM_EMPTYDBCHECK, 0, 0);
+	isVisible = true;
 }
 
 void MusicBrowserUI::HideBrowser()

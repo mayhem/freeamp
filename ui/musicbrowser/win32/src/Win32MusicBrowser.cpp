@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.76 2000/11/15 11:22:13 ijr Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.77 2001/01/05 17:18:57 skx Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -219,6 +219,19 @@ void MusicBrowserUI::Init()
 
     m_sigsExist = false;
     m_sigsStart = true;
+
+	//
+	//  Get the starting values of the columns.
+	unsigned int size = 100;
+    char *buffer = (char *)malloc( size );
+    if(kError_BufferTooSmall == m_context->prefs->GetPrefString(kPlaylistHeaderColumnsPref, buffer, &size))
+    {
+		int bufferSize = size;
+        buffer = (char*)realloc(buffer, bufferSize);
+        m_context->prefs->GetPrefString(kPlaylistHeaderColumnsPref, buffer, &size);
+	} 
+	m_columnCache = buffer;
+	free(buffer);
 
     short pattern[8];
     HBITMAP bmp;
@@ -464,12 +477,6 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             }
 
             //
-            //  Remove all the columns in the playlist.
-            RemoveAllColumns( );
-            // First column is always inserted.
-            InsertColumn( "#", 0 );
-
-            //
             //  Insert the columns that are specified by the user.
             unsigned int size = 100;
             char *buffer = (char *)malloc( size );
@@ -479,6 +486,21 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 buffer = (char*)realloc(buffer, bufferSize);
                 m_context->prefs->GetPrefString(kPlaylistHeaderColumnsPref, buffer, &size);
             } 
+
+			//
+			// Only recreate the header columns if they've changed.
+			if ( strcmp( m_columnCache.c_str(), buffer ) == 0 )
+				break;
+
+			// Save new columns.
+			m_columnCache = buffer;
+
+            //
+            //  Remove all the columns in the playlist.
+            RemoveAllColumns( );
+            // First column is always inserted.
+            InsertColumn( "#", 0 );
+
 
             int columnN = 1;
             char *token = strtok( buffer, "|" );
@@ -865,8 +887,11 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
 
         case CMD_ToggleMusicBrowserUI: 
         {
-            ShowBrowser(true);
-            break; 
+			if ( isVisible )
+			    HideBrowser();
+            else
+                ShowBrowser(true);
+			break; 
         }
 
         case INFO_PlaylistRepeat:

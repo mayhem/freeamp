@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.89 2000/10/05 12:29:30 ijr Exp $
+        $Id: Win32MusicBrowser.h,v 1.90 2001/01/05 17:18:56 skx Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -426,6 +426,8 @@ class MusicBrowserUI : public UserInterface
     bool                m_sigsStart;
 
     ColumnInfo          m_columnInfo;
+    // cached.
+    string              m_columnCache;
 };
 
 #endif

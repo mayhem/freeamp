@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.52 2000/01/17 04:27:01 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.53 2000/01/18 20:40:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1061,7 +1061,7 @@ void GTKMusicBrowser::UpdateCatalog(void)
         triedUpdate = true;
         if (oBox.Show(oMessage.c_str(), "MusicBrowser", kMessageYesNo)
             == kMessageReturnYes)
-            StartMusicSearch(false); 
+            StartMusicSearch(false);
         m_musicCatalog->ReleaseCatalogLock();
         return;
     }
@@ -2479,11 +2479,14 @@ void GTKMusicBrowser::ShowPlaylist(void)
 
 void GTKMusicBrowser::ShowMusicBrowser(void)
 {
+    bool first_time = false;
+    
     gdk_threads_enter();
     isVisible = true;
     if (m_initialized)
         gtk_widget_show(musicBrowser);
     else {
+        first_time = true;
         CreatePlaylist();
         m_initialized = true;
     }
@@ -2497,9 +2500,13 @@ void GTKMusicBrowser::ShowMusicBrowser(void)
          m_context->prefs->GetViewMusicBrowser(&viewMusicBrowser);
          
          if (viewMusicBrowser && m_state == kStateCollapsed)
-             ExpandCollapseEvent();
+	     ExpandCollapseEvent();
          else if (!viewMusicBrowser && m_state == kStateExpanded) 
              ExpandCollapseEvent();
+	 else if (m_state == kStateCollapsed && first_time) {
+	     m_state = kStateExpanded;
+	     ExpandCollapseEvent();
+	 }
     }
 
     SetToolbarType();

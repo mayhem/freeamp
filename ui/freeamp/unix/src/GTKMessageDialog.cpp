@@ -2,7 +2,7 @@
 
    FreeAmp - The Free MP3 Player
 
-   Copyright (C) 1999 EMusic
+   Copyright (C) 1999-2000 EMusic
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKMessageDialog.cpp,v 1.7 2000/01/16 20:07:42 ijr Exp $
+   $Id: GTKMessageDialog.cpp,v 1.8 2000/01/18 20:40:39 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <gtk/gtk.h>

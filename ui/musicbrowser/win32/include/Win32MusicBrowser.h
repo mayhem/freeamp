@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.4 1999/10/25 06:25:08 robert Exp $
+        $Id: Win32MusicBrowser.h,v 1.5 1999/10/25 09:58:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -110,6 +110,8 @@ class MusicBrowserUI : public UserInterface
     
     void  AddMusicBrowserWindow(MusicBrowserUI *pWindow);
     void  RemoveMusicBrowserWindow(MusicBrowserUI *pWindow);
+
+    BOOL  DrawItem(int32 controlId, DRAWITEMSTRUCT* dis);
  
  protected:
     FAContext *m_context;
@@ -155,6 +157,8 @@ class MusicBrowserUI : public UserInterface
     Error CloseMainDialog(void);
 
     void  BeginDrag(NM_TREEVIEW *pTreeView);
+
+    uint32 CalcStringEllipsis(HDC hdc, string& displayString, int32 columnWidth);
 
 
     EventQueue          *m_playerEQ;

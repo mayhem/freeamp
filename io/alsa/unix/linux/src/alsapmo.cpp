@@ -24,7 +24,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.29 2000/06/22 15:13:35 elrod Exp $
+        $Id: alsapmo.cpp,v 1.30 2000/06/23 07:21:15 ijr Exp $
 
 ____________________________________________________________________________*/
 
@@ -180,7 +180,7 @@ AlsaPMO::~AlsaPMO()
 }
 
 
-void AlsaPMO::SetPrefInt32(kVolumePref, int32 left, int32 right)
+void AlsaPMO::SetVolume(int32 left, int32 right)
 {
    int   err;
    snd_mixer_t *pMixer;
@@ -216,7 +216,7 @@ void AlsaPMO::SetPrefInt32(kVolumePref, int32 left, int32 right)
    snd_mixer_close(pMixer);
 } 
 
-void AlsaPMO::GetPrefInt32(kVolumePref, int32 &left, int32 &right)
+void AlsaPMO::GetVolume(int32 &left, int32 &right)
 {
    int   err;
    snd_mixer_t *pMixer = NULL;

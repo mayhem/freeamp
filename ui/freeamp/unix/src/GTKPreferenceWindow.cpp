@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.43 2000/06/22 15:27:18 elrod Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.44 2000/06/23 07:21:15 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1331,7 +1331,7 @@ GtkWidget *GTKPreferenceWindow::CreatePlugins(void)
     return pane;
 }
 
-void GTKPreferenceWindow::SetPrefInt32(kInputBufferSizePref, int newvalue)
+void GTKPreferenceWindow::SetInputBufferSize(int newvalue)
 {
     proposedValues.inputBufferSize = newvalue;
     gtk_widget_set_sensitive(applyButton, TRUE);
@@ -1341,10 +1341,10 @@ static void input_buffer_change(GtkWidget *w, GTKPreferenceWindow *p)
 {
     char *text = gtk_entry_get_text(GTK_ENTRY(w));
     int newdata = atoi(text);
-    p->SetPrefInt32(kInputBufferSizePref, newdata);
+    p->SetInputBufferSize(newdata);
 }
 
-void GTKPreferenceWindow::SetPrefInt32(kOutputBufferSizePref, int newvalue)
+void GTKPreferenceWindow::SetOutputBufferSize(int newvalue)
 {
     proposedValues.outputBufferSize = newvalue;
     gtk_widget_set_sensitive(applyButton, TRUE);
@@ -1354,7 +1354,7 @@ static void output_buffer_change(GtkWidget *w, GTKPreferenceWindow *p)
 {
     char *text = gtk_entry_get_text(GTK_ENTRY(w));
     int newdata = atoi(text);
-    p->SetPrefInt32(kOutputBufferSizePref, newdata);
+    p->SetOutputBufferSize(newdata);
 }
 
 void GTKPreferenceWindow::SetPreBufferLength(int newvalue)

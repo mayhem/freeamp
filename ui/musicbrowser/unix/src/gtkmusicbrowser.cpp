@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.94 2000/06/22 15:13:36 elrod Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.95 2000/06/23 07:21:15 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1239,7 +1239,8 @@ GTKMusicBrowser::GTKMusicBrowser(FAContext *context, MusicBrowserUI *masterUI,
         if (saveOnExit) {
             LoadPlaylist(playlistURL);
             uint32 pos = 0; 
-            m_context->prefs->GetPrefInt32(kSavedPlaylistPositionPref, &pos);
+            m_context->prefs->GetPrefInt32(kSavedPlaylistPositionPref, 
+                                           (int32 *)&pos);
 
             m_plm->SetCurrentIndex(pos);   
         }

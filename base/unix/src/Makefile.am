@@ -18,12 +18,29 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.2 1998/10/18 04:38:47 jdw Exp $
+##      $Id: Makefile.am,v 1.1 1998/10/18 04:38:47 jdw Exp $
 ##
 ############################################################################
 
-SUBDIRS = linux src
+include @top_srcdir@/config/Makefile.header
 
+if AM_HAVE_WIN32
+FILES = 
+MYLIBS = 
+else
+FILES = preferences.cpp bootstrap.cpp win32impl.cpp
+MYLIBS = libfaunix.a
+endif
+
+if AM_HAVE_LINUXTHREADS
+REENT = -D_REENTRANT
+endif
+
+noinst_LIBRARIES = $(MYLIBS)
+libfaunix_a_SOURCES = $(FILES)
+
+INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@top_srcdir@/base/unix/@target_os@/include -I@top_srcdir@/ui/dummy/include -I@top_srcdir@/lmc/include
+CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT) -D__@target_os@__
 
 
 

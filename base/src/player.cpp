@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.19 1998/10/17 20:58:10 jdw Exp $
+	$Id: player.cpp,v 1.20 1998/10/18 04:38:47 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -381,9 +381,9 @@ int32 Player::ServiceEvent(Event *pC) {
 		    //cout << "released lock" << endl;
 		    delete e;
 		    
-		    e = new Event(CMD_QuitPlayer);
-	            Player::GetPlayer()->AcceptEvent(e);
-		    delete e;
+		    //e = new Event(CMD_QuitPlayer);
+	            //Player::GetPlayer()->AcceptEvent(e);
+		    //delete e;
 		    
 		}
 		return 0;

@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.9 1998/10/16 23:33:56 jdw Exp $
+##      $Id: Makefile.am,v 1.10 1998/10/18 04:38:46 jdw Exp $
 ##
 ############################################################################
 
@@ -31,6 +31,7 @@ PRG =
 else
 PRG = freeamp
 ALLLDADD = @top_srcdir@/base/unix/@target_os@/src/*.o \
+          @top_srcdir@/base/unix/src/*.o \
 ##	  @top_srcdir@/io/local/*.o \
 ##	  @top_srcdir@/ui/cmdline/*.o \
 ##	  @top_srcdir@/lmc/xingmp3/src/*.o \
@@ -43,6 +44,7 @@ FALDADD = @top_srcdir@/base/src/*.o $(ALLLDADD)
 DSLDADD = @top_srcdir@/base/src/player.o @top_srcdir@/base/src/playlist.o @top_srcdir@/base/src/command.o @top_srcdir@/base/src/thread.o $(ALLLDADD)
 MYDEPS = @top_srcdir@/base/unix/@target_os@/src/libfasys.a \
          @top_srcdir@/base/src/libfabase.a \
+	 @top_srcdir@/base/unix/src/libfaunix.a \
 ##         @top_srcdir@/io/local/libfaiolocal.a \
 ##         @top_srcdir@/ui/cmdline/libfauicmdline.a \
 ##         @top_srcdir@/lmc/xingmp3/src/libfalmcxingmp3.a \

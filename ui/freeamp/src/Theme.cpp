@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.17 1999/12/13 19:58:09 robert Exp $
+   $Id: Theme.cpp,v 1.18 1999/12/14 18:41:21 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -57,7 +57,7 @@ ____________________________________________________________________________*/
 
 #ifdef WIN32
 #include <direct.h>
-#define stat(a,b) _stat(a,b)
+//#define stat(a,b) _stat(a,b)
 #define rmdir(a) _rmdir(a)
 #define MKDIR(z) mkdir(z)
 #else
@@ -454,19 +454,27 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            m_oLastError = string("the <Font> tag needs a Name attribute");
            return kError_ParseError;
        }        
-	   if (oAttrMap.find("Face") == oAttrMap.end())
+	   if (oAttrMap.find("Face") == oAttrMap.end() &&
+	       oAttrMap.find("File") == oAttrMap.end())
        {
-           m_oLastError = string("the <Font> tag needs a Face attribute");
+           m_oLastError = string("the <Font> tag needs a Face or File attribute");
            return kError_ParseError;
        }        
 
+	   if (oAttrMap.find("File") != oAttrMap.end())
+           oCompleteFile = m_oThemePath + oAttrMap["File"];
+       else
+           oCompleteFile = "";    
+
 #ifdef WIN32
-       pFont = new Win32Font(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
+       pFont = new Win32Font(oAttrMap["Name"], oAttrMap["Face"], 
+                             oCompleteFile, m_oDefaultFont);
 #elif defined (HAVE_GTK)
        pFont = new GTKFont(m_pContext, oAttrMap["Name"], oAttrMap["Face"], 
-                           m_oDefaultFont);
+                           oCompleteFile, m_oDefaultFont);
 #elif defined (__BEOS__)
-       pFont = new BeOSFont(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
+       pFont = new BeOSFont(oAttrMap["Name"], oAttrMap["Face"], 
+                           oCompleteFile, m_oDefaultFont);
 #endif
        if (!m_pParsedFonts)
            m_pParsedFonts = new vector<Font *>;

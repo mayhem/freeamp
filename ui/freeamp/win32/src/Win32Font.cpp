@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Font.cpp,v 1.2 1999/10/19 07:13:26 elrod Exp $
+   $Id: Win32Font.cpp,v 1.3 1999/12/14 18:41:23 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "Win32Font.h"
@@ -34,12 +34,16 @@ int CALLBACK IHateMicrosoft(ENUMLOGFONTEX *lpelfe,
    return pFont->Callback((unsigned char *)lpelfe->elfFullName);
 }                               
 
-Win32Font::Win32Font(string &oName, string &oFace, string &oDefault) :
-                Font(oName, oFace, oDefault)
+Win32Font::Win32Font(string &oName, string &oFace, 
+                     string &oFile, string &oDefault) :
+                Font(oName, oFace, oFile, oDefault)
 {
    HDC     hRootDC, hMemDC;
    LOGFONT sFont;
    char   *szDup, *szToken;
+
+   if (oFile.length() > 0)
+      AddFontResource(oFile.c_str());
    
    hRootDC = GetDC(NULL);
    hMemDC = CreateCompatibleDC(hRootDC);
@@ -74,7 +78,8 @@ Win32Font::Win32Font(string &oName, string &oFace, string &oDefault) :
 
 Win32Font::~Win32Font(void)
 {
-
+   if (m_oFile.length() > 0)
+      RemoveFontResource(m_oFile.c_str());
 }
 
 Win32Font::Callback(unsigned char *szFontFace)

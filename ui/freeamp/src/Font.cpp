@@ -18,15 +18,16 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Font.cpp,v 1.2 1999/10/19 07:13:17 elrod Exp $
+   $Id: Font.cpp,v 1.3 1999/12/14 18:41:18 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "Font.h"
 
-Font::Font(string &oName, string &oFace, string &oDefault)
+Font::Font(string &oName, string &oFace, string &oFile, string &oDefault)
 {
    m_oName = oName;
    m_oFace = oFace;
+   m_oFile = oFile;
    m_oDefault = oDefault;
 }
 

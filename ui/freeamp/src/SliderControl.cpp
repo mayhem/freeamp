@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.3 1999/12/14 17:01:12 robert Exp $
+   $Id: SliderControl.cpp,v 1.4 1999/12/14 18:41:19 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -94,10 +94,7 @@ void SliderControl::Transition(ControlTransitionEnum  eTrans,
 
 
            if (m_iValue < 0 || m_iValue > 100)
-           {
-              Debug_v("--- Illegal seek pos: %d", m_iValue);
               return;
-           }   
 
            iNewPos = (m_iValue * m_iRange) / 100;
            if (iNewPos == m_iCurrentPos)

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.8 1998/11/03 00:05:21 jdw Exp $
+	$Id: soundcardpmo.h,v 1.9 1999/01/24 01:37:17 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -34,6 +34,7 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "pmo.h"
 #include "mutex.h"
+#include "properties.h"
 
 #define BIT_SELECT  0x1f
 #define SLEEPTIME   256
@@ -52,12 +53,13 @@ public:
     virtual Error Write(int32&,void*,int32);
     virtual Error Pause();
     virtual Error Resume();
-    
+    virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
     
  private:
 	WAVEHDR* NextHeader();
 
 private:
+	Properties *    m_propManager;
 	WAVEFORMATEX*	m_wfex;
 	LPWAVEHDR*		m_wavehdr_array;
 	HWAVEOUT		m_hwo;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.9 1999/01/20 02:44:46 jdw Exp $
+	$Id: freeampui.h,v 1.10 1999/01/24 01:37:17 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -37,6 +37,7 @@ ____________________________________________________________________________*/
 #include "queue.h"
 #include "playlist.h"
 #include "errors.h"
+#include "properties.h"
 
 enum { STATE_Stopped = 1, STATE_Playing, STATE_Paused };
 
@@ -50,6 +51,9 @@ class FreeAmpUI : public UserInterface {
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int32,char **);
 	virtual void SetPlayListManager(PlayListManager *);
+
+    virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
+
 
     void CreateUI();
 
@@ -74,6 +78,7 @@ class FreeAmpUI : public UserInterface {
 
 
  private:
+	 Properties *   m_propManager;
     int32			m_totalSeconds;
     
     Thread*         m_uiThread;

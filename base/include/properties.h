@@ -18,12 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: properties.h,v 1.2 1999/01/23 05:01:06 jdw Exp $
+	$Id: properties.h,v 1.3 1999/01/24 01:37:15 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PROPERTIES_H_
 #define _PROPERTIES_H_
 
+#include <string.h>
 #include "config.h"
 #include "errors.h"
 

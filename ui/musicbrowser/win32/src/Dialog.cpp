@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.35 1999/11/19 09:11:07 elrod Exp $
+        $Id: Dialog.cpp,v 1.36 1999/11/19 09:19:13 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -491,7 +491,7 @@ void MusicBrowserUI::ExpandCollapseEvent(void)
     {                
        m_state = STATE_COLLAPSED;
        SetWindowText(m_hWnd, "Playlist - " BRANDING);
-       sItem.dwTypeData = "View &Music Browser";
+       sItem.dwTypeData = "View &My Music";
 
        ShowWindow(m_hMusicCatalog, SW_HIDE);
        ShowWindow(m_hMusicCatalogTitle, SW_HIDE);

@@ -18,13 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.1.2.10 1999/09/29 00:38:24 robert Exp $
+   $Id: TextControl.cpp,v 1.1.2.11 1999/09/29 09:02:59 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "TextControl.h"
 #include "Window.h"
-#include "Debug.h"
+#include "debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 

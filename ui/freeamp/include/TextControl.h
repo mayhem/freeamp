@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.h,v 1.1.2.9 1999/09/28 22:59:31 robert Exp $
+   $Id: TextControl.h,v 1.1.2.10 1999/09/29 09:02:55 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TEXTCONTROL_H__
@@ -26,7 +26,7 @@ ____________________________________________________________________________*/
 
 #include "Control.h"
 #include "Canvas.h"
-#include "font.h"
+#include "Font.h"
 
 
 class TextControl : public Control

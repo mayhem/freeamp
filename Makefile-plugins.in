@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.11 1999/09/27 19:20:35 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.12 1999/09/29 09:02:54 robert Exp $
 
 RELOC = @FPIC@
 
@@ -121,7 +121,7 @@ THEMEUIOBJ = ui/theme/src/Theme.o ui/theme/src/Bitmap.o \
              ui/theme/src/Canvas.o ui/theme/src/SliderControl.o \
              ui/theme/src/Window.o ui/theme/src/ButtonControl.o \
              ui/theme/src/Control.o ui/theme/src/TextControl.o \
-             ui/theme/src/DialControl.o ui/theme/src/font.o \
+             ui/theme/src/DialControl.o ui/theme/src/Font.o \
              ui/theme/unix/src/GTKMessageDialog.o \
              ui/theme/unix/src/GTKWindow.o ui/theme/unix/src/GTKBitmap.o \
              ui/theme/unix/src/GTKCanvas.o ui/theme/unix/src/GTKUtility.o \

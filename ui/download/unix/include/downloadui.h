@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.10 2000/03/13 21:26:00 ijr Exp $
+	$Id: downloadui.h,v 1.11 2000/05/20 12:32:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -49,7 +49,6 @@ class DownloadUI : public UserInterface {
     virtual Error Init(int32 startup_type);
     virtual Error AcceptEvent(Event*);
  
-    void GTKEventService(void);
     void ToggleVisEvent(void);
     void UpdateDownloadList(void);
     void CancelEvent(void);
@@ -58,26 +57,18 @@ class DownloadUI : public UserInterface {
     void SelChangeEvent(int row);
     void ShowHelp(void);
     void CloseWindow(void);
-    void SetRunning(void);
-
-    bool doQuitNow;
-
  protected:
 
     void ParseArgs(int32 argc, char** argv);
-
-    static void UIThreadFunc(void *);
 
  private:
     FAContext*	        m_context;
     PlaylistManager*    m_plm;
     Preferences*        m_prefs;
     Properties*         m_propManager;
-    Thread*             gtkThread;
     EventQueue*         m_target;
     DownloadManager*    m_dlm;
 
-    bool weAreGTK;
     bool m_initialized;
     bool isVisible;
    

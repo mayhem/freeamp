@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-       $Id: ttfont.cpp,v 1.4 2000/02/16 02:20:47 ijr Exp $
+       $Id: ttfont.cpp,v 1.5 2000/05/20 12:32:00 ijr Exp $
  ____________________________________________________________________________*/ 
 
 /*
@@ -643,7 +643,7 @@ Efont_load(char *file, int size)
         ttfLock.Release();
 	return NULL;
      }
-   f->num_glyph = 128;
+   f->num_glyph = f->properties.num_Glyphs;
    f->glyphs = (TT_Glyph *) malloc(f->num_glyph * sizeof(TT_Glyph));
    memset(f->glyphs, 0, f->num_glyph * sizeof(TT_Glyph));
    f->glyphs_cached = 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pthreadthread.cpp,v 1.2 2000/05/06 12:05:49 ijr Exp $
+	$Id: pthreadthread.cpp,v 1.3 2000/05/20 12:32:00 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -68,15 +68,10 @@ void *
 pthreadThread::
 InternalThreadFunction()
 {
-    if (!m_function) {
-//	cout << "screwwwwwwwwwwwed..." << endl;
-	return 0;
-    } else {
-//	cout << "fine..." << endl;
-    }
-    m_function(m_arg);
+    if (m_function) 
+        m_function(m_arg);
 
-    return 0;
+    return NULL;
 }
 
 bool 

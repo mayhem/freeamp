@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.82 2000/05/10 18:11:25 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.83 2000/05/20 12:32:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1149,7 +1149,7 @@ void GTKMusicBrowser::ShowMusicBrowser(void)
 	 else if (m_state == kStateCollapsed && first_time) {
 	     m_state = kStateExpanded;
 	     ExpandCollapseEvent();
-	 }
+         }
     }
 
     SetToolbarType();
@@ -1204,9 +1204,9 @@ void GTKMusicBrowser::Close(bool inMain)
         }
         if (!master && inMain)
             parentUI->WindowClose(this);
-
+        
         if (master)
-            m_context->prefs->SetViewMusicBrowser(m_state == kStateExpanded); 
+            m_context->prefs->SetViewMusicBrowser(m_state == kStateExpanded);
     }
 
     gdk_threads_leave();

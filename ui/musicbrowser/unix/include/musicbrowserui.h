@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowserui.h,v 1.13 2000/03/30 20:23:23 ijr Exp $
+        $Id: musicbrowserui.h,v 1.14 2000/05/20 12:32:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSERUI_H_
@@ -42,7 +42,6 @@ class MusicBrowserUI : public UserInterface {
     MusicBrowserUI(FAContext *);
     virtual Error AcceptEvent(Event *);
     virtual Error Init(int32);
-    static void gtkServiceFunction(void *);
     virtual ~MusicBrowserUI();
  
     EventQueue *m_playerEQ;
@@ -51,31 +50,20 @@ class MusicBrowserUI : public UserInterface {
     void WindowClose(GTKMusicBrowser *oldUI);
 
     void StartSearch(bool runMain = true, bool intro = false);
-    void SetRunning(void);
   
     void SearchClose(void);
     void WizardClose(void);
-
-    bool doQuitNow;
 
  protected:
     FAContext *m_context;
 
  private:
     bool isVisible;
-    bool weAreGTK;
 
     Properties *m_propManager;
     int32 m_startupType;
 
     bool m_initialized;
-
-    void GTKEventService(void);
-
-    int32 m_argc;
-    char **m_argv;
-
-    Thread *gtkThread;
 
     GTKMusicBrowser *mainBrowser;
     vector<GTKMusicBrowser *> browserWindows;

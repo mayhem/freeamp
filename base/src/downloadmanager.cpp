@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.20 1999/09/24 01:49:27 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.21 1999/09/25 01:29:59 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -565,6 +565,10 @@ Error DownloadManager::Download(DownloadItem* item)
             file = strchr(item->SourceURL().c_str() + 7, '/');
         }
 
+        if(item->GetState() == kDownloadItemState_Cancelled ||
+           item->GetState() == kDownloadItemState_Paused)
+            result = kError_UserCancel;
+
         // get hostname
         if(IsntError(result))
         {
@@ -596,6 +600,10 @@ Error DownloadManager::Download(DownloadItem* item)
             {
                 memcpy(&host, hostByName, sizeof(struct hostent));
             }
+
+            if(item->GetState() == kDownloadItemState_Cancelled ||
+               item->GetState() == kDownloadItemState_Paused)
+                result = kError_UserCancel;
         }
 
         // open socket
@@ -610,6 +618,10 @@ Error DownloadManager::Download(DownloadItem* item)
 
             if(s < 0)
                 result = kError_CantCreateSocket;
+
+            if(item->GetState() == kDownloadItemState_Cancelled ||
+               item->GetState() == kDownloadItemState_Paused)
+                result = kError_UserCancel;
         }
 
         // connect and send request
@@ -617,7 +629,12 @@ Error DownloadManager::Download(DownloadItem* item)
         {
             if(connect(s,(const struct sockaddr*)&addr, sizeof(struct sockaddr)))
                 result = kError_CannotBind;
-            else
+
+            if(item->GetState() == kDownloadItemState_Cancelled ||
+               item->GetState() == kDownloadItemState_Paused)
+                result = kError_UserCancel;
+
+            if(IsntError(result))
             {
                 gethostname(localname, kMaxHostNameLen);    
 
@@ -678,6 +695,10 @@ Error DownloadManager::Download(DownloadItem* item)
                     result = kError_IOError;
                 }
 
+                if(item->GetState() == kDownloadItemState_Cancelled ||
+                   item->GetState() == kDownloadItemState_Paused)
+                    result = kError_UserCancel;
+
                 delete [] query;
             }
         }
@@ -719,11 +740,15 @@ Error DownloadManager::Download(DownloadItem* item)
                         total += count;
                     else
                     {
-                        result = kError_UnknownErr;
-                        break;
+                        result = kError_IOError;
                     }
 
-                }while(!IsHTTPHeaderComplete(buffer, total));
+                    if(item->GetState() == kDownloadItemState_Cancelled ||
+                       item->GetState() == kDownloadItemState_Paused)
+                        result = kError_UserCancel;
+
+
+                }while(!IsHTTPHeaderComplete(buffer, total) && IsntError(result));
             }
 
             // parse header
@@ -791,14 +816,19 @@ Error DownloadManager::Download(DownloadItem* item)
                                     item->SetBytesReceived(count + item->GetBytesReceived());
                                 }
 
+                                if(count < 0)
+                                    result = kError_IOError;
+                                
+                                if(item->GetState() == kDownloadItemState_Cancelled ||
+                                   item->GetState() == kDownloadItemState_Paused)
+                                    result = kError_UserCancel;
+
+
                                 //cout << "bytes recvd:" << count << endl;
 
-                            }while(count > 0 && 
-                                   item->GetState() == kDownloadItemState_Downloading);
+                            }while(count > 0 && IsntError(result));
 
-                            close(fd);
-
-                            result = kError_NoErr;
+                            close(fd);                           
                         }
                         
                         break;
@@ -889,7 +919,6 @@ Error DownloadManager::Download(DownloadItem* item)
             }
 
             // cleanup
-           
             if(buffer)
                 free(buffer);
 
@@ -984,5 +1013,13 @@ void DownloadManager::download_thread_function(void* arg)
 
     dlm->DownloadThreadFunction();
 }
+
+void SendStateChangedMessage(DownloadItem* item)
+{
+    
+
+}
+
+
 
 

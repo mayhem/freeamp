@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.30.4.8 1999/09/22 18:58:21 ijr Exp $
+        $Id: eventdata.h,v 1.30.4.9 1999/09/25 01:29:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -573,6 +573,30 @@ public:
 	virtual ~PlaylistShuffleEvent() {}
 
 	bool GetShuffleMode() { return m_sm; }
+};
+
+class DownloadItem;
+
+class DownloadItemNewStateEvent : public Event {
+public:
+    DownloadItemNewStateEvent(DownloadItem* item) 
+    { m_type = INFO_DownloadItemNewState; m_item = item; }
+	virtual ~DownloadItemNewStateEvent() {}
+
+	DownloadItem* Item() { return m_item; }
+private:
+    DownloadItem* m_item;
+};
+
+class DownloadItemProgressEvent : public Event {
+public:
+    DownloadItemProgressEvent(DownloadItem* item) 
+    { m_type = INFO_DownloadItemProgress; m_item = item; }
+	virtual ~DownloadItemProgressEvent() {}
+
+	DownloadItem* Item() { return m_item; }
+private:
+    DownloadItem* m_item;
 };
 
 #endif /* _EVENTDATA_H_ */

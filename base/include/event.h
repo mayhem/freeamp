@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.28.4.4 1999/09/22 18:58:21 ijr Exp $
+	$Id: event.h,v 1.28.4.5 1999/09/25 01:29:59 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -81,7 +81,6 @@ class EventQueue {
 #define INFO_PlaylistUpdated	35 // sent by PLM to player to inform of a playlist update
 #define INFO_PlaylistItemUpdated    36 // sent by PLM to player to inform of a playlistitem update
 #define INFO_UserMessage        37 // sent by UI to Player, diseminated by Player to each UI
-
 #define _EQUALIZER_ENABLE_
 #ifdef  _EQUALIZER_ENABLE_
 #define CMD_SetEQData                   38      //set EQ data
@@ -110,6 +109,9 @@ class EventQueue {
 
 #define INFO_SearchMusicDone    49 // sent by the music search thread on completion
 #define INFO_BrowserMessage     50 // status updates sent to the music browser
+
+#define INFO_DownloadItemNewState 51 // sent by DownloadManager to UIs by way of Player so the UIs know that an item in the download manager has changed state
+#define INFO_DownloadItemProgress 52 // sent by DownloadManager to UIs by way of Player so the UIs know that progress has been made on a download
 
 #endif // _EVENT_H_
 

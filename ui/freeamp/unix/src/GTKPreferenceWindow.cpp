@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.25 2000/01/23 05:57:03 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.25.2.1 2000/02/24 03:54:44 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1463,6 +1463,9 @@ void GTKPreferenceWindow::UpdateThemeList(void)
     m_pThemeMan->GetCurrentTheme(originalValues.currentTheme);
     m_oThemeList.clear();
 
+    gtk_clist_freeze(GTK_CLIST(themeList));
+    gtk_clist_clear(GTK_CLIST(themeList));
+
     m_pThemeMan->GetThemeList(m_oThemeList);
     for (i = m_oThemeList.begin(); i != m_oThemeList.end(); i++, iLoop++) {
          char *Text[1];
@@ -1474,6 +1477,8 @@ void GTKPreferenceWindow::UpdateThemeList(void)
     }
 
     gtk_clist_select_row(GTK_CLIST(themeList), proposedValues.listboxIndex, 0);
+
+    gtk_clist_thaw(GTK_CLIST(themeList));
 }
 
 void GTKPreferenceWindow::SetFont()

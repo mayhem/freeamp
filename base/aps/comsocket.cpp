@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: comsocket.cpp,v 1.4 2000/09/28 08:08:00 ijr Exp $
+        $Id: comsocket.cpp,v 1.5 2000/09/28 08:54:57 ijr Exp $
 ____________________________________________________________________________*/
 /***************************************************************************
                           comsocket.cpp  -  description
@@ -386,7 +386,11 @@ int COMSocket::NBConnect(const char* pIP, int nPort, int nType, int nTimeout)
 &wset))
 		{
 			int error = 0;
+#if defined(__sgi)
+                        int len = sizeof(error);
+#else
 			unsigned int len = sizeof(error);
+#endif
 		if (getsockopt(m_nSocket, SOL_SOCKET, SO_ERROR, &error,
 &len) < 0)
 		{	

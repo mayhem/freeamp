@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.213 2000/07/31 19:51:38 ijr Exp $
+        $Id: player.cpp,v 1.214 2000/08/02 15:01:00 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -189,6 +189,10 @@ EventQueue()
 
     m_eqEnabled = false;
     memset(m_eqValues, 0, sizeof(m_eqValues));
+
+    // Add timer for sync-ing the log to the relatable servers
+    // only works if a profile is currently active
+    m_context->timerManager->StartTimer(&m_syncTimer, synclog_timer, 1800, this);
 }
 
 #define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }
@@ -2309,3 +2313,14 @@ void Player::CDTimer()
     delete pmo;
 }
 
+void Player::synclog_timer(void* arg)
+{
+    Player* player = (Player*) arg;
+
+    player->SyncLog();
+}
+
+void Player::SyncLog()
+{
+    m_context->aps->SyncLog();
+}

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.2 2000/07/31 21:32:36 ijr Exp $
+        $Id: apsinterface.cpp,v 1.3 2000/08/02 15:01:00 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -79,8 +79,10 @@ APSInterface::APSInterface(const char* pIP, const char *pSigIP)
     m_pSigClient = new SigClient;
     m_pSigClient->SetAddress(m_sigIP.c_str(), nAPSSigPort);
 
-    if (!m_strCurrentProfile.empty()) 
+    if (!m_strCurrentProfile.empty()) {
         ChangeProfile(m_strCurrentProfile.c_str());
+        SyncLog();
+    }
 }
 
 APSInterface::~APSInterface()

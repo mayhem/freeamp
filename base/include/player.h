@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.56 2000/07/31 19:51:38 ijr Exp $
+        $Id: player.h,v 1.57 2000/08/02 15:01:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -115,6 +115,9 @@ class Player : public EventQueue, Properties, PropertyWatcher
     static void cd_timer(void* arg);
     void        CDTimer();
 
+    static void synclog_timer(void* arg);
+    void        SyncLog();
+
     static void generate_sigs_function(void *arg);
     void        GenerateSigsWork(set<PlaylistItem *> *items);
 
@@ -210,6 +213,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     APSInterface *m_APSInterface;
 
     TimerRef m_cdTimer;
+    TimerRef m_syncTimer;
     float    m_eqValues[32];
     bool     m_eqEnabled;
 };

@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: unixprefs.cpp,v 1.21 1999/12/13 14:59:33 robert Exp $
+        $Id: unixprefs.cpp,v 1.22 2000/02/04 16:13:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -385,6 +385,8 @@ UnixPrefs()
 
     if (file_exists(old_prefsFilePath))
         rename(old_prefsFilePath, m_prefsFilePath);
+
+    delete [] old_prefsFilePath;
 
     FILE *prefsFile = fopen(m_prefsFilePath, "r");
     if (!prefsFile && errno != ENOENT)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.21 2000/02/02 23:13:51 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.22 2000/02/04 16:13:43 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -119,9 +119,10 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             mainBrowser->Close(false);
             delete mainBrowser;
 
-            vector<GTKMusicBrowser *>::iterator i = browserWindows.begin();
-            for (; i != browserWindows.end(); i++) {
-                (*i)->Close(false);
+            while (browserWindows.size() > 0) {
+                browserWindows[0]->Close(false);
+                delete browserWindows[0];
+                browserWindows.erase(browserWindows.begin());
             }
 
             if (weAreGTK) 

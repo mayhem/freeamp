@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.56 2000/02/02 23:13:51 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.57 2000/02/04 16:13:43 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -387,7 +387,7 @@ static gboolean list_drag_drop_internal(GtkWidget *widget,
 static void drag_dest_info_destroy(gpointer data)
 {
     GtkCListDestInfo *info = (GtkCListDestInfo *)data;
-    g_free(info);
+    free(info);
 }
 
 #define ROW_TOP_YPIXEL(clist, row) (((clist)->row_height * (row)) + \
@@ -530,7 +530,7 @@ static gint list_drag_motion_internal(GtkWidget *widget,
     dest_info = (GtkCListDestInfo *)g_dataset_get_data(context, 
                                                        "gtk-clist-drag-dest");
     if (!dest_info) {
-        dest_info = g_new(GtkCListDestInfo, 1);
+        dest_info = (GtkCListDestInfo *)malloc(sizeof(GtkCListDestInfo));
         dest_info->insert_pos = GTK_CLIST_DRAG_NONE;
         dest_info->cell.row = -1;
         dest_info->cell.column = -1;
@@ -2477,6 +2477,8 @@ GTKMusicBrowser::GTKMusicBrowser(FAContext *context, MusicBrowserUI *masterUI,
 
 GTKMusicBrowser::~GTKMusicBrowser(void)
 {
+    if (m_initialized)
+        gtk_widget_destroy(musicBrowser);
 }
 
 void GTKMusicBrowser::ShowPlaylist(void)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.37 2000/02/02 23:55:38 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.38 2000/02/04 16:13:42 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -94,7 +94,7 @@ MusicCatalog::~MusicCatalog()
     for(p = m_streams->begin(); p != m_streams->end(); p++)
        delete (*p);
     delete m_streams;
-    
+
     delete m_playlists;
     delete m_mutex;
     delete m_catMutex;
@@ -541,10 +541,24 @@ Error MusicCatalog::Add(const char *url)
 void MusicCatalog::ClearCatalog()
 {
     m_catMutex->Acquire();
+
+    vector<ArtistList *>::iterator a;
+    vector<PlaylistItem *>::iterator p;
+
+    for(a = m_artistList->begin(); a != m_artistList->end(); a++)
+       delete (*a);
     delete m_artistList;
+
+    for(p = m_unsorted->begin(); p != m_unsorted->end(); p++)
+       delete (*p);
     delete m_unsorted;
+
     delete m_playlists;
+
+    for(p = m_streams->begin(); p != m_streams->end(); p++)
+       delete (*p);
     delete m_streams;
+
     m_artistList = new vector<ArtistList *>;
     m_unsorted = new vector<PlaylistItem *>;
     m_playlists = new vector<string>;

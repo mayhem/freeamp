@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.33 1999/10/04 17:57:59 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.34 1999/10/05 19:08:22 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -174,8 +174,34 @@ void FreeAmpTheme::ParseArgs()
     /*
     for (int32 i = 1; i < m_pContext->argc; i++)
     {
-        arg = m_pContext->argv[i];
+       arg = m_pContext->argv[i];
 
+       if (arg[0] == '-')
+       {
+          switch (arg[1])
+          {
+          case 's':
+             shuffle = true;
+             break;
+          case 'p':
+             autoplay = true;
+             break;
+          }
+       }
+       else
+       {
+          if (m_iStartupType == PRIMARY_UI)
+          {
+          	 char *szTemp = new char[strlen(arg) + 1];
+             strcpy(szTemp, arg);
+             
+             m_pContext->plm->AddItem(szTemp, 0);
+          }
+       }
+    }
+    if (m_iStartupType == PRIMARY_UI)
+    {
+        arg = m_pContext->argv[i];
         if (arg[0] == '-')
         {
  
@@ -347,6 +373,12 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          m_iVolume = ((VolumeEvent *) e)->GetVolume();
          m_pWindow->ControlIntValue(string("Volume"), true, m_iVolume);
          break;
+      }
+
+      case INFO_PrefsChanged:
+      {
+         //ReloadTheme();
+      	 break;
       }
       
       default:

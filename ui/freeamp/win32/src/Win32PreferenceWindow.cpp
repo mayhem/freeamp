@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.1.2.2 1999/10/01 20:56:11 robert Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.1.2.3 1999/10/05 19:08:30 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -30,12 +30,20 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 #include <assert.h>
 
+#include "eventdata.h"
 #include "Win32PreferenceWindow.h"
 #include "Win32Window.h"
+#include "Debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 static Win32PreferenceWindow *g_pCurrentPrefWindow = NULL;
+const char* kThemeFileFilter =
+            "FreeAmp Themes (.fat)\0"
+            "*.fat\0"
+            "All Files (*.*)\0"
+            "*.*\0";
+
 
 static BOOL CALLBACK 
 PrefPage1Callback(HWND hwnd, 
@@ -73,6 +81,15 @@ PrefPage4Callback(HWND hwnd,
 	return g_pCurrentPrefWindow->PrefPage4Proc(hwnd, msg, wParam, lParam);
 }          
 
+static BOOL CALLBACK 
+PrefPage5Callback(HWND hwnd, 
+                  UINT msg, 
+                  WPARAM wParam, 
+                  LPARAM lParam)
+{
+	return g_pCurrentPrefWindow->PrefPage5Proc(hwnd, msg, wParam, lParam);
+}          
+
 Win32PreferenceWindow::Win32PreferenceWindow(FAContext *context) :
      PreferenceWindow(context)
 {     
@@ -81,7 +98,12 @@ Win32PreferenceWindow::Win32PreferenceWindow(FAContext *context) :
 
 Win32PreferenceWindow::~Win32PreferenceWindow(void)
 {
+    vector<string *>::iterator i;
+    
 	g_pCurrentPrefWindow = NULL;
+
+    for(i = m_oThemeList.begin(); i != m_oThemeList.end(); i++)
+    	delete (*i);
 } 
 
 bool Win32PreferenceWindow::Show(Window *pWindow)
@@ -95,7 +117,7 @@ bool Win32PreferenceWindow::Show(Window *pWindow)
 bool Win32PreferenceWindow::DisplayPreferences(HWND hwndParent, Preferences* prefs)
 {
     bool result = false;
-    PROPSHEETPAGE psp[4];
+    PROPSHEETPAGE psp[5];
     PROPSHEETHEADER psh;
 	
     HINSTANCE hinst = (HINSTANCE)GetWindowLong(hwndParent, GWL_HINSTANCE);
@@ -112,29 +134,38 @@ bool Win32PreferenceWindow::DisplayPreferences(HWND hwndParent, Preferences* pre
     psp[1].dwSize = sizeof(PROPSHEETPAGE);
     psp[1].dwFlags = 0;
     psp[1].hInstance = hinst;
-    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_PREF2);
+    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_PREF5);
     psp[1].pszIcon = NULL;
-    psp[1].pfnDlgProc = PrefPage2Callback;
+    psp[1].pfnDlgProc = PrefPage5Callback;
     psp[1].pszTitle = NULL;
     psp[1].lParam = (LPARAM)prefs;
 
     psp[2].dwSize = sizeof(PROPSHEETPAGE);
     psp[2].dwFlags = 0;
     psp[2].hInstance = hinst;
-    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_PREF3);
+    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_PREF2);
     psp[2].pszIcon = NULL;
-    psp[2].pfnDlgProc = PrefPage3Callback;
+    psp[2].pfnDlgProc = PrefPage2Callback;
     psp[2].pszTitle = NULL;
     psp[2].lParam = (LPARAM)prefs;
 
     psp[3].dwSize = sizeof(PROPSHEETPAGE);
     psp[3].dwFlags = 0;
     psp[3].hInstance = hinst;
-    psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PREF4);
+    psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PREF3);
     psp[3].pszIcon = NULL;
-    psp[3].pfnDlgProc = PrefPage4Callback;
+    psp[3].pfnDlgProc = PrefPage3Callback;
     psp[3].pszTitle = NULL;
     psp[3].lParam = (LPARAM)prefs;
+
+    psp[4].dwSize = sizeof(PROPSHEETPAGE);
+    psp[4].dwFlags = 0;
+    psp[4].hInstance = hinst;
+    psp[4].pszTemplate = MAKEINTRESOURCE(IDD_PREF4);
+    psp[4].pszIcon = NULL;
+    psp[4].pfnDlgProc = PrefPage4Callback;
+    psp[4].pszTitle = NULL;
+    psp[4].lParam = (LPARAM)prefs;
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE;
@@ -188,6 +219,10 @@ void Win32PreferenceWindow::GetPrefsValues(Preferences* prefs,
     prefs->GetLogInput(&values->logInput);
     prefs->GetLogOutput(&values->logOutput);
     prefs->GetLogPerformance(&values->logPerformance);
+    
+    size = 64;
+    prefs->GetThemeDefaultFont(values->defaultFont, &size);
+    m_oThemeMan.GetCurrentTheme(values->currentTheme);
 }
 
 void Win32PreferenceWindow::SavePrefsValues(Preferences* prefs, 
@@ -216,6 +251,9 @@ void Win32PreferenceWindow::SavePrefsValues(Preferences* prefs,
     prefs->SetLogInput(values->logInput);
     prefs->SetLogOutput(values->logOutput);
     prefs->SetLogPerformance(values->logPerformance);
+
+    prefs->SetThemeDefaultFont(values->defaultFont);
+    m_oThemeMan.UseTheme(currentValues.currentTheme);
 }
 
 bool Win32PreferenceWindow::PrefPage1Proc(HWND hwnd, 
@@ -1478,3 +1516,222 @@ bool Win32PreferenceWindow::PrefPage4Proc(HWND hwnd,
     return result;
 }
 
+void Win32PreferenceWindow::LoadThemeListBox(HWND hwnd)
+{
+	int                        iLoop;
+    vector<string *>::iterator i;
+
+	currentValues.listboxIndex = -1;
+	m_oThemeMan.GetCurrentTheme(currentValues.currentTheme);
+
+    for(i = m_oThemeList.begin(); i != m_oThemeList.end(); i++)
+    	delete (*i);
+    m_oThemeList.clear();    
+    SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_RESETCONTENT, 0, 0);
+
+    m_oThemeMan.GetThemeList(m_oThemeList);
+        
+    for(iLoop = 0, i = m_oThemeList.begin(); 
+        i != m_oThemeList.end(); i++, iLoop++)
+    {
+    	SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_ADDSTRING,
+                           0, (LPARAM)(*i)->c_str());
+        if (*(*i) == currentValues.currentTheme)
+            currentValues.listboxIndex = iLoop;
+    }                      
+    
+    if (currentValues.listboxIndex >= 0)
+    	SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_SETCURSEL, 
+                           currentValues.listboxIndex, 0);
+     
+    EnableWindow(GetDlgItem(hwnd, IDC_DELETETHEME), 0);
+    currentValues.fontChanged = false;
+}
+
+bool Win32PreferenceWindow::PrefPage5Proc(HWND hwnd, 
+                                          UINT msg, 
+                                          WPARAM wParam, 
+                                          LPARAM lParam)      
+{
+    bool result = false;
+    static PROPSHEETPAGE* psp = NULL;
+    static Preferences* prefs = NULL;
+    
+    switch(msg)
+    {
+        case WM_INITDIALOG:
+        {
+            // remember these for later...
+            psp = (PROPSHEETPAGE*)lParam;
+            prefs = (Preferences*)psp->lParam;
+
+            LoadThemeListBox(hwnd);
+            break;
+        }
+
+        case WM_COMMAND:
+        {
+            switch(LOWORD(wParam))
+            {
+				case IDC_THEMELISTBOX:
+                {
+                	int    iIndex;
+                    char   szCurSel[256];
+                    
+                    iIndex = SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_GETCURSEL, 0, 0);
+                    if (iIndex >= 0)
+                        EnableWindow(GetDlgItem(hwnd, IDC_DELETETHEME), iIndex >= 0);
+                        
+                    SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, 
+                                       LB_GETTEXT, iIndex, 
+                                       (LPARAM)szCurSel);
+                    currentValues.currentTheme = string(szCurSel);
+                    if (iIndex != currentValues.listboxIndex || 
+                        currentValues.fontChanged)
+                        PropSheet_Changed(GetParent(hwnd), hwnd);
+                    else
+                        PropSheet_UnChanged(GetParent(hwnd), hwnd);
+                
+                	break;
+                }
+                case IDC_ADDTHEME:
+                {
+                	OPENFILENAME sOpen;
+                    char szFile[256];
+                    
+                    szFile[0] = 0;
+                    sOpen.lStructSize = sizeof(OPENFILENAME);
+                    sOpen.hwndOwner = hwnd;
+                    sOpen.hInstance = NULL;
+                    sOpen.lpstrFilter = kThemeFileFilter;
+                    sOpen.lpstrCustomFilter = NULL;
+                    sOpen.nMaxCustFilter = 0;
+                    sOpen.nFilterIndex = 1;
+                    sOpen.lpstrFile = szFile;
+                    sOpen.nMaxFile = 256;
+                    sOpen.lpstrFileTitle = NULL;
+                    sOpen.lpstrInitialDir = NULL;
+                    sOpen.lpstrTitle = "Open Theme";
+                    sOpen.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+                    sOpen.lpstrDefExt = "fat";
+                      
+                	if (GetOpenFileName(&sOpen))
+                    {
+                        string       oThemeName(sOpen.lpstrFile);
+                        Error        eRet;
+                        
+                        eRet = m_oThemeMan.AddTheme(oThemeName);
+                        if (IsError(eRet))
+                            MessageBox(hwnd, "Could not add theme.", "Add Theme", MB_OK);
+                        else    
+                            LoadThemeListBox(hwnd);
+                    }
+                    
+                    break;
+                }
+
+                case IDC_DELETETHEME:
+                {
+                    int          iIndex;
+                    string       oMesg, oThemeName;
+                    Error        eRet;
+                    
+                    iIndex = SendDlgItemMessage(hwnd, IDC_THEMELISTBOX, LB_GETCURSEL, 0, 0);
+                    
+                       break;
+
+                    oThemeName = *m_oThemeList[iIndex];
+                    oMesg = string("Are you sure you want to delete theme ") +
+                            oThemeName + string("?");
+                    if (MessageBox(hwnd, oMesg.c_str(), "Confirm Delete", MB_YESNO) == IDYES)        
+                    {
+                        eRet = m_oThemeMan.DeleteTheme(oThemeName);
+                        if (IsError(eRet))
+                            MessageBox(hwnd, "Could not delete theme.", "Delete Theme", MB_OK);
+                        LoadThemeListBox(hwnd);
+                    }    
+                    
+                    break;
+                }
+
+                case IDC_CHOOSEFONT:
+                {
+                	CHOOSEFONT sFont;
+                    LOGFONT    sLogFont;
+                    
+                    memset(&sLogFont, 0, sizeof(sLogFont));
+                    
+                    strcpy(sLogFont.lfFaceName, currentValues.defaultFont);
+                    sLogFont.lfWeight = FW_NORMAL;
+                    sLogFont.lfHeight = -24;
+                    
+                    sFont.lStructSize = sizeof(sFont);
+                    sFont.hwndOwner = hwnd;
+                    sFont.hDC = NULL;
+                    sFont.lpLogFont = &sLogFont;
+                    sFont.iPointSize = 18;
+                    sFont.Flags = CF_TTONLY | CF_FORCEFONTEXIST |
+                                  CF_SCREENFONTS | CF_INITTOLOGFONTSTRUCT |
+                                  CF_LIMITSIZE;
+                    sFont.nSizeMin = 18;              
+                    sFont.nSizeMax = 18;              
+                    
+                    if (ChooseFont(&sFont))
+                    {
+                    	strcpy(currentValues.defaultFont, 
+                               sLogFont.lfFaceName);
+                        currentValues.fontChanged = true;
+                        PropSheet_Changed(GetParent(hwnd), hwnd);
+                    }    
+                    
+                    break;
+                }
+            }
+
+            break;
+        }
+
+        case WM_NOTIFY:
+        {
+            NMHDR* notify = (NMHDR*)lParam;
+
+            switch(notify->code)
+            {
+                case PSN_SETACTIVE:
+                {
+                    
+                    break;
+                }
+
+                case PSN_APPLY:
+                {
+                    SavePrefsValues(prefs, &currentValues);
+                    LoadThemeListBox(hwnd);
+                    m_pContext->target->AcceptEvent(
+                         new Event(INFO_PrefsChanged));
+                    
+                    break;
+                }
+
+                case PSN_KILLACTIVE:
+                {
+                    
+                    break;
+                }
+
+                case PSN_RESET:
+                {
+                    SavePrefsValues(prefs, &originalValues);
+                    m_pContext->target->AcceptEvent(
+                         new Event(INFO_PrefsChanged));
+                         
+                    break;
+                }
+            }
+
+            break;
+        }
+    }
+
+    return result;
+}

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.28.4.9 1999/10/01 22:23:18 elrod Exp $
+	$Id: event.h,v 1.28.4.10 1999/10/05 19:08:16 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -121,6 +121,7 @@ class EventQueue {
 
 #define INFO_PlaylistItemAdded    58 // sent by PLM to player to inform of a playlistitem update
 #define INFO_PlaylistItemRemoved    59 // sent by PLM to player to inform of a playlistitem update
+#define INFO_PrefsChanged           60 // send by a preferences window whenever the preferences changed
 
 #endif // _EVENT_H_
 

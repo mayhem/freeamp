@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.30 1999/10/04 07:59:29 elrod Exp $
+        $Id: player.cpp,v 1.133.2.31 1999/10/05 19:08:19 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1716,6 +1716,7 @@ ServiceEvent(Event * pC)
             HandleMediaTimeInfo(pC);
             break;
 
+        case INFO_PrefsChanged:
         case INFO_StreamInfo:
         case INFO_PlaylistShuffle:
         case INFO_PlaylistRepeat:

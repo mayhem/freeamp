@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.17.2.5 1999/09/29 01:13:18 elrod Exp $
+        $Id: preferences.cpp,v 1.17.2.6 1999/10/05 19:08:20 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -659,6 +659,20 @@ Preferences::
 SetAlternateNICAddress(char* address)
 {
     return SetPrefString(kAlternateNICAddressPref, address);
+}
+
+Error
+Preferences::
+GetThemeDefaultFont(char* font, uint32* len)
+{
+    return GetPrefString(kThemeDefaultFontPref, font, len);
+}
+
+Error
+Preferences::
+SetThemeDefaultFont(char* font)
+{
+    return SetPrefString(kThemeDefaultFontPref, font);
 }
 
 LibDirFindHandle *

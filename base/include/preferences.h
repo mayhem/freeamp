@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.11.2.6 1999/09/29 01:13:18 elrod Exp $
+	$Id: preferences.h,v 1.11.2.7 1999/10/05 19:08:17 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -183,6 +183,8 @@ class Preferences {
     Error GetAlternateNICAddress(char* address, uint32* len);
     Error SetAlternateNICAddress(char* address);
 
+    Error GetThemeDefaultFont(char* font, uint32* len);
+    Error SetThemeDefaultFont(char* font);
 };
 
 #endif /* _PREFERENCES_H */

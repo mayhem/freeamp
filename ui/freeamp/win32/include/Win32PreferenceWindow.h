@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.1.2.2 1999/10/01 20:56:05 robert Exp $
+   $Id: Win32PreferenceWindow.h,v 1.1.2.3 1999/10/05 19:08:24 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -39,6 +39,7 @@ ____________________________________________________________________________*/
 #include "log.h"
 #include "registrar.h"
 #include "resource.h"
+#include "ThemeManager.h"
 
 typedef struct PrefsStruct 
 {
@@ -70,6 +71,12 @@ typedef struct PrefsStruct
     bool logOutput;
     bool logDecoder;
     bool logPerformance;
+
+	// page 5
+    char   defaultFont[64];
+    bool   fontChanged;
+    string currentTheme;
+    int    listboxIndex;
 
     PrefsStruct()
     {
@@ -113,15 +120,23 @@ class Win32PreferenceWindow : public PreferenceWindow
                                   UINT msg, 
                                   WPARAM wParam, 
                                   LPARAM lParam);
+               bool PrefPage5Proc(HWND hwnd, 
+                                  UINT msg, 
+                                  WPARAM wParam, 
+                                  LPARAM lParam);
 
 	protected:
     
                bool DisplayPreferences(HWND hwndParent, 
                                        Preferences* prefs);
+               void LoadThemeListBox  (HWND hwnd);
     
     
       PrefsStruct  originalValues;
       PrefsStruct  currentValues;
+    
+      vector<string *> m_oThemeList;
+      ThemeManager     m_oThemeMan;
 };
 
 #endif

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.122 2000/06/05 14:20:25 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.123 2000/06/05 16:43:35 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1268,18 +1268,22 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    if (oControlName == string("EqEnable") && eMesg == CM_Pressed)
    {
        int iState;
+       string oName("Info"), oText;
 
        m_pWindow->ControlIntValue(oControlName, false, iState);
        if (iState == 1)
        {
            m_eq->Enable(true);
            iState = 0;
+           oText = string("The equalizer is on.");
        }
        else
        {
            m_eq->Enable(false);
            iState = 1;
+           oText = string("The equalizer is off.");
        }
+       m_pWindow->ControlStringValue(oName, true, oText);
        m_pWindow->ControlIntValue(oControlName, true, iState);
        return kError_NoErr;
    }

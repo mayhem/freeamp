@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.150 2000/10/19 14:37:13 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.151 2000/10/19 16:57:35 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1762,8 +1762,7 @@ void FreeAmpTheme::HandleMouseWheelClick(void)
     int    iState;
 	string oControlName("Mute");
 
-    m_pWindow->ControlIntValue(oControlName, false, iState);
-    if (iState == 0)
+    if (m_iMuteVolume < 0)
     {
         m_iMuteVolume = m_iVolume;
         m_iVolume = 0;

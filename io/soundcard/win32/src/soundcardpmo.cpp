@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.75 2000/09/20 11:10:35 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.76 2000/10/19 16:57:35 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -490,6 +490,12 @@ WAVEHDR *SoundCardPMO::NextHeader(bool bFreeHeadersOnly)
        if (bFreeHeadersOnly)
            return NULL;
 
+	   // Toss out frames that have been consumed
+       NextHeader(true);
+	   if (m_iHead == m_iTail)
+	      m_iBaseTime = MAXINT32;
+
+       CheckForBufferUp();
        usleep(10000);
    }
 
@@ -566,14 +572,18 @@ void SoundCardPMO::WorkerThread(void)
           if (eErr == kError_NoDataAvail)
           {
               m_pLmc->Wake();
-              CheckForBufferUp();
 
               // Calling NextHeader with a true arguments just  
               // cleans up the pending headers so the bytes in use
               // value is correct.
               NextHeader(true);
               HandleTimeInfoEvent(NULL);
+			  if (m_iHead == m_iTail)
+				  m_iBaseTime = MAXINT32;
 			  WasteTime();
+
+              CheckForBufferUp();
+
               continue;
           }
 

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.5 1999/09/08 18:48:33 robert Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.6 1999/09/09 01:25:33 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -45,7 +45,7 @@ PLUGINS += plugins/theme.ui
 PLUGINS += plugins/xingmp3.lmc
 
 PLUGINS += plugins/id3v1.mdf
-PLUGINS += plugins/id3v2.mdf
+# PLUGINS += plugins/id3v2.mdf  not yet...
 
 PLUGINS += plugins/m3u.plf
 
@@ -107,6 +107,13 @@ plugins/esound.pmo: $(ESNDOBJ)
 #
 # UI section
 
+# musicbrowser ui
+MUSICBROWSEROBJ = ui/musicbrowser/unix/gtkmusicbrowser.o \
+                  ui/musicbrowser/unix/musicbrowser.o
+
+plugins/musicbrowser.ui: $(MUSICBROWSEROBJ)
+	$(LINKMOD) -o $@ $(MUSICBROWSEROBJ) $(GTK_LIBS)
+
 # theme ui
 THEMEUIOBJ = ui/theme/src/Theme.o ui/theme/src/Bitmap.o \
              ui/theme/src/Canvas.o ui/theme/src/SliderControl.o \
@@ -150,11 +157,11 @@ IRMANUIOBJ += ui/irman/src/irfunc.o ui/irman/src/irio.o
 plugins/irman.ui: $(IRMANUIOBJ)
 	$(LINKMOD) -o $@ $(IRMANUIOBJ)
 
-# The studly X11 freeamp interface
+# The studly Xlib freeamp interface
 FREEAMPUIOBJ = ui/freeamp/unix/src/freeamp.o ui/freeamp/unix/src/windowhash.o
 FREEAMPUIOBJ += ui/freeamp/unix/src/res.o ui/freeamp/unix/src/fawindow.o
 
-plugins/freeamp.ui: $(FREEAMPUIOBJ)
+plugins/freeamp-xlib.ui: $(FREEAMPUIOBJ)
 	$(LINKMOD) -o $@ $(FREEAMPUIOBJ) $(X_LIBS) $(X_EXTRA_LIBS)
 
 

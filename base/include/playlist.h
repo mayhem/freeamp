@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.15 1999/09/03 08:31:45 elrod Exp $
+	$Id: playlist.h,v 1.40.4.16 1999/09/09 01:25:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -284,15 +284,15 @@ class PlaylistManager {
 	uint32          IndexOf(PlaylistItem* item);
     bool            HasItem(PlaylistItem* item);
 
+    void RetrieveMetaData(PlaylistItem* item);
+    void RetrieveMetaData(vector<PlaylistItem*>* list);
+
  protected:
     inline uint32 CheckIndex(uint32 index);
     uint32 InternalIndexOf(vector<PlaylistItem*>* list, PlaylistItem* item);
 
     void AddItemToShuffleList(PlaylistItem* item);
     void AddItemsToShuffleList(vector<PlaylistItem*>* list);
-
-    void RetrieveMetaData(PlaylistItem* item);
-    void RetrieveMetaData(vector<PlaylistItem*>* list);
 
     static void metadata_thread_function(void* arg);
     void MetaDataThreadFunction(vector<PlaylistItem*>* list);

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: towave.c,v 1.2 1999/04/26 00:51:57 robert Exp $
+	$Id: towave.c,v 1.2.8.1 1999/09/09 01:25:35 ijr Exp $
 ____________________________________________________________________________*/
 
 /* ------------------------------------------------------------------------
@@ -136,6 +136,9 @@ decode (standard decoder) reduction_code:
 #include <sys/types.h>		/* someone wants for port */
 #include <sys/stat.h>		/* forward slash for portability */
 #include "mhead.h"		/* mpeg header structure, decode protos */
+
+#define NEED_KBHIT
+
 #include "port.h"
 
 // JDW

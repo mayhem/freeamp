@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: port.h,v 1.1 1998/10/14 02:58:00 elrod Exp $
+	$Id: port.h,v 1.1.12.1 1999/09/09 01:25:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef O_BINARY
@@ -40,6 +40,7 @@ ____________________________________________________________________________*/
 #endif
 #endif
 
+#ifdef NEED_KBHIT
 #ifdef KB_OK
 #ifdef _MSC_VER
 #pragma warning(disable: 4032)
@@ -54,6 +55,7 @@ static int getch()
 {
    return 0;
 }
+#endif
 #endif
 
 /*-- no pcm conversion to wave required 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.16.4.2 1999/08/27 09:32:21 elrod Exp $
+	$Id: registrar.cpp,v 1.16.4.3 1999/09/09 01:25:35 ijr Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -37,8 +37,8 @@ ____________________________________________________________________________*/
 /* Project Includes */
 #include "config.h"
 #include "registrar.h"
-#include "errors.h"
 #include "hashtable.h"
+#include "errors.h"
 
 Error 
 Registrar::
@@ -46,7 +46,10 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
 {
     Error error = kError_NoErr;
     char dir[MAX_PATH];
-    HashTable<int32 *> *pHT = new HashTable<int32 *>();
+
+#ifndef WIN32
+    HashTable<int32 *> *pHT = new HashTable<int32 *>;
+#endif
 
     if(registry == NULL)
         error = kError_InvalidParam;
@@ -191,10 +194,12 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
 
     if (libDirHandle) 
         prefs->GetLibDirClose(libDirHandle);
+#ifndef WIN32
     if (pHT) {
 	delete pHT;
 	pHT = NULL;
     }
+#endif
     if (totalFilesFound == 0) 
 	    error = kError_NoFiles;
 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.9 1999/08/31 04:47:16 ijr Exp $
+        $Id: player.cpp,v 1.133.2.10 1999/09/09 01:25:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -93,8 +93,8 @@ EventQueue()
    m_uiRegistry = NULL;
    
    m_lmcExtensions = NULL;
-   m_musicSearch = NULL;
-   // m_musicSearch = new MusicSearch("/tmp/dbase");
+   m_musicBrowser = NULL;
+//   m_musicBrowser = new MusicBrowser("/tmp/dbase");
  
    m_pmo = NULL;
    m_lmc = NULL;
@@ -164,7 +164,7 @@ Player::
    TYPICAL_DELETE(m_pmoRegistry);
    TYPICAL_DELETE(m_uiRegistry);
    TYPICAL_DELETE(m_lmcExtensions);
-   TYPICAL_DELETE(m_musicSearch);
+   TYPICAL_DELETE(m_musicBrowser);
 }
 
 void      
@@ -452,6 +452,10 @@ Run()
    if (bValue)
       m_context->log->AddLogLevel(LogPerf);
 
+//   m_musicBrowser->SetPlaylistManager(m_plm);
+
+//   m_musicBrowser->SearchMusic("/data/music");
+
    // which ui should we instantiate first??
    if (m_argUIList->size() == 0)
    {
@@ -612,7 +616,7 @@ RegisterLMCs(Registry * registry)
    if (m_lmcExtensions)
       delete m_lmcExtensions;
 
-   m_lmcExtensions = new HashTable<RegistryItem *>();
+   m_lmcExtensions = new HashTable<RegistryItem *>;
 
    m_lmcRegistry = registry;
 

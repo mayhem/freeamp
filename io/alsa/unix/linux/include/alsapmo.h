@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: alsapmo.h,v 1.9 1999/07/16 19:48:49 robert Exp $
+	$Id: alsapmo.h,v 1.9.4.1 1999/09/09 01:25:35 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -48,7 +48,7 @@ ____________________________________________________________________________*/
 
 struct audio_info_struct
 {
-    void *handle;
+    snd_pcm_t *handle;
     snd_pcm_format_t alsa_format;
 
     char *device;
@@ -112,7 +112,11 @@ public:
     int          m_iOutputBufferSize, m_iBytesPerSample;
     int          m_iTotalFragments, m_iBaseTime;
     int          m_iDataSize;
-    int          m_iCard, m_iDevice, m_iChannel;
+    int          m_iCard, m_iDevice;
+
+    int		 m_iChannel;
+    snd_mixer_gid_t m_gid;
+    snd_mixer_group_t m_group;
  
     struct audio_info_struct *ai;
     int audio_set_all(struct audio_info_struct *);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: propimpl.h,v 1.4.4.1 1999/08/27 03:09:35 elrod Exp $
+	$Id: propimpl.h,v 1.4.4.2 1999/09/09 01:25:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PROPIMPL_H_
@@ -31,9 +31,9 @@ ____________________________________________________________________________*/
 using namespace std;
 
 #include "config.h"
-#include "hashtable.h"
 #include "mutex.h"
 #include "properties.h"
+#include "hashtable.h"
 
 class PropertiesImpl : public Properties {
  private:

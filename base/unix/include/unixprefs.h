@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: unixprefs.h,v 1.3.4.1 1999/08/27 16:55:28 ijr Exp $
+	$Id: unixprefs.h,v 1.3.4.2 1999/09/09 01:25:35 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -31,11 +31,10 @@ using namespace std;
 
 #include "config.h"
 #include "errors.h"
-#include "list.h"
 #include "preferences.h"
-#include "hashtable.h"
 #include "win32impl.h"
 #include "mutex.h"
+#include "hashtable.h"
 
 class UnixPrefEntry
 {

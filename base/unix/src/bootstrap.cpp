@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.18.8.1 1999/08/27 16:55:28 ijr Exp $
+	$Id: bootstrap.cpp,v 1.18.8.2 1999/09/09 01:25:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -42,9 +42,6 @@ extern "C" {
 }
 #endif
 
-void testList();
-void testHashTable();
-
 #if 0
 bool CompareName(const char *p1, const char *p2) {
     //cout << "Comparing " << p1 << " to " << p2 << endl;
@@ -60,10 +57,8 @@ bool CompareName(const char *p1, const char *p2) {
     }
 }
 #endif
+
 int main(int argc, char **argv) {
-    //testList();
-    //testBuffer();
-    //testHashTable();
     //exit(1);
 
     FAContext *context = new FAContext;
@@ -142,58 +137,3 @@ int main(int argc, char **argv) {
     delete context;
     return 0;
 }
-
-#if 0
-void testList() {
-    cout << "Beginning testList..." << endl;
-    List<char *> *pVect = new List<char *>(2);
-    char *p1 = "Hey man!";
-    char *p2 = "Yo dude!";
-    char *p3 = "And, the fourth.";
-    char *p4 = "third :)";
-    pVect->AddItem(p1);
-    pVect->AddItem(p2);
-    pVect->AddItem(p3);
-    pVect->AddItem(p4,2);
-    
-    cout << pVect->ItemAt(0) << endl;
-    cout << pVect->ItemAt(1) << endl;
-    cout << pVect->ItemAt(2) << endl;
-    cout << pVect->ItemAt(3) << endl;
-
-    pVect->RemoveItemAt(1);
-
-    cout << pVect->ItemAt(0) << endl;
-    cout << pVect->ItemAt(1) << endl;
-    cout << pVect->ItemAt(2) << endl;
-
-    pVect->RemoveAll();
-
-    if (pVect->ItemAt(0) != NULL) {
-	cout << "Final Test failed!!" << endl;
-    }
-    cout << "Ending testList..." << endl;
-}
-#endif
-
-void testHashTable() {
-    HashTable<int32 *> *pHT = new HashTable<int32 *>();
-    cout << "Adding 'foo'->1" << endl;
-    char *foo = "foo";
-    char *bar = "bar";
-    int32 *bb = new int32;
-    *bb = 1;
-    pHT->Insert(foo,bb);
-    cout << "Adding 'bar'->2" << endl;
-    int32 *bc = new int32;
-    *bc = 2;
-    pHT->Insert(bar,bc);
-
-    int32 *out = pHT->Value(foo);
-    cout << "out 1:  " << *out << endl;
-    out = pHT->Value(bar);
-    cout << "out 2:  " << *out << endl;
-    exit(1);
-}
-
-

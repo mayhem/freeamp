@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupini.c,v 1.3 1999/10/19 07:13:08 elrod Exp $
+	$Id: cupini.c,v 1.4 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 /*=========================================================
@@ -186,7 +186,7 @@ static int out_chans[5] =
 int audio_decode_initL1(MPEG_HEAD * h, int framebytes_arg,
 		   int reduction_code, int transform_code, int convert_code,
 			int freq_limit);
-void sbt_init();
+void sbt_init(void);
 
 
 IN_OUT L1audio_decode(unsigned char *bs, signed short *pcm);
@@ -200,7 +200,7 @@ static AUDIO_DECODE_ROUTINE decode_routine_table[4] =
    L1audio_decode,};
 
 /*---------------------------------------------------------*/
-static void table_init()
+static void table_init(void)
 {
    int i, j;
    int code;
@@ -386,7 +386,7 @@ void audio_decode_info(DEC_INFO * info)
    *info = decinfo;		/* info return, call after init */
 }
 /*---------------------------------------------------------*/
-void decode_table_init()
+void decode_table_init(void)
 {
 /* dummy for asm version compatability */
 }

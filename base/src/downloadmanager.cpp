@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.28 2000/05/24 11:28:46 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.29 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -34,11 +34,11 @@ ____________________________________________________________________________*/
 
 #include "downloadmanager.h"
 
-#if defined(unix) || defined(__BEOS__)
+#if defined(unix) || defined(__BEOS__) || defined(_BSD_SOURCE)
 #define SOCKET int
 #endif
 
-#if defined(unix)
+#if defined(unix) || defined(_BSD_SOURCE)
 #include <arpa/inet.h>
 #define closesocket(x) close(x)
 #define O_BINARY 0

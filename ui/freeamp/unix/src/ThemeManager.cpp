@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.15 2000/03/16 03:47:40 ijr Exp $
+   $Id: ThemeManager.cpp,v 1.16 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -230,10 +230,12 @@ Error ThemeManager::AddTheme(string &oThemeFile, bool bRename)
             *ext = '\0';
             ext++;
         }
-        if (!filename) 
-            filename = "unknown";
 
-        oThemeDest += string("/") + string(filename);
+        oThemeDest += string("/");
+        if (!filename)
+            oThemeDest += string("unknown");
+        else
+            oThemeDest += string(filename);
         if (ext)
             oThemeDest += string(".") + string(ext);   
     }

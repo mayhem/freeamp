@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.6 2000/04/06 22:36:40 ijr Exp $
+        $Id: database.cpp,v 1.7 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -75,7 +75,7 @@ bool Database::Working(void)
     return true;
 }
 
-int Database::Insert(const char *key, char *content)
+int Database::Insert(const char *key, const char *content)
 {
     datum gdbmKey;
     datum gdbmContent;
@@ -83,7 +83,7 @@ int Database::Insert(const char *key, char *content)
 
     gdbmKey.dptr = (char *)key;
     gdbmKey.dsize = strlen(key) + 1;
-    gdbmContent.dptr = content;
+    gdbmContent.dptr = (char *)content;
     gdbmContent.dsize = strlen(content) + 1;
 
     m_lock->Acquire();

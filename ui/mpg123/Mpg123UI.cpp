@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: Mpg123UI.cpp,v 1.23 2000/02/19 06:04:58 ijr Exp $
+    $Id: Mpg123UI.cpp,v 1.24 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -241,13 +241,13 @@ DisplayStuff()
    } */
    cerr << endl;
 
-   static char *mpeg_string[4] =
+   static const char *mpeg_string[4] =
    {"1.0", "1.0", "2.0", "2.5"};
-   static char *mpeg_layer[4] =
+   static const char *mpeg_layer[4] =
    {"Unknown", "I", "II", "III"};
-   static char *mpeg_stereo[4] =
+   static const char *mpeg_stereo[4] =
    {"Stereo", "Joint-Stereo", "Dual-Channel", "Single-Channel"};
-   static char *mpeg_short_stereo[4] =
+   static const char *mpeg_short_stereo[4] =
    {"stereo", "joint-stereo", "dual-channel", "mono"};
 
    if (verboseMode == false)

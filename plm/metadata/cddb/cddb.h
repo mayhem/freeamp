@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb.h,v 1.3 2000/05/06 12:05:49 ijr Exp $
+	$Id: cddb.h,v 1.4 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_CDDB_H
@@ -63,7 +63,7 @@ class CDDB : public MetaDataFormat {
     int cddb_quit(int sock);
     int cddb_read(int sock, int mode, struct cddb_entry *entry, 
                   struct disc_data *data, char *http_string = NULL);
-    char *cddb_genre(int genre);
+    const char *cddb_genre(int genre);
     int cddb_genre_value(char *genre);
     int cddb_read_line(int sock, char *inbuffer, int len);
     int cddb_read_token(int sock, int token[3]);

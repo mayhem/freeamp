@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: cdlmc.cpp,v 1.3 2000/02/19 06:04:56 ijr Exp $
+   $Id: cdlmc.cpp,v 1.4 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -65,9 +65,9 @@ void CDLMC::Clear()
 {
 }
 
-vector<char *> *CDLMC::GetExtensions(void)
+vector<const char *> *CDLMC::GetExtensions(void)
 {
-   vector<char *> *extList = new vector<char *>;
+   vector<const char *> *extList = new vector<const char *>;
 
    extList->push_back("CDA");
 

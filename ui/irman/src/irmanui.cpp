@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.cpp,v 1.11 2000/02/09 21:21:27 elrod Exp $
+	$Id: irmanui.cpp,v 1.12 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -120,7 +120,7 @@ void IRManUI::irServiceFunction(void *pclcio) {
     if (pv) {
 	pDevice = (char *)((StringPropValue *)pv)->GetString();
     } else {
-	pDevice = DEFAULT_DEVICE;
+	pDevice = (char *)DEFAULT_DEVICE;
     }
     if (ir_init(pDevice) < 0) {
 	cerr << "error initializing IRman: `" << strerror(errno) << "'" << endl;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.cpp,v 1.8 2000/03/13 21:25:59 ijr Exp $
+	$Id: rmp.cpp,v 1.9 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -34,8 +34,8 @@ using namespace std;
 #include "rmp.h"
 
 typedef struct FormatInfoStruct {
-    char* extension;
-    char* description;
+    const char* extension;
+    const char* description;
 
 } FormatInfoStruct; 
 

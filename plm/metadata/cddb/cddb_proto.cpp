@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb_proto.cpp,v 1.7 2000/04/17 19:41:41 elrod Exp $
+	$Id: cddb_proto.cpp,v 1.8 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -68,7 +68,7 @@ int snprintf(char *dest, int size, const char *format, ...)
 }
 #endif  /* HAVE_SNPRINTF */
 
-char *CDDB::cddb_genre(int genre)
+const char *CDDB::cddb_genre(int genre)
 {
    switch(genre) {
       case CDDB_BLUES: return "blues";
@@ -851,7 +851,8 @@ int CDDB::cddb_read_data(struct disc_data *data)
 int CDDB::cddb_process_line(char *line, struct __unprocessed_disc_data *data)
 {
     int index = 0;
-    char *var, *value;
+    char *var, *val2;
+    char value[100];
 
     line[strlen(line) - 1] = '\0';
     if (strstr(line, "Revision") != NULL) {
@@ -869,10 +870,12 @@ int CDDB::cddb_process_line(char *line, struct __unprocessed_disc_data *data)
 
     line[index] = '\0';
     var = line;
-    value = line + index + 1;
+    val2 = line + index + 1;
 
-    if (value == NULL)
-        value = "";
+    if (val2 == NULL)
+        value[0] = '\0';
+    else
+        strncpy(value, val2, 100);
 
    if (strcmp(var, "DTITLE") == 0) {
        if (data->data_title_index >= MAX_EXTEMPORANEOUS_LINES)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.33 2000/05/23 10:22:37 robert Exp $
+   $Id: GTKWindow.cpp,v 1.34 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -124,8 +124,10 @@ void drop_file(GtkWidget *w, GdkDragContext *context, gint x, gint y,
     gdk_threads_enter();
 }
       
-static gint do_timeout(GTKWindow *ui)
+static gint do_timeout(void *p)
 {
+    GTKWindow *ui = (GTKWindow *)p;
+
     ui->m_pMindMeldMutex->Acquire();
     ui->TimerEvent();
     ui->m_pMindMeldMutex->Release();

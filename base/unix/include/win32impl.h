@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32impl.h,v 1.3 1999/10/19 07:12:48 elrod Exp $
+	$Id: win32impl.h,v 1.4 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32IMPL_H_
@@ -63,7 +63,7 @@ bool FindNextFile(HANDLE hFindFile, WIN32_FIND_DATA *lpFindFileData);
 bool FindClose(HANDLE hFindFile);
 HINSTANCE LoadLibrary(char *lpLibFileName);
 bool FreeLibrary(HMODULE hLibModule);
-FARPROC GetProcAddress(HMODULE hModule, char *lpProcName);
+FARPROC GetProcAddress(HMODULE hModule, const char *lpProcName);
 
 
 #endif

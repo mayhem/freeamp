@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: fileselector.h,v 1.3 1999/11/10 02:43:26 ijr Exp $
+        $Id: fileselector.h,v 1.4 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FILESELECTOR_H_
@@ -33,7 +33,7 @@ ____________________________________________________________________________*/
 
 class FileSelector {
  public:
-    FileSelector(char *);
+    FileSelector(const char *);
   
     bool Run(bool runMain = true);
     void SetExtended() { extended = true; }

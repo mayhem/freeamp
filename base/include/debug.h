@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: debug.h,v 1.3 1999/10/19 07:12:45 elrod Exp $
+	$Id: debug.h,v 1.4 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 // debug.h
@@ -29,6 +29,6 @@ ____________________________________________________________________________*/
 void debug_string(char*);
 
 void DebugInit_v(void);
-void Debug_v(char * format, ...);
+void Debug_v(const char * format, ...);
 
 #endif // _DEBUG_H_

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.8 2000/04/08 05:35:59 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.9 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "config.h"
@@ -58,11 +58,13 @@ void WarpPointer(GdkWindow *win, int x, int y)
     XWarpPointer(GDK_DISPLAY(), window, window, 0, 0, 0, 0, x, y);
 }
 
-static int theme_timeout(void *c)
+static gint theme_timeout(void *c)
 {
     ourContext->gtkRunning = true;
     if (doQuitNow)
         gtk_main_quit();
+
+    return TRUE;
 }
 
 static void runGTK(void *c)

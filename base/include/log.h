@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: log.h,v 1.5 1999/10/19 07:12:45 elrod Exp $
+        $Id: log.h,v 1.6 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 #ifndef INCLUDED_LOG_H__
 #define INCLUDED_LOG_H__
@@ -41,7 +41,7 @@ class LogFile
 {
     public:
 
-                 LogFile(char *szLogFileArg);
+                 LogFile(const char *szLogFileArg);
         virtual ~LogFile(void);
 
         bool     Open(void);
@@ -50,8 +50,8 @@ class LogFile
                  { m_iLogLevelFlags = 0; };
         void     AddLogLevel(int iLogLevelFlags);
 
-        void     Error(char *Format, ...);
-        void     Log(int Section, char *Format, ...);
+        void     Error(const char *Format, ...);
+        void     Log(int Section, const char *Format, ...);
 
     private:
 

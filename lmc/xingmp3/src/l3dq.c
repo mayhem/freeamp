@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: l3dq.c,v 1.6 1999/10/19 07:13:09 elrod Exp $
+	$Id: l3dq.c,v 1.7 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  quant.c  ***************************************************
@@ -90,22 +90,22 @@ typedef float ARRAY3[3];
 
 
 /*=============================================================*/
-float *quant_init_global_addr()
+float *quant_init_global_addr(void)
 {
    return look_global;
 }
 /*-------------------------------------------------------------*/
-LS *quant_init_scale_addr()
+LS *quant_init_scale_addr(void)
 {
    return look_scale;
 }
 /*-------------------------------------------------------------*/
-float *quant_init_pow_addr()
+float *quant_init_pow_addr(void)
 {
    return look_pow;
 }
 /*-------------------------------------------------------------*/
-float *quant_init_subblock_addr()
+float *quant_init_subblock_addr(void)
 {
    return look_subblock;
 }

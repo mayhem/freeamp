@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.11 2000/01/14 19:29:03 elrod Exp $
+	$Id: m3u.cpp,v 1.12 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -36,8 +36,8 @@ using namespace std;
 #include "m3u.h"
 
 typedef struct FormatInfoStruct {
-    char* extension;
-    char* description;
+    const char* extension;
+    const char* description;
 
 } FormatInfoStruct; 
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.11 2000/05/09 10:21:01 elrod Exp $
+	$Id: utility.h,v 1.12 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
@@ -51,7 +51,7 @@ void ToUpper(char *s);
 void ToLower(char *s);
 
 #ifndef WIN32
-void LaunchBrowser(char* url);
+void LaunchBrowser(const char* url);
 bool CopyFile(const char *pExistingFileName, 
               const char *pNewFileName,      // name of new file
               bool bFailIfExists);     // operation if file exists

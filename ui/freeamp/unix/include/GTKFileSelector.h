@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: GTKFileSelector.h,v 1.1 1999/11/17 05:45:29 ijr Exp $
+        $Id: GTKFileSelector.h,v 1.2 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKFILESELECTOR_H_
@@ -33,7 +33,7 @@ ____________________________________________________________________________*/
 
 class GTKFileSelector {
  public:
-    GTKFileSelector(char *);
+    GTKFileSelector(const char *);
   
     bool Run(bool runMain = true);
     void SetExtended() { extended = true; }

@@ -18,13 +18,13 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: fileselector.cpp,v 1.5 2000/05/09 10:21:02 elrod Exp $
+    $Id: fileselector.cpp,v 1.6 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "fileselector.h"
 #include <unistd.h>
 
-FileSelector::FileSelector(char *windowtitle)
+FileSelector::FileSelector(const char *windowtitle)
 {
     title = windowtitle;
     returnpath = "";

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mdct.c,v 1.4 1999/10/19 07:13:09 elrod Exp $
+	$Id: mdct.c,v 1.5 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  mdct.c  ***************************************************
@@ -71,11 +71,11 @@ static IMDCT_INIT_BLOCK imdct_info_6 =
 {mdct6_3v, mdct6_3v2, &coef87};
 
 /*====================================================================*/
-IMDCT_INIT_BLOCK *imdct_init_addr_18()
+IMDCT_INIT_BLOCK *imdct_init_addr_18(void)
 {
    return &imdct_info_18;
 }
-IMDCT_INIT_BLOCK *imdct_init_addr_6()
+IMDCT_INIT_BLOCK *imdct_init_addr_6(void)
 {
    return &imdct_info_6;
 }

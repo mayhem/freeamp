@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.40 2000/05/07 17:06:23 robert Exp $
+   $Id: xinglmc.h,v 1.41 2000/05/24 17:08:33 ijr Exp $
 
 ____________________________________________________________________________*/
 
@@ -115,7 +115,7 @@ class     XingLMC:public LogicalMediaConverter
    virtual Error SetEQData(float *);
    virtual Error SetEQData(bool);
 
-   virtual vector<char *> *GetExtensions(void);
+   virtual vector<const char *> *GetExtensions(void);
    
  private:
 

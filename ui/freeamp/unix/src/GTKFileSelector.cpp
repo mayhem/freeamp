@@ -18,13 +18,13 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: GTKFileSelector.cpp,v 1.1 1999/11/17 05:45:29 ijr Exp $
+        $Id: GTKFileSelector.cpp,v 1.2 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "GTKFileSelector.h"
 #include <unistd.h>
 
-GTKFileSelector::GTKFileSelector(char *windowtitle)
+GTKFileSelector::GTKFileSelector(const char *windowtitle)
 {
     title = windowtitle;
     returnpath = "";

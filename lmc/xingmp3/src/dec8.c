@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dec8.c,v 1.3 1999/10/19 07:13:08 elrod Exp $
+	$Id: dec8.c,v 1.4 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  dec8.c  ***************************************************
@@ -252,7 +252,7 @@ static int ucomp3(int x)	/* re analog devices CCITT G.711 */
    return u;
 }
 /*------------------------------------------------------------------*/
-static void table_init()
+static void table_init(void)
 {
    int i;
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.26 2000/05/23 10:22:37 robert Exp $
+   $Id: Window.h,v 1.27 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -53,7 +53,7 @@ class Theme;
 
 struct Panel
 {
-    Panel::Panel() 
+    Panel() 
     { 
         memset(&m_oOpenRect, 0, sizeof(Rect));
         memset(&m_oClosedRect, 0, sizeof(Rect));

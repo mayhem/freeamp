@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: hwin.c,v 1.6 2000/03/01 03:49:29 elrod Exp $
+	$Id: hwin.c,v 1.7 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  hwin.c  ***************************************************
@@ -55,7 +55,7 @@ void imdct18(float f[]);	/* 18 point */
 void imdct6_3(float f[]);	/* 6 point */
 
 /*====================================================================*/
-ARRAY36 *hwin_init_addr()
+ARRAY36 *hwin_init_addr(void)
 {
    return win;
 }

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: iupL1.c,v 1.4 1999/10/19 07:13:08 elrod Exp $
+	$Id: iupL1.c,v 1.5 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  iupL1.c  ***************************************************
@@ -44,7 +44,7 @@ static int look_c_valueL1[16];	/* built by init */
 static int look_c_shiftL1[16];	/* built by init */
 
 /*======================================================================*/
-static void unpack_baL1()
+static void unpack_baL1(void)
 {
    int k;
    int nstereo;
@@ -75,7 +75,7 @@ static void unpack_baL1()
 
 }
 /*-------------------------------------------------------------------------*/
-static void unpack_sfL1()	/* unpack scale factor */
+static void unpack_sfL1(void)	/* unpack scale factor */
 {				/* combine dequant and scale factors */
    int i, n;
    INT32 tmp;			/* only reason tmp is 32 bit is to get 32 bit mult result */
@@ -102,7 +102,7 @@ static void unpack_sfL1()	/* unpack scale factor */
     k++;       /* skip right chan dispatch */                \
     goto dispatch;
 /*-------------------------------------------------------------------------*/
-static void unpack_sampL1()	/* unpack samples */
+static void unpack_sampL1(void)	/* unpack samples */
 {
    int j, k;
    SAMPLEINT *s;
@@ -191,7 +191,7 @@ static void unpack_sampL1()	/* unpack samples */
 /*-- done --*/
 }
 /*-------------------------------------------------------------------------*/
-static void unpackL1()
+static void unpackL1(void)
 {
    int prot;
 

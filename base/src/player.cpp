@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.201 2000/05/23 13:37:30 elrod Exp $
+        $Id: player.cpp,v 1.202 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -977,8 +977,8 @@ RegisterLMCs(Registry * registry)
       RegistryItem* temp = registry->GetItem(iLoop);
 
       lmc = (LogicalMediaConverter *)temp->InitFunction()(m_context);
-      vector<char *> *extList = lmc->GetExtensions();
-      vector<char *>::iterator i;
+      vector<const char *> *extList = lmc->GetExtensions();
+      vector<const char *>::iterator i;
 
       for (i = extList->begin(); i != extList->end(); i++)
       {
@@ -1999,7 +1999,7 @@ ServiceEvent(Event * pC)
 
         default:
             m_context->log->Error("serviceEvent: Unknown event: %d\n",
-            pC->Type());
+                                  pC->Type());
             delete  pC;
             break;
     }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.cpp,v 1.6 2000/02/29 10:01:58 elrod Exp $
+	$Id: misc.cpp,v 1.7 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -70,7 +70,7 @@ Misc::Misc(FAContext* context):MetaDataFormat(context)
         RegistryItem* temp = m_lmcReg.GetItem(i);
 
         lmc = (LogicalMediaConverter *)temp->InitFunction()(m_context);
-        vector<char*>* extList = lmc->GetExtensions();
+        vector<const char*>* extList = lmc->GetExtensions();
 
         for (uint32 j = 0; j < extList->size(); j++)
         {

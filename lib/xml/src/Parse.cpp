@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.6 2000/03/28 01:34:54 elrod Exp $
+   $Id: Parse.cpp,v 1.7 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -44,8 +44,8 @@ const int iMaxPCDataLength = 4096;
 
 struct EntityDefs
 {
-    char *szEntity;
-    char *szReplacement;
+    const char *szEntity;
+    const char *szReplacement;
 };
 
 EntityDefs pEntities[] =

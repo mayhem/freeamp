@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupL1.c,v 1.3 1999/10/19 07:13:08 elrod Exp $
+	$Id: cupL1.c,v 1.4 2000/05/24 17:08:33 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  cupL1.c  ***************************************************
@@ -41,7 +41,7 @@ static float look_c_valueL1[16];
 static int nbatL1 = 32;
 
 /*======================================================================*/
-static void unpack_baL1()
+static void unpack_baL1(void)
 {
    int j;
    int nstereo;
@@ -93,7 +93,7 @@ static void unpack_sfL1(void)	/* unpack scale factor */
     k++;                                                     \
     goto dispatch;
 /*-------------------------------------------------------------------------*/
-static void unpack_sampL1()	/* unpack samples */
+static void unpack_sampL1(void)	/* unpack samples */
 {
    int j, k;
    float *s;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicsearchui.h,v 1.5 2000/02/09 21:21:27 elrod Exp $
+        $Id: musicsearchui.h,v 1.6 2000/05/24 17:08:34 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICSEARCHUI_H_
@@ -42,7 +42,7 @@ class musicsearchUI {
     Error AcceptEvent(Event *);
  
     void SetSearchPath(string &newpath) { searchPath = newpath; }
-    void SetSearchPath(char *newpath) { searchPath = newpath; }
+    void SetSearchPath(const char *newpath) { searchPath = newpath; }
 
     void UpdateEntry(void);
 

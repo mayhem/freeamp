@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.42.4.7 1999/09/09 03:58:08 elrod Exp $
+        $Id: player.h,v 1.42.4.8 1999/09/23 21:00:06 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -32,6 +32,7 @@ using namespace std;
 #include "thread.h"
 #include "event.h"
 #include "queue.h"
+using namespace blah;
 #include "ui.h"
 #include "mutex.h"
 #include "playlist.h"

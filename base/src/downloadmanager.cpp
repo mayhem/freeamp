@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.13 1999/09/23 20:30:18 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.14 1999/09/23 20:59:35 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -514,7 +514,7 @@ Error DownloadManager::Download(DownloadItem* item)
         uint8  port;
         struct sockaddr_in  addr;
         struct hostent      host;
-        SOCKET s;
+        SOCKET s = -1;
         char* file;
         
 
@@ -604,24 +604,39 @@ Error DownloadManager::Download(DownloadItem* item)
                                          "Accept: */*\n" 
                                          "User-Agent: FreeAmp/%s\n";
 
+                const char* kRange = "Range: %lu-\n";
+
                 char* query = new char[ strlen(kHTTPQuery) + 
                                         strlen(file) +
                                         strlen(localname) +
-                                        strlen(FREEAMP_VERSION) + 2];
+                                        strlen(FREEAMP_VERSION)+
+                                        (item->GetBytesReceived() ? (strlen(kRange) + 26): 0 ) +
+                                        2];
             
                 sprintf(query, kHTTPQuery, file, localname, FREEAMP_VERSION);
+
+                // do we need to request a range?
+                if(item->GetBytesReceived())
+                {
+                    char* range = new char[strlen(kRange) + 26 + 1];
+
+                    sprintf(range, kRange, item->GetBytesReceived());
+
+                    strcat(query, range);
+
+                    delete [] range;
+                }
             
                 strcat(query, "\n");
 
-                int count;
-
                 //cout << query << endl;
+
+                int count;
 
                 count = send(s, query, strlen(query), 0);
 
                 if(count != strlen(query))
                 {
-                    closesocket(s);
                     result = kError_IOError;
                 }
 
@@ -735,7 +750,7 @@ Error DownloadManager::Download(DownloadItem* item)
                                 if(count > 0)
                                     write(fd, buffer, count);
 
-                                cout << "bytes recvd:" << count << endl;
+                                //cout << "bytes recvd:" << count << endl;
 
                             }while(count > 0 && 
                                    item->GetState() == kDownloadItemState_Downloading);
@@ -829,9 +844,13 @@ Error DownloadManager::Download(DownloadItem* item)
 
             }
 
+            // cleanup
            
             if(buffer)
                 free(buffer);
+
+            if(s > 0)
+                closesocket(s);
         }
 
     }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.10 1999/09/21 01:03:15 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.11 1999/09/23 21:00:06 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -132,6 +132,8 @@ class DownloadItem {
 
         m_state = kDownloadItemState_Null;
         m_error = kError_NoErr;
+        m_bytesTotal = 0;
+        m_bytesReceived = 0;
     }
 
     virtual ~DownloadItem() {}
@@ -166,6 +168,12 @@ class DownloadItem {
 
     void SetDownloadError(Error error) { m_error = error; }
     Error GetDownloadError() const { return m_error; }
+
+    void SetTotalBytes(uint32 bytes) { m_bytesTotal = bytes; }
+    uint32 GetTotalBytes() const { return m_bytesTotal; }
+
+    void SetBytesReceived(uint32 bytes) { m_bytesReceived = bytes; }
+    uint32 GetBytesReceived() const { return m_bytesReceived; }
 
  protected:
     Error SetBuffer(char* dest, const char* src, uint32* len)
@@ -203,6 +211,8 @@ class DownloadItem {
     DownloadItemState m_state;
     bool m_allowResume;
     Error m_error;
+    uint32 m_bytesReceived;
+    uint32 m_bytesTotal;
 };
 
 class DownloadManager {

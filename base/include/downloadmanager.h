@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.7.2.1.2.2 2000/03/07 02:36:42 ijr Exp $
+	$Id: downloadmanager.h,v 1.7.2.1.2.3 2000/03/07 04:05:40 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -52,6 +52,10 @@ using namespace std;
 #include "metadata.h"
 #include "registry.h"
 #include "downloadformat.h"
+
+#ifndef WIN32
+#include <arpa/inet.h>
+#endif
 
 #define kInvalidIndex 0xFFFFFFFF
 
@@ -265,6 +269,7 @@ class DownloadManager {
     bool DoesDBDirExist(char* path);
 
     Error Recv(int hHandle, char *pBuffer, int iSize, int iFlags, int &iRet, DownloadItem *item);
+    Error Send(int hHandle, char *pBuffer, int iSize, int iFlags, int &iRet, DownloadItem *item);
     Error Connect(int hHandle, const sockaddr *pAddr, int &iRet, DownloadItem *item);
 
  private:

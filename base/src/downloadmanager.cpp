@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.6 2000/03/07 02:36:42 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.7 2000/03/07 04:05:40 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -803,7 +803,9 @@ Error DownloadManager::Download(DownloadItem* item)
 
                 //*m_debug << "send:" << endl << query;
 
-                count = send(s, query, strlen(query), 0);
+                err = Send(s, query, strlen(query), 0, count, item);
+                if (IsError(err))
+                    result = kError_UserCancel; 
 
                 if(count != (int)strlen(query))
                 {
@@ -1565,6 +1567,37 @@ Error DownloadManager::Recv(int hHandle, char *pBuffer, int iSize,
            continue;
         }
         iRead = recv(hHandle, pBuffer, iSize, iFlags);
+        if (iRead < 0)
+        {
+           return kError_NoErr;
+        }
+        break;
+    }
+
+    if (m_exit || item->GetState() != kDownloadItemState_Downloading)
+       return kError_Interrupt;
+       
+    return kError_NoErr;
+}                            
+
+Error DownloadManager::Send(int hHandle, char *pBuffer, int iSize, 
+                            int iFlags, int &iRead, DownloadItem *item)
+{
+    fd_set              sSet; 
+    struct timeval      sTv;
+    int                 iRet;
+
+    for(; !m_exit && item->GetState() == kDownloadItemState_Downloading;)
+    {
+        sTv.tv_sec = 0; sTv.tv_usec = 0;
+        FD_ZERO(&sSet); FD_SET(hHandle, &sSet);
+        iRet = select(hHandle + 1, NULL, &sSet, NULL, &sTv);
+        if (!iRet)
+        {
+		   usleep(10000);
+           continue;
+        }
+        iRead = send(hHandle, pBuffer, iSize, iFlags);
         if (iRead < 0)
         {
            return kError_NoErr;

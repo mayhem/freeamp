@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: PrefView.cpp,v 1.1 2000/02/15 11:36:41 hiro Exp $
+   $Id: PrefView.cpp,v 1.2 2000/04/05 14:58:51 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "PrefView.h"
@@ -27,6 +27,7 @@ ____________________________________________________________________________*/
 #include "ThemeManager.h"
 #include "facontext.h"
 #include "event.h"
+#include <be/interface/Window.h>
 #include <be/interface/TabView.h>
 #include <be/interface/Button.h>
 #include <be/interface/TextView.h>

@@ -18,10 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: TooltipFilter.cpp,v 1.1 2000/03/24 01:18:41 hiro Exp $
+        $Id: TooltipFilter.cpp,v 1.2 2000/04/05 14:58:22 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "TooltipFilter.h"
+#include <be/app/Message.h>
 #include <be/app/Looper.h>
 #include <be/interface/View.h>
 #include <stdio.h>
@@ -53,14 +54,14 @@ TooltipFilter::Filter( BMessage* message, BHandler** target )
     {
         case B_ENTERED_VIEW:
         {
-            BMessage tip( m_template );
+            BMessage tip( *m_template );
             tip.AddString( "text", m_text.String() );
             Looper()->PostMessage( &tip );
             break;
         }
         case B_EXITED_VIEW:
         {
-            BMessage tip( m_template );
+            BMessage tip( *m_template );
             tip.AddString( "text", "" );
             Looper()->PostMessage( &tip );
             break;

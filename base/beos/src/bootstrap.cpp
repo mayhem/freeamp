@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.10 2000/03/12 06:00:26 hiro Exp $
+	$Id: bootstrap.cpp,v 1.11 2000/04/05 15:03:31 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -27,6 +27,7 @@ ____________________________________________________________________________*/
 
 #include <iostream>
 
+#include <be/app/Roster.h>
 #include <be/storage/Entry.h>
 #include <be/storage/Path.h>
 #define DEBUG 1

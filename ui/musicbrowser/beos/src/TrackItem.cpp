@@ -18,12 +18,13 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: TrackItem.cpp,v 1.1 2000/03/24 01:18:41 hiro Exp $
+        $Id: TrackItem.cpp,v 1.2 2000/04/05 14:58:22 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "TrackItem.h"
 #include "metadata.h"
 #include "playlist.h"
+#include <be/interface/View.h>
 #define DEBUG 1
 #include <be/support/Debug.h>
 #include <stdio.h>

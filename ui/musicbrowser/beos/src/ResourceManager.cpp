@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: ResourceManager.cpp,v 1.1 2000/03/24 01:18:41 hiro Exp $
+        $Id: ResourceManager.cpp,v 1.2 2000/04/05 14:58:22 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "ResourceManager.h"
@@ -77,9 +77,9 @@ const char*
 ResourceManager::GetString( int32 id )
 {
     size_t size;
-    const void* data;
 
-    return m_resources.LoadResource( B_STRING_TYPE, id, &size );
+    return static_cast<const char*>
+           ( m_resources.LoadResource( B_STRING_TYPE, id, &size ) );
 }
 
 status_t

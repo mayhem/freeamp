@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTreeView.cpp,v 1.2 2000/03/28 08:48:50 hiro Exp $
+        $Id: MusicTreeView.cpp,v 1.3 2000/04/05 14:58:22 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "MusicTreeView.h"
@@ -82,7 +82,7 @@ MusicTreeView::InitiateDrag( BPoint point, int32 index, bool wasSelected )
         DragMessage( &msg, dragRect, NULL );
         if ( wasSelected )
         {
-            BMessage sm( SelectionMessage() );
+            BMessage sm( *SelectionMessage() );
             sm.AddPointer( "source", this );
             Messenger().SendMessage( &sm );
         }
@@ -199,7 +199,8 @@ MusicTreeView::AddPlaylistListItem( PlaylistListItem* item )
 }
 
 TrackItem*
-MusicTreeView::FindTrackItemUnder( PlaylistItem* item, CollectionItem* group  )
+MusicTreeView::FindTrackItemUnder( const PlaylistItem* item,
+                                   CollectionItem* group  )
 {
     TrackItem* ti = NULL;
     bool found = false;
@@ -225,7 +226,7 @@ MusicTreeView::FindTrackItemUnder( PlaylistItem* item, CollectionItem* group  )
 }
 
 TrackItem*
-MusicTreeView::FindTrackItemInArtistGroup( PlaylistItem* item )
+MusicTreeView::FindTrackItemInArtistGroup( const PlaylistItem* item )
 {
     int32 head, tail;
     GetArtistGroupRange( &head, &tail );

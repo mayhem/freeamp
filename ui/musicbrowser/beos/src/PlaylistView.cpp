@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: PlaylistView.cpp,v 1.4 2000/03/28 11:59:40 hiro Exp $
+        $Id: PlaylistView.cpp,v 1.5 2000/04/05 14:58:22 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "PlaylistView.h"
@@ -74,7 +74,7 @@ PlaylistView::InitiateDrag( BPoint point, int32 index, bool wasSelected )
         DragMessage( &msg, dragRect, NULL );
         if ( wasSelected )
         {
-            BMessage sm( SelectionMessage() );
+            BMessage sm( *SelectionMessage() );
             sm.AddPointer( "source", this );
             Messenger().SendMessage( &sm );
         }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTreeView.h,v 1.2 2000/03/28 08:48:50 hiro Exp $
+        $Id: MusicTreeView.h,v 1.3 2000/04/05 14:58:22 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSIC_TREE_VIEW_H__
@@ -59,9 +59,9 @@ public:
     bool            RemoveTrack( const char* artist, const char* album,
                                  const PlaylistItem* item );
     void            UpdateTrack( PlaylistItem* oldItem, PlaylistItem* newItem );
-    TrackItem*      FindTrackItemUnder( PlaylistItem* item,
+    TrackItem*      FindTrackItemUnder( const PlaylistItem* item,
                                         CollectionItem* group );
-    TrackItem*      FindTrackItemInArtistGroup( PlaylistItem* item );
+    TrackItem*      FindTrackItemInArtistGroup( const PlaylistItem* item );
     CollectionItem* FindArtistGroup( const char* artist );
 
     uint32          ArtistOutlineLevel( void ) const;

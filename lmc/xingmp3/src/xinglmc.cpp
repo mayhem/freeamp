@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.63 1999/03/08 02:17:00 robert Exp $
+   $Id: xinglmc.cpp,v 1.64 1999/03/11 02:53:34 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -314,7 +314,7 @@ int32 XingLMC::GetVolume(void)
    if (m_output)
       return m_output->GetVolume();
    else
-      return 0;
+      return -1;
 }
 
 bool XingLMC::IsStreaming()

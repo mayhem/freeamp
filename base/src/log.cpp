@@ -18,11 +18,12 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: log.cpp,v 1.2 1999/03/08 02:16:46 robert Exp $
+        $Id: log.cpp,v 1.3 1999/03/11 02:53:24 robert Exp $
 ____________________________________________________________________________*/
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include <stdlib.h>
 #include <assert.h>
 
 #include "log.h"
@@ -49,6 +50,8 @@ LogFile::~LogFile(void)
 {
     if (m_fpLog)
        fclose(m_fpLog);
+	if (m_szLogFile)
+	   free(m_szLogFile);
 }
 
 bool LogFile::Open(void)

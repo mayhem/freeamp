@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: eventbuffer.cpp,v 1.3 1999/03/07 06:21:43 robert Exp $
+   $Id: eventbuffer.cpp,v 1.4 1999/03/11 02:53:32 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -53,12 +53,15 @@ Error EventBuffer::BeginRead(void *&pBuffer, size_t &iBytesWanted)
 
 
    if (pEvent && pEvent->iIndex == iReadIndex)
+   {
       return kError_EventPending;
+   }
 
    if (!pEvent)
+   {
        return PullBuffer::BeginRead(pBuffer, iBytesWanted, false);
+   }
 
-   //printf("iReadIndex: %d EventIndex: %d\n", iReadIndex, pEvent->iIndex);
 
    if (pEvent->iIndex > iReadIndex)
       iMaxBytes = pEvent->iIndex - iReadIndex;
@@ -67,6 +70,7 @@ Error EventBuffer::BeginRead(void *&pBuffer, size_t &iBytesWanted)
 
    if (iBytesWanted > iMaxBytes)
       iBytesWanted = iMaxBytes;
+
 
    return PullBuffer::BeginRead(pBuffer, iBytesWanted);
 }
@@ -82,6 +86,7 @@ Error EventBuffer::BeginWrite(void *&pBuffer, size_t &iBytesWanted)
        if (eRet == kError_BufferTooSmall)
        {
            m_pWriteSem->Wait();
+
            continue;
        }
 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.89 1999/03/08 14:30:51 elrod Exp $
+        $Id: player.cpp,v 1.90 1999/03/11 02:53:25 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -37,6 +37,7 @@ ____________________________________________________________________________*/
 #include "registrar.h"
 #include "preferences.h"
 #include "properties.h"
+#include "volume.h"
 #include "log.h"
 
 Player   *Player::m_thePlayer = NULL;
@@ -48,8 +49,7 @@ LogFile *g_Log = NULL;
                              }
 
 
-Player   *Player::
-GetPlayer()
+Player *Player::GetPlayer()
 {
    if (m_thePlayer == NULL)
    {
@@ -822,6 +822,9 @@ void Player::CreateLMC(PlayListItem * pc, Event * pC)
    }
 
    iVolume = lmc->GetVolume();
+   if (iVolume < 0)
+	   iVolume = VolumeManager::GetVolume();
+
    m_props.SetProperty("pcm_volume", new Int32PropValue(iVolume));
 
    m_lmc = lmc;
@@ -1308,6 +1311,9 @@ PropertyChange(const char *pProp, PropValue * ppv)
 
       if (m_lmc)
          m_lmc->SetVolume(newVol);
+	  else
+	     VolumeManager::SetVolume(newVol);
+
 
       rtn = kError_NoErr;
    }

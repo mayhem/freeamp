@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.94 2000/03/16 08:00:01 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.95 2000/03/16 08:28:00 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -334,6 +334,12 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          m_pWindow->ControlEnable(string("VolumePlus"), true, bEnable);
          m_pWindow->ControlEnable(string("VolumeMinus"), true, bEnable);
          
+         bEnable = false;
+         m_pWindow->ControlEnable(string("StopIndicator"), true, bEnable);
+         m_pWindow->ControlEnable(string("PauseIndicator"), true, bEnable);
+         bEnable = true;
+         m_pWindow->ControlEnable(string("PlayIndicator"), true, bEnable);
+
          m_bPlayShown = false;
          m_bPaused = false;
          
@@ -365,8 +371,6 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          m_pWindow->ControlStringValue("BufferInfo", true, oEmpty);
          m_oStreamInfo = "";
          m_pWindow->ControlStringValue("StreamInfo", true, oEmpty);
-         m_pWindow->ControlStringValue("SampleRate", true, oEmpty);
-         m_pWindow->ControlStringValue("BitRate", true, oEmpty);
          
          if (e->Type() == INFO_Stopped)
          {
@@ -390,6 +394,24 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
             m_pWindow->ControlEnable(string("Volume"), true, bEnable);
             m_pWindow->ControlEnable(string("VolumePlus"), true, bEnable);
             m_pWindow->ControlEnable(string("VolumeMinus"), true, bEnable);
+            m_pWindow->ControlEnable(string("StereoIndicator"), true, bEnable);
+            m_pWindow->ControlEnable(string("MonoIndicator"), true, bEnable);
+
+            m_pWindow->ControlStringValue("SampleRate", true, oEmpty);
+            m_pWindow->ControlStringValue("BitRate", true, oEmpty);
+
+            bEnable = false;
+            m_pWindow->ControlEnable(string("PlayIndicator"), true, bEnable);
+            m_pWindow->ControlEnable(string("PauseIndicator"), true, bEnable);
+            bEnable = true;
+            m_pWindow->ControlEnable(string("StopIndicator"), true, bEnable);
+         }
+         else {
+            bEnable = false;
+            m_pWindow->ControlEnable(string("PlayIndicator"), true, bEnable);
+            m_pWindow->ControlEnable(string("StopIndicator"), true, bEnable);
+            bEnable = true;
+            m_pWindow->ControlEnable(string("PauseIndicator"), true, bEnable);
          }
          
          break;
@@ -575,6 +597,10 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
          tempstr = text;
          m_pWindow->ControlStringValue("SampleRate", true, tempstr);
 
+         bool bEnable = info->GetChannels();
+         m_pWindow->ControlEnable(string("StereoIndicator"), true, bEnable);
+         bEnable = !bEnable;
+         m_pWindow->ControlEnable(string("MonoIndicator"), true, bEnable);
          delete [] text;
       
          break;
@@ -1135,6 +1161,14 @@ void FreeAmpTheme::InitControls(void)
         if (m_pHeadlineGrabber)
            m_pHeadlineGrabber->Pause();
     }
+
+    bEnable = false;
+    m_pWindow->ControlEnable(string("StereoIndicator"), true, bEnable);
+    m_pWindow->ControlEnable(string("MonoIndicator"), true, bEnable);
+    m_pWindow->ControlEnable(string("PlayIndicator"), true, bEnable);
+    m_pWindow->ControlEnable(string("PauseIndicator"), true, bEnable);
+    bEnable = true;
+    m_pWindow->ControlEnable(string("StopIndicator"), true, bEnable);
 }
 
 // This function gets called after the window object is created,

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.12 1999/07/27 19:24:57 robert Exp $
+# $Id: Makefile-plugins.in,v 1.13 1999/07/28 00:51:12 dogcow Exp $
 
 RELOC = @FPIC@
 
@@ -116,7 +116,7 @@ plugins/mpg123-$(HOST_OS).ui: $(MPG123UIOBJ)
 NCURSESUIOBJ = ui/ncurses/ncursesUI.o
 
 plugins/ncurses-$(HOST_OS).ui: $(NCURSESUIOBJ)
-	$(LINKMOD) -o $@ $(NCURSESUIOBJ) -lncurses
+	$(LINKMOD) -o $@ $(NCURSESUIOBJ) -l@CURSES@
 
 # lcd ui
 LCDUIOBJ = ui/lcd/src/lcdui.o ui/lcd/src/sockets.o

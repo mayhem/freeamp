@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.44 1999/07/19 22:22:21 ijr Exp $
+dnl $Id: configure.in,v 1.45 1999/07/28 00:51:13 dogcow Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -429,7 +429,18 @@ else
   EXTRALIBS="$EXTRALIBS -lXpm"
 fi
 
+AC_CHECK_LIB(ncurses,initscr,curses="ncurses", [
+	AC_CHECK_LIB(curses,initscr,curses="curses", [
+	  echo "curses/ncurses not found. disabling curses UI."
+	])
+])
 
+if test "$curses" != ""; then
+	OSDEPPLUGINS="$OSDEPPLUGINS plugins/ncurses-${host_os}.ui";
+	CURSES="$curses";
+	AC_SUBST(CURSES)
+fi
+	
 dnl ****
 dnl Check for alsa
 dnl ****

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.12 1999/11/20 21:34:13 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.13 1999/11/29 08:03:43 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -53,6 +53,27 @@ typedef enum {
     kClickTrack
 } TreeClickState;
 
+typedef enum {
+   kTreeMyMusic,
+   kTreeAll,
+   kTreeUncat,
+   kTreeArtist,
+   kTreeAlbum,
+   kTreeTrack,
+   kTreePlaylistHead,
+   kTreePlaylist
+} TreeNodeType;
+
+typedef struct {
+    int type;
+    MusicCatalog *catalog;
+    ArtistList   *artist;
+    AlbumList    *album;
+    PlaylistItem *track;
+    string        playlistname;
+    string        message;
+} TreeData;
+
 class GTKMusicBrowser {
  public:
     GTKMusicBrowser(FAContext *, MusicBrowserUI *masterUI,
@@ -72,9 +93,8 @@ class GTKMusicBrowser {
     int m_playlistLastSort;
     string m_currentListName;
 
-    char *mbSelName;
-    PlaylistItem *mbSel;
-    GtkWidget *mbSelWidget;
+    TreeData *mbSelection;
+    GtkCTree *musicBrowserTree;
  
     FAContext *GetContext(void) { return m_context; }
     void UpdateCatalog(void);
@@ -119,10 +139,10 @@ class GTKMusicBrowser {
     GtkWidget *masterBrowserBox;
     GtkWidget *masterPlaylistBox;
     GtkWidget *musicBrowserWindow;
-    GtkWidget *musicBrowserTree;
     GtkWidget *playlistList;
     GtkWidget *playlistOMenu;
     GtkWidget *playlistMenu;
+    GtkWidget *addTrack;
     GtkWidget *addFile;
     GtkWidget *toolUp;
     GtkWidget *toolDown;
@@ -138,6 +158,11 @@ class GTKMusicBrowser {
     GtkWidget *playlistSubTree;
   
     void UpdatePlayPause();
+    TreeData *NewTreeData(int type, MusicCatalog *cat = NULL, 
+                          ArtistList *art = NULL, AlbumList *alb = NULL, 
+                          PlaylistItem *tr = NULL, char *pname = NULL,
+                          char *message = NULL);
+
   public:
     ClickState GetClickState() { return m_clickState; }
     void SetClickState(ClickState newState);

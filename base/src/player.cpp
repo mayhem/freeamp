@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.242 2000/09/29 12:13:57 ijr Exp $
+        $Id: player.cpp,v 1.243 2000/09/29 13:10:36 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1590,10 +1590,10 @@ CreatePMO(const PlaylistItem * pc, Event * pC)
    }
 
    lmc_item = ChooseLMC(pc->URL().c_str());
-   if (!lmc_item)
+   if (!lmc_item) 
    // FIXME: Should probably have a user definable default LMC
-      lmc_item = m_lmcRegistry->GetItem(0);
-  
+      lmc_item = ChooseLMC("blah.mp3");
+
    if (pmi_item)
    {
       pmi = (PhysicalMediaInput *) pmi_item->InitFunction()(m_context);

@@ -19,13 +19,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.h,v 1.1 1999/04/18 05:01:38 dogcow Exp $
+	$Id: semaphore.h,v 1.1.10.1 1999/09/09 02:42:01 elrod Exp $
 ____________________________________________________________________________*/
 
 
 
-#ifndef _SEMAPHORE_H_
-#define _SEMAPHORE_H_
+#ifndef INCLUDED_SEMAPHORE_H_
+#define INCLUDED_SEMAPHORE_H_
 
 #include <pthread.h>
 

@@ -22,8 +22,8 @@
 ____________________________________________________________________________*/
 
 
-#ifndef _DSOUNDCARDPMO_H_
-#define _DSOUNDCARDPMO_H_
+#ifndef INCLUDED_DSOUNDCARDPMO_H_
+#define INCLUDED_DSOUNDCARDPMO_H_
 
 /* project headers */
 #include <windows.h>

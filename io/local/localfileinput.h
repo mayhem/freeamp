@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.h,v 1.16.4.1 1999/08/27 07:16:46 elrod Exp $
+        $Id: localfileinput.h,v 1.16.4.2 1999/09/09 02:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _LOCALFILEINPUT_H_
-#define _LOCALFILEINPUT_H_
+#ifndef INCLUDED_LOCALFILEINPUT_H_
+#define INCLUDED_LOCALFILEINPUT_H_
 
 /* system headers */
 #include <stdlib.h>

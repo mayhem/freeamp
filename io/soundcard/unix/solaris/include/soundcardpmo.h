@@ -17,11 +17,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.h,v 1.6 1999/07/19 21:07:58 dogcow Exp $
+        $Id: soundcardpmo.h,v 1.6.4.1 1999/09/09 02:42:08 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _SOUNDCARDPMO_H_
-#define _SOUNDCARDPMO_H_
+#ifndef INCLUDED_SOUNDCARDPMO_H_
+#define INCLUDED_SOUNDCARDPMO_H_
 
 /* system headers */
 #include <stdlib.h>

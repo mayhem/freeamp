@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.1.2.1 1999/09/08 22:46:41 robert Exp $
+   $Id: Win32Window.h,v 1.1.2.2 1999/09/09 02:42:10 elrod Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef __WIN32WINDOW__H_
-#define __WIN32WINDOW__H_
+#ifndef INCLUDED_WIN32WINDOW__H_
+#define INCLUDED_WIN32WINDOW__H_
 
 #include <string>
 #include <vector>

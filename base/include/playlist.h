@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.16 1999/09/09 01:25:34 ijr Exp $
+	$Id: playlist.h,v 1.40.4.17 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PLAYLIST_H_
-#define _PLAYLIST_H_
+#ifndef INCLUDED_PLAYLIST_H_
+#define INCLUDED_PLAYLIST_H_
 
 #include <assert.h>
 #include <string>

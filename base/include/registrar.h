@@ -17,11 +17,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.h,v 1.6 1999/04/21 04:20:43 elrod Exp $
+	$Id: registrar.h,v 1.6.8.1 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _REGISTRAR_H_
-#define _REGISTRAR_H_
+#ifndef INCLUDED_REGISTRAR_H_
+#define INCLUDED_REGISTRAR_H_
 
 #include "errors.h"
 #include "registry.h"

@@ -17,12 +17,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.33.2.2 1999/08/27 03:09:41 elrod Exp $
+   $Id: xinglmc.h,v 1.33.2.3 1999/09/09 02:42:08 elrod Exp $
 
 ____________________________________________________________________________*/
 
-#ifndef _XINGLMC_H_
-#define _XINGLMC_H_
+#ifndef INCLUDED_XINGLMC_H_
+#define INCLUDED_XINGLMC_H_
 
 /* system headers */
 #include <stdlib.h>

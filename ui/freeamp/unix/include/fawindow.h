@@ -19,12 +19,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.h,v 1.11 1999/07/27 19:25:04 robert Exp $
+	$Id: fawindow.h,v 1.11.4.1 1999/09/09 02:42:08 elrod Exp $
 ____________________________________________________________________________*/
 
 
-#ifndef _FAWindow_H_
-#define _FAWindow_H_
+#ifndef INCLUDED_FAWindow_H_
+#define INCLUDED_FAWindow_H_
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xos.h>

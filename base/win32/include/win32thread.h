@@ -18,12 +18,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32thread.h,v 1.4 1999/04/16 09:46:39 elrod Exp $
+	$Id: win32thread.h,v 1.4.10.1 1999/09/09 02:42:01 elrod Exp $
 ____________________________________________________________________________*/
 
 
-#ifndef _WIN32_THREAD_H
-#define _WIN32_THREAD_H
+#ifndef INCLUDED_WIN32_THREAD_H
+#define INCLUDED_WIN32_THREAD_H
 
 #include <windows.h>
 #include "config.h"

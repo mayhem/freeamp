@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: renderer.h,v 1.1 1999/03/03 09:03:40 elrod Exp $
+	$Id: renderer.h,v 1.1.12.1 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _RENDERER_H_
-#define _RENDERER_H_
+#ifndef INCLUDED_RENDERER_H_
+#define INCLUDED_RENDERER_H_
 
 #include "config.h"
 #include "dib.h"

@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.42.4.5 1999/09/09 01:25:34 ijr Exp $
+        $Id: player.h,v 1.42.4.6 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+#ifndef INCLUDED_PLAYER_H_
+#define INCLUDED_PLAYER_H_
 
 #include <vector>
 

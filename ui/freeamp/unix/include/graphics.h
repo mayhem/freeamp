@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: graphics.h,v 1.7 1998/12/01 19:24:09 jdw Exp $
+	$Id: graphics.h,v 1.7.12.1 1999/09/09 02:42:08 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _GRAPHICS_H_
-#define _GRAPHICS_H_
+#ifndef INCLUDED_GRAPHICS_H_
+#define INCLUDED_GRAPHICS_H_
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>

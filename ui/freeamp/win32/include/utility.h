@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.7.8.1 1999/08/27 03:09:42 elrod Exp $
+	$Id: utility.h,v 1.7.8.2 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _UTILITY_H_
-#define _UTILITY_H_
+#ifndef INCLUDED_UTILITY_H_
+#define INCLUDED_UTILITY_H_
 
 /* system headers */
 #define STRICT

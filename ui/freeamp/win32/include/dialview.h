@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dialview.h,v 1.2 1999/03/15 09:16:03 elrod Exp $
+	$Id: dialview.h,v 1.2.12.1 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _DialView_H_
-#define _DialView_H_
+#ifndef INCLUDED_DialView_H_
+#define INCLUDED_DialView_H_
 
 #include "config.h"
 #include "view.h"

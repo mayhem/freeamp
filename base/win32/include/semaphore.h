@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.h,v 1.4 1999/04/08 07:39:04 elrod Exp $
+	$Id: semaphore.h,v 1.4.12.1 1999/09/09 02:42:01 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _SEMAPHORE_H_
-#define _SEMAPHORE_H_
+#ifndef INCLUDED_SEMAPHORE_H_
+#define INCLUDED_SEMAPHORE_H_
 				
 #include <windows.h>
 

@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.24.4.2 1999/08/30 08:43:33 elrod Exp $
+	$Id: pmi.h,v 1.24.4.3 1999/09/09 02:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PMI_H_
-#define _PMI_H_
+#ifndef INCLUDED_PMI_H_
+#define INCLUDED_PMI_H_
 
 /* system headers */
 #include <stdlib.h>

@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.h,v 1.1.2.2 1999/09/09 00:27:03 robert Exp $
+   $Id: GTKBitmap.h,v 1.1.2.3 1999/09/09 02:42:10 elrod Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef __GTKBITMAP_H__
-#define __GTKBITMAP_H__
+#ifndef INCLUDED_GTKBITMAP_H__
+#define INCLUDED_GTKBITMAP_H__
 
 #include <string>
 

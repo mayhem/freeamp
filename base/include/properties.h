@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: properties.h,v 1.3 1999/01/24 01:37:15 jdw Exp $
+	$Id: properties.h,v 1.3.12.1 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PROPERTIES_H_
-#define _PROPERTIES_H_
+#ifndef INCLUDED_PROPERTIES_H_
+#define INCLUDED_PROPERTIES_H_
 
 #include <string.h>
 #include "config.h"

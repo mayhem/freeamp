@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: metadata.h,v 1.1.2.6 1999/08/30 12:23:17 elrod Exp $
+	$Id: metadata.h,v 1.1.2.7 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _METADATA_H_
-#define _METADATA_H_
+#ifndef INCLUDED_METADATA_H_
+#define INCLUDED_METADATA_H_
 
 #include <string>
 

@@ -18,13 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.h,v 1.6.8.1 1999/08/27 03:09:43 elrod Exp $
+	$Id: lcdui.h,v 1.6.8.2 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
-// LcdUI.h
 
-
-#ifndef _LcdUI_H_
-#define _LcdUI_H_
+#ifndef INCLUDED_LcdUI_H_
+#define INCLUDED_LcdUI_H_
 
 #include "ui.h"
 #include "event.h"

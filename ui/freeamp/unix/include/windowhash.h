@@ -23,8 +23,8 @@
 ____________________________________________________________________________*/
 
 
-#ifndef _WindowHash_H_
-#define _WindowHash_H_
+#ifndef INCLUDED_WindowHash_H_
+#define INCLUDED_WindowHash_H_
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>

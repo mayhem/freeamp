@@ -19,12 +19,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: beosprefs.h,v 1.3 1999/07/20 01:06:00 hiro Exp $
+	$Id: beosprefs.h,v 1.3.4.1 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
 
-#ifndef _BEOSPREFS_H
-#define _BEOSPREFS_H
+#ifndef INCLUDED_BEOSPREFS_H
+#define INCLUDED_BEOSPREFS_H
 
 #include "config.h"
 #include "errors.h"

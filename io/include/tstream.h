@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: tstream.h,v 1.1 1999/07/26 20:24:04 robert Exp $
+	$Id: tstream.h,v 1.1.4.1 1999/09/09 02:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _TSTREAM_H_
-#define _TSTREAM_H_
+#ifndef INCLUDED_TSTREAM_H_
+#define INCLUDED_TSTREAM_H_
 
 /* system headers */
 #include <stdlib.h>

@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.1.2.1 1999/08/25 23:02:06 robert Exp $
+   $Id: GTKWindow.h,v 1.1.2.2 1999/09/09 02:42:10 elrod Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef __GTKWINDOW__H_
-#define __GTKWINDOW__H_
+#ifndef INCLUDED_GTKWINDOW__H_
+#define INCLUDED_GTKWINDOW__H_
 
 #include <string>
 #include <vector>

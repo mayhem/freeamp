@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: queue.h,v 1.6 1999/07/02 01:13:26 robert Exp $
+        $Id: queue.h,v 1.6.4.1 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _QUEUE_H_
-#define _QUEUE_H_
+#ifndef INCLUDED_QUEUE_H_
+#define INCLUDED_QUEUE_H_
 
 #include "config.h"
 #include "mutex.h"

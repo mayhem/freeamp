@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Types.h,v 1.1.2.1 1999/08/25 23:01:52 robert Exp $
+   $Id: Types.h,v 1.1.2.2 1999/09/09 02:42:10 elrod Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef __TYPES_H__
-#define __TYPES_H__
+#ifndef INCLUDED_TYPES_H__
+#define INCLUDED_TYPES_H__
 
 struct Pos
 {

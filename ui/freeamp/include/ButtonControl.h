@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.h,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
+   $Id: ButtonControl.h,v 1.1.2.4 1999/09/09 02:42:10 elrod Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef __BUTTONCONTROL_H__
-#define __BUTTONCONTROL_H__
+#ifndef INCLUDED_BUTTONCONTROL_H__
+#define INCLUDED_BUTTONCONTROL_H__
 
 // The debugger can't handle symbols more than 255 characters long.
 // STL often creates symbols longer than that.

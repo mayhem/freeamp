@@ -18,13 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-gtk.h,v 1.4.8.1 1999/08/27 03:09:43 elrod Exp $
+	$Id: freeamp-gtk.h,v 1.4.8.2 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
-// CommandLineCIO.h
 
-
-#ifndef _COMMANDLINECIO_H_
-#define _COMMANDLINECIO_H_
+#ifndef INCLUDED_COMMANDLINECIO_H_
+#define INCLUDED_COMMANDLINECIO_H_
 
 #include "ui.h"
 #include "event.h"

@@ -18,18 +18,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-----------------------------------------------------------------------------
-ncurses user interface by stephan auerhahn (palpatine@midi.net)
+    ncurses user interface by stephan auerhahn (palpatine@midi.net)
 
-this is a hacked up version of cmdlineUI.h
+    this is a hacked up version of cmdlineUI.h
+	
+	$Id: ncursesUI.h,v 1.1.4.5 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
 
-
-// ncursesUI.h
-
-
-#ifndef _NCURSESUI_H_
-#define _NCURSESUI_H_
+#ifndef INCLUDED_NCURSESUI_H_
+#define INCLUDED_NCURSESUI_H_
 
 #include "ui.h"
 #include "event.h"

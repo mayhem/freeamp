@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pipeline.h,v 1.1 1999/06/28 23:09:21 robert Exp $
+	$Id: pipeline.h,v 1.1.4.1 1999/09/09 02:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PIPELINE_H_
-#define _PIPELINE_H_
+#ifndef INCLUDED_PIPELINE_H_
+#define INCLUDED_PIPELINE_H_
 
 /* system headers */
 #include <stdlib.h>

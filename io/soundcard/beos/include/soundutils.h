@@ -1,6 +1,6 @@
-// $Id: soundutils.h,v 1.1 1999/02/10 09:32:24 elrod Exp $
-#ifndef _SOUND_UTILS_H
-#define _SOUND_UTILS_H
+// $Id: soundutils.h,v 1.1.12.1 1999/09/09 02:42:08 elrod Exp $
+#ifndef INCLUDED_SOUND_UTILS_H
+#define INCLUDED_SOUND_UTILS_H
 
 #include "config.h"
 #include <support/SupportDefs.h> 

@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portabledevice.h,v 1.1.2.9 1999/08/31 08:14:31 elrod Exp $
+	$Id: portabledevice.h,v 1.1.2.10 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PORTABLE_DEVICE_H_
-#define _PORTABLE_DEVICE_H_
+#ifndef INCLUDED_PORTABLE_DEVICE_H_
+#define INCLUDED_PORTABLE_DEVICE_H_
 
 #include <string>
 #include <vector>

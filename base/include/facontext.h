@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.3 1999/04/27 21:03:21 mhw Exp $
+	$Id: facontext.h,v 1.3.8.1 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _FACONTEXT_H_
-#define _FACONTEXT_H_
+#ifndef INCLUDED_FACONTEXT_H_
+#define INCLUDED_FACONTEXT_H_
 
 #include "config.h"
 #include "preferences.h"

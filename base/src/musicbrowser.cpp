@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.1 1999/09/09 01:25:34 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.2 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -155,7 +155,7 @@ void MusicBrowser::DoSearchMusic(char *path)
     m_database->Sync();
 }
 
-char *MusicBrowser::Stradd(char *dest, char *src, bool delim = true)
+char *MusicBrowser::Stradd(char *dest, char *src, bool delim)
 {
     if (delim) {
        dest = (char *)realloc(dest, strlen(dest) + strlen(src) + strlen(DBASEDELIM) + 2);
@@ -167,7 +167,7 @@ char *MusicBrowser::Stradd(char *dest, char *src, bool delim = true)
     return dest;
 }
 
-char *MusicBrowser::Stradd(char *dest, uint32 src, bool delim = true)
+char *MusicBrowser::Stradd(char *dest, uint32 src, bool delim)
 {
     char inthold[11];
 

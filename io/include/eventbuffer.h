@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: eventbuffer.h,v 1.4 1999/07/02 01:13:33 robert Exp $
+   $Id: eventbuffer.h,v 1.4.4.1 1999/09/09 02:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _EVENTBUFFER_H_
-#define _EVENTBUFFER_H_
+#ifndef INCLUDED_EVENTBUFFER_H_
+#define INCLUDED_EVENTBUFFER_H_
 
 /* system headers */
 #include <stdlib.h>

@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.1.2.1 1999/09/09 01:37:33 ijr Exp $
+        $Id: musicbrowser.h,v 1.1.2.2 1999/09/09 02:42:00 elrod Exp $
  ____________________________________________________________________________*/
 
-#ifndef _MUSICBROWSER_H_
-#define _MUSICBROWSER_H_
+#ifndef INCLUDED_MUSICBROWSER_H_
+#define INCLUDED_MUSICBROWSER_H_
 
 #include "database.h"
 #include "metadata.h"

@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: solaristhread.h,v 1.1 1999/04/18 05:01:38 dogcow Exp $
+	$Id: solaristhread.h,v 1.1.10.1 1999/09/09 02:42:01 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _SOLARIS_THREAD_H
-#define _SOLARIS_THREAD_H
+#ifndef INCLUDED_SOLARIS_THREAD_H
+#define INCLUDED_SOLARIS_THREAD_H
 
 #include <pthread.h>
 #include "thread.h"

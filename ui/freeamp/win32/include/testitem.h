@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: testitem.h,v 1.1 1999/03/03 09:03:41 elrod Exp $
+	$Id: testitem.h,v 1.1.12.1 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _TEST_ITEM_H
-#define _TEST_ITEM_H
+#ifndef INCLUDED_TEST_ITEM_H
+#define INCLUDED_TEST_ITEM_H
 
 #include "config.h"
 #include "listitem.h"

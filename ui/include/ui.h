@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ui.h,v 1.8.12.1 1999/08/27 03:09:43 elrod Exp $
+	$Id: ui.h,v 1.8.12.2 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _UI_H_
-#define _UI_H_
+#ifndef INCLUDED_UI_H_
+#define INCLUDED_UI_H_
 
 #include "event.h"
 #include "errors.h"

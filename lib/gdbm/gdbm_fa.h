@@ -27,8 +27,8 @@
 *************************************************************************/
 
 /* Protection for multiple includes. */
-#ifndef _GDBM_H_
-#define _GDBM_H_
+#ifndef INCLUDED_GDBM_H_
+#define INCLUDED_GDBM_H_
 
 /* Parameters to gdbm_open for READERS, WRITERS, and WRITERS who
    can create the database. */

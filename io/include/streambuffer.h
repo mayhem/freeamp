@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: streambuffer.h,v 1.8 1999/08/06 07:18:33 elrod Exp $
+   $Id: streambuffer.h,v 1.8.2.1 1999/09/09 02:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _STREAMBUFFER_H_
-#define _STREAMBUFFER_H_
+#ifndef INCLUDED_STREAMBUFFER_H_
+#define INCLUDED_STREAMBUFFER_H_
 
 /* system headers */
 #include <stdlib.h>

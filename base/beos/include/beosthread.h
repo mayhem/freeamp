@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: beosthread.h,v 1.2 1999/07/20 01:06:00 hiro Exp $
+	$Id: beosthread.h,v 1.2.4.1 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _BEOS_THREAD_H
-#define _BEOS_THREAD_H
+#ifndef INCLUDED_BEOS_THREAD_H
+#define INCLUDED_BEOS_THREAD_H
 
 #include <kernel/OS.h>
 #include <support/Locker.h>

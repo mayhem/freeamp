@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.23.4.2 1999/08/27 03:09:41 elrod Exp $
+	$Id: lmc.h,v 1.23.4.3 1999/09/09 02:42:08 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _LMC_H_
-#define _LMC_H_
+#ifndef INCLUDED_LMC_H_
+#define INCLUDED_LMC_H_
 
 #include <vector>
 

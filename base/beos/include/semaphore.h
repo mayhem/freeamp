@@ -19,13 +19,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.h,v 1.2 1999/07/20 01:06:00 hiro Exp $
+	$Id: semaphore.h,v 1.2.4.1 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
 
 
-#ifndef _SEMAPHORE_H_
-#define _SEMAPHORE_H_
+#ifndef INCLUDED_SEMAPHORE_H_
+#define INCLUDED_SEMAPHORE_H_
 
 #include <kernel/OS.h>
 #include "mutex.h"

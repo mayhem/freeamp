@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.h,v 1.1.2.2 1999/09/09 00:27:08 robert Exp $
+   $Id: Win32Bitmap.h,v 1.1.2.3 1999/09/09 02:42:10 elrod Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef __WIN32BITMAP_H__
-#define __WIN32BITMAP_H__
+#ifndef INCLUDED_WIN32BITMAP_H__
+#define INCLUDED_WIN32BITMAP_H__
 
 #include <string>
 

@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: scrollview.h,v 1.3 1999/03/24 07:41:01 elrod Exp $
+	$Id: scrollview.h,v 1.3.12.1 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _SCROLLVIEW_H_
-#define _SCROLLVIEW_H_
+#ifndef INCLUDED_SCROLLVIEW_H_
+#define INCLUDED_SCROLLVIEW_H_
 
 #include "config.h"
 #include "view.h"

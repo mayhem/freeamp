@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.28.4.1 1999/08/27 03:09:35 elrod Exp $
+	$Id: event.h,v 1.28.4.2 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _EVENT_H_
-#define _EVENT_H_
+#ifndef INCLUDED_EVENT_H_
+#define INCLUDED_EVENT_H_
 
 #include "config.h"
 

@@ -18,10 +18,10 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: log.h,v 1.4 1999/04/03 04:57:07 elrod Exp $
+        $Id: log.h,v 1.4.12.1 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
-#ifndef __LOG_H__
-#define __LOG_H__
+#ifndef INCLUDED_LOG_H__
+#define INCLUDED_LOG_H__
 
 #include <stdio.h>
 

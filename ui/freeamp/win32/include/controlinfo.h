@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: controlinfo.h,v 1.3 1999/04/01 17:02:58 elrod Exp $
+	$Id: controlinfo.h,v 1.3.12.1 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _CONTROL_INFO_H_
-#define _CONTROL_INFO_H_ 
+#ifndef INCLUDED_CONTROL_INFO_H_
+#define INCLUDED_CONTROL_INFO_H_ 
 
 #include "utility.h"
 

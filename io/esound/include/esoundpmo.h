@@ -17,11 +17,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: esoundpmo.h,v 1.5 1999/08/10 14:38:46 ijr Exp $
+        $Id: esoundpmo.h,v 1.5.2.1 1999/09/09 02:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _ESOUNDDPMO_H_
-#define _ESOUNDDPMO_H_
+#ifndef INCLUDED_ESOUNDDPMO_H_
+#define INCLUDED_ESOUNDDPMO_H_
 
 /* system headers */
 #include <stdlib.h>

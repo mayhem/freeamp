@@ -18,14 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: consoleCOO.h,v 1.2 1998/10/20 02:55:02 elrod Exp $
+	$Id: consoleCOO.h,v 1.2.12.1 1999/09/09 02:42:08 elrod Exp $
 ____________________________________________________________________________*/
 
 // CommandLineCOO.h
 
 
-#ifndef _CONSOLE_COO_H_
-#define _CONSOLE_COO_H_
+#ifndef INCLUDED_CONSOLE_COO_H_
+#define INCLUDED_CONSOLE_COO_H_
 
 #include "ui.h"
 #include "event.h"

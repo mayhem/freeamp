@@ -18,13 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.h,v 1.12.2.1 1999/08/27 03:09:42 elrod Exp $
+	$Id: cmdlineUI.h,v 1.12.2.2 1999/09/09 02:42:08 elrod Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
 
-#ifndef _COMMANDLINECIO_H_
-#define _COMMANDLINECIO_H_
+#ifndef INCLUDED_COMMANDLINECIO_H_
+#define INCLUDED_COMMANDLINECIO_H_
 
 #include "ui.h"
 #include "event.h"

@@ -18,13 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-x11.h,v 1.13.8.2 1999/08/27 16:55:28 ijr Exp $
+	$Id: freeamp-x11.h,v 1.13.8.3 1999/09/09 02:42:08 elrod Exp $
 ____________________________________________________________________________*/
 // FreeAmpUI.h
 
 
-#ifndef _FreeAmpUI_H_
-#define _FreeAmpUI_H_
+#ifndef INCLUDED_FreeAmpUI_H_
+#define INCLUDED_FreeAmpUI_H_
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>

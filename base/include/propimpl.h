@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: propimpl.h,v 1.4.4.2 1999/09/09 01:25:34 ijr Exp $
+	$Id: propimpl.h,v 1.4.4.3 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PROPIMPL_H_
-#define _PROPIMPL_H_
+#ifndef INCLUDED_PROPIMPL_H_
+#define INCLUDED_PROPIMPL_H_
 
 #include <stdlib.h>
 

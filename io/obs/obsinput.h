@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.h,v 1.11.4.1 1999/08/27 07:16:46 elrod Exp $
+        $Id: obsinput.h,v 1.11.4.2 1999/09/09 02:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _OBSFILEINPUT_H_
-#define _OBSFILEINPUT_H_
+#ifndef INCLUDED_OBSFILEINPUT_H_
+#define INCLUDED_OBSFILEINPUT_H_
 
 /* system headers */
 #include <stdlib.h>

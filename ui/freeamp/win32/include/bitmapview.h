@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bitmapview.h,v 1.2 1999/03/20 10:33:19 elrod Exp $
+	$Id: bitmapview.h,v 1.2.12.1 1999/09/09 02:42:08 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _BITMAPVIEW_H_
-#define _BITMAPVIEW_H_
+#ifndef INCLUDED_BITMAPVIEW_H_
+#define INCLUDED_BITMAPVIEW_H_
 
 #include "config.h"
 #include "view.h"

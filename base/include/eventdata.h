@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.30.4.6 1999/08/31 04:47:16 ijr Exp $
+        $Id: eventdata.h,v 1.30.4.7 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _EVENTDATA_H_
-#define _EVENTDATA_H_
+#ifndef INCLUDED_EVENTDATA_H_
+#define INCLUDED_EVENTDATA_H_
 
 #include <string.h>
 #include <stdlib.h>

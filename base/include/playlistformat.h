@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlistformat.h,v 1.1.2.7 1999/08/31 08:14:31 elrod Exp $
+	$Id: playlistformat.h,v 1.1.2.8 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PLAYLIST_FORMAT_H_
-#define _PLAYLIST_FORMAT_H_
+#ifndef INCLUDED_PLAYLIST_FORMAT_H_
+#define INCLUDED_PLAYLIST_FORMAT_H_
 
 #include <string>
 #include <vector>

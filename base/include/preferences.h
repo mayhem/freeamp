@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.11 1999/08/10 14:38:46 ijr Exp $
+	$Id: preferences.h,v 1.11.2.1 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PREFERENCES_H
-#define _PREFERENCES_H
+#ifndef INCLUDED_PREFERENCES_H
+#define INCLUDED_PREFERENCES_H
 
 #include "config.h"
 #include "errors.h"

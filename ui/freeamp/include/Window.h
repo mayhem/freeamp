@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.5 1999/09/09 00:26:56 robert Exp $
+   $Id: Window.h,v 1.1.2.6 1999/09/09 02:42:10 elrod Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef __WINDOW__H_
-#define __WINDOW__H_
+#ifndef INCLUDED_WINDOW__H_
+#define INCLUDED_WINDOW__H_
 
 // The debugger can't handle symbols more than 255 characters long.
 // STL often creates symbols longer than that.

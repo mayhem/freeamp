@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: buttonview.h,v 1.2 1999/03/15 10:53:04 elrod Exp $
+	$Id: buttonview.h,v 1.2.12.1 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _BUTTONVIEW_H_
-#define _BUTTONVIEW_H_
+#ifndef INCLUDED_BUTTONVIEW_H_
+#define INCLUDED_BUTTONVIEW_H_
 
 #include "config.h"
 #include "view.h"

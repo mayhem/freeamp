@@ -19,12 +19,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: unixprefs.h,v 1.3.4.2 1999/09/09 01:25:35 ijr Exp $
+	$Id: unixprefs.h,v 1.3.4.3 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
 
-#ifndef _UNIXPREFS_H
-#define _UNIXPREFS_H
+#ifndef INCLUDED_UNIXPREFS_H
+#define INCLUDED_UNIXPREFS_H
 
 #include <vector>
 using namespace std;

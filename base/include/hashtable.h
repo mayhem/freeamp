@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: hashtable.h,v 1.4.12.1 1999/08/27 07:16:45 elrod Exp $
+	$Id: hashtable.h,v 1.4.12.2 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _HASHTABLE_H_
-#define _HASHTABLE_H_
+#ifndef INCLUDED_HASHTABLE_H_
+#define INCLUDED_HASHTABLE_H_
 
 #define KEYLENGTH 64
 

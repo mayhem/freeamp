@@ -18,14 +18,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.11.4.2 1999/08/30 22:35:21 ijr Exp $
+	$Id: Mpg123UI.h,v 1.11.4.3 1999/09/09 02:42:09 elrod Exp $
 ____________________________________________________________________________*/
 
-// Mpg123UI.h
 
-
-#ifndef _Mpg123UI_H_
-#define _Mpg123UI_H_
+#ifndef INCLUDED_Mpg123UI_H_
+#define INCLUDED_Mpg123UI_H_
 
 #include "ui.h"
 #include "event.h"

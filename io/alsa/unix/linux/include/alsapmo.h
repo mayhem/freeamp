@@ -19,12 +19,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: alsapmo.h,v 1.9.4.1 1999/09/09 01:25:35 ijr Exp $
+	$Id: alsapmo.h,v 1.9.4.2 1999/09/09 02:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
 
-#ifndef _ALSAPMO_H_
-#define _ALSAPMO_H_
+#ifndef INCLUDED_ALSAPMO_H_
+#define INCLUDED_ALSAPMO_H_
 
 /* system headers */
 #include <stdlib.h>

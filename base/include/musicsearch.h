@@ -18,32 +18,41 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.h,v 1.1.2.5 1999/09/09 02:42:00 elrod Exp $
+        $Id: musicsearch.h,v 1.1.2.4 1999/09/09 02:42:00 elrod Exp $
 ____________________________________________________________________________*/
 
 
-#ifndef INCLUDED_DATABASE_H_
-#define INCLUDED_DATABASE_H_
+#ifndef INCLUDED_MUSICSEARCH_H_
+#define INCLUDED_MUSICSEARCH_H_
 
-#include "gdbm_fa.h"
-#include "mutex.h"
+#include "database.h"
 
-class Database
+class SearchMetaData
 {
  public:
-   Database(const char *name = NULL);
-   ~Database();
-  
-   int   Insert(const char *key, char *content);
-   void  Remove(const char *key);
-   char *Value(const char *key);
-   int   Exists(const char *key);
-   char *NextKey(const char *key);
-   void  Sync(void);
+    char m_songName[256];
+    char m_artist[256];
+    char m_album[256];
+    char m_year[5];
+    char m_comment[256];
+    char m_genre;
+    int  m_songLength;
+};
+
+class MusicSearch 
+{
+ public:
+    MusicSearch(char *path = NULL);
+    ~MusicSearch();
+    
+    void SetDatabase(const char *path);
+    void SearchMusic(char *path);
 
  private:
-   GDBM_FILE m_dbase;
-   Mutex    *m_lock;
+    void DoSearchMusic(char *path);
+    Database<SearchMetaData> *m_database;
+    int m_numSymLinks;
 };
 
 #endif
+   

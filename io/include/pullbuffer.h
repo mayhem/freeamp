@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.16 1999/07/13 00:55:30 robert Exp $
+   $Id: pullbuffer.h,v 1.16.4.1 1999/09/09 02:42:07 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _PULLBUFFER_H_
-#define _PULLBUFFER_H_
+#ifndef INCLUDED_PULLBUFFER_H_
+#define INCLUDED_PULLBUFFER_H_
 
 /* system headers */
 #include <stdlib.h>

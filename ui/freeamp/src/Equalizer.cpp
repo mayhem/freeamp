@@ -19,8 +19,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Equalizer.cpp,v 1.7 2000/08/24 14:37:06 robert Exp $
+   $Id: Equalizer.cpp,v 1.8 2000/09/27 11:29:41 elrod Exp $
 ____________________________________________________________________________*/ 
+
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #include <math.h>
 #include <stdio.h>

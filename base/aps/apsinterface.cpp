@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.30 2000/09/22 10:49:59 ijr Exp $
+        $Id: apsinterface.cpp,v 1.31 2000/09/27 11:29:37 elrod Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -140,7 +140,7 @@ int APSInterface::APSFillMetaData(APSMetaData* pmetaData)
     m_pSema->Wait();
 
     musicbrainz_t o;
-    bool    ret;
+    int    ret;
     char   *args[11];
     char    temp[255], guid[40];
     int     i;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.70 2000/09/11 22:14:04 ijr Exp $
+        $Id: MusicTree.cpp,v 1.71 2000/09/27 11:29:42 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1762,8 +1762,8 @@ void MusicBrowserUI::TVBeginDrag(HWND hwnd, NM_TREEVIEW* nmtv)
         
         items.clear();
 
-        GetSelectedFavoritesItems(&items);
-        GetSelectedStreamItems(&items);
+        //GetSelectedFavoritesItems(&items);
+        //GetSelectedStreamItems(&items);
 
         for(i = items.begin(); i != items.end(); i++)
         {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.h,v 1.17 1999/10/19 07:13:00 elrod Exp $
+   $Id: pullbuffer.h,v 1.18 1999/11/17 01:54:05 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PULLBUFFER_H_
@@ -64,10 +64,10 @@ class PullBuffer
                {
                    return m_iBufferSize;
                };
-      int32    GetBufferPercentage(void)
-		         {
-					    return (100 * m_iBytesInBuffer) / m_iBufferSize;
-					};
+      virtual int32 GetBufferPercentage(void)
+		       {
+			       return (100 * m_iBytesInBuffer) / m_iBufferSize;
+			   };
       void     WrapPointer(void *&pBuffer);
 
     protected:
@@ -78,6 +78,7 @@ class PullBuffer
       FAContext *m_context;
       Mutex     *m_pMutex;
       bool       m_bExit;
+      size_t     m_iBytesInBuffer, m_iOverflowSize, m_iBufferSize;
 
     private:
 
@@ -87,7 +88,6 @@ class PullBuffer
       bool           m_bEOS;
       size_t         m_iBytesToWrite, m_iBytesToRead;
       unsigned char *m_pPullBuffer;
-      size_t         m_iBytesInBuffer, m_iOverflowSize, m_iBufferSize;
 };
 
 #endif

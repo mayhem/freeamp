@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.11 1999/11/13 17:41:41 robert Exp $
+   $Id: Window.cpp,v 1.12 1999/11/17 01:54:14 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -35,6 +35,8 @@ ____________________________________________________________________________*/
 #include "debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
+
+const int iDesktopSnapAmount = 10;
 
 Window::Window(Theme *pTheme, string &oName)
 {
@@ -268,13 +270,49 @@ void Window::HandleMouseMove(Pos &oScreenPos)
 
     if (m_bWindowMove)
     {
+       Rect oActualPos;
+       
        m_oMoveStart.x1 += (oScreenPos.x - m_oMovePos.x);
        m_oMoveStart.x2 += (oScreenPos.x - m_oMovePos.x);
        m_oMoveStart.y1 += (oScreenPos.y - m_oMovePos.y);
        m_oMoveStart.y2 += (oScreenPos.y - m_oMovePos.y);
 
+       Debug_v("window: %d %d", m_oMoveStart.Width(), m_oMoveStart.Height());
+       oActualPos = m_oMoveStart;
+       if (m_iDesktopWidth > 0 && m_iDesktopHeight > 0)
+       {
+           if ((oActualPos.x1 >= 0 && oActualPos.x1 < iDesktopSnapAmount) || 
+               (oActualPos.x1 < 0 && oActualPos.x1 > -iDesktopSnapAmount)) 
+           {
+               oActualPos.x2 -= oActualPos.x1;
+               oActualPos.x1 = 0;           
+           }
+           if ((oActualPos.y1 >= 0 && oActualPos.y1 < iDesktopSnapAmount) ||
+               (oActualPos.y1 < 0 && oActualPos.y1 > -iDesktopSnapAmount)) 
+           {
+               oActualPos.y2 -= oActualPos.y1;
+               oActualPos.y1 = 0;           
+           }
+           if ((oActualPos.x2 < m_iDesktopWidth && 
+                oActualPos.x2 >= m_iDesktopWidth - iDesktopSnapAmount) || 
+               (oActualPos.x2 > m_iDesktopWidth && 
+                oActualPos.x2 <= m_iDesktopWidth + iDesktopSnapAmount)) 
+           {
+               oActualPos.x1 += m_iDesktopWidth - oActualPos.x2;
+               oActualPos.x2 = m_iDesktopWidth;           
+           }
+           if ((oActualPos.y2 < m_iDesktopHeight && 
+                oActualPos.y2 >= m_iDesktopHeight - iDesktopSnapAmount) || 
+               (oActualPos.y2 > m_iDesktopHeight && 
+                oActualPos.y2 <= m_iDesktopHeight + iDesktopSnapAmount)) 
+           {
+               oActualPos.y1 += m_iDesktopHeight - oActualPos.y2;
+               oActualPos.y2 = m_iDesktopHeight;           
+           }
+       }       
+
        m_oMovePos = oScreenPos;
-       SetWindowPosition(m_oMoveStart);
+       SetWindowPosition(oActualPos);
        
        return; 
     }
@@ -380,6 +418,9 @@ void Window::HandleMouseLButtonDown(Pos &oScreenPos)
        
     GetWindowPosition(m_oMoveStart);
     m_oMovePos = oScreenPos;
+
+    if (IsError(GetDesktopSize(m_iDesktopWidth, m_iDesktopHeight)))
+       m_iDesktopWidth = m_iDesktopHeight = 0;
 
     return;
 }

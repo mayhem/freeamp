@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.8 1999/11/13 17:41:40 robert Exp $
+   $Id: Window.h,v 1.9 1999/11/17 01:54:13 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -112,6 +112,7 @@ class Window
       virtual Error Minimize(void) = 0;
       virtual Error Restore(void) = 0;
 	  virtual bool  LButtonDown(void) = 0;
+	  virtual Error GetDesktopSize(int &iX, int &iY) = 0;
       
       // Mouse position is in screen coordinates
       virtual Error SetMousePos(Pos &oMousePos) = 0;
@@ -135,6 +136,7 @@ class Window
       bool                      m_bStayOnTop, m_bLiveInToolbar;
       bool                      m_bIsVulcanMindMeldHost;
       Rect                      m_oMoveStart;
+	  int32                     m_iDesktopWidth, m_iDesktopHeight;
 };
 
 #endif

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.45 1999/11/13 17:01:00 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.46 1999/11/17 01:54:08 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -363,6 +363,7 @@ Error SoundCardPMO::AllocHeader(void *&pBuffer)
     ((EventBuffer *)m_pInputBuffer)->WrapPointer(pBuffer);
 
     m_iOffset += m_data_size;
+    ((EventBuffer *)m_pInputBuffer)->SetBytesInUse(m_iOffset);
 
     return kError_NoErr;
 }
@@ -383,6 +384,7 @@ Error SoundCardPMO::FreeHeader()
        return eRet;
 
     m_iOffset -= m_data_size;
+    ((EventBuffer *)m_pInputBuffer)->SetBytesInUse(m_iOffset);
 
     return kError_NoErr;
 }
@@ -494,7 +496,6 @@ void SoundCardPMO::WorkerThread(void)
       {
 		  if (m_bPause || m_bExit)
 			  break;
-
 	      
           eErr = AllocHeader(pBuffer);
 		  if (eErr == kError_EndOfStream || eErr == kError_Interrupt)
@@ -560,4 +561,5 @@ void SoundCardPMO::WorkerThread(void)
    }
    m_pContext->log->Log(LogDecode, "PMO: Soundcard thread exiting\n");
 }    
+
 

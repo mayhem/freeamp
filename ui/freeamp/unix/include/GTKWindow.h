@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.4 1999/11/11 00:12:25 ijr Exp $
+   $Id: GTKWindow.h,v 1.5 1999/11/17 01:54:15 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKWINDOW__H_
@@ -54,7 +54,8 @@ class GTKWindow : public Window
      virtual Error Minimize(void);
      virtual Error Restore(void);
      virtual bool  LButtonDown(void);    
- 
+     virtual Error GetDesktopSize(int32 &iX, int32 &iY);
+
      GtkWidget *GetWindow(void) { return mainWindow; }
    
      void MouseLeaveCheck(void); 

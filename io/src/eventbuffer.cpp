@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: eventbuffer.cpp,v 1.14 1999/10/19 07:13:05 elrod Exp $
+   $Id: eventbuffer.cpp,v 1.15 1999/11/17 01:54:09 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -36,6 +36,7 @@ EventBuffer::EventBuffer(size_t iBufferSize, size_t iOverFlowSize,
 				 PullBuffer(iBufferSize, iOverFlowSize, context)
 {
     m_pQueue = new Queue < BufferEvent * >();
+    m_iBytesInUse = 0;
 }
 
 EventBuffer::~EventBuffer(void)
@@ -126,4 +127,14 @@ Error EventBuffer::Clear()
    m_pQueue->Clear();
 
    return PullBuffer::Clear();
+}
+
+void EventBuffer::SetBytesInUse(uint32 iBytesInUse)
+{
+   m_iBytesInUse = iBytesInUse;
+}
+
+int32 EventBuffer::GetBufferPercentage(void)
+{
+   return (100 * (m_iBytesInBuffer - m_iBytesInUse)) / m_iBufferSize;
 }

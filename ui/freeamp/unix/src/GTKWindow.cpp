@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.9 1999/11/13 01:21:46 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.10 1999/11/17 01:54:16 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -385,3 +385,7 @@ void GTKWindow::MouseLeaveCheck(void)
     }
 }
 
+Error Win32Window::GetDesktopSize(int32 &iX, int32 &iY)
+{
+    return kError_InvalidParam;
+}

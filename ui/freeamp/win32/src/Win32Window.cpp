@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.14 1999/11/11 01:22:15 robert Exp $
+   $Id: Win32Window.cpp,v 1.15 1999/11/17 01:54:19 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -769,4 +769,16 @@ void Win32Window::MouseLeaveCheck(void)
         m_bMouseInWindow = true;
         
     ReleaseDC(m_hWnd, hDc);
+}
+
+Error Win32Window::GetDesktopSize(int32 &iX, int32 &iY)
+{
+    RECT sRect;
+    
+    SystemParametersInfo(SPI_GETWORKAREA, 0, &sRect, 0);
+    iX = sRect.right;
+    iY = sRect.bottom;
+    Debug_v("size: %d %d", iX, iY);
+
+    return kError_NoErr;
 }

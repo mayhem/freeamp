@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.50 2000/02/19 20:18:49 robert Exp $
+	$Id: main.cpp,v 1.51 2000/02/19 20:22:43 robert Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -58,9 +58,6 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 {
     HANDLE runOnceMutex;
 
-    Debug_v("cmd [%s]", lpszCmdLine);
-
-    
     g_hinst = hInstance;
 
 	if(SendCommandLineToRealJukebox())

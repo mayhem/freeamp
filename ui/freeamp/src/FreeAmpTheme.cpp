@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.31 1999/11/13 14:43:35 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.32 1999/11/13 18:08:11 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -116,7 +116,12 @@ void FreeAmpTheme::WorkerThread(void)
    char   szTemp[255];
    uint32 iLen = 255;
    Error  eRet;
+   int32  iValue;
 
+   m_pContext->prefs->GetTimeDisplay(&iValue);
+   if (iValue)
+       m_eTimeDisplayState = kTimeRemaining;
+   
    m_pContext->prefs->GetPrefString(kMainWindowPosPref, szTemp, &iLen);
    sscanf(szTemp, " %d , %d", &m_oWindowPos.x, &m_oWindowPos.y);
 
@@ -128,6 +133,8 @@ void FreeAmpTheme::WorkerThread(void)
    }
    else     
        m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
+       
+   m_pContext->prefs->SetTimeDisplay(m_eTimeDisplayState == kTimeRemaining);
 }
 
 void WorkerThreadStart(void* arg)

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.14 1998/11/08 01:20:01 jdw Exp $
+	$Id: eventdata.h,v 1.15 1998/11/08 04:34:09 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -169,7 +169,7 @@ class ID3TagEvent : public Event {
 private:
 	Id3TagInfo m_tagInfo;
 public:
-	ID3TagEvent(Id3TagInfo &t) { m_type = INFO_ID3TagInfo; Id3TagInfo m_tagInfo = t; }
+	ID3TagEvent(Id3TagInfo &t) { m_type = INFO_ID3TagInfo; m_tagInfo = t; }
 	Id3TagInfo GetId3Tag() { return m_tagInfo; }
 	virtual ~ID3TagEvent() {}
 };

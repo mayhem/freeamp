@@ -878,9 +878,6 @@ InputPath=..\..\..\..\config\config.win32
 !ENDIF 
 
 SOURCE=..\src\control.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_CONTR=\
 	"..\..\..\..\config\config.h"\
 	"..\include\control.h"\
@@ -890,44 +887,6 @@ DEP_CPP_CONTR=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_CONTR=\
-	"..\..\..\..\config\config.h"\
-	"..\include\control.h"\
-	
-
-"$(INTDIR)\control.obj" : $(SOURCE) $(DEP_CPP_CONTR) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_CONTR=\
-	"..\..\..\..\config\config.h"\
-	"..\include\control.h"\
-	
-
-"$(INTDIR)\control.obj" : $(SOURCE) $(DEP_CPP_CONTR) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_CONTR=\
-	"..\..\..\..\config\config.h"\
-	"..\include\control.h"\
-	
-
-"$(INTDIR)\control.obj" : $(SOURCE) $(DEP_CPP_CONTR) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\controlinfo.cpp
 
@@ -1012,7 +971,7 @@ DEP_CPP_DIALV=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1058,7 +1017,7 @@ DEP_CPP_DIALV=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1104,7 +1063,7 @@ DEP_CPP_DIALV=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1150,7 +1109,7 @@ DEP_CPP_DIALV=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1182,6 +1141,9 @@ DEP_CPP_DIALV=\
 !ENDIF 
 
 SOURCE=..\src\dib.cpp
+
+!IF  "$(CFG)" == "freeampui - Win32 Release"
+
 DEP_CPP_DIB_C=\
 	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
@@ -1191,6 +1153,44 @@ DEP_CPP_DIB_C=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
+
+DEP_CPP_DIB_C=\
+	"..\..\..\..\config\config.h"\
+	"..\include\dib.h"\
+	
+
+"$(INTDIR)\dib.obj" : $(SOURCE) $(DEP_CPP_DIB_C) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
+
+DEP_CPP_DIB_C=\
+	"..\..\..\..\config\config.h"\
+	"..\include\dib.h"\
+	
+
+"$(INTDIR)\dib.obj" : $(SOURCE) $(DEP_CPP_DIB_C) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
+
+DEP_CPP_DIB_C=\
+	"..\..\..\..\config\config.h"\
+	"..\include\dib.h"\
+	
+
+"$(INTDIR)\dib.obj" : $(SOURCE) $(DEP_CPP_DIB_C) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\src\fontwidth.cpp
 DEP_CPP_FONTW=\
@@ -1323,7 +1323,8 @@ DEP_CPP_FREEAM=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1376,7 +1377,8 @@ DEP_CPP_FREEAM=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1426,7 +1428,8 @@ DEP_CPP_FREEAM=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1476,7 +1479,8 @@ DEP_CPP_FREEAM=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1532,7 +1536,7 @@ DEP_CPP_LISTV=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1578,7 +1582,7 @@ DEP_CPP_LISTV=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1624,7 +1628,7 @@ DEP_CPP_LISTV=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1670,7 +1674,7 @@ DEP_CPP_LISTV=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1703,7 +1707,7 @@ DEP_CPP_LISTV=\
 
 SOURCE=..\..\..\..\base\win32\src\mutex.cpp
 DEP_CPP_MUTEX=\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	
 
 "$(INTDIR)\mutex.obj" : $(SOURCE) $(DEP_CPP_MUTEX) "$(INTDIR)"
@@ -1727,7 +1731,7 @@ DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	
 NODEP_CPP_PLAYL=\
@@ -1754,7 +1758,7 @@ DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -1778,7 +1782,7 @@ DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -1802,7 +1806,7 @@ DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	
 NODEP_CPP_PLAYL=\
@@ -2036,9 +2040,6 @@ DEP_CPP_REGIST=\
 
 
 SOURCE=..\src\renderer.cpp
-
-!IF  "$(CFG)" == "freeampui - Win32 Release"
-
 DEP_CPP_RENDE=\
 	"..\..\..\..\config\config.h"\
 	"..\include\dib.h"\
@@ -2049,47 +2050,6 @@ DEP_CPP_RENDE=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
-
-DEP_CPP_RENDE=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	
-
-"$(INTDIR)\renderer.obj" : $(SOURCE) $(DEP_CPP_RENDE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
-
-DEP_CPP_RENDE=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	
-
-"$(INTDIR)\renderer.obj" : $(SOURCE) $(DEP_CPP_RENDE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
-
-DEP_CPP_RENDE=\
-	"..\..\..\..\config\config.h"\
-	"..\include\dib.h"\
-	"..\include\renderer.h"\
-	
-
-"$(INTDIR)\renderer.obj" : $(SOURCE) $(DEP_CPP_RENDE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\src\resizeview.cpp
 
@@ -2110,7 +2070,7 @@ DEP_CPP_RESIZ=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -2156,7 +2116,7 @@ DEP_CPP_RESIZ=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -2202,7 +2162,7 @@ DEP_CPP_RESIZ=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -2248,7 +2208,7 @@ DEP_CPP_RESIZ=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -2927,6 +2887,9 @@ DEP_CPP_WIN32=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
+
+!IF  "$(CFG)" == "freeampui - Win32 Release"
+
 DEP_CPP_WIN32T=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
@@ -2937,6 +2900,47 @@ DEP_CPP_WIN32T=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 Debug"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Release"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 !IF  "$(CFG)" == "freeampui - Win32 Release"
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.17.2.2 1999/09/20 18:05:38 robert Exp $
+        $Id: preferences.cpp,v 1.17.2.3 1999/09/26 03:23:00 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -55,6 +55,7 @@ const char* kAlternateNICAddressPref = "AlternateNICAddress";
 const char* kUseTitleStreamingPref = "UseTitleStreaming";  
 const char* kThemePathPref = "ThemePath";  
 const char* kMainWindowPosPref = "MainWindowPos";  
+const char* kThemeDefaultFontPref = "ThemeDefaultFont";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -80,6 +81,11 @@ const char *kDefaultNICAddress = "192.168.1.1";
 const bool  kDefaultUseTitleStreaming = true;
 const char *kDefaultThemePath = ".";  
 const char *kDefaultMainWindowPos = "100,100";  
+#ifdef WIN32
+const char *kDefaultThemeDefaultFont = "Arial";
+#else
+const char *kDefaultThemeDefaultFont = "Helvetica";
+#endif
 
 Error
 Preferences::
@@ -161,6 +167,11 @@ SetDefaults()
     if (GetPrefString(kMainWindowPosPref, dummyString, 
         (uint32 *)&dummyInt) == kError_NoPrefValue)
         SetPrefString(kMainWindowPosPref, kDefaultMainWindowPos);
+
+    dummyInt = 255;
+    if (GetPrefString(kThemeDefaultFontPref, dummyString, 
+        (uint32 *)&dummyInt) == kError_NoPrefValue)
+        SetPrefString(kThemeDefaultFontPref, kDefaultThemeDefaultFont);
 
     return kError_NoErr;
 }

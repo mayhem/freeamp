@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.1.2.5 1999/09/23 01:29:57 robert Exp $
+   $Id: Canvas.cpp,v 1.1.2.6 1999/09/26 03:23:36 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "Canvas.h"
@@ -60,3 +60,7 @@ Bitmap *Canvas::GetBackgroundBitmap(void)
     return m_pBGBitmap;
 }
 
+void Canvas::SetDefaultFont(const string &oFont)
+{
+    m_oDefaultFont = oFont;
+}

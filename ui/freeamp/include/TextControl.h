@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.h,v 1.1.2.6 1999/09/23 01:29:52 robert Exp $
+   $Id: TextControl.h,v 1.1.2.7 1999/09/26 03:23:30 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TEXTCONTROL_H__
@@ -26,24 +26,31 @@ ____________________________________________________________________________*/
 
 #include "Control.h"
 #include "Canvas.h"
+#include "Font.h"
 
 
 class TextControl : public Control
 {
     public:
 
-               TextControl(Window *pWindow, string &oName, 
-                           string &oAlign, Color *pColor);
+               TextControl(Window *pWindow, string &oName); 
       virtual ~TextControl(void);
+
+	  virtual void SetStyle(Font *pFont, string &oAlign, 
+                            Color &oColor, bool bBold,
+                            bool bItalic, bool bUnderline);
 
       void Transition(ControlTransitionEnum eTrans, Pos *pMousePos);
       virtual void Init(void);
 
     private:
 
-      void      TextChanged(void);
-      AlignEnum	m_eAlign;
-      Color     m_oColor;
+      void       TextChanged(void);
+      AlignEnum	 m_eAlign;
+      Color      m_oColor;
+      string     m_oFont;
+      bool       m_bBold, m_bItalic, m_bUnderline;
+      Font      *m_pFont;
 };
 
 #endif

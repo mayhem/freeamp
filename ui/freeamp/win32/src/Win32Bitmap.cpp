@@ -18,12 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.1.2.8 1999/09/24 00:28:30 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.1.2.9 1999/09/26 03:23:48 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
 #include "Win32Bitmap.h"
 #include "debug.h"
+
 
 Win32Bitmap::Win32Bitmap(string &oName)
           :Bitmap(oName)
@@ -56,6 +57,9 @@ Error Win32Bitmap::LoadBitmapFromDisk(string &oFile)
    if (m_hBitmap == NULL)
    	   return kError_LoadBitmapFailed;
 
+   if (m_oTransIndexPos.x >= 0)
+      CreateMaskBitmap();
+
    return kError_NoErr;
 }
 
@@ -69,7 +73,7 @@ HBITMAP Win32Bitmap::GetMaskBitmapHandle(void)
    return m_hMaskBitmap;
 }
 
-void Win32Bitmap::SetTransIndexPos(Pos &oPos)
+void Win32Bitmap::CreateMaskBitmap(void)
 {
    HBITMAP     hSaved;
    BITMAP      sInfo;
@@ -78,22 +82,20 @@ void Win32Bitmap::SetTransIndexPos(Pos &oPos)
    int         iRet, iLine, iCol;
    char       *pData, *pMaskData;
    Color       sTrans, *pColorPtr;
-   COLORREF    sColor, *pColorRefPtr;
+   COLORREF   *pColorRefPtr;
 
-   Bitmap::SetTransIndexPos(oPos);
-   
    hRootDC = GetDC(NULL);
    hMemDC = CreateCompatibleDC(hRootDC);
    ReleaseDC(NULL, hRootDC);
 
    hSaved = SelectObject(hMemDC, m_hBitmap);
-   sColor = GetPixel(hMemDC, oPos.x, oPos.y);
-   if (sColor == CLR_INVALID)
+   m_sTransColor = GetPixel(hMemDC, m_oTransIndexPos.x, m_oTransIndexPos.y);
+   if (m_sTransColor == CLR_INVALID)
        return;
        
-   sTrans.blue = sColor & 0xFF;
-   sTrans.green = (sColor >> 8) & 0xFF;
-   sTrans.red = (sColor >> 16) & 0xFF;
+   sTrans.blue = m_sTransColor & 0xFF;
+   sTrans.green = (m_sTransColor >> 8) & 0xFF;
+   sTrans.red = (m_sTransColor >> 16) & 0xFF;
    SelectObject(hMemDC, hSaved);
    
    if (m_hMaskBitmap)
@@ -155,6 +157,27 @@ void Win32Bitmap::SetTransIndexPos(Pos &oPos)
    DeleteDC(hMemDC);
 }
 
+bool Win32Bitmap::IsPosVisible(Pos &oPos)
+{
+   HDC      hRootDC, hMemDC;
+   COLORREF sColor;
+   HBITMAP  hSaved;
+
+   if (!m_hMaskBitmap)
+      return true;
+
+   hRootDC = GetDC(NULL);
+   hMemDC = CreateCompatibleDC(hRootDC);
+   ReleaseDC(NULL, hRootDC);
+
+   hSaved = SelectObject(hMemDC, m_hMaskBitmap);
+   sColor = GetPixel(hMemDC, oPos.x, oPos.y);
+   DeleteDC(hMemDC);
+   SelectObject(hMemDC, hSaved);
+   
+   return sColor == 0;
+}
+
 Error Win32Bitmap::BlitRect(Bitmap *pOther, Rect &oSrcRect, 
                             Rect &oDestRect)
 {
@@ -182,7 +205,7 @@ Error Win32Bitmap::BlitRect(Bitmap *pOther, Rect &oSrcRect,
 Error Win32Bitmap::MaskBlitRect(Bitmap *pOther, Rect &oSrcRect, 
                                 Rect &oDestRect)
 {
-   HDC hRootDC, hSrcDC, hDestDC;
+   HDC hRootDC, hSrcDC, hDestDC, hMaskDC;
    Win32Bitmap *pSrcBitmap = (Win32Bitmap *)pOther;
 
    if (!pSrcBitmap->m_hMaskBitmap)
@@ -191,20 +214,27 @@ Error Win32Bitmap::MaskBlitRect(Bitmap *pOther, Rect &oSrcRect,
    hRootDC = GetDC(NULL);
    hSrcDC = CreateCompatibleDC(hRootDC);
    hDestDC = CreateCompatibleDC(hRootDC);
+   hMaskDC = CreateCompatibleDC(hRootDC);
    ReleaseDC(NULL, hRootDC);
    
    DeleteObject(SelectObject(hSrcDC, pSrcBitmap->m_hBitmap));
+   DeleteObject(SelectObject(hMaskDC, pSrcBitmap->m_hMaskBitmap));
    DeleteObject(SelectObject(hDestDC, m_hBitmap));
 
-   MaskBlt(hDestDC, oDestRect.x1, oDestRect.y1, 
-           oDestRect.Width(), oDestRect.Height(),
-           hSrcDC, oSrcRect.x1, oSrcRect.y1,
-           pSrcBitmap->m_hMaskBitmap, 
-           oSrcRect.x1, oSrcRect.y1, 
-           MAKEROP4(SRCPAINT, SRCCOPY));
+   SetBkColor(hSrcDC, m_sTransColor);
+   BitBlt(hDestDC, oDestRect.x1, oDestRect.y1, 
+                   oDestRect.Width(), oDestRect.Height(),
+          hSrcDC, oSrcRect.x1, oSrcRect.y1, SRCINVERT);
+   BitBlt(hDestDC, oDestRect.x1, oDestRect.y1, 
+                   oDestRect.Width(), oDestRect.Height(),
+          hMaskDC, oSrcRect.x1, oSrcRect.y1, SRCAND);
+   BitBlt(hDestDC, oDestRect.x1, oDestRect.y1, 
+                   oDestRect.Width(), oDestRect.Height(),
+          hSrcDC, oSrcRect.x1, oSrcRect.y1, SRCINVERT);
 
    DeleteDC(hSrcDC);
    DeleteDC(hDestDC);
+   DeleteDC(hMaskDC);
 
    return kError_NoErr;
 }

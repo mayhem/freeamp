@@ -619,7 +619,7 @@ InputPath=..\..\..\..\config\config.win32
 
 SOURCE=..\..\..\..\base\win32\src\mutex.cpp
 DEP_CPP_MUTEX=\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	
 
 "$(INTDIR)\mutex.obj" : $(SOURCE) $(DEP_CPP_MUTEX) "$(INTDIR)"
@@ -643,7 +643,7 @@ DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	
 NODEP_CPP_PLAYL=\
@@ -670,7 +670,7 @@ DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -694,7 +694,7 @@ DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -718,7 +718,7 @@ DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	
 NODEP_CPP_PLAYL=\
@@ -811,9 +811,6 @@ NODEP_CPP_PREFD=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\src\preferences.cpp
-
-!IF  "$(CFG)" == "simple - Win32 Release"
-
 DEP_CPP_PREFE=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
@@ -824,47 +821,6 @@ DEP_CPP_PREFE=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "simple - Win32 Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\base\src\registrar.cpp
 
@@ -941,6 +897,9 @@ NODEP_CPP_REGIS=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\src\registry.cpp
+
+!IF  "$(CFG)" == "simple - Win32 Release"
+
 DEP_CPP_REGIST=\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\config\config.h"\
@@ -950,6 +909,44 @@ DEP_CPP_REGIST=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "simple - Win32 Debug"
+
+DEP_CPP_REGIST=\
+	"..\..\..\..\base\include\registry.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\registry.obj" : $(SOURCE) $(DEP_CPP_REGIST) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
+
+DEP_CPP_REGIST=\
+	"..\..\..\..\base\include\registry.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\registry.obj" : $(SOURCE) $(DEP_CPP_REGIST) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
+
+DEP_CPP_REGIST=\
+	"..\..\..\..\base\include\registry.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\registry.obj" : $(SOURCE) $(DEP_CPP_REGIST) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\semaphore.cpp
 DEP_CPP_SEMAP=\
@@ -980,7 +977,8 @@ DEP_CPP_SIMPL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1012,7 +1010,8 @@ DEP_CPP_SIMPL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1044,7 +1043,8 @@ DEP_CPP_SIMPL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1076,7 +1076,8 @@ DEP_CPP_SIMPL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\ui.h"\
@@ -1219,9 +1220,6 @@ DEP_CPP_WIN32=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
-
-!IF  "$(CFG)" == "simple - Win32 Release"
-
 DEP_CPP_WIN32T=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
@@ -1232,47 +1230,6 @@ DEP_CPP_WIN32T=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "simple - Win32 Debug"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
-
-DEP_CPP_WIN32T=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\res\simple.rc
 DEP_RSC_SIMPLE=\

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.1.2.7 1999/09/23 01:29:50 robert Exp $
+   $Id: Control.h,v 1.1.2.8 1999/09/26 03:23:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -117,6 +117,10 @@ class Control
       void  SetRect(Rect &oRect);
       void  SetBitmap(Bitmap *pBitmap, Rect &oBitmapRect);
       void  GetName(string &oName);
+      void  SetDesc(const string &oDesc);
+      void  SetTip(const string &oTip);
+      void  GetDesc(string &oDesc);
+      void  GetTip(string &oTip);
       bool  PosInControl(Pos &oPos);
  
       Error Show(bool bSet, bool &bShow);
@@ -143,7 +147,7 @@ class Control
       //       iNumFrames: how many frames in the x direction in the bitmap
       virtual void BlitFrame(int iFrame, int iNumFrames, Rect *pRect = NULL); 
 
-      string                 m_oName;
+      string                 m_oName, m_oDesc, m_oToolTip;
       Rect                   m_oRect, m_oBitmapRect;
       Bitmap                *m_pBitmap;
       ControlStateEnum       m_eCurrentState, m_eLastState;

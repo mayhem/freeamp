@@ -153,8 +153,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\soundcard.pmo"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\..\base\win32\prj\plugins
-	copy soundcard.pmo                             ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                   ..\..\..\..\base\win32\prj\plugins
+	copy soundcard.pmo                              ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 Debug"
@@ -279,8 +279,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\soundcard.pmo"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\..\base\win32\prj\plugins
-	copy soundcard.pmo                             ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                   ..\..\..\..\base\win32\prj\plugins
+	copy soundcard.pmo                              ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Debug"
@@ -405,8 +405,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\soundcard.pmo"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\..\base\win32\prj\plugins
-	copy soundcard.pmo                             ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                   ..\..\..\..\base\win32\prj\plugins
+	copy soundcard.pmo                              ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Release"
@@ -528,8 +528,8 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : ".\soundcard.pmo"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                  ..\..\..\..\base\win32\prj\plugins
-	copy soundcard.pmo                             ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                   ..\..\..\..\base\win32\prj\plugins
+	copy soundcard.pmo                              ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ENDIF 
@@ -590,7 +590,8 @@ DEP_CPP_EVENT=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -626,7 +627,8 @@ DEP_CPP_EVENT=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -661,7 +663,8 @@ DEP_CPP_EVENT=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -696,7 +699,8 @@ DEP_CPP_EVENT=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -727,7 +731,7 @@ DEP_CPP_LOG_C=\
 
 SOURCE=..\..\..\..\base\win32\src\mutex.cpp
 DEP_CPP_MUTEX=\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	
 
 "$(INTDIR)\mutex.obj" : $(SOURCE) $(DEP_CPP_MUTEX) "$(INTDIR)"
@@ -754,7 +758,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -789,7 +794,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -824,7 +830,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -859,7 +866,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -898,7 +906,8 @@ DEP_CPP_PMO_C=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -933,7 +942,8 @@ DEP_CPP_PMO_C=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -968,7 +978,8 @@ DEP_CPP_PMO_C=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -1003,7 +1014,8 @@ DEP_CPP_PMO_C=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -1087,7 +1099,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1105,7 +1117,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1123,7 +1135,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1141,7 +1153,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1219,7 +1231,8 @@ DEP_CPP_SOUND=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -1230,9 +1243,6 @@ DEP_CPP_SOUND=\
 	"..\..\..\include\pmoevent.h"\
 	"..\..\..\include\pullbuffer.h"\
 	"..\include\SoundCardPMO.h"\
-	
-NODEP_CPP_SOUND=\
-	"..\src\debug.hpp"\
 	
 
 "$(INTDIR)\soundcardpmo.obj" : $(SOURCE) $(DEP_CPP_SOUND) "$(INTDIR)"\
@@ -1258,7 +1268,8 @@ DEP_CPP_SOUND=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -1269,9 +1280,6 @@ DEP_CPP_SOUND=\
 	"..\..\..\include\pmoevent.h"\
 	"..\..\..\include\pullbuffer.h"\
 	"..\include\SoundCardPMO.h"\
-	
-NODEP_CPP_SOUND=\
-	"..\..\..\..\base\include\debug.hpp"\
 	
 
 "$(INTDIR)\soundcardpmo.obj" : $(SOURCE) $(DEP_CPP_SOUND) "$(INTDIR)"\
@@ -1297,7 +1305,8 @@ DEP_CPP_SOUND=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -1308,9 +1317,6 @@ DEP_CPP_SOUND=\
 	"..\..\..\include\pmoevent.h"\
 	"..\..\..\include\pullbuffer.h"\
 	"..\include\SoundCardPMO.h"\
-	
-NODEP_CPP_SOUND=\
-	"..\..\..\..\base\include\debug.hpp"\
 	
 
 "$(INTDIR)\soundcardpmo.obj" : $(SOURCE) $(DEP_CPP_SOUND) "$(INTDIR)"\
@@ -1336,7 +1342,8 @@ DEP_CPP_SOUND=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -1347,9 +1354,6 @@ DEP_CPP_SOUND=\
 	"..\..\..\include\pmoevent.h"\
 	"..\..\..\include\pullbuffer.h"\
 	"..\include\SoundCardPMO.h"\
-	
-NODEP_CPP_SOUND=\
-	"..\src\debug.hpp"\
 	
 
 "$(INTDIR)\soundcardpmo.obj" : $(SOURCE) $(DEP_CPP_SOUND) "$(INTDIR)"\
@@ -1486,6 +1490,9 @@ DEP_CPP_WIN32=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
+
+!IF  "$(CFG)" == "soundcard - Win32 Release"
+
 DEP_CPP_WIN32T=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
@@ -1496,6 +1503,47 @@ DEP_CPP_WIN32T=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "soundcard - Win32 Debug"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Debug"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "soundcard - Win32 NASM Release"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 
 !ENDIF 

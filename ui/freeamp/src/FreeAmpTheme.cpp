@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.11 1999/09/23 18:13:46 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.12 1999/09/26 03:23:38 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -47,6 +47,9 @@ extern    "C"
 
 FreeAmpTheme::FreeAmpTheme(FAContext * context)
 {
+   char          szTemp[255];
+   unsigned int  iLen = 255;
+   
    m_pContext = context;
    m_iCurrentSeconds = 0;
    m_iTotalSeconds = -1;
@@ -59,6 +62,9 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
 
    LoadFreeAmpTheme();
    SelectWindow(m_oCurrentWindow);
+   
+   m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
+   SetDefaultFont(string(szTemp));
 }
 
 FreeAmpTheme::~FreeAmpTheme()
@@ -117,7 +123,7 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
    m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
    oThemePath = szTemp;
    SetThemePath(oThemePath);
-
+   
    m_pContext->prefs->GetPrefString(kMainWindowPosPref, szTemp, &iLen);
    sscanf(szTemp, " %d , %d", &m_oWindowPos.x, &m_oWindowPos.y);
 
@@ -348,9 +354,10 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
 
    if (eMesg == CM_MouseEnter)
    {
-       string oName("Info");
+       string oName("Info"), oDesc;
        
-       m_pWindow->ControlStringValue(oName, true, oControlName);
+       m_pWindow->ControlGetDesc(oControlName, oDesc);
+       m_pWindow->ControlStringValue(oName, true, oDesc);
                                 
        return kError_NoErr;
    }    
@@ -432,6 +439,13 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    }
    if (oControlName == string("Stop") && eMesg == CM_Pressed)
    {
+       bool bValue = false;
+       m_bPlayShown = true;
+       
+       m_pWindow->ControlShow(string("Pause"), true, bValue);
+   	   bValue = true;
+       m_pWindow->ControlShow(string("Play"), true, bValue);
+   
        m_pContext->target->AcceptEvent(new Event(CMD_Stop));
        return kError_NoErr;
    }

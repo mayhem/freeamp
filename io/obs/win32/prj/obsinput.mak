@@ -579,7 +579,7 @@ DEP_CPP_LOG_C=\
 
 SOURCE=..\..\..\..\base\win32\src\mutex.cpp
 DEP_CPP_MUTEX=\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	
 
 "$(INTDIR)\mutex.obj" : $(SOURCE) $(DEP_CPP_MUTEX) "$(INTDIR)"
@@ -642,7 +642,8 @@ DEP_CPP_OBSIN=\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pipeline.h"\
@@ -676,7 +677,8 @@ DEP_CPP_OBSIN=\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pipeline.h"\
@@ -709,7 +711,8 @@ DEP_CPP_OBSIN=\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pipeline.h"\
@@ -742,7 +745,8 @@ DEP_CPP_OBSIN=\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pipeline.h"\
@@ -780,7 +784,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -815,7 +820,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -850,7 +856,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -885,7 +892,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\lmc\include\lmc.h"\
@@ -923,7 +931,8 @@ DEP_CPP_PMI_C=\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pipeline.h"\
@@ -953,7 +962,8 @@ DEP_CPP_PMI_C=\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pipeline.h"\
@@ -983,7 +993,8 @@ DEP_CPP_PMI_C=\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pipeline.h"\
@@ -1013,7 +1024,8 @@ DEP_CPP_PMI_C=\
 	"..\..\..\..\base\include\properties.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pipeline.h"\
@@ -1093,7 +1105,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1111,7 +1123,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1129,7 +1141,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1147,7 +1159,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1175,7 +1187,7 @@ SOURCE=..\..\..\src\streambuffer.cpp
 
 DEP_CPP_STREA=\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1192,7 +1204,7 @@ DEP_CPP_STREA=\
 
 DEP_CPP_STREA=\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1208,7 +1220,7 @@ DEP_CPP_STREA=\
 
 DEP_CPP_STREA=\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1224,7 +1236,7 @@ DEP_CPP_STREA=\
 
 DEP_CPP_STREA=\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\pullbuffer.h"\
@@ -1323,7 +1335,8 @@ DEP_CPP_TSTRE=\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\tstream.h"\
 	
@@ -1349,7 +1362,8 @@ DEP_CPP_TSTRE=\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\tstream.h"\
 	
@@ -1375,7 +1389,8 @@ DEP_CPP_TSTRE=\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\tstream.h"\
 	
@@ -1401,7 +1416,8 @@ DEP_CPP_TSTRE=\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\include\tstream.h"\
 	
@@ -1414,9 +1430,6 @@ DEP_CPP_TSTRE=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
-
-!IF  "$(CFG)" == "obsinput - Win32 Release"
-
 DEP_CPP_WIN32=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
@@ -1427,47 +1440,6 @@ DEP_CPP_WIN32=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "obsinput - Win32 Debug"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Debug"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "obsinput - Win32 NASM Release"
-
-DEP_CPP_WIN32=\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 
 !ENDIF 

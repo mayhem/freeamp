@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.1.2.7 1999/09/23 18:17:36 robert Exp $
+   $Id: Theme.h,v 1.1.2.8 1999/09/26 03:23:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -40,6 +40,7 @@ using namespace std;
 #include "Parse.h"
 #include "Window.h"
 #include "Bitmap.h"
+#include "Font.h"
 
 typedef map<string, string, less<string> > AttrMap;
 
@@ -55,6 +56,7 @@ class Theme : public Parse
       virtual Error Close(void);
       virtual void  SetThemePath(string &oPath);
       virtual Error LoadTheme(string &oFile);
+      virtual Error SetDefaultFont(const string &oFont);
       virtual Error HandleControlMessage(string &oControlName, 
                                          ControlMessageEnum eMesg) = 0;
       virtual void  InitControls(void) = 0;
@@ -71,17 +73,20 @@ class Theme : public Parse
     private:
 
       Bitmap *FindBitmap(string &oName);
+      Font   *FindFont(string &oName);
       Error   ParseRect(string &oRectString, Rect &oRect);
       Error   ParseColor(string &oColorString, Color &oColor);
       Error   ParsePos(string &oPosString, Pos &oPos);
       void    ClearWindows(void);
       void    ClearBitmaps(void);
+      void    ClearFonts(void);
 
       Window          *m_pCurrentWindow;
       Control         *m_pCurrentControl;
 
       vector<Window *> *m_pWindows, *m_pParsedWindows;
       vector<Bitmap *> *m_pBitmaps, *m_pParsedBitmaps;
+      vector<Font *>   *m_pFonts, *m_pParsedFonts;
       bool              m_bReloadTheme, m_bReloadWindow;
       string            m_oReloadWindow, m_oReloadFile;
 };

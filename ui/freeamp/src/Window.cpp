@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.1.2.7 1999/09/23 18:13:49 robert Exp $
+   $Id: Window.cpp,v 1.1.2.8 1999/09/26 03:23:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -140,6 +140,32 @@ Error Window::ControlStringValue(const string &oTarget, bool bSet, string &oValu
        return kError_InvalidParam;
 
     return pControl->StringValue(bSet, oValue);
+}
+
+Error Window::ControlGetDesc(const string &oTarget, string &oDesc)
+{
+    Control *pControl;
+
+    pControl = m_oControlMap[oTarget];
+    if (pControl == NULL)
+       return kError_InvalidParam;
+
+    pControl->GetDesc(oDesc);
+    
+    return kError_NoErr;
+}
+
+Error Window::ControlGetTip(const string &oTarget, string &oTip)
+{
+    Control *pControl;
+
+    pControl = m_oControlMap[oTarget];
+    if (pControl == NULL)
+       return kError_InvalidParam;
+
+    pControl->GetTip(oTip);
+    
+    return kError_NoErr;
 }
 
 Error Window::SendControlMessage(Control *pControl, 

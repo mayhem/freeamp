@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.1.2.3 1999/09/23 18:13:41 robert Exp $
+   $Id: Parse.cpp,v 1.1.2.4 1999/09/26 03:23:12 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -54,16 +54,20 @@ Error Parse::ParseFile(string &oFile)
     Error    eRet;
 
 	m_oLastError = string("");
-
+    m_iErrorLine = 1;
+    
     fpFile = fopen(oFile.c_str(), "r");
     if (fpFile == NULL)
+    {
+       m_oLastError = string("File ") + oFile + string("not found"); 
        return kError_FileNotFound;
+    }   
 
     szElement = new char[iMaxElementLineLength];
     szElementName = new char[iMaxElementNameLength];
     szAttr = new char[iMaxAttrLength];
     szValue = new char[iMaxValueLength];
-    for(m_iErrorLine = 1, szElement[0] = 0; !bError;)
+    for(szElement[0] = 0; !bError;)
     {
     	m_iErrorLine += CountNewlines(szElement);
     

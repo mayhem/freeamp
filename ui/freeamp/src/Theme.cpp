@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.8 1999/09/24 00:28:27 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.9 1999/09/26 03:23:40 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -49,6 +49,7 @@ Theme::Theme(void)
     m_pCurrentControl = NULL;
     m_pParsedWindows = m_pWindows = NULL;
     m_pParsedBitmaps = m_pBitmaps = NULL;
+    m_pParsedFonts = m_pFonts = NULL;
 	m_bReloadTheme = false;
     m_bReloadWindow = false;
 }
@@ -60,6 +61,7 @@ Theme::~Theme(void)
     
 	ClearWindows();
     ClearBitmaps();
+    ClearFonts();
 }
 
 void Theme::ClearWindows(void)
@@ -90,6 +92,20 @@ void Theme::ClearBitmaps(void)
     }
 }
 
+void Theme::ClearFonts(void)
+{  
+  	if (m_pFonts)
+    {
+       while(m_pFonts->size() > 0)
+       {
+          delete (*m_pFonts)[0];
+          m_pFonts->erase(m_pFonts->begin());
+       }
+       delete m_pFonts;
+       m_pFonts = NULL;
+    }
+}
+
 void Theme::SetThemePath(string &oThemePath)
 {
 #ifdef WIN32
@@ -110,8 +126,10 @@ Error Theme::LoadTheme(string &oFile)
        eRet = Parse::ParseFile(oCompleteFile);
        delete m_pParsedWindows;
        delete m_pParsedBitmaps;
+       delete m_pParsedFonts;
        m_pParsedWindows = NULL;
        m_pParsedBitmaps = NULL;
+       m_pParsedFonts = NULL;
        
        if (IsError(eRet))
           return eRet;
@@ -129,8 +147,10 @@ Error Theme::LoadTheme(string &oFile)
     {
        m_pWindows = m_pParsedWindows;
        m_pBitmaps = m_pParsedBitmaps;
+       m_pFonts = m_pParsedFonts;
        m_pParsedWindows = NULL;
        m_pParsedBitmaps = NULL;
+       m_pParsedFonts = NULL;
     }   
     return eRet;
 }
@@ -200,8 +220,10 @@ Error Theme::Run(Pos &oWindowPos)
         
             m_pWindows = m_pParsedWindows;
             m_pBitmaps = m_pParsedBitmaps;
+            m_pFonts = m_pParsedFonts;
             m_pParsedWindows = NULL;
             m_pParsedBitmaps = NULL;
+            m_pParsedFonts = NULL;
         }    
         
         SelectWindow(m_oReloadWindow);
@@ -262,6 +284,10 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        pBitmap = new Win32Bitmap(oAttrMap["Name"]);
 #endif
 
+       eRet = ParsePos(oAttrMap["TransIndex"], oPos);
+       if (eRet == kError_NoErr)
+           pBitmap->SetTransIndexPos(oPos);
+
        oCompleteFile = m_oThemePath + oAttrMap["File"];
        eRet = pBitmap->LoadBitmapFromDisk(oCompleteFile);
        if (eRet != kError_NoErr)
@@ -274,14 +300,23 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return eRet;
        }
 
-       eRet = ParsePos(oAttrMap["TransIndex"], oPos);
-       if (eRet == kError_NoErr)
-           pBitmap->SetTransIndexPos(oPos);
-       
        if (!m_pParsedBitmaps)
            m_pParsedBitmaps = new vector<Bitmap *>;
            
        m_pParsedBitmaps->push_back(pBitmap);
+
+       return kError_NoErr;
+    }
+    if (oElement == string("Font"))
+    {
+       Font *pFont;
+       Pos   oPos;
+
+       pFont = new Font(oAttrMap["Name"], oAttrMap["Face"]);
+       if (!m_pParsedFonts)
+           m_pParsedFonts = new vector<Font *>;
+           
+       m_pParsedFonts->push_back(pFont);
 
        return kError_NoErr;
     }
@@ -333,33 +368,6 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        pCanvas = m_pCurrentWindow->GetCanvas();
        pCanvas->SetBackgroundBitmap(pBitmap);
        pCanvas->SetBackgroundRect(oRect);
-
-       return kError_NoErr;
-    }
-    if (oElement == string("MaskBitmap"))
-    {
-       Canvas *pCanvas;
-       Bitmap *pBitmap;
-       Rect    oRect;
-
-       if (m_pCurrentWindow == NULL)
-       {
-           m_oLastError = string("<MaskBitmap> must occur inside "
-                                 "of a <Window> tag");
-           return kError_InvalidParam;
-       }
-
-       pBitmap = FindBitmap(oAttrMap["Name"]);
-       if (pBitmap == NULL)
-       {
-           m_oLastError = string("Undefined bitmap ") + 
-                          oAttrMap["Name"] + 
-                          string("in tag <MaskBitmap>");
-           return kError_InvalidParam;
-       }
-
-       pCanvas = m_pCurrentWindow->GetCanvas();
-       pCanvas->SetMaskBitmap(pBitmap);
 
        return kError_NoErr;
     }
@@ -416,7 +424,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 
     if (oElement == string("TextControl"))
     {
-       Color oColor;
+       Color  oColor;
        
        if (m_pCurrentControl)
        {
@@ -424,6 +432,33 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
 
+       m_pCurrentControl = new TextControl(m_pCurrentWindow,
+                                           oAttrMap["Name"]);
+                                               
+       return kError_NoErr;
+    }
+
+    if (oElement == string("Style"))
+    {
+       Color  oColor(0, 0, 0);
+       Font  *pFont;
+       
+       if (m_pCurrentControl == NULL)
+       {
+           m_oLastError = string("The <Style> tag must be inside of a "
+                                 "<TextControl> tag");
+           return kError_InvalidParam;
+       }
+
+       pFont = FindFont(oAttrMap["Font"]);
+       if (pFont == NULL)
+       {
+           m_oLastError = string("Undefined font ") + 
+                          oAttrMap["Name"] + 
+                          string("in tag <Style>");
+           return kError_InvalidParam;
+       }
+       
 	   if (oAttrMap["Color"] != string(""))
        {
            eRet = ParseColor(oAttrMap["Color"], oColor);
@@ -433,19 +468,16 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     	                      oAttrMap["Color"];
     	       return kError_InvalidParam;
     	   }
-           m_pCurrentControl = new TextControl(m_pCurrentWindow,
-                                               oAttrMap["Name"],
-                                               oAttrMap["Align"],
-                                               &oColor);
        }
-       else
-           m_pCurrentControl = new TextControl(m_pCurrentWindow,
-                                               oAttrMap["Name"],
-                                               oAttrMap["Align"],
-                                               NULL);
-                                               
+
+       ((TextControl *)m_pCurrentControl)->SetStyle(pFont, 
+               oAttrMap["Align"], oColor,
+               strcasecmp(oAttrMap["Bold"].c_str(), "yes") == 0, 
+               strcasecmp(oAttrMap["Italic"].c_str(), "yes") == 0, 
+               strcasecmp(oAttrMap["Underline"].c_str(), "yes") == 0); 
+       
        return kError_NoErr;
-    }
+	}
 
     if (oElement == string("Position"))
     {
@@ -503,6 +535,24 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
        return kError_NoErr;
     }
 
+    if (oElement == string("Info"))
+    {
+       Bitmap *pBitmap = NULL;
+       Rect oRect;
+
+       if (m_pCurrentControl == NULL)
+       {
+          m_oLastError = string("The <Info> tag must be inside of a "
+                                "<XXXXControl> tag");
+          return kError_InvalidParam;
+       }
+
+       m_pCurrentControl->SetDesc(oAttrMap["Desc"]);
+       m_pCurrentControl->SetTip(oAttrMap["Tip"]);
+       
+       return kError_NoErr;
+    }
+
     m_oLastError = string("Invalid tag: ") + oElement;
 
     return kError_InvalidParam;
@@ -512,6 +562,8 @@ Error Theme::EndElement(string &oElement)
 {
     if (oElement == string("Bitmap") ||
         oElement == string("BackgroundBitmap") ||
+        oElement == string("Font") ||
+        oElement == string("Style") ||
         oElement == string("MaskBitmap"))
        return kError_NoErr;
 
@@ -586,6 +638,24 @@ Bitmap *Theme::FindBitmap(string &oName)
     return NULL;
 }
 
+Font *Theme::FindFont(string &oName)
+{
+    vector<Font *>::iterator i;
+    string                   oTemp;
+
+	if (!m_pParsedFonts)
+		return NULL;
+        
+    for(i = m_pParsedFonts->begin(); i != m_pParsedFonts->end(); i++)
+    {
+       (*i)->GetName(oTemp);
+       if (oTemp == oName)
+          return *i;
+    }
+
+    return NULL;
+}
+
 Error Theme::ParseRect(string &oRectstring, Rect &oRect)
 {
     int iRet;
@@ -616,5 +686,15 @@ Error Theme::ParsePos(string &oPosstring, Pos &oPos)
     return (iRet == 2) ? kError_NoErr : kError_InvalidParam;
 }
 
+Error Theme::SetDefaultFont(const string &oFont)
+{ 
+    Canvas *pCanvas;
+    
+    if (!m_pWindow)
+        return kError_InvalidParam;
 
+    pCanvas = m_pWindow->GetCanvas();
+    pCanvas->SetDefaultFont(oFont);
 
+    return kError_NoErr;
+}

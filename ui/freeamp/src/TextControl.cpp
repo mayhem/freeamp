@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.1.2.7 1999/09/23 01:30:02 robert Exp $
+   $Id: TextControl.cpp,v 1.1.2.8 1999/09/26 03:23:39 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -35,14 +35,21 @@ static TransitionInfo pTransitions[] =
     { CS_LastState, CT_LastTransition,   CS_LastState } 
 };
 
-TextControl::TextControl(Window *pWindow, string &oName, 
-                         string &oAlign, Color *pColor) :
+TextControl::TextControl(Window *pWindow, string &oName) : 
              Control(pWindow, oName, pTransitions)
 {
-	if (pColor)
-       m_oColor = *pColor;
-    else
-       m_oColor.red = m_oColor.green = m_oColor.blue = 0;
+	m_pFont = NULL;
+}
+
+void TextControl::SetStyle(Font *pFont, string &oAlign, 
+                           Color &oColor, bool bBold,
+                           bool bItalic, bool bUnderline)
+{
+    m_oColor = oColor;
+    m_bBold = bBold;
+    m_bItalic = bItalic;
+    m_bUnderline = bUnderline;
+    m_pFont = pFont;
        
 	if (strcasecmp(oAlign.c_str(), "right") == 0)
        m_eAlign = eRight;
@@ -80,9 +87,12 @@ void TextControl::Transition(ControlTransitionEnum  eTrans,
 void TextControl::TextChanged(void)
 {
     Canvas *pCanvas;
+    string oFontFace;
+    
+    m_pFont->GetFace(oFontFace);
 
     pCanvas = m_pParent->GetCanvas();
     pCanvas->Erase(m_oRect);
     pCanvas->RenderText(m_oRect.Height(), m_oRect, 
-                        m_oValue, m_eAlign, m_oColor); 
+                        m_oValue, m_eAlign, oFontFace, m_oColor); 
 }

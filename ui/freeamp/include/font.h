@@ -18,11 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.h,v 1.1.2.7 1999/09/26 03:23:27 robert Exp $
+   $Id: font.h,v 1.1.2.1 1999/09/26 03:23:34 robert Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef INCLUDED_BITMAP_H__
-#define INCLUDED_BITMAP_H__
+#ifndef INCLUDED_FONT_H__
+#define INCLUDED_FONT_H__
 
 // The debugger can't handle symbols more than 255 characters long.
 // STL often creates symbols longer than that.
@@ -32,33 +32,27 @@ ____________________________________________________________________________*/
 #endif
 
 #include <string>
+#include <vector>
+#include <map>
 
 using namespace std;
 
 #include "Types.h"
 #include "errors.h"
 
-class Bitmap
+class Font
 {
     public:
 
-              Bitmap(string &oName);
-     virtual ~Bitmap(void);
+               Font(string &oName, string &oFace);
+      virtual ~Font(void);
+      
+      virtual Error GetName(string &oName);
+      virtual Error GetFace(string &oFace);
 
-     virtual void  GetName(string &oName);
-     virtual void  GetErrorString(string &oName);
-     virtual void  SetTransIndexPos(Pos &oPos);
-     virtual bool  IsPosVisible(Pos &oPos) = 0;
-     virtual Error LoadBitmapFromDisk(string &oFile) = 0;
-     virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
-                            Rect &oDestRect) = 0;
-     virtual Error MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, 
-                                Rect &oDestRect) = 0;
-
-    protected:
-
-     string  m_oBitmapName, m_oLastError;
-     Pos     m_oTransIndexPos;
+	private:
+    
+      string   m_oName, m_oFace;
 };
 
 #endif

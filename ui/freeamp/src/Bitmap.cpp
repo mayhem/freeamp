@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.cpp,v 1.1.2.4 1999/09/23 18:17:37 robert Exp $
+   $Id: Bitmap.cpp,v 1.1.2.5 1999/09/26 03:23:35 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 Bitmap::Bitmap(string &oName)
 {
    m_oBitmapName = oName;
+   m_oTransIndexPos.x = m_oTransIndexPos.y = -1;
 }
 
 Bitmap::~Bitmap(void)

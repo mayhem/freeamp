@@ -18,62 +18,31 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Types.h,v 1.1.2.4 1999/09/26 03:23:32 robert Exp $
+   $Id: font.cpp,v 1.1.2.1 1999/09/26 03:23:42 robert Exp $
 ____________________________________________________________________________*/ 
 
-#ifndef INCLUDED_TYPES_H__
-#define INCLUDED_TYPES_H__
+#include "Font.h"
 
-struct Pos
+Font::Font(string &oName, string &oFace)
 {
-    int x, y;
-};
+   m_oName = oName;
+   m_oFace = oFace;
+}
 
-struct Rect
+Font::~Font(void)
 {
-    int x1, y1;
-    int x2, y2;
+}
 
-    Rect(void) { };
-    Rect(Rect &other)
-    {
-         x1 = other.x1;
-         x2 = other.x2;
-         y1 = other.y1;
-         y2 = other.y2;
-    };
-    int Width(void)
-    {
-         return x2 - x1;
-    };
-    int Height(void)
-    {
-         return y2 - y1;
-    }
-    bool IsPosInRect(Pos &oPos)
-    {
-         if (oPos.x >= x1 && oPos.x <= x2 &&
-             oPos.y >= y1 && oPos.y <= y2)
-             return true;
-
-         return false;
-    }
-};
-
-struct Color
+Error Font::GetName(string &oName)
 {
-	Color(void)
-    {
-        red = blue = green = 0;
-    };
-	Color(unsigned char red, unsigned char green, unsigned char blue)
-    { 
-        this->red = red;
-        this->green = green;
-        this->blue = blue;
-    };    
-    unsigned char red, green, blue;
-};
+   oName = m_oName;
+   
+   return kError_NoErr;
+}
 
+Error Font::GetFace(string &oFace)
+{
+   oFace = m_oFace;
 
-#endif
+   return kError_NoErr;
+}

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.1.2.7 1999/09/24 00:28:31 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.1.2.8 1999/09/26 03:23:49 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -61,7 +61,7 @@ void Win32Canvas::Init(void)
 
 Error Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect, 
                               string &oText, AlignEnum eAlign,
-                              const Color &oColor)
+                              string &oFont, const Color &oColor)
 {
    HDC   hRootDC, hMemDC;
    HFONT hFont;
@@ -82,7 +82,15 @@ Error Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect,
    
    hFont = CreateFont(iFontHeight, 0, 0, 0, FW_BOLD, 0, 0, 0, DEFAULT_CHARSET,
  					  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-                      DEFAULT_PITCH, "Arial"); 
+                      DEFAULT_PITCH, oFont.c_str()); 
+                      
+   if (!hFont)
+   {
+       Debug_v("usgin default: %s", m_oDefaultFont.c_str());
+       hFont = CreateFont(iFontHeight, 0, 0, 0, FW_BOLD, 0, 0, 0, DEFAULT_CHARSET,
+ 	     				  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+                          DEFAULT_PITCH, m_oDefaultFont.c_str()); 
+   }                       
 
    DeleteObject(SelectObject(hMemDC, hFont));
 

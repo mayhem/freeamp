@@ -553,7 +553,7 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\include\utility.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
 	"..\sba\rio.h"\
@@ -581,7 +581,7 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\include\utility.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
 	"..\sba\rio.h"\
@@ -607,7 +607,7 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\include\utility.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
 	"..\sba\rio.h"\
@@ -635,7 +635,7 @@ DEP_CPP_PMP30=\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\include\utility.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\config\config.h"\
 	"..\pmp300.h"\
 	"..\sba\rio.h"\
@@ -649,9 +649,6 @@ DEP_CPP_PMP30=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\src\preferences.cpp
-
-!IF  "$(CFG)" == "pmp300 - Win32 Release"
-
 DEP_CPP_PREFE=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
@@ -661,44 +658,6 @@ DEP_CPP_PREFE=\
 "$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "pmp300 - Win32 Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Release"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "pmp300 - Win32 NASM Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\base\src\utility.cpp
 
@@ -719,6 +678,7 @@ DEP_CPP_UTILI=\
 
 DEP_CPP_UTILI=\
 	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\utility.h"\
 	"..\..\..\..\config\config.h"\
 	
@@ -744,6 +704,7 @@ DEP_CPP_UTILI=\
 
 DEP_CPP_UTILI=\
 	"..\..\..\..\base\include\errors.h"\
+	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\utility.h"\
 	"..\..\..\..\config\config.h"\
 	

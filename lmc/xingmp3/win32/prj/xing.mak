@@ -737,7 +737,8 @@ DEP_CPP_EVENT=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\
@@ -773,7 +774,8 @@ DEP_CPP_EVENT=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\
@@ -808,7 +810,8 @@ DEP_CPP_EVENT=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\
@@ -844,7 +847,8 @@ DEP_CPP_EVENT=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\
@@ -874,7 +878,7 @@ DEP_CPP_LOG_C=\
 
 SOURCE=..\..\..\..\base\win32\src\mutex.cpp
 DEP_CPP_MUTEX=\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	
 
 "$(INTDIR)\mutex.obj" : $(SOURCE) $(DEP_CPP_MUTEX) "$(INTDIR)"
@@ -901,7 +905,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\
@@ -936,7 +941,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\
@@ -971,7 +977,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\
@@ -1006,7 +1013,8 @@ DEP_CPP_PIPEL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\
@@ -1026,9 +1034,6 @@ DEP_CPP_PIPEL=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\src\preferences.cpp
-
-!IF  "$(CFG)" == "xing - Win32 Release"
-
 DEP_CPP_PREFE=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
@@ -1039,47 +1044,6 @@ DEP_CPP_PREFE=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "xing - Win32 Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "xing - Win32 NASM Release"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "xing - Win32 NASM Debug"
-
-DEP_CPP_PREFE=\
-	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\config\config.h"\
-	
-
-"$(INTDIR)\preferences.obj" : $(SOURCE) $(DEP_CPP_PREFE) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\..\..\io\src\pullbuffer.cpp
 
@@ -1090,7 +1054,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\pullbuffer.h"\
@@ -1108,7 +1072,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\pullbuffer.h"\
@@ -1126,7 +1090,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\pullbuffer.h"\
@@ -1144,7 +1108,7 @@ DEP_CPP_PULLB=\
 	"..\..\..\..\base\include\facontext.h"\
 	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\pullbuffer.h"\
@@ -1351,6 +1315,9 @@ DEP_CPP_CDCT_=\
 
 
 SOURCE=..\..\src\csbt.c
+
+!IF  "$(CFG)" == "xing - Win32 Release"
+
 DEP_CPP_CSBT_=\
 	"..\..\src\csbtb.c"\
 	"..\..\src\csbtL3.c"\
@@ -1360,46 +1327,42 @@ DEP_CPP_CSBT_=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\src\cup.c
-
-!IF  "$(CFG)" == "xing - Win32 Release"
-
-DEP_CPP_CUP_C=\
-	"..\..\include\mhead.h"\
-	"..\..\src\cupini.c"\
-	"..\..\src\cupL1.c"\
-	
-
-"$(INTDIR)\cup.obj" : $(SOURCE) $(DEP_CPP_CUP_C) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
 !ELSEIF  "$(CFG)" == "xing - Win32 Debug"
 
-DEP_CPP_CUP_C=\
-	"..\..\include\mhead.h"\
-	"..\..\src\cupini.c"\
-	"..\..\src\cupL1.c"\
+DEP_CPP_CSBT_=\
+	"..\..\src\csbtb.c"\
+	"..\..\src\csbtL3.c"\
 	
 
-"$(INTDIR)\cup.obj" : $(SOURCE) $(DEP_CPP_CUP_C) "$(INTDIR)"
+"$(INTDIR)\csbt.obj" : $(SOURCE) $(DEP_CPP_CSBT_) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "xing - Win32 NASM Release"
 
-DEP_CPP_CUP_C=\
-	"..\..\include\mhead.h"\
-	"..\..\src\cupini.c"\
-	"..\..\src\cupL1.c"\
+DEP_CPP_CSBT_=\
+	"..\..\src\csbtb.c"\
+	"..\..\src\csbtL3.c"\
 	
 
-"$(INTDIR)\cup.obj" : $(SOURCE) $(DEP_CPP_CUP_C) "$(INTDIR)"
+"$(INTDIR)\csbt.obj" : $(SOURCE) $(DEP_CPP_CSBT_) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "xing - Win32 NASM Debug"
 
+DEP_CPP_CSBT_=\
+	"..\..\src\csbtb.c"\
+	"..\..\src\csbtL3.c"\
+	
+
+"$(INTDIR)\csbt.obj" : $(SOURCE) $(DEP_CPP_CSBT_) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\src\cup.c
 DEP_CPP_CUP_C=\
 	"..\..\include\mhead.h"\
 	"..\..\src\cupini.c"\
@@ -1409,8 +1372,6 @@ DEP_CPP_CUP_C=\
 "$(INTDIR)\cup.obj" : $(SOURCE) $(DEP_CPP_CUP_C) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ENDIF 
 
 SOURCE=..\..\src\cupl3.c
 
@@ -1737,9 +1698,6 @@ DEP_CPP_IWINM=\
 !ENDIF 
 
 SOURCE=..\..\src\l3dq.c
-
-!IF  "$(CFG)" == "xing - Win32 Release"
-
 DEP_CPP_L3DQ_=\
 	"..\..\..\..\config\config.h"\
 	"..\..\include\L3.h"\
@@ -1749,49 +1707,8 @@ DEP_CPP_L3DQ_=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "xing - Win32 Debug"
-
-DEP_CPP_L3DQ_=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\l3dq.obj" : $(SOURCE) $(DEP_CPP_L3DQ_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "xing - Win32 NASM Release"
-
-DEP_CPP_L3DQ_=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\l3dq.obj" : $(SOURCE) $(DEP_CPP_L3DQ_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "xing - Win32 NASM Debug"
-
-DEP_CPP_L3DQ_=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\l3dq.obj" : $(SOURCE) $(DEP_CPP_L3DQ_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\l3init.c
-
-!IF  "$(CFG)" == "xing - Win32 Release"
-
 DEP_CPP_L3INI=\
 	"..\..\..\..\config\config.h"\
 	"..\..\include\L3.h"\
@@ -1801,44 +1718,6 @@ DEP_CPP_L3INI=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "xing - Win32 Debug"
-
-DEP_CPP_L3INI=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\l3init.obj" : $(SOURCE) $(DEP_CPP_L3INI) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "xing - Win32 NASM Release"
-
-DEP_CPP_L3INI=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\l3init.obj" : $(SOURCE) $(DEP_CPP_L3INI) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "xing - Win32 NASM Debug"
-
-DEP_CPP_L3INI=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\l3init.obj" : $(SOURCE) $(DEP_CPP_L3INI) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\mdct.c
 
@@ -1856,9 +1735,6 @@ DEP_CPP_MHEAD=\
 
 
 SOURCE=..\..\src\msis.c
-
-!IF  "$(CFG)" == "xing - Win32 Release"
-
 DEP_CPP_MSIS_=\
 	"..\..\..\..\config\config.h"\
 	"..\..\include\L3.h"\
@@ -1868,44 +1744,6 @@ DEP_CPP_MSIS_=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "xing - Win32 Debug"
-
-DEP_CPP_MSIS_=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\msis.obj" : $(SOURCE) $(DEP_CPP_MSIS_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "xing - Win32 NASM Release"
-
-DEP_CPP_MSIS_=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\msis.obj" : $(SOURCE) $(DEP_CPP_MSIS_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "xing - Win32 NASM Debug"
-
-DEP_CPP_MSIS_=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\msis.obj" : $(SOURCE) $(DEP_CPP_MSIS_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\uph.c
 
@@ -1964,9 +1802,6 @@ DEP_CPP_UPH_C=\
 !ENDIF 
 
 SOURCE=..\..\src\upsf.c
-
-!IF  "$(CFG)" == "xing - Win32 Release"
-
 DEP_CPP_UPSF_=\
 	"..\..\..\..\config\config.h"\
 	"..\..\include\L3.h"\
@@ -1976,44 +1811,6 @@ DEP_CPP_UPSF_=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-
-!ELSEIF  "$(CFG)" == "xing - Win32 Debug"
-
-DEP_CPP_UPSF_=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\upsf.obj" : $(SOURCE) $(DEP_CPP_UPSF_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "xing - Win32 NASM Release"
-
-DEP_CPP_UPSF_=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\upsf.obj" : $(SOURCE) $(DEP_CPP_UPSF_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "xing - Win32 NASM Debug"
-
-DEP_CPP_UPSF_=\
-	"..\..\..\..\config\config.h"\
-	"..\..\include\L3.h"\
-	
-
-"$(INTDIR)\upsf.obj" : $(SOURCE) $(DEP_CPP_UPSF_) "$(INTDIR)"\
- "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
 
 SOURCE=..\..\src\wavep.c
 
@@ -2081,7 +1878,8 @@ DEP_CPP_XINGL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\
@@ -2119,7 +1917,8 @@ DEP_CPP_XINGL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\
@@ -2157,7 +1956,8 @@ DEP_CPP_XINGL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\
@@ -2195,7 +1995,8 @@ DEP_CPP_XINGL=\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
+	"..\..\..\..\base\include\utility.h"\
+	"..\..\..\..\base\win32\include\Mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
 	"..\..\..\..\io\include\eventbuffer.h"\

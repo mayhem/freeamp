@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.8 1999/09/23 01:29:55 robert Exp $
+   $Id: Window.h,v 1.1.2.9 1999/09/26 03:23:33 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -71,6 +71,8 @@ class Window
                              int &iValue);
       Error   ControlStringValue(const string &oControlName, bool bSet,
                                  string &oValue);
+      Error   ControlGetTip(const string &oName, string &oTip);
+      Error   ControlGetDesc(const string &oName, string &oDesc);
 
       // These functions should be called from the OS dependent event
       // loop to handle mouse messages

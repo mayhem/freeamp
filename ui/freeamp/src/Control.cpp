@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.1.2.8 1999/09/24 00:28:26 robert Exp $
+   $Id: Control.cpp,v 1.1.2.9 1999/09/26 03:23:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -52,6 +52,7 @@ Control::Control(Window *pWindow, string &oName, TransitionInfo *pInfo)
     m_bShow = true;
     m_bEnable = true;
     m_iValue = 0;
+    m_pBitmap = NULL;
 
     for(iLoop = 0; ; iLoop++, pInfo++)
     {
@@ -192,5 +193,37 @@ void Control::BlitFrame(int iFrame, int iNumFramesInBitmap, Rect *pRect)
 
 bool Control::PosInControl(Pos &oPos)
 {
-    return m_oRect.IsPosInRect(oPos);
-}
+    bool bRet;
+    
+    bRet = m_oRect.IsPosInRect(oPos);
+//    if (bRet && m_pBitmap)
+//    {
+//    	Pos oLocalPos;
+//        
+//        oLocalPos.x = (oPos.x - m_oRect.x1) + m_oBitmapRect.x1;
+//        oLocalPos.y = (oPos.y - m_oRect.y1) + m_oBitmapRect.y1;
+//        return m_pBitmap->IsPosVisible(oLocalPos);
+//    }    
+    
+    return bRet;    
+}        
+
+void Control::SetDesc(const string &oDesc)
+{
+    m_oDesc = oDesc;
+}    
+
+void Control::SetTip(const string &oTip)
+{
+    m_oToolTip = oTip;
+}    
+
+void Control::GetDesc(string &oDesc)
+{
+    oDesc = m_oDesc;
+}    
+
+void Control::GetTip(string &oTip)
+{
+    oTip = m_oToolTip;
+}    

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.69 2000/08/16 18:55:19 ijr Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.70 2000/08/31 08:56:00 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -45,6 +45,7 @@ using namespace std;
 #include "debug.h"
 #include "eventdata.h"
 #include "MissingFileDialog.h"
+#include "player.h"
 
 HINSTANCE g_hinst = NULL;
 const int iSpacer = 15;
@@ -343,6 +344,9 @@ void MusicBrowserUI::MusicSearchDone()
                 
     TreeView_Expand(m_hMusicView,m_hPlaylistItem, TVE_EXPAND);
     TreeView_Expand(m_hMusicView,m_hMyMusicItem, TVE_EXPAND);
+
+	AcceptEvent(new CDInfoEvent(0, 0, ""));
+	m_context->player->UpdateCDNow();
 }
 
 void MusicBrowserUI::DisplayBrowserMessage(const char* msg)

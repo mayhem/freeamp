@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.49.2.14 1999/10/17 05:40:08 ijr Exp $
+dnl $Id: configure.in,v 1.49.2.15 1999/10/18 03:15:06 dogcow Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-1999 EMusic.com
 dnl
@@ -40,6 +40,9 @@ dnl Checks for libraries.
 dnl Checks for header files.
 AC_STDC_HEADERS
 AC_HAVE_HEADERS(unistd.h io.h pthread.h errno.h)
+
+AC_CHECK_LIB(socket, connect, [EXTRALIBS="$EXTRALIBS -lsocket"])
+AC_CHECK_LIB(nsl, gethostbyname, [EXTRALIBS="$EXTRALIBS -lnsl"])
 
 dnl Checks for gdbm
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dummycoo.cpp,v 1.5 1998/10/16 20:35:36 elrod Exp $
+	$Id: dummycoo.cpp,v 1.6 1998/10/16 22:25:31 jdw Exp $
 ____________________________________________________________________________*/
 
 #include "dummycoo.h"
@@ -41,7 +41,7 @@ int32 DummyCOO::AcceptEvent(Event *pe) {
 	            break;
 
 	        case CMD_Cleanup: {
-	            Event *pE = new Event(INFO_ReadyToDieCOO,this);
+	            Event *pE = new Event(INFO_ReadyToDieUI,this);
 	            Player::GetPlayer()->AcceptEvent(pE);
 	            break; 
             }

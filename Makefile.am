@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.7 1998/10/16 00:09:43 jdw Exp $
+##      $Id: Makefile.am,v 1.8 1998/10/16 22:25:30 jdw Exp $
 ##
 ############################################################################
 
@@ -33,8 +33,11 @@ PRG = freeamp
 ALLLDADD = @top_srcdir@/base/unix/@target_os@/src/*.o \
 	  @top_srcdir@/io/local/*.o \
 	  @top_srcdir@/ui/cmdline/*.o \
-	  @top_srcdir@/lmc/xingmp3/src/*.o \
+##	  @top_srcdir@/lmc/xingmp3/src/*.o \
 	  @top_srcdir@/ui/dummy/src/*.o \
+	  @top_srcdir@/lmc/src/*.o \
+	  @top_srcdir@/io/src/*.o \
+	  @top_srcdir@/ui/src/*.o \
 	  -lpthread -lm -ldl
 FALDADD = @top_srcdir@/base/src/*.o $(ALLLDADD)
 DSLDADD = @top_srcdir@/base/src/player.o @top_srcdir@/base/src/playlist.o @top_srcdir@/base/src/command.o @top_srcdir@/base/src/thread.o $(ALLLDADD)
@@ -43,7 +46,10 @@ MYDEPS = @top_srcdir@/base/unix/@target_os@/src/libfasys.a \
          @top_srcdir@/io/local/libfaiolocal.a \
          @top_srcdir@/ui/cmdline/libfauicmdline.a \
          @top_srcdir@/lmc/xingmp3/src/libfalmcxingmp3.a \
-	 @top_srcdir@/ui/dummy/src/libfauidummy.a
+	 @top_srcdir@/ui/dummy/src/libfauidummy.a \
+	 @top_srcdir@/lmc/src/libfalmcsrc.a \
+	 @top_srcdir@/io/src/libfaiosrc.a \
+	 @top_srcdir@/ui/src/libfauisrc.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 endif
 
@@ -58,7 +64,7 @@ freeamp_DEPENDENCIES = $(MYDEPS)
 ## decspeed_DEPENDENCIES = $(MYDEPS)
 
 INCLUDES = -I@top_srcdir@/base/include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@top_srcdir@/lmc/include
-CXXFLAGS = $(EXTRA_CXXFLAGS) -D__@target_os@__
+CXXFLAGS = $(EXTRA_CXXFLAGS) -D__@target_os@__ -Wl,-export-dynamic
 
 
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.1 1998/10/15 16:00:58 elrod Exp $
+	$Id: Mpg123UI.h,v 1.2 1998/10/16 22:25:31 jdw Exp $
 ____________________________________________________________________________*/
 
 // Mpg123UI.h
@@ -30,11 +30,11 @@ ____________________________________________________________________________*/
 #include "ctrlobj.h"
 #include "event.h"
 
-class Mpg123UI : public CIO,public COO {
+class Mpg123UI : public UserInterface {
  public:
     Mpg123UI();
-    virtual int32 acceptCIOEvent(Event *);
-    virtual int32 acceptCOOEvent(Event *);
+
+    virtual int32 AcceptEvent(Event *);
     virtual void setArgs(int argc, char **argv);
     ~Mpg123UI();
  private:

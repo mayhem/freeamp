@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.2 1998/10/16 00:21:50 elrod Exp $
+	$Id: registrar.cpp,v 1.3 1998/10/16 22:25:30 jdw Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -80,8 +80,11 @@ InitializeRegistry(Registry* registry)
             do
             {
                 char file[MAX_PATH];
-
+#ifdef WIN32
                 sprintf(file, "%s\\%s", dir, find.cFileName);
+#else
+		sprintf(file, "%s/%s",dir, find.cFileName);
+#endif
 
                 RegistryItem* item = new RegistryItem;
 

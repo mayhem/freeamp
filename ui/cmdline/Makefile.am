@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.3 1998/10/14 00:31:24 jdw Exp $
+##      $Id: Makefile.am,v 1.4 1998/10/16 22:25:31 jdw Exp $
 ##
 ############################################################################
 
@@ -29,7 +29,7 @@ FILES =
 MYLIBS = 
 TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 else
-FILES = CommandLineCIO.cpp cmdlinecoo.cpp Mpg123UI.cpp
+FILES = Mpg123UI.cpp
 MYLIBS = libfauicmdline.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 endif

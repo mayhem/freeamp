@@ -1,8 +1,7 @@
 /*____________________________________________________________________________
 	
-	FreeAmp - The Free MP3 Player
-
-	Portions Copyright (C) 1998 GoodNoise
+	FreeAMP - The Free MP3 Player
+	Portions copyright (C) 1998 GoodNoise
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,26 +17,16 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dummycoo.h,v 1.3 1998/10/16 22:25:31 jdw Exp $
+	$Id: utility.h,v 1.1 1998/10/16 22:25:30 jdw Exp $
 ____________________________________________________________________________*/
 
-#ifndef _DUMMY_COO_H_
-#define _DUMMY_COO_H_
+#ifndef _UTILITY_H_
+#define _UTILITY_H_
 
-#include "ctrlobj.h"
-#include "player.h"
-#include "semaphore.h"
+#include "config.h"
+#include "error.h"
 
-class DummyCOO : public UserInterface {
- public:
-    virtual int32 AcceptEvent(Event *);
-    virtual int32 SetArgs(int32 i, char **c) { return 0; }
-    DummyCOO(Semaphore*);
-    virtual ~DummyCOO();
+Error GetInstallDirectory(char* path, int32 len);
 
- private:
-    Semaphore* m_termSemaphore;
 
-};
-
-#endif // _DUMMY_COO_H_
+#endif // _UTILITY_H_

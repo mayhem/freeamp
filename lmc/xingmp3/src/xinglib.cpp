@@ -17,13 +17,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglib.cpp,v 1.4 1998/10/16 13:03:02 elrod Exp $
+	$Id: xinglib.cpp,v 1.5 1998/10/16 22:25:31 jdw Exp $
 ____________________________________________________________________________*/
 
 /* project headers */
 #include "lmclib.h"
 #include "xinglmc.h"
 
+#ifdef WIN32
 #include "mem.h"
 
 void* operator new(size_t size)
@@ -39,6 +40,8 @@ void operator delete(void* p)
 {
    __free(p);
 }
+
+#endif
 
 
 void Initialize(LMCRef ref)

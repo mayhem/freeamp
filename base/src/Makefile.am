@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.8 1998/10/15 21:56:36 jdw Exp $
+##      $Id: Makefile.am,v 1.9 1998/10/16 22:25:30 jdw Exp $
 ##
 ############################################################################
 
@@ -32,7 +32,7 @@ TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 FILES = 
 else
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
-FILES = player.cpp bootstrap.cpp command.cpp buffer.cpp playlist.cpp hashtable.cpp thread.cpp registrar.cpp utility.cpp win32impl.cpp registry.cpp
+FILES = player.cpp bootstrap.cpp command.cpp buffer.cpp playlist.cpp hashtable.cpp thread.cpp registrar.cpp win32impl.cpp registry.cpp
 endif
 
 if AM_HAVE_LINUXTHREADS

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.92 2000/06/08 12:53:09 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.93 2000/06/12 15:07:28 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -39,6 +39,15 @@ using namespace std;
 
 #include "cdaudio.h"
 #include "cdpmo.h"
+
+void GTKMusicBrowser::AddPLStreamToFavs(void)
+{
+    PlaylistItem *stream = m_plm->ItemAt(m_lastindex);
+    m_context->catalog->WriteMetaDataToDatabase(stream->URL().c_str(),
+                                                stream->GetMetaData(),
+                                                kTypeStream);
+    m_context->catalog->AddStream(stream->URL().c_str());
+}
 
 void GTKMusicBrowser::AddStreamToFavs(void)
 {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.1.2.5 1999/10/12 20:48:05 elrod Exp $
+	$Id: updatemanager.cpp,v 1.1.2.6 1999/10/13 04:49:36 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1049,7 +1049,8 @@ Error UpdateManager::BeginElement(string &element, AttrMap &attrMap)
 
 	if(m_path == "/VERSIONINFO/PLATFORM")
 	{
-        m_versionPlatform = attrMap["NAME"];
+		if (attrMap.find("NAME") != attrMap.end())
+           m_versionPlatform = attrMap["NAME"];
     }
 
     if(m_path == "/VERSIONINFO/PLATFORM/COMPONENT" &&

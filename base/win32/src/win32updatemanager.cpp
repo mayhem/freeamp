@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.1.2.4 1999/10/12 20:48:12 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.1.2.5 1999/10/13 04:49:37 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -131,8 +131,14 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
                     void* data;
 
                     versionSize = GetFileVersionInfoSize(filePath, &dummyHandle);
-                    
-                    data = malloc(versionSize);
+                    //RAK: Something is not kosher here!
+                    //     Boundschecker says that versionSize is 0
+                    //     I added the code to gracefully handle that case
+                    //     (fix the symptom, not the cause!)
+                    if (versionSize > 0)
+                       data = malloc(versionSize);
+                    else
+                       data = NULL;   
 
                     // actually get the verionsinfo for the file
                     if(data)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.1.2.13 1999/10/09 18:52:56 robert Exp $
+   $Id: Control.cpp,v 1.1.2.14 1999/10/13 04:49:40 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -52,6 +52,7 @@ Control::Control(Window *pWindow, string &oName, TransitionInfo *pInfo)
     m_bShow = true;
     m_bEnable = true;
     m_iValue = 0;
+    m_oValue = string("");
     m_pBitmap = NULL;
     m_bWantsTimingMessages = false;
     
@@ -114,7 +115,7 @@ Error Control::StringValue(bool bSet, string &oValue)
 {
     if (bSet)
     {
-    	if (m_oValue != oValue)
+    	if (m_oValue.length() == 0 || m_oValue != oValue)
         {
             m_oValue = oValue;
             AcceptTransition(CT_SetValue);

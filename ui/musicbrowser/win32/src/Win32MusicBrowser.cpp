@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.1 1999/10/12 23:28:14 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.2 1999/10/13 04:49:38 robert Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -176,6 +176,7 @@ Error MusicBrowserUI::CloseMainDialog(void)
 { 
     if (m_hWnd)
        DestroyWindow(m_hWnd);
+	m_hWnd = NULL;
        
     return kError_NoErr;
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.12 1999/10/11 21:25:07 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.13 1999/10/13 04:49:44 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -292,7 +292,6 @@ Error Win32Window::Run(Pos &oPos)
             DispatchMessage( &msg );
         }
     }
-	DestroyWindow(m_hWnd);
     m_hWnd = NULL;
 
 	oPos = m_oWindowPos;
@@ -327,17 +326,20 @@ Error Win32Window::VulcanMindMeld(Window *pOther)
     eRet = Window::VulcanMindMeld(pOther);
     if (IsError(eRet))
        return eRet;
-       
-    m_pCanvas->GetBackgroundRect(oRect);   
-    SetWindowPos(m_hWnd, NULL, 0, 0, oRect.Width(), oRect.Height(),
-                 SWP_NOZORDER|SWP_NOMOVE);
-    
-    hRgn = ((Win32Canvas *)m_pCanvas)->GetMaskRgn(); 
-    if (hRgn)
-        SetWindowRgn(m_hWnd, hRgn, false);
 
-	InvalidateRect(m_hWnd, NULL, false);
-    UpdateWindow(m_hWnd);
+    if (m_hWnd)
+    {   
+        m_pCanvas->GetBackgroundRect(oRect);   
+        SetWindowPos(m_hWnd, NULL, 0, 0, oRect.Width(), oRect.Height(),
+                     SWP_NOZORDER|SWP_NOMOVE);
+    
+        hRgn = ((Win32Canvas *)m_pCanvas)->GetMaskRgn(); 
+        if (hRgn)
+           SetWindowRgn(m_hWnd, hRgn, false);
+
+	    InvalidateRect(m_hWnd, NULL, false);
+        UpdateWindow(m_hWnd);
+    }    
 
     return kError_NoErr;
 }
@@ -349,6 +351,9 @@ void Win32Window::SaveWindowPos(Pos &oPos)
 
 Error Win32Window::Close(void)
 {
+	if (!m_hWnd)
+       return kError_YouScrewedUp;
+       
 	SendMessage(m_hWnd, WM_CLOSE, 0, 0);
 
     return kError_NoErr;
@@ -356,21 +361,30 @@ Error Win32Window::Close(void)
 
 Error Win32Window::Enable(void)
 {
+	if (!m_hWnd)
+       return kError_YouScrewedUp;
+       
 	return EnableWindow(m_hWnd, false) ? kError_NoErr : kError_InvalidParam;
 }
 
 Error Win32Window::Disable(void)
 {
+	if (!m_hWnd)
+       return kError_YouScrewedUp;
 	return EnableWindow(m_hWnd, true) ? kError_NoErr : kError_InvalidParam;
 }
 
 Error Win32Window::Show(void)
 {
+	if (!m_hWnd)
+       return kError_YouScrewedUp;
 	return ShowWindow(m_hWnd, SW_SHOWNORMAL) ? kError_NoErr : kError_InvalidParam;
 }
 
 Error Win32Window::Hide(void)
 {
+	if (!m_hWnd)
+       return kError_YouScrewedUp;
 	return ShowWindow(m_hWnd, SW_HIDE) ? kError_NoErr : kError_InvalidParam;
 }
 
@@ -384,6 +398,9 @@ Error Win32Window::SetTitle(string &oTitle)
 
 Error Win32Window::CaptureMouse(bool bCapture)
 {
+	if (!m_hWnd)
+       return kError_YouScrewedUp;
+       
 	if (bCapture)
     {
         SetCapture(m_hWnd);
@@ -422,6 +439,9 @@ HWND Win32Window::GetWindowHandle(void)
 
 Error Win32Window::SetWindowPosition(Rect &oWindowRect)
 {
+	if (!m_hWnd)
+       return kError_YouScrewedUp;
+       
     MoveWindow(m_hWnd, oWindowRect.x1, oWindowRect.y1,
                        oWindowRect.Width(), oWindowRect.Height(),
                        true);
@@ -432,6 +452,9 @@ Error Win32Window::GetWindowPosition(Rect &oWindowRect)
 {
 	RECT sRect;
     
+	if (!m_hWnd)
+       return kError_YouScrewedUp;
+       
     GetWindowRect(m_hWnd, &sRect);
     oWindowRect.x1 = sRect.left;
     oWindowRect.x2 = sRect.right;
@@ -443,6 +466,9 @@ Error Win32Window::GetWindowPosition(Rect &oWindowRect)
 
 Error Win32Window::Minimize(void)
 {
+	if (!m_hWnd)
+       return kError_YouScrewedUp;
+       
 	ShowWindow(m_hWnd, SW_MINIMIZE);
 
     return kError_NoErr;
@@ -450,6 +476,9 @@ Error Win32Window::Minimize(void)
 
 Error Win32Window::Restore(void)
 {
+	if (!m_hWnd)
+       return kError_YouScrewedUp;
+       
 	ShowWindow(m_hWnd, SW_RESTORE);
 
     return kError_NoErr;

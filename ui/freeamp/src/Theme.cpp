@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.25 1999/10/13 01:14:01 ijr Exp $
+   $Id: Theme.cpp,v 1.1.2.26 1999/10/13 04:49:42 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -174,7 +174,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
     if (_stat(oFile.c_str(), &buf) == 0 && (buf.st_mode & _S_IFDIR))
     {
         SetThemePath(oFile);
-	oCompleteFile = oFile + string(DIR_MARKER_STR) + string("theme.xml");
+        oCompleteFile = oFile + string(DIR_MARKER_STR) + string("theme.xml");
         eRet = Parse::ParseFile(oCompleteFile);
     }
     else
@@ -182,7 +182,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
         pTemp = tempnam(NULL, "fat");
         oTempPath = pTemp;
         free(pTemp);
-	if (MKDIR(oTempPath.c_str()))
+        if (MKDIR(oTempPath.c_str()))
         {
             MessageDialog oBox;
             string        oErr, oMessage(szCannotCreateTempDirError);
@@ -190,7 +190,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
             oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
             return kError_InvalidParam;
         }    
-	SetThemePath(oTempPath);
+        SetThemePath(oTempPath);
 	 
         eRet = oZip.DecompressThemeZip(oFile, oTempPath);
         if (eRet == kError_FileNotFound)
@@ -241,7 +241,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
        if (m_pWindows)
        {
           // Clear the current window list
-	  ClearWindows();
+          ClearWindows();
 
           // Adopt the new window vector
           m_pWindows = m_pParsedWindows;
@@ -259,7 +259,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
               	  pMainWindow = *i;
           }
 
-	  // If we can't find the proper mode, switch to mainwindow
+	      // If we can't find the proper mode, switch to mainwindow
           if (!pNewWindow)
              pNewWindow = pMainWindow;
           
@@ -274,7 +274,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
           m_pParsedBitmaps = NULL;
           m_pParsedFonts = NULL;
          
-	  // Now the window lists have been properly adjusted, so
+          // Now the window lists have been properly adjusted, so
           // adopt all the info from the new window into the existing
           // window via the VulcanMindLink 
           m_pWindow->VulcanMindMeld(pNewWindow);
@@ -283,7 +283,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
        }
        else
        {
-	  // Its a new load -- just take things verbatim and run
+          // Its a new load -- just take things verbatim and run
           m_pWindows = m_pParsedWindows;
           m_pBitmaps = m_pParsedBitmaps;
           m_pFonts = m_pParsedFonts;
@@ -321,7 +321,7 @@ Error Theme::SwitchWindow(const string &oWindowName)
         (*i)->GetName(oTemp);
         if (oTemp == oWindowName)
         {
-        	  pNewWindow = *i;
+            pNewWindow = *i;
             break;
         }    
         if (oTemp == string("MainWindow"))

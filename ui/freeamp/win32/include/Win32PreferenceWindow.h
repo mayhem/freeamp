@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.15 2000/04/14 08:28:59 elrod Exp $
+   $Id: Win32PreferenceWindow.h,v 1.16 2000/04/18 06:32:41 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -211,6 +211,10 @@ class Win32PreferenceWindow : public PreferenceWindow
                                   UINT msg, 
                                   WPARAM wParam, 
                                   LPARAM lParam);
+               bool PrefDirectoryProc(HWND hwnd, 
+                                  UINT msg, 
+                                  WPARAM wParam, 
+                                  LPARAM lParam);
                bool PrefDebugProc(HWND hwnd, 
                                   UINT msg, 
                                   WPARAM wParam, 
@@ -239,6 +243,7 @@ class Win32PreferenceWindow : public PreferenceWindow
       HWND m_hwndPref;
       string m_caption;
       uint32 m_startPage;
+      PrefPage* m_currentPage;
       
 };
 

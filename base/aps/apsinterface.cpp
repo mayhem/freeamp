@@ -18,12 +18,12 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.15 2000/08/21 16:52:56 sward Exp $
+        $Id: apsinterface.cpp,v 1.16 2000/08/25 11:19:29 sward Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
 // Copyright 1999 Relatable, LLC. All Rights Reserved
-// Programmed By: Sean Ward
+// Programed By: Sean Ward
 // Description: Interface declaration file for Relatable APS system
 // Date: 12/13/1999
 // Modification History:

@@ -24,7 +24,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.23 1999/12/14 17:01:00 robert Exp $
+        $Id: alsapmo.cpp,v 1.24 1999/12/18 00:41:31 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -278,11 +278,7 @@ Error AlsaPMO::Init(OutputInfo* info) {
 
     audio_set_all(ai);
 
-    myInfo->bits_per_sample = info->bits_per_sample;
-    myInfo->number_of_channels = info->number_of_channels;
-    myInfo->samples_per_second = info->samples_per_second;
-    myInfo->max_buffer_size = info->max_buffer_size;
-
+    memcpy(myInfo, info, sizeof(OutputInfo));
     if (snd_pcm_playback_time(ai->handle, true))
         ReportError("Cannot set soundcard time playback mode.");
 

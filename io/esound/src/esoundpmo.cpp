@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-	$Id: esoundpmo.cpp,v 1.10 1999/12/14 17:01:04 robert Exp $
+	$Id: esoundpmo.cpp,v 1.11 1999/12/18 00:41:32 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -187,10 +187,7 @@ Error EsounDPMO::Init(OutputInfo * info)
       return (Error) pmoError_DeviceOpenFailed;
    }
 
-   myInfo->bits_per_sample = info->bits_per_sample;
-   myInfo->number_of_channels = info->number_of_channels;
-   myInfo->samples_per_second = info->samples_per_second;
-   myInfo->max_buffer_size = info->max_buffer_size;
+   memcpy(myInfo, info, sizeof(OutputInfo));
    m_properlyInitialized = true;
 
    m_iBytesPerSample = info->number_of_channels * (info->bits_per_sample / 8);

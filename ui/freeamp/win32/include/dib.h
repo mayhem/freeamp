@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dib.h,v 1.1 1999/03/03 09:03:40 elrod Exp $
+	$Id: dib.h,v 1.2 1999/03/05 06:34:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef DIB_H
@@ -27,6 +27,20 @@ ____________________________________________________________________________*/
 #include <windows.h>
 
 #include "config.h"
+
+typedef struct Color {
+    short   r;
+    short   g;
+    short   b;
+    short   a;
+
+ public: 
+     void Set(short rvalue, short gvalue, short bvalue, short avalue)
+     {r = rvalue; g = gvalue, b = bvalue; a = avalue;}
+
+     uint32 Pack()
+     { return RGB(r, g ,b); }
+}Color;
 
 
 class DIB {
@@ -41,21 +55,26 @@ public:
 
 	virtual bool Load(HANDLE module, LPCTSTR resource);
 
-    BYTE* Bits() const { return(BYTE*)m_bits; }
+    void Pixel(int32 x, int32 y, Color* color);
+    uint32 Pixel(int32 x, int32 y);
+
+    BYTE* Bits() const { return m_bits; }
     BYTE* Bits(int32 x, int32 y);
+
     int32 Height() const { return m_height; }
     int32 Width() const { return m_width; }
+
     int32 BitsPerPixel() const { return m_bitCount; }
     int32 BytesPerLine() const { return m_bytesPerLine; }
     int32 BytesPerPixel() const { return (m_bitCount == 8) ? 1 : 3; }
-    BITMAPINFO* BitmapInfo() { return &m_bitmapInfo; }
-    HBITMAP     Handle() const { return m_handle; }
+
+    BITMAPINFO* BitmapInfo() { return m_bitmapInfo; }
+
+    int32 NumberOfPaletteEntries() const;
 
 protected:
-	HBITMAP     m_handle;
-    DIBSECTION  m_dibSection;
-    BITMAPINFO  m_bitmapInfo;
-    void*       m_bits;
+    BITMAPINFO* m_bitmapInfo;
+    BYTE*       m_bits;
     int32       m_height;
     int32       m_width;
     int32       m_bytesPerLine;

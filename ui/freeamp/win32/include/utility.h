@@ -18,30 +18,20 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.1 1999/03/03 09:03:41 elrod Exp $
+	$Id: utility.h,v 1.2 1999/03/05 06:34:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UTILITY_H_
 #define _UTILITY_H_
 
-typedef struct Color{
-    short   r;
-    short   g;
-    short   b;
-    short   a;
-
- public: 
-     void Set(short rvalue, short gvalue, short bvalue, short avalue)
-     {r = rvalue; g = gvalue, b = bvalue; a = avalue;}
-}Color;
-
+#include "dib.h"
 
 HRGN
-DetermineRegion(HBITMAP bitmap, 
+DetermineRegion(DIB* bitmap, 
 			    Color* color);
 
 void
-DetermineControlRegions(HBITMAP bitmap, 
+DetermineControlRegions(DIB* bitmap, 
                         HRGN controlRegions[],
 			            Color controlColors[],
                         int32 numControls);

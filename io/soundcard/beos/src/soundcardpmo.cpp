@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.11 2000/06/22 15:13:35 elrod Exp $
+	$Id: soundcardpmo.cpp,v 1.12 2000/07/11 16:00:13 hiro Exp $
 ____________________________________________________________________________*/
 
 #define DEBUG 0
@@ -57,10 +57,10 @@ PhysicalMediaOutput* Initialize(FAContext *context)
 
 SoundCardPMO::SoundCardPMO( FAContext* context )
 :	PhysicalMediaOutput( context ),
-	m_player( NULL ),
-	m_dataSize( 0 ),
-	m_eventSem( "EventSem" ),
-	m_pauseLock( "pause lock" ),
+    m_player( NULL ),
+    m_dataSize( 0 ),
+    m_eventSem( "EventSem" ),
+    m_pauseLock( "pause lock" ),
     m_bytesPerSample( 0 ),
     m_lastFrame( -1 ),
     m_totalBytesWritten( 0 )
@@ -118,25 +118,28 @@ SoundCardPMO::~SoundCardPMO()
 	PRINT(( "SoundCardPMO::~SoundCardPMO done\n" ));
 }
 
-int32
-SoundCardPMO::GetPrefInt32(kVolumePref,  void )
+void
+SoundCardPMO::GetVolume( int32& left, int32& right )
 {
 	PRINT(( "SoundCardPMO::GetVolume\n" ));
     if ( !m_player )
 	{
-		return s_lastVolume;
+		left = right = s_lastVolume;
 	}
-	int32 volume = int32( m_player->Volume() * 100.0 );
-	return volume;
+	else
+	{
+		left = right = int32( m_player->Volume() * 100.0 );
+	}
 }
 
 void
-SoundCardPMO::SetPrefInt32(kVolumePref,  int32 volume )
+SoundCardPMO::SetVolume( int32 left, int32 right )
 {
 	PRINT(( "SoundCardPMO::SetVolume\n" ));
+    int32 volume = ( left + right ) / 2;
     if ( m_player )
     {
-        m_player->SetPrefInt32(kVolumePref,  float( volume ) / 100.0 );
+        m_player->SetVolume( float( volume ) / 100.0 );
     }
 	s_lastVolume = volume;
 }
@@ -263,7 +266,7 @@ SoundCardPMO::Init( OutputInfo* info )
 	m_dummyPlayerThread = Thread::CreateThread();
 	m_dummyPlayerThread->Create( _DummyPlayerHook, this );
 #else
-    m_player->SetPrefInt32(kVolumePref,  float( s_lastVolume ) / 100.0 );
+    m_player->SetVolume( float( s_lastVolume ) / 100.0 );
 	m_player->Start();
 	m_player->SetHasData( true );
 #endif

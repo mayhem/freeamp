@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.7 1999/12/11 23:50:26 hiro Exp $
+	$Id: soundcardpmo.h,v 1.8 2000/07/11 16:00:12 hiro Exp $
 ____________________________________________________________________________*/
 
 
@@ -53,8 +53,8 @@ public:
 							SoundCardPMO( FAContext* context );
 	virtual					~SoundCardPMO();
 	virtual Error			Init( OutputInfo* info );
-	virtual int32			GetVolume( void );
-	virtual void			SetVolume( int32 volume );
+	virtual void			GetVolume( int32& left, int32& right );
+	virtual void			SetVolume( int32 left, int32 right );
 	virtual void			Pause( void );
 	virtual void 			Resume( void );
 

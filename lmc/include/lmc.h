@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.28 2000/05/24 17:08:33 ijr Exp $
+	$Id: lmc.h,v 1.29 2000/07/11 16:00:13 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_LMC_H_
@@ -40,7 +40,7 @@ class EventBuffer;
 class PhysicalMediaInput;
 class PhysicalMediaOutput;
 
-const int iMinimumOutputBufferSize = 64;
+const int32 iMinimumOutputBufferSize = 64;
 
 class LogicalMediaConverter : public PipelineUnit
 {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: undomanager.cpp,v 1.1 1999/12/12 18:43:04 elrod Exp $
+	$Id: undomanager.cpp,v 1.2 2000/09/11 22:14:04 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.

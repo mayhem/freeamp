@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.138 2000/08/24 14:37:06 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.139 2000/09/11 22:14:04 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1462,6 +1462,15 @@ void FreeAmpTheme::InitControls(void)
 
     iState = m_iMuteVolume != -1; 
     m_pWindow->ControlIntValue(string("Mute"), true, iState);
+
+	if (m_sigState == kGeneratingSigs)
+		iState = 2;
+	else if (m_sigState == kSigsPending)
+		iState = 1;
+	else
+		iState = 0;
+
+	m_pWindow->ControlIntValue(string("SigIndicator"), true, iState);
 
     m_eq->InitControls(m_pWindow);
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.cpp,v 1.16 2000/07/31 19:51:40 ijr Exp $
+        $Id: EditTrackInfoDialog.cpp,v 1.17 2000/09/11 22:14:04 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -115,7 +115,7 @@ BOOL EditTrackInfoDialog::DialogProc(HWND hwnd,
             char number[64];
             
             CreateEditInfoLists(artists, albums, genres);
-
+  
             HWND hwndArtist = GetDlgItem(hwnd, IDC_ARTIST);
             HWND hwndAlbum = GetDlgItem(hwnd, IDC_ALBUM);
             HWND hwndGenre = GetDlgItem(hwnd, IDC_GENRE);

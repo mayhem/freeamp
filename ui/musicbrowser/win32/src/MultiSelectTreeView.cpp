@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.23 2000/08/08 16:05:57 ijr Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.24 2000/09/11 22:14:04 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -403,7 +403,8 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
             tv_htinfo.pt.y =  HIWORD(lParam);
 
 
-            if(TreeView_HitTest(m_hMusicView, &tv_htinfo))
+            if(TreeView_HitTest(m_hMusicView, &tv_htinfo) && 
+			   (tv_htinfo.flags & TVHT_ONITEM))
             {
                 tv_item.hItem = TreeView_GetSelection(m_hMusicView); 
                 tv_item.mask = TVIF_PARAM | TVIF_HANDLE;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DropTarget.h,v 1.5 1999/11/14 17:57:11 elrod Exp $
+        $Id: DropTarget.h,v 1.6 2000/09/11 22:14:04 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DROPTARGET_H_
@@ -65,6 +65,7 @@ class FAR DropTarget : public IDropTarget
     HBRUSH          m_insertBrush;
     int             m_oldItem; 
     RECT            m_insertRect;
+	RECT            m_scrollRect;
     bool            m_scrolling;
     int             m_scrollCode;
     int             m_timer;

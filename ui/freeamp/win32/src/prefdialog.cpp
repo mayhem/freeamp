@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: prefdialog.cpp,v 1.9 1999/04/28 01:30:11 elrod Exp $
+	$Id: prefdialog.cpp,v 1.10 1999/07/09 17:43:18 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -961,10 +961,71 @@ PrefPage3Proc(  HWND hwnd,
     return result;
 }
 
+static
+BOOL 
+CALLBACK 
+PrefPage4Proc(  HWND hwnd, 
+                UINT msg, 
+                WPARAM wParam, 
+                LPARAM lParam)
+{
+    UINT result = 0;
+    static PROPSHEETPAGE* psp = NULL;
+    static Preferences* prefs = NULL;
+    
+    switch(msg)
+    {
+        case WM_INITDIALOG:
+        {
+            // remember these for later...
+            psp = (PROPSHEETPAGE*)lParam;
+            prefs = (Preferences*)psp->lParam;
+            
+            break;
+        }
+
+        case WM_NOTIFY:
+        {
+            NMHDR* notify = (NMHDR*)lParam;
+
+            switch(notify->code)
+            {
+                case PSN_SETACTIVE:
+                {
+                    
+                    break;
+                }
+
+                case PSN_APPLY:
+                {
+                    SavePrefsValues(prefs, &currentValues);
+                    break;
+                }
+
+                case PSN_KILLACTIVE:
+                {
+                    
+                    break;
+                }
+
+                case PSN_RESET:
+                {
+                    SavePrefsValues(prefs, &originalValues);
+                    break;
+                }
+            }
+
+            break;
+        }
+    }
+
+    return result;
+}
+
 bool DisplayPreferences(HWND hwndParent, Preferences* prefs)
 {
     bool result = false;
-    PROPSHEETPAGE psp[3];
+    PROPSHEETPAGE psp[4];
     PROPSHEETHEADER psh;
     HINSTANCE hinst = (HINSTANCE)GetWindowLong(hwndParent, GWL_HINSTANCE);
 
@@ -994,6 +1055,15 @@ bool DisplayPreferences(HWND hwndParent, Preferences* prefs)
     psp[2].pfnDlgProc = PrefPage3Proc;
     psp[2].pszTitle = NULL;
     psp[2].lParam = (LPARAM)prefs;
+
+    psp[3].dwSize = sizeof(PROPSHEETPAGE);
+    psp[3].dwFlags = 0;
+    psp[3].hInstance = hinst;
+    psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PREF4);
+    psp[3].pszIcon = NULL;
+    psp[3].pfnDlgProc = PrefPage4Proc;
+    psp[3].pszTitle = NULL;
+    psp[3].lParam = (LPARAM)prefs;
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE;

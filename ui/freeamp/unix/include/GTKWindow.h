@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.1.2.4 1999/09/27 19:20:36 ijr Exp $
+   $Id: GTKWindow.h,v 1.1.2.5 1999/09/28 20:22:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKWINDOW__H_
@@ -61,6 +61,7 @@ class GTKWindow : public Window
       void GTKEventService(void);
 
       GtkWidget *mainWindow;
+      bool initialized;
 };
 
 #endif

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.1.2.9 1999/09/28 05:16:53 ijr Exp $
+   $Id: GTKBitmap.cpp,v 1.1.2.10 1999/09/28 20:22:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -537,6 +537,5 @@ Error GTKBitmap::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect,
     gdk_draw_pixmap(dest, m_GC, src->GetBitmap(), oSrcRect.x1, oSrcRect.y1, 
                     oDestRect.x1, oDestRect.y1, w, h);
     gdk_threads_leave();    
-
     return kError_NoErr;
 }

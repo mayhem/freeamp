@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.6 1999/09/28 05:16:53 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.7 1999/09/28 20:22:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -34,7 +34,9 @@ void mouse_move(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
 
     oPos.x = (int)e->motion.x;
     oPos.y = (int)e->motion.y;
+    gdk_threads_leave();
     ui->HandleMouseMove(oPos);
+    gdk_threads_enter();
 }
 
 void button_down(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
@@ -43,8 +45,10 @@ void button_down(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
 
     oPos.x = (int)e->button.x;
     oPos.y = (int)e->button.y;
+    gdk_threads_leave();
     if (e->button.button == 1) 
         ui->HandleMouseLButtonDown(oPos);
+    gdk_threads_enter();
 }
 
 void button_up(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
@@ -52,14 +56,17 @@ void button_up(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     Pos oPos;
     oPos.x = (int)e->button.x;
     oPos.y = (int)e->button.y;
+    gdk_threads_leave();
     if (e->button.button == 1)
         ui->HandleMouseLButtonUp(oPos);
+    gdk_threads_enter();
 }
 
 GTKWindow::GTKWindow(Theme *pTheme, string &oName)
           :Window(pTheme, oName)
 {
     m_pCanvas = new GTKCanvas(this);
+    initialized = false;
 }
 
 GTKWindow::~GTKWindow(void)
@@ -107,16 +114,22 @@ Error GTKWindow::Run(Pos &oPos)
     gtk_signal_connect(GTK_OBJECT(mainWindow), "button_release_event",
                        GTK_SIGNAL_FUNC(button_up), this);
    
-    gdk_window_set_decorations(mainWindow->window, (GdkWMDecoration)0);
+  //  gdk_window_set_decorations(mainWindow->window, (GdkWMDecoration)0);
 
+    gdk_threads_leave();
+    
     Init();
     ((GTKCanvas *)GetCanvas())->Paint(oRect);
 
+    gdk_threads_enter();
     gtk_widget_show(mainWindow);
     gdk_flush(); 
 
     gdk_threads_leave();
+ 
+    initialized = true;
 
+    for (;;) ;
     return kError_NoErr;
 }
 
@@ -178,14 +191,14 @@ Error GTKWindow::SetMousePos(Pos &oPos)
 
 Error GTKWindow::GetMousePos(Pos &oPos)
 {
-    gtk_widget_get_pointer(mainWindow, &oPos.x, &oPos.y);
+    if (initialized)
+        gtk_widget_get_pointer(mainWindow, &oPos.x, &oPos.y);
     return kError_NoErr;
 }
 
 Error GTKWindow::SetWindowPosition(Rect &oWindowRect)
 {
     gdk_window_move(mainWindow->window, oWindowRect.x1, oWindowRect.y1);
-    gdk_flush();
     return kError_NoErr;
 }
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.1.2.2 1999/09/28 05:16:53 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.1.2.3 1999/09/28 20:22:13 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "thread.h"
@@ -30,6 +30,7 @@ ____________________________________________________________________________*/
 #include <iostream>
 
 static Thread *gtkThread = NULL;
+static bool weAreGTK = false;
 
 void IconifyWindow(GdkWindow *win)
 {
@@ -44,9 +45,16 @@ void WarpPointer(GdkWindow *win, int x, int y)
     XWarpPointer(GDK_DISPLAY(), None, window, 0, 0, 0, 0, x, y);
 }
 
-static void initializeGTK(void *c)
+static void runGTK(void *c)
 {
-    FAContext *context = (FAContext *)c;
+    gtk_main();
+}
+
+void InitializeGTK(FAContext *context)
+{
+    if (gtkThread)
+        return;
+
     bool init = false;
 
     context->gtkLock.Acquire();
@@ -58,25 +66,22 @@ static void initializeGTK(void *c)
 
     if (init) {
         g_thread_init(NULL);
-        gtk_init(NULL, NULL); // hrmph, it segfaults otherwise
+        gtk_init(&context->argc, &context->argv);
         gdk_rgb_init();
-        gtk_main();
+   
+        weAreGTK = true;
+ 
+        gtkThread = Thread::CreateThread();
+        gtkThread->Create(runGTK, NULL);
     }
-}
-
-void InitializeGTK(FAContext *context)
-{
-    if (gtkThread)
-        return;
-
-    gtkThread = Thread::CreateThread();
-    gtkThread->Create(initializeGTK, context);
 }
 
 void ShutdownGTK(void)
 {
-    gdk_threads_enter();
-    gtk_main_quit();
-    gdk_threads_leave();
-    gtkThread->Join();
+    if (weAreGTK) {
+        gdk_threads_enter();
+        gtk_main_quit();
+        gdk_threads_leave();
+        gtkThread->Join();
+    }
 }

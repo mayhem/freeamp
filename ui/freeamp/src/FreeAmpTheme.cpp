@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.17 1999/09/28 05:16:53 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.18 1999/09/28 20:22:13 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -65,7 +65,7 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
 #ifndef WIN32
     // This needs to be done before _any_ gdk/gtk calls, so really needs
     // go here...
-    InitializeGTK(m_pContext);
+    InitializeGTK(context);
 #endif
 
    LoadFreeAmpTheme();

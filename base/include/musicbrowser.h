@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.1.2.8 1999/10/11 23:39:36 ijr Exp $
+        $Id: musicbrowser.h,v 1.1.2.9 1999/10/12 00:04:54 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -67,15 +67,20 @@ class MusicBrowser;
 class MusicCatalog
 {
  public:
-    MusicCatalog();
+    MusicCatalog(FAContext *context);
     ~MusicCatalog();
 
-    void AddOneFromKey(MusicBrowser *mb, char *key);    
-    void PopulateFromDatabase(MusicBrowser *mb);
+    void AddPlaylist(const char *path);
+    void AddSong(const char *path);
+    void AddOneFromDatabase(char *key);    
+    void PopulateFromDatabase();
     
     vector<ArtistList *> *m_artistList;
     vector<PlaylistItem *> *m_unsorted;
     vector<string> *m_playlists;
+
+private:
+    FAContext *m_context;
 };
 
 class MusicBrowser : public EventQueue

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.25 1999/11/04 04:39:42 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.26 1999/11/08 02:22:47 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -112,7 +112,7 @@ plugins/esound.pmo: $(ESNDOBJ)
 # download manager ui
 DOWNLOADUIOBJ = ui/download/unix/src/downloadui.o \
                 ui/download/unix/src/gtkdownloadui.o \
-                ui/freeamp/unix/src/GTKMessageDialog.o
+                ui/musicbrowser/unix/src/gtkmessagedialog.o
 
 plugins/download.ui: $(DOWNLOADUIOBJ)
 	$(LINKMOD) -o $@ $(DOWNLOADUIOBJ) $(GTK_LIBS)
@@ -124,7 +124,7 @@ MUSICBROWSEROBJ = ui/musicbrowser/unix/src/gtkmusicbrowser.o \
                   ui/musicbrowser/unix/src/fileselector.o \
                   ui/musicbrowser/unix/src/browsermenu.o \
                   ui/musicbrowser/unix/src/musicsearch.o \
-                  ui/freeamp/unix/src/GTKMessageDialog.o 
+                  ui/musicbrowser/unix/src/gtkmessagedialog.o 
 
 plugins/musicbrowser.ui: $(MUSICBROWSEROBJ)
 	$(LINKMOD) -o $@ $(MUSICBROWSEROBJ) $(GTK_LIBS)

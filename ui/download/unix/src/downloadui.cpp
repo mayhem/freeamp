@@ -18,12 +18,13 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.4 1999/10/28 18:53:39 ijr Exp $
+        $Id: downloadui.cpp,v 1.5 1999/11/08 02:22:48 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
 #include "downloadui.h" 
 #include "eventdata.h"
+#include "gtkmessagedialog.h"
 
 extern "C" {
 
@@ -185,7 +186,13 @@ void DownloadUI::UpdateOverallProgress(void)
 
 void DownloadUI::CancelEvent(void)
 {
+    if (downloadList.size() == 0)
+        return;
+
     DownloadItem *dli = downloadList[m_currentindex];
+    if (dli == *downloadList.end())
+        return;
+
     m_dlm->CancelDownload(dli, false);
     gtk_widget_set_sensitive(m_PauseButton, FALSE);
     gtk_widget_set_sensitive(m_CancelButton, FALSE);
@@ -194,7 +201,13 @@ void DownloadUI::CancelEvent(void)
 
 void DownloadUI::PauseEvent(void)
 {
+    if (downloadList.size() == 0)
+        return;
+
     DownloadItem *dli = downloadList[m_currentindex];
+    if (dli == *downloadList.end())
+        return;
+
     m_dlm->CancelDownload(dli, true);
     gtk_widget_set_sensitive(m_PauseButton, FALSE);
     gtk_widget_set_sensitive(m_CancelButton, TRUE);
@@ -202,19 +215,27 @@ void DownloadUI::PauseEvent(void)
 }
 
 void DownloadUI::ResumeEvent(void)
-{
+{ 
+    if (downloadList.size() == 0)
+        return;
+
     DownloadItem *dli = downloadList[m_currentindex];
-    m_dlm->QueueDownload(dli);
-    gtk_widget_set_sensitive(m_PauseButton, TRUE);
-    gtk_widget_set_sensitive(m_CancelButton, TRUE);
-    gtk_widget_set_sensitive(m_ResumeButton, FALSE);
+    if (dli != *downloadList.end()) {
+        m_dlm->QueueDownload(dli);
+        gtk_widget_set_sensitive(m_PauseButton, TRUE);
+        gtk_widget_set_sensitive(m_CancelButton, TRUE);
+        gtk_widget_set_sensitive(m_ResumeButton, FALSE);
+    }
 }
 
 void DownloadUI::SelChangeEvent(int row)
 {
     m_currentindex = row;
     DownloadItem *dli = downloadList[m_currentindex];
-    
+ 
+    if (dli == *downloadList.end())
+        return;    
+
     switch (dli->GetState()) {
         case kDownloadItemState_Queued:
         case kDownloadItemState_Downloading: {
@@ -258,7 +279,10 @@ void DownloadUI::AddURLEvent(void)
 
             if ((sp = strstr(url + 7, "://"))) {
                 if (strncasecmp(url + 7, "http://", 7)) {
-                    // error
+                    GTKMessageDialog oBox;
+                    string oMessage = "The Download Manager only supports http:// URLs for now.";
+                    oBox.Show(oMessage.c_str(), "Error", kMessageOk, true);
+
                     delete [] url;
                     return;
                 }

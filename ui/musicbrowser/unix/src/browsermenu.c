@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.c,v 1.5 1999/10/30 04:26:59 ijr Exp $
+        $Id: browsermenu.c,v 1.6 1999/11/08 02:22:49 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -78,7 +78,7 @@ void CreateMenuItems(GtkItemFactory *item_factory, void *p)
      {"/_Edit/Randomize Playlist",NULL,         sort_random, 0, 0 },
 
      {"/_View",                 NULL,           0,         0, "<Branch>" },
-     {"/_View/View music browser",NULL,         catalog_tog, 0, 0 },
+     {"/_View/View Music Browser",NULL,         catalog_tog, 0, 0 },
 
      {"/_Sort",                 NULL,           0,         0, "<Branch>" },
      {"/_Sort/Artist",          NULL,           sort_artist, 0, 0 },

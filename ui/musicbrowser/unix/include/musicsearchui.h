@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicsearchui.h,v 1.1 1999/10/25 03:30:42 ijr Exp $
+        $Id: musicsearchui.h,v 1.2 1999/11/08 02:22:49 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICSEARCHUI_H_
@@ -35,7 +35,7 @@ class musicsearchUI {
     musicsearchUI(FAContext *);
    ~musicsearchUI();
   
-    void Show();
+    void Show(bool runMain = true);
 
     int32 AcceptEvent(Event *);
  
@@ -50,6 +50,7 @@ class musicsearchUI {
     bool custom;
     bool searchInProgress;
     bool searchDone;
+    bool m_main;
 
  protected:
     FAContext *m_context;

@@ -18,18 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MessageDialog.h,v 1.3 1999/11/08 02:22:48 ijr Exp $
+   $Id: gtkmessagedialog.h,v 1.1 1999/11/08 02:22:49 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_MESSAGEDIALOG_H__
 #define INCLUDED_MESSAGEDIALOG_H__
-
-// The debugger can't handle symbols more than 255 characters long.
-// STL often creates symbols longer than that.
-// When symbols are longer than 255 characters, the warning is disabled.
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
 
 #include <string>
 
@@ -54,19 +47,21 @@ enum MessageDialogReturnEnum
     kMessageReturnUnknown
 };
 
-class MessageDialog
+class GTKMessageDialog
 {
   public:
     
-                MessageDialog(void);
-       virtual ~MessageDialog(void);                  
+                GTKMessageDialog(void);
+       virtual ~GTKMessageDialog(void);                  
 
        MessageDialogReturnEnum Show(const char *szMessage, 
                                     const char *szTitle, 
-                                    MessageDialogEnum eType);
+                                    MessageDialogEnum eType,
+                                    bool inMain = false);
        MessageDialogReturnEnum Show(const string &oMessage, 
                                     const string &oTitle, 
-                                    MessageDialogEnum eType);
+                                    MessageDialogEnum eType,
+                                    bool inMain = false);
 
 };
 

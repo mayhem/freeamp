@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.2 1998/10/18 22:06:27 elrod Exp $
+	$Id: preferences.h,v 1.3 1999/03/17 18:20:12 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -44,6 +44,9 @@ class Preferences {
 
     Error GetDefaultUI(char* name, uint32* len);
     Error SetDefaultUI(char* path);
+
+    Error GetOpenSaveDirectory(char* path, uint32* len);
+    Error SetOpenSaveDirectory(char* path);
 
  protected:
     Error GetPrefString(const char* pref, char* buf, uint32* len);

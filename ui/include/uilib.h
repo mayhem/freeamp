@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: uilib.h,v 1.5 1998/10/19 07:51:44 elrod Exp $
+	$Id: uilib.h,v 1.6 1998/10/20 02:55:02 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UILIB_H_
@@ -26,7 +26,7 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "config.h"
 #include "event.h"
-#include "ctrlobj.h"
+#include "ui.h"
 
 #ifdef __cplusplus
 extern "C" {

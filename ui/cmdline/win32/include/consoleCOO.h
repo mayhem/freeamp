@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: consoleCOO.h,v 1.1 1998/10/15 14:49:28 elrod Exp $
+	$Id: consoleCOO.h,v 1.2 1998/10/20 02:55:02 elrod Exp $
 ____________________________________________________________________________*/
 
 // CommandLineCOO.h
@@ -27,7 +27,7 @@ ____________________________________________________________________________*/
 #ifndef _CONSOLE_COO_H_
 #define _CONSOLE_COO_H_
 
-#include "ctrlobj.h"
+#include "ui.h"
 #include "event.h"
 
 class ConsoleCOO : public COO {

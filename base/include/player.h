@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.13 1998/10/19 23:39:29 jdw Exp $
+	$Id: player.h,v 1.14 1998/10/20 02:55:02 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -108,6 +108,7 @@ class Player {
     UIRegistry*             m_uiRegistry;
 
     char*                   m_argUI;
+    bool                    m_autoplay;
 
 };
 

@@ -1,8 +1,6 @@
-
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
-
 	Portions Copyright (C) 1998 GoodNoise
 
 	This program is free software; you can redistribute it and/or modify
@@ -19,57 +17,56 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mutex.cpp,v 1.2 1998/10/20 02:55:02 elrod Exp $
+	$Id: simplelib.cpp,v 1.1 1998/10/20 02:55:02 elrod Exp $
 ____________________________________________________________________________*/
 
-#include "mutex.h"
+/* project headers */
+#include "uilib.h"
+#include "simpleui.h"
 
 
-Mutex::
-Mutex(bool createOwned)
+void Initialize(UIRef ref)
 {
-	m_mutex = CreateMutex(	NULL,
-							createOwned,
-							NULL);
-}	
+    if(ref )
+    {
+        UserInterface* ui = new SimpleUI;
+        ref->ref = ui;
 
-Mutex::
-~Mutex()
+        ref->SetTarget = SetTarget;
+        ref->SetArgs = SetArgs;
+        ref->AcceptEvent = AcceptEvent;
+        ref->Cleanup = Cleanup;  
+    }
+}
+
+void SetTarget(UIRef ref, EventQueueRef eq)
 {
-	CloseHandle(m_mutex);
+    SimpleUI* ui = (SimpleUI*)ref->ref;
+
+    ui->SetTarget(eq);
+}
+
+void SetArgs(UIRef ref, int32 argc, char **argv)
+{
+    SimpleUI* ui = (SimpleUI*)ref->ref;
+
+    ui->SetArgs(argc, argv);
+}
+
+int32 AcceptEvent(UIRef ref, Event* event)
+{
+    SimpleUI* ui = (SimpleUI*)ref->ref;
+
+    return ui->AcceptEvent(event);
+}
+
+void Cleanup(UIRef ref)
+{
+    SimpleUI* ui = (SimpleUI*)ref->ref;
+
+    delete ui;
 }
 
 
-bool 
-Mutex::
-Acquire(unsigned long timeout)
-{
-	bool result = false;
 
-	switch(WaitForSingleObject(m_mutex, timeout))
-	{
-		case WAIT_ABANDONED:
-		case WAIT_OBJECT_0:
-		{
-			result = true;
-			break;
-		}
 
-		case WAIT_TIMEOUT:
-		case WAIT_FAILED:
-		{
-
-			result = false;
-			break;
-		}
-	}
-
-	return result;
-}
-
-void 
-Mutex::
-Release()
-{
-	 ReleaseMutex(m_mutex);
-}

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.16 1998/10/19 11:01:05 elrod Exp $
+	$Id: main.cpp,v 1.17 1998/10/20 02:55:02 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -95,8 +95,6 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     dummyRef->ref = dummy;
     dummyRef->AcceptEvent = dummy->AcceptEventStub;
     dummyRef->Cleanup = dummy->Cleanup;
-
-    dummy->SetRef(dummyRef);
 
     // register items... we give up ownership here
     player->RegisterActiveUI(dummyRef);

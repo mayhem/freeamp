@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mutex.h,v 1.2 1998/10/15 13:33:50 elrod Exp $
+	$Id: mutex.h,v 1.3 1998/10/20 02:55:02 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef MUTEX_H
@@ -32,8 +32,7 @@ ____________________________________________________________________________*/
 class Mutex {
 
 public:
-	Mutex();
-	Mutex(bool createOwned);
+	Mutex(bool createOwned = false);
 	~Mutex();
 
 

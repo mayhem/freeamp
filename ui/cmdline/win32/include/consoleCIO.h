@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: consoleCIO.h,v 1.2 1998/10/15 16:00:58 elrod Exp $
+	$Id: consoleCIO.h,v 1.3 1998/10/20 02:55:02 elrod Exp $
 ____________________________________________________________________________*/
 
 // CommandLineCIO.h
@@ -27,7 +27,7 @@ ____________________________________________________________________________*/
 #ifndef _CONSOLE_CIO_H_
 #define _CONSOLE_CIO_H_
 
-#include "ctrlobj.h"
+#include "ui.h"
 #include "event.h"
 #include "thread.h"
 

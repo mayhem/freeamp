@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dummyui.h,v 1.3 1998/10/19 23:39:30 jdw Exp $
+	$Id: dummyui.h,v 1.4 1998/10/20 02:55:02 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _DUMMY_UI_H_
@@ -32,7 +32,6 @@ class DummyUI : public UserInterface {
     virtual void SetTarget(EventQueue* eq);
     virtual int32 AcceptEvent(Event *);
     virtual void  SetArgs(int32 i, char **c) { return; }
-    virtual void SetRef(UIRef ref){ m_ref = ref;}
 
     static int32 AcceptEventStub(UIRef pUI, Event *pe);
     static void Cleanup(UIRef pUI);
@@ -43,7 +42,6 @@ class DummyUI : public UserInterface {
  private:
     Semaphore*      m_termSemaphore;
     EventQueueRef   m_target;
-    UIRef           m_ref;
 
 };
 

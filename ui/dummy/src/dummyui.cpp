@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dummyui.cpp,v 1.2 1998/10/19 07:51:44 elrod Exp $
+	$Id: dummyui.cpp,v 1.3 1998/10/20 02:55:02 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "dummyui.h"
@@ -79,7 +79,7 @@ int32 DummyUI::AcceptEvent(Event *pe)
 
 	        case CMD_Cleanup: 
             {
-	            Event *pE = new Event(INFO_ReadyToDieUI,m_ref);
+	            Event *pE = new Event(INFO_ReadyToDieUI);
 	            m_target->AcceptEvent(m_target, pE);
 	            break; 
             }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.cpp,v 1.5 1999/10/19 07:12:57 elrod Exp $
+	$Id: semaphore.cpp,v 1.6 2000/05/01 15:21:23 robert Exp $
 ____________________________________________________________________________*/
 
 #include <limits.h>
@@ -37,8 +37,18 @@ Semaphore::~Semaphore() {
    CloseHandle(m_sem);
 }
 
-void Semaphore::Wait() {	
+void Semaphore::Wait(int ms) 
+{	
+   if (ms > 0)
+   {
+	   if (WaitForSingleObject(m_sem, ms) == WAIT_TIMEOUT)
+          return false;
+
+      return true;
+   }
+
 	WaitForSingleObject(m_sem, INFINITE);	
+   return true;
 }
 
 void Semaphore::Signal() {

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.cpp,v 1.4 2000/02/29 10:01:57 elrod Exp $
+	$Id: semaphore.cpp,v 1.5 2000/05/01 15:20:10 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -45,8 +45,11 @@ Semaphore::~Semaphore() {
     pthread_cond_destroy(&cond);
 }
 
-void Semaphore::Wait() {
-    //decrement the semaphore
+bool Semaphore::Wait(int iMilliSecs) 
+{
+    if (iMilliSecs > 0)
+        return TimedWait(iMilliSecs);
+    
     pthread_mutex_lock(&mutex);
     count--;
     while (count <=0) 
@@ -54,6 +57,7 @@ void Semaphore::Wait() {
         pthread_cond_wait(&cond,&mutex);
     }
     pthread_mutex_unlock(&mutex);
+    return true;
 }
 
 bool Semaphore::TimedWait(int iMilliSecs)

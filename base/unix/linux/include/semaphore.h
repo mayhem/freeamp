@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.h,v 1.3 2000/02/29 10:01:57 elrod Exp $
+	$Id: semaphore.h,v 1.4 2000/05/01 15:20:06 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -38,12 +38,10 @@ class Semaphore {
  public:
     Semaphore(int cnt = 1);
     ~Semaphore();
-    void Wait();
+    bool Wait(int ms = -1);
     bool TimedWait(int iMilliSecs);
     void Signal();
 
 };
-
-
 
 #endif // _SEMAPHORE_H_

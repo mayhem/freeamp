@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: stringitem.cpp,v 1.1 1999/03/03 09:06:20 elrod Exp $
+	$Id: stringitem.cpp,v 1.2 1999/03/06 06:05:22 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -55,7 +55,11 @@ ListItem()
     // that will hold the pre-rendered string
     for(i = 0; m_text[i]; i++)
     {
-        textLength += m_fontWidths[m_text[i] - 32];
+        if(m_text[i] < 127 && m_text[i] > 31)
+            textLength += m_fontWidths[m_text[i] - 32];
+        else
+            textLength += m_fontWidths[63 - 32];
+
     }
 
     // create text bitmap
@@ -67,16 +71,30 @@ ListItem()
     // render the string
     for(i = 0; m_text[i]; i++)
     {
+        int32 y;
+        int32 width;
+
+        if(m_text[i] < 127 && m_text[i] > 31)
+        {
+            y = (m_text[i] - 32)*m_fontHeight;
+            width = m_fontWidths[m_text[i] - 32];
+        }
+        else
+        {
+            y = (63 - 32)*m_fontHeight;
+            width = m_fontWidths[63 - 32];
+        }
+
         Renderer::Copy( m_textBitmap,
                         offset, 
                         0,     
-                        m_fontWidths[m_text[i] - 32],   
+                        width,   
                         m_fontHeight,
                         m_fontBitmap,    
                         0,
-                        (m_text[i] - 32)*m_fontHeight);
+                        y);
 
-        offset += m_fontWidths[m_text[i] - 32];
+        offset += width;
     }
 
     SetHeight(fontHeight);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.20 1999/03/05 23:31:34 elrod Exp $
+	$Id: playlist.h,v 1.21 1999/03/06 06:05:20 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -102,7 +102,7 @@ class PlayListItem {
     int32 StartFrame() const { return m_startFrame; }
     void SetStartFrame(int32 frame) { m_startFrame = frame; }
 
-    char* DisplayString() const { return m_url;}
+    char* DisplayString() const { return strrchr(m_url, '\\') + 1;}
 
 
     RegistryItem *GetPMIRegistryItem() { return m_pmiRegItem; }

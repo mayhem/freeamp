@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.79 2000/09/11 06:39:38 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.80 2000/09/11 18:28:14 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1042,9 +1042,23 @@ void MusicCatalog::DoSearchMusic(char *path, bool bSendMessages)
 
                     if (IsError(FilePathToURL(file.c_str(), tempurl, &length)))
                     {
+                        delete [] tempurl;
+                        delete [] fileExt;
+
                         continue;
                     }
-                    
+                   
+                    if (!bSendMessages) {
+                        MetaData *tdata = ReadMetaDataFromDatabase(tempurl);
+                        if (tdata) {
+                            delete tdata;
+                            delete [] tempurl;
+                            delete [] fileExt;
+
+                            continue;
+                        }
+                    }
+
                     PlaylistItem *plist = new PlaylistItem(tempurl);
                     m_plm->RetrieveMetaDataNow(plist);
 
@@ -1060,7 +1074,7 @@ void MusicCatalog::DoSearchMusic(char *path, bool bSendMessages)
                     delete plist;
                     delete [] tempurl;
                 }
-                delete fileExt;
+                delete [] fileExt;
             }
         }
         while (FindNextFile(handle, &find) && !m_exit);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.96 2000/11/15 14:55:20 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.97 2000/11/19 12:01:22 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -519,6 +519,17 @@ Error MusicCatalog::AddSong(const char *url)
     if (!m_database->Working())
         return kError_DatabaseNotWorking;
 
+	struct stat st;
+	uint32 reallen = strlen(url) + 1;
+	char *realname = new char[reallen];
+	URLToFilePath(url, realname, &reallen);
+    if (-1 == stat(realname, &st)) {
+        delete [] realname;
+		return kError_NoErr;
+	}
+
+	delete [] realname;
+
     PlaylistItem *newtrack;
 
     MetaData *meta = ReadMetaDataFromDatabase(url);
@@ -826,8 +837,8 @@ void MusicCatalog::SetDatabase(const char *path)
     }
 
     if (m_database) {
-        if (m_database->IsUpgraded())
-            m_context->target->AcceptEvent(new Event(INFO_DatabaseUpgraded));
+        //if (m_database->IsUpgraded())
+        //    m_context->target->AcceptEvent(new Event(INFO_DatabaseUpgraded));
         RePopulateFromDatabase();
         if (m_timeout == 0)
             PruneDatabase(true, true);

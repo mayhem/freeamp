@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.49.2.2.2.1.2.1.2.1 2000/03/29 22:33:54 elrod Exp $
+	$Id: main.cpp,v 1.49.2.2.2.1.2.1.2.2 2000/04/10 20:57:30 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -293,7 +293,7 @@ bool SendCommandLineToRealJukebox()
                                 regErr = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
 													  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\realjbox.exe",
 													  0, 
-													  KEY_ALL_ACCESS,
+													  KEY_WRITE|KEY_READ,
 													  &key);
 
                                 if(regErr == ERROR_SUCCESS)
@@ -666,7 +666,7 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
         result = RegOpenKeyEx(HKEY_CLASSES_ROOT,
 							  kFileTypes[index][0],
 							  0, 
-                              KEY_ALL_ACCESS,
+                              KEY_WRITE|KEY_READ,
                               &typeKey);
 
         if(result == ERROR_SUCCESS)
@@ -740,7 +740,7 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
         result = RegOpenKeyEx(	HKEY_CLASSES_ROOT,
 							    buf,
 							    0, 
-							    KEY_ALL_ACCESS,
+							    KEY_WRITE|KEY_READ,
 							    &appKey);
 
         if(result == ERROR_SUCCESS)
@@ -842,7 +842,7 @@ void ReclaimFileTypes(const char* path, bool askBeforeReclaiming)
     result = RegOpenKeyEx(HKEY_CURRENT_USER,
                           "Software\\Netscape\\Netscape Navigator\\Viewers",
                           0, 
-                          KEY_ALL_ACCESS,
+                          KEY_WRITE|KEY_READ,
                           &appKey);
 
     if(result == ERROR_SUCCESS)

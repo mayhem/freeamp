@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.2 2000/03/29 08:10:09 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.3 2000/04/10 20:57:30 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1473,7 +1473,7 @@ void FreeAmpTheme::DropFiles(vector<string> *pFileList)
                         strcat(findPath, DIR_MARKER_STR);
                         strcat(findPath, findData.cFileName);
                         
-                        length = sizeof(url);
+                        length = _MAX_PATH + 7;
                         FilePathToURL(findPath, url, &length);
                         PlaylistItem* item = new PlaylistItem(url);
                         oList.push_back(item);
@@ -1510,7 +1510,7 @@ void FreeAmpTheme::DropFiles(vector<string> *pFileList)
             }
             if (!IsError(eRet))
             {
-                length = sizeof(url);
+                length = _MAX_PATH + 7;
                 FilePathToURL((*i).c_str(), url, &length);
                 
                 m_pContext->plm->ReadPlaylist(url);

@@ -344,6 +344,10 @@ SOURCE=..\res\unchecked.bmp
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE="..\..\..\..\..\..\..\Program Files\Microsoft Visual Studio\VC98\Include\BASETSD.H"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\include\Bitmap.h
 # End Source File
 # Begin Source File

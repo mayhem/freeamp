@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.145 1999/11/10 02:43:26 ijr Exp $
+        $Id: player.cpp,v 1.146 1999/11/10 06:57:06 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1329,6 +1329,24 @@ GetMediaInfo(Event *pEvent)
 
 void 
 Player::
+HandleQueryState()
+{
+    if (m_playerState == PlayerState_Playing)
+    {
+        SEND_NORMAL_EVENT(INFO_Playing);
+    }
+    else if (m_playerState == PlayerState_Stopped)
+    {
+        SEND_NORMAL_EVENT(INFO_Stopped);
+    }
+    else if (m_playerState == PlayerState_Paused)
+    {
+        SEND_NORMAL_EVENT(INFO_Paused);
+    }
+}
+
+void 
+Player::
 Play(Event *pEvent)
 {
     const PlaylistItem               *pItem;
@@ -1702,6 +1720,10 @@ ServiceEvent(Event * pC)
 
         case CMD_QuitPlayer:
             return Quit(pC);
+
+        case CMD_QueryPlayerState:
+            HandleQueryState();
+            break;
 
         case INFO_ReadyToDieUI:
             return ReadyToDieUI(pC);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.33 1999/11/10 01:28:00 robert Exp $
+	$Id: event.h,v 1.34 1999/11/10 06:57:06 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -127,6 +127,8 @@ class EventQueue {
 #define INFO_PrefsChanged           63 // send by a preferences window whenever the preferences changed
 #define CMD_ShowPreferences         64 // send by some module to have the theme ui show the prefences dialog
 #define CMD_AddFiles                65 // sent by the theme ui to have the music browser show an add tracks dialog for quickly adding/playing tracks
+
+#define CMD_QueryPlayerState      64 // asks the player object to resend out its state
 
 #endif // _EVENT_H_
 

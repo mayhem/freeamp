@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.12 1999/11/09 09:02:38 elrod Exp $
+        $Id: MusicTree.cpp,v 1.13 1999/11/10 06:57:18 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -1055,6 +1055,7 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
         case WM_SETFOCUS:
         case WM_KILLFOCUS:
         {
+            UpdateButtonMenuStates();
             InvalidateRect(hwnd, NULL, TRUE);
             break;
         }

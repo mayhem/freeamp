@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.44 1999/10/20 23:39:17 robert Exp $
+        $Id: player.h,v 1.45 1999/11/10 06:57:06 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -130,6 +130,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     void SendEventToUI(Event *pEvent);
     void GetMediaTitle(Event *pEvent);
     void ToggleUI(Event *pEvent);
+    void HandleQueryState();
     
     #define _EQUALIZER_ENABLE_
     #ifdef  _EQUALIZER_ENABLE_

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.8 1999/11/10 05:59:07 elrod Exp $
+	$Id: m3u.cpp,v 1.9 1999/11/10 06:57:17 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -258,6 +258,29 @@ Error M3U::WritePlaylist(const char* url, PlaylistFormatInfo* format,
                 fclose(fp);
 
                 result = kError_NoErr;
+            }
+            else
+            {
+                int err = errno;
+
+                switch(err)
+                {
+                    case EACCES:
+                        result = kError_FileNoAccess;
+                        break;
+
+                    case EEXIST:
+                        result = kError_FileNoAccess;
+                        break;
+
+                    case EINVAL:
+                        result = kError_FileNoAccess;
+                        break;
+
+                    case ENOENT:
+                        result = kError_FileNoAccess;
+                        break;
+                }
             }
         }
     }

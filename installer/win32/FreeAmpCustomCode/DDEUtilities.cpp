@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: DDEUtilities.cpp,v 1.1 1999/10/24 00:36:56 elrod Exp $
+	$Id: DDEUtilities.cpp,v 1.2 1999/10/24 00:42:27 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -504,7 +504,6 @@ bool OpenNetscapeURLs(URLList* list)
 {
     HSZ hszServName;
 	HSZ hszTopic;
-	HSZ hszItem;
 	HCONV hConv;
     HDDEDATA hdded = NULL;
     char* szMsg;
@@ -528,6 +527,8 @@ bool OpenNetscapeURLs(URLList* list)
         //}
         //else
         //{
+        //    HSZ hszItem;
+        //
         //    wsprintf(szMsg,"%s%s",(*i).c_str() , endStuff);
 	    //    hszItem = DdeCreateStringHandle(idInst,szMsg,CP_WINANSI);
 
@@ -541,7 +542,6 @@ bool OpenNetscapeURLs(URLList* list)
 
 
     DdeFreeStringHandle(idInst, hszTopic);
-    DdeFreeStringHandle(idInst, hszItem);
     DdeFreeStringHandle(idInst, hszServName);
     delete [] szMsg;
     delete list;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.h,v 1.10 2000/05/06 17:53:56 ijr Exp $
+        $Id: musiccatalog.h,v 1.11 2000/05/08 13:58:53 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -36,17 +36,6 @@ using namespace std;
 
 class FAContext;
 class Player;
-
-class WatchDirectoryTimer : public Timer {
-  public:
-    WatchDirectoryTimer(FAContext *context, int32 timeout);
-    virtual ~WatchDirectoryTimer() {}
-
-    virtual void Tick();
-
-  private:
-    FAContext *m_context;
-};
 
 typedef enum {
    kTypeTrack = 0,
@@ -146,6 +135,9 @@ class MusicCatalog : public EventQueue
 
     FAContext *m_context;
 
+    static void watch_timer(void *arg);
+    void        WatchTimer();
+
  private:
     bool CaseCompare(string s1, string s2);
 
@@ -169,7 +161,7 @@ class MusicCatalog : public EventQueue
     AlbumList *m_newAlbum;
     AlbumList *m_oldAlbum;
 
-    int32                m_timeout;
-    WatchDirectoryTimer *m_watchTimer;
+    int32    m_timeout;
+    TimerRef m_watchTimer;
 };
 #endif

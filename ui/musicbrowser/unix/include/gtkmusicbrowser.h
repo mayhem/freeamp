@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: gtkmusicbrowser.h,v 1.38 2000/05/06 13:28:36 ijr Exp $
+   $Id: gtkmusicbrowser.h,v 1.39 2000/05/08 13:58:53 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -36,21 +36,8 @@ ____________________________________________________________________________*/
 #include "timer.h"
 #include "Icecast.h"
 
-class GTKMusicBrowser;
 class FAContext;
 class MusicBrowserUI;
-
-class IceCastTimer : public Timer {
-  public:
-    IceCastTimer(FAContext *context, GTKMusicBrowser *ui, int32 timeout);
-    virtual ~IceCastTimer() {}
-
-    virtual void Tick();
-
-  private:
-    FAContext *m_context;
-    GTKMusicBrowser *m_ui;
-};
 
 typedef enum {
     kStateCollapsed,
@@ -135,10 +122,14 @@ class GTKMusicBrowser {
  protected:
     FAContext *m_context;
 
+    static void icecast_timer(void *arg);
+    void IcecastTimer(void);
+
  private:
     MusicBrowserUI *parentUI;
- 
-    IceCastTimer *ice_timer;
+
+    bool     ice_timer_started; 
+    TimerRef ice_timer;
 
     uint32 CD_DiscID;
     uint32 CD_numtracks;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: timer.cpp,v 1.6 2000/05/08 12:59:12 elrod Exp $
+	$Id: timer.cpp,v 1.7 2000/05/08 13:58:53 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -29,7 +29,7 @@ ____________________________________________________________________________*/
 #endif
 
 #include "config.h"
-#include "Timer.h"
+#include "timer.h"
 
 #if defined(__linux__) || defined(solaris)
 #include <unistd.h>
@@ -55,10 +55,11 @@ TimerManager::~TimerManager()
 {
     m_alive = false;
 
-    if(m_thread)
+    if(m_thread) {
         m_semaphore.Wait();
-
-    delete m_thread;
+        m_thread->Join();
+        delete m_thread;
+    }
 
     vector<TimerRef>::iterator i = m_list.begin();
 
@@ -69,9 +70,9 @@ TimerManager::~TimerManager()
 }
 
 void TimerManager::StartTimer(TimerRef* timerRef,
-							  TimerFunction function,
-							  uint32 seconds, 
-							  void* userValue)
+                              TimerFunction function,
+                              uint32 seconds, 
+                              void* userValue)
 {
     if(function)
     {
@@ -133,17 +134,18 @@ void TimerManager::ThreadFunction()
 
         vector<TimerRef>::iterator i = m_list.begin();
 
-		for(; i != m_list.end(); i++)
-		{
-			(*i)->ticks++;
+	for(; i != m_list.end(); i++)
+	{
+		(*i)->ticks++;
 
-			if((*i)->duration && (*i)->ticks >= (*i)->duration)
-			{
-                Timer* t = new Timer(*(*i));
-                t->thread = Thread::CreateThread();
-	            t->thread->Create(TimerManager::timer_function, t);
-			}
+		if((*i)->duration && (*i)->ticks >= (*i)->duration)
+		{
+                	Timer* t = new Timer(*(*i));
+                	t->thread = Thread::CreateThread();
+	            	t->thread->Create(TimerManager::timer_function, t);
+                        (*i)->ticks = 0;
 		}
+	}
 
         m_mutex.Release();
 
@@ -165,6 +167,7 @@ void TimerManager::timer_function(void* arg)
 
     t->function(t->userValue);
 
+    t->thread->Join();
     delete t->thread;
     delete t;
 }

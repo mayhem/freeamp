@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.34 2000/04/26 18:31:11 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.35 2000/05/08 13:58:53 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1889,19 +1889,19 @@ static void never_timeout_selected(GtkWidget *w, GTKPreferenceWindow *p)
 static void one_timeout_selected(GtkWidget *w, GTKPreferenceWindow *p)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w)))
-        p->SetWatchTimeout(60000);
+        p->SetWatchTimeout(60);
 }
 
 static void five_timeout_selected(GtkWidget *w, GTKPreferenceWindow *p)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w)))
-        p->SetWatchTimeout(300000);
+        p->SetWatchTimeout(300);
 }
 
 static void ten_timeout_selected(GtkWidget *w, GTKPreferenceWindow *p)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w)))
-        p->SetWatchTimeout(600000);
+        p->SetWatchTimeout(600);
 }
 
 GtkWidget *GTKPreferenceWindow::CreateDirectories(void)
@@ -1992,7 +1992,7 @@ GtkWidget *GTKPreferenceWindow::CreateDirectories(void)
     button = gtk_radio_button_new_with_label(
                              gtk_radio_button_group(GTK_RADIO_BUTTON(button)),
                              "One Minute");
-    if (originalValues.watchThisDirTimeout == 60000) {
+    if (originalValues.watchThisDirTimeout == 60) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
         setSomething = true;
     }
@@ -2005,7 +2005,7 @@ GtkWidget *GTKPreferenceWindow::CreateDirectories(void)
     button = gtk_radio_button_new_with_label(
                              gtk_radio_button_group(GTK_RADIO_BUTTON(button)),
                              "5 Minutes");
-    if (originalValues.watchThisDirTimeout == 300000) {
+    if (originalValues.watchThisDirTimeout == 300) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
         setSomething  = true;
     }
@@ -2017,7 +2017,7 @@ GtkWidget *GTKPreferenceWindow::CreateDirectories(void)
     button = gtk_radio_button_new_with_label(
                              gtk_radio_button_group(GTK_RADIO_BUTTON(button)),
                              "10 Minutes");
-    if (originalValues.watchThisDirTimeout == 600000) {
+    if (originalValues.watchThisDirTimeout == 600) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
         setSomething  = true;
     }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.14 1998/11/09 10:10:18 elrod Exp $
+	$Id: freeampui.cpp,v 1.15 1998/11/10 01:48:26 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -307,8 +307,12 @@ AcceptEvent(Event* event)
 				int32 hours = seconds / 3600;
 				int32 minutes = (seconds - (hours * 3600)) / 60;
 				seconds = seconds - (hours * 3600) - (minutes * 60);
-
-                strncpy(g_displayInfo.path,info->m_filename,sizeof(g_displayInfo.path)-1);
+				char *pFoo = strrchr(info->m_filename,'\\');
+				if (pFoo) {
+					strncpy(g_displayInfo.path,++pFoo,sizeof(g_displayInfo.path)-1);
+				} else {
+					strncpy(g_displayInfo.path,info->m_filename,sizeof(g_displayInfo.path)-1);
+				}
 				g_displayInfo.totalhours = hours;
 				g_displayInfo.totalminutes = minutes;
 				g_displayInfo.totalseconds = seconds;

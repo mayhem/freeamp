@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.216 2000/08/04 15:19:44 ijr Exp $
+        $Id: player.cpp,v 1.217 2000/08/04 17:54:04 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -89,8 +89,13 @@ EventQueue()
 {
     m_context = context;
     m_context->player = this;
-    m_APSInterface = new APSInterface();
+
+    char *m_faDir = FreeampDir(m_context->prefs);
+
+    m_APSInterface = new APSInterface(m_faDir);
     m_context->aps = m_APSInterface;
+
+    delete m_faDir;
 
     // cout << "Creating player..." << endl;
     m_eventSem = new Semaphore();
@@ -203,6 +208,7 @@ Player::
 #ifndef WIN32
     m_context->timerManager->StopTimer(m_cdTimer);
 #endif
+    m_context->timerManager->StopTimer(m_syncTimer);
 
     TYPICAL_DELETE(m_dlm);
 

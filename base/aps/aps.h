@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: aps.h,v 1.2 2000/08/01 03:46:43 ijr Exp $
+        $Id: aps.h,v 1.3 2000/08/04 17:54:04 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ public:
     } APSEvent;
        
     /** IP of APS Servers can be overwridden in constructor. */
-    APSInterface(const char* pYpIP  = "209.249.187.199", 
+    APSInterface(char *profilePath, const char* pYpIP  = "209.249.187.199", 
                  const char* pSigIP = "209.249.187.199");
     virtual ~APSInterface(); // to be or not to be virtual....
        
@@ -197,6 +197,7 @@ private:
                                      // to the audio signature server
     int m_nMetaFailures;             // track metadata timeouts to stop lookups
                                      // if the server is down ;)
+    string m_profilePath;            // store the path to the profile
 };
 
 

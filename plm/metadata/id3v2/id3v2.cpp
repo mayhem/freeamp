@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.10 2000/05/07 12:48:27 robert Exp $
+	$Id: id3v2.cpp,v 1.11 2000/05/22 14:05:02 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -309,7 +309,7 @@ bool ID3v2::WriteMetaData(const char* url, const MetaData& metadata)
 
     err = ID3Tag_UpdateByTagType(pTag, whichTags);
 
-    delete pTag;
+    ID3Tag_Delete(pTag);
 
     return err == ID3E_NoError;
 }

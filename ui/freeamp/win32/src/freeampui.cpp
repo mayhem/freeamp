@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.59 1999/04/26 04:14:41 elrod Exp $
+	$Id: freeampui.cpp,v 1.60 1999/04/27 01:11:29 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2844,7 +2844,18 @@ SetArgs(int32 argc, char** argv)
         }
         else 
         {
-            m_plm->AddItem(arg,0);
+            HANDLE handle;
+            WIN32_FIND_DATA data;
+
+            handle = FindFirstFile( arg, &data);
+
+            if(handle != INVALID_HANDLE_VALUE)
+            {
+                m_plm->AddItem(data.cFileName,0);
+
+                FindClose(handle);
+            }
+
             count++;
 	    }
     }
@@ -2876,9 +2887,20 @@ FilesReceived(char* array, int32 count)
 
     for(int32 i = 0; i < count; i++)
     {
-        char* foo = new char[strlen(array) + 1];
+        char* foo = new char[MAX_PATH + 1];
 
         strcpy(foo, array);
+
+        HANDLE handle;
+        WIN32_FIND_DATA data;
+
+        handle = FindFirstFile( foo, &data);
+
+        if(handle != INVALID_HANDLE_VALUE)
+        {
+            strcpy(foo, data.cFileName);
+            FindClose(handle);
+        }
 
         fileList.AddItem(foo);
 

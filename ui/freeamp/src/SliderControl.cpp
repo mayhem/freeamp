@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.6.2.1 2000/02/23 18:16:20 robert Exp $
+   $Id: SliderControl.cpp,v 1.6.2.2 2000/02/23 18:36:51 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -297,9 +297,6 @@ void SliderControl::MoveThumb(int iCurrentPos, int iNewPos)
     oEraseRect.y1 = m_oRect.y1;
     oEraseRect.y2 = m_oRect.y2 + 1;
     
-    Debug_v("Invalidate: %d %d %d %d",
-       oEraseRect.x1, oEraseRect.y1, oEraseRect.x2, oEraseRect.y2);
-    
     pCanvas = m_pParent->GetCanvas();
     pCanvas->Erase(oEraseRect);
 
@@ -307,9 +304,6 @@ void SliderControl::MoveThumb(int iCurrentPos, int iNewPos)
     oRect.x2 = oRect.x1 + m_iThumbWidth;
     oRect.y1 = m_oRect.y1;
     oRect.y2 = m_oRect.y2;
-    
-    Debug_v("Blt: %d %d %d %d",
-       oRect.x1, oRect.y1, oRect.x2, oRect.y2);
     
     switch(m_eCurrentState)
     {

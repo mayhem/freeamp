@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.11.2.1 2000/02/23 18:16:21 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.11.2.2 2000/02/23 18:36:51 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -256,7 +256,6 @@ Error Win32Canvas::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestR
 void Win32Canvas::Paint(HDC hDC, Rect &oRect)
 {
    HDC   hMemDC;
-   BOOL  bRet;
 
    hMemDC = CreateCompatibleDC(hDC);
    
@@ -267,14 +266,9 @@ void Win32Canvas::Paint(HDC hDC, Rect &oRect)
       SelectPalette(hDC, m_hPal, false);
       RealizePalette(hDC);
    }
-   //if (oRect.Width() <= 1 || oRect.Height() <= 1)
-   Debug_v("PaintRect: %d %d %d %d", oRect.x1, oRect.y1, oRect.x2, oRect.y2);
 
-   bRet = BitBlt(hDC, oRect.x1, oRect.y1, oRect.Width(), oRect.Height(),
+   BitBlt(hDC, oRect.x1, oRect.y1, oRect.Width(), oRect.Height(),
                  hMemDC, oRect.x1, oRect.y1, SRCCOPY);
-   if (!bRet)              
-       Debug_v("BitBlit failed! PaintRect: %d %d %d %d", 
-               oRect.x1, oRect.y1, oRect.x2, oRect.y2);
 
    DeleteDC(hMemDC);  
 }

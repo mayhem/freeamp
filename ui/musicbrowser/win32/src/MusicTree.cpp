@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.30 1999/12/02 22:06:53 elrod Exp $
+        $Id: MusicTree.cpp,v 1.31 1999/12/03 02:40:51 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -1398,10 +1398,62 @@ void MusicBrowserUI::UpdateTrackName(PlaylistItem* track,
     m_context->browser->m_catalog->UpdateSong(track);
 }
 
-void MusicBrowserUI::UpdatePlaylistName(string playlist, 
+const char* kFileExists = "There is already a playlist with that name.";
+                          
+void MusicBrowserUI::UpdatePlaylistName(const string& playlist, 
                                         const char* name)
 {
+    char path[MAX_PATH];
+    char orig[MAX_PATH];
+    uint32 len = sizeof(orig);
 
+    URLToFilePath(playlist.c_str(), orig, &len);
+
+    strcpy(path, orig);
+
+    char* cp = strrchr(path, '\\');
+
+    if(cp)
+    {
+        strcpy(cp + 1, name);
+
+        cp = strrchr(playlist.c_str(), '.');
+
+        if(cp)
+        {
+            strcat(path, cp);
+        }
+    }
+
+    if(strcmp(orig, path))
+    {
+        HANDLE findFileHandle = NULL;
+        WIN32_FIND_DATA findData;
+
+        findFileHandle = FindFirstFile(path, &findData);
+
+        if(findFileHandle == INVALID_HANDLE_VALUE)
+        {
+            rename(orig, path);
+
+            char url[MAX_PATH + 7];
+            uint32 len = sizeof(url);
+
+            FilePathToURL(path, url, &len);
+
+            m_context->browser->m_catalog->RemovePlaylist(playlist.c_str());
+            m_context->browser->m_catalog->AddPlaylist(url);
+        }
+        else
+        {
+            MessageBox(m_hWnd, 
+                       kFileExists, 
+                       "Unable to Rename Playlist", 
+                       MB_OK|MB_ICONERROR);
+
+            FindClose(findFileHandle);
+        }        
+    }
 }
 
 void MusicBrowserUI::UpdateAlbumName(AlbumList* album, 

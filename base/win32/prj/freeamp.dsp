@@ -182,10 +182,6 @@ SOURCE=..\..\src\propimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\io\rio\rio.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\thread.cpp
 # End Source File
 # End Group
@@ -464,6 +460,9 @@ InputPath=..\..\..\README
 
 # End Source File
 # End Group
+# Begin Group "resources"
+
+# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=..\res\freeamp.rc
@@ -474,50 +473,51 @@ SOURCE=..\res\icon1.ico
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\io\rio\win32\i386\free\portio.sys
+SOURCE=..\..\..\lib\portio\i386\free\portio.sys
 
 !IF  "$(CFG)" == "freeamp - Win32 Release"
 
 # Begin Custom Build
-InputPath=..\..\..\io\rio\win32\i386\free\portio.sys
+InputPath=..\..\..\lib\portio\i386\free\portio.sys
 
 ".\portio.sys" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\..\..\io\rio\win32\i386\free\portio.sys .\portio.sys
+	copy ..\..\..\lib\portio\i386\free\portio.sys .\portio.sys
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
 
 # Begin Custom Build
-InputPath=..\..\..\io\rio\win32\i386\free\portio.sys
+InputPath=..\..\..\lib\portio\i386\free\portio.sys
 
 ".\portio.sys" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\..\..\io\rio\win32\i386\free\portio.sys .\portio.sys
+	copy ..\..\..\lib\portio\i386\free\portio.sys .\portio.sys
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
 
 # Begin Custom Build
-InputPath=..\..\..\io\rio\win32\i386\free\portio.sys
+InputPath=..\..\..\lib\portio\i386\free\portio.sys
 
 ".\portio.sys" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\..\..\io\rio\win32\i386\free\portio.sys .\portio.sys
+	copy ..\..\..\lib\portio\i386\free\portio.sys .\portio.sys
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
 
 # Begin Custom Build
-InputPath=..\..\..\io\rio\win32\i386\free\portio.sys
+InputPath=..\..\..\lib\portio\i386\free\portio.sys
 
 ".\portio.sys" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\..\..\io\rio\win32\i386\free\portio.sys .\portio.sys
+	copy ..\..\..\lib\portio\i386\free\portio.sys .\portio.sys
 
 # End Custom Build
 
 !ENDIF 
 
 # End Source File
+# End Group
 # End Target
 # End Project

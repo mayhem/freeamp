@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.98.2.3 1999/08/27 03:09:41 elrod Exp $
+   $Id: xinglmc.cpp,v 1.98.2.4 1999/08/30 08:43:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -314,7 +314,6 @@ Error XingLMC::ExtractMediaInfo()
    Error           Err;
    float           totalSeconds;
    MediaInfoEvent *pMIE;
-   //Id3TagInfo      tag_info;
 
    if (!m_pPmi)
       return kError_NullValueInvalid;
@@ -328,8 +327,6 @@ Error XingLMC::ExtractMediaInfo()
 
    if (m_pPmi->GetLength(end) == kError_FileSeekNotSupported)
       end = 0;
-
-   //m_pPmi->GetID3v1Tag(tag_info);
 
    int32     sampRateIndex = 4 * m_sMpegHead.id + m_sMpegHead.sr_index;
    int32     samprate = sample_rate_table[sampRateIndex];
@@ -360,20 +357,6 @@ Error XingLMC::ExtractMediaInfo()
 
    if (!pMIE)
       return kError_OutOfMemory;
-
-   /*if (tag_info.m_containsInfo)
-   {
-       ID3TagEvent *ite = new ID3TagEvent(tag_info);
-       if (ite)
-       {
-           pMIE->AddChildEvent((Event *) ite);
-           ite = NULL;
-       }
-       else
-       {
-           return kError_OutOfMemory;
-       }
-   }*/
 
    /*LEAK*/MpegInfoEvent *mie = new MpegInfoEvent(totalFrames,
                        (float)(milliseconds_per_frame / 1000), m_frameBytes,

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.16.4.1 1999/08/27 07:16:46 elrod Exp $
+        $Id: httpinput.h,v 1.16.4.2 1999/08/30 08:43:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPINPUT_H_
@@ -69,7 +69,6 @@ class HttpInput:public PhysicalMediaInput
                  { return m_bIsStreaming; };
    virtual bool  PauseLoop(bool bLoop);  
    virtual Error Close(void);
-   virtual Error GetID3v1Tag(Id3TagInfo &sTag);
    virtual const char *Url(void) const
    {
       return m_path;

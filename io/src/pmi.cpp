@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmi.cpp,v 1.2.4.1 1999/08/27 07:16:46 elrod Exp $
+        $Id: pmi.cpp,v 1.2.4.2 1999/08/30 08:43:34 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -51,7 +51,6 @@ ____________________________________________________________________________*/
 PhysicalMediaInput::PhysicalMediaInput(FAContext *context):
                 PipelineUnit(context)
 {
-    m_pID3Tag = NULL;
     m_path = NULL;
 }
 
@@ -67,12 +66,6 @@ PhysicalMediaInput::~PhysicalMediaInput()
        delete m_path;
        m_path = NULL;
     }
-
-    if (m_pID3Tag)
-    {
-       delete m_pID3Tag;
-       m_pID3Tag = NULL;
-    }
 }
 
 Error PhysicalMediaInput::SetTo(const char *url)
@@ -83,38 +76,6 @@ Error PhysicalMediaInput::SetTo(const char *url)
     strcpy(m_path, url);
 
     return kError_NoErr;
-}
-
-Error PhysicalMediaInput::GetID3v1Tag(Id3TagInfo &sTag)
-{
-    Error eRet = kError_NoErr;
-
-    if (m_pOutputBuffer == NULL)
-    {
-        eRet = Open();
-        if (!IsError(eRet))
-        {
-            if (m_pID3Tag)
-            {
-               memcpy(&sTag, m_pID3Tag, iID3TagSize);
-            }
-            else
-               eRet = kError_NoDataAvail;
-        }
-       
-        Close();
- 
-        return eRet;
-    }
-    else
-    {
-       if (m_pID3Tag)
-          memcpy(&sTag, m_pID3Tag, iID3TagSize);
-       else
-          eRet = kError_NoDataAvail;
-
-       return eRet;
-    }
 }
 
 Error PhysicalMediaInput::Close(void)

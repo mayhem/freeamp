@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.30.4.3 1999/08/27 16:55:27 ijr Exp $
+        $Id: eventdata.h,v 1.30.4.4 1999/08/30 08:43:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -31,10 +31,7 @@ ____________________________________________________________________________*/
 #include <vector>
 using namespace std;
 
-//#include "lmc.h"
-// #include "playlist.h"
 #include "event.h"
-#include "id3v1.h"
 #include "playlist.h"
 
 class     LogicalMediaConverter;
@@ -98,35 +95,6 @@ class     StatusMessageEvent:public Event
    {
       return m_info;
    }
-};
-
-class     PlaylistItem;
-class     PLMGetMediaTitleEvent:public Event
-{
-   public:
-
-   PLMGetMediaTitleEvent(void)
-   {
-      m_type = CMD_PLMGetMediaTitle;
-   }
-
-   virtual ~ PLMGetMediaTitleEvent(void)
-   {
-   };
-
-   void      SetPlaylistItem(PlaylistItem * pItem)
-   {
-      m_pItem = pItem;
-   }
-   PlaylistItem *GetPlaylistItem(void)
-   {
-      return m_pItem;
-   }
-
-   private:
-
-             PlaylistItem * m_pItem;
-
 };
 
 class     MediaInfoEvent:public Event
@@ -405,25 +373,6 @@ class     MpegInfoEvent:public Event
    {
    }
 
-};
-
-class     ID3TagEvent:public Event
-{
-   private:
-   Id3TagInfo m_tagInfo;
-   public:
-   ID3TagEvent(Id3TagInfo & t)
-   {
-      m_type = INFO_ID3TagInfo;
-      m_tagInfo = t;
-   }
-   Id3TagInfo GetId3Tag()
-   {
-      return m_tagInfo;
-   }
-   virtual ~ ID3TagEvent()
-   {
-   }
 };
 
 #define _EQUALIZER_ENABLE_

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.24.4.1 1999/08/27 07:16:46 elrod Exp $
+	$Id: pmi.h,v 1.24.4.2 1999/08/30 08:43:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMI_H_
@@ -40,7 +40,6 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "pipeline.h"
 #include "thread.h"
-#include "id3v1.h"
 #include "config.h"
 #include "errors.h"
 #include "eventdata.h"
@@ -66,7 +65,6 @@ public:
 
     virtual Error Seek(int32 & rtn, int32 offset, int32 origin)
                   { return kError_FileSeekNotSupported; };
-	 virtual Error GetID3v1Tag(Id3TagInfo &sTag);
 	 virtual bool  CanHandle(const char *szUrl, char *szTitle)
 	               {return false;}
     virtual Error GetLength(size_t &iSize)
@@ -78,7 +76,6 @@ public:
 protected:
 
     char          *m_path;
-    Id3TagInfo    *m_pID3Tag;
 };
 
 #endif /* _PMI_H_ */

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.67.2.3 1999/08/29 20:24:38 elrod Exp $
+	$Id: freeampui.cpp,v 1.67.2.4 1999/08/30 08:43:34 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2750,45 +2750,6 @@ AcceptEvent(Event* event)
 				m_totalFrames = info->GetTotalFrames();
 
                 m_secondsPerFrame = info->GetSecondsPerFrame();
-
-				break;
-			}
-
-			case INFO_ID3TagInfo:
-			{
-                ID3TagEvent *info = (ID3TagEvent*)event;
-
-				if(info->GetId3Tag().m_containsInfo) 
-                {
-					char foo[1024];
-					strncpy(foo,info->GetId3Tag().m_artist,sizeof(foo)-1);
-
-                    if(*info->GetId3Tag().m_album && *info->GetId3Tag().m_album != ' ')
-                    {
-					    strncat(foo," - ",sizeof(foo)-strlen(foo));
-
-					    strncat(foo,info->GetId3Tag().m_album,sizeof(foo)-strlen(foo));
-                    }
-
-                    strncat(foo," - ",sizeof(foo)-strlen(foo));
-
-					strncat(foo,info->GetId3Tag().m_songName,sizeof(foo)-strlen(foo));
-
-                    m_songTitleView->SetText(foo);
-                    SetTrayTooltip(foo);
-
-                    if(m_prevSongInfoText)
-                        delete m_prevSongInfoText;
-
-                    m_prevSongInfoText = new char [strlen(m_songTitleView->Text()) + 1];
-                    strcpy(m_prevSongInfoText, m_songTitleView->Text());
-
-                    char title[256] = "FreeAmp - ";
-
-                    strncat(title, m_songTitleView->Text(), sizeof(title) - strlen(title));
-
-                    SetWindowText(m_hwnd, title);
-				}
 
 				break;
 			}

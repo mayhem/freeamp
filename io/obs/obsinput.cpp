@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.22.2.3 1999/08/27 07:16:46 elrod Exp $
+        $Id: obsinput.cpp,v 1.22.2.4 1999/08/30 08:43:34 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -84,12 +84,6 @@ ObsInput::ObsInput(FAContext *context):
     m_bLoop = true;
     m_bDiscarded = false;
     m_pTitleStream = NULL;  
-
-    // Let's make up a ficticous ID3 tag.
-    m_pID3Tag = new Id3TagInfo();
-    memset(m_pID3Tag, 0, sizeof(ID3Tag));
-    m_pID3Tag->m_containsInfo = true;
-    strcpy(m_pID3Tag->m_songName, "RTP Stream");
 }
 
 

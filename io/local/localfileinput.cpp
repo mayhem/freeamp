@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.21.2.1 1999/08/27 07:16:46 elrod Exp $
+        $Id: localfileinput.cpp,v 1.21.2.2 1999/08/30 08:43:33 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -209,6 +209,8 @@ void LocalFileInput::Clear(void)
     PipelineUnit::Clear();
 }
 
+#define iID3TagSize 128
+
 Error LocalFileInput::Open(void)
 {
     char pBuffer[iID3TagSize];
@@ -255,19 +257,11 @@ Error LocalFileInput::Open(void)
 
     fseek(m_fpFile, -iID3TagSize, SEEK_CUR);
 
-    if (m_pID3Tag)
-       delete m_pID3Tag;
-
     int iRet = fread(pBuffer, sizeof(char), iID3TagSize, m_fpFile);
+
     if (iRet == iID3TagSize)
     {
-        m_pID3Tag = new Id3TagInfo(pBuffer);
-        if (!m_pID3Tag->m_containsInfo)
-        {
-            delete m_pID3Tag;
-            m_pID3Tag = NULL;
-        }
-        else
+        if (!strncmp(pBuffer, "TAG", 3))
         {
             m_iFileSize -= iID3TagSize;
         }

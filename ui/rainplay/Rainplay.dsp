@@ -61,7 +61,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\base\win32\prj\plugins mkdir\
-                         ..\..\base\win32\prj\plugins	copy rainplay.ui     ..\..\base\win32\prj\plugins
+                          ..\..\base\win32\prj\plugins	copy rainplay.ui     ..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 Debug"
@@ -93,7 +93,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\base\win32\prj\plugins mkdir\
-                         ..\..\base\win32\prj\plugins	copy rainplay.ui     ..\..\base\win32\prj\plugins
+                          ..\..\base\win32\prj\plugins	copy rainplay.ui     ..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Debug"
@@ -127,7 +127,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\base\win32\prj\plugins mkdir\
-                         ..\..\base\win32\prj\plugins	copy rainplay.ui     ..\..\base\win32\prj\plugins
+                          ..\..\base\win32\prj\plugins	copy rainplay.ui     ..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
@@ -159,7 +159,7 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\base\win32\prj\plugins mkdir\
-                         ..\..\base\win32\prj\plugins	copy rainplay.ui     ..\..\base\win32\prj\plugins
+                          ..\..\base\win32\prj\plugins	copy rainplay.ui     ..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ENDIF 
@@ -263,10 +263,6 @@ SOURCE=.\RainplayDlg.cpp
 # Begin Source File
 
 SOURCE=.\RainplayUI.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\io\rio\rio.cpp
 # End Source File
 # Begin Source File
 

@@ -78,7 +78,6 @@ CLEAN :
 	-@erase "$(INTDIR)\Rainplay.res"
 	-@erase "$(INTDIR)\RainplayDlg.obj"
 	-@erase "$(INTDIR)\RainplayUI.obj"
-	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\StdAfx.obj"
 	-@erase "$(INTDIR)\thread.obj"
@@ -130,7 +129,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\Rainplay.res" \
 	"$(INTDIR)\RainplayDlg.obj" \
 	"$(INTDIR)\RainplayUI.obj" \
-	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\StdAfx.obj" \
 	"$(INTDIR)\thread.obj" \
@@ -157,7 +155,7 @@ OutDir=.\Release
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 Release" "soundcard - Win32 Release"\
  "fileinput - Win32 Release" ".\rainplay.ui" "$(OUTDIR)\Rainplay.pch"
-   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                         ..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                          ..\..\base\win32\prj\plugins
 	copy rainplay.ui     ..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -203,7 +201,6 @@ CLEAN :
 	-@erase "$(INTDIR)\Rainplay.res"
 	-@erase "$(INTDIR)\RainplayDlg.obj"
 	-@erase "$(INTDIR)\RainplayUI.obj"
-	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\StdAfx.obj"
 	-@erase "$(INTDIR)\thread.obj"
@@ -258,7 +255,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\Rainplay.res" \
 	"$(INTDIR)\RainplayDlg.obj" \
 	"$(INTDIR)\RainplayUI.obj" \
-	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\StdAfx.obj" \
 	"$(INTDIR)\thread.obj" \
@@ -285,7 +281,7 @@ OutDir=.\Debug
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 Debug" "soundcard - Win32 Debug"\
  "fileinput - Win32 Debug" ".\rainplay.ui" "$(OUTDIR)\Rainplay.pch"
-   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                         ..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                          ..\..\base\win32\prj\plugins
 	copy rainplay.ui     ..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -331,7 +327,6 @@ CLEAN :
 	-@erase "$(INTDIR)\Rainplay.res"
 	-@erase "$(INTDIR)\RainplayDlg.obj"
 	-@erase "$(INTDIR)\RainplayUI.obj"
-	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\StdAfx.obj"
 	-@erase "$(INTDIR)\thread.obj"
@@ -386,7 +381,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\Rainplay.res" \
 	"$(INTDIR)\RainplayDlg.obj" \
 	"$(INTDIR)\RainplayUI.obj" \
-	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\StdAfx.obj" \
 	"$(INTDIR)\thread.obj" \
@@ -413,7 +407,7 @@ OutDir=.\Debug
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 NASM Debug" "soundcard - Win32 NASM Debug"\
  "fileinput - Win32 NASM Debug" ".\rainplay.ui" "$(OUTDIR)\Rainplay.pch"
-   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                         ..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                          ..\..\base\win32\prj\plugins
 	copy rainplay.ui     ..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -459,7 +453,6 @@ CLEAN :
 	-@erase "$(INTDIR)\Rainplay.res"
 	-@erase "$(INTDIR)\RainplayDlg.obj"
 	-@erase "$(INTDIR)\RainplayUI.obj"
-	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\StdAfx.obj"
 	-@erase "$(INTDIR)\thread.obj"
@@ -511,7 +504,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\Rainplay.res" \
 	"$(INTDIR)\RainplayDlg.obj" \
 	"$(INTDIR)\RainplayUI.obj" \
-	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\StdAfx.obj" \
 	"$(INTDIR)\thread.obj" \
@@ -539,7 +531,7 @@ OutDir=.\Release
 $(DS_POSTBUILD_DEP) : "xing - Win32 NASM Release"\
  "soundcard - Win32 NASM Release" "fileinput - Win32 NASM Release"\
  ".\rainplay.ui" "$(OUTDIR)\Rainplay.pch"
-   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                         ..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\base\win32\prj\plugins mkdir                          ..\..\base\win32\prj\plugins
 	copy rainplay.ui     ..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
@@ -751,21 +743,21 @@ SOURCE=..\..\base\src\playlist.cpp
 
 DEP_CPP_PLAYL=\
 	"..\..\base\include\errors.h"\
-	"..\..\base\include\event.h"\
-	"..\..\base\include\eventdata.h"\
-	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
+	"..\..\base\include\facontext.h"\
 	"..\..\base\include\log.h"\
+	"..\..\base\include\metadata.h"\
 	"..\..\base\include\playlist.h"\
-	"..\..\base\include\properties.h"\
+	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\portabledevice.h"\
+	"..\..\base\include\preferences.h"\
+	"..\..\base\include\registrar.h"\
 	"..\..\base\include\registry.h"\
 	"..\..\base\include\thread.h"\
 	"..\..\base\win32\include\mutex.h"\
-	"..\..\base\win32\include\win32thread.h"\
 	"..\..\config\config.h"\
-	"..\..\io\include\pmi.h"\
-	"..\..\io\include\rio.h"\
-	"..\..\io\include\std.h"\
+	
+NODEP_CPP_PLAYL=\
+	"..\..\base\include\win32impl.h"\
 	
 
 "$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
@@ -779,17 +771,24 @@ DEP_CPP_PLAYL=\
 	"..\..\base\include\errors.h"\
 	"..\..\base\include\event.h"\
 	"..\..\base\include\eventdata.h"\
+	"..\..\base\include\facontext.h"\
 	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\playlist.h"\
+	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
 	"..\..\base\include\registry.h"\
 	"..\..\base\include\thread.h"\
 	"..\..\base\win32\include\mutex.h"\
+	"..\..\base\win32\include\semaphore.h"\
 	"..\..\base\win32\include\win32thread.h"\
 	"..\..\config\config.h"\
+	"..\..\io\include\pipeline.h"\
 	"..\..\io\include\pmi.h"\
+	"..\..\io\include\pullbuffer.h"\
+	
+NODEP_CPP_PLAYL=\
+	"..\..\base\include\list.h"\
 	"..\..\io\include\rio.h"\
 	"..\..\io\include\std.h"\
 	
@@ -805,17 +804,24 @@ DEP_CPP_PLAYL=\
 	"..\..\base\include\errors.h"\
 	"..\..\base\include\event.h"\
 	"..\..\base\include\eventdata.h"\
+	"..\..\base\include\facontext.h"\
 	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\playlist.h"\
+	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
 	"..\..\base\include\registry.h"\
 	"..\..\base\include\thread.h"\
 	"..\..\base\win32\include\mutex.h"\
+	"..\..\base\win32\include\semaphore.h"\
 	"..\..\base\win32\include\win32thread.h"\
 	"..\..\config\config.h"\
+	"..\..\io\include\pipeline.h"\
 	"..\..\io\include\pmi.h"\
+	"..\..\io\include\pullbuffer.h"\
+	
+NODEP_CPP_PLAYL=\
+	"..\..\base\include\list.h"\
 	"..\..\io\include\rio.h"\
 	"..\..\io\include\std.h"\
 	
@@ -829,21 +835,21 @@ DEP_CPP_PLAYL=\
 
 DEP_CPP_PLAYL=\
 	"..\..\base\include\errors.h"\
-	"..\..\base\include\event.h"\
-	"..\..\base\include\eventdata.h"\
-	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
+	"..\..\base\include\facontext.h"\
 	"..\..\base\include\log.h"\
+	"..\..\base\include\metadata.h"\
 	"..\..\base\include\playlist.h"\
-	"..\..\base\include\properties.h"\
+	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\portabledevice.h"\
+	"..\..\base\include\preferences.h"\
+	"..\..\base\include\registrar.h"\
 	"..\..\base\include\registry.h"\
 	"..\..\base\include\thread.h"\
 	"..\..\base\win32\include\mutex.h"\
-	"..\..\base\win32\include\win32thread.h"\
 	"..\..\config\config.h"\
-	"..\..\io\include\pmi.h"\
-	"..\..\io\include\rio.h"\
-	"..\..\io\include\std.h"\
+	
+NODEP_CPP_PLAYL=\
+	"..\..\base\include\win32impl.h"\
 	
 
 "$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
@@ -866,8 +872,8 @@ DEP_CPP_RAINP=\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
-	".\playlistdlg.h"\
+	".\EQDlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -893,8 +899,8 @@ DEP_CPP_RAINP=\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
-	".\playlistdlg.h"\
+	".\EQDlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -920,8 +926,8 @@ DEP_CPP_RAINP=\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
-	".\playlistdlg.h"\
+	".\EQDlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -947,8 +953,8 @@ DEP_CPP_RAINP=\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
-	".\playlistdlg.h"\
+	".\EQDlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -982,16 +988,19 @@ SOURCE=.\RainplayDlg.cpp
 !IF  "$(CFG)" == "Rainplay - Win32 Release"
 
 DEP_CPP_RAINPLA=\
+	"..\..\base\include\database.h"\
 	"..\..\base\include\errors.h"\
 	"..\..\base\include\event.h"\
 	"..\..\base\include\eventdata.h"\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
-	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
+	"..\..\base\include\metadata.h"\
+	"..\..\base\include\musicsearch.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
+	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
 	"..\..\base\include\propimpl.h"\
@@ -1001,21 +1010,17 @@ DEP_CPP_RAINPLA=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
-	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pipeline.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\MainFaceDescribe.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1025,6 +1030,11 @@ DEP_CPP_RAINPLA=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_RAINPLA=\
+	"..\..\base\include\gdbm.h"\
 	
 
 "$(INTDIR)\RainplayDlg.obj" : $(SOURCE) $(DEP_CPP_RAINPLA) "$(INTDIR)"\
@@ -1040,7 +1050,6 @@ DEP_CPP_RAINPLA=\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
@@ -1053,21 +1062,18 @@ DEP_CPP_RAINPLA=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
+	"..\..\io\include\pipeline.h"\
 	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\MainFaceDescribe.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1077,6 +1083,13 @@ DEP_CPP_RAINPLA=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	
+NODEP_CPP_RAINPLA=\
+	"..\..\base\include\list.h"\
+	"..\..\io\include\pmiregistry.h"\
+	"..\..\io\include\pmoregistry.h"\
+	"..\..\lmc\include\lmcregistry.h"\
+	"..\include\uiregistry.h"\
 	
 
 "$(INTDIR)\RainplayDlg.obj" : $(SOURCE) $(DEP_CPP_RAINPLA) "$(INTDIR)"\
@@ -1092,7 +1105,6 @@ DEP_CPP_RAINPLA=\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
@@ -1105,21 +1117,18 @@ DEP_CPP_RAINPLA=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
+	"..\..\io\include\pipeline.h"\
 	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\MainFaceDescribe.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1130,6 +1139,13 @@ DEP_CPP_RAINPLA=\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
 	
+NODEP_CPP_RAINPLA=\
+	"..\..\base\include\list.h"\
+	"..\..\io\include\pmiregistry.h"\
+	"..\..\io\include\pmoregistry.h"\
+	"..\..\lmc\include\lmcregistry.h"\
+	"..\include\uiregistry.h"\
+	
 
 "$(INTDIR)\RainplayDlg.obj" : $(SOURCE) $(DEP_CPP_RAINPLA) "$(INTDIR)"\
  "..\..\config\config.h"
@@ -1138,16 +1154,19 @@ DEP_CPP_RAINPLA=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
 DEP_CPP_RAINPLA=\
+	"..\..\base\include\database.h"\
 	"..\..\base\include\errors.h"\
 	"..\..\base\include\event.h"\
 	"..\..\base\include\eventdata.h"\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
-	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
+	"..\..\base\include\metadata.h"\
+	"..\..\base\include\musicsearch.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
+	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
 	"..\..\base\include\propimpl.h"\
@@ -1157,21 +1176,17 @@ DEP_CPP_RAINPLA=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
-	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pipeline.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\MainFaceDescribe.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1181,6 +1196,11 @@ DEP_CPP_RAINPLA=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_RAINPLA=\
+	"..\..\base\include\gdbm.h"\
 	
 
 "$(INTDIR)\RainplayDlg.obj" : $(SOURCE) $(DEP_CPP_RAINPLA) "$(INTDIR)"\
@@ -1194,16 +1214,19 @@ SOURCE=.\RainplayUI.cpp
 !IF  "$(CFG)" == "Rainplay - Win32 Release"
 
 DEP_CPP_RAINPLAY=\
+	"..\..\base\include\database.h"\
 	"..\..\base\include\errors.h"\
 	"..\..\base\include\event.h"\
 	"..\..\base\include\eventdata.h"\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
-	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
+	"..\..\base\include\metadata.h"\
+	"..\..\base\include\musicsearch.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
+	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
 	"..\..\base\include\propimpl.h"\
@@ -1213,20 +1236,16 @@ DEP_CPP_RAINPLAY=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
-	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pipeline.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
-	".\playlistdlg.h"\
+	".\EQDlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1236,6 +1255,11 @@ DEP_CPP_RAINPLAY=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_RAINPLAY=\
+	"..\..\base\include\gdbm.h"\
 	
 
 "$(INTDIR)\RainplayUI.obj" : $(SOURCE) $(DEP_CPP_RAINPLAY) "$(INTDIR)"\
@@ -1251,7 +1275,6 @@ DEP_CPP_RAINPLAY=\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
@@ -1264,20 +1287,17 @@ DEP_CPP_RAINPLAY=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
+	"..\..\io\include\pipeline.h"\
 	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
-	".\playlistdlg.h"\
+	".\EQDlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1287,6 +1307,13 @@ DEP_CPP_RAINPLAY=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	
+NODEP_CPP_RAINPLAY=\
+	"..\..\base\include\list.h"\
+	"..\..\io\include\pmiregistry.h"\
+	"..\..\io\include\pmoregistry.h"\
+	"..\..\lmc\include\lmcregistry.h"\
+	"..\include\uiregistry.h"\
 	
 
 "$(INTDIR)\RainplayUI.obj" : $(SOURCE) $(DEP_CPP_RAINPLAY) "$(INTDIR)"\
@@ -1302,7 +1329,6 @@ DEP_CPP_RAINPLAY=\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
@@ -1315,20 +1341,17 @@ DEP_CPP_RAINPLAY=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
+	"..\..\io\include\pipeline.h"\
 	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
-	".\playlistdlg.h"\
+	".\EQDlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1338,6 +1361,13 @@ DEP_CPP_RAINPLAY=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	
+NODEP_CPP_RAINPLAY=\
+	"..\..\base\include\list.h"\
+	"..\..\io\include\pmiregistry.h"\
+	"..\..\io\include\pmoregistry.h"\
+	"..\..\lmc\include\lmcregistry.h"\
+	"..\include\uiregistry.h"\
 	
 
 "$(INTDIR)\RainplayUI.obj" : $(SOURCE) $(DEP_CPP_RAINPLAY) "$(INTDIR)"\
@@ -1347,16 +1377,19 @@ DEP_CPP_RAINPLAY=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
 DEP_CPP_RAINPLAY=\
+	"..\..\base\include\database.h"\
 	"..\..\base\include\errors.h"\
 	"..\..\base\include\event.h"\
 	"..\..\base\include\eventdata.h"\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
-	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
+	"..\..\base\include\metadata.h"\
+	"..\..\base\include\musicsearch.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
+	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
 	"..\..\base\include\propimpl.h"\
@@ -1366,20 +1399,16 @@ DEP_CPP_RAINPLAY=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
-	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pipeline.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
-	".\playlistdlg.h"\
+	".\EQDlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1389,62 +1418,15 @@ DEP_CPP_RAINPLAY=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_RAINPLAY=\
+	"..\..\base\include\gdbm.h"\
 	
 
 "$(INTDIR)\RainplayUI.obj" : $(SOURCE) $(DEP_CPP_RAINPLAY) "$(INTDIR)"\
  "..\..\config\config.h"
-
-
-!ENDIF 
-
-SOURCE=..\..\io\rio\rio.cpp
-
-!IF  "$(CFG)" == "Rainplay - Win32 Release"
-
-DEP_CPP_RIO_C=\
-	"..\..\io\include\binary.h"\
-	"..\..\io\include\rio.h"\
-	"..\..\io\include\std.h"\
-	
-
-"$(INTDIR)\rio.obj" : $(SOURCE) $(DEP_CPP_RIO_C) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "Rainplay - Win32 Debug"
-
-DEP_CPP_RIO_C=\
-	"..\..\io\include\binary.h"\
-	"..\..\io\include\rio.h"\
-	"..\..\io\include\std.h"\
-	
-
-"$(INTDIR)\rio.obj" : $(SOURCE) $(DEP_CPP_RIO_C) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Debug"
-
-DEP_CPP_RIO_C=\
-	"..\..\io\include\binary.h"\
-	"..\..\io\include\rio.h"\
-	"..\..\io\include\std.h"\
-	
-
-"$(INTDIR)\rio.obj" : $(SOURCE) $(DEP_CPP_RIO_C) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
-
-DEP_CPP_RIO_C=\
-	"..\..\io\include\binary.h"\
-	"..\..\io\include\rio.h"\
-	"..\..\io\include\std.h"\
-	
-
-"$(INTDIR)\rio.obj" : $(SOURCE) $(DEP_CPP_RIO_C) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ENDIF 
@@ -1540,6 +1522,11 @@ DEP_CPP_THREA=\
 	"..\..\base\win32\include\win32thread.h"\
 	"..\..\config\config.h"\
 	
+NODEP_CPP_THREA=\
+	"..\..\base\src\beosthread.h"\
+	"..\..\base\src\linuxthread.h"\
+	"..\..\base\src\solaristhread.h"\
+	
 
 "$(INTDIR)\thread.obj" : $(SOURCE) $(DEP_CPP_THREA) "$(INTDIR)"\
  "..\..\config\config.h"
@@ -1578,6 +1565,11 @@ DEP_CPP_THREA=\
 	"..\..\base\include\thread.h"\
 	"..\..\base\win32\include\win32thread.h"\
 	"..\..\config\config.h"\
+	
+NODEP_CPP_THREA=\
+	"..\..\base\src\beosthread.h"\
+	"..\..\base\src\linuxthread.h"\
+	"..\..\base\src\solaristhread.h"\
 	
 
 "$(INTDIR)\thread.obj" : $(SOURCE) $(DEP_CPP_THREA) "$(INTDIR)"\
@@ -1648,16 +1640,19 @@ SOURCE=.\Equalizer\EQDlg.cpp
 !IF  "$(CFG)" == "Rainplay - Win32 Release"
 
 DEP_CPP_EQDLG=\
+	"..\..\base\include\database.h"\
 	"..\..\base\include\errors.h"\
 	"..\..\base\include\event.h"\
 	"..\..\base\include\eventdata.h"\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
-	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
+	"..\..\base\include\metadata.h"\
+	"..\..\base\include\musicsearch.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
+	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
 	"..\..\base\include\propimpl.h"\
@@ -1667,21 +1662,17 @@ DEP_CPP_EQDLG=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
-	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pipeline.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\Equalizer\EQDlg.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1691,6 +1682,11 @@ DEP_CPP_EQDLG=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_EQDLG=\
+	"..\..\base\include\gdbm.h"\
 	
 
 "$(INTDIR)\EQDlg.obj" : $(SOURCE) $(DEP_CPP_EQDLG) "$(INTDIR)"\
@@ -1707,7 +1703,6 @@ DEP_CPP_EQDLG=\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
@@ -1720,21 +1715,18 @@ DEP_CPP_EQDLG=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
+	"..\..\io\include\pipeline.h"\
 	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\Equalizer\EQDlg.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1744,6 +1736,13 @@ DEP_CPP_EQDLG=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	
+NODEP_CPP_EQDLG=\
+	"..\..\base\include\list.h"\
+	"..\..\io\include\pmiregistry.h"\
+	"..\..\io\include\pmoregistry.h"\
+	"..\..\lmc\include\lmcregistry.h"\
+	"..\include\uiregistry.h"\
 	
 
 "$(INTDIR)\EQDlg.obj" : $(SOURCE) $(DEP_CPP_EQDLG) "$(INTDIR)"\
@@ -1760,7 +1759,6 @@ DEP_CPP_EQDLG=\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
@@ -1773,21 +1771,18 @@ DEP_CPP_EQDLG=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
+	"..\..\io\include\pipeline.h"\
 	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\Equalizer\EQDlg.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1798,6 +1793,13 @@ DEP_CPP_EQDLG=\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
 	
+NODEP_CPP_EQDLG=\
+	"..\..\base\include\list.h"\
+	"..\..\io\include\pmiregistry.h"\
+	"..\..\io\include\pmoregistry.h"\
+	"..\..\lmc\include\lmcregistry.h"\
+	"..\include\uiregistry.h"\
+	
 
 "$(INTDIR)\EQDlg.obj" : $(SOURCE) $(DEP_CPP_EQDLG) "$(INTDIR)"\
  "..\..\config\config.h"
@@ -1807,16 +1809,19 @@ DEP_CPP_EQDLG=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
 DEP_CPP_EQDLG=\
+	"..\..\base\include\database.h"\
 	"..\..\base\include\errors.h"\
 	"..\..\base\include\event.h"\
 	"..\..\base\include\eventdata.h"\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
-	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
+	"..\..\base\include\metadata.h"\
+	"..\..\base\include\musicsearch.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
+	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
 	"..\..\base\include\propimpl.h"\
@@ -1826,21 +1831,17 @@ DEP_CPP_EQDLG=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
-	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pipeline.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\Equalizer\EQDlg.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1850,6 +1851,11 @@ DEP_CPP_EQDLG=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_EQDLG=\
+	"..\..\base\include\gdbm.h"\
 	
 
 "$(INTDIR)\EQDlg.obj" : $(SOURCE) $(DEP_CPP_EQDLG) "$(INTDIR)"\
@@ -1864,16 +1870,19 @@ SOURCE=.\PlayList\PlayListDlg.cpp
 !IF  "$(CFG)" == "Rainplay - Win32 Release"
 
 DEP_CPP_PLAYLI=\
+	"..\..\base\include\database.h"\
 	"..\..\base\include\errors.h"\
 	"..\..\base\include\event.h"\
 	"..\..\base\include\eventdata.h"\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
-	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
+	"..\..\base\include\metadata.h"\
+	"..\..\base\include\musicsearch.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
+	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
 	"..\..\base\include\propimpl.h"\
@@ -1883,21 +1892,17 @@ DEP_CPP_PLAYLI=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
-	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pipeline.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\PlayList\PlayListDlg.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1907,6 +1912,11 @@ DEP_CPP_PLAYLI=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_PLAYLI=\
+	"..\..\base\include\gdbm.h"\
 	
 
 "$(INTDIR)\PlayListDlg.obj" : $(SOURCE) $(DEP_CPP_PLAYLI) "$(INTDIR)"\
@@ -1923,7 +1933,6 @@ DEP_CPP_PLAYLI=\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
@@ -1936,21 +1945,18 @@ DEP_CPP_PLAYLI=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
+	"..\..\io\include\pipeline.h"\
 	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\PlayList\PlayListDlg.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -1960,6 +1966,13 @@ DEP_CPP_PLAYLI=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	
+NODEP_CPP_PLAYLI=\
+	"..\..\base\include\list.h"\
+	"..\..\io\include\pmiregistry.h"\
+	"..\..\io\include\pmoregistry.h"\
+	"..\..\lmc\include\lmcregistry.h"\
+	"..\include\uiregistry.h"\
 	
 
 "$(INTDIR)\PlayListDlg.obj" : $(SOURCE) $(DEP_CPP_PLAYLI) "$(INTDIR)"\
@@ -1976,7 +1989,6 @@ DEP_CPP_PLAYLI=\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
 	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
@@ -1989,21 +2001,18 @@ DEP_CPP_PLAYLI=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
+	"..\..\io\include\pipeline.h"\
 	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\PlayList\PlayListDlg.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -2014,6 +2023,13 @@ DEP_CPP_PLAYLI=\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
 	
+NODEP_CPP_PLAYLI=\
+	"..\..\base\include\list.h"\
+	"..\..\io\include\pmiregistry.h"\
+	"..\..\io\include\pmoregistry.h"\
+	"..\..\lmc\include\lmcregistry.h"\
+	"..\include\uiregistry.h"\
+	
 
 "$(INTDIR)\PlayListDlg.obj" : $(SOURCE) $(DEP_CPP_PLAYLI) "$(INTDIR)"\
  "..\..\config\config.h"
@@ -2023,16 +2039,19 @@ DEP_CPP_PLAYLI=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
 DEP_CPP_PLAYLI=\
+	"..\..\base\include\database.h"\
 	"..\..\base\include\errors.h"\
 	"..\..\base\include\event.h"\
 	"..\..\base\include\eventdata.h"\
 	"..\..\base\include\facontext.h"\
 	"..\..\base\include\hashtable.h"\
-	"..\..\base\include\id3v1.h"\
-	"..\..\base\include\list.h"\
 	"..\..\base\include\log.h"\
+	"..\..\base\include\metadata.h"\
+	"..\..\base\include\musicsearch.h"\
 	"..\..\base\include\player.h"\
 	"..\..\base\include\playlist.h"\
+	"..\..\base\include\playlistformat.h"\
+	"..\..\base\include\portabledevice.h"\
 	"..\..\base\include\preferences.h"\
 	"..\..\base\include\properties.h"\
 	"..\..\base\include\propimpl.h"\
@@ -2042,21 +2061,17 @@ DEP_CPP_PLAYLI=\
 	"..\..\base\win32\include\mutex.h"\
 	"..\..\base\win32\include\semaphore.h"\
 	"..\..\config\config.h"\
-	"..\..\io\include\pmi.h"\
-	"..\..\io\include\pmiregistry.h"\
-	"..\..\io\include\pmo.h"\
-	"..\..\io\include\pmoregistry.h"\
+	"..\..\io\include\pipeline.h"\
+	"..\..\io\include\pullbuffer.h"\
 	"..\..\lmc\include\lmc.h"\
-	"..\..\lmc\include\lmcregistry.h"\
 	"..\include\ui.h"\
-	"..\include\uiregistry.h"\
 	".\AboutDlg.h"\
 	".\active.h"\
 	".\BmpSize.h"\
 	".\cthread.h"\
-	".\eqdlg.h"\
+	".\EQDlg.h"\
 	".\PlayList\PlayListDlg.h"\
-	".\playlistdlg.h"\
+	".\PlayListDlg.h"\
 	".\Preferences\optionsetupdlg.h"\
 	".\Preferences\PreferencesDlg.h"\
 	".\Rainplay.h"\
@@ -2066,6 +2081,11 @@ DEP_CPP_PLAYLI=\
 	".\VisualView\Fft\Complex.h"\
 	".\VisualView\Fft\Fft.h"\
 	".\VisualView\VisualView.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_PLAYLI=\
+	"..\..\base\include\gdbm.h"\
 	
 
 "$(INTDIR)\PlayListDlg.obj" : $(SOURCE) $(DEP_CPP_PLAYLI) "$(INTDIR)"\
@@ -2481,12 +2501,12 @@ DEP_CPP_WIN32P=\
 !IF  "$(CFG)" == "Rainplay - Win32 Release"
 
 "fileinput - Win32 Release" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\Local\src\freeamp1.5\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "fileinput - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\Local\src\freeamp1.5\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 Release" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2494,12 +2514,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 Debug"
 
 "fileinput - Win32 Debug" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\Local\src\freeamp1.5\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "fileinput - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\Local\src\freeamp1.5\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak CFG="fileinput - Win32 Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2507,12 +2527,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Debug"
 
 "fileinput - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\Local\src\freeamp1.5\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak CFG="fileinput - Win32 NASM Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "fileinput - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\Local\src\freeamp1.5\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Debug" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2520,13 +2540,13 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
 "fileinput - Win32 NASM Release" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\Local\src\freeamp1.5\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "fileinput - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp\io\local\win32\prj"
+   cd "\Local\src\freeamp1.5\io\local\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\fileinput.mak\
  CFG="fileinput - Win32 NASM Release" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2536,12 +2556,12 @@ DEP_CPP_WIN32P=\
 !IF  "$(CFG)" == "Rainplay - Win32 Release"
 
 "soundcard - Win32 Release" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "soundcard - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 Release" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2549,12 +2569,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 Debug"
 
 "soundcard - Win32 Debug" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "soundcard - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak CFG="soundcard - Win32 Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2562,12 +2582,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Debug"
 
 "soundcard - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak CFG="soundcard - Win32 NASM Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "soundcard - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Debug" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2575,13 +2595,13 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
 "soundcard - Win32 NASM Release" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "soundcard - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp\io\soundcard\win32\prj"
+   cd "\Local\src\freeamp1.5\io\soundcard\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\soundcard.mak\
  CFG="soundcard - Win32 NASM Release" RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2591,12 +2611,12 @@ DEP_CPP_WIN32P=\
 !IF  "$(CFG)" == "Rainplay - Win32 Release"
 
 "xing - Win32 Release" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "xing - Win32 ReleaseCLEAN" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 Release"\
  RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2604,12 +2624,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 Debug"
 
 "xing - Win32 Debug" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "xing - Win32 DebugCLEAN" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 Debug" RECURSE=1\
  
    cd "..\..\..\..\ui\rainplay"
@@ -2617,12 +2637,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Debug"
 
 "xing - Win32 NASM Debug" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 NASM Debug" 
    cd "..\..\..\..\ui\rainplay"
 
 "xing - Win32 NASM DebugCLEAN" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 NASM Debug"\
  RECURSE=1 
    cd "..\..\..\..\ui\rainplay"
@@ -2630,12 +2650,12 @@ DEP_CPP_WIN32P=\
 !ELSEIF  "$(CFG)" == "Rainplay - Win32 NASM Release"
 
 "xing - Win32 NASM Release" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) /F .\xing.mak CFG="xing - Win32 NASM Release" 
    cd "..\..\..\..\ui\rainplay"
 
 "xing - Win32 NASM ReleaseCLEAN" : 
-   cd "\Local\src\freeamp\lmc\xingmp3\win32\prj"
+   cd "\Local\src\freeamp1.5\lmc\xingmp3\win32\prj"
    $(MAKE) /$(MAKEFLAGS) CLEAN /F .\xing.mak CFG="xing - Win32 NASM Release"\
  RECURSE=1 
    cd "..\..\..\..\ui\rainplay"

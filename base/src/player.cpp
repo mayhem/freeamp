@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.6 1999/08/27 16:55:28 ijr Exp $
+        $Id: player.cpp,v 1.133.2.7 1999/08/30 08:43:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1153,54 +1153,6 @@ GetMediaInfo(Event *pEvent)
 
 void 
 Player::
-GetMediaTitle(Event *pEventArg)
-{
-     PLMGetMediaTitleEvent *pEvent;
-     PlaylistItem          *pItem;
-     RegistryItem          *pRegItem;
-     PhysicalMediaInput    *pPmi;
-     char                   szTitle[1024];
-     Id3TagInfo             sID3Tag;
-     Error                  eRet;
-
-     szTitle[0] = 0;
-
-     pEvent = (PLMGetMediaTitleEvent *)pEventArg;
-
-     pItem = pEvent->GetPlaylistItem();
-     pRegItem = ChoosePMI(pItem->URL().c_str(), szTitle);
-     if (pRegItem && !strlen(szTitle))
-     {
-         pPmi = (PhysicalMediaInput *)pRegItem->InitFunction()(m_context);
-
-         pPmi->SetTarget((EventQueue *)this);
-         eRet = pPmi->SetTo(pItem->URL().c_str());
-         if (!IsError(eRet))
-         {
-            eRet = pPmi->GetID3v1Tag(sID3Tag);
-            if (!IsError(eRet))
-            {
-                strcpy(szTitle, sID3Tag.m_artist);
-                strcat(szTitle, " - ");
-                strcat(szTitle, sID3Tag.m_songName);
-             }
-         }
-
-         delete pPmi;
-     }
-
-     if(*szTitle)
-     {
-        //pItem->SetDisplayString(szTitle);
-
-        SendEventToUI(new PlaylistItemUpdatedEvent(pItem) );
-     }
-
-     delete pEvent;
-}
-
-void 
-Player::
 Play(Event *pEvent)
 {
     const PlaylistItem *pItem;
@@ -1539,10 +1491,6 @@ ServiceEvent(Event * pC)
 
       case CMD_PLMGetMediaInfo:
            GetMediaInfo(pC);
-           break;
-
-      case CMD_PLMGetMediaTitle:
-           GetMediaTitle(pC);
            break;
 
       case CMD_PlayPaused:

@@ -64,7 +64,6 @@ CLEAN :
 	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\registrar.obj"
 	-@erase "$(INTDIR)\registry.obj"
-	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\simple.res"
 	-@erase "$(INTDIR)\simpleui.obj"
@@ -109,7 +108,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\preferences.obj" \
 	"$(INTDIR)\registrar.obj" \
 	"$(INTDIR)\registry.obj" \
-	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\simple.res" \
 	"$(INTDIR)\simpleui.obj" \
@@ -132,8 +130,8 @@ ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 Release" "soundcard - Win32 Release"\
  "fileinput - Win32 Release" ".\simple.ui"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                          ..\..\..\..\base\win32\prj\plugins
-	copy simple.ui            ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                           ..\..\..\..\base\win32\prj\plugins
+	copy simple.ui             ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "simple - Win32 Debug"
@@ -165,7 +163,6 @@ CLEAN :
 	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\registrar.obj"
 	-@erase "$(INTDIR)\registry.obj"
-	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\simple.res"
 	-@erase "$(INTDIR)\simpleui.obj"
@@ -213,7 +210,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\preferences.obj" \
 	"$(INTDIR)\registrar.obj" \
 	"$(INTDIR)\registry.obj" \
-	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\simple.res" \
 	"$(INTDIR)\simpleui.obj" \
@@ -236,8 +232,8 @@ ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 Debug" "soundcard - Win32 Debug"\
  "fileinput - Win32 Debug" ".\simple.ui"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                          ..\..\..\..\base\win32\prj\plugins
-	copy simple.ui            ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                           ..\..\..\..\base\win32\prj\plugins
+	copy simple.ui             ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
@@ -269,7 +265,6 @@ CLEAN :
 	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\registrar.obj"
 	-@erase "$(INTDIR)\registry.obj"
-	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\simple.res"
 	-@erase "$(INTDIR)\simpleui.obj"
@@ -317,7 +312,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\preferences.obj" \
 	"$(INTDIR)\registrar.obj" \
 	"$(INTDIR)\registry.obj" \
-	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\simple.res" \
 	"$(INTDIR)\simpleui.obj" \
@@ -340,8 +334,8 @@ ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 NASM Debug" "soundcard - Win32 NASM Debug"\
  "fileinput - Win32 NASM Debug" ".\simple.ui"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                          ..\..\..\..\base\win32\prj\plugins
-	copy simple.ui            ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                           ..\..\..\..\base\win32\prj\plugins
+	copy simple.ui             ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
@@ -373,7 +367,6 @@ CLEAN :
 	-@erase "$(INTDIR)\preferences.obj"
 	-@erase "$(INTDIR)\registrar.obj"
 	-@erase "$(INTDIR)\registry.obj"
-	-@erase "$(INTDIR)\rio.obj"
 	-@erase "$(INTDIR)\semaphore.obj"
 	-@erase "$(INTDIR)\simple.res"
 	-@erase "$(INTDIR)\simpleui.obj"
@@ -418,7 +411,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\preferences.obj" \
 	"$(INTDIR)\registrar.obj" \
 	"$(INTDIR)\registry.obj" \
-	"$(INTDIR)\rio.obj" \
 	"$(INTDIR)\semaphore.obj" \
 	"$(INTDIR)\simple.res" \
 	"$(INTDIR)\simpleui.obj" \
@@ -441,8 +433,8 @@ ALL : $(DS_POSTBUILD_DEP)
 
 $(DS_POSTBUILD_DEP) : "xing - Win32 NASM Release"\
  "soundcard - Win32 NASM Release" "fileinput - Win32 NASM Release" ".\simple.ui"
-   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                          ..\..\..\..\base\win32\prj\plugins
-	copy simple.ui            ..\..\..\..\base\win32\prj\plugins
+   IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                           ..\..\..\..\base\win32\prj\plugins
+	copy simple.ui             ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
 
 !ENDIF 
@@ -482,6 +474,9 @@ $(DS_POSTBUILD_DEP) : "xing - Win32 NASM Release"\
  || "$(CFG)" == "simple - Win32 NASM Debug" || "$(CFG)" ==\
  "simple - Win32 NASM Release"
 SOURCE=..\src\about.cpp
+
+!IF  "$(CFG)" == "simple - Win32 Release"
+
 DEP_CPP_ABOUT=\
 	"..\..\..\..\config\config.h"\
 	
@@ -490,6 +485,40 @@ DEP_CPP_ABOUT=\
  "..\..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
+
+!ELSEIF  "$(CFG)" == "simple - Win32 Debug"
+
+DEP_CPP_ABOUT=\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\about.obj" : $(SOURCE) $(DEP_CPP_ABOUT) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
+
+NODEP_CPP_ABOUT=\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\about.obj" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
+
+DEP_CPP_ABOUT=\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\about.obj" : $(SOURCE) $(DEP_CPP_ABOUT) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
 
 SOURCE=..\..\..\..\config\config.win32
 
@@ -538,28 +567,21 @@ SOURCE=..\..\..\..\base\src\playlist.cpp
 
 DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\io\include\rio.h"\
-	"..\..\..\..\io\include\std.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_PLAYL=\
+	"..\..\..\..\base\include\win32impl.h"\
 	
 
 "$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
@@ -571,26 +593,18 @@ DEP_CPP_PLAYL=\
 
 DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\io\include\rio.h"\
-	"..\..\..\..\io\include\std.h"\
 	
 
 "$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
@@ -602,26 +616,20 @@ DEP_CPP_PLAYL=\
 
 DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
+	
+NODEP_CPP_PLAYL=\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\io\include\rio.h"\
-	"..\..\..\..\io\include\std.h"\
 	
 
 "$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
@@ -633,28 +641,21 @@ DEP_CPP_PLAYL=\
 
 DEP_CPP_PLAYL=\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
+	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
+	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\base\win32\include\win32thread.h"\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\io\include\rio.h"\
-	"..\..\..\..\io\include\std.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
+	
+NODEP_CPP_PLAYL=\
+	"..\..\..\..\base\include\win32impl.h"\
 	
 
 "$(INTDIR)\playlist.obj" : $(SOURCE) $(DEP_CPP_PLAYL) "$(INTDIR)"\
@@ -669,42 +670,13 @@ SOURCE=..\src\prefdialog.cpp
 !IF  "$(CFG)" == "simple - Win32 Release"
 
 DEP_CPP_PREFD=\
-	"..\..\..\..\base\include\database.h"\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\eventdata.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\musicsearch.h"\
-	"..\..\..\..\base\include\player.h"\
-	"..\..\..\..\base\include\playlist.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\propimpl.h"\
-	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pmiregistry.h"\
-	"..\..\..\..\io\include\pmoregistry.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\io\include\std.h"\
-	"..\..\..\..\lib\gdbm\gdbm.h"\
-	"..\..\..\..\lmc\include\lmc.h"\
-	"..\..\..\..\lmc\include\lmcregistry.h"\
-	"..\..\..\include\ui.h"\
-	"..\..\..\include\uiregistry.h"\
 	"..\include\prefdialog.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_PREFD=\
 	"..\..\..\..\base\include\win32impl.h"\
@@ -718,38 +690,12 @@ NODEP_CPP_PREFD=\
 !ELSEIF  "$(CFG)" == "simple - Win32 Debug"
 
 DEP_CPP_PREFD=\
-	"..\..\..\..\base\include\database.h"\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\eventdata.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\musicsearch.h"\
-	"..\..\..\..\base\include\player.h"\
-	"..\..\..\..\base\include\playlist.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\propimpl.h"\
-	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pmiregistry.h"\
-	"..\..\..\..\io\include\pmoregistry.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\lib\gdbm\gdbm.h"\
-	"..\..\..\..\lmc\include\lmc.h"\
-	"..\..\..\..\lmc\include\lmcregistry.h"\
-	"..\..\..\include\ui.h"\
-	"..\..\..\include\uiregistry.h"\
 	"..\include\prefdialog.h"\
 	
 
@@ -761,39 +707,15 @@ DEP_CPP_PREFD=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
 
 DEP_CPP_PREFD=\
-	"..\..\..\..\base\include\database.h"\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\eventdata.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\musicsearch.h"\
-	"..\..\..\..\base\include\player.h"\
-	"..\..\..\..\base\include\playlist.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\propimpl.h"\
-	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
-	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pmiregistry.h"\
-	"..\..\..\..\io\include\pmoregistry.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\lib\gdbm\gdbm.h"\
-	"..\..\..\..\lmc\include\lmc.h"\
-	"..\..\..\..\lmc\include\lmcregistry.h"\
-	"..\..\..\include\ui.h"\
-	"..\..\..\include\uiregistry.h"\
 	"..\include\prefdialog.h"\
+	
+NODEP_CPP_PREFD=\
+	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\prefdialog.obj" : $(SOURCE) $(DEP_CPP_PREFD) "$(INTDIR)"\
@@ -804,42 +726,13 @@ DEP_CPP_PREFD=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
 
 DEP_CPP_PREFD=\
-	"..\..\..\..\base\include\database.h"\
 	"..\..\..\..\base\include\errors.h"\
-	"..\..\..\..\base\include\event.h"\
-	"..\..\..\..\base\include\eventdata.h"\
-	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\musicsearch.h"\
-	"..\..\..\..\base\include\player.h"\
-	"..\..\..\..\base\include\playlist.h"\
 	"..\..\..\..\base\include\preferences.h"\
-	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\propimpl.h"\
-	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
-	"..\..\..\..\base\include\thread.h"\
-	"..\..\..\..\base\win32\include\mutex.h"\
-	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pmiregistry.h"\
-	"..\..\..\..\io\include\pmoregistry.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\io\include\std.h"\
-	"..\..\..\..\lib\gdbm\gdbm.h"\
-	"..\..\..\..\lmc\include\lmc.h"\
-	"..\..\..\..\lmc\include\lmcregistry.h"\
-	"..\..\..\include\ui.h"\
-	"..\..\..\include\uiregistry.h"\
 	"..\include\prefdialog.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_PREFD=\
 	"..\..\..\..\base\include\win32impl.h"\
@@ -885,6 +778,8 @@ DEP_CPP_PREFE=\
 DEP_CPP_PREFE=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
+	
+NODEP_CPP_PREFE=\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -915,8 +810,6 @@ SOURCE=..\..\..\..\base\src\registrar.cpp
 DEP_CPP_REGIS=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\list.h"\
-	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
@@ -936,8 +829,6 @@ NODEP_CPP_REGIS=\
 DEP_CPP_REGIS=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\list.h"\
-	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
@@ -954,11 +845,11 @@ DEP_CPP_REGIS=\
 DEP_CPP_REGIS=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\list.h"\
-	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
+	
+NODEP_CPP_REGIS=\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -972,8 +863,6 @@ DEP_CPP_REGIS=\
 DEP_CPP_REGIS=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\list.h"\
-	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\registrar.h"\
 	"..\..\..\..\base\include\registry.h"\
@@ -995,8 +884,6 @@ SOURCE=..\..\..\..\base\src\registry.cpp
 !IF  "$(CFG)" == "simple - Win32 Release"
 
 DEP_CPP_REGIST=\
-	"..\..\..\..\base\include\list.h"\
-	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\config\config.h"\
 	
@@ -1009,8 +896,6 @@ DEP_CPP_REGIST=\
 !ELSEIF  "$(CFG)" == "simple - Win32 Debug"
 
 DEP_CPP_REGIST=\
-	"..\..\..\..\base\include\list.h"\
-	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\config\config.h"\
 	
@@ -1023,9 +908,9 @@ DEP_CPP_REGIST=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
 
 DEP_CPP_REGIST=\
-	"..\..\..\..\base\include\list.h"\
-	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\registry.h"\
+	
+NODEP_CPP_REGIST=\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -1037,78 +922,12 @@ DEP_CPP_REGIST=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
 
 DEP_CPP_REGIST=\
-	"..\..\..\..\base\include\list.h"\
-	"..\..\..\..\base\include\log.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\config\config.h"\
 	
 
 "$(INTDIR)\registry.obj" : $(SOURCE) $(DEP_CPP_REGIST) "$(INTDIR)"\
  "..\..\..\..\config\config.h"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\..\..\io\rio\rio.cpp
-
-!IF  "$(CFG)" == "simple - Win32 Release"
-
-DEP_CPP_RIO_C=\
-	"..\..\..\..\io\include\binary.h"\
-	"..\..\..\..\io\include\rio.h"\
-	"..\..\..\..\io\include\rioioctl.h"\
-	"..\..\..\..\io\include\std.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
-	
-NODEP_CPP_RIO_C=\
-	"..\..\..\..\io\rio\iopl32.h"\
-	
-
-"$(INTDIR)\rio.obj" : $(SOURCE) $(DEP_CPP_RIO_C) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "simple - Win32 Debug"
-
-DEP_CPP_RIO_C=\
-	"..\..\..\..\io\include\binary.h"\
-	"..\..\..\..\io\include\rio.h"\
-	"..\..\..\..\io\include\std.h"\
-	
-
-"$(INTDIR)\rio.obj" : $(SOURCE) $(DEP_CPP_RIO_C) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
-
-DEP_CPP_RIO_C=\
-	"..\..\..\..\io\include\binary.h"\
-	"..\..\..\..\io\include\rio.h"\
-	"..\..\..\..\io\include\std.h"\
-	
-
-"$(INTDIR)\rio.obj" : $(SOURCE) $(DEP_CPP_RIO_C) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
-
-DEP_CPP_RIO_C=\
-	"..\..\..\..\io\include\binary.h"\
-	"..\..\..\..\io\include\rio.h"\
-	"..\..\..\..\io\include\rioioctl.h"\
-	"..\..\..\..\io\include\std.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
-	
-NODEP_CPP_RIO_C=\
-	"..\..\..\..\io\rio\iopl32.h"\
-	
-
-"$(INTDIR)\rio.obj" : $(SOURCE) $(DEP_CPP_RIO_C) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -1128,43 +947,27 @@ SOURCE=..\src\simpleui.cpp
 !IF  "$(CFG)" == "simple - Win32 Release"
 
 DEP_CPP_SIMPL=\
-	"..\..\..\..\base\include\database.h"\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\musicsearch.h"\
-	"..\..\..\..\base\include\player.h"\
+	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\propimpl.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pmiregistry.h"\
-	"..\..\..\..\io\include\pmoregistry.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\io\include\std.h"\
-	"..\..\..\..\lib\gdbm\gdbm.h"\
-	"..\..\..\..\lmc\include\lmc.h"\
-	"..\..\..\..\lmc\include\lmcregistry.h"\
 	"..\..\..\include\ui.h"\
-	"..\..\..\include\uiregistry.h"\
 	"..\include\about.h"\
 	"..\include\prefdialog.h"\
 	"..\include\simpleui.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\simpleui.obj" : $(SOURCE) $(DEP_CPP_SIMPL) "$(INTDIR)"\
@@ -1175,37 +978,24 @@ DEP_CPP_SIMPL=\
 !ELSEIF  "$(CFG)" == "simple - Win32 Debug"
 
 DEP_CPP_SIMPL=\
-	"..\..\..\..\base\include\database.h"\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\musicsearch.h"\
-	"..\..\..\..\base\include\player.h"\
+	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\propimpl.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pmiregistry.h"\
-	"..\..\..\..\io\include\pmoregistry.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\lib\gdbm\gdbm.h"\
-	"..\..\..\..\lmc\include\lmc.h"\
-	"..\..\..\..\lmc\include\lmcregistry.h"\
 	"..\..\..\include\ui.h"\
-	"..\..\..\include\uiregistry.h"\
 	"..\include\about.h"\
 	"..\include\prefdialog.h"\
 	"..\include\simpleui.h"\
@@ -1219,37 +1009,24 @@ DEP_CPP_SIMPL=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
 
 DEP_CPP_SIMPL=\
-	"..\..\..\..\base\include\database.h"\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\musicsearch.h"\
-	"..\..\..\..\base\include\player.h"\
+	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\propimpl.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pmiregistry.h"\
-	"..\..\..\..\io\include\pmoregistry.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\lib\gdbm\gdbm.h"\
-	"..\..\..\..\lmc\include\lmc.h"\
-	"..\..\..\..\lmc\include\lmcregistry.h"\
 	"..\..\..\include\ui.h"\
-	"..\..\..\include\uiregistry.h"\
 	"..\include\about.h"\
 	"..\include\prefdialog.h"\
 	"..\include\simpleui.h"\
@@ -1263,43 +1040,27 @@ DEP_CPP_SIMPL=\
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
 
 DEP_CPP_SIMPL=\
-	"..\..\..\..\base\include\database.h"\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\event.h"\
 	"..\..\..\..\base\include\eventdata.h"\
 	"..\..\..\..\base\include\facontext.h"\
-	"..\..\..\..\base\include\hashtable.h"\
-	"..\..\..\..\base\include\id3v1.h"\
-	"..\..\..\..\base\include\list.h"\
 	"..\..\..\..\base\include\log.h"\
-	"..\..\..\..\base\include\musicsearch.h"\
-	"..\..\..\..\base\include\player.h"\
+	"..\..\..\..\base\include\metadata.h"\
 	"..\..\..\..\base\include\playlist.h"\
+	"..\..\..\..\base\include\playlistformat.h"\
+	"..\..\..\..\base\include\portabledevice.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\include\properties.h"\
-	"..\..\..\..\base\include\propimpl.h"\
 	"..\..\..\..\base\include\queue.h"\
 	"..\..\..\..\base\include\registry.h"\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\mutex.h"\
 	"..\..\..\..\base\win32\include\semaphore.h"\
 	"..\..\..\..\config\config.h"\
-	"..\..\..\..\io\include\pipeline.h"\
-	"..\..\..\..\io\include\pmi.h"\
-	"..\..\..\..\io\include\pmiregistry.h"\
-	"..\..\..\..\io\include\pmoregistry.h"\
-	"..\..\..\..\io\include\pullbuffer.h"\
-	"..\..\..\..\io\include\std.h"\
-	"..\..\..\..\lib\gdbm\gdbm.h"\
-	"..\..\..\..\lmc\include\lmc.h"\
-	"..\..\..\..\lmc\include\lmcregistry.h"\
 	"..\..\..\include\ui.h"\
-	"..\..\..\include\uiregistry.h"\
 	"..\include\about.h"\
 	"..\include\prefdialog.h"\
 	"..\include\simpleui.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 
 "$(INTDIR)\simpleui.obj" : $(SOURCE) $(DEP_CPP_SIMPL) "$(INTDIR)"\
@@ -1347,6 +1108,8 @@ DEP_CPP_THREA=\
 DEP_CPP_THREA=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
+	
+NODEP_CPP_THREA=\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -1411,6 +1174,8 @@ DEP_CPP_WIN32=\
 	"..\..\..\..\base\include\errors.h"\
 	"..\..\..\..\base\include\preferences.h"\
 	"..\..\..\..\base\win32\include\win32prefs.h"\
+	
+NODEP_CPP_WIN32=\
 	"..\..\..\..\config\config.h"\
 	
 
@@ -1436,6 +1201,9 @@ DEP_CPP_WIN32=\
 !ENDIF 
 
 SOURCE=..\..\..\..\base\win32\src\win32thread.cpp
+
+!IF  "$(CFG)" == "simple - Win32 Release"
+
 DEP_CPP_WIN32T=\
 	"..\..\..\..\base\include\thread.h"\
 	"..\..\..\..\base\win32\include\win32thread.h"\
@@ -1447,9 +1215,51 @@ DEP_CPP_WIN32T=\
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+!ELSEIF  "$(CFG)" == "simple - Win32 Debug"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	
+NODEP_CPP_WIN32T=\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
+
+DEP_CPP_WIN32T=\
+	"..\..\..\..\base\include\thread.h"\
+	"..\..\..\..\base\win32\include\win32thread.h"\
+	"..\..\..\..\config\config.h"\
+	
+
+"$(INTDIR)\win32thread.obj" : $(SOURCE) $(DEP_CPP_WIN32T) "$(INTDIR)"\
+ "..\..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
 SOURCE=..\res\simple.rc
 DEP_RSC_SIMPLE=\
-	"..\res\about8.bmp"\
 	"..\res\icon1.ico"\
 	
 

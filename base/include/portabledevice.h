@@ -18,13 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portabledevice.h,v 1.1.2.5 1999/08/30 06:48:04 elrod Exp $
+	$Id: portabledevice.h,v 1.1.2.6 1999/08/30 08:43:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PORTABLE_DEVICE_H_
 #define _PORTABLE_DEVICE_H_
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -37,6 +38,10 @@ using namespace std;
 class PortableDevice;
 
 typedef PortableDevice* DeviceRef;
+
+typedef bool (*callback_function)(void * cookie);
+
+class PlaylistItem;
 
 class DeviceInfo {
 

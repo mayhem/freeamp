@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.1 1999/08/30 06:48:09 elrod Exp $
+	$Id: pmp300.cpp,v 1.1.2.2 1999/08/30 08:43:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -48,7 +48,7 @@ DeviceInfoStruct devices[] = {
 
 extern "C"
 {
-   PlaylistFormat *Initialize(FAContext* context)
+   PortableDevice *Initialize(FAContext* context)
    {
       return new PMP300(context);
    }
@@ -131,17 +131,15 @@ Error PMP300::ReadPlaylist(DeviceInfo* device,
 }
 
 Error PMP300::WritePlaylist(DeviceInfo* device, 
-                            PlaylistFormatInfo* format, 
                             vector<PlaylistItem*>* list,
                             callback_function function)
 {
     Error result = kError_InvalidParam;
 
     assert(device);
-    assert(format);
     assert(list);
 
-    if(url && format && list)
+    if(device && list)
     {
         
     }

@@ -60,8 +60,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                          ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
-            ..\..\..\..\base\win32\prj\plugins
+                           ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
+             ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "simple - Win32 Debug"
@@ -93,8 +93,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                          ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
-            ..\..\..\..\base\win32\prj\plugins
+                           ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
+             ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Debug"
@@ -128,8 +128,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                          ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
-            ..\..\..\..\base\win32\prj\plugins
+                           ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
+             ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "simple - Win32 NASM Release"
@@ -161,8 +161,8 @@ LINK32=link.exe
 # Begin Special Build Tool
 SOURCE=$(InputPath)
 PostBuild_Cmds=IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir\
-                          ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
-            ..\..\..\..\base\win32\prj\plugins
+                           ..\..\..\..\base\win32\prj\plugins	copy simple.ui\
+             ..\..\..\..\base\win32\prj\plugins
 # End Special Build Tool
 
 !ENDIF 
@@ -253,10 +253,6 @@ SOURCE=..\..\..\..\base\src\registrar.cpp
 # Begin Source File
 
 SOURCE=..\..\..\..\base\src\registry.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\..\io\rio\rio.cpp
 # End Source File
 # Begin Source File
 

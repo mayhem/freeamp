@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.9 2000/01/04 19:07:54 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.10 2000/02/16 00:11:32 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -97,10 +97,16 @@ int Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect,
    
    hFont = CreateFont(iFontHeight, 0, 0, 0, bBold ? FW_BOLD : FW_NORMAL, 
                       bItalic, bUnderline, 0, DEFAULT_CHARSET,
- 					  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+ 					  OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY,
                       DEFAULT_PITCH, oFontFace.c_str()); 
-                      
-   DeleteObject(SelectObject(hMemDC, hFont));
+   
+   // There is a bug in Windows 95/98 that when you DrawText into a bitmap
+   // the anti aliasing does not work unless you select the font into the
+   // main window and the select it into your bitmap DC. Whatever...
+   HDC hExtra = GetDC(m_pParent->GetWindowHandle());
+   SelectObject(hExtra, SelectObject(hExtra, hFont));
+   SelectObject(hMemDC, hFont);
+   ReleaseDC(m_pParent->GetWindowHandle(), hExtra);
 
    SetBkMode(hMemDC, TRANSPARENT);
    SetTextColor(hMemDC, RGB(oColor.red, oColor.green, oColor.blue));
@@ -152,7 +158,7 @@ int Win32Canvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
    
    hFont = CreateFont(iFontHeight, 0, 0, 0, bBold ? FW_BOLD : FW_NORMAL, 
                       bItalic, bUnderline, 0, DEFAULT_CHARSET,
- 					  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+ 					  OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
                       DEFAULT_PITCH, oFontFace.c_str()); 
                       
    DeleteObject(SelectObject(hMemDC, hFont));

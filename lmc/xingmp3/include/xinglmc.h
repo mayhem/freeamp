@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.17 1999/01/25 23:00:35 robert Exp $
+   $Id: xinglmc.h,v 1.18 1999/01/31 18:44:43 jdw Exp $
 
 ____________________________________________________________________________*/
 
@@ -145,9 +145,6 @@ class     XingLMC:public LogicalMediaConverter
 
    int32     m_frameCounter;
 	time_t    m_iBufferUpdate;
-
-    bool m_enableEQ;
-    float m_equalizer[32];
 
 };
 

@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.43 1999/01/29 02:33:26 robert Exp $
+   $Id: xinglmc.cpp,v 1.44 1999/01/31 18:44:43 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -844,18 +844,28 @@ Reset()
 #define _EQUALIZER_ENABLE_
 #ifdef  _EQUALIZER_ENABLE_
 
+extern "C" {
+float equalizer[32] = {
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+};
+int enableEQ = false;
+	   }
+
 Error XingLMC::SetEQData(float *arrayEQ) {
     ENSURE_INITIALIZED;
     Error error = kError_NoErr;
         for(int i=0; i<32; i++)
-                m_equalizer[i] = arrayEQ[i];
+                equalizer[i] = arrayEQ[i];
         return error;
 }
 
 Error XingLMC::SetEQData(bool enable) {
     ENSURE_INITIALIZED;
     Error error = kError_NoErr;
-        m_enableEQ = enable;
+        enableEQ = enable;
         return error;
 }
 #endif  //_EQUALIZER_ENABLE_

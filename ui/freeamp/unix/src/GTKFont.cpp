@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.11 1999/12/16 02:37:56 ijr Exp $
+   $Id: GTKFont.cpp,v 1.12 1999/12/18 01:53:56 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <sys/stat.h>
@@ -183,8 +183,13 @@ Error GTKFont::AddFont(string &oFontFile)
     string oFontDest;
     char fcopy[_MAX_PATH], *filename, *ext;
     FILE *orig, *dest;
+    struct stat st;
 
     oFontDest = FreeampDir(NULL) + string ("/fonts");
+
+    if (-1 == stat(oFontDest.c_str(), &st))
+        mkdir(oFontDest.c_str(), 0755);
+
     strcpy(fcopy, oFontFile.c_str());
     filename = strrchr(fcopy, '/');
     if (filename) 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: PrefView.h,v 1.1 2000/02/15 11:36:41 hiro Exp $
+   $Id: PrefView.h,v 1.2 2000/07/10 04:23:56 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_PREF_VIEW_H__
@@ -150,10 +150,6 @@ public:
     virtual void        AttachedToWindow( void );
     virtual void        MessageReceived( BMessage* message );
     void                Apply( void );
-
-    void                SetSaveMusicDirectory( const char* path );
-    void                SetCheckForUpdates( bool flag );
-    void                SetDecoderThreadPriority( int32 prio );
 
 protected:
     void                GetPrefsValues( Preferences* prefs,

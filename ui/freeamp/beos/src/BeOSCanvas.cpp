@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSCanvas.cpp,v 1.9 2000/03/20 22:40:34 hiro Exp $
+   $Id: BeOSCanvas.cpp,v 1.10 2000/07/10 04:23:56 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSCanvas.h"
@@ -116,7 +116,11 @@ BeOSCanvas::RenderText( int iFontHeight, Rect& oClipRect,
     BRegion clipRegion;
     clipRegion.Set( clipRect );
 
-    bitmap->Lock();
+    if ( !bitmap->Lock() )
+    {
+        puts( "lock failed" );
+        return 0;
+    }
 
     v->ConstrainClippingRegion( &clipRegion );
     v->SetDrawingMode( B_OP_OVER );
@@ -178,7 +182,11 @@ BeOSCanvas::RenderOffsetText( int iFontHeight, Rect& oClipRect,
     BRegion clipRegion;
     clipRegion.Set( clipRect );
 
-    bitmap->Lock();
+    if ( !bitmap->Lock() )
+    {
+        puts( "Lock Failed" );
+        return 0;
+    }
 
     v->ConstrainClippingRegion( &clipRegion );
     if ( bBold )

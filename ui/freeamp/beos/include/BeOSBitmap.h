@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSBitmap.h,v 1.4 1999/12/10 05:05:46 elrod Exp $
+   $Id: BeOSBitmap.h,v 1.5 2000/07/10 04:23:56 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BEOSBITMAP_H__
@@ -43,6 +43,13 @@ public:
                                   Rect& oDestRect );
     virtual Error       MaskBlitRect( Bitmap* pSrcBitmap, Rect& oSrcRect,
                                       Rect& oDestRect );
+    virtual Error       BlitRectMaskBitmap( Bitmap* pSrcBitmap, Rect& oSrcRect, 
+                                            Rect& oDestRect );
+    virtual Bitmap*     Clone( void );
+    virtual Error       MakeTransparent( Rect& oRect );
+    virtual void        GetColor( Pos oPos, Color& oColor );
+    virtual void        GetSize( Pos& oPos );
+
     BBitmap*            GetBBitmap( void ) { return m_bitmap; }
     BView*              OffscreenView( void ) { return m_offView; }
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSPreferenceWindow.cpp,v 1.4 2000/03/01 04:41:38 hiro Exp $
+   $Id: BeOSPreferenceWindow.cpp,v 1.5 2000/07/10 04:23:56 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSPreferenceWindow.h"
@@ -48,21 +48,22 @@ BeOSPreferenceWindow::~BeOSPreferenceWindow()
 bool
 BeOSPreferenceWindow::Show( Window* parent )
 {
-#if BEOSPREF
     if ( PrefWindow::IsRunning() ) return true;
 
     if ( !m_prefWindow )
     {
         BRect r( 100, 100, 600, 500 );
-        m_prefWindow = new PrefWindow( r, "Preference" );
+        m_prefWindow = new PrefWindow( r, "Preference",
+                                       m_pContext, m_pThemeMan );
+#if 0
         r.OffsetTo( B_ORIGIN );
         m_prefView = new PrefView( m_pContext, m_pThemeMan,
                                    r, "PrefView" );
         m_prefWindow->AddChild( m_prefView );
+#endif
     }
 
     m_prefWindow->Show();
 
-#endif
     return true;
 }

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.13 1998/10/18 06:53:23 elrod Exp $
+	$Id: main.cpp,v 1.14 1998/10/18 22:06:27 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -40,10 +40,11 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 		 				LPSTR lpszCmdLine, 
 						int cmdShow)
 {
-    // Initialize the preferences
+    // Initialize the preferences in case the user moved the app
    Preferences* prefs;
 
    prefs = new Preferences;
+   prefs->Initialize();
 
     // find all the plug-ins we use
     Registrar* registrar;

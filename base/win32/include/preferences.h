@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.1 1998/10/17 21:38:06 elrod Exp $
+	$Id: preferences.h,v 1.2 1998/10/18 22:06:27 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -36,6 +36,8 @@ class Preferences {
  public:
 	Preferences();
 	~Preferences();
+
+    Error Initialize();
 
     Error GetInstallDirectory(char* path, uint32* len);
     Error SetInstallDirectory(char* path);

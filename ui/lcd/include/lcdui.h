@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.h,v 1.4 1999/01/22 06:02:51 jdw Exp $
+	$Id: lcdui.h,v 1.5 1999/01/25 00:08:27 jdw Exp $
 ____________________________________________________________________________*/
 // LcdUI.h
 
@@ -67,6 +67,7 @@ class LcdUI : public UserInterface {
     Thread *keyboardListenThread;
     PlayListManager *m_plm;
     Mutex *m_lcdLock;
+    bool Quit;
 };
 
 

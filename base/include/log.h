@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: log.h,v 1.2 1999/03/01 22:47:20 robert Exp $
+        $Id: log.h,v 1.3 1999/03/18 20:53:32 robert Exp $
 ____________________________________________________________________________*/
 #ifndef __LOG_H__
 #define __LOG_H__
@@ -31,8 +31,9 @@ enum
     LogDecode  = 1,
     LogInput   = 2,
     LogOutput  = 3,
+    LogPerf    = 4,
 
-    LogLast    = 4,
+    LogLast    = 5,
     LogMax     = 32
 };
 

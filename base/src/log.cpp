@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: log.cpp,v 1.3 1999/03/11 02:53:24 robert Exp $
+        $Id: log.cpp,v 1.4 1999/03/18 20:53:33 robert Exp $
 ____________________________________________________________________________*/
 #include <stdio.h>
 #include <stdarg.h>
@@ -34,7 +34,8 @@ const char *szLogLevelNames[] =
     "Main",
     "Decode",
     "Input",
-    "Output"
+    "Output",
+    "Perf"
 };
 
 LogFile::LogFile(char *m_szLogFileArg)

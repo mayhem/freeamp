@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: obsbuffer.cpp,v 1.13 1999/03/07 20:59:28 robert Exp $
+   $Id: obsbuffer.cpp,v 1.14 1999/03/18 20:53:37 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -270,7 +270,11 @@ void ObsBuffer::WorkerThread(void)
       iCurrNum = pHeader->iFlags & 0xFFFF;
       if (iPacketNum != -1 && iPacketNum != iCurrNum - 1)
       {
-          g_Log->Log(LogInput, "Lost packet (%d, %d)\n", iPacketNum, iCurrNum); 
+          time_t t;
+
+          time(&t);
+          g_Log->Log(LogPerf, "Lost packet (%d, %d): %s", 
+             iPacketNum, iCurrNum, ctime(&t)); 
       }
       iPacketNum = iCurrNum;
 

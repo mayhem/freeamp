@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.101 1999/03/18 04:34:22 elrod Exp $
+        $Id: player.cpp,v 1.102 1999/03/18 20:53:35 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -431,6 +431,13 @@ Run()
       if (strcasecmp(((StringPropValue *)pProp)->GetString(), "yes") == 0)
          g_Log->AddLogLevel(LogDecode);
    }
+   m_props.GetProperty("LogPerf", &pProp);
+   if (pProp)
+   {
+      if (strcasecmp(((StringPropValue *)pProp)->GetString(), "yes") == 0)
+         g_Log->AddLogLevel(LogPerf);
+   }
+
 
    // which ui should we instantiate first??
    if (m_argUIList->CountItems() == 0)

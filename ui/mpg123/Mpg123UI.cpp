@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.8 1998/11/07 07:05:12 jdw Exp $
+	$Id: Mpg123UI.cpp,v 1.9 1998/11/10 08:32:51 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -312,11 +312,12 @@ void Mpg123UI::SetArgs(int argc, char **argv) {
 		    cout << "use HTTP proxy " << pc << endl;
 		    break;
 		case 'z':
-		    m_plm->SetOrder(PlayListManager::ORDER_SHUFFLED);
+		    m_plm->SetShuffle(SHUFFLE_SHUFFLED);
 		    //cout << "shuffle play (with wildcards) " << endl;
 		    break;
 		case 'Z':
-		    m_plm->SetOrder(PlayListManager::ORDER_RANDOM);
+		    // random play has been temporarily disabled.
+		    //m_plm->SetShuffle(PlayListManager::ORDER_RANDOM);
 		    //cout << "Random Play" << endl;
 		    break;
 		case 'u':

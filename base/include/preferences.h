@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.28 2000/02/29 10:01:57 elrod Exp $
+	$Id: preferences.h,v 1.29 2000/03/17 01:29:32 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -265,6 +265,9 @@ class Preferences {
 
     Error GetAllowMultipleInstances(bool* value);
     Error SetAllowMultipleInstances(bool  value);  
+
+    Error GetWAVOutDirectory(char* path, uint32* len);
+    Error SetWAVOutDirectory(const char* path);
 };
 
 #endif /* _PREFERENCES_H */

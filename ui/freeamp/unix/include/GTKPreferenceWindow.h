@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.9 1999/12/07 21:36:54 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.10 1999/12/07 22:16:43 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -183,6 +183,8 @@ class GTKPreferenceWindow : public PreferenceWindow
 
       GtkWidget *fontDialog;
 
+      bool firsttime;
+
   public:
       GtkWidget *mainWindow;
       GtkWidget *pmoOptionMenu;
@@ -218,6 +220,7 @@ class GTKPreferenceWindow : public PreferenceWindow
       void ShowHelp(void);
 
       void SaveMusicSet(char *newpath, bool set);
+      void SetToolbar(bool text, bool pics);
 
       FAContext *GetContext(void) { return m_pContext; }
 };

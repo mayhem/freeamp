@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.21 1999/04/08 07:39:04 elrod Exp $
+	$Id: pmi.h,v 1.22 1999/05/19 18:14:32 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMI_H_
@@ -74,6 +74,8 @@ public:
 	               {return 0;};
     virtual int32 GetNumBytesInBuffer()
 	               {return 0;};
+    virtual Error DiscardBytes()
+	               {return kError_NoErr;};
 	 virtual void  Pause()
 	               { };
 	 virtual bool  Resume()

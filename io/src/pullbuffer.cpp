@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.24 1999/04/27 16:25:24 robert Exp $
+   $Id: pullbuffer.cpp,v 1.25 1999/05/19 18:14:35 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -453,6 +453,7 @@ Error PullBuffer::EndRead(size_t iBytesUsed)
 
 Error PullBuffer::DiscardBytes()
 {
+   int iBytesToDiscard;
 
    for(;;)
    {
@@ -468,12 +469,13 @@ Error PullBuffer::DiscardBytes()
         break;
    }
 
-   if (m_iBytesInBuffer < m_iWriteTriggerSize)
+   iBytesToDiscard = m_iBytesInBuffer - (m_iBufferSize / 2);
+   if (iBytesToDiscard > 0)
    {
-      m_iReadIndex = (m_iReadIndex + m_iWriteTriggerSize) % m_iBufferSize;
-    	m_iBytesInBuffer -= m_iWriteTriggerSize;
+      m_iReadIndex = (m_iReadIndex + iBytesToDiscard) % m_iBufferSize;
+    	m_iBytesInBuffer -= iBytesToDiscard;
       assert(m_iBytesInBuffer <= m_iBufferSize);
-      m_context->log->Log(LogInput, "Discarding %d bytes.\n", m_iWriteTriggerSize);
+      m_context->log->Log(LogInput, "Discarding %d bytes.\n", iBytesToDiscard);
    }
 
    m_pMutex->Release();

@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.82 1999/04/27 08:44:55 robert Exp $
+   $Id: xinglmc.cpp,v 1.83 1999/05/19 18:14:36 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -877,6 +877,14 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
   	    fflush(stdout);
        m_iBufferUpdate = iNow;
   	}
+
+   // If the input buffer is getting too full, discard some bytes.
+   // This could be caused by a soundcard with slow playback or 
+   // a host that is sending data too quicky. Clock-drift-a-moo!
+   if (iOutPercent > 90 && iInPercent > 90)
+   {
+       m_input->DiscardBytes();
+   }
 
    if (bBufferUp && iInPercent < 5 && iOutPercent < 5)
    {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.h,v 1.8 1999/04/21 04:20:50 elrod Exp $
+        $Id: obsinput.h,v 1.9 1999/05/19 18:14:34 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSFILEINPUT_H_
@@ -54,6 +54,7 @@ class     ObsInput:public PhysicalMediaInput
                  { return true; };
 	virtual int32 GetBufferPercentage();
 	virtual int32 GetNumBytesInBuffer();
+   virtual Error DiscardBytes();
 	virtual Error SetBufferSize(size_t iNewSize);
 	virtual void  Pause();
 	virtual bool  Resume();

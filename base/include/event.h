@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.50 2000/05/23 08:49:23 elrod Exp $
+	$Id: event.h,v 1.51 2000/05/23 10:23:12 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -148,5 +148,6 @@ class EventQueue {
 #define INFO_MusicCatalogDoneRegenerating 81 // sent by the MC to tell the UIs to regenerate their database
 #define INFO_VorbisInfo             82 // Used to send vorbis stream info
 #define INFO_FileNotFound           83 // Used to send file not found info
+#define CMD_EditCurrentPlaylistItemInfo  84 // Used to instruct the info editor to edit the current metadata item
 #endif // _EVENT_H_
 

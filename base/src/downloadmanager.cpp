@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.6 1999/09/20 20:08:47 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.7 1999/09/21 01:03:15 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -30,6 +30,7 @@ ____________________________________________________________________________*/
 
 #include <assert.h>
 #include <iostream>
+#include <algorithm>
 
 #include "config.h"
 #include "facontext.h"
@@ -191,134 +192,6 @@ Error DownloadManager::AddItems(vector<DownloadItem*>* list)
     return result;
 }
 
-
-// Functions for removing items from Download Manager
-// Removing an item implicitly cancels a download
-// that is occurring.
-Error DownloadManager::RemoveItem(DownloadItem* item)
-{
-    Error result = kError_InvalidParam;
-    m_mutex.Acquire();
-
-    assert(item);
-
-    if(item)
-    {
-        result = RemoveItem(IndexOf(item));
-    }
-
-    m_mutex.Release();
-    return result;
-}
-
-Error DownloadManager::RemoveItem(uint32 index)
-{
-    Error result = kError_InvalidParam;
-    m_mutex.Acquire();
-
-    index = CheckIndex(index);
-
-    if(index != kInvalidIndex)
-    {
-        DownloadItem* item = m_itemList[index];
-
-        m_itemList.erase(&m_itemList[index]);
-
-        delete item;
-
-        result = kError_NoErr;
-    }
-
-    m_mutex.Release();
-    return result;
-}
-
-Error DownloadManager::RemoveItems(uint32 index, uint32 count)
-{
-    Error result = kError_InvalidParam;
-    m_mutex.Acquire();
-
-    index = CheckIndex(index);
-
-    if(index != kInvalidIndex)
-    {
-        for(uint32 i = 0; i < count; i++)
-        {
-            DownloadItem* item = m_itemList[index + i];
-
-            delete item;
-        }
-
-        m_itemList.erase(&m_itemList[index], &m_itemList[index + count]);
-
-        result = kError_NoErr;
-    }
-
-    m_mutex.Release();
-    return result;
-}
-
-Error DownloadManager::RemoveItems(vector<DownloadItem*>* items)
-{
-    Error result = kError_InvalidParam;
-    m_mutex.Acquire();
-
-    assert(items);
-
-    if(items)
-    {
-        uint32 index = 0;
-        uint32 size = 0;
-        DownloadItem* item = NULL;
-
-        size = items->size();
-
-        for(index = 0; index < size; index++)
-        {
-            item = (*items)[index];
-
-            if(item)
-            {
-                m_itemList.erase(&m_itemList[IndexOf(item)]);
-
-                delete item;
-
-                result = kError_NoErr;
-            }
-        }  
-    }
-
-    m_mutex.Release();
-    return result;
-}
-
-Error DownloadManager::RemoveAll()
-{
-    Error result = kError_NoErr;
-    uint32 index = 0;
-    uint32 size = 0;
-    DownloadItem* item = NULL;
-    m_mutex.Acquire();
-
-    size = m_itemList.size();
-
-    for(index = 0; index < size; index++)
-    {
-        item = m_itemList[index];
-
-        if(item)
-        {            
-            delete item;
-        }
-    }  
-
-    m_itemList.clear();
-
-    m_mutex.Release();
-    return result;
-}
-
-
 // Changes item state to queued if it is cancelled or error.
 // This will indicate to the download thread that it should
 // attempt to retrieve this item. Has no effect if the item's
@@ -370,6 +243,23 @@ Error DownloadManager::CancelDownload(DownloadItem* item, bool allowResume)
         if(item->GetState() == kDownloadItemState_Downloading ||
            item->GetState() == kDownloadItemState_Queued)
         {
+            m_queueMutex.Acquire();
+
+            // remove from download queue
+            if(item->GetState() == kDownloadItemState_Queued)
+            {
+                deque<DownloadItem*>::iterator position;
+                
+                if((position = find(m_queueList.begin(), 
+                                    m_queueList.end(), 
+                                    item)) != m_queueList.end())
+                {
+                    m_queueList.erase(position); 
+                }
+            }
+
+            m_queueMutex.Release();
+
             if(!allowResume)
             {
                 item->SetState(kDownloadItemState_Cancelled);
@@ -378,8 +268,6 @@ Error DownloadManager::CancelDownload(DownloadItem* item, bool allowResume)
             {
                 item->SetState(kDownloadItemState_Paused);
             }
-
-            m_queueList.push_back(item);
 
             result = kError_NoErr;
         }
@@ -563,6 +451,8 @@ DownloadItem* DownloadManager::GetNextQueuedItem()
 {
     DownloadItem* result = NULL;
 
+    m_queueMutex.Acquire();
+
     if(m_queueList.size())
     {
         result = m_queueList[0];
@@ -572,8 +462,13 @@ DownloadItem* DownloadManager::GetNextQueuedItem()
         cout << "Queue count: " << m_queueList.size() << endl;
     }
 
+    m_queueMutex.Release();
+
     return result;
 }
+
+const uint8 kHttpPort = 80;
+const uint32 kMaxHostNameLen = 64;
 
 Error DownloadManager::Download(DownloadItem* item)
 {
@@ -583,7 +478,79 @@ Error DownloadManager::Download(DownloadItem* item)
 
     if(item)
     {
+        char hostname[kMaxHostNameLen + 1];
+        uint8  port;
+        struct sockaddr_in  addr;
+        struct hostent      host;
+        
+
+        result = kError_ProtocolNotSupported;
+
+        // where should we connect to?
+        if(!strncasecmp(item->SourceURL().c_str(), "http://", 7))
+        {
+            int32 numFields;
+
+            result = kError_NoErr;  
+
+            numFields = sscanf(item->SourceURL().c_str(), 
+                               "http://%[^:/]:%d", hostname, &port);
+
+            if(numFields < 1)
+            {
+                result = kError_InvalidURL;     
+            }
+
+            if(numFields < 2)
+            {
+                port = kHttpPort;
+            }
+        }
+
+        // get hostname
+        if(IsntError(result))
+        {
+            struct hostent* hostByName;
+            struct hostent  hostByIP;
+            hostByName = gethostbyname(hostname);
+
+            // On some stacks a numeric IP address
+            // will not parse with gethostbyname.  
+            // If that didn't work try to convert it as a
+            // numeric address before giving up.
+            if(!hostByName)
+            {
+                static unsigned long ip;
+                static char *addr_ptr[2] = {(char*)&ip, NULL};
+
+                if((ip = inet_addr(hostname)) < 0) 
+                    result =  kError_CantFindHost;
+                else
+                {
+                    hostByIP.h_length = sizeof(uint32);
+                    hostByIP.h_addrtype = AF_INET;
+                    hostByIP.h_addr_list = (char**)&addr_ptr;
+                    hostByName = &hostByIP;
+                }
+            }
+
+            if(IsntError(result))
+            {
+                memcpy(&host, hostByName, sizeof(struct hostent));
+            }
+        }
+
+        // open socket
+        if(IsntError(result))
+        {
+            memset(&addr, 0x00, sizeof(struct sockaddr_in));
+            memcpy(&addr.sin_addr, host.h_addr, host.h_length);
+            addr.sin_family= host.h_addrtype;
+            addr.sin_port= htons(port); 
+        }
+
         cout << "Downloading item: " << item->SourceURL() << endl;
+
     }
 
     return result;

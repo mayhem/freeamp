@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.9 1999/09/20 20:08:47 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.10 1999/09/21 01:03:15 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -283,6 +283,7 @@ class DownloadManager {
     bool m_runDownloadThread;
 
     Semaphore m_queueSemaphore;
+    Mutex m_queueMutex;
     Mutex m_quitMutex;
 
 };

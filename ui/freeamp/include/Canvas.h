@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.h,v 1.1.2.6 1999/09/17 20:30:46 robert Exp $
+   $Id: Canvas.h,v 1.1.2.7 1999/09/20 18:05:39 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CANVAS_H__
@@ -51,7 +51,7 @@ class Canvas
      void SetMaskBitmap(Bitmap *pBitmap);
      Bitmap *GetBackgroundBitmap(void);
 
-	 virtual void  Init(void) = 0;
+     virtual void  Init(void) = 0;
      virtual void  Erase(Rect &oPaintRect) = 0;
      virtual Error RenderText(int iFontHeight, Rect &oClipRect,
                               string &oText, AlignEnum eAlign) = 0;

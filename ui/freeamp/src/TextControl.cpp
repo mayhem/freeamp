@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.1.2.5 1999/09/17 20:31:01 robert Exp $
+   $Id: TextControl.cpp,v 1.1.2.6 1999/09/20 18:05:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -37,11 +37,10 @@ TextControl::TextControl(Window *pWindow, string &oName,
                          string &oAlign) :
              Control(pWindow, oName, pTransitions)
 {
-	strlwr((char *)oAlign.c_str());
-	if (oAlign == string("right"))
+	if (strcasecmp(oAlign.c_str(), "right") == 0)
        m_eAlign = eRight;
     else   
-	if (oAlign == string("center"))
+	if (strcasecmp(oAlign.c_str(), "center"))
        m_eAlign = eCenter;
     else   
        m_eAlign = eLeft;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.3 1999/09/20 17:45:03 robert Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.4 1999/09/20 18:05:44 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -42,7 +42,12 @@ GTKWindow::~GTKWindow(void)
     m_pCanvas = NULL;
 }
 
-Error GTKWindow::Run(void)
+Error GTKWindow::Run(Pos &oPos)
+{
+    return kError_NoErr;
+}
+
+Error GTKWindow::Close(void)
 {
     return kError_NoErr;
 }
@@ -98,16 +103,6 @@ Error GTKWindow::SetMousePos(Pos &oPos)
 }
 
 Error GTKWindow::GetMousePos(Pos &oPos)
-{
-    return kError_NoErr;
-}
-
-Error GTKWindow::Run(Pos &oWindowPos);
-{
-    return kError_NoErr;
-}
-
-Error GTKWIndow::Close(void); 
 {
     return kError_NoErr;
 }

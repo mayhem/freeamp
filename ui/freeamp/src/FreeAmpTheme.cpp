@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.6 1999/09/17 20:30:59 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.7 1999/09/20 18:05:40 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -50,20 +50,20 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
 
    m_pContext = context;
 
-   m_pContext->prefs->GetPrefString(kThemePath, szTemp, &iLen);
+   m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
    oThemePath = szTemp;
    SetThemePath(oThemePath);
 
-   m_pContext->prefs->GetPrefString(kMainWindowPos, szTemp, &iLen);
+   m_pContext->prefs->GetPrefString(kMainWindowPosPref, szTemp, &iLen);
    sscanf(szTemp, " %d , %d", &m_oWindowPos.x, &m_oWindowPos.y);
 
    eRet = ParseFile(oThemeFile);
    if (IsError(eRet))
    {
-   	   string oErr;
-   	   // THis code needs to be cross-platform!
-   	   GetErrorString(oErr);
-       MessageBox(NULL, oErr.c_str(), "FreeAmp", MB_OK);
+   	 string oErr;
+   	 // THis code needs to be cross-platform!
+   	 //GetErrorString(oErr);
+       //MessageBox(NULL, oErr.c_str(), "FreeAmp", MB_OK);
        //Debug_v("ParseError: %s", oErr.c_str());
    }
    SelectWindow(oName);
@@ -95,7 +95,7 @@ Error FreeAmpTheme::Run(void)
    if (!IsError(eRet))
    {
        sprintf(szTemp, "%d,%d", m_oWindowPos.x, m_oWindowPos.y);
-       m_pContext->prefs->SetPrefString(kMainWindowPos, szTemp);
+       m_pContext->prefs->SetPrefString(kMainWindowPosPref, szTemp);
    }    
    
    m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));

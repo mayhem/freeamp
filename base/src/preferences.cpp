@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.17.2.1 1999/09/17 20:30:19 robert Exp $
+        $Id: preferences.cpp,v 1.17.2.2 1999/09/20 18:05:38 robert Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -53,8 +53,8 @@ const char* kPreBufferPref = "PreBuffer";
 const char* kUseAlternateNICPref = "UseAlternateNIC";  
 const char* kAlternateNICAddressPref = "AlternateNICAddress";  
 const char* kUseTitleStreamingPref = "UseTitleStreaming";  
-const char* kThemePath = "ThemePath";  
-const char* kMainWindowPos = "MainWindowPos";  
+const char* kThemePathPref = "ThemePath";  
+const char* kMainWindowPosPref = "MainWindowPos";  
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -153,14 +153,14 @@ SetDefaults()
         SetPrefBoolean(kUseTitleStreamingPref, kDefaultUseTitleStreaming);
 
     dummyInt = 255;
-    if (GetPrefString(kThemePath, dummyString, 
+    if (GetPrefString(kThemePathPref, dummyString, 
         (uint32 *)&dummyInt) == kError_NoPrefValue)
-        SetPrefString(kThemePath, kDefaultThemePath);
+        SetPrefString(kThemePathPref, kDefaultThemePath);
 
     dummyInt = 255;
-    if (GetPrefString(kMainWindowPos, dummyString, 
+    if (GetPrefString(kMainWindowPosPref, dummyString, 
         (uint32 *)&dummyInt) == kError_NoPrefValue)
-        SetPrefString(kMainWindowPos, kDefaultMainWindowPos);
+        SetPrefString(kMainWindowPosPref, kDefaultMainWindowPos);
 
     return kError_NoErr;
 }

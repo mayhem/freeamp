@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigmain.cpp,v 1.7 2000/10/03 10:32:25 robert Exp $
+        $Id: sigmain.cpp,v 1.8 2000/10/12 23:05:49 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -35,6 +35,7 @@ ____________________________________________________________________________*/
 #include <unistd.h> 
 
 #include "metadata.h"
+#include "config.h"
 
 #include "plm/metadata/id3v1/id3v1.h"
 #include "plm/metadata/id3v2/id3v2.h"
@@ -131,7 +132,7 @@ void submit_metadata(MetaData *pmetaData)
    }
 
    o = mb_New();
-   mb_SetServer(o, "musicbrainz.eorbit.net", 80);
+   mb_SetServer(o, MUSICBRAINZ_SERVER, MUSICBRAINZ_PORT);
 
    args[0] = strdup(pmetaData->Title().c_str());
    args[1] = strdup(pmetaData->GUID().c_str());

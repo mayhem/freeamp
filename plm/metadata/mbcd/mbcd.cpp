@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mbcd.cpp,v 1.4 2000/10/12 22:40:04 robert Exp $
+	$Id: mbcd.cpp,v 1.5 2000/10/12 23:05:49 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -149,7 +149,7 @@ bool MusicBrainzCD::LookupCD(void)
                       string("mbcd");
 
 
-    mb_SetServer(o, "www.musicbrainz.org", 80);
+    mb_SetServer(o, MUSICBRAINZ_SERVER, MUSICBRAINZ_PORT);
 
     ret = mb_Query(o, MB_GetCDTOC);
     if (!ret)

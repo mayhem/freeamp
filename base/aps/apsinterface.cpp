@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.35 2000/10/06 09:16:13 ijr Exp $
+        $Id: apsinterface.cpp,v 1.36 2000/10/12 23:05:49 robert Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -47,6 +47,7 @@ ____________________________________________________________________________*/
 #include "comsocket.h"
 #endif
 
+#include "config.h"
 #include "mutex.h"
 #include "semaphore.h"
 #include "YPClient.h"
@@ -154,7 +155,7 @@ int APSInterface::APSFillMetaData(APSMetaData* pmetaData)
     int     i;
 
     o = mb_New();
-    mb_SetServer(o, "www.musicbrainz.org", 80);
+    mb_SetServer(o, MUSICBRAINZ_SERVER, MUSICBRAINZ_PORT);
     if (m_strProxyAddr.size() > 7)
         mb_SetProxy(o, (char *)m_strProxyAddr.c_str(), m_nProxyPort);
 

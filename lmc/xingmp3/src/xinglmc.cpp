@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.102 1999/11/05 23:27:11 robert Exp $
+   $Id: xinglmc.cpp,v 1.103 1999/11/07 05:57:19 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -786,7 +786,7 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
 {
    time_t iNow;
    int32  iInPercent, iOutPercent;
-   unsigned iBufferUpBytes;
+   unsigned int iBufferUpBytes;
 
    if (m_fpFile)
    {
@@ -796,7 +796,7 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
        m_pLocalReadBuffer = (char*)pBuffer;
        
        iRead = fread(pBuffer, sizeof(char), iBytesNeeded, m_fpFile);
-       if (iRead != iBytesNeeded)
+       if (iRead != (int)iBytesNeeded)
           return kError_ReadFile;
           
        return kError_NoErr;

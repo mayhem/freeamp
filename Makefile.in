@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.37 1999/11/04 04:58:14 ijr Exp $
+# $Id: Makefile.in,v 1.38 1999/11/07 05:57:18 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -114,8 +114,8 @@ install-themes:
 	$(mkinstalldirs) $(DESTDIR)$(datadir)/freeamp/themes
 	@list=`ls $(srcdir)/themes/*.*`; for p in $$list; do \
 	  if test -f $$p; then \
-	    echo "  $(INSTALL_PROGRAM) $$p $(DESTRIR)$(datadir)/freeamp/themes/${basename $$p}"; \
-	    $(INSTALL_PROGRAM) $$p $(DESTDIR)$(datadir)/freeamp/themes/${basename $$p}; \
+	    echo "  $(INSTALL_PROGRAM) $$p $(DESTRIR)$(datadir)/freeamp/themes/`basename $$p`"; \
+	    $(INSTALL_PROGRAM) $$p $(DESTDIR)$(datadir)/freeamp/themes/`basename $$p`; \
 	  else :; fi; \
 	done
 

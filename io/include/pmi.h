@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.25 1999/10/19 07:13:00 elrod Exp $
+	$Id: pmi.h,v 1.26 1999/11/12 02:36:18 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMI_H_
@@ -61,7 +61,7 @@ public:
     virtual Error Close(void);
     virtual Error Open(void) = 0;
     virtual const char* Url(void) const = 0;
-    virtual Error Prepare(PullBuffer *&pBuffer, bool bStartThread = true) = 0;
+    virtual Error Prepare(PullBuffer *&pBuffer) = 0;
 
     virtual Error Seek(int32 & rtn, int32 offset, int32 origin)
                   { return kError_FileSeekNotSupported; };

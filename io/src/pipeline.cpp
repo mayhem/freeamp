@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pipeline.cpp,v 1.7 1999/11/10 01:28:03 robert Exp $
+        $Id: pipeline.cpp,v 1.8 1999/11/12 02:36:23 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -99,19 +99,33 @@ void PipelineUnit::SetPropManager(Properties * p)
     m_pMutex->Release();
 }
 
-void PipelineUnit::ReportError(const char *szError)
+void PipelineUnit::ReportError(const char * format, ...)
 {
     assert(m_pTarget);
 
-    m_pTarget->AcceptEvent(new ErrorMessageEvent(szError));
+    char szBuffer[4096];
+    va_list argptr;
+
+    va_start(argptr, format);
+    vsprintf(szBuffer, format, argptr);
+    va_end(argptr);
+
+    m_pTarget->AcceptEvent(new ErrorMessageEvent(szBuffer));
     m_pTarget->AcceptEvent(new Event(INFO_DoneOutputting));
 }   
 
-void PipelineUnit::ReportStatus(const char *szError)
+void PipelineUnit::ReportStatus(const char * format, ...)
 {
     assert(m_pTarget);
 
-    m_pTarget->AcceptEvent(new StatusMessageEvent(szError));
+    char szBuffer[4096];
+    va_list argptr;
+
+    va_start(argptr, format);
+    vsprintf(szBuffer, format, argptr);
+    va_end(argptr);
+
+    m_pTarget->AcceptEvent(new StatusMessageEvent(szBuffer));
 }   
 
 void PipelineUnit::Pause(void)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.26 1999/10/20 23:39:24 robert Exp $
+        $Id: obsinput.cpp,v 1.27 1999/11/12 02:36:21 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -117,7 +117,7 @@ bool ObsInput::CanHandle(const char *szUrl, char *szTitle)
    return bRet;
 }
 
-Error ObsInput::Prepare(PullBuffer *&pBuffer, bool bStartThread)
+Error ObsInput::Prepare(PullBuffer *&pBuffer)
 {
     int iBufferSize = iDefaultBufferSize;
     Error result;
@@ -139,15 +139,12 @@ Error ObsInput::Prepare(PullBuffer *&pBuffer, bool bStartThread)
     result = Open();
     if (!IsError(result))
     {
-        if (bStartThread)
-        {
-            result = Run();
-            if (IsError(result))
-            {
-                ReportError("Could not run the input plugin.");
-                return result;
-            }
-        }
+       result = Run();
+       if (IsError(result))
+       {
+           ReportError("Could not run the input plugin.");
+           return result;
+       }
     }
     else
     {

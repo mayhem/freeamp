@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.104 1999/11/08 22:38:15 robert Exp $
+   $Id: xinglmc.cpp,v 1.105 1999/11/12 02:36:24 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -900,13 +900,12 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
    iOutPercent = m_pOutputBuffer->GetBufferPercentage();
 
    time(&iNow);
-  	if (iNow != m_iBufferUpdate)
-  	{
-       m_pTarget->AcceptEvent(new StreamBufferEvent(false, iInPercent, 
-                                                    iOutPercent));
-  	    fflush(stdout);
-       m_iBufferUpdate = iNow;
-  	}
+   if (iNow != m_iBufferUpdate)
+   {
+      m_pTarget->AcceptEvent(new StreamBufferEvent(false, iInPercent, 
+                                                   iOutPercent));
+      m_iBufferUpdate = iNow;
+   }
 
    // If the input buffer is getting too full, discard some bytes.
    // This could be caused by a soundcard with slow playback or 
@@ -927,6 +926,7 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
        assert(m_iBufferUpInterval > 0);
        assert(m_iBitRate > 0);
 
+       ReportStatus("Buffering up...");
        m_pTarget->AcceptEvent(new StreamBufferEvent(true, iInPercent, 
                                                     iOutPercent));
        for(; !m_bExit;)
@@ -947,6 +947,7 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
        }
        m_pTarget->AcceptEvent(new StreamBufferEvent(false, iInPercent, 
                                                     iOutPercent));
+       ReportStatus("Playing stream...");
    }
 
 	return BlockingBeginRead(pBuffer, iBytesNeeded);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pipeline.h,v 1.3 1999/10/20 23:39:21 robert Exp $
+	$Id: pipeline.h,v 1.4 1999/11/12 02:36:16 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PIPELINE_H_
@@ -62,8 +62,8 @@ public:
     virtual void  SetPropManager(Properties *);
     virtual void  SetInputBuffer(PullBuffer *pBuffer);
 
-    virtual void  ReportError(const char *szError);
-    virtual void  ReportStatus(const char *szError);
+    virtual void  ReportError(const char * format, ...);
+    virtual void  ReportStatus(const char * format, ...);
     virtual void  DebugPrint(void);
 
 protected:

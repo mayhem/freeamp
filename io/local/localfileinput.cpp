@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.23 1999/10/20 23:39:22 robert Exp $
+        $Id: localfileinput.cpp,v 1.24 1999/11/12 02:36:19 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -89,7 +89,7 @@ LocalFileInput::~LocalFileInput()
 
 }
 
-Error LocalFileInput::Prepare(PullBuffer *&pBuffer, bool bStartThread)
+Error LocalFileInput::Prepare(PullBuffer *&pBuffer)
 {
     int32 iBufferSize = iDefaultBufferSize;
     Error result;
@@ -110,14 +110,11 @@ Error LocalFileInput::Prepare(PullBuffer *&pBuffer, bool bStartThread)
     result = Open();
     if (!IsError(result))
     {
-        if (bStartThread)
+        result = Run();
+        if (IsError(result))
         {
-            result = Run();
-            if (IsError(result))
-            {
-                ReportError("Could not run the input plugin.");
-                return result;
-            }
+            ReportError("Could not run the input plugin.");
+            return result;
         }
     }
     else

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.17 1999/10/19 07:13:00 elrod Exp $
+        $Id: httpinput.h,v 1.18 1999/11/12 02:36:13 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_HTTPINPUT_H_
@@ -61,7 +61,7 @@ class HttpInput:public PhysicalMediaInput
    HttpInput(char *path);
    virtual ~ HttpInput(void);
 
-   virtual Error Prepare(PullBuffer *&pBuffer, bool bStartThread);  
+   virtual Error Prepare(PullBuffer *&pBuffer);  
    virtual Error Run(void);  
 
    virtual bool  CanHandle(const char *szUrl, char *szTitle);

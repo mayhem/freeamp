@@ -20,7 +20,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-        $Id: cdaudio.cpp,v 1.6 2000/10/09 19:41:05 ijr Exp $
+        $Id: cdaudio.cpp,v 1.7 2000/10/27 10:04:06 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -58,9 +58,9 @@ cd_init_device(string device_name)
 
    if (ret != 0) 
    {
-	   mciGetErrorString(ret, mciCommand, 128);
-	   sprintf(mciReturn, "error opening %s", device_name.c_str());
-	   MessageBox(NULL, mciReturn, mciCommand, MB_OK|MB_SETFOREGROUND);
+//	   mciGetErrorString(ret, mciCommand, 128);
+//	   sprintf(mciReturn, "error opening %s", device_name.c_str());
+//	   MessageBox(NULL, mciReturn, mciCommand, MB_OK|MB_SETFOREGROUND);
 	   return -1;
    }
 

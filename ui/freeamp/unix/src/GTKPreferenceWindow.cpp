@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.59 2000/10/12 20:22:40 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.60 2000/10/27 10:04:06 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1865,7 +1865,7 @@ void GTKPreferenceWindow::AddProfileEvent(void)
         return;
 
     char *name = gtk_entry_get_text(GTK_ENTRY(profileEntry));
-    if (name) {
+    if (name && strlen(name) > 0) {
         vector<string> *profiles = aps->GetKnownProfiles();
         if (!profiles || profiles->size() == 0) 
             firstProfile = true;

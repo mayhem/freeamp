@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.64 2000/10/12 20:22:40 ijr Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.65 2000/10/27 10:04:06 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1960,7 +1960,7 @@ bool Win32PreferenceWindow::PrefProfileProc(HWND hwnd,
                     memset(szCurSel, 0, sizeof(szCurSel));
                     Edit_GetText(hwndAddProfile, szCurSel, sizeof(szCurSel));
                     
-                    if (strlen(szCurSel) != 0)
+                    if (strlen(szCurSel) > 0)
                     {
                         APSInterface *pAPS = m_pContext->aps;
                         if (pAPS)
@@ -3983,7 +3983,8 @@ bool Win32PreferenceWindow::PrefBrowserProc(HWND hwnd,
                     m_proposedValues.playlistHeaderColumns = columns;
                     break;
                 }
-            }       
+            }    
+            break;   
         }
 
         case UWM_HELP:

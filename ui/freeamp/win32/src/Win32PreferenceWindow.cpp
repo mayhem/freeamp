@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.11 1999/11/02 20:25:08 robert Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.12 1999/11/05 01:19:46 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -29,6 +29,13 @@ ____________________________________________________________________________*/
 #include <commctrl.h>
 #include <stdlib.h>
 #include <assert.h>
+
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #include <sstream>
 #include <set>

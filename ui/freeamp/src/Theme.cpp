@@ -18,8 +18,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.8 1999/11/02 20:25:03 robert Exp $
+   $Id: Theme.cpp,v 1.9 1999/11/05 01:19:43 robert Exp $
 ____________________________________________________________________________*/ 
+
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -90,6 +97,7 @@ Theme::Theme(FAContext *context)
     m_oReloadWindow = string("");
     m_eCurrentControl = eUndefinedControl;
     m_pThemeMan = new ThemeManager(m_pContext);
+    m_bThemeLoaded = false;
     
     string funkyName = "Frunobulax"; 
 #ifdef WIN32
@@ -310,7 +318,9 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
              pNewWindow = pMainWindow;
           m_pWindow->VulcanMindMeld(pNewWindow);
        }   
+       m_bThemeLoaded = true;
     }   
+       
     return eRet;
 }
 
@@ -339,6 +349,9 @@ Error Theme::SwitchWindow(const string &oWindowName)
 
 Error Theme::Run(Pos &oWindowPos)
 {
+    if (!m_bThemeLoaded)
+       return kError_YouScrewedUp;
+       
     InitWindow();
     return m_pWindow->Run(oWindowPos);
 }

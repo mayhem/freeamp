@@ -18,11 +18,18 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.5 1999/11/03 19:45:09 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.6 1999/11/05 01:19:39 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
 #define INCLUDED_FREEAMP_THEME_H
+
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #include "ui.h"
 #include "thread.h"

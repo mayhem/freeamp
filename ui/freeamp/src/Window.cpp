@@ -18,8 +18,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.5 1999/11/03 19:45:13 robert Exp $
+   $Id: Window.cpp,v 1.6 1999/11/05 01:19:44 robert Exp $
 ____________________________________________________________________________*/ 
+
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #include <stdio.h>
 #include <algorithm>

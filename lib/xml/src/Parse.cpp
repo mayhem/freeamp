@@ -18,8 +18,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.2 1999/10/19 07:13:06 elrod Exp $
+   $Id: Parse.cpp,v 1.3 1999/11/05 01:19:38 robert Exp $
 ____________________________________________________________________________*/ 
+
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #include <stdio.h>
 #include <map>

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: uilib.h,v 1.3 1998/10/16 19:35:35 elrod Exp $
+	$Id: uilib.h,v 1.4 1998/10/16 20:29:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UILIB_H_
@@ -32,11 +32,10 @@ ____________________________________________________________________________*/
 extern "C" {
 #endif
 
-void Initialize(CIORef inputRef, CIORef outputRef);
+void Initialize(UIRef inputRef, UIRef outputRef);
 
-void SetTarget(CIORef ref, EventQueue* queue);
-int32 AcceptEvent(CIORef ref, Event* event);
-void Cleanup(CIORef ref);
+EventQueue* Target(UIRef ref);
+void Cleanup(UIRef ref);
 
 #ifdef __cplusplus
 } //extern "C"

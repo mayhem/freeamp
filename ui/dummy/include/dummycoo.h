@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dummycoo.h,v 1.1 1998/10/13 09:13:01 elrod Exp $
+	$Id: dummycoo.h,v 1.2 1998/10/16 20:29:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _DUMMY_COO_H_
@@ -28,10 +28,9 @@ ____________________________________________________________________________*/
 #include "player.h"
 #include "semaphore.h"
 
-class DummyCOO : public COO {
+class DummyCOO : public UserInterface {
  public:
-    virtual int32 acceptCOOEvent(Event *);
-    virtual void setArgs(int a, char**b) {}
+    virtual int32 AcceptEvent(Event *);
     DummyCOO(Semaphore*);
     virtual ~DummyCOO();
 

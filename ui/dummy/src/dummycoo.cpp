@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dummycoo.cpp,v 1.3 1998/10/13 22:09:05 jdw Exp $
+	$Id: dummycoo.cpp,v 1.4 1998/10/16 20:29:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "dummycoo.h"
@@ -32,7 +32,7 @@ DummyCOO::~DummyCOO() {
     //cout << "DummyCOO: being deleted..." << endl;
 }
 
-int32 DummyCOO::acceptCOOEvent(Event *pe) {
+int32 DummyCOO::AcceptEvent(Event *pe) {
     if (pe) {
   	//cout << "DummyCOO::acceptEvent: processing " << pe->getEvent() << "..." << endl;
         switch (pe->getEvent()) {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.6 1998/10/15 13:33:49 elrod Exp $
+	$Id: player.h,v 1.7 1998/10/16 20:29:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -55,8 +55,8 @@ class Player : public EventQueue {
     ~Player();
 
     virtual int32 AcceptEvent(Event *);
-    int32 RegisterCOO(COO *);
-    int32 RegisterCIO(CIO *);
+    int32 RegisterCOO(EventQueue* queue);
+    int32 RegisterCIO(EventQueue* queue);
     int32 RegisterLMCs(LMCRegistry* registry);
     int32 RegisterPMIs(PMIRegistry* registry);
     int32 RegisterPMOs(PMORegistry* registry);
@@ -86,10 +86,10 @@ class Player : public EventQueue {
                                              // and COO's haven't sent in 
                                              // their "Ready To Die" infos.
     int32                   imQuitting;
-    Vector<COO *>           *coo_vector;
-    Vector<CIO *>           *cio_vector;
-    Vector<COO *>           *coo_death_vector;
-    Vector<CIO *>           *cio_death_vector;
+    Vector<EventQueue *>    *coo_vector;
+    Vector<EventQueue *>    *cio_vector;
+    Vector<EventQueue *>    *coo_death_vector;
+    Vector<EventQueue *>    *cio_death_vector;
     
     Mutex                   *coManipLock;
     Mutex                   *m_lmcMutex;

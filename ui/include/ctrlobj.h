@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ctrlobj.h,v 1.4 1998/10/16 19:35:35 elrod Exp $
+	$Id: ctrlobj.h,v 1.5 1998/10/16 20:29:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _CTRLOBJ_H_
@@ -27,25 +27,23 @@ ____________________________________________________________________________*/
 #include "event.h"
 
 
-class CommandInterface {
+class UserInterface : public EventQueue {
  public:
     virtual int32 AcceptEvent(Event *) = 0;
-    virtual void SetTarget(EventQueue* queue);
-    virtual ~CommandInterface() {}
+    virtual ~UserInterface() {}
 };
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct CIO{
+typedef struct UI{
     void*   ref;
 
-    void    (*SetTarget)        (struct CIO*, EventQueue*);
-    int32   (*AcceptEvent)      (struct CIO*, Event *);
-    void    (*Cleanup)          (struct CIO*);
+    EventQueue* (*Target)   (struct UI);
+    void        (*Cleanup)  (struct UI*);
 
-}CIO, *CIORef;
+}UI, *UIRef;
 
 #ifdef __cplusplus
 } // extern "C"

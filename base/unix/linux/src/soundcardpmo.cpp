@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.2 1998/10/14 07:10:54 elrod Exp $
+	$Id: soundcardpmo.cpp,v 1.3 1998/10/14 17:11:11 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -134,7 +134,7 @@ bool SoundCardPMO::Reset(bool user_stop) {
     int a;
     ioctl(audio_fd,SNDCTL_DSP_RESET,&a);
     if (user_stop) {
-	Initialize(NULL);
+	Init(NULL);
     }
 }
 

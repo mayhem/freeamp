@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.4 1998/10/14 00:31:24 jdw Exp $
+##      $Id: Makefile.am,v 1.5 1998/10/14 17:11:11 jdw Exp $
 ##
 ############################################################################
 
@@ -33,7 +33,7 @@ PRG = freeamp decspeed
 ALLLDADD = @top_srcdir@/base/unix/@target_os@/src/*.o \
 	  @top_srcdir@/io/local/*.o \
 	  @top_srcdir@/ui/cmdline/*.o \
-	  @top_srcdir@/lmc/xingmp3/*.o \
+	  @top_srcdir@/lmc/xingmp3/src/*.o \
 	  @top_srcdir@/ui/dummy/src/*.o \
 	  -lpthread -lm
 FALDADD = @top_srcdir@/base/src/*.o $(ALLLDADD)
@@ -42,7 +42,7 @@ MYDEPS = @top_srcdir@/base/unix/@target_os@/src/libfasys.a \
          @top_srcdir@/base/src/libfabase.a \
          @top_srcdir@/io/local/libfaiolocal.a \
          @top_srcdir@/ui/cmdline/libfauicmdline.a \
-         @top_srcdir@/lmc/xingmp3/libfalmcxingmp3.a \
+         @top_srcdir@/lmc/xingmp3/src/libfalmcxingmp3.a \
 	 @top_srcdir@/ui/dummy/src/libfauidummy.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
 endif

@@ -19,15 +19,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: decoder_speed.cpp,v 1.2 1998/10/13 21:53:29 jdw Exp $
+	$Id: decoder_speed.cpp,v 1.3 1998/10/14 17:11:11 jdw Exp $
 ____________________________________________________________________________*/
 
 
 #include <iostream.h>
 
-#include "lmc/include/xinglmc.h"
+#include "lmc/xingmp3/include/xinglmc.h"
 #include "base/unix/linux/include/soundcardpmo.h"
-#include "io/include/localfileinput.h"
+#include "io/local/localfileinput.h"
 
 
 

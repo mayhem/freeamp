@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.14 1999/10/16 23:34:41 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.15 1999/10/17 01:00:08 robert Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -142,6 +142,7 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
                 case IDOK:
                    g_ui->HideBrowser();
                 return 1;
+                case ID_FILE_SEARCHFORMUSIC:
                 case IDC_SEARCH:
                    g_ui->StartMusicSearch();
                 return 1;
@@ -180,7 +181,18 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
                 case ID_FILE_NEWPLAYLIST:
                    g_ui->NewPlaylist();
                 return 1;
-                
+                case ID_SORT_ARTIST:
+                case ID_SORT_ALBUM:
+                case ID_SORT_TITLE:
+                case ID_SORT_LENGTH:
+                case ID_SORT_YEAR:
+                case ID_SORT_TRACK:
+                case ID_SORT_GENRE:
+                case ID_SORT_LOCATION:
+                case ID_SORT_RANDOMIZE:
+                case IDC_RANDOMIZE:
+                   g_ui->SortEvent(LOWORD(wParam));
+                return 1;
             }    
         }        
     }
@@ -285,6 +297,7 @@ void MusicBrowserUI::ExpandCollapseEvent(void)
     sItem.cch = strlen(sItem.dwTypeData);
     SetMenuItemInfo(hMenu, ID_VIEW_MUSICCATALOG, false, &sItem);
     
+    SendMessage(m_hStatus, SB_SETTEXT, 0, (LPARAM)"");
     InvalidateRect(m_hWnd, NULL, true);
     UpdateWindow(m_hWnd);
 }
@@ -399,11 +412,16 @@ void MusicBrowserUI::InitList(void)
     lvc.iSubItem = 1;
     ListView_InsertColumn(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), 1, &lvc);
 
-    lvc.pszText = "Length";
-    lvc.cx = ((sRect.right-sRect.left)/4) - 3; // width of column in pixels
+    lvc.pszText = "Album";
     lvc.cchTextMax = strlen(lvc.pszText);
     lvc.iSubItem = 2;
     ListView_InsertColumn(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), 2, &lvc);
+
+    lvc.pszText = "Length";
+    lvc.cx = ((sRect.right-sRect.left)/4) - 3; // width of column in pixels
+    lvc.cchTextMax = strlen(lvc.pszText);
+    lvc.iSubItem = 3;
+    ListView_InsertColumn(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), 3, &lvc);
 }
 
 void MusicBrowserUI::InitTree(void)
@@ -450,25 +468,31 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
     if (pTreeView->hdr.idFrom == IDC_MUSICTREE)
     {
 	    if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
-            pTreeView->itemNew.hItem == m_hPlaylistItem &&
-            TreeView_GetChild(
-            GetDlgItem(m_hWnd, IDC_MUSICTREE), m_hPlaylistItem) == NULL)
+            pTreeView->itemNew.hItem == m_hPlaylistItem)
         {    
-            FillPlaylists();
+            if (TreeView_GetChild(GetDlgItem(m_hWnd, IDC_MUSICTREE), 
+                m_hPlaylistItem) == NULL)
+            {    
+                FillPlaylists();
+                return 0;
+            }
             return 0;
-        }
+        }    
         
 	    if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
-            pTreeView->itemNew.hItem == m_hCatalogItem &&
-            TreeView_GetChild(
-            GetDlgItem(m_hWnd, IDC_MUSICTREE), m_hCatalogItem) == NULL)
-        {    
-            FillArtists();
+            pTreeView->itemNew.hItem == m_hCatalogItem)
+        { 
+            if (TreeView_GetChild(GetDlgItem(m_hWnd, IDC_MUSICTREE), 
+                m_hCatalogItem) == NULL)
+            {    
+                FillArtists();
+                return 0;
+            }
             return 0;
-        }
+        }    
         
 	    if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
-            pTreeView->itemNew.lParam > 0 &&
+            pTreeView->itemNew.lParam >= 0 &&
             m_oMusicCrossRefs[pTreeView->itemNew.lParam].iLevel == 1 &&
             TreeView_GetChild(
             GetDlgItem(m_hWnd, IDC_MUSICTREE), pTreeView->itemNew.hItem) == NULL)
@@ -478,7 +502,7 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
         }
         
 	    if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
-            pTreeView->itemNew.lParam > 0 &&
+            pTreeView->itemNew.lParam >= 0 &&
             m_oMusicCrossRefs[pTreeView->itemNew.lParam].iLevel == 2 &&
             TreeView_GetChild(
             GetDlgItem(m_hWnd, IDC_MUSICTREE), pTreeView->itemNew.hItem) == NULL)
@@ -496,7 +520,6 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
 
             if(TreeView_HitTest(GetDlgItem(m_hWnd, IDC_MUSICTREE), &tv_htinfo))
             {
-            
                 sItem.hItem = TreeView_GetSelection(GetDlgItem(m_hWnd, IDC_MUSICTREE)); 
                 sItem.mask = TVIF_PARAM | TVIF_HANDLE;
                 TreeView_GetItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sItem);
@@ -507,8 +530,16 @@ int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
                     if (sItem.lParam < 0)
                     { 
                         vector<string> *p;
-                        p = m_context->browser->m_catalog->m_playlists;
-                        LoadPlaylist((*p)[(-sItem.lParam) - 1]);
+                        int             i = -sItem.lParam;
+                        
+                        if (i != 1)
+                        {
+                            p = m_context->browser->m_catalog->m_playlists;
+                            LoadPlaylist((*p)[(-sItem.lParam) - 1]);
+                        }
+                        else
+                            LoadPlaylist(string(""));
+                            
                         SetFocus(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX));
                     }    
                     else    
@@ -659,7 +690,7 @@ void MusicBrowserUI::FillPlaylists(void)
     int                      iIndex;
 
     sInsert.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_CHILDREN |
-                 TVIF_SELECTEDIMAGE | TVIF_PARAM; 
+                        TVIF_SELECTEDIMAGE | TVIF_PARAM; 
 
     for(i = m_context->browser->m_catalog->m_playlists->begin(), 
         iIndex = 0; 
@@ -667,10 +698,15 @@ void MusicBrowserUI::FillPlaylists(void)
         i++,iIndex++)
     {
        if (!iIndex) 
-          continue;
-          
-       sInsert.item.pszText = (char *)(*i).c_str();
-       sInsert.item.cchTextMax = (*i).length();
+       {
+           sInsert.item.pszText = "Master Playlist";
+           sInsert.item.cchTextMax = strlen(sInsert.item.pszText);
+       }
+       else    
+       {
+           sInsert.item.pszText = (char *)(*i).c_str();
+           sInsert.item.cchTextMax = (*i).length();
+       }
        sInsert.item.iImage = 2;
        sInsert.item.iSelectedImage = 2;
        sInsert.item.cChildren= 0;
@@ -804,10 +840,16 @@ void MusicBrowserUI::UpdatePlaylistList(void)
         sItem.iSubItem = 1;
         ListView_SetItem(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), &sItem);
 
+        sItem.mask = LVIF_TEXT | LVIF_IMAGE;
+        sItem.pszText = (char *)pItem->GetMetaData().Album().c_str();
+        sItem.cchTextMax = pItem->GetMetaData().Album().length();
+        sItem.iSubItem = 2;
+        ListView_SetItem(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), &sItem);
+
         sprintf(szText, "%d", pItem->GetMetaData().Time());
         sItem.pszText = szText;
         sItem.cchTextMax = strlen(szText);
-        sItem.iSubItem = 2;
+        sItem.iSubItem = 3;
         ListView_SetItem(GetDlgItem(m_hWnd, IDC_PLAYLISTBOX), &sItem);
     }
 
@@ -828,6 +870,47 @@ void MusicBrowserUI::UpdateButtonStates()
     EnableWindow(GetDlgItem(m_hWnd, IDC_UP), m_currentindex > 0);
     EnableWindow(GetDlgItem(m_hWnd, IDC_DOWN), 
                  m_currentindex < m_context->plm->CountItems() - 1);
+}
+
+void MusicBrowserUI::SortEvent(int id)
+{
+    PlaylistSortKey key;
+    
+    switch(id)
+    {
+        case ID_SORT_ARTIST:
+             key = kPlaylistSortKey_Artist;
+        break;     
+        case ID_SORT_ALBUM:
+             key = kPlaylistSortKey_Album;
+        break;     
+        case ID_SORT_TITLE:
+             key = kPlaylistSortKey_Title;
+        break;     
+        case ID_SORT_LENGTH:
+             key = kPlaylistSortKey_Time;
+        break;     
+        case ID_SORT_YEAR:
+             key = kPlaylistSortKey_Year;
+        break;     
+        case ID_SORT_TRACK:
+             key = kPlaylistSortKey_Track;
+        break;     
+        case ID_SORT_GENRE:
+             key = kPlaylistSortKey_Genre;
+        break;     
+        case ID_SORT_LOCATION:
+             key = kPlaylistSortKey_Location;
+        break;     
+        case IDC_RANDOMIZE:
+        case ID_SORT_RANDOMIZE:
+             key = kPlaylistSortKey_Random;
+        break;     
+        default:
+             return;
+    }
+    m_context->plm->Sort(key);
+    UpdatePlaylistList();
 }
 
 void MusicBrowserUI::UpdateCatalog(void)

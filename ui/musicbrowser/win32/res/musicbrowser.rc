@@ -32,7 +32,7 @@ CAPTION "Music Browser"
 MENU IDR_MENU1
 FONT 8, "MS Sans Serif"
 BEGIN
-    DEFPUSHBUTTON   "Close",IDOK,307,171,50,14
+    DEFPUSHBUTTON   "Close",IDOK,307,168,50,14
     CONTROL         "Tree1",IDC_MUSICTREE,"SysTreeView32",TVS_HASBUTTONS | 
                     TVS_HASLINES | WS_BORDER | WS_TABSTOP,2,19,134,149,
                     WS_EX_CLIENTEDGE
@@ -43,15 +43,16 @@ BEGIN
     PUSHBUTTON      "Music Search",IDC_SEARCH,70,171,50,14
     PUSHBUTTON      "<< Collapse",IDC_COLLAPSE,4,171,50,14
     PUSHBUTTON      "&Up",IDC_UP,307,21,50,14
-    PUSHBUTTON      "D&elete",IDC_DELETE,307,43,50,14
-    PUSHBUTTON      "&Add",IDC_ADD,307,65,50,14
-    PUSHBUTTON      "&Down",IDC_DOWN,307,87,50,14
-    PUSHBUTTON      "&New List",IDC_NEWLIST,307,123,50,14
-    PUSHBUTTON      "Clear List",IDC_CLEARLIST,307,142,50,14
+    PUSHBUTTON      "D&elete",IDC_DELETE,307,42,50,14
+    PUSHBUTTON      "&Add",IDC_ADD,307,63,50,14
+    PUSHBUTTON      "&Down",IDC_DOWN,307,84,50,14
+    PUSHBUTTON      "&New List",IDC_NEWLIST,307,126,50,14
+    PUSHBUTTON      "Clear List",IDC_CLEARLIST,307,147,50,14
     CONTROL         "List1",IDC_PLAYLISTBOX,"SysListView32",LVS_REPORT | 
                     LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,138,19,166,149,
                     WS_EX_CLIENTEDGE
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,0,357,1
+    PUSHBUTTON      "&Randomize",IDC_RANDOMIZE,307,105,50,14
 END
 
 IDD_OPENURL DIALOG FIXED IMPURE  0, 0, 280, 21
@@ -136,13 +137,14 @@ BEGIN
     POPUP "&Sort"
     BEGIN
         MENUITEM "&Artist",                     ID_SORT_ARTIST
+        MENUITEM "Al&bum",                      ID_SORT_ALBUM
         MENUITEM "&Title",                      ID_SORT_TITLE
         MENUITEM "&Year",                       ID_SORT_YEAR
-        MENUITEM "Track &Number",               ID_SORT_TRACK
+        MENUITEM "Trac&k",                      ID_SORT_TRACK
         MENUITEM "&Genre",                      ID_SORT_GENRE
         MENUITEM "&Length",                     ID_SORT_LENGTH
         MENUITEM "L&ocation",                   ID_SORT_LOCATION
-        MENUITEM "&Randomize",                  ID_SORT_RANDOMIZE
+        MENUITEM "&Random",                     ID_SORT_RANDOMIZE
     END
 END
 

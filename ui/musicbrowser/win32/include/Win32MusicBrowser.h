@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.1.2.11 1999/10/16 23:34:39 robert Exp $
+        $Id: Win32MusicBrowser.h,v 1.1.2.12 1999/10/17 01:00:04 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -93,6 +93,7 @@ class MusicBrowserUI : public UserInterface
     void  OpenPlaylist(void);
     void  NewPlaylist(void);
     void  WritePlaylist(void);
+    void  SortEvent(int id);
  
  protected:
     FAContext *m_context;

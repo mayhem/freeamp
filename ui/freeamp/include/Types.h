@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Types.h,v 1.5 2000/05/15 16:38:23 robert Exp $
+   $Id: Types.h,v 1.6 2000/06/21 08:12:19 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TYPES_H__
@@ -29,6 +29,13 @@ ____________________________________________________________________________*/
 struct Pos
 {
     int x, y;
+
+    Pos(void) { };
+    Pos(const Pos &other) 
+    {
+        x = other.x;
+        y = other.y;
+    }
 };
 
 struct Rect

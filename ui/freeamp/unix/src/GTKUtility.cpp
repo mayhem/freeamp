@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.9 2000/05/24 17:08:34 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.10 2000/06/21 08:12:20 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "config.h"
@@ -56,6 +56,31 @@ void WarpPointer(GdkWindow *win, int x, int y)
 {
     Window window = GDK_WINDOW_XWINDOW(win);
     XWarpPointer(GDK_DISPLAY(), window, window, 0, 0, 0, 0, x, y);
+}
+
+Pos GetFocusPos(void)
+{
+    Window win, tempwin;
+    XWindowAttributes win_attr;
+    int v, rx = -1, ry = -1;
+    char *name;
+    Pos retpos;
+
+    if (XGetInputFocus(GDK_DISPLAY(), &win, &v) &&
+        XFetchName(GDK_DISPLAY(), win, &name) &&
+        strncmp(name, BRANDING, strlen(BRANDING)))
+    {
+        if (XGetWindowAttributes(GDK_DISPLAY(), win, &win_attr)) 
+            XTranslateCoordinates(GDK_DISPLAY(), win, win_attr.root,
+                                  -win_attr.border_width, 
+                                  -win_attr.border_width, &rx, &ry,
+                                  &tempwin);
+    }
+
+    retpos.x = rx;
+    retpos.y = ry;
+
+    return retpos;
 }
 
 static gint theme_timeout(void *c)

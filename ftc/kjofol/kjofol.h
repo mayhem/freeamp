@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: kjofol.h,v 1.3 2000/06/14 10:51:28 ijr Exp $
+   $Id: kjofol.h,v 1.4 2000/06/21 08:12:19 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_KJOFOL_H
@@ -68,6 +68,8 @@ class KJofol : public ThemeFormat
     private:
         string FindRCFile(string &oDir);
 
+        void  ParseRCFile(string rcfile, string windowname, bool dock = false);
+
         Error GetNextLine(char *line);
         bool  TestForComment(char *line);
         void  BuildImageList(string &oDir);
@@ -80,13 +82,14 @@ class KJofol : public ThemeFormat
 
         void HandleBitmap(string &oDir, char *name);
         void HandleButton(string name, string inf, string tip, Rect oRect, 
-                          string bmpname);
+                          string bmpname, bool hasextra, string extrainfo);
         void HandleFont(KJofol_Font font);
         void HandleTextWindow(char *desc, string name, KJofol_Font font);
         void HandleTimeWindow(char *desc, string name, KJofol_Font font);
 
         void Seek(char *desc);
-        void Button(char *desc, string name, string inf, string tip);
+        void Button(char *desc, string name, string inf, string tip, 
+                    bool hasextra = false, string extrainfo = "");
         void VolumeBMP(void);
 
         FAContext *m_context;
@@ -104,6 +107,13 @@ class KJofol : public ThemeFormat
         bool m_understandvolume;
         int m_volxsize;
         int m_volnum;
+
+        string dockrcfilename;
+        bool   hasdock;
+        Pos    dockposxy;
+
+        string winshadercfilename;
+        bool   haswinshade;
 };
 
 #endif

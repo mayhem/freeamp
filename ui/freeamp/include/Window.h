@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.30 2000/06/10 18:47:28 robert Exp $
+   $Id: Window.h,v 1.31 2000/06/21 08:12:19 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -68,6 +68,7 @@ class Window
 
       virtual void SetStayOnTop(bool bStay);
       virtual void SetLiveInToolbar(bool bLive);
+      virtual void SetDockPosition(Pos &oPos);
 
       // The following functions are designed to give access to the 
       // controls via the control's name. 
@@ -164,6 +165,8 @@ class Window
       Mutex                    *m_pUsageMutex;
       Semaphore                *m_pUsageSem;
       int32                     m_iUsageCount;
+      bool                      m_bIsDockWindow;
+      Pos                       m_oDockPos;
 };
 
 #endif

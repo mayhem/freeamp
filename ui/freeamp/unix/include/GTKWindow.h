@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.11 2000/05/14 21:20:46 robert Exp $
+   $Id: GTKWindow.h,v 1.12 2000/06/21 08:12:20 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKWINDOW__H_
@@ -68,6 +68,8 @@ class GTKWindow : public Window
 
      void DropFiles(char *filename);
 
+     void DockCheck(void);
+
      Mutex *m_pMindMeldMutex;
  
    protected:
@@ -81,6 +83,8 @@ class GTKWindow : public Window
      bool quitLoop;
      bool initialized;
      bool m_bMouseInWindow;
+
+     Pos  lastDockPos;
 };
 
 #endif

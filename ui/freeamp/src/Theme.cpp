@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.48 2000/06/13 21:33:50 ijr Exp $
+   $Id: Theme.cpp,v 1.49 2000/06/21 08:12:19 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1185,6 +1185,42 @@ DB
     }
 
 
+    if (oElement == string("DockPosition"))
+    {
+       Pos oPos;
+
+       if (m_pCurrentControl)
+       {
+          m_oLastError = string("The <DockPosition> tag cannot be inside of a "
+                                "<XXXXControl> tag");
+          return kError_InvalidParam;
+       }
+
+       if (m_pCurrentWindow == NULL)
+       {
+          m_oLastError = string("The <DockPosition> tag must be inside of a "
+                                "<Window> tag");
+          return kError_InvalidParam;
+       }
+
+       if (oAttrMap.find("Pos") == oAttrMap.end())
+       {
+          m_oLastError = string("the <DockPosition> tag needs a Pos attribute");
+          return kError_ParseError;
+       }
+
+       eRet = ParsePos(oAttrMap["Pos"], oPos);
+       if (eRet != kError_NoErr)
+       {
+           m_oLastError = string("Improperly formatted Pos coordinates: ") +
+                          oAttrMap["Pos"];
+           return kError_InvalidParam;
+       }
+       m_pCurrentWindow->SetDockPosition(oPos);
+
+       return kError_NoErr;
+    }
+
     if (oElement == string("Position"))
     {
        Rect oRect;
@@ -1230,8 +1266,8 @@ DB
            eRet = ParsePos(oAttrMap["Pos"], oPos);
            if (eRet != kError_NoErr)
            {
-               m_oLastError = string("Improperly formatted Rect coordinates: ") +
-                              oAttrMap["Rect"];
+               m_oLastError = string("Improperly formatted Pos coordinates: ") +
+                              oAttrMap["Pos"];
                return kError_InvalidParam;
            }
            m_pCurrentControl->SetPos(oPos);

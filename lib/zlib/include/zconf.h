@@ -3,10 +3,12 @@
  * For conditions of distribution and use, see copyright notice in zlib.h 
  */
 
-/* @(#) $Id: zconf.h,v 1.2 1999/10/19 07:13:07 elrod Exp $ */
+/* @(#) $Id: zconf.h,v 1.3 2000/03/17 11:15:30 hiro Exp $ */
 
 #ifndef _ZCONF_H
 #define _ZCONF_H
+
+#include "config.h"
 
 /*
  * If you *really* need a unique prefix for all types and library functions,

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.56 1999/04/18 07:05:06 elrod Exp $
+	$Id: freeampui.cpp,v 1.57 1999/04/19 23:30:35 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -85,7 +85,6 @@ extern "C" FreeAmpUI *Initialize()
 {
     return new FreeAmpUI();
 }
-
 
 INT 
 WINAPI 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.7 1999/04/21 04:20:59 elrod Exp $
+	$Id: utility.h,v 1.7.8.1 1999/08/27 03:09:42 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UTILITY_H_
@@ -29,8 +29,11 @@ ____________________________________________________________________________*/
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
 
+#include <vector>
+
+using namespace std;
+
 /* project headers */  
-#include "list.h"
 #include "dib.h"
 #include "preferences.h"
 
@@ -49,7 +52,7 @@ DetermineControlRegions(DIB* bitmap,
 bool FileOpenDialog(HWND hwnd, 
                     const char* title,
                     const char* filter,
-                    List<char*>* fileList,
+                    vector<char*>* fileList,
                     Preferences* prefs);
 
 bool FileSaveDialog(HWND hwnd, 

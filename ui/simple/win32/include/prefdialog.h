@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: prefdialog.h,v 1.1 1999/04/27 23:00:33 elrod Exp $
+	$Id: prefdialog.h,v 1.1.8.1 1999/08/27 03:09:44 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PREF_DIALOG_H_
@@ -31,7 +31,7 @@ ____________________________________________________________________________*/
 
 /* project headers */
 #include "config.h"
-#include "player.h"
+#include "preferences.h"
 
 bool DisplayPreferences(HWND hwndParent, Preferences* prefs);
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.17 1999/08/06 07:18:34 elrod Exp $
+	$Id: cmdlineUI.cpp,v 1.17.2.1 1999/08/27 03:09:42 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -64,7 +64,7 @@ int getKey() {
 }
 #endif
 
-void cmdlineUI::SetPlayListManager(PlayListManager *plm) {
+void cmdlineUI::SetPlaylistManager(PlaylistManager *plm) {
     m_plm = plm;
 }
 

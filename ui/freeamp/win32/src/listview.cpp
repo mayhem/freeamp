@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.cpp,v 1.16 1999/04/02 19:34:30 elrod Exp $
+	$Id: listview.cpp,v 1.16.12.1 1999/08/27 03:09:43 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -56,7 +56,7 @@ View(hwnd, parent, viewRegion)
     m_pressedX = 0;
     m_pressedY = 0;
     m_dragging = false;
-    m_list = new List<ListItem*>();
+    m_list = new vector<ListItem*>();
     m_scroller = NULL;
 
     m_thread = NULL;
@@ -81,7 +81,7 @@ View(hwnd, parent, viewRect)
     m_pressedX = 0;
     m_pressedY = 0;
     m_dragging = false;
-    m_list = new List<ListItem*>();
+    m_list = new vector<ListItem*>();
     m_scroller = NULL;
 
     m_thread = NULL;
@@ -92,7 +92,11 @@ ListView::
 ~ListView()
 {
     m_autoscroll = false;
-    m_list->DeleteAll();
+
+    uint32 count = m_list->size();
+
+    for(uint32 i=0;i<count;i++)
+        delete m_list->at(i);
     delete m_list;
 }
 
@@ -495,13 +499,13 @@ LeftButtonUp(int32 x, int32 y, int32 modifiers)
                 //OutputDebugString(buffer);
 
                 // remove selected items from list
-                List<ListItem*>* selectList = new List<ListItem*>();
-                List<PlayListItem*>* playlistList = new List<PlayListItem*>();
+                vector<ListItem*>* selectList = new vector<ListItem*>;
+                vector<PlaylistItem*>* playlistList = new vector<PlaylistItem*>;
 
 	            i = m_lastSelected;
 
                 FreeAmpUI* ui = (FreeAmpUI*)GetWindowLong(Window(), GWL_USERDATA);
-                PlayListManager* plm = ui->GetPlayListManager();
+                PlaylistManager* plm = ui->GetPlaylistManager();
 
 	            while(item = ItemAt(i--)) 
                 {
@@ -510,11 +514,11 @@ LeftButtonUp(int32 x, int32 y, int32 modifiers)
                         RemoveItem(item);
                         //item->Select(); // remove deselects
 
-                        PlayListItem* playlistItem;     
-                        playlistItem = (PlayListItem*)item->UserValue();
+                        PlaylistItem* playlistItem;     
+                        playlistItem = (PlaylistItem*)item->UserValue();
 
-                        selectList->AddItem(item, 0);
-                        playlistList->AddItem(playlistItem, 0);
+                        selectList->insert(selectList->begin(), item);
+                        playlistList->insert(playlistList->begin(), playlistItem);
                     }
 	            }
 
@@ -523,7 +527,7 @@ LeftButtonUp(int32 x, int32 y, int32 modifiers)
 
                 AddList(selectList, index);
 
-                plm->MoveList(playlistList, index);
+                plm->MoveItems(playlistList, index);
 
                 delete selectList;
                 delete playlistList;
@@ -551,11 +555,11 @@ LeftButtonDoubleClick(int32 x, int32 y, int32 modifiers)
     if(index >= 0)
     {
         FreeAmpUI* ui = (FreeAmpUI*)GetWindowLong(Window(), GWL_USERDATA);
-        PlayListManager* plm = ui->GetPlayListManager(); 
+        PlaylistManager* plm = ui->GetPlaylistManager(); 
 
         ui->Target()->AcceptEvent(new Event(CMD_Stop));
 
-        plm->SetCurrent(index); 
+        plm->SetCurrentIndex(index); 
 
         if (ui->State() == UIState_Paused)
             ui->Target()->AcceptEvent(new Event(CMD_PlayPaused));
@@ -715,12 +719,10 @@ AddItem(ListItem* item)
 {
     bool result = false;
 
-    if(m_list->AddItem(item))
-    {
-		result = true;
-        UpdateScrollBar();
-        Invalidate();
-	}
+    m_list->push_back(item);
+	result = true;
+    UpdateScrollBar();
+    Invalidate();
 
     return result;
 }
@@ -731,33 +733,31 @@ AddItem(ListItem* item, int32 index)
 {
     bool result = false;
 
-    if(m_list->AddItem(item, index))
+    m_list->insert(&(*m_list)[index], item);
+	result = true;
+
+    // adjust selection range if need be
+	if(m_firstSelected != -1 && 
+        index <= m_firstSelected)
     {
-		result = true;
+		m_firstSelected++;
+    }
 
-        // adjust selection range if need be
-	    if(m_firstSelected != -1 && 
-            index <= m_firstSelected)
-        {
-		    m_firstSelected++;
-        }
+	if(m_lastSelected != -1 && 
+        index <= m_lastSelected)
+    {
+		m_lastSelected++;
+    }
 
-	    if(m_lastSelected != -1 && 
-            index <= m_lastSelected)
-        {
-		    m_lastSelected++;
-        }
-
-        UpdateScrollBar();
-        Invalidate();
-	}
+    UpdateScrollBar();
+    Invalidate();
 
     return result;
 }
 
 bool 
 ListView::
-AddList(List<ListItem*>* items)
+AddList(vector<ListItem*>* items)
 {
     bool result = false;
 
@@ -768,32 +768,29 @@ AddList(List<ListItem*>* items)
 
 bool 
 ListView::
-AddList(List<ListItem*>* items, int32 index)
+AddList(vector<ListItem*>* items, int32 index)
 {
-    bool result = false;
+    bool result = true;
 
-    result = m_list->AddList(*items, index);
+    m_list->insert(&(*m_list)[index], items->begin(), items->end());
 
-    if(result)
+    int32 count = items->size();
+
+    // adjust selection range if need be
+	if(m_firstSelected != -1 && 
+        index <= m_firstSelected)
     {
-        int32 count = items->CountItems();
-
-        // adjust selection range if need be
-	    if(m_firstSelected != -1 && 
-            index <= m_firstSelected)
-        {
-		    m_firstSelected += count;
-        }
-
-	    if(m_lastSelected != -1 && 
-            index <= m_lastSelected)
-        {
-		    m_lastSelected += count;
-        }
-
-        UpdateScrollBar();
-        Invalidate();
+		m_firstSelected += count;
     }
+
+	if(m_lastSelected != -1 && 
+        index <= m_lastSelected)
+    {
+		m_lastSelected += count;
+    }
+
+    UpdateScrollBar();
+    Invalidate();
 
     return result;
 }
@@ -825,8 +822,10 @@ RemoveItem(int32 index)
 		    Deselect(index);
         }
 
-        if(result && m_list->RemoveItem(index)) 
+        if(result) 
         {
+
+            m_list->erase(&(*m_list)[index]);
 
 		    if(m_firstSelected != -1 && 
                 index < m_firstSelected)
@@ -873,11 +872,11 @@ bool
 ListView::
 RemoveAll()
 {
-    bool result = false;
+    bool result = true;
 
     if(CountItems())
     {
-        result = m_list->RemoveAll();
+        m_list->clear();
 
         m_firstVisible = 0;
         m_firstSelected = -1;
@@ -899,13 +898,13 @@ DeleteSelection()
 
     // remove selected items from list
     //List<ListItem*>* selectList = new List<ListItem*>();
-    List<PlayListItem*>* playlistList = new List<PlayListItem*>();
+    vector<PlaylistItem*>* playlistList = new vector<PlaylistItem*>;
 
     FreeAmpUI* ui = (FreeAmpUI*)GetWindowLong(Window(), GWL_USERDATA);
-    PlayListManager* plm = ui->GetPlayListManager();
+    PlaylistManager* plm = ui->GetPlaylistManager();
 
     ListItem* listItem = NULL;
-    PlayListItem* playlistItem = NULL;
+    PlaylistItem* playlistItem = NULL;
     int32 i = m_lastSelected;
 
 	while(listItem = ItemAt(i--)) 
@@ -916,22 +915,21 @@ DeleteSelection()
 
             RemoveItem(listItem);
 
-            playlistItem = (PlayListItem*)listItem->UserValue();
+            playlistItem = (PlaylistItem*)listItem->UserValue();
 
-            playlistList->AddItem(playlistItem);
+            playlistList->push_back(playlistItem);
 
             delete listItem;
         }
 	}
 
-    plm->RemoveList(playlistList);
+    plm->RemoveItems(playlistList);
 
     i = 0;
+    int32 count = playlistList->size();
 
-    while(playlistItem = playlistList->ItemAt(i++)) 
-    {
-        delete playlistItem;
-    }
+    for(i=0;i<count;i++)
+        delete playlistList->at(i);
 
     delete playlistList;
 
@@ -967,7 +965,7 @@ ItemAt(int32 index) const
 {
     ListItem* result = NULL;
 
-    result = m_list->ItemAt(index);
+    result = m_list->at(index);
 
     return result;
 }
@@ -1013,9 +1011,26 @@ int32
 ListView::
 IndexOf(ListItem* item) const
 {
-    int32 result = 0;
+    int32 result = -1;
+    int32 index = 0;
+    int32 size = 0;
 
-    result = m_list->IndexOf(item);
+    assert(m_list);
+    assert(item);
+
+    if(m_list && item)
+    {
+        size = m_list->size();
+
+        for(index = 0; index < size; index++)
+        {
+            if(item == m_list->at(index))
+            {
+                result = index;
+                break;
+            }
+        }
+    }
 
     return result;
 }
@@ -1026,7 +1041,7 @@ FirstItem() const
 {
     ListItem* result = NULL;
 
-    result = m_list->FirstItem();
+    result = m_list->at(0);
 
     return result;
 }
@@ -1037,7 +1052,10 @@ LastItem() const
 {
     ListItem* result = NULL;
 
-    result = m_list->LastItem();
+    int32 size = m_list->size();
+
+    if(size)
+        result = m_list->at(size);
 
     return result;
 }
@@ -1048,7 +1066,7 @@ HasItem(ListItem* item) const
 {
     bool result = false;
 
-    result = m_list->HasItem(item);
+    result = (IndexOf(item) != -1);
 
     return result;
 }
@@ -1059,7 +1077,7 @@ CountItems() const
 {
     int32 result = 0;
 
-    result = m_list->CountItems();
+    result = m_list->size();
 
     return result;
 }
@@ -1068,7 +1086,12 @@ void
 ListView::
 MakeEmpty()
 {
-    m_list->DeleteAll();
+    int32 count = m_list->size();
+
+    for(int32 i=0;i<count;i++)
+        delete m_list->at(i);
+
+    m_list->clear();
 }
 
 bool	    
@@ -1077,7 +1100,7 @@ IsEmpty() const
 {
     bool result = false;
 
-    result = m_list->IsEmpty();
+    result = m_list->size() == 0;
 
     return result;
 }
@@ -1090,7 +1113,7 @@ DoForEach(bool (*func)(ListItem*))
 
 	for(int32 i = 0; i < count; i++)
     {
-		if((*func)((ListItem *) m_list->ItemAt(i)))
+		if((*func)((ListItem *) m_list->at(i)))
         {
 			break;
         }
@@ -1105,18 +1128,11 @@ DoForEach(bool (*func)(ListItem*, void*), void* cookie)
 
 	for(int32 i = 0; i < count; i++)
     {
-		if((*func)((ListItem *) m_list->ItemAt(i), cookie))
+		if((*func)((ListItem *) m_list->at(i), cookie))
         {
 			break;
         }
     }
-}
-
-const ListItem**  
-ListView::
-Items() const
-{
-    return (const ListItem**)(m_list->Items());
 }
 
 void        
@@ -1256,7 +1272,7 @@ IsItemSelected(int32 index) const
 {
     bool result = false;
 
-    ListItem* item = m_list->ItemAt(index);
+    ListItem* item = m_list->at(index);
 	result = item ? item->IsSelected() : false;
 
     return result;

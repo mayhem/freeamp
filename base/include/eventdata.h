@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.30 1999/07/27 23:58:13 elrod Exp $
+        $Id: eventdata.h,v 1.30.4.1 1999/08/27 03:09:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -28,11 +28,14 @@ ____________________________________________________________________________*/
 #include <string.h>
 #include <stdlib.h>
 
+#include <vector>
+using namespace std;
+
 //#include "lmc.h"
 // #include "playlist.h"
 #include "event.h"
 #include "id3v1.h"
-#include "list.h"
+#include "playlist.h"
 
 class     LogicalMediaConverter;
 
@@ -97,7 +100,7 @@ class     StatusMessageEvent:public Event
    }
 };
 
-class     PlayListItem;
+class     PlaylistItem;
 class     PLMGetMediaTitleEvent:public Event
 {
    public:
@@ -111,18 +114,18 @@ class     PLMGetMediaTitleEvent:public Event
    {
    };
 
-   void      SetPlayListItem(PlayListItem * pItem)
+   void      SetPlaylistItem(PlaylistItem * pItem)
    {
       m_pItem = pItem;
    }
-   PlayListItem *GetPlayListItem(void)
+   PlaylistItem *GetPlaylistItem(void)
    {
       return m_pItem;
    }
 
    private:
 
-             PlayListItem * m_pItem;
+             PlaylistItem * m_pItem;
 
 };
 
@@ -130,34 +133,38 @@ class     MediaInfoEvent:public Event
 {
    public:
 
-   List < Event * >*m_childEvents;
-   bool      m_filled;
-   float     m_totalSeconds;
-   int32     m_indexOfSong;
-   int32     m_totalSongs;
-   char      m_filename[512];
-   uint32    m_plmID;
+   vector<Event*>*  m_childEvents;
+   bool             m_filled;
+   float            m_totalSeconds;
+   int32            m_indexOfSong;
+   int32            m_totalSongs;
+   char             m_filename[512];
+   uint32           m_plmID;
 
    virtual ~ MediaInfoEvent()
    {
       if (m_childEvents)
       {
-         m_childEvents->DeleteAll();
-         delete    m_childEvents;
-                   m_childEvents = NULL;
+            uint32 count = m_childEvents->size();
+
+            for(uint32 i=0; i<count;i++)
+                delete m_childEvents->at(i);
+
+            delete    m_childEvents;
+            m_childEvents = NULL;
       }
    }
+
    MediaInfoEvent()
    {
       m_type = INFO_MediaInfo;
       m_filled = false;
       m_filename[0] = '\0';
-      m_childEvents = new List < Event * >();
+      m_childEvents = new vector < Event * >;
    }
+
    MediaInfoEvent(MediaInfoEvent &other)
    {
-      Event *pEvent;
-
       m_type = other.m_type;
       m_filled = other.m_filled;
       m_totalSeconds = other.m_totalSeconds;
@@ -165,21 +172,26 @@ class     MediaInfoEvent:public Event
       m_totalSongs = other.m_totalSongs;
       strcpy(m_filename, other.m_filename);
 
-      m_childEvents = new List <Event *>();
+      m_childEvents = new vector <Event *>;
 
-      for(;;)
+      uint32 count = other.m_childEvents->size();
+
+      m_childEvents->insert(m_childEvents->end(), 
+                            other.m_childEvents->begin(),
+                            other.m_childEvents->end());
+
+      for(uint32 i=0; i<count;i++)
       {
-          pEvent = other.m_childEvents->RemoveItem(0);
-          if (pEvent == NULL)
-              break;
-
-          m_childEvents->AddItem(pEvent, 0);
+          delete other.m_childEvents->at(i);
       }
+
+      other.m_childEvents->clear();
    }
+
    MediaInfoEvent(const char *fn,
                   float ts)
    {
-      m_childEvents = new List < Event * >();
+      m_childEvents = new vector < Event * >;
       m_filled = true;
       m_type = INFO_MediaInfo;
       m_totalSeconds = ts;
@@ -200,7 +212,7 @@ class     MediaInfoEvent:public Event
    {
       if (pE)
       {
-         m_childEvents->AddItem(pE);
+         m_childEvents->push_back(pE);
       }
    }
 };
@@ -557,6 +569,39 @@ public:
       strncpy(szTitle, m_streamTitle, iSize - 1);
       szTitle[iSize - 1] = 0;
    }
+};
+
+class PlaylistItemUpdatedEvent : public Event {
+private:
+	PlaylistItem* m_item;
+public:
+	PlaylistItemUpdatedEvent(PlaylistItem* item) 
+    { m_type = INFO_PlaylistItemUpdated; m_item = item; }
+	virtual ~PlaylistItemUpdatedEvent() {}
+
+	PlaylistItem* UpdatedItem() { return m_item; }
+};
+
+class PlaylistRepeatEvent : public Event {
+private:
+	RepeatMode m_rm;
+public:
+	PlaylistRepeatEvent(RepeatMode rm) 
+    { m_type = INFO_PlaylistRepeat; m_rm = rm; }
+	virtual ~PlaylistRepeatEvent() {}
+
+	RepeatMode GetRepeatMode() { return m_rm; }
+};
+
+class PlaylistShuffleEvent : public Event {
+private:
+	bool m_sm;
+public:
+	PlaylistShuffleEvent(bool sm) 
+    { m_type = INFO_PlaylistShuffle; m_sm = sm; }
+	virtual ~PlaylistShuffleEvent() {}
+
+	bool GetShuffleMode() { return m_sm; }
 };
 
 #endif /* _EVENTDATA_H_ */

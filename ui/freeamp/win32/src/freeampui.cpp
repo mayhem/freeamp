@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.67.2.1 1999/08/24 02:59:10 elrod Exp $
+	$Id: freeampui.cpp,v 1.67.2.2 1999/08/27 03:09:42 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -32,10 +32,15 @@ ____________________________________________________________________________*/
 #include <shellapi.h>
 #include <stdio.h>
 #include <string.h>
-#include <iostream.h>
 #include <math.h>
 #include <mmsystem.h >
 #include <sys/stat.h>
+#include <iostream.h>
+
+#include <string>
+
+using namespace std;
+
 
 /* project headers */
 #include "config.h"
@@ -489,7 +494,11 @@ FreeAmpUI::
 
     if(m_viewList)
     {
-        m_viewList->DeleteAll();
+        uint32 count = m_viewList->size();
+
+        for(uint32 i=0;i<count;i++)
+            delete m_viewList->at(i);
+
         delete m_viewList;
     }
 
@@ -880,7 +889,7 @@ DropFiles(HDROP dropHandle)
 						sizeof(file));
 
         char* pExtension = NULL;
-        List<char*> fileList;
+        vector<char*> fileList;
         struct stat st;
 
         stat(file, &st);
@@ -916,7 +925,7 @@ DropFiles(HDROP dropHandle)
 
             if(pExtension && strcasecmp(pExtension, ".m3u") == 0)
             { 
-                Error error;
+                /*Error error;
 
                 error = m_plm->ExpandM3U(file, fileList);
 
@@ -933,7 +942,7 @@ DropFiles(HDROP dropHandle)
                     {
                         m_plm->AddItem(item,0);
                     }
-                }
+                }*/
             }
             else
             {
@@ -1014,19 +1023,19 @@ Command(int32 command,
 
         case kRepeatControl:
         {
-            m_plm->ToggleRepeat();
+            m_plm->ToggleRepeatMode();
             break;
         }
 
         case kShuffleControl:
         {
-            m_plm->ToggleShuffle();
+            m_plm->ToggleShuffleMode();
             break;
         }
 
         case kAddControl:
         {
-            List<char*> fileList;
+            vector<char*> fileList;
             
 
             if(FileOpenDialog(  m_hwnd, 
@@ -1035,7 +1044,7 @@ Command(int32 command,
                                 &fileList,
                                 m_prefs))
             {
-                AddFileListToPlayList(&fileList);
+                AddFileListToPlaylist(&fileList);
             }
 
             break;
@@ -1060,14 +1069,14 @@ Command(int32 command,
                                 &size,
                                 m_prefs))
             {
-                if(strcmp(file, kSaveToRio))
+                /*if(strcmp(file, kSaveToRio))
                 {
                     m_plm->ExportToM3U(file);
                 }
                 else
                 {
                     m_plm->ExportToRio();
-                }
+                }*/
             }
            
             break;
@@ -1075,7 +1084,7 @@ Command(int32 command,
 
         case kLoadControl:
         {
-            List<char*> fileList;
+            vector<char*> fileList;
            
             if(FileOpenDialog(  m_hwnd,
                                 kOpenPlaylistFileTitle,
@@ -1083,18 +1092,18 @@ Command(int32 command,
                                 &fileList,
                                 m_prefs))
             {
-                m_plm->MakeEmpty();
+                m_plm->RemoveAll();
 
-                AddFileListToPlayList(&fileList);
+                AddFileListToPlaylist(&fileList);
 
-                m_plm->SetFirst();
+                m_plm->SetCurrentIndex(0);
             }
             break;
         }
 
         case kOpenControl:
 		{
-            List<char*> fileList;
+            vector<char*> fileList;
 
 			if(FileOpenDialog(  m_hwnd, 
                                 kOpenAudioFileTitle,
@@ -1102,11 +1111,11 @@ Command(int32 command,
                                 &fileList,
                                 m_prefs))
 			{
-                m_plm->MakeEmpty();
+                m_plm->RemoveAll();
 
-                AddFileListToPlayList(&fileList);
+                AddFileListToPlaylist(&fileList);
 
-                m_plm->SetFirst();
+                m_plm->SetCurrentIndex(0);
 
                 if(m_state == UIState_Playing)
                 {
@@ -1540,8 +1549,6 @@ MouseMove(int32 xPos,
 {
     bool result = false;
 
-    Item<View*>* viewItem = m_viewList->LastItem();
-
     POINT pt;
     RECT rect;
 
@@ -1567,29 +1574,33 @@ MouseMove(int32 xPos,
     }
     else
     {
-        do
+        uint32 count = m_viewList->size() - 1;
+
+        for(uint32 i = count; i >= 0; i--)
         {
-            if( viewItem->Member()->PointInView(xPos, yPos) && 
-                viewItem->Member()->Visible() &&
-                viewItem->Member()->Enabled())
+            View* viewItem = m_viewList->at(i);
+
+            if( viewItem->PointInView(xPos, yPos) && 
+                viewItem->Visible() &&
+                viewItem->Enabled())
 
 			{
-				if(m_mouseView != viewItem->Member())
+				if(m_mouseView != viewItem)
 				{
 					if(m_mouseView)
 						m_mouseView->MouseLeft();
 
-					m_mouseView = viewItem->Member();
+					m_mouseView = viewItem;
 
 					m_mouseView->MouseEntered();
 				}
 
-				viewItem->Member()->MouseMove(xPos, yPos, modifiers);
+				viewItem->MouseMove(xPos, yPos, modifiers);
 
 				break;
 			}
 
-        }while(viewItem = m_viewList->PriorItem(viewItem) );
+        }
 
         result = true;
     }
@@ -1605,17 +1616,19 @@ LeftButtonDown( int32 xPos,
 {
     bool result = false;
 
-    Item<View*>* viewItem = m_viewList->LastItem();
+    uint32 count = m_viewList->size() - 1;
 
-    do
+    for(uint32 i = count; i >= 0; i--)
     {
-        if( viewItem->Member()->PointInView(xPos, yPos) && 
-            viewItem->Member()->Visible() &&
-            viewItem->Member()->Enabled())
-        {
-            viewItem->Member()->LeftButtonDown(xPos, yPos, modifiers);
+        View* viewItem = m_viewList->at(i);
 
-            m_captureView = viewItem->Member();
+        if( viewItem->PointInView(xPos, yPos) && 
+            viewItem->Visible() &&
+            viewItem->Enabled())
+        {
+            viewItem->LeftButtonDown(xPos, yPos, modifiers);
+
+            m_captureView = viewItem;
 
             SetCapture(m_hwnd);
 
@@ -1624,7 +1637,7 @@ LeftButtonDown( int32 xPos,
             break;
         }
 
-    }while(viewItem = m_viewList->PriorItem(viewItem) );
+    }
 
     return result;
 }
@@ -1637,8 +1650,6 @@ LeftButtonUp(   int32 xPos,
 {
     bool result = false;
 
-    Item<View*>* viewItem = m_viewList->LastItem();
-
     if(m_captureView)
     {
         m_captureView->LeftButtonUp(xPos, yPos, modifiers);
@@ -1650,20 +1661,24 @@ LeftButtonUp(   int32 xPos,
     }
     else
     {
-        do
+        uint32 count = m_viewList->size() - 1;
+
+        for(uint32 i = count; i >= 0; i--)
         {
-            if( viewItem->Member()->PointInView(xPos, yPos) && 
-                viewItem->Member()->Visible() &&
-                viewItem->Member()->Enabled())
+            View* viewItem = m_viewList->at(i);
+
+            if( viewItem->PointInView(xPos, yPos) && 
+                viewItem->Visible() &&
+                viewItem->Enabled())
             {
-                viewItem->Member()->LeftButtonUp(xPos, yPos, modifiers);
+                viewItem->LeftButtonUp(xPos, yPos, modifiers);
 
                 result = true;
 
                 break;
             }
 
-        }while(viewItem = m_viewList->PriorItem(viewItem) );
+        }
     }
 
 
@@ -1680,22 +1695,23 @@ LeftButtonDoubleClick(  int32 xPos,
 
     //OutputDebugString("LeftButtonDoubleClick\r\n");
 
-    Item<View*>* viewItem = m_viewList->LastItem();
-    
-    do
+    uint32 count = m_viewList->size() - 1;
+
+    for(uint32 i = count; i >= 0; i--)
     {
-        if( viewItem->Member()->PointInView(xPos, yPos) && 
-            viewItem->Member()->Visible() &&
-            viewItem->Member()->Enabled())
+        View* viewItem = m_viewList->at(i);
+        if( viewItem->PointInView(xPos, yPos) && 
+            viewItem->Visible() &&
+            viewItem->Enabled())
         {
-            viewItem->Member()->LeftButtonDoubleClick(xPos, yPos, modifiers);
+            viewItem->LeftButtonDoubleClick(xPos, yPos, modifiers);
 
             result = true;
 
             break;
         }
 
-    }while(viewItem = m_viewList->PriorItem(viewItem) );
+    }
 
     return result;
 }
@@ -1912,16 +1928,17 @@ Paint()
 
     hdc = BeginPaint( m_hwnd, &ps ); 
 
-    Item<View*>* viewItem = m_viewList->FirstItem();
+    uint32 count = m_viewList->size();
 
-    do
+    for(uint32 i = 0; i < count; i++)
     {
-        if(viewItem->Member()->Visible())
+        View* viewItem = m_viewList->at(i);
+        if(viewItem->Visible())
         {
-            viewItem->Member()->Draw(m_playerCanvas, &ps.rcPaint);
+            viewItem->Draw(m_playerCanvas, &ps.rcPaint);
         }
 
-    }while(viewItem = m_viewList->NextItem(viewItem) );
+    }
 
     /*int32 x = ps.rcPaint.left;
     int32 y = ps.rcPaint.top;
@@ -1965,7 +1982,7 @@ void
 FreeAmpUI::
 CreateControls()
 {
-    m_viewList = new LinkedList<View*>();
+    m_viewList = new vector<View*>;
 
     m_backgroundView = new BitmapView(  m_hwnd, 
                                         NULL, 
@@ -2186,36 +2203,36 @@ CreateControls()
 
                                     
 
-    m_viewList->Append(m_backgroundView);
-    m_viewList->Append(m_playlistBackView);
-    //m_viewList->Append(m_resizeView);
-    m_viewList->Append(m_playView);
-    m_viewList->Append(m_stopView);
-    m_viewList->Append(m_pauseView);
-    m_viewList->Append(m_nextView);
-    m_viewList->Append(m_lastView);
-    m_viewList->Append(m_modeView);
-    m_viewList->Append(m_minimizeView);
-    m_viewList->Append(m_closeView);
-    m_viewList->Append(m_repeatView);
-    m_viewList->Append(m_shuffleView); 
-    m_viewList->Append(m_openView);
-    m_viewList->Append(m_volumeView);
-    m_viewList->Append(m_seekView);
-    m_viewList->Append(m_shuffleIconView);
-    m_viewList->Append(m_repeatIconView);
-    m_viewList->Append(m_repeatAllIconView);
-    m_viewList->Append(m_songTitleView);
-    m_viewList->Append(m_timeView);
-    m_viewList->Append(m_volumeInfoView);
-    m_viewList->Append(m_playlistView);
-    m_viewList->Append(m_scrollbarView);
-    m_viewList->Append(m_panelBackingView);
-    m_viewList->Append(m_addView);
-    m_viewList->Append(m_deleteView);
-    m_viewList->Append(m_loadView);
-    m_viewList->Append(m_saveView);
-    m_viewList->Append(m_drawerView);
+    m_viewList->push_back(m_backgroundView);
+    m_viewList->push_back(m_playlistBackView);
+    //m_viewList->push_back(m_resizeView);
+    m_viewList->push_back(m_playView);
+    m_viewList->push_back(m_stopView);
+    m_viewList->push_back(m_pauseView);
+    m_viewList->push_back(m_nextView);
+    m_viewList->push_back(m_lastView);
+    m_viewList->push_back(m_modeView);
+    m_viewList->push_back(m_minimizeView);
+    m_viewList->push_back(m_closeView);
+    m_viewList->push_back(m_repeatView);
+    m_viewList->push_back(m_shuffleView); 
+    m_viewList->push_back(m_openView);
+    m_viewList->push_back(m_volumeView);
+    m_viewList->push_back(m_seekView);
+    m_viewList->push_back(m_shuffleIconView);
+    m_viewList->push_back(m_repeatIconView);
+    m_viewList->push_back(m_repeatAllIconView);
+    m_viewList->push_back(m_songTitleView);
+    m_viewList->push_back(m_timeView);
+    m_viewList->push_back(m_volumeInfoView);
+    m_viewList->push_back(m_playlistView);
+    m_viewList->push_back(m_scrollbarView);
+    m_viewList->push_back(m_panelBackingView);
+    m_viewList->push_back(m_addView);
+    m_viewList->push_back(m_deleteView);
+    m_viewList->push_back(m_loadView);
+    m_viewList->push_back(m_saveView);
+    m_viewList->push_back(m_drawerView);
 }
 
 void 
@@ -2662,21 +2679,21 @@ AcceptEvent(Event* event)
 
         switch (event->Type()) 
         {
-		    case INFO_PlayListRepeat:
+		    case INFO_PlaylistRepeat:
 			{
-                PlayListRepeatEvent* plre = (PlayListRepeatEvent*)event;
+                PlaylistRepeatEvent* plre = (PlaylistRepeatEvent*)event;
 
 				switch(plre->GetRepeatMode()) 
                 {
-				    case REPEAT_CURRENT:
+				    case kPlaylistMode_RepeatOne:
                         m_repeatIconView->On( true );
                         m_repeatAllIconView->On( false );
 					    break;
-				    case REPEAT_ALL:
+				    case kPlaylistMode_RepeatAll:
 					    m_repeatIconView->On( true );
                         m_repeatAllIconView->On( true );
 					    break;
-				    case REPEAT_NOT:
+				    case kPlaylistMode_RepeatNone:
 				    default:
 					    m_repeatIconView->On( false );
                         m_repeatAllIconView->On( false ); 
@@ -2685,22 +2702,12 @@ AcceptEvent(Event* event)
 				break;
 			}
 
-		    case INFO_PlayListShuffle:
+		    case INFO_PlaylistShuffle:
 			{
-                PlayListShuffleEvent* plse = (PlayListShuffleEvent*)event;
-                
-				switch(plse->GetShuffleMode()) 
-                {
-				    case SHUFFLE_NOT_SHUFFLED:
-                        m_shuffleIconView->On(false);
-					    break;
-				    case SHUFFLE_RANDOM:
-					    m_shuffleIconView->On(true);
-					    break;
-				    default:
-					    m_shuffleIconView->On(false);
-                        break;
-				}
+                PlaylistShuffleEvent* plse = (PlaylistShuffleEvent*)event;
+
+                m_shuffleIconView->On(plse->GetShuffleMode());
+				
 				break;
 			}
 
@@ -2879,17 +2886,17 @@ AcceptEvent(Event* event)
 	            break; 
             }
 
-            case INFO_PlayListUpdated:
+            case INFO_PlaylistUpdated:
             {
-                UpdatePlayList();
+                UpdatePlaylist();
                 break;
             }
 
-            case INFO_PlayListItemUpdated:
+            case INFO_PlaylistItemUpdated:
             {
-                PlayListItemUpdatedEvent* updateEvent = (PlayListItemUpdatedEvent*)event;
+                PlaylistItemUpdatedEvent* updateEvent = (PlaylistItemUpdatedEvent*)event;
 
-                PlayListItem* updateItem = updateEvent->UpdatedItem();
+                PlaylistItem* updateItem = updateEvent->UpdatedItem();
 
                 if(updateItem)
                 {
@@ -2899,9 +2906,9 @@ AcceptEvent(Event* event)
 
                     while(listItem = (StringItem*)m_playlistView->ItemAt(i++))
                     {
-                        if(updateItem == (PlayListItem*) listItem->UserValue())
+                        if(updateItem == (PlaylistItem*) listItem->UserValue())
                         {
-                            listItem->SetText(updateItem->StringForPlayerToDisplay());
+                            listItem->SetText(updateItem->URL().c_str());
                             m_playlistView->Invalidate();
 
                             break;
@@ -2911,7 +2918,7 @@ AcceptEvent(Event* event)
                 break;
             }
             
-            case INFO_PlayListDonePlay:
+            case INFO_PlaylistDonePlay:
             {
                 m_timeView->SetCurrentTime(0,0,0);
                 m_currentFrame = 0;
@@ -3012,10 +3019,10 @@ SetArgs(int32 argc, char** argv)
 	    }
     }
 
-    m_plm->SetFirst();
+    m_plm->SetCurrentIndex(0);
 
     if(shuffle) 
-        m_plm->SetShuffle(SHUFFLE_RANDOM);
+        m_plm->SetShuffleMode(true);
     
     if(autoplay)
        m_target->AcceptEvent(new Event(CMD_Play));
@@ -3023,18 +3030,18 @@ SetArgs(int32 argc, char** argv)
 
 void
 FreeAmpUI::
-SetPlayListManager(PlayListManager *plm)
+SetPlaylistManager(PlaylistManager *plm)
 {
 	m_plm = plm;
 
-    UpdatePlayList();
+    UpdatePlaylist();
 }
 
 void
 FreeAmpUI::
 FilesReceived(char* array, int32 count)
 {
-    List<char*> fileList;
+    vector<char*> fileList;
     int32 length = 0;
 
     for(int32 i = 0; i < count; i++)
@@ -3062,7 +3069,7 @@ FilesReceived(char* array, int32 count)
             FindClose(handle);
         }
 
-        fileList.AddItem(foo);
+        fileList.push_back(foo);
 
 	    array += strlen(array) + 1;
     }
@@ -3070,32 +3077,35 @@ FilesReceived(char* array, int32 count)
     if( m_state == UIState_Playing || m_state == UIState_Paused)
         m_target->AcceptEvent(new Event(CMD_Stop));
 
-    m_plm->MakeEmpty();
+    m_plm->RemoveAll();
 
-    AddFileListToPlayList(&fileList);
+    AddFileListToPlaylist(&fileList);
 
-    m_plm->SetFirst();
+    m_plm->SetCurrentIndex(0);
 
     m_target->AcceptEvent(new Event(CMD_Play));
 }
 
 void
 FreeAmpUI::
-AddFileListToPlayList(List<char*>* fileList)
+AddFileListToPlaylist(vector<char*>* fileList)
 {
-    List<char*> m3uFileList;
+    vector<char*> m3uFileList;
     char* file = NULL;
     int32 i = 0;
+    int32 count = fileList->size();
 
-	while(file = fileList->ItemAt(i++))
+	for(i = 0; i < count; i++)
 	{
         char* pExtension = NULL;
+
+        file = fileList->at(i);
 
         pExtension = strrchr(file, '.');
 
         if(pExtension && strcasecmp(pExtension, ".m3u") == 0)
         { 
-            Error error;
+            /*Error error;
 
             error = m_plm->ExpandM3U(file, m3uFileList);
 
@@ -3108,12 +3118,12 @@ AddFileListToPlayList(List<char*>* fileList)
                 char* item = NULL;
                 int32 i = 0;
 
-                while(item = m3uFileList.ItemAt(i++))
+                while(item = m3uFileList.at(i++))
                 {
                     m_plm->AddItem(item,0);
                     delete [] item;
                 }
-            }
+            }*/
         }
         else
         {
@@ -3126,7 +3136,7 @@ AddFileListToPlayList(List<char*>* fileList)
 
 void
 FreeAmpUI::
-UpdatePlayList() 
+UpdatePlaylist() 
 {
     assert(m_plm);
     assert(m_playlistView);
@@ -3143,19 +3153,17 @@ UpdatePlayList()
         if(playlistCount != listviewCount)      
         {
             int32 i = 0;
-            PlayListItem* playlistItem;
-            List<ListItem*> listitemList;
+            PlaylistItem* playlistItem;
+            vector<ListItem*> listitemList;
 
             m_playlistView->MakeEmpty();
             
             while(playlistItem = m_plm->ItemAt(i++))
             {
-                MediaInfoEvent* info = playlistItem->GetMediaInfo();
-
                 //char buffer[256];
                 //sprintf(buffer, "This is StringItem #%d", i);
 
-                StringItem* item = new StringItem(  playlistItem->StringForPlayerToDisplay(),
+                StringItem* item = new StringItem(  playlistItem->URL().c_str(),
                                                     m_smallFontBitmap,
                                                     10,
                                                     smallFontWidth);
@@ -3163,7 +3171,7 @@ UpdatePlayList()
 
                 ListItem* i = item;
 
-                listitemList.AddItem(i);
+                listitemList.push_back(i);
 
                 /*OutputDebugString(playlistItem->StringForPlayerToDisplay());
                 OutputDebugString("\r\n");*/
@@ -3176,12 +3184,12 @@ UpdatePlayList()
             bool different = false;
             int32 i = 0;
 
-            PlayListItem* playlistItem;
+            PlaylistItem* playlistItem;
 
             while(playlistItem = m_plm->ItemAt(i))
             {
                 if( m_playlistView->ItemAt(i) &&
-                    playlistItem != (PlayListItem*) m_playlistView->ItemAt(i++)->UserValue())
+                    playlistItem != (PlaylistItem*) m_playlistView->ItemAt(i++)->UserValue())
                 {
                     different = true;
                     break;
@@ -3190,7 +3198,7 @@ UpdatePlayList()
 
             if(different)
             {
-                PlayListItem* playlistItem;
+                PlaylistItem* playlistItem;
 
                 m_playlistView->MakeEmpty();
             
@@ -3203,7 +3211,7 @@ UpdatePlayList()
                     //char buffer[256];
                     //sprintf(buffer, "This is StringItem #%d", i);
 
-                    StringItem* item = new StringItem(  playlistItem->StringForPlayerToDisplay(),
+                    StringItem* item = new StringItem(  playlistItem->URL().c_str(),
                                                         m_smallFontBitmap,
                                                         10,
                                                         smallFontWidth);

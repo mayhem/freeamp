@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.31 1999/04/21 04:20:59 elrod Exp $
+	$Id: freeampui.h,v 1.31.8.1 1999/08/27 03:09:42 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -31,6 +31,10 @@ ____________________________________________________________________________*/
 #include <windowsx.h>
 #include <shellapi.h>
 #include <stdlib.h>
+
+#include <vector>
+
+using namespace std;
 
 /* project headers */   
 #include "config.h"
@@ -47,7 +51,6 @@ ____________________________________________________________________________*/
 #include "controlinfo.h"
 #include "view.h"
 #include "dib.h"
-#include "linkedlist.h"
 #include "preferences.h"
 #include "facontext.h"
 
@@ -78,7 +81,7 @@ class FreeAmpUI : public UserInterface {
     virtual void SetTarget(EventQueue* eq){m_target = eq;}
     virtual int32 AcceptEvent(Event*);
     virtual void SetArgs(int32,char**);
-	virtual void SetPlayListManager(PlayListManager*);
+	virtual void SetPlaylistManager(PlaylistManager*);
     virtual Error SetPropManager(Properties *p) 
     { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
 
@@ -89,7 +92,7 @@ class FreeAmpUI : public UserInterface {
     HCURSOR Cursor(void) const { return m_cursor;}
     HPALETTE Palette(void) const { return m_palette; }
 
-    PlayListManager* GetPlayListManager() const { return m_plm; }
+    PlaylistManager* GetPlaylistManager() const { return m_plm; }
 
     /* handle window messages */
     void Create();
@@ -137,8 +140,8 @@ class FreeAmpUI : public UserInterface {
     void CreatePalette();
     void CreateTooltips();
 
-    void UpdatePlayList();
-    void AddFileListToPlayList(List<char*>* fileList);
+    void UpdatePlaylist();
+    void AddFileListToPlaylist(vector<char*>* fileList);
 
     void ReadPreferences();
 
@@ -174,7 +177,7 @@ class FreeAmpUI : public UserInterface {
     bool                m_mouseCaptured;
 
     FAContext*          m_context;
-    PlayListManager*    m_plm;
+    PlaylistManager*    m_plm;
     Properties*         m_propManager;
     Preferences*        m_prefs;
     Thread*             m_uiThread;
@@ -182,7 +185,7 @@ class FreeAmpUI : public UserInterface {
     HPALETTE            m_palette;
     HCURSOR             m_cursor;
 
-    LinkedList<View*>*  m_viewList;
+    vector<View*>*      m_viewList;
 
     HRGN                m_windowRegion;
     HRGN                m_playerRegion;

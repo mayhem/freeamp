@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ui.h,v 1.8 1999/01/22 06:02:51 jdw Exp $
+	$Id: ui.h,v 1.8.12.1 1999/08/27 03:09:43 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UI_H_
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include "errors.h"
 
 #include "playlist.h"
+#include "properties.h"
 
 enum {
     PRIMARY_UI = 0,  // passed to Init method of Primary UI at startup
@@ -40,7 +41,7 @@ class UserInterface : public EventQueue {
     virtual int32 AcceptEvent(Event *) = 0;
     virtual void SetArgs(int32,char **) = 0;
     virtual void SetTarget(EventQueue *) = 0;
-    virtual void SetPlayListManager(PlayListManager *) = 0;
+    virtual void SetPlaylistManager(PlaylistManager *) = 0;
     virtual Error Init(int32) = 0;
     virtual Error SetPropManager(Properties *) = 0;
     virtual ~UserInterface() {}

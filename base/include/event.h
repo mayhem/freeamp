@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.28 1999/07/26 20:22:11 robert Exp $
+	$Id: event.h,v 1.28.4.1 1999/08/27 03:09:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENT_H_
@@ -56,7 +56,7 @@ class EventQueue {
 #define CMD_Cleanup             8  // player tells modules to cleanup and get ready for termination (no arg)
 //#define CMD_Terminate           9  // is sent by player to COOs, and the DummyCOO makes the main thread delete player and exit (no arg)
 #define INFO_ReadyToDieUI      10 // sent by CIO to player notifying it that their cleanup has completed. (if arg !null, it is a ptr to this module, it wants to be deleted)
-#define INFO_PlayListDonePlay   11 // sent by player when the playlist has been exhausted (no arg)
+#define INFO_PlaylistDonePlay   11 // sent by player when the playlist has been exhausted (no arg)
 #define INFO_DoneOutputting     12 // sent by PMO (or LMC controlling PMO) to Player when its done outputing (i.e. playing is done)
 #define CMD_KillEventThread     13 // sent by player to various modules so they kill their event threads before deletion (no arg)
 #define CMD_StartRead           14 // sent by player to PMI to start/continue reading bytes from source to its output buffer (no arg)
@@ -74,12 +74,12 @@ class EventQueue {
 #define INFO_LMCError           28 // sent by LMC to player to signal an error condition in the decoder
 #define INFO_MPEGInfo			29 // info about MPEG stuff (layer, samprate, etc.)
 #define INFO_ID3TagInfo			30 // info about ID3 tag
-#define CMD_PLMGetMediaInfo             31 // sent by PlayListManager to player to get vital info about a particular playlistitem
-#define CMD_PLMSetMediaInfo             32 // sent by Player to PlayListManger to set the info the PLM requested.
-#define INFO_PlayListRepeat     33 // sent by PLM to player to inform of a setting of repeat mode
-#define INFO_PlayListShuffle    34 // sent by PLM to player to inform of a setting of shuffle mode
-#define INFO_PlayListUpdated	35 // sent by PLM to player to inform of a playlist update
-#define INFO_PlayListItemUpdated    36 // sent by PLM to player to inform of a playlistitem update
+#define CMD_PLMGetMediaInfo             31 // sent by PlaylistManager to player to get vital info about a particular playlistitem
+#define CMD_PLMSetMediaInfo             32 // sent by Player to PlaylistManger to set the info the PLM requested.
+#define INFO_PlaylistRepeat     33 // sent by PLM to player to inform of a setting of repeat mode
+#define INFO_PlaylistShuffle    34 // sent by PLM to player to inform of a setting of shuffle mode
+#define INFO_PlaylistUpdated	35 // sent by PLM to player to inform of a playlist update
+#define INFO_PlaylistItemUpdated    36 // sent by PLM to player to inform of a playlistitem update
 #define INFO_UserMessage        37 // sent by UI to Player, diseminated by Player to each UI
 
 #define _EQUALIZER_ENABLE_
@@ -101,7 +101,7 @@ class EventQueue {
 #define INFO_BufferingEnd         43 // Network rebuffering just stopped
 #define INFO_BufferStatus         44 // Buffer percent full information
 
-#define CMD_PLMGetMediaTitle      45 // sent by PlayListManager to player to get title about a particular playlistitem
+#define CMD_PLMGetMediaTitle      45 // sent by PlaylistManager to player to get title about a particular playlistitem
 #define INFO_StatusMessage      46 // sent to UIs so they can display status info
 
 #define INFO_VolumeInfo         47

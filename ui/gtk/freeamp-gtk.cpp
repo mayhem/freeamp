@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-gtk.cpp,v 1.7 1999/04/21 04:21:00 elrod Exp $
+	$Id: freeamp-gtk.cpp,v 1.7.8.1 1999/08/27 03:09:43 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -64,7 +64,7 @@ GtkUI::GtkUI(FAContext *context) {
     //cout << " * s    Shuffle" << endl << endl;
 }
 
-void GtkUI::SetPlayListManager(PlayListManager *plm) {
+void GtkUI::SetPlaylistManager(PlaylistManager *plm) {
     m_plm = plm;
 }
 

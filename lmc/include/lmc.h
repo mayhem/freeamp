@@ -18,15 +18,21 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.23.4.1 1999/08/18 04:18:08 ijr Exp $
+	$Id: lmc.h,v 1.23.4.2 1999/08/27 03:09:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
 #define _LMC_H_
 
+#include <vector>
+
+using namespace std;
+
 #include "pipeline.h"
 #include "errors.h"
 #include "eventdata.h"
+
+
 
 class MediaInfoEvent;
 class PullBuffer;
@@ -52,7 +58,7 @@ class LogicalMediaConverter : public PipelineUnit
     virtual Error SetEQData(float *) = 0;
     virtual Error SetEQData(bool) = 0;
     
-    virtual List<char *> *GetExtensions(void) = 0;
+    virtual vector<char *> *GetExtensions(void) = 0;
 
     protected:
 

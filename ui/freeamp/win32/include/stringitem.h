@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: stringitem.h,v 1.3 1999/03/16 08:10:56 elrod Exp $
+	$Id: stringitem.h,v 1.3.12.1 1999/08/27 03:09:42 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _STRING_ITEM_H
@@ -31,7 +31,7 @@ ____________________________________________________________________________*/
 class StringItem : public ListItem {
 
  public:
-     StringItem(char* text,
+     StringItem(const char* text,
                 DIB* fontBitmap,
                 int32 fontHeight,
                 int32* fontWidths);
@@ -44,7 +44,7 @@ class StringItem : public ListItem {
     virtual	void DrawItem(DIB* canvas, RECT* bounds);
 
     char* Text() const { return m_text; }
-    void SetText(char* text);
+    void SetText(const char* text);
 
  private:
     DIB*                m_fontBitmap;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.21 1999/04/28 00:52:48 elrod Exp $
+	$Id: simpleui.cpp,v 1.21.8.1 1999/08/27 03:09:44 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -37,7 +37,7 @@ ____________________________________________________________________________*/
 #include "simpleui.h"
 #include "event.h"
 #include "eventdata.h"
-#include "playlist.h"
+#include "Playlist.h"
 #include "about.h"
 #include "prefdialog.h"
 #include "resource.h"
@@ -82,7 +82,7 @@ INT WINAPI DllMain (HINSTANCE hInst,
 
 void
 SimpleUI::
-SetPlayListManager(PlayListManager *plm) {
+SetPlaylistManager(PlaylistManager *plm) {
 	m_plm = plm;
 }
 
@@ -340,7 +340,7 @@ AcceptEvent(Event* event)
 	            break; 
             }
 
-            case INFO_PlayListDonePlay:
+            case INFO_PlaylistDonePlay:
             {
                 char timeString[256] = "00:00:00";
                 char szTemp[256] = {0x00};
@@ -390,7 +390,7 @@ void
 SimpleUI::
 SetArgs(int32 argc, char** argv)
 {
-    PlayListManager* playlist = m_plm;
+    PlaylistManager* Playlist = m_plm;
     char *arg = NULL;
     bool shuffle = false;
     bool autoplay = false;
@@ -419,15 +419,15 @@ SetArgs(int32 argc, char** argv)
         }
         else 
         {
-            playlist->AddItem(arg,0);
+            Playlist->AddItem(arg,0);
             count++;
 	    }
     }
 
-    playlist->SetFirst();
+    Playlist->SetCurrentIndex(0);
 
     if(shuffle) 
-        playlist->SetShuffle(SHUFFLE_RANDOM);
+        Playlist->SetShuffleMode(true);
     
     if(count)
     {
@@ -709,10 +709,10 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
 					{
 						char file[MAX_PATH + 1];
 						char* cp = NULL;
-						PlayListManager* playlist = m_ui->m_plm;
+						PlaylistManager* Playlist = m_ui->m_plm;
 
 
-                        playlist->MakeEmpty();
+                        Playlist->RemoveAll();
 
 						strcpy(file, filelist);
 						strcat(file, "\\");
@@ -723,7 +723,7 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
 						{
 							strcpy(file + ofn.nFileOffset, cp);
 
-							playlist->AddItem(file,0);
+							Playlist->AddItem(file,0);
 
 							cp += strlen(cp) + 1;
 						}

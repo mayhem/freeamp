@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.9 1999/04/21 04:21:01 elrod Exp $
+	$Id: lcdui.cpp,v 1.9.8.1 1999/08/27 03:09:43 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -77,7 +77,7 @@ UserInterface *Initialize(FAContext *context) {
 //}
 
 
-void LcdUI::SetPlayListManager(PlayListManager *plm) {
+void LcdUI::SetPlaylistManager(PlaylistManager *plm) {
     m_plm = plm;
 }
 

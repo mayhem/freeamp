@@ -68,7 +68,7 @@ int getKey() {
     return 0;
 }
 
-void ncursesUI::SetPlayListManager(PlayListManager *plm) {
+void ncursesUI::SetPlaylistManager(PlaylistManager *plm) {
     m_plm = plm;
 }
 

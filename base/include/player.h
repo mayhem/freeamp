@@ -18,18 +18,21 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.42.4.1 1999/08/18 04:18:07 ijr Exp $
+        $Id: player.h,v 1.42.4.2 1999/08/27 03:09:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
+
+#include <vector>
+
+using namespace std;
 
 #include "config.h"
 #include "thread.h"
 #include "event.h"
 #include "queue.h"
 #include "ui.h"
-#include "list.h"
 #include "mutex.h"
 #include "playlist.h"
 #include "semaphore.h"
@@ -103,7 +106,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
    PlayerState  State() const { return m_playerState; }
 
    int32     ServiceEvent(Event *);
-   void      CreatePMO(PlayListItem * pc, Event * pC);
+   void      CreatePMO(PlaylistItem * pc, Event * pC);
 
    FAContext *m_context;
 
@@ -156,14 +159,14 @@ class Player : public EventQueue, Properties, PropertyWatcher
    // their "Ready To Die" infos.
 
    int32     m_imQuitting, m_iVolume;
-   List < UserInterface * >*m_uiList;
+   vector < UserInterface * >*m_uiList;
 
    Mutex    *m_uiManipLock;
    Mutex    *m_lmcMutex;
    Mutex    *m_pmiMutex;
    Mutex    *m_pmoMutex;
    Mutex    *m_uiMutex;
-   PlayListManager *m_plm;
+   PlaylistManager *m_plm;
 
    PhysicalMediaOutput *m_pmo;
    LogicalMediaConverter *m_lmc;
@@ -174,7 +177,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
    PMORegistry *m_pmoRegistry;
    UIRegistry *m_uiRegistry;
 
-    List < char *>*m_argUIList;
+    vector < char *>*m_argUIList;
 
     int32     m_argc;
     char    **m_argv;

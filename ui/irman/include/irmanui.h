@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.h,v 1.2 1999/04/21 04:21:01 elrod Exp $
+	$Id: irmanui.h,v 1.2.8.1 1999/08/27 03:09:43 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _IRManUI_H_
@@ -41,7 +41,7 @@ class IRManUI : public UserInterface {
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
     virtual Error Init(int32);
-    virtual void SetPlayListManager(PlayListManager *);
+    virtual void SetPlaylistManager(PlaylistManager *);
     static void irServiceFunction(void *);
     virtual ~IRManUI();
     virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
@@ -60,7 +60,7 @@ class IRManUI : public UserInterface {
     EventQueue *m_playerEQ;
     void processSwitch(char *);
     Thread *irListenThread;
-    PlayListManager *m_plm;
+    PlaylistManager *m_plm;
 };
 
 

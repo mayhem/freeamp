@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.14 1999/07/27 19:25:07 robert Exp $
+	$Id: Mpg123UI.cpp,v 1.14.4.1 1999/08/27 03:09:43 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -330,7 +330,7 @@ void Mpg123UI::ProcessArgs() {
 		    break;
 		case 'Z':
 		    // random play has been temporarily disabled.
-		    //m_plm->SetShuffle(PlayListManager::ORDER_RANDOM);
+		    //m_plm->SetShuffle(PlaylistManager::ORDER_RANDOM);
 		    //cout << "Random Play" << endl;
 		    break;
 		case 'u':
@@ -361,7 +361,7 @@ void Mpg123UI::ProcessArgs() {
     }
 }
 
-void Mpg123UI::SetPlayListManager(PlayListManager *plm) {
+void Mpg123UI::SetPlaylistManager(PlaylistManager *plm) {
     m_plm = plm;
 }
 

@@ -45,7 +45,7 @@ class ncursesUI : public UserInterface {
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
     virtual Error Init(int32);
-    virtual void SetPlayListManager(PlayListManager *);
+    virtual void SetPlaylistManager(PlaylistManager *);
     static void keyboardServiceFunction(void *);
     virtual ~ncursesUI();
    virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
@@ -63,7 +63,7 @@ class ncursesUI : public UserInterface {
    EventQueue *m_playerEQ;
    void processSwitch(char *);
    Thread *keyboardListenThread;
-   PlayListManager *m_plm;
+   PlaylistManager *m_plm;
    int32 m_lastIndexPlayed;
    bool m_id3InfoPrinted;
    float totalTime;

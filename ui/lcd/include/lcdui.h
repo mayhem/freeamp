@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.h,v 1.6 1999/04/21 04:21:01 elrod Exp $
+	$Id: lcdui.h,v 1.6.8.1 1999/08/27 03:09:43 elrod Exp $
 ____________________________________________________________________________*/
 // LcdUI.h
 
@@ -45,7 +45,7 @@ class LcdUI : public UserInterface {
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
     virtual Error Init(int32);
-    virtual void SetPlayListManager(PlayListManager *);
+    virtual void SetPlaylistManager(PlaylistManager *);
     static void keyboardServiceFunction(void *);
     virtual ~LcdUI();
    virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
@@ -69,7 +69,7 @@ class LcdUI : public UserInterface {
     EventQueue *m_playerEQ;
     void processSwitch(char *);
     Thread *keyboardListenThread;
-    PlayListManager *m_plm;
+    PlaylistManager *m_plm;
     Mutex *m_lcdLock;
     bool Quit;
 };

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.2 1999/08/18 04:18:07 ijr Exp $
+        $Id: player.cpp,v 1.133.2.3 1999/08/27 03:09:35 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -85,7 +85,7 @@ EventQueue()
    // cout << "Created mutex" << endl;
    m_imQuitting = 0;
    m_quitWaitingFor = 0;
-   m_plm = new PlayListManager((EventQueue *) this);
+   m_plm = new PlaylistManager((EventQueue *) this);
    m_playerState = PlayerState_Stopped;
 
    m_lmcRegistry = NULL;
@@ -485,7 +485,7 @@ Run()
 
                m_ui->SetTarget((EventQueue *) this);
                m_ui->SetPropManager((Properties *) this);
-               m_ui->SetPlayListManager(m_plm);
+               m_ui->SetPlaylistManager(m_plm);
                m_ui->SetArgs(m_argc, m_argv);
                Error     er = m_ui->Init((uisActivated == 0) ? PRIMARY_UI
 					 : SECONDARY_UI_STARTUP);
@@ -866,7 +866,7 @@ ChoosePMI(char *szUrl, char *szTitle)
 
 void 
 Player::
-CreatePMO(PlayListItem * pc, Event * pC)
+CreatePMO(PlaylistItem * pc, Event * pC)
 {
    Error     error = kError_NoErr;
    Event    *e;
@@ -893,7 +893,7 @@ CreatePMO(PlayListItem * pc, Event * pC)
       }
       GetUIManipLock();
 
-      e = new Event(INFO_PlayListDonePlay);
+      e = new Event(INFO_PlaylistDonePlay);
       SendToUI(e);
 
       ReleaseUIManipLock();
@@ -1053,7 +1053,7 @@ DoneOutputting(Event *pEvent)
    else
    {
       m_plm->SetFirst();
-      SEND_NORMAL_EVENT(INFO_PlayListDonePlay);
+      SEND_NORMAL_EVENT(INFO_PlaylistDonePlay);
    }
    
    delete pEvent;
@@ -1128,7 +1128,7 @@ void
 Player::
 GetMediaInfo(Event *pEvent)
 {
-     PlayListItem *pItem;
+     PlaylistItem *pItem;
 
      if (m_playerState == PlayerState_Stopped)
      {
@@ -1144,7 +1144,7 @@ Player::
 GetMediaTitle(Event *pEventArg)
 {
      PLMGetMediaTitleEvent *pEvent;
-     PlayListItem          *pItem;
+     PlaylistItem          *pItem;
      RegistryItem          *pRegItem;
      PhysicalMediaInput    *pPmi;
      char                   szTitle[1024];
@@ -1155,7 +1155,7 @@ GetMediaTitle(Event *pEventArg)
 
      pEvent = (PLMGetMediaTitleEvent *)pEventArg;
 
-     pItem = pEvent->GetPlayListItem();
+     pItem = pEvent->GetPlaylistItem();
      pRegItem = ChoosePMI(pItem->URL(), szTitle);
      if (pRegItem && !strlen(szTitle))
      {
@@ -1181,7 +1181,7 @@ GetMediaTitle(Event *pEventArg)
      {
         pItem->SetDisplayString(szTitle);
 
-        SendEventToUI(new PlayListItemUpdatedEvent(pItem) );
+        SendEventToUI(new PlaylistItemUpdatedEvent(pItem) );
      }
 
      delete pEvent;
@@ -1191,7 +1191,7 @@ void
 Player::
 Play(Event *pEvent)
 {
-    PlayListItem *pItem;
+    PlaylistItem *pItem;
 
     if (m_playerState == PlayerState_Playing)
     {
@@ -1402,9 +1402,9 @@ HandleMediaInfo(Event *pEvent)
 
    SendToUI(pEvent);
 
-   for (int foobar = 0; foobar < pmvi->m_childEvents->CountItems(); foobar++)
+   for (int foobar = 0; foobar < pmvi->m_childEvents->size(); foobar++)
    {
-      pe = pmvi->m_childEvents->ItemAt(foobar);
+      pe = pmvi->m_childEvents->at(foobar);
       SendToUI(pe);
    }
 
@@ -1581,9 +1581,9 @@ ServiceEvent(Event * pC)
            break;
 
       case INFO_StreamInfo:
-      case INFO_PlayListShuffle:
-      case INFO_PlayListRepeat:
-      case INFO_PlayListUpdated:
+      case INFO_PlaylistShuffle:
+      case INFO_PlaylistRepeat:
+      case INFO_PlaylistUpdated:
       case INFO_BufferStatus:
            SendEventToUI(pC);
            break;

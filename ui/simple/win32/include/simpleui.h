@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.h,v 1.9 1999/04/27 23:00:33 elrod Exp $
+	$Id: simpleui.h,v 1.9.8.1 1999/08/27 03:09:44 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SIMPLE_UI_H_
@@ -52,7 +52,7 @@ class SimpleUI : public UserInterface {
     virtual void SetTarget(EventQueue*);
     virtual int32 AcceptEvent(Event*);
     virtual void SetArgs(int32,char**);
-    virtual void SetPlayListManager(PlayListManager*);
+    virtual void SetPlaylistManager(PlaylistManager*);
     virtual Error SetPropManager(Properties* p) 
     { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
     void CreateUI();
@@ -83,7 +83,7 @@ class SimpleUI : public UserInterface {
     FAContext*		m_context;
 
  private:
-    PlayListManager*    m_plm;
+    PlaylistManager*    m_plm;
     Properties*         m_propManager;
     int32			    m_totalSeconds;
     float			    m_secondsPerFrame;

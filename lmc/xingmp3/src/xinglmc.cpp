@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.98.2.2 1999/08/18 04:18:08 ijr Exp $
+   $Id: xinglmc.cpp,v 1.98.2.3 1999/08/27 03:09:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -267,14 +267,14 @@ Error XingLMC::GetHeadInfo()
    return (Error)lmcError_DecodeFailed;
 }
 
-List<char *> *XingLMC::GetExtensions(void)
+vector<char *> *XingLMC::GetExtensions(void)
 {
-   List<char *> *extList = new List<char *>();
+   vector<char *> *extList = new vector<char *>;
 
-   extList->AddItem("MP3");
-   extList->AddItem("MP2");
-   extList->AddItem("MP1");
-   extList->AddItem("MPG");
+   extList->push_back("MP3");
+   extList->push_back("MP2");
+   extList->push_back("MP1");
+   extList->push_back("MPG");
 
    return extList;
 }

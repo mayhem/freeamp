@@ -18,16 +18,19 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.h,v 1.6 1999/04/02 19:34:29 elrod Exp $
+	$Id: listview.h,v 1.6.12.1 1999/08/27 03:09:42 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef PREF_DIALOG_H
 #define PREF_DIALOG_H
 
+#include <vector>
+
+using namespace std;
+
 #include "config.h"
 #include "view.h"
 #include "listitem.h"
-#include "list.h"
 #include "thread.h"
 
 
@@ -71,8 +74,8 @@ class ListView : public View {
 
     virtual	bool AddItem(ListItem* item);
     virtual bool AddItem(ListItem* item, int32 index);
-    virtual bool AddList(List<ListItem*>* items);
-    virtual bool AddList(List<ListItem*>* items, int32 index);
+    virtual bool AddList(vector<ListItem*>* items);
+    virtual bool AddList(vector<ListItem*>* items, int32 index);
 
     virtual bool        RemoveItem(ListItem* item);
     virtual ListItem*   RemoveItem(int32 index);
@@ -101,7 +104,6 @@ class ListView : public View {
 		    void	    DoForEach(bool (*func)(ListItem*));
 		    void	    DoForEach(bool (*func)(ListItem*, void*), void*);
 
-    const   ListItem**  Items() const;
 		    void        InvalidateItem(int32 index);
 
 		    void        Select(int32 index, bool extend = false);
@@ -137,7 +139,7 @@ class ListView : public View {
     
  private:
     list_view_type      m_type;
-    List<ListItem*>*    m_list;
+    vector<ListItem*>*  m_list;
     int32               m_firstVisible;
     int32			    m_firstSelected;
     int32			    m_lastSelected;

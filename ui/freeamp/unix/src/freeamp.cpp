@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.37 1999/07/27 19:25:06 robert Exp $
+	$Id: freeamp.cpp,v 1.37.4.1 1999/08/27 03:09:42 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -97,7 +97,7 @@ FreeAmpUI::~FreeAmpUI() {
 
 }
 
-void FreeAmpUI::SetPlayListManager(PlayListManager *plm) {
+void FreeAmpUI::SetPlaylistManager(PlaylistManager *plm) {
     m_plm = plm;
 }
 

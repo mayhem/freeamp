@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.cpp,v 1.8 1999/07/13 18:42:28 robert Exp $
+	$Id: irmanui.cpp,v 1.8.4.1 1999/08/27 03:09:43 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -55,7 +55,7 @@ UserInterface *Initialize(FAContext *context) {
     
 	   }
 
-void IRManUI::SetPlayListManager(PlayListManager *plm) {
+void IRManUI::SetPlaylistManager(PlaylistManager *plm) {
     m_plm = plm;
 }
 

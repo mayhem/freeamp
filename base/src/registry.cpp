@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.cpp,v 1.9.12.1 1999/08/26 04:28:19 elrod Exp $
+	$Id: registry.cpp,v 1.9.12.2 1999/08/27 03:09:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream>
@@ -40,7 +40,7 @@ void Registry::AddItem(RegistryItem& item)
     m_elements.push_back(item);
 }
 
-const RegistryItem* Registry::GetItem(int32 index)
+RegistryItem* Registry::GetItem(int32 index)
 {
     RegistryItem* result = NULL;
 

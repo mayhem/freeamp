@@ -25,13 +25,13 @@ public:
     virtual void SetTarget(EventQueue*);
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int32,char **);
-	virtual void SetPlayListManager(PlayListManager *);
+	virtual void SetPlaylistManager(PlaylistManager *);
 	virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
     void CreateUI();
 
 	Semaphore*      m_uiSemaphore;
 	int32			m_state;
-	PlayListManager *m_plm;
+	PlaylistManager *m_plm;
 	EventQueue*     m_target;
 protected:
       static void UIThreadFunc(void *);

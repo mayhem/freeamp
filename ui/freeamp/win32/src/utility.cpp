@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.13 1999/04/26 20:34:00 elrod Exp $
+	$Id: utility.cpp,v 1.13.8.1 1999/08/27 03:09:43 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -298,7 +298,7 @@ bool
 FileOpenDialog(HWND hwnd, 
                const char* title,
                const char* filter,
-               List<char*>* fileList,
+               vector<char*>* fileList,
                Preferences* prefs)
 {
     bool result = false;
@@ -355,7 +355,7 @@ FileOpenDialog(HWND hwnd,
 
             strcpy(foo, fileBuffer);
 
-            fileList->AddItem(foo);
+            fileList->push_back(foo);
         }
         else // potential list of files
         {
@@ -374,7 +374,7 @@ FileOpenDialog(HWND hwnd,
 
                 strcpy(foo, file);
 
-                fileList->AddItem(foo);
+                fileList->push_back(foo);
 
 	            cp += strlen(cp) + 1;
             }

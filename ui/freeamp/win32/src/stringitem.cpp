@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: stringitem.cpp,v 1.8 1999/04/01 17:02:59 elrod Exp $
+	$Id: stringitem.cpp,v 1.8.12.1 1999/08/27 03:09:43 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -31,7 +31,7 @@ ____________________________________________________________________________*/
 #include "renderer.h"
 
 StringItem::
-StringItem( char* text,
+StringItem( const char* text,
             DIB* fontBitmap,
             int32 fontHeight,
             int32* fontWidths):
@@ -63,7 +63,7 @@ StringItem::
 
 void 
 StringItem::
-SetText(char* text)
+SetText(const char* text)
 {
     assert(text);
 

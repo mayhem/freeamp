@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: drawplayer.cpp,v 1.19 1998/11/09 08:57:55 elrod Exp $
+	$Id: drawplayer.cpp,v 1.20 1998/11/09 10:35:56 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1995,7 +1995,7 @@ LRESULT WINAPI MainWndProc( HWND hwnd,
 									szFile,
 									sizeof(szFile));
 
-
+			g_ui->m_plm->RemoveAll();
 			for(int32 i = 0; i < count; i++)
 			{
 				DragQueryFile(	hDrop,
@@ -2154,7 +2154,15 @@ LRESULT WINAPI MainWndProc( HWND hwnd,
 					if ((g_displayInfo.seconds < 2) &&
 						(g_displayInfo.hours == 0) &&
 						(g_displayInfo.minutes == 0)) {
-						g_ui->m_target->AcceptEvent(new Event(CMD_PrevMediaPiece));
+						if (g_displayInfo.indexOfSong > 1) {
+							g_ui->m_target->AcceptEvent(new Event(CMD_PrevMediaPiece));
+						} else {
+							if (g_ui->m_plm->GetRepeat() != REPEAT_NOT) {
+								g_ui->m_target->AcceptEvent(new Event(CMD_PrevMediaPiece));
+							} else {
+								g_ui->m_target->AcceptEvent(new Event(CMD_Play));
+							}
+						}
 					} else {
 						g_ui->m_target->AcceptEvent(new Event(CMD_Play));
 					}

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.13 1998/11/09 08:55:47 jdw Exp $
+	$Id: playlist.h,v 1.14 1998/11/09 10:35:55 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -119,16 +119,16 @@ class PLMSetMediaInfoEvent : public Event {
 
 enum ShuffleMode {
 	SHUFFLE_NOT_SHUFFLED = 0,  // normal playlist playback
-	SHUFFLE_SHUFFLED = 1,      // playlist is shuffled, with playback in order of shuffled list
-	SHUFFLE_INTERNAL_NUMBER = 2, // swap this and SHUFFLE_RANDOM to enable random shuffling
-	SHUFFLE_RANDOM = 3         // random song is played (and, GetCurrent() never returns NULL)
+	SHUFFLE_SHUFFLED,      // playlist is shuffled, with playback in order of shuffled list
+	SHUFFLE_INTERNAL_NUMBER, // swap this and SHUFFLE_RANDOM to enable random shuffling
+	SHUFFLE_RANDOM         // random song is played (and, GetCurrent() never returns NULL)
 };
     
 enum RepeatMode {
 	REPEAT_NOT = 0,
-	REPEAT_CURRENT = 1,
-	REPEAT_ALL = 2,
-	REPEAT_INTERNAL_NUMBER = 3
+	REPEAT_CURRENT,
+	REPEAT_ALL,
+	REPEAT_INTERNAL_NUMBER
 };
 
 

@@ -18,9 +18,9 @@
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
 <<<<<<< errors.h
-	$Id: errors.h,v 1.18.4.4 1999/08/26 11:02:01 elrod Exp $
+	$Id: errors.h,v 1.18.4.5 1999/08/26 18:01:22 elrod Exp $
 =======
-	$Id: errors.h,v 1.18.4.4 1999/08/26 11:02:01 elrod Exp $
+	$Id: errors.h,v 1.18.4.5 1999/08/26 18:01:22 elrod Exp $
 >>>>>>> 1.18.4.2
 ____________________________________________________________________________*/
 
@@ -75,6 +75,8 @@ typedef enum Error
     kError_NotFound             = 40,
     kError_NoMoreFormats        = 41,
     kError_FormatNotSupported   = 42,
+    kError_NoMoreDevices        = 43,
+    kError_DeviceNotFound       = 44,
 
     kError_LastError            = 9999
 }Error;

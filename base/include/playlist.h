@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.8 1999/08/26 11:02:01 elrod Exp $
+	$Id: playlist.h,v 1.40.4.9 1999/08/26 18:01:22 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -207,7 +207,8 @@ class PlaylistManager {
     PlaylistKey GetActivePlaylist() const;
     Error SetExternalPlaylist(char* url);
     Error GetExternalPlaylist(char* url, uint32* length);
-    Error SetPortablePlaylist(DeviceInfo* device);
+    Error SetPortablePlaylist(DeviceInfo* device, 
+                              callback_function function = NULL);
     Error GetPortablePlaylist(DeviceInfo* device);
 
     // External playlist support
@@ -222,11 +223,19 @@ class PlaylistManager {
     // Portable player communication
     Error GetSupportedPortables(DeviceInfo* device, uint32 index);
     bool IsPortableAvailable(DeviceInfo* device);
+
+    Error InitializeDevice(DeviceInfo* device, 
+                            callback_function function = NULL);
+
     Error ReadPortablePlaylist(DeviceInfo* device, 
                                 callback_function function = NULL);
     Error SyncPortablePlaylist(DeviceInfo* device, 
                                 callback_function function = NULL);
 
+    Error DownloadItemFromPortable(DeviceInfo* device,
+                                   PlaylistItem* item,
+                                   char* url,
+                                   callback_function function = NULL);
     // Utility Functions
     bool            IsEmpty();
     uint32          CountItems();

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: portabledevice.h,v 1.1.2.3 1999/08/26 04:28:18 elrod Exp $
+	$Id: portabledevice.h,v 1.1.2.4 1999/08/26 18:01:22 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PORTABLE_DEVICE_H_
@@ -33,31 +33,67 @@ using namespace std;
 #include "config.h"
 #include "errors.h"
 
+class PortableDevice;
+
+typedef PortableDevice* DeviceRef;
 
 class DeviceInfo {
 
  public:
 
-    DeviceInfo():m_id(0xFFFFFFFF) {}
+    DeviceInfo():m_ref(NULL) {}
     
     virtual ~DeviceInfo() {}
 
-    Error SetManufacturer(const char* manufacturer){m_manufacturer = manufacturer; return kError_NoErr; }
+    Error SetManufacturer(const char* manufacturer)
+    {m_manufacturer = manufacturer; return kError_NoErr; }
     const char* GetManufacturer() const { return m_manufacturer.c_str(); }
 
-    Error SetDevice(const char* device) { m_device = device; return kError_NoErr; }
+    Error SetDevice(const char* device) 
+    { m_device = device; return kError_NoErr; }
     const char* GetDevice() { return m_device.c_str(); }
 
-    Error SetDeviceID(uint32 id) { m_id = id; return kError_NoErr; }
-    uint32 GetDeviceID() { return m_id; }
+    Error SetCapacity(uint32 bytes) { m_capacity = bytes; return kError_NoErr; }
+    uint32 GetCapacity() { return m_capacity; }
+
+    Error SetRef(DeviceRef ref) { m_ref = ref; return kError_NoErr; }
+    DeviceRef GetRef() { return m_ref; }
 
  private:
   
     string m_manufacturer;
     string m_device;
-    uint32 m_id;
+    DeviceRef m_ref;
+    uint32 m_capacity;
 };
 
+class PortableDevice {
+
+ public:
+
+    PortableDevice();
+    virtual ~PortableDevice();
+
+    virtual Error GetSupportedDevices(DeviceInfo* device, uint32 index);
+
+    virtual bool IsDeviceAvailable(DeviceInfo* device);
+
+    virtual Error InitializeDevice(DeviceInfo* device, 
+                                   callback_function function = NULL);
+
+    virtual Error ReadPlaylist(DeviceInfo* device, 
+                               vector<PlaylistItem*>* items,
+                               callback_function function = NULL);
+
+    virtual Error WritePlaylist(DeviceInfo* device, 
+                                vector<PlaylistItem*>* items,
+                                callback_function function = NULL);
+
+    virtual Error DownloadSong(DeviceInfo* device, 
+                               PlaylistItem* item,
+                               char* url,
+                               callback_function function = NULL);
+};
 
 
 #endif // _PORTABLE_DEVICE_H_

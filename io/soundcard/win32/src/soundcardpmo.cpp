@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.30 1999/04/15 21:50:59 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.31 1999/04/15 22:06:52 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -514,7 +514,7 @@ void SoundCardPMO::WorkerThread(void)
    Preferences *pPref;
 
    pPref = new Preferences();
-   pPret->GetDecoderThreadPriority(&iValue);
+   pPref->GetDecoderThreadPriority(&iValue);
    delete pPref;
 
    switch(iValue)

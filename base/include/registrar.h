@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.h,v 1.3 1998/10/17 20:18:27 elrod Exp $
+	$Id: registrar.h,v 1.4 1998/10/17 21:38:06 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _REGISTRAR_H_
@@ -25,10 +25,8 @@ ____________________________________________________________________________*/
 
 #include "errors.h"
 #include "registry.h"
-/*#include "lmcregistry.h"
-#include "pmoregistry.h"
-#include "pmiregistry.h"
-#include "uiregistry.h"*/
+#include "preferences.h"
+
 
 #ifndef WIN32
 #include "win32impl.h"
@@ -39,7 +37,7 @@ class Registrar{
     Registrar(){m_subdir = NULL; m_search = NULL;}
     ~Registrar(){}
 
-    Error InitializeRegistry(Registry* registry);
+    Error InitializeRegistry(Registry* registry, Preferences* prefs);
     static Error CleanupRegistry(Registry* registry);
 
     void SetSubDir(const char* subdir){m_subdir = subdir;}

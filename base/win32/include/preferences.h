@@ -1,7 +1,9 @@
+
 /*____________________________________________________________________________
 	
-	FreeAMP - The Free MP3 Player
-	Portions copyright (C) 1998 GoodNoise
+	FreeAmp - The Free MP3 Player
+
+	Portions Copyright (C) 1998 GoodNoise
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -17,32 +19,37 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.2 1998/10/17 21:38:06 elrod Exp $
+	$Id: preferences.h,v 1.1 1998/10/17 21:38:06 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef ERROR_H
-#define ERROR_H
 
-#include <config.h>
+#ifndef _PREFERENCES_H
+#define _PREFERENCES_H
 
-
-typedef enum Error
-{
-	kError_NoErr		    = 0,
-	kError_UnknownErr	    = 1,
-    kError_InvalidParam     = 2,
-    kError_LoadLibFailed    = 3,
-    kError_FindFuncFailed   = 4,
-    kError_NoFiles          = 5,
-    kError_NoPrefs          = 6,
-    kError_BufferTooSmall   = 7
-
-}Error;
+#include <windows.h>
+#include "config.h"
+#include "errors.h"
 
 
-#define IsError( err )		( (err) != kError_NoErr )
-#define IsntError( err )	( (err) == kError_NoErr )
+class Preferences {
 
+ public:
+	Preferences();
+	~Preferences();
 
+    Error GetInstallDirectory(char* path, uint32* len);
+    Error SetInstallDirectory(char* path);
 
-#endif /* ERROR_H */
+    Error GetDefaultUI(char* name, uint32* len);
+    Error SetDefaultUI(char* path);
+
+ protected:
+    Error GetPrefString(const char* pref, char* buf, uint32* len);
+    Error SetPrefString(const char* pref, char* buf);
+
+ private:
+     HKEY   m_prefsKey;
+	
+};
+
+#endif /* _PREFERENCES_H */

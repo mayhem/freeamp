@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.10 1998/10/17 18:33:04 elrod Exp $
+	$Id: main.cpp,v 1.11 1998/10/17 21:38:06 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -34,7 +34,7 @@ ____________________________________________________________________________*/
 #include "utility.h"
 #include "registrar.h"
 #include "dummycoo.h"
-
+#include "preferences.h"
 #include "mem.h"
 
 void* operator new(size_t size)
@@ -60,33 +60,36 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     InitWindowsRegistry();
 
     // find all the plug-ins we use
+    Preferences* prefs;
     Registrar* registrar;
     LMCRegistry* lmc;
     PMIRegistry* pmi;
     PMORegistry* pmo;
     UIRegistry*  ui;
 
+    prefs = new Preferences;
+
     registrar = new Registrar;
 
     registrar->SetSubDir("lmc");
     registrar->SetSearchString("*.lmc");
     lmc = new LMCRegistry;
-    registrar->InitializeRegistry(lmc);
+    registrar->InitializeRegistry(lmc, prefs);
 
     registrar->SetSubDir("io");
     registrar->SetSearchString("*.pmi");
     pmi = new PMIRegistry;
-    registrar->InitializeRegistry(pmi);
+    registrar->InitializeRegistry(pmi, prefs);
 
     registrar->SetSearchString("*.pmo");
     pmo = new PMORegistry;
-    registrar->InitializeRegistry(pmo);
+    registrar->InitializeRegistry(pmo, prefs);
 
 
     registrar->SetSubDir("ui");
     registrar->SetSearchString("*.ui");
     ui = new UIRegistry;
-    registrar->InitializeRegistry(ui);
+    registrar->InitializeRegistry(ui, prefs);
 
     delete registrar;
 

@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cmdlineUI.cpp,v 1.25 2000/07/31 19:51:39 ijr Exp $
+        $Id: cmdlineUI.cpp,v 1.26 2000/08/09 17:28:47 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream>
@@ -337,9 +337,9 @@ ProcessArgs()
          processSwitch(&(pc[0]));
    }
    m_plm->SetCurrentIndex(0);
-   Event    *e = new Event(CMD_Play);
-
-   m_playerEQ->AcceptEvent(e);
+   
+   //Event    *e = new Event(CMD_Play);
+   //m_playerEQ->AcceptEvent(e);
 }
 
 void      cmdlineUI::

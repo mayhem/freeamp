@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.h,v 1.1.2.2 1999/10/02 00:40:13 ijr Exp $
+   $Id: GTKFont.h,v 1.1.2.3 1999/10/03 04:49:25 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKFONT_H__
@@ -50,6 +50,7 @@ class GTKFont : public Font
 
       Error    Load(int iFontHeight, bool bBold, bool bItalic);
       int      GetLength(string &oText);
+      int      GetHeight(string &oText);
       void     Render(Rect &oClipRect, string &oText, int iOffset, 
                       const Color &oColor, GTKBitmap *bitmap, bool bUnderline);
       

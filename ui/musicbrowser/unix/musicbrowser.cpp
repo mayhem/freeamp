@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.12 1999/10/02 18:09:08 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.13 1999/10/03 04:49:25 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h" 
@@ -221,6 +221,12 @@ void MusicBrowserUI::MoveItemEvent(int source, int dest)
 void MusicBrowserUI::AddTrackPlaylistEvent(char *path)
 {
     m_plm->AddItem(path, m_currentindex);
+    UpdatePlaylistList();
+}
+
+void MusicBrowserUI::AddTracks(vector<PlaylistItem *> *newlist)
+{
+    m_plm->AddItems(newlist, m_currentindex);
     UpdatePlaylistList();
 }
 

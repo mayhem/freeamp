@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.29 1999/10/02 18:09:09 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.30 1999/10/03 04:49:25 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -647,7 +647,7 @@ void FreeAmpTheme::InitControls(void)
     else    
         m_pWindow->ControlStringValue(string("Title"), true, m_oTitle);
         
-	oWelcome = "Current time";
+    oWelcome = "Current time";
     m_pWindow->ControlStringValue(string("TimeType"), true, oWelcome);
 }
 

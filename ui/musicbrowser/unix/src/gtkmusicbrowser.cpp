@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.10 1999/10/02 18:09:08 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.11 1999/10/03 04:49:25 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -57,6 +57,62 @@ void about();
 /* evil, yes */
 MusicBrowserUI *localui = NULL;
 
+void tree_clicked(GtkWidget *widget, GdkEventButton *event, MusicBrowserUI *p)
+{
+    GtkTree *tree;
+    GtkWidget *item;
+
+    if (!event || (event->type != GDK_2BUTTON_PRESS))
+        return;
+
+    g_return_if_fail(widget != NULL);
+    g_return_if_fail(GTK_IS_TREE(widget));
+    g_return_if_fail(event != NULL);
+
+    tree = GTK_TREE(widget);
+    item = gtk_get_event_widget((GdkEvent *)event);
+
+    while (item && !GTK_IS_TREE_ITEM(item))
+        item = item->parent;
+ 
+    if (!item || (item->parent != widget))
+        return;
+
+    vector<PlaylistItem *> *newlist = new vector<PlaylistItem *>;
+    int type = (int)gtk_object_get_data(GTK_OBJECT(item), "type");
+    switch (type) {
+        case 1: {
+            ArtistList *list = (ArtistList *)gtk_object_get_user_data(GTK_OBJECT(item));
+            vector<AlbumList *>::iterator i = list->m_albumList->begin();
+            for (; i != list->m_albumList->end(); i++)
+                newlist->insert(newlist->end(), (*i)->m_trackList->begin(), 
+                                (*i)->m_trackList->end());
+            break; }
+        case 2: {
+            AlbumList *list = (AlbumList *)gtk_object_get_user_data(GTK_OBJECT(item));
+            newlist->insert(newlist->end(), list->m_trackList->begin(), 
+                            list->m_trackList->end());
+            break; }
+        case 3: {
+            PlaylistItem *i = (PlaylistItem *)gtk_object_get_user_data(GTK_OBJECT(item));
+            newlist->push_back(i);
+            break; }
+        case 4: {
+            PlaylistItem *i = (PlaylistItem *)gtk_object_get_user_data(GTK_OBJECT(item));
+            newlist->push_back(i);
+            break; }
+        case 5: {
+//            char *fname = (char *)gtk_object_get_user_data(GTK_OBJECT(item));
+            break; } 
+        default:
+            break;
+    }
+    if (newlist->begin() != newlist->end())
+        p->AddTracks(newlist);
+
+    delete newlist;
+}
+
 void MusicBrowserUI::UpdateCatalog(void)
 {
     m_musicCatalog = m_context->browser->m_catalog;
@@ -78,29 +134,41 @@ void MusicBrowserUI::UpdateCatalog(void)
 
     vector<ArtistList *>::iterator i = m_musicCatalog->m_artistList->begin();
     item_subtree1 = gtk_tree_new();
+    gtk_signal_connect_after(GTK_OBJECT(item_subtree1), "button_press_event",
+                       GTK_SIGNAL_FUNC(tree_clicked), this);
+
     gtk_tree_item_set_subtree(GTK_TREE_ITEM(artistSubTree), item_subtree1);
 
     for (; i != m_musicCatalog->m_artistList->end(); i++) {
         item_new1 = gtk_tree_item_new_with_label((char *)(*i)->name.c_str());
         gtk_object_set_user_data(GTK_OBJECT(item_new1), *i);
+        gtk_object_set_data(GTK_OBJECT(item_new1), "type", (gpointer)1);
         gtk_tree_append(GTK_TREE(item_subtree1), item_new1);
 
         vector<AlbumList *>::iterator j = (*i)->m_albumList->begin();
         item_subtree2 = gtk_tree_new();
         gtk_tree_item_set_subtree(GTK_TREE_ITEM(item_new1), item_subtree2);
+        gtk_signal_connect_after(GTK_OBJECT(item_subtree2), 
+                                 "button_press_event",
+                                 GTK_SIGNAL_FUNC(tree_clicked), this);
 
         for (; j != (*i)->m_albumList->end(); j++) {
             item_new2 = gtk_tree_item_new_with_label((char *)(*j)->name.c_str());
             gtk_object_set_user_data(GTK_OBJECT(item_new2), *j);
+            gtk_object_set_data(GTK_OBJECT(item_new2), "type", (gpointer)2);
             gtk_tree_append(GTK_TREE(item_subtree2), item_new2);
 
             vector<PlaylistItem *>::iterator k = (*j)->m_trackList->begin();
             item_subtree3 = gtk_tree_new();
             gtk_tree_item_set_subtree(GTK_TREE_ITEM(item_new2), item_subtree3);
+            gtk_signal_connect_after(GTK_OBJECT(item_subtree3), 
+                                     "button_press_event",
+                                     GTK_SIGNAL_FUNC(tree_clicked), this);
 
             for (;k != (*j)->m_trackList->end(); k++) {
                 item_new3 = gtk_tree_item_new_with_label((char *)(*k)->GetMetaData().Title().c_str());
                 gtk_object_set_user_data(GTK_OBJECT(item_new3), *k);
+                gtk_object_set_data(GTK_OBJECT(item_new3), "type", (gpointer)3);
                 gtk_tree_append(GTK_TREE(item_subtree3), item_new3);
                 gtk_widget_show(item_new3);
             }
@@ -114,10 +182,13 @@ void MusicBrowserUI::UpdateCatalog(void)
     gtk_tree_append(GTK_TREE(item_subtree1), item_new1);
     item_subtree2 = gtk_tree_new();
     gtk_tree_item_set_subtree(GTK_TREE_ITEM(item_new1), item_subtree2);
+    gtk_signal_connect_after(GTK_OBJECT(item_subtree2), "button_press_event",
+                             GTK_SIGNAL_FUNC(tree_clicked), this);
 
     for (; l != m_musicCatalog->m_unsorted->end(); l++) {
         item_new2 = gtk_tree_item_new_with_label((char *)(*l)->URL().c_str());
         gtk_object_set_user_data(GTK_OBJECT(item_new2), *l);
+        gtk_object_set_data(GTK_OBJECT(item_new2), "type", (gpointer)4);
         gtk_tree_append(GTK_TREE(item_subtree2), item_new2);
         gtk_widget_show(item_new2);
     }
@@ -128,14 +199,22 @@ void MusicBrowserUI::UpdateCatalog(void)
     gtk_widget_show(playlistSubTree);
     
     item_subtree1 = gtk_tree_new();
+    gtk_signal_connect_after(GTK_OBJECT(item_subtree1), "button_press_event",
+                       GTK_SIGNAL_FUNC(tree_clicked), this);
+
     gtk_tree_item_set_subtree(GTK_TREE_ITEM(playlistSubTree), item_subtree1);
     vector<string>::iterator m = m_musicCatalog->m_playlists->begin();
 
     for (; m != m_musicCatalog->m_playlists->end(); m++) {
         item_new1 = gtk_tree_item_new_with_label((char *)(*m).c_str());
+        gtk_object_set_user_data(GTK_OBJECT(item_new1), (char *)(*m).c_str());
+        gtk_object_set_data(GTK_OBJECT(item_new1), "type", (gpointer)5);
         gtk_tree_append(GTK_TREE(item_subtree1), item_new1);
         gtk_widget_show(item_new1);
     }
+
+    gtk_signal_connect_after(GTK_OBJECT(musicBrowserTree), "button_press_event",
+                       GTK_SIGNAL_FUNC(tree_clicked), this);
 }
 
 void music_search_internal(GtkWidget *widget, MusicBrowserUI *p)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.1.2.2 1999/10/02 00:40:14 ijr Exp $
+   $Id: GTKFont.cpp,v 1.1.2.3 1999/10/03 04:49:25 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKFont.h"
@@ -98,6 +98,17 @@ int GTKFont::GetLength(string &oText)
     return retvalue;
 }
 
+int GTKFont::GetHeight(string &oText)
+{
+    assert(gfont);
+   
+    gdk_threads_enter();
+    int retvalue = gdk_string_height(gfont, oText.c_str());
+    gdk_threads_leave();
+   
+    return retvalue;
+}
+
 void GTKFont::Render(Rect &oClipRect, string &oText, int iOffset, 
                      const Color &oColor, GTKBitmap *bitmap, bool bUnderline)
 {
@@ -117,7 +128,7 @@ void GTKFont::Render(Rect &oClipRect, string &oText, int iOffset,
     gdk_gc_set_clip_rectangle(gc, &clipRect);
 
     gdk_draw_string(bitmap->GetBitmap(), gfont, gc, oClipRect.x1 + iOffset, 
-                    oClipRect.y1 + oClipRect.Height(), oText.c_str());
+                    oClipRect.y1 + oClipRect.Height() - 3, oText.c_str());
 
 // TODO: Underline...
 

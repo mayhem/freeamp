@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.1.2.11 1999/10/02 18:09:09 ijr Exp $
+   $Id: GTKCanvas.cpp,v 1.1.2.12 1999/10/03 04:49:25 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -66,6 +66,7 @@ int GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect,
     Error err = ourFont->Load(iFontHeight, bBold, bItalic);
     if (IsError(err)) 
         return 0;
+
     int width = ourFont->GetLength(oText);
     int offset = 0;
 
@@ -93,6 +94,7 @@ int GTKCanvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
     Error err = ourFont->Load(iFontHeight, bBold, bItalic);
     if (IsError(err))
         return 0;
+
     int width = ourFont->GetLength(oText);
    
     width += iMarqueeSpacer;

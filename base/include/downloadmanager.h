@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.4 1999/09/15 22:19:50 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.5 1999/09/16 00:10:49 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -222,7 +222,7 @@ class DownloadManager {
  
     // File Format support
     Error GetSupportedDownloadFormats(DownloadFormatInfo* format, uint32 index);
-    Error ImportDownloadFile(char* url, vector<DownloadItem*>* items = NULL);
+    Error ReadDownloadFile(char* url, vector<DownloadItem*>* items = NULL);
 
     // Utility Functions
     bool            IsEmpty();

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.3 1999/11/24 07:48:59 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.4 1999/11/27 16:47:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -403,7 +403,8 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
                 bool wasFocus = item == focusItem;
                 bool wasSelected = (tv_item.state & TVIS_SELECTED) != 0;
 
-                selectedOnMouseDown = wasSelected;
+                HTREEITEM rootItem = TreeView_GetRoot(hwnd);
+                selectedOnMouseDown = wasSelected && (CountSelectedItems(rootItem) == 1);
                 
                 if(ctrlKeyPressed)
                 {
@@ -498,6 +499,8 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
                         
                         return TRUE;
                     }
+                    
+                    break;
                 }
                 else
                 {
@@ -624,7 +627,7 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
 
                     return TRUE;
                 }
-                else
+                else if(!shiftKeyPressed)
                 {
                     // need to iterate all the items and 
                     // make sure they aren't selected

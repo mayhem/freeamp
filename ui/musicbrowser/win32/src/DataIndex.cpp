@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DataIndex.cpp,v 1.2 1999/11/07 02:06:23 elrod Exp $
+        $Id: DataIndex.cpp,v 1.3 1999/11/27 16:47:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -87,10 +87,32 @@ bool TreeDataIndex::IsAlbum(int32 lParam)
 
 bool TreeDataIndex::IsTrack(int32 lParam)
 {
+   bool result = false;
+
     if (!IsValidParam(lParam))
        return false;
+
+    result = m_oTreeData[lParam].m_pAlbum != NULL &&
+             m_oTreeData[lParam].m_pArtist != NULL &&
+             m_oTreeData[lParam].m_pTrack != NULL;
+
     
-    return m_oTreeData[lParam].m_pTrack != NULL;
+    return result;
+}
+
+bool TreeDataIndex::IsUncatagorized(int32 lParam)
+{
+   bool result = false;
+
+    if (!IsValidParam(lParam))
+       return false;
+
+    result = m_oTreeData[lParam].m_pAlbum == NULL &&
+             m_oTreeData[lParam].m_pArtist == NULL &&
+             m_oTreeData[lParam].m_pTrack != NULL;
+
+    
+    return result;
 }
 
 bool TreeDataIndex::IsLeaf(int32 lParam)
@@ -98,7 +120,7 @@ bool TreeDataIndex::IsLeaf(int32 lParam)
     if (!IsValidParam(lParam))
        return false;
     
-    return ( IsTrack(lParam) || IsPlaylist(lParam) );
+    return ( IsTrack(lParam) || IsPlaylist(lParam) || IsUncatagorized(lParam));
 }
 
 int32 TreeDataIndex::GetLevel(int32 lParam)

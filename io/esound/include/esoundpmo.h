@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: esoundpmo.h,v 1.6 1999/10/19 07:12:59 elrod Exp $
+        $Id: esoundpmo.h,v 1.7 2000/05/04 10:54:56 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_ESOUNDDPMO_H_
@@ -53,8 +53,8 @@ class EsounDPMO:public PhysicalMediaOutput
      virtual Error Init(OutputInfo * info);
 
      static void   StartWorkerThread(void *);
-     int32         GetVolume(void);
-     void          SetVolume(int32);
+     void          GetVolume(int32 &left, int32 &right);
+     void          SetVolume(int32 left, int32 right);
      
    private:
      void          WorkerThread(void);

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.192 2000/04/28 00:42:54 robert Exp $
+        $Id: player.cpp,v 1.193 2000/05/04 10:54:56 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1495,13 +1495,13 @@ void
 Player::
 GetVolume(Event *pEvent)
 {
-    int iVolume = -1;
+    int32 left = -1, right = -1;
 
     delete pEvent;
     if (m_pmo) 
     {
-       iVolume = m_pmo->GetVolume();
-       SendToUI(new VolumeEvent(INFO_VolumeInfo,iVolume));
+       m_pmo->GetVolume(left, right);
+       SendToUI(new VolumeEvent(INFO_VolumeInfo,left, right));
     }   
 }
 
@@ -1509,9 +1509,10 @@ void
 Player::
 SetVolume(Event *pEvent)
 {
-    int32 v=((VolumeEvent *) pEvent)->GetVolume();
+    int32 left=((VolumeEvent *) pEvent)->GetLeftVolume();
+    int32 right=((VolumeEvent *) pEvent)->GetRightVolume();
     if (m_pmo) 
-        m_pmo->SetVolume(v);
+        m_pmo->SetVolume(left, right);
     delete pEvent;
 }
 

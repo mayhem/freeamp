@@ -19,7 +19,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: wavoutpmo.cpp,v 1.4 2000/03/18 07:09:09 hiro Exp $
+  $Id: wavoutpmo.cpp,v 1.5 2000/05/04 10:54:57 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -84,16 +84,16 @@ WavOutPMO::
   }
 }
 
-int32
+void
 WavOutPMO::
-GetVolume(void)
+GetVolume(int32 &left, int32 &right)
 {
-    return 0;
+    left = right = -1;
 }
 
 void
 WavOutPMO::
-SetVolume(int32 v)
+SetVolume(int32 left, int32 right)
 {
     ;
 }

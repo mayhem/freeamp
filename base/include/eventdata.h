@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.52 2000/04/28 00:42:54 robert Exp $
+        $Id: eventdata.h,v 1.53 2000/05/04 10:54:56 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -303,15 +303,21 @@ class     MediaTimeInfoEvent:public Event
 class     VolumeEvent:public Event
 {
    private:
-   int32 m_volume;
+   int32 m_left, m_right;
    public:
-   VolumeEvent(int32 t, int32 v = 0):m_volume(v)
+   VolumeEvent(int32 t, int32 left = 0, int32 right = 0)
    {
       m_type = t;
+      m_left = left;
+      m_right = right;
    }
-   int32     GetVolume()
+   int32     GetLeftVolume()
    {
-      return m_volume;
+      return m_left;
+   }
+   int32     GetRightVolume()
+   {
+      return m_right;
    }
    virtual ~ VolumeEvent()
    {

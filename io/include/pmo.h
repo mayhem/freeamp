@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.28 2000/03/01 02:34:08 ijr Exp $
+	$Id: pmo.h,v 1.29 2000/05/04 10:54:57 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMO_H_
@@ -72,8 +72,8 @@ public:
     virtual ~PhysicalMediaOutput();
 
     virtual Error Init(OutputInfo* /*info*/) = 0;
-    virtual int32 GetVolume(void) = 0;
-    virtual void  SetVolume(int32) = 0;
+    virtual void  GetVolume(int32 &left, int32 &right) = 0;
+    virtual void  SetVolume(int32 left, int32 right) = 0;
 
     virtual Error Reset(bool bUserReset) = 0;
     virtual void  Pause(void);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.37 2000/02/06 01:52:19 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.38 2000/05/04 10:54:57 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -99,28 +99,29 @@ SoundCardPMO::~SoundCardPMO()
    }
 }
 
-void SoundCardPMO::SetVolume(int32 v)
+void SoundCardPMO::SetVolume(int32 left, int32 right)
 {
-    int mixFd = open("/dev/mixer",O_RDWR);
+    int   mixFd = open("/dev/mixer",O_RDWR);
+    int32 v;
     if (mixFd != -1)
     {
-        v |= (v << 8);
+        v = (right << 8) | left;
         ioctl(mixFd, SOUND_MIXER_WRITE_PCM, &v);
         close(mixFd);
     }
 }
 
-int32 SoundCardPMO::GetVolume()
+void SoundCardPMO::GetVolume(int32 &left, int32 &right)
 {
     int mixFd = open("/dev/mixer",O_RDWR);
     int volume = 0;
     if (mixFd != -1)
     {
          ioctl(mixFd, SOUND_MIXER_READ_PCM, &volume);
-         volume &= 0xFF;
          close(mixFd);
     }
-    return volume;
+    right = (volume >> 8) & 0xFF;
+    left = volume & 0xFF;
 } 
 
 int SoundCardPMO::audio_fd = -1;

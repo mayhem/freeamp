@@ -19,7 +19,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: wavoutpmo.h,v 1.3 2000/03/17 04:22:41 robert Exp $
+  $Id: wavoutpmo.h,v 1.4 2000/05/04 10:54:57 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -56,8 +56,8 @@ public:
   void            Resume(void);
   void            Quit(void);
 
-  virtual int32   GetVolume(void);
-  virtual void    SetVolume(int32);
+  virtual void    GetVolume(int32 &, int32 &);
+  virtual void    SetVolume(int32, int32);
 
   static  void    StartWorkerThread(void *);
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.5 1998/10/19 23:53:22 jdw Exp $
+	$Id: bootstrap.cpp,v 1.6 1998/10/20 17:33:47 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -105,7 +105,6 @@ int main(int argc, char **argv) {
     dummyRef->ref = pDCOO;
     dummyRef->AcceptEvent = pDCOO->AcceptEventStub;
     dummyRef->Cleanup = pDCOO->Cleanup;
-    pDCOO->SetRef(dummyRef);
 
     pP->RegisterActiveUI(dummyRef);
     pP->RegisterLMCs(lmc);

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardlib.cpp,v 1.3 1998/10/17 18:42:57 jdw Exp $
+	$Id: soundcardlib.cpp,v 1.4 1998/10/20 17:33:47 jdw Exp $
 ____________________________________________________________________________*/
 
 /* project headers */
@@ -40,7 +40,17 @@ void Initialize(PMORef ref)
         ref->Write = Write;
         ref->Clear = Clear;
         ref->Cleanup = Cleanup;
+	ref->Resume = Resume;
+	ref->Pause = Pause;
     }
+}
+
+void Pause(PMORef ref) {
+    return;
+}
+
+void Resume(PMORef ref) {
+    return;
 }
 
 bool Init(PMORef ref, OutputInfo* info)

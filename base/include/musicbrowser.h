@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.4 1999/10/23 04:54:42 ijr Exp $
+        $Id: musicbrowser.h,v 1.5 1999/10/24 04:19:56 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -81,6 +81,8 @@ class MusicCatalog
     Error Remove(const char *url);
 
     void  ClearCatalog(void);
+
+    void  Sort(void);
 
     const vector<ArtistList *> *GetMusicList(void) { return m_artistList; }
     const vector<PlaylistItem *> *GetUnsortedMusic(void) { return m_unsorted; }

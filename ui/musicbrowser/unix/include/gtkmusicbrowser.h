@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.4 1999/10/21 16:13:53 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.5 1999/10/24 04:19:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -39,15 +39,17 @@ class FAContext;
 #define STATE_COLLAPSED 0
 #define STATE_EXPANDED  1
 
-class MusicBrowserUI : public UserInterface {
+class GTKMusicBrowser {
  public:
-    MusicBrowserUI(FAContext *);
-    virtual int32 AcceptEvent(Event *);
-    virtual Error Init(int32);
-    static void gtkServiceFunction(void *);
-    virtual ~MusicBrowserUI();
+    GTKMusicBrowser(FAContext *, string playlistURL = string(""));
+    virtual ~GTKMusicBrowser();
+
+    void ShowPlaylist(void);
+    void ShowMusicBrowser(void);
+    void Close(void);
  
-    EventQueue *m_playerEQ;
+    bool Visible(void) { return isVisible; }
+    int32 AcceptEvent(Event *e);
 
     uint32 m_currentindex;
     
@@ -60,24 +62,13 @@ class MusicBrowserUI : public UserInterface {
 
  private:
     bool isVisible;
-    bool weAreGTK;
     void UpdatePlaylistList(void);
     void UpdateCatalog(void);
-    void UpdateCombo(void);
-    void SetComboSelection(string &oName);
 
     Properties *m_propManager;
-    int32 m_startupType;
 
     bool m_initialized;
     bool m_browserCreated;
-
-    void GTKEventService(void);
-
-    int32 m_argc;
-    char **m_argv;
-
-    Thread *gtkThread;
 
     PlaylistManager *m_plm;
     MusicCatalog *m_musicCatalog;

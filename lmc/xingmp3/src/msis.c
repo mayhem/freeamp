@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: msis.c,v 1.2 1999/04/21 04:20:56 elrod Exp $
+	$Id: msis.c,v 1.3 1999/07/27 18:50:58 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  msis.c  ***************************************************
@@ -67,6 +67,10 @@ static float lr[2][8][2];	/* [ms_mode 0/1][sf][left/right]  */
 typedef float ARRAY2_64_2[2][64][2];
 typedef float ARRAY64_2[64][2];
 static float lr2[2][2][64][2];
+
+#ifdef ASM_X86
+extern void antialias_asm(float x[], int n);
+#endif /* ASM_X86 */
 
 
 /*===============================================================*/

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cddb.cpp,v 1.7 2000/10/08 15:32:34 ijr Exp $
+	$Id: cddb.cpp,v 1.8 2000/10/13 10:32:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -70,6 +70,9 @@ bool CDDB::ReadMetaData(const char* url, MetaData* metadata)
             return retvalue;
 
         if (strncasecmp(".CDA", ext, 4))
+            return retvalue;
+
+        if (metadata->Time() != 0)
             return retvalue;
 
         Registry *pmoRegistry = m_context->player->GetPMORegistry();

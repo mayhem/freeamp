@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mbcd.h,v 1.5 2000/10/13 14:51:33 robert Exp $
+	$Id: mbcd.h,v 1.6 2000/11/14 16:41:22 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MBCD_H
@@ -30,6 +30,7 @@ ____________________________________________________________________________*/
 using namespace std;
 
 #include <assert.h>
+#include <time.h>
 
 #if defined(solaris)
 #include <stdarg.h>
@@ -63,6 +64,8 @@ class MusicBrainzCD : public MetaDataFormat {
     vector<int> m_trackLens;
     int         m_nextTrack;
 	Mutex       m_mutex;
+	char        m_notFoundDiskId[48];
+	time_t      m_notFoundDiskIdExpire;
 };
 
 #endif

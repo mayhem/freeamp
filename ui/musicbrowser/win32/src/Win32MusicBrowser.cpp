@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.74 2000/11/13 23:04:13 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.75 2000/11/14 16:41:22 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1017,8 +1017,8 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             if (MessageBox(m_hWnd, mbcdNotFoundMessage, "CD Not Found", 
                 MB_YESNO) == IDYES)
             {
-                ShellExecute(hwnd, "open", ev->URL().c_str(), NULL,
-                               NULL, SW_SHOWNORMAL);
+                ShellExecute(m_hParent, "open", ev->URL().c_str(), NULL,
+                             NULL, SW_SHOWNORMAL);
             }
 
             break; } 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: vector.h,v 1.7 1999/02/09 07:53:52 jdw Exp $
+	$Id: vector.h,v 1.8 1999/02/11 15:32:13 jdw Exp $
 ____________________________________________________________________________*/
 
 // vector.h
@@ -269,7 +269,7 @@ template<class T> T Vector<T>::RemoveElementAt(int32 e) {
 }
 
 template<class T> int32 Vector<T>::DeleteElementAt(int32 e) {
-    T* p = removeElementAt(e);
+    T p = RemoveElementAt(e);
     if (p) {
 	delete p;
 	return 0;

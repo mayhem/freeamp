@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.16 1999/01/25 23:00:12 robert Exp $
+	$Id: playlist.h,v 1.17 1999/02/11 15:32:13 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -192,8 +192,14 @@ class PlayListManager {
     void SetRepeat(RepeatMode rp);
     ShuffleMode GetOrder() {return m_order;}
     RepeatMode GetRepeat() {return m_repeat;}
-	Error ToggleRepeat();
-	Error ToggleShuffle();
+    Error ToggleRepeat();
+    Error ToggleShuffle();
+
+    
+    Error AddAt(char *url, int32 type, int32 at);
+    Error RemoveItem(int32 at);
+    PlayListItem *ItemAt(int32);
+    
 
  private:
     

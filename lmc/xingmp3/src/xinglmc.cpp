@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.46 1999/01/31 21:32:16 robert Exp $
+   $Id: xinglmc.cpp,v 1.47 1999/02/11 15:32:13 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -790,38 +790,38 @@ BeginRead(void *&pBuffer, unsigned int iBytesNeeded)
 	    if (iNow != m_iBufferUpdate)
 	    {
 	        //if (m_target)
-		     //    m_target->AcceptEvent(new StreamBufferEvent(bBuffering, 
-           //    iPercent));
-
+		//    m_target->AcceptEvent(new StreamBufferEvent(bBuffering, 
+		//    iPercent));
+		
 	        printf("Buffer: %d%%  \r", m_input->GetBufferPercentage());
-		     fflush(stdout);
-           m_iBufferUpdate = iNow;
+		fflush(stdout);
+		m_iBufferUpdate = iNow;
 	    }
 
 	    Err = m_input->BeginRead(pBuffer, iBytesNeeded);
 	    if (Err == kError_BufferingUp)
 	    {
-		     if (!bBuffering)
-			  {
-			     printf("Buffering up.\n");
-				  //if (m_target)
-		        //    m_target->AcceptEvent(new StreamBufferEvent(true, iPercent));
-           }
-
-		     bBuffering = true;
-
-		     sleep(1);
-			  continue;
+		if (!bBuffering)
+		{
+		    printf("Buffering up.\n");
+		    //if (m_target)
+		    //    m_target->AcceptEvent(new StreamBufferEvent(true, iPercent));
+		}
+		
+		bBuffering = true;
+		
+		sleep(1);
+		continue;
 	    }
-		 break;
+	    break;
 	}
 
 	if (bBuffering)
 	{
 	    //if (m_target)
-		 //    m_target->AcceptEvent(new StreamBufferEvent(false, iPercent));
-
-       printf("Done buffering up.\n");
+	    //    m_target->AcceptEvent(new StreamBufferEvent(false, iPercent));
+	    
+	    printf("Done buffering up.\n");
 	}
 
 	return Err;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.28 2000/09/26 08:54:00 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.29 2001/01/05 21:59:59 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -89,7 +89,7 @@ typedef struct PrefsStruct
 
     bool pollCD;
     string CDDevicePath;
-    string CDDBServer;
+    string MBServer;
 
     string playlistHeaders;
     
@@ -98,7 +98,7 @@ typedef struct PrefsStruct
         return (
             playlistHeaders == pref.playlistHeaders &&
             CDDevicePath == pref.CDDevicePath &&
-            CDDBServer == pref.CDDBServer &&
+            MBServer == pref.MBServer &&
             pollCD == pref.pollCD &&
             watchThisDirTimeout == pref.watchThisDirTimeout &&
             watchThisDirectory == pref.watchThisDirectory &&
@@ -250,7 +250,7 @@ class GTKPreferenceWindow : public PreferenceWindow
      
       GtkWidget *pollCD;
       GtkWidget *cdPath;
-      GtkWidget *cddbServer;
+      GtkWidget *mbServer;
       
       vector<OptionsPane *> *paneList;
       void AddPane(OptionsPane *pane);      
@@ -320,7 +320,7 @@ class GTKPreferenceWindow : public PreferenceWindow
 
       void PollCDToggle(int active);
       void CDPathSet(char *newpath, bool set);
-      void CDDBServerSet(char *newpath, bool set);
+      void MBServerSet(char *newpath, bool set);
 
       void UpdatePLHeaders(void);     
       void AddPLSelection(void);

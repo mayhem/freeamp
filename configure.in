@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.123 2000/10/13 14:57:08 ijr Exp $
+dnl $Id: configure.in,v 1.124 2001/01/05 21:59:58 robert Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -226,7 +226,6 @@ if test "$UNIX_AUDIO_API" = "qnx"; then
 else
    OSDEPPLUGINS="$OSDEPPLUGINS plugins/cd.lmc"
    OSDEPPLUGINS="$OSDEPPLUGINS plugins/cd.pmo"
-   OSDEPPLUGINS="$OSDEPPLUGINS plugins/cddb.mdf"
 fi
 
 dnl *********************************

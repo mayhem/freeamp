@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.44 2000/10/05 11:47:33 ijr Exp $
+	$Id: preferences.h,v 1.45 2001/01/05 21:59:59 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -84,7 +84,7 @@ extern const char* kPlayImmediatelyPref;
 extern const char* kNumberOfURLsToRememberPref;
 extern const char* kCDDevicePathPref;
 extern const char* kCheckCDAutomaticallyPref;
-extern const char* kCDDBServerPref;
+extern const char* kMBServerPref;
 extern const char* kConvertUnderscoresToSpacesPref;
 extern const char* kAllowMultipleInstancesPref;
 extern const char* kAudioCDLengthPref;

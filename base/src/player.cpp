@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.252 2000/11/19 12:10:27 ijr Exp $
+        $Id: player.cpp,v 1.253 2001/01/05 21:59:59 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -93,12 +93,8 @@ Player(FAContext *context) : EventQueue()
     m_context = context;
     m_context->player = this;
 
-    char *m_faDir = FreeampDir(m_context->prefs);
-
-    m_APSInterface = new APSInterface(m_faDir);
+    m_APSInterface = new APSInterface(context);
     m_context->aps = m_APSInterface;
-
-    delete [] m_faDir;
 
     bool useProxy = false;
     m_context->prefs->GetPrefBoolean(kUseProxyPref, &useProxy);

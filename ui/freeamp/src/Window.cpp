@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.35 2000/05/15 09:34:41 robert Exp $
+   $Id: Window.cpp,v 1.36 2000/05/15 14:29:47 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -62,14 +62,20 @@ Window::Window(Theme *pTheme, string &oName)
 
 Window::~Window(void)
 {
+    vector<Panel *>::iterator i;
+
     if (!m_bIsVulcanMindMeldHost)
     {
        delete m_pCanvas;
        ClearControls();
+
+       for(i = m_oPanels.begin(); i != m_oPanels.end(); i++)
+	     	delete (Panel *)*i;
     }   
 
     delete m_pUsageMutex;
     delete m_pUsageSem;
+
 }
 
 void Window::IncUsageRef(void)

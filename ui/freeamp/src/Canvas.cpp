@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.8 2000/05/15 13:41:31 robert Exp $
+   $Id: Canvas.cpp,v 1.9 2000/05/15 14:29:47 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "Canvas.h"
@@ -34,6 +34,10 @@ Canvas::Canvas(void)
 
 Canvas::~Canvas(void)
 {
+	// The bitmap that was loaded by the theme will be destroyed by the theme
+	// However, if we created any clones, we need to kill those...
+	if (m_pCompleteBGBitmap)
+		delete m_pBGBitmap;
 }
 
 void Canvas::SetBackgroundRect(Rect &oRect)
@@ -80,8 +84,10 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
         return;
     }
 
-    m_pBGBitmap = m_pCompleteBGBitmap->Clone();
+	if (m_pBGBitmap)
+	   delete m_pBGBitmap;
 
+    m_pBGBitmap = m_pCompleteBGBitmap->Clone();
     for(i = pPanels->begin(); i != pPanels->end(); i++)
     {
         if (!(*i)->m_bIsOpen)

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.29 2000/05/24 17:08:33 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.30 2000/06/06 11:07:13 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1184,9 +1184,7 @@ Error DownloadManager::SubmitToDatabase(DownloadItem* item)
             else   
                newtrack = new PlaylistItem(url, &(item->GetMetaData()));
                
-            m_context->plm->RetrieveMetaData(newtrack);
-            while (newtrack->GetState() != kPlaylistItemState_Normal)
-                usleep(100);
+            m_context->plm->RetrieveMetaDataNow(newtrack);
 
             MetaData tempdata = (MetaData)(newtrack->GetMetaData());
             m_context->catalog->WriteMetaDataToDatabase(url, tempdata);

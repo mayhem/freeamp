@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.23 1999/03/07 00:15:58 robert Exp $
+	$Id: playlist.h,v 1.24 1999/03/07 07:29:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -28,7 +28,7 @@ ____________________________________________________________________________*/
 
 #include "config.h"
 
-#include "vector.h"
+#include "list.h"
 #include "errors.h"
 #include "event.h"
 #include "registry.h"
@@ -102,7 +102,7 @@ class PlayListItem {
     int32 StartFrame() const { return m_startFrame; }
     void SetStartFrame(int32 frame) { m_startFrame = frame; }
 
-    char* _DisplayString() const 
+    char* StringForPlayerToDisplay() const 
 	{ 
 		char *pPtr;
 
@@ -134,7 +134,7 @@ class PlayListItem {
 
 class OrderListItem {
  public:
-    int32 m_indexToRealVector;
+    int32 m_indexToRealList;
     int32 m_random;
 };
 
@@ -249,21 +249,26 @@ class PlayListManager {
     Error ToggleRepeat();
     Error ToggleShuffle();
 
-    
     Error AddAt(char *url, int32 type, int32 at);
+    Error AddAt(PlayListItem* item, int32 at);
+
     Error RemoveItem(int32 at);
+    Error RemoveItem(PlayListItem* item);
+
     PlayListItem *ItemAt(int32);
+    int32 IndexOf(PlayListItem* item);
     
 
  private:
     
     EventQueue *			m_target;
-    Vector<PlayListItem *>* m_pMediaElems;
+    List<PlayListItem*>*    m_pMediaElems;
+    List<OrderListItem*>*   m_pOrderList;
     int32                   m_current;
     int32                   m_skipNum;
 	Mutex *					m_plMutex;
 
-    Vector<OrderListItem *> *m_pOrderList;
+    
     ShuffleMode m_order;
     RepeatMode m_repeat;
 

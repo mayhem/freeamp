@@ -18,14 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.h,v 1.5 1999/03/01 22:47:21 robert Exp $
+	$Id: registry.h,v 1.6 1999/03/07 07:29:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _REGISTRY_H_
 #define _REGISTRY_H_
 
 #include "config.h"
-#include "vector.h"
+#include "list.h"
 #include "log.h"
 
 typedef void *(*InitializeFunction)(LogFile *);
@@ -64,7 +64,7 @@ class RegistryItem {
 
 class Registry {
  private:
-    Vector<RegistryItem*> *m_elements;
+    List<RegistryItem*> *m_elements;
     int32 m_count;
     
  public:

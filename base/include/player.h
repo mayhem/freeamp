@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.29 1999/02/28 00:21:24 robert Exp $
+        $Id: player.h,v 1.30 1999/03/07 07:29:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -29,7 +29,7 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "queue.h"
 #include "ui.h"
-#include "vector.h"
+#include "list.h"
 #include "mutex.h"
 #include "playlist.h"
 #include "semaphore.h"
@@ -140,7 +140,7 @@ class     Player:public EventQueue, Properties, PropertyWatcher
    // their "Ready To Die" infos.
 
    int32     m_imQuitting;
-   Vector < UserInterface * >*m_uiVector;
+   List < UserInterface * >*m_uiList;
 
    Mutex    *m_uiManipLock;
    Mutex    *m_lmcMutex;
@@ -157,7 +157,7 @@ class     Player:public EventQueue, Properties, PropertyWatcher
    PMORegistry *m_pmoRegistry;
    UIRegistry *m_uiRegistry;
 
-             Vector < char *>*m_argUIvector;
+    List < char *>*m_argUIList;
 
    int32     m_argc;
    char    **m_argv;

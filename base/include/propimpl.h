@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: propimpl.h,v 1.2 1999/01/23 05:01:06 jdw Exp $
+	$Id: propimpl.h,v 1.3 1999/03/07 07:29:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PROPIMPL_H_
@@ -28,7 +28,7 @@ ____________________________________________________________________________*/
 
 #include "config.h"
 #include "hashtable.h"
-#include "vector.h"
+#include "list.h"
 #include "mutex.h"
 #include "properties.h"
 
@@ -38,7 +38,7 @@ class PropertiesImpl : public Properties {
     public:
 	PropElem() { m_val = NULL; }
 	~PropElem() {if (m_val) delete m_val; }
-	Vector<PropertyWatcher *> m_propWatchers;
+	List<PropertyWatcher *> m_propWatchers;
 	PropValue *m_val;
     };
     HashTable<PropElem *> *m_props;

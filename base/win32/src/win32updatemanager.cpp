@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.4 1999/12/12 18:30:32 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.5 1999/12/12 22:54:40 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -218,8 +218,9 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
                                 uint32 major = HIWORD(fileInfo->dwFileVersionMS);
                                 uint32 minor = LOWORD(fileInfo->dwFileVersionMS);
                                 uint32 rev = HIWORD(fileInfo->dwFileVersionLS);
+                                uint32 file = LOWORD(fileInfo->dwFileVersionLS);
 
-                                ost << major << "." << minor << "." << rev;
+                                ost << major << "." << minor << "." << rev << "." << file;
                                 
                                 item->SetLocalFileVersion(ost.str());
 

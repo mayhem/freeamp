@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.35 1999/10/07 07:15:47 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.36 1999/10/14 20:54:54 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -701,6 +701,8 @@ Error DownloadManager::Download(DownloadItem* item)
                 const char* kRange = "Range: %lu-\n"
                                      "If-Range: %s\n";
 
+                const char* kCookie = "Cookie: %s\n";
+
                 // the magic 58 is enough for fixed length time in
                 // HTTP time format + 2 terabyte length range numbers.
                 // the 2 extra bytes on the end is an extra \n and 0x00 byte
@@ -709,6 +711,7 @@ Error DownloadManager::Download(DownloadItem* item)
                                         strlen(localname) +
                                         strlen(FREEAMP_VERSION)+
                                         (item->GetBytesReceived() ? (strlen(kRange) + 58): 0 ) +
+                                        (item->SourceCookie().size() ? (item->SourceCookie().size() + strlen(kCookie)): 0) +
                                         2];
             
                 sprintf(query, kHTTPQuery, file, localname, FREEAMP_VERSION);
@@ -735,6 +738,17 @@ Error DownloadManager::Download(DownloadItem* item)
                     {
                         item->SetBytesReceived(0);
                     }
+                }
+
+                if(item->SourceCookie().size())
+                {
+                    char* cookie = new char[strlen(kCookie) + item->SourceCookie().size() + 1];
+
+                    sprintf(cookie, kCookie, item->SourceCookie().c_str());
+
+                    strcat(query, cookie);
+
+                    delete [] cookie;
                 }
             
                 strcat(query, "\n");

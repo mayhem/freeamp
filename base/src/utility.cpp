@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.10 1999/10/25 13:17:29 elrod Exp $
+	$Id: utility.cpp,v 1.11 1999/11/07 21:50:48 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -332,7 +332,8 @@ Error FilePathToURL(const char* path, char* url, uint32* length)
         int32 extra = 0;
 
 #ifdef WIN32
-         if(path[0] == '\\')
+         // is this relative or network path
+         if(path[0] == '\\' && path[1] != '\\') 
          {
              extra = 2;
          }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Headlines.cpp,v 1.8 2000/05/17 23:56:22 robert Exp $
+   $Id: Headlines.cpp,v 1.9 2000/05/19 09:55:51 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -125,8 +125,6 @@ void Headlines::worker_thread(void* arg)
 void Headlines::WorkerThread(void)
 {
     time_t t;
-
-    m_pWakeSem->Wait();
 
     for(;;)
     {

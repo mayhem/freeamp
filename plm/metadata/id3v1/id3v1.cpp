@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.cpp,v 1.6 2000/04/26 13:08:17 robert Exp $
+	$Id: id3v1.cpp,v 1.7 2000/05/07 12:48:27 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -243,9 +243,17 @@ bool ID3v1::ReadMetaData(const char* url, MetaData* metadata)
     bool result = false;
     Error error;
     id3v1 id3;
+    char *ptr;
 
     assert(url);
     assert(metadata);
+
+    ptr = strrchr(url, '.');
+    if (ptr == NULL)
+        return false;
+
+    if (strcasecmp(ptr, ".mp3"))
+        return false;  
 
     if(url && metadata)
     {

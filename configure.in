@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.96 2000/05/06 13:28:36 ijr Exp $
+dnl $Id: configure.in,v 1.97 2000/05/07 12:48:27 robert Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -535,9 +535,9 @@ if test "x$enable_alsa" = "xno"; then
 fi
 
 if test "$have_alsa" = "true"; then
-  AC_MSG_CHECKING(for libasound headers version >= 0.4.0)
+  AC_MSG_CHECKING(for libasound headers version >= 0.5.0)
   alsa_min_major_version=0
-  alsa_min_minor_version=4
+  alsa_min_minor_version=5
   alsa_min_micro_version=0
   ac_save_CFLAGS="$CFLAGS"
   ac_save_LIBS="$LIBS"

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.57 2000/09/26 08:54:00 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.58 2000/09/29 14:47:08 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -842,11 +842,13 @@ GtkWidget *GTKPreferenceWindow::CreateGeneral(void)
 
 void GTKPreferenceWindow::SaveLocalToggle(int active)
 {
-    gtk_widget_set_sensitive(saveStreamLabel, active);
-    gtk_widget_set_sensitive(saveStreamBox, active);
-    gtk_widget_set_sensitive(saveBrowseBox, active);
-    proposedValues.saveStreams = active;
-    gtk_widget_set_sensitive(applyButton, TRUE);
+    if (!firsttime) {
+        gtk_widget_set_sensitive(saveStreamLabel, active);
+        gtk_widget_set_sensitive(saveStreamBox, active);
+        gtk_widget_set_sensitive(saveBrowseBox, active);
+        proposedValues.saveStreams = active;
+        gtk_widget_set_sensitive(applyButton, TRUE);
+    }
 }
 
 static void save_local_toggle(GtkWidget *w, GTKPreferenceWindow *p)
@@ -857,13 +859,15 @@ static void save_local_toggle(GtkWidget *w, GTKPreferenceWindow *p)
 
 void GTKPreferenceWindow::ProxyToggle(int active)
 {
-    gtk_widget_set_sensitive(proxyAddyBox, active);
-    gtk_widget_set_sensitive(proxyPortBox, active);
-    gtk_widget_set_sensitive(proxyColon, active);
-    gtk_widget_set_sensitive(proxyAddyLabel, active);
-    gtk_widget_set_sensitive(proxyPortLabel, active);
-    proposedValues.useProxyServer = active;
-    gtk_widget_set_sensitive(applyButton, TRUE);
+    if (!firsttime) {
+        gtk_widget_set_sensitive(proxyAddyBox, active);
+        gtk_widget_set_sensitive(proxyPortBox, active);
+        gtk_widget_set_sensitive(proxyColon, active);
+        gtk_widget_set_sensitive(proxyAddyLabel, active);
+        gtk_widget_set_sensitive(proxyPortLabel, active);
+        proposedValues.useProxyServer = active;
+        gtk_widget_set_sensitive(applyButton, TRUE);
+    }
 }
 
 static void proxy_toggle(GtkWidget *w, GTKPreferenceWindow *p)
@@ -874,16 +878,18 @@ static void proxy_toggle(GtkWidget *w, GTKPreferenceWindow *p)
 
 void GTKPreferenceWindow::AltIPToggle(int active)
 {
-    gtk_widget_set_sensitive(ipLabel, active);
-    gtk_widget_set_sensitive(ipOneBox, active);
-    gtk_widget_set_sensitive(ipPeriod1, active);
-    gtk_widget_set_sensitive(ipTwoBox, active);
-    gtk_widget_set_sensitive(ipPeriod2, active);
-    gtk_widget_set_sensitive(ipThreeBox, active);
-    gtk_widget_set_sensitive(ipPeriod3, active);
-    gtk_widget_set_sensitive(ipFourBox, active);
-    proposedValues.useAlternateIP = active;
-    gtk_widget_set_sensitive(applyButton, TRUE);
+    if (!firsttime) {
+        gtk_widget_set_sensitive(ipLabel, active);
+        gtk_widget_set_sensitive(ipOneBox, active);
+        gtk_widget_set_sensitive(ipPeriod1, active);
+        gtk_widget_set_sensitive(ipTwoBox, active);
+        gtk_widget_set_sensitive(ipPeriod2, active);
+        gtk_widget_set_sensitive(ipThreeBox, active);
+        gtk_widget_set_sensitive(ipPeriod3, active);
+        gtk_widget_set_sensitive(ipFourBox, active);
+        proposedValues.useAlternateIP = active;
+        gtk_widget_set_sensitive(applyButton, TRUE);
+    }
 }
 
 static void alt_ip_toggle(GtkWidget *w, GTKPreferenceWindow *p)

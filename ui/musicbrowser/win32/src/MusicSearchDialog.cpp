@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicSearchDialog.cpp,v 1.2 1999/11/12 21:29:53 elrod Exp $
+        $Id: MusicSearchDialog.cpp,v 1.3 1999/11/22 07:32:19 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -260,7 +260,27 @@ BOOL MusicBrowserUI::MusicSearchDlgProc(HWND hwnd,
                             MultiByteToWideChar(CP_OEMCP, MB_PRECOMPOSED, temp,
                                                 strlen(temp), drive, sizeof(drive));
 
-                            desktop->ParseDisplayName(hwnd, NULL, drive, &eaten, &pidlDrive, NULL);
+                            HRESULT res;
+
+                            res = desktop->ParseDisplayName(hwnd, NULL, drive, &eaten, &pidlDrive, NULL);
+
+                            LPVOID lpMessageBuffer;
+
+		                    FormatMessage(
+		                      FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		                      FORMAT_MESSAGE_FROM_SYSTEM,
+		                      NULL,
+		                      res,
+		                      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		                      (LPTSTR) &lpMessageBuffer,
+		                      0,
+		                      NULL );
+
+		                    // now display this string
+ 		                    //MessageBox(NULL, (char*)lpMessageBuffer, 0, MB_OK);
+
+		                    // Free the buffer allocated by the system
+		                    LocalFree( lpMessageBuffer );
 
                             Edit_GetText(hwndDirectory, 
                                          temp,

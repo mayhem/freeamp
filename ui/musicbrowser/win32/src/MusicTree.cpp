@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.22 1999/11/17 09:52:08 elrod Exp $
+        $Id: MusicTree.cpp,v 1.23 1999/11/18 02:49:06 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -658,6 +658,7 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
                                             const PlaylistItem* item)
 {
     const MetaData meta = item->GetMetaData();
+    HTREEITEM newItem = NULL;
 
     // can we catagorize this track?
     if(!artist) 
@@ -691,7 +692,7 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
         sInsert.item.lParam = m_oTreeIndex.Add(oCrossRef);
         sInsert.hInsertAfter = TVI_SORT;
         sInsert.hParent = m_hUncatItem;
-        TreeView_InsertItem(m_hMusicCatalog, &sInsert);
+        newItem = TreeView_InsertItem(m_hMusicCatalog, &sInsert);
     }
     else 
     {
@@ -735,7 +736,7 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
                     sInsert.item.lParam = m_oTreeIndex.Add(oCrossRef);
                     sInsert.hInsertAfter = TVI_SORT;
                     sInsert.hParent = albumItem;
-                    TreeView_InsertItem(m_hMusicCatalog, &sInsert);
+                    newItem = TreeView_InsertItem(m_hMusicCatalog, &sInsert);
                 }
             }
             else // might need to add the album
@@ -761,7 +762,7 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
                     sInsert.item.lParam = m_oTreeIndex.Add(oCrossRef);
                     sInsert.hInsertAfter = TVI_SORT;
                     sInsert.hParent = artistItem;
-                    TreeView_InsertItem(m_hMusicCatalog, &sInsert);
+                    newItem = TreeView_InsertItem(m_hMusicCatalog, &sInsert);
                 }
             }
         }
@@ -786,10 +787,12 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
                 sInsert.item.lParam = m_oTreeIndex.Add(oCrossRef);
                 sInsert.hInsertAfter = TVI_SORT;
                 sInsert.hParent = m_hCatalogItem;
-                TreeView_InsertItem(m_hMusicCatalog, &sInsert);
+                newItem = TreeView_InsertItem(m_hMusicCatalog, &sInsert);
             }       
         }
     }
+
+    //TreeView_EnsureVisible(m_hMusicCatalog, newItem);
 
     // put it under "All Tracks"
     if(TreeView_GetChild(m_hMusicCatalog, m_hAllItem))
@@ -799,7 +802,7 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
         MetaData        oData;
 
         sInsert.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_CHILDREN |
-                            TVIF_SELECTEDIMAGE | TVIF_PARAM; 
+                            TVIF_SELECTEDIMAGE | TVIF_PARAM;
 
         oCrossRef.m_iLevel = 3;
         oCrossRef.m_pArtist = (ArtistList*)artist;

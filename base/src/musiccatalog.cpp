@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.20 1999/11/17 05:45:28 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.21 1999/11/18 02:49:06 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -201,8 +201,8 @@ Error MusicCatalog::RemoveSong(const char *url)
         for (; i != m_unsorted->end(); i++)
             if (url == (*i)->URL())
             {
+                m_context->target->AcceptEvent(new MusicCatalogTrackRemovedEvent(*i, NULL, NULL));     
                 m_unsorted->erase(i);
-                m_context->target->AcceptEvent(new MusicCatalogTrackRemovedEvent(*i, NULL, NULL));                
                 break;
             }
     }
@@ -231,8 +231,8 @@ Error MusicCatalog::RemoveSong(const char *url)
                         for (; k != trList->end() && !found; k++)
                             if (url == (*k)->URL())
                             {
-                                trList->erase(k);
                                 m_context->target->AcceptEvent(new MusicCatalogTrackRemovedEvent(*k, *i, *j));
+                                trList->erase(k);
                                 found = true;
                                 break;
                             }    

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: PlaylistView.cpp,v 1.3 2000/03/28 11:30:52 hiro Exp $
+        $Id: PlaylistView.cpp,v 1.4 2000/03/28 11:59:40 hiro Exp $
 ____________________________________________________________________________*/
 
 #include "PlaylistView.h"
@@ -132,6 +132,11 @@ PlaylistView::MouseMoved( BPoint point, uint32 transit,
         // if the user is draggin something over, activate the inserter.
         SetInserter( IndexOf( point ) );
     }
+
+    if ( transit == B_EXITED_VIEW )
+    {
+        SetInserter( -1 );
+    }
 }
 
 void
@@ -165,6 +170,8 @@ PlaylistView::SetCurrentlyPlaying( int32 index )
 void
 PlaylistView::SetInserter( int32 index )
 {
+    if ( m_inserter == index ) return;
+
     InvalidateItem( m_inserter );
     m_inserter = index;
     InvalidateItem( m_inserter );

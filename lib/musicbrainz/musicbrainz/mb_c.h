@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------
 
-   MusicBrainz -- The Intenet music metadatabase
+   MusicBrainz -- The Internet music metadatabase
 
    Copyright (C) 2000 Robert Kaye
    
@@ -18,7 +18,7 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-     $Id: mb_c.h,v 1.4 2000/09/22 09:25:51 robert Exp $
+     $Id: mb_c.h,v 1.8 2000/10/06 13:30:43 sward Exp $
 
 ----------------------------------------------------------------------------*/
 #ifndef _MB_C_H_

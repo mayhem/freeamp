@@ -1,8 +1,7 @@
 /*____________________________________________________________________________
-	
-	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1998 GoodNoise
+	FreeAMP - The Free MP3 Player
+	Portions copyright (C) 1998 GoodNoise
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,35 +17,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ctrlobj.h,v 1.6 1998/10/16 21:56:42 elrod Exp $
+	$Id: about.h,v 1.1 1998/10/16 21:56:42 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef _CTRLOBJ_H_
-#define _CTRLOBJ_H_
+#ifndef ABOUT_H
+#define ABOUT_H
 
-#include "event.h"
+BOOL CALLBACK AboutProc(HWND hwnd, 
+						UINT msg, 
+						WPARAM wParam, 
+						LPARAM lParam );
 
-
-class UserInterface : public EventQueue {
- public:
-    virtual int32 AcceptEvent(Event *) = 0;
-    virtual ~UserInterface() {}
-};
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-typedef struct UI{
-    void*   ref;
-
-    EventQueue* (*Target)   (struct UI*);
-    void        (*Cleanup)  (struct UI*);
-
-}UI, *UIRef;
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
-
-#endif // _CTRLOBJ_H_
+#endif /* ABOUT_H */

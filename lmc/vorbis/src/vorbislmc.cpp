@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.cpp,v 1.5 2000/07/31 19:51:39 ijr Exp $
+   $Id: vorbislmc.cpp,v 1.6 2000/08/03 17:09:50 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -31,7 +31,6 @@ ____________________________________________________________________________*/
 
 #include "config.h"
 #include "errors.h"
-#include "xinglmc.h"
 #include "pmoevent.h"
 #include "eventbuffer.h"
 #include "event.h"
@@ -102,7 +101,7 @@ Error VorbisLMC::Prepare(PullBuffer *pInputBuffer, PullBuffer *&pOutBuffer)
       m_decoderThread = Thread::CreateThread();
       if (!m_decoderThread)
       {
-         return (Error) lmcError_DecoderThreadFailed;
+         return kError_CreateThreadFailed;
       }
       m_decoderThread->Create(VorbisLMC::DecodeWorkerThreadFunc, this);
    }

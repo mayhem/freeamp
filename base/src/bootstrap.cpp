@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.5 1998/10/15 13:33:49 elrod Exp $
+	$Id: bootstrap.cpp,v 1.6 1998/10/15 21:40:10 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -69,7 +69,9 @@ int main(int argc, char **argv) {
     //cout << "Created dcoo..." << endl;
     pP->RegisterCOO(pDCOO);
     //cout << "Registered DummyCOO" << endl;
-
+    //Event *pe = new Event(CMD_QuitPlayer);
+    //Player::GetPlayer()->AcceptEvent(pe);
+#if 1
     CIO *pCIO = NULL;
     COO *pCOO = NULL;
 #ifdef __linux__
@@ -122,6 +124,8 @@ int main(int argc, char **argv) {
 //    pP->acceptEvent(*pC);
 //    delete pC;
 //    cout << "main: stopping..." << endl;
+
+#endif
 
     termSemaphore->Wait();
 

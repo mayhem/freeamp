@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.6 1998/10/14 17:11:11 jdw Exp $
+##      $Id: Makefile.am,v 1.7 1998/10/15 21:40:10 jdw Exp $
 ##
 ############################################################################
 
@@ -32,7 +32,7 @@ TRGT_SYS_HEADS = @top_srcdir@/base/win32/include
 FILES = 
 else
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
-FILES = player.cpp bootstrap.cpp command.cpp buffer.cpp playlist.cpp hashtable.cpp thread.cpp
+FILES = player.cpp bootstrap.cpp command.cpp buffer.cpp playlist.cpp hashtable.cpp thread.cpp registrar.cpp utility.cpp
 endif
 
 if AM_HAVE_LINUXTHREADS
@@ -42,7 +42,7 @@ endif
 noinst_LIBRARIES = libfabase.a
 libfabase_a_SOURCES = $(FILES)
 
-INCLUDES = -I@top_srcdir@/base/include -I$(TRGT_SYS_HEADS) -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@top_srcdir@/lmc/include -I@top_srcdir@/ui/dummy/include -I@top_srcdir@/io/local -I@top_srcdir@/lmc/xingmp3/include
+INCLUDES = -I@top_srcdir@/base/include -I$(TRGT_SYS_HEADS) -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@top_srcdir@/lmc/include -I@top_srcdir@/ui/dummy/include -I@top_srcdir@/io/local -I@top_srcdir@/lmc/xingmp3/include -I@top_srcdir@/ui/cmdline
 CXXFLAGS = -D__@target_os@__ $(REENT) $(EXTRA_CXXFLAGS)
 
 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.1 1998/10/13 08:46:10 elrod Exp $
+	$Id: utility.h,v 1.1 1998/10/15 21:40:06 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UTILITY_H_

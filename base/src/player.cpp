@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.11 1998/10/15 13:33:49 elrod Exp $
+	$Id: player.cpp,v 1.12 1998/10/15 21:40:10 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -402,7 +402,7 @@ int32 Player::ServiceEvent(Event *pC) {
 		        m_lmcRef->ChangePosition(m_lmcRef, myPlayList->GetSkip());
 		        m_lmcRef->Decode(m_lmcRef);
 
-#ifdef __linux__
+#if 0
                 
 		        PhysicalMediaInput* pmi = NULL;
 		        //cout << "Done deleting myLMC" << endl;

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: error.h,v 1.2 1998/10/15 13:33:49 elrod Exp $
+	$Id: errors.h,v 1.1 1998/10/17 20:15:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H

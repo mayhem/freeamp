@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.6 2000/01/10 19:38:52 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.6.2.1 2000/02/23 22:05:35 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -95,7 +95,7 @@ Error Win32UpdateManager::UpdateComponents(UMCallBackFunction function,
 {
     Error result;
     
-    result = UpdateManager::UpdateComponents();
+    result = UpdateManager::UpdateComponents(function, cookie);
 
     if(IsntError(result))
     {

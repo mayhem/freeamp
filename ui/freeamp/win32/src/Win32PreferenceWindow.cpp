@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.31 2000/02/15 21:33:45 robert Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.31.2.1 2000/02/23 22:05:35 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2325,11 +2325,10 @@ static void check_function(void* arg)
 
     ListView_RedrawItems(ts->hwndList, 0, ListView_GetItemCount(ts->hwndList) - 1);
 
-
     EnableWindow(hwndUpdate, TRUE);
     EnableWindow(hwndCancel, FALSE);
-    ShowWindow(hwndCheck, SW_SHOW);
     ShowWindow(hwndCancel, SW_HIDE);
+    ShowWindow(hwndCheck, SW_SHOW);
 
     EnableWindow(hwndPrefOK, TRUE);
     EnableWindow(hwndPrefCancel, TRUE);
@@ -2424,8 +2423,8 @@ static void update_function(void* arg)
 
     EnableWindow(hwndCheck, TRUE);
     EnableWindow(hwndCancel, FALSE);
-    ShowWindow(hwndUpdate, SW_SHOW);
     ShowWindow(hwndCancel, SW_HIDE);
+    ShowWindow(hwndUpdate, SW_SHOW);
 
     EnableWindow(hwndPrefOK, TRUE);
     EnableWindow(hwndPrefCancel, TRUE);

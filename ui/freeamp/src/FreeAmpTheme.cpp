@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.7 2000/02/28 01:51:13 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8 2000/02/28 04:38:04 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1118,7 +1118,7 @@ void FreeAmpTheme::ReloadTheme(void)
     szTemp = new char[iLen];
 
     m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
-    if (_stat(szTemp, &buf) < 0)
+    if (_stat(szTemp, &buf) < 0 && strlen(szTemp) > 0)
     {
        // If the theme doesn't exist, let's try to prepend the install/theme dir
        char   *dir;

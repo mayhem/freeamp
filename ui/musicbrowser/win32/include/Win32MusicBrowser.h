@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.44 1999/12/02 22:06:53 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.45 1999/12/03 02:13:08 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -332,6 +332,8 @@ class MusicBrowserUI : public UserInterface
 
     MetaData            m_editTrackMetaData;
     DeviceInfo*         m_portableDevice;
+
+    bool                m_autoPlayHack;
 };
 
 #endif

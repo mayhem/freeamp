@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.10 1998/10/27 08:35:07 elrod Exp $
+	$Id: soundcardpmo.cpp,v 1.11 1998/10/29 06:04:55 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -118,11 +118,11 @@ SoundCardPMO::
 }
 
 
-bool 
+Error 
 SoundCardPMO::
 Init(OutputInfo* info)
 {
-	bool		result		= false;
+	Error		result		= kError_UnknownErr;
 	MMRESULT	mmresult	= 0;
 
 	m_channels				= info->number_of_channels;
@@ -154,7 +154,7 @@ Init(OutputInfo* info)
 
 	if(mmresult == MMSYSERR_NOERROR)
 	{
-		result = true;
+		result = kError_NoErr;
 	}
 
 	uint32 i;
@@ -167,7 +167,7 @@ Init(OutputInfo* info)
 
 		if(!temp) 
 		{
-			result = false;
+			result = kError_OutOfMemory;
 			//cerr << "error allocating WAVEHDR" << endl;
 			break;
 		}
@@ -176,7 +176,7 @@ Init(OutputInfo* info)
 
 		if(!temp->lpData)
 		{
-			result = false;
+			result = kError_OutOfMemory;
 			break;
 		}
 
@@ -201,11 +201,11 @@ Init(OutputInfo* info)
 	return result;
 }
 
-bool 
+Error 
 SoundCardPMO::
 Reset(bool user_stop)
 {
-	bool result = false;
+	Error result = kError_NoErr;
 
 	if(user_stop)
 	{
@@ -267,16 +267,20 @@ NextHeader()
 	return result;
 }
 
-void 
+Error 
 SoundCardPMO::
 Pause()
 {
      waveOutPause(m_hwo);
+
+     return kError_NoErr;
 }
 
-void 
+Error 
 SoundCardPMO::
 Resume()
 {
     waveOutRestart(m_hwo);
+
+    return kError_NoErr;
 }

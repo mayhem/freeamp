@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.5 1998/10/27 08:35:07 elrod Exp $
+	$Id: soundcardpmo.h,v 1.6 1998/10/29 06:04:55 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -47,11 +47,11 @@ public:
     SoundCardPMO();
     virtual ~SoundCardPMO();
     
-    virtual bool Init(OutputInfo* info);
-    virtual bool Reset(bool user_stop);
+    virtual Error Init(OutputInfo* info);
+    virtual Error Reset(bool user_stop);
     virtual int32 Write(void*,int32);
-    virtual void Pause();
-    virtual void Resume();
+    virtual Error Pause();
+    virtual Error Resume();
     
     
  private:

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ui.h,v 1.3 1998/10/28 02:27:24 jdw Exp $
+	$Id: ui.h,v 1.4 1998/10/29 06:04:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UI_H_
@@ -50,7 +50,7 @@ typedef struct UI{
 class UserInterface : public EventQueue {
  public:
     virtual int32 AcceptEvent(Event *) = 0;
-    virtual void  SetArgs(int32,char **) = 0;
+    virtual void SetArgs(int32,char **) = 0;
     virtual void SetTarget(EventQueue *) = 0;
     virtual void Init() = 0;
     virtual ~UserInterface() {}

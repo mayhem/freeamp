@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.11 1998/10/27 08:35:07 elrod Exp $
+	$Id: simpleui.cpp,v 1.12 1998/10/29 06:04:56 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -48,11 +48,10 @@ BOOL CALLBACK MainProc(	HWND hwnd,
 						WPARAM wParam, 
 						LPARAM lParam ); 
 
-extern "C" {
-SimpleUI *Initialize() {
+extern "C" SimpleUI *Initialize() 
+{
     return new SimpleUI();
 }
-	   }
 
 
 INT WINAPI DllMain (HINSTANCE hInst,

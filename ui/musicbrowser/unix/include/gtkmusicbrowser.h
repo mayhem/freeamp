@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.53 2000/09/11 06:39:38 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.54 2000/09/14 11:00:22 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -110,6 +110,7 @@ class GTKMusicBrowser {
     string m_currentListName;
 
     vector<TreeData *> *mbSelections;
+
     GtkCTree *musicBrowserTree;
  
     FAContext *GetContext(void) { return m_context; }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.cpp,v 1.10 2000/07/31 19:51:39 ijr Exp $
+	$Id: misc.cpp,v 1.11 2000/09/14 11:00:22 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -173,6 +173,33 @@ bool Misc::ReadMetaData(const char* url, MetaData* metadata)
     else if(!strncasecmp(url, "rtp://", 6) && !metadata->Title().size())
     {
         metadata->SetTitle("RTP Stream");
+    }
+
+    // do we need to come up with a track number?
+    if (!strncasecmp(url, "file://", 7) && !metadata->Track())
+    {
+        char *temp = new char[strlen(url) + 1];
+        strcpy(temp, url);
+
+        char *ext = strrchr(temp, '.');
+        char *file = strrchr(temp, '/');
+
+        if (ext) {
+            *ext = '\0';
+            ext++;
+        }
+        if (!file)
+            file = temp;
+        else
+            file++;
+        
+        while (file && !isdigit(*file))
+            file++;
+
+        if (strlen(file) > 4)
+            metadata->SetTrack(atoi(file));
+
+        delete [] temp;
     }
 
     // do we need to convert underscores?

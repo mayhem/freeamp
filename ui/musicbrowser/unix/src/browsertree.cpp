@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.26 2000/08/30 20:00:33 ijr Exp $
+        $Id: browsertree.cpp,v 1.27 2000/09/14 11:00:22 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -106,7 +106,7 @@ vector<PlaylistItem *> *GTKMusicBrowser::GetTreeSelection(void)
         case kTreeMyMusic:
         case kTreeAll: {
             MusicCatalog *cat = data->catalog;
-            if (!cat)
+            if (!cat) 
                 return newlist;
             vector<ArtistList *> *artistList =
                                    (vector<ArtistList *>*)cat->GetMusicList();

@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.107 2000/09/11 18:17:33 ijr Exp $
+dnl $Id: configure.in,v 1.108 2000/09/14 11:00:22 ijr Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -619,11 +619,11 @@ if test "$have_alsa" = "true"; then
   AC_MSG_RESULT([compiling alsa soundcard plugin])
 fi
 
-AC_CHECK_LIB(vorbis, ogg_sync_init,
-  OSDEPPLUGINS="$OSDEPPLUGINS plugins/vorbis.lmc";
-  OSINC="$OSINC -I$srcdir/lmc/vorbis/include"
-  AC_MSG_RESULT([compiling vorbis codec plugin])
-)
+dnl AC_CHECK_LIB(vorbis, ogg_sync_init,
+dnl  OSDEPPLUGINS="$OSDEPPLUGINS plugins/vorbis.lmc";
+dnl  OSINC="$OSINC -I$srcdir/lmc/vorbis/include"
+dnl  AC_MSG_RESULT([compiling vorbis codec plugin])
+dnl )
 
 AC_SUBST(EXTRALIBS)
 AC_SUBST(OSDEPPLUGINS)

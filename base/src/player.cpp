@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.43 1999/10/18 23:17:45 robert Exp $
+        $Id: player.cpp,v 1.133.2.44 1999/10/18 23:35:52 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1197,7 +1197,6 @@ DoneOutputting(Event *pEvent)
    if (SetState(PlayerState_Stopped))
    {
        SEND_NORMAL_EVENT(INFO_Stopped);
-       AcceptEvent(new Event(CMD_PlayPaused));
    }
 
    SEND_NORMAL_EVENT(INFO_DoneOutputting);

@@ -3,7 +3,6 @@
    FreeAmp - The Free MP3 Player
 
    Copyright (C) 1999 EMusic
-   Copyright (C) 1999 Hiromasa Kato
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,15 +18,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSPreferenceWindow.cpp,v 1.5 2000/07/10 04:23:56 hiro Exp $
+   $Id: BeOSPreferenceWindow.cpp,v 1.6 2000/07/12 23:02:07 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "BeOSPreferenceWindow.h"
 #include "BeOSWindow.h"
-#if BEOSPREF
 #include "PrefWindow.h"
-#include "PrefView.h"
-#endif
 #include <be/support/Debug.h>
 
 #define CHECK_POINT CHECK_POINT_MSG("")
@@ -55,12 +51,6 @@ BeOSPreferenceWindow::Show( Window* parent )
         BRect r( 100, 100, 600, 500 );
         m_prefWindow = new PrefWindow( r, "Preference",
                                        m_pContext, m_pThemeMan );
-#if 0
-        r.OffsetTo( B_ORIGIN );
-        m_prefView = new PrefView( m_pContext, m_pThemeMan,
-                                   r, "PrefView" );
-        m_prefWindow->AddChild( m_prefView );
-#endif
     }
 
     m_prefWindow->Show();

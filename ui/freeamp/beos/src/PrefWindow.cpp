@@ -19,11 +19,10 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: PrefWindow.cpp,v 1.2 2000/07/10 04:23:56 hiro Exp $
+   $Id: PrefWindow.cpp,v 1.3 2000/07/12 23:02:07 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #include "PrefWindow.h"
-#include "PrefView.h"
 #include "PrefViews.h"
 #include "facontext.h"
 #include "eventdata.h"
@@ -62,7 +61,6 @@ PrefWindow::InitViews( void )
     BRect frame( Frame() );
     frame.OffsetTo( B_ORIGIN );
 
-#if 1
     // Construct the views.
 
     BView* root = new BView( frame, "GreyRoot", B_FOLLOW_ALL, B_WILL_DRAW );
@@ -143,11 +141,6 @@ PrefWindow::InitViews( void )
     m_panes.push_back( pane );
 
     m_currentPane = 0;
-#else
-    PrefView* prefView = new PrefView( context, themeManager,
-                                       frame, "PrefView" );
-    AddChild( prefView );
-#endif
 }
 
 PrefWindow::~PrefWindow()

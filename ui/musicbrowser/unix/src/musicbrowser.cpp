@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: musicbrowser.cpp,v 1.32 2000/03/30 20:23:23 ijr Exp $
+   $Id: musicbrowser.cpp,v 1.33 2000/04/08 05:35:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -103,6 +103,7 @@ void MusicBrowserUI::GTKEventService(void)
     if (!m_context->gtkInitialized) {
         m_context->gtkInitialized = true;
         g_thread_init(NULL);
+        gtk_set_locale();
         gtk_init(&m_argc, &m_argv);
         gdk_rgb_init();
         weAreGTK = true;

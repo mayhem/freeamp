@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.7 2000/03/28 01:34:54 elrod Exp $
+   $Id: GTKUtility.cpp,v 1.8 2000/04/08 05:35:59 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "config.h"
@@ -82,6 +82,7 @@ void InitializeGTK(FAContext *context)
     if (!context->gtkInitialized) {
         context->gtkInitialized = true;
 	g_thread_init(NULL);
+        gtk_set_locale();
 	gtk_init(&context->argc, &context->argv);
 	gdk_rgb_init();
 	weAreGTK = true;

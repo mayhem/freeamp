@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.1.2.6 1999/09/23 01:29:53 robert Exp $
+   $Id: Theme.h,v 1.1.2.7 1999/09/23 18:17:36 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -73,6 +73,7 @@ class Theme : public Parse
       Bitmap *FindBitmap(string &oName);
       Error   ParseRect(string &oRectString, Rect &oRect);
       Error   ParseColor(string &oColorString, Color &oColor);
+      Error   ParsePos(string &oPosString, Pos &oPos);
       void    ClearWindows(void);
       void    ClearBitmaps(void);
 

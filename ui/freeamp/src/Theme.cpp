@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.6 1999/09/23 18:13:48 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.7 1999/09/23 18:17:38 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -254,6 +254,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     if (oElement == string("Bitmap"))
     {
        Bitmap *pBitmap;
+       Pos     oPos;
 
 #ifndef WIN32
        pBitmap = new GTKBitmap(oAttrMap["Name"]);
@@ -272,6 +273,10 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
                           oAttrMap["File"] + string(": ") + oBitmapErr;
            return eRet;
        }
+
+       eRet = ParsePos(oAttrMap["TransIndex"], oPos);
+       if (eRet != kError_NoErr)
+           pBitmap->SetTransIndexPos(oPos);
        
        if (!m_pParsedBitmaps)
            m_pParsedBitmaps = new vector<Bitmap *>;
@@ -600,5 +605,16 @@ Error Theme::ParseColor(string &oColorstring, Color &oColor)
 
     return (iRet == 3) ? kError_NoErr : kError_InvalidParam;
 }
+
+Error Theme::ParsePos(string &oPosstring, Pos &oPos)
+{
+    int iRet;
+
+    iRet = sscanf(oPosstring.c_str(), " %d , %d",
+    		&oPos.x, &oPos.y);
+
+    return (iRet == 2) ? kError_NoErr : kError_InvalidParam;
+}
+
 
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.cpp,v 1.1.2.3 1999/09/08 23:26:40 elrod Exp $
+   $Id: Bitmap.cpp,v 1.1.2.4 1999/09/23 18:17:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -42,4 +42,9 @@ void Bitmap::GetName(string &oName)
 void Bitmap::GetErrorString(string &oError)
 {
     oError = m_oLastError;
+}
+
+void Bitmap::SetTransIndexPos(Pos &oPos)
+{
+    m_oTransIndexPos = oPos;
 }

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: localfileinput.cpp,v 1.4 1998/10/27 02:28:43 jdw Exp $
+	$Id: localfileinput.cpp,v 1.5 1998/10/27 21:40:13 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -156,16 +156,26 @@ SetTo(char* url)
     return result;
 }
 
-int32 LocalFileInput::
-Read(void* buf, size_t numbytes)
+Error LocalFileInput::
+Read(int32 &rtn, void* buf, size_t numbytes)
 {
-	return read(m_fd, (char*)buf, numbytes);
+    rtn = read(m_fd, (char *)buf, numbytes);
+    if (rtn >= 0) {
+	return kError_NoErr;
+    } else {
+	return kError_Unsuccessful;
+    }
 }
 
-int32 LocalFileInput::
-Seek(int32 offset, int32 origin)
+Error LocalFileInput::
+Seek(int32 &rtn, int32 offset, int32 origin)
 {
-	return lseek(m_fd, offset, origin);
+    rtn = lseek(m_fd, offset, origin);
+    if (rtn >= 0) {
+	return kError_NoErr;
+    } else {
+	return kError_Unsuccessful;
+    }
 }
 
 Error LocalFileInput::

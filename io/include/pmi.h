@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.5 1998/10/20 08:49:46 elrod Exp $
+	$Id: pmi.h,v 1.6 1998/10/27 21:40:13 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -51,31 +51,11 @@ class PhysicalMediaInput {
 
 public:
     virtual ~PhysicalMediaInput() { }
-    virtual int32 Read(void* /*buf*/, size_t /*numbytes*/) {return -1;}
-    virtual int32 Seek(int32 offset, int32 origin) {return -1;}
+    virtual Error Read(int32 &/*bytes read*/,void* /*buf*/, size_t /*numbytes*/) {return kError_GotDefaultMethod;}
+    virtual Error Seek(int32 &/*seeked to*/,int32 offset, int32 origin) {return kError_GotDefaultMethod;}
     virtual Error SetTo(char* url) = 0;
     virtual Error Close(void) = 0;
     virtual const char* Url(void) const = 0;
 };
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-typedef struct PMI {
-    void*       ref;
-    int32       (*Read)     (struct PMI*, void*, size_t);
-    int32       (*Seek)     (struct PMI*, int32, int32);
-    Error       (*SetTo)    (struct PMI*, char*);
-    Error       (*Close)    (struct PMI*);
-    const char* (*Url)      (struct PMI*);
-    void        (*Cleanup)  (struct PMI*);
-
-}PMI, *PMIRef;
-
-
-#ifdef __cplusplus
-} //extern "C" 
-#endif
 
 #endif /* _PMI_H_ */

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: localfileinput.h,v 1.3 1998/10/20 08:49:46 elrod Exp $
+	$Id: localfileinput.h,v 1.4 1998/10/27 21:40:13 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LOCALFILEINPUT_H_
@@ -36,8 +36,8 @@ public:
 	LocalFileInput();
 	LocalFileInput(char* path);
 	virtual ~LocalFileInput(void);
-	virtual int32 Read(void* buf, size_t numbytes);
-	virtual int32 Seek(int32 offset, int32 origin);
+	virtual Error Read(int32 &rtn, void* buf, size_t numbytes);
+	virtual Error Seek(int32 &rtn, int32 offset, int32 origin);
 	virtual Error SetTo(char* url);
 	virtual Error Close(void);
 	virtual const char* Url(void) const { return m_path; }

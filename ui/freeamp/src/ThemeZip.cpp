@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.1.2.7 1999/10/11 21:25:04 robert Exp $
+   $Id: ThemeZip.cpp,v 1.1.2.8 1999/10/12 23:19:16 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -51,6 +51,7 @@ ThemeZip::ThemeZip(void)
 ThemeZip::~ThemeZip(void)
 {
 }
+
 Error ThemeZip::CompressThemeZip(const string &oDestFile, 
                                  vector<string *> &oFileList)
 {

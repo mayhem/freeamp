@@ -18,16 +18,16 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.1.2.1 1999/10/11 22:01:23 ijr Exp $
+   $Id: ThemeManager.cpp,v 1.1.2.2 1999/10/12 23:19:16 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <netinet/in.h>
 #include "ThemeManager.h"
-#include "debug.h"
+#include "utility.h"
 #include "win32impl.h"
-
-#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 ThemeManager::ThemeManager(FAContext *pContext)
 {
@@ -46,7 +46,7 @@ Error ThemeManager::GetDefaultTheme(string &oThemePath)
 
     m_pContext->prefs->GetInstallDirectory(dir, &len);
     oThemePath = string(dir);
-    oThemePath += string("/themes/freeamp.fat");    
+    oThemePath += string("../share/freeamp/themes/freeamp.fat");    
 
     return kError_NoErr;
 }
@@ -60,20 +60,53 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
     string          oThemePath, oThemeBasePath, oThemeFile;
 
     m_pContext->prefs->GetInstallDirectory(dir, &len);
-    oThemeBasePath = string(dir) + "../freeamp/themes";
+    oThemeBasePath = string(dir) + "../share/freeamp/themes";
     oThemePath = oThemeBasePath + string("/*.fat");    
 
     handle = FindFirstFile((char *)oThemePath.c_str(), &find);
     if(handle == INVALID_HANDLE_VALUE)
         return kError_NoErr;
 
-    do
-    {
+    do {
 	oThemeFile = oThemeBasePath + string("/") + string(find.cFileName);
     	ptr = strrchr(find.cFileName, '.');
         if (ptr)
            *ptr = 0;
 
+        oThemeFileMap[find.cFileName] = oThemeFile;
+    }
+    while(FindNextFile(handle, &find));
+
+    oThemeBasePath = FreeampDir(NULL) + string("/themes");
+
+    struct stat st;
+    if (-1 == stat(oThemeBasePath.c_str(), &st))
+        mkdir(oThemeBasePath.c_str(), 0755);
+    oThemePath = oThemeBasePath + string("/*.fat");
+    handle = FindFirstFile((char *)oThemePath.c_str(), &find);
+    if(handle == INVALID_HANDLE_VALUE)
+        return kError_NoErr;
+
+    do {
+        oThemeFile = oThemeBasePath + string("/") + string(find.cFileName);
+        ptr = strrchr(find.cFileName, '.');
+        if (ptr)
+           *ptr = 0;
+        oThemeFileMap[find.cFileName] = oThemeFile;
+    }
+    while(FindNextFile(handle, &find));
+
+    oThemeBasePath = "./themes";
+    oThemePath = oThemeBasePath + string("/*.fat");
+    handle = FindFirstFile((char *)oThemePath.c_str(), &find);
+    if(handle == INVALID_HANDLE_VALUE)
+        return kError_NoErr;
+
+    do {
+        oThemeFile = oThemeBasePath + string("/") + string(find.cFileName);
+        ptr = strrchr(find.cFileName, '.');
+        if (ptr)
+           *ptr = 0;
         oThemeFileMap[find.cFileName] = oThemeFile;
     }
     while(FindNextFile(handle, &find));
@@ -105,14 +138,45 @@ Error ThemeManager::UseTheme(string &oThemeFile)
 
 Error ThemeManager::AddTheme(string &oThemeFile)
 {
-    Debug_v("Add theme: %s", oThemeFile.c_str());
+    string oThemeDest;
+    char fcopy[_MAX_PATH], *filename, *ext;
+    FILE *orig, *dest;
+
+    oThemeDest = FreeampDir(NULL) + string("/themes");
+    strcpy(fcopy, oThemeFile.c_str());
+    filename = strrchr(fcopy, '/');
+    if (filename)
+        filename = filename + 1;
+    else
+        filename = fcopy;
+    ext = strrchr(filename, '.');
+    if (ext)
+        *ext = '\0';
+    if (strcmp(filename, m_oCurrentTheme.c_str()) == 0) {
+        return kError_NoErr;
+    }
+    
+    oThemeDest += string(filename) + string(".") + string(ext);   
+
+    orig = fopen(oThemeFile.c_str(), "r");
+    if (!orig)
+        return kError_FileNotFound;
+    dest = fopen(oThemeDest.c_str(), "w");
+    if (!dest) {
+        fclose(orig);
+        return kError_FileNotFound;
+    }
+    unsigned char buf[1];
+    while (fread(buf, 1, 1, orig))
+        fwrite(buf, 1, 1, dest);
+    fclose(orig);
+    fclose(dest);
     return kError_NoErr;
 }
 
 Error ThemeManager::DeleteTheme(string &oThemeFile)
 {
-    Debug_v("Delete theme: %s", oThemeFile.c_str());
-    return kError_NoErr;
+    return unlink(oThemeFile.c_str()) == 0 ? kError_NoErr : kError_UnlinkFailed;
 }
 
 Error ThemeManager::GetCurrentTheme(string &oTheme)

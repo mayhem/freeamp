@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.21 1999/10/11 04:20:00 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.22 1999/10/12 22:20:08 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -139,6 +139,13 @@ THEMEUIOBJ = ui/theme/src/Theme.doh ui/theme/src/Bitmap.o \
 
 plugins/theme.ui: $(THEMEUIOBJ)
 	$(LINKMOD) -o $@ $(THEMEUIOBJ) $(GTK_LIBS) -Llib/zlib/lib -lzlib
+
+# MakeTheme, only built if we're building the theme.ui
+
+MAKETHEMEOBJ = ui/theme/tools/src/MakeTheme.o ui/theme/src/ThemeZip.o
+
+MakeTheme: $(MAKETHEMEOBJ)
+	$(CXXLINK) $(MAKETHEMEOBJ) -Llib/zlib/lib -lzlib
 
 # cmdline
 CMDUIOBJ = ui/cmdline/cmdlineUI.o

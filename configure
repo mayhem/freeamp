@@ -3103,7 +3103,7 @@ fi
 
 if test "$have_gtk" = "true"; then
   OSDEPPLUGINS="$OSDEPPLUGINS plugins/musicbrowser.ui"
-  OSDEPPLUGINS="$OSDEPPLUGINS plugins/theme.ui"
+  OSDEPPLUGINS="$OSDEPPLUGINS plugins/theme.ui MakeTheme"
   OSDEPPLUGINS="$OSDEPPLUGINS plugins/download.ui"
   OSINC="$OSINC -Iui/musicbrowser/unix"
   OSINC="$OSINC -Iui/theme/include -Iui/theme/unix/include"

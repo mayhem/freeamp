@@ -18,27 +18,28 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MakeTheme.cpp,v 1.1.2.1 1999/10/09 18:53:04 robert Exp $
+   $Id: MakeTheme.cpp,v 1.1.2.2 1999/10/12 22:20:09 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include<stdio.h>
+#ifdef WIN32
 #include<io.h>
+#define access(a,b) _access(a,b)
+#else
+#include <unistd.h>
+#endif
 #include<errno.h>
 #include "ThemeZip.h"
 
-#ifdef WIN32
-#define access(a,b) _access(a,b)
-#endif
-
 int main(int argc, char *argv[])
 {
-	vector<string *> list;
-	string           destFile;
+    vector<string *> list;
+    string           destFile;
     int              i;
     Error            err;
-	ThemeZip         oZip;
+    ThemeZip         oZip;
     
-	if (argc < 2)
+    if (argc < 2)
     {
         printf("Usage: \n\n");
         printf("To zip a theme:\n");
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
         return -1;
     }
     
-	destFile = argv[1];
+    destFile = argv[1];
     if (destFile == string("-d"))
     {
         destFile = argv[2];
@@ -64,7 +65,7 @@ int main(int argc, char *argv[])
     
     for(i = 2; i < argc; i++)
     {
-		if (access(argv[i], 2))
+	if (access(argv[i], 2))
         {
             printf("File %s: ", argv[i]);
             if (errno == ENOENT)

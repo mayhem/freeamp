@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.5 1998/11/03 09:13:28 elrod Exp $
+	$Id: freeampui.h,v 1.6 1998/11/07 02:39:04 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -48,7 +48,7 @@ class FreeAmpUI : public UserInterface {
     virtual void SetTarget(EventQueue*);
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int32,char **);
-
+	virtual void SetPlayListManager(PlayListManager *);
 
     void CreateUI();
 
@@ -65,7 +65,7 @@ class FreeAmpUI : public UserInterface {
 
     EventQueue*     m_target;
 	int32			m_state;
-	PlayList *		m_playList;
+	PlayListManager *m_plm;
     float			m_secondsPerFrame;
 
  protected:

@@ -18,40 +18,21 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ui.h,v 1.4 1998/10/29 06:04:56 elrod Exp $
+	$Id: ui.h,v 1.5 1998/11/07 02:39:04 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UI_H_
 #define _UI_H_
 
 #include "event.h"
-
-
-#if 0
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-typedef struct UI{
-    void*   ref;
-
-    void        (*SetTarget)    (struct UI*, EventQueueRef);
-    void        (*SetArgs)      (struct UI*,int32 /*argc*/,char ** /*argv*/);
-    int32       (*AcceptEvent)  (struct UI*,Event *);
-    void        (*Cleanup)      (struct UI*);
-
-}UI, *UIRef;
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
-#endif
+#include "playlist.h"
 
 class UserInterface : public EventQueue {
  public:
     virtual int32 AcceptEvent(Event *) = 0;
     virtual void SetArgs(int32,char **) = 0;
     virtual void SetTarget(EventQueue *) = 0;
+	virtual void SetPlayListManager(PlayListManager *) = 0;
     virtual void Init() = 0;
     virtual ~UserInterface() {}
 };

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.19 1998/11/06 21:05:10 jdw Exp $
+	$Id: player.h,v 1.20 1998/11/07 02:39:04 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -99,7 +99,7 @@ class Player : public EventQueue {
     Mutex*                  m_pmiMutex;
     Mutex*                  m_pmoMutex;
     Mutex*                  m_uiMutex;
-    PlayList*               m_myPlayList;
+    PlayListManager*               m_plm;
     
     LogicalMediaConverter * m_lmc;
     UserInterface *         m_ui;

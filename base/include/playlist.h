@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.9 1998/10/22 06:07:38 elrod Exp $
+	$Id: playlist.h,v 1.10 1998/11/07 02:39:04 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -43,7 +43,8 @@ class OrderListItem {
     int32 m_random;
 };
 
-class PlayList {
+
+class PlayListManager {
 public:
     enum OrderOfPlay {
 	ORDER_STRAIGHT = 1,
@@ -58,8 +59,8 @@ public:
     };
 
  public:
-    PlayList();
-    ~PlayList();
+    PlayListManager();
+    ~PlayListManager();
     void Add(char *,int);
     void SetSkip(int32 f) { m_skipNum = f; } // logical media units to skip at beginning
     int32 GetSkip() { return m_skipNum; }

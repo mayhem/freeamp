@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.h,v 1.5 1998/11/02 07:13:00 jdw Exp $
+	$Id: simpleui.h,v 1.6 1998/11/07 02:39:05 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SIMPLE_UI_H_
@@ -46,7 +46,7 @@ class SimpleUI : public UserInterface {
     virtual void SetTarget(EventQueue*);
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int32,char **);
-
+	virtual void SetPlayListManager(PlayListManager *);
 
     void CreateUI();
 
@@ -67,6 +67,7 @@ class SimpleUI : public UserInterface {
 
 
  private:
+	 PlayListManager *m_plm;
 	 int32			m_totalSeconds;
 	 float			m_secondsPerFrame;
     Thread*         m_uiThread;

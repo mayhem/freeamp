@@ -18,13 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.19 1999/04/16 00:04:07 robert Exp $
+   $Id: pullbuffer.cpp,v 1.20 1999/04/20 03:09:09 dogcow Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <unistd.h>
 
 #include "pullbuffer.h"
 #include "log.h"

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.48 2000/03/13 21:26:01 ijr Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.49 2000/03/17 01:38:52 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -313,7 +313,6 @@ void MusicBrowserUI::MusicSearchDone()
                     
     m_bSearchInProgress = false;
                 
-    //InitTree();
     TreeView_Expand(m_hMusicView,m_hPlaylistItem, TVE_EXPAND);
     TreeView_Expand(m_hMusicView,m_hMyMusicItem, TVE_EXPAND);
 }
@@ -344,10 +343,10 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             AddToolbarButtons(useTextLabels, useImages);
             UpdateButtonStates();
 
-            /*if(TreeView_GetChild(m_hMusicView, m_hPortableItem) != NULL)
+            if(TreeView_GetChild(m_hMusicView, m_hPortableItem) != NULL)
             {    
                 FillPortables();
-            }*/
+            }
             break;
         }
 

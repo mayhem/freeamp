@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.49 2000/03/13 21:26:01 ijr Exp $
+        $Id: MusicTree.cpp,v 1.50 2000/03/17 01:38:52 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -136,7 +136,6 @@ void MusicBrowserUI::InitTree(void)
     insert.hParent = temp;
     m_hShoutCastItem = TreeView_InsertItem(m_hMusicView, &insert);
 
-    /*
     insert.item.pszText = kPortables;
     insert.item.cchTextMax = lstrlen(insert.item.pszText);
     insert.item.iImage = 7;
@@ -146,7 +145,6 @@ void MusicBrowserUI::InitTree(void)
     insert.hInsertAfter = TVI_LAST;
     insert.hParent = NULL;
     m_hPortableItem = TreeView_InsertItem(m_hMusicView, &insert);
-    */
 }
 
 void MusicBrowserUI::FillArtists(void)

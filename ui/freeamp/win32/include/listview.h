@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.h,v 1.3 1999/03/07 07:30:40 elrod Exp $
+	$Id: listview.h,v 1.4 1999/03/08 12:08:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LIST_VIEW_H_
@@ -77,6 +77,7 @@ class ListView : public View {
     virtual bool        RemoveItem(ListItem* item);
     virtual ListItem*   RemoveItem(int32 index);
     virtual bool        RemoveItems(int32 index, int32 count);
+    virtual bool        RemoveAll();
 
     virtual	void SetListType(list_view_type type);
 
@@ -85,14 +86,19 @@ class ListView : public View {
             ListItem*   ItemAt(int32 index) const;
             int32	    IndexOf(int32 x, int32 y) const;
 		    int32	    IndexOf(ListItem* item) const;
+
 		    ListItem*   FirstItem() const;
 		    ListItem*   LastItem() const;
+
 		    bool	    HasItem(ListItem* item) const;
 		    int32	    CountItems() const;
+
     virtual	void	    MakeEmpty();
 		    bool	    IsEmpty() const;
+
 		    void	    DoForEach(bool (*func)(ListItem*));
 		    void	    DoForEach(bool (*func)(ListItem*, void*), void*);
+
     const   ListItem**  Items() const;
 		    void        InvalidateItem(int32 index);
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listitem.h,v 1.2 1999/03/06 03:45:00 elrod Exp $
+	$Id: listitem.h,v 1.3 1999/03/08 12:08:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LIST_ITEM_H
@@ -48,18 +48,18 @@ class ListItem {
 	void	SetWidth(int32 width) { m_width = width;}
 
     bool	IsSelected() const { return m_selected;}
-    void	Select(bool selected = true) { m_selected = selected;}
-    void	Deselect() { m_selected = false;}
+    virtual void Select(bool selected = true) { m_selected = selected;}
+    virtual void Deselect() { Select(false);}
 
     bool	IsEnabled() const { return m_enabled;}
-    void    Enable(bool enable = true) { m_enabled = enable;}
-    void    Disable() { m_enabled = false;}
+    virtual void Enable(bool enable = true) { m_enabled = enable;}
+    virtual void Disable() { Enable(false);}
 
     void*   UserValue() const { return m_userValue;}
     void    SetUserValue(void* value) { m_userValue = value;}
 
 		    
-    virtual	void    DrawItem(DIB* canvas, RECT* bounds) = 0;
+    virtual	void DrawItem(DIB* canvas, RECT* bounds) = 0;
 
 
  private:

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.16 1999/03/07 07:30:40 elrod Exp $
+	$Id: freeampui.h,v 1.17 1999/03/08 12:08:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -80,6 +80,7 @@ class FreeAmpUI : public UserInterface {
     {HCURSOR result = m_cursor; m_cursor = cursor; return result;}
 
     HCURSOR Cursor(void) const { return m_cursor;}
+    HPALETTE Palette(void) const { return m_palette; }
 
     PlayListManager* GetPlayListManager() const { return m_plm; }
 
@@ -108,12 +109,15 @@ class FreeAmpUI : public UserInterface {
 
     void CreateControls();
 
+    void CreatePalette();
+
     void UpdatePlayList();
 
  public:
     
 	
  private:
+    
     Semaphore*          m_uiSemaphore;
     float			    m_secondsPerFrame;
     int32			    m_state;
@@ -124,6 +128,7 @@ class FreeAmpUI : public UserInterface {
     Properties*         m_propManager;
     Thread*             m_uiThread;
     HWND                m_hwnd;
+    HPALETTE            m_palette;
     HCURSOR             m_cursor;
 
     LinkedList<View*>*  m_viewList;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: timeview.h,v 1.1 1999/03/03 09:03:41 elrod Exp $
+	$Id: timeview.h,v 1.2 1999/03/08 12:08:30 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _TIME_VIEW_H_
@@ -36,7 +36,7 @@ class TimeView : public View {
     TimeView(   HWND hwnd, 
                 View* parent, 
                 HRGN viewRegion, 
-                DIB* backgroundBitmap,
+                //DIB* backgroundBitmap,
                 DIB* timeFontBitmap,
                 int32 timeFontHeight,
                 int32* timeFontWidths,
@@ -49,7 +49,7 @@ class TimeView : public View {
     TimeView(   HWND hwnd, 
                 View* parent, 
                 RECT* viewRect, 
-                DIB* backgroundBitmap,
+                //DIB* backgroundBitmap,
                 DIB* timeFontBitmap,
                 int32 timeFontHeight,
                 int32* timeFontWidths,
@@ -97,8 +97,8 @@ class TimeView : public View {
  protected:
     
  private:
-    DIB*            m_backgroundBitmap;
-    DIB*            m_viewBitmap;
+    //DIB*            m_backgroundBitmap;
+    //DIB*            m_viewBitmap;
 
     DIB*            m_timeFontBitmap;
     int32*          m_timeFontWidths;

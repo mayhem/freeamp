@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.3 2000/03/04 08:39:45 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.4 2000/03/06 23:40:31 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -653,8 +653,7 @@ Error DownloadManager::Download(DownloadItem* item)
             }            
         }
 
-        if(item->GetState() == kDownloadItemState_Cancelled ||
-           item->GetState() == kDownloadItemState_Paused)
+        if(item->GetState() != kDownloadItemState_Downloading) 
             result = kError_UserCancel;
 
         // get hostname
@@ -691,8 +690,7 @@ Error DownloadManager::Download(DownloadItem* item)
                 memcpy(&host, hostByName, sizeof(struct hostent));
             }
 
-            if(item->GetState() == kDownloadItemState_Cancelled ||
-               item->GetState() == kDownloadItemState_Paused)
+            if(item->GetState() != kDownloadItemState_Downloading) 
                 result = kError_UserCancel;
         }
 
@@ -711,8 +709,7 @@ Error DownloadManager::Download(DownloadItem* item)
             if(s < 0)
                 result = kError_CantCreateSocket;
 
-            if(item->GetState() == kDownloadItemState_Cancelled ||
-               item->GetState() == kDownloadItemState_Paused)
+            if(item->GetState() != kDownloadItemState_Downloading)
                 result = kError_UserCancel;
         }
 
@@ -724,8 +721,7 @@ Error DownloadManager::Download(DownloadItem* item)
             if(connect(s,(const struct sockaddr*)&addr, sizeof(struct sockaddr)))
                 result = kError_CannotBind;
 
-            if(item->GetState() == kDownloadItemState_Cancelled ||
-               item->GetState() == kDownloadItemState_Paused)
+            if(item->GetState() != kDownloadItemState_Downloading)
                 result = kError_UserCancel;
 
             if(IsntError(result))
@@ -805,8 +801,7 @@ Error DownloadManager::Download(DownloadItem* item)
                     result = kError_IOError;
                 }
 
-                if(item->GetState() == kDownloadItemState_Cancelled ||
-                   item->GetState() == kDownloadItemState_Paused)
+                if(item->GetState() != kDownloadItemState_Downloading)
                     result = kError_UserCancel;
 
                 delete [] query;
@@ -853,8 +848,7 @@ Error DownloadManager::Download(DownloadItem* item)
                         result = kError_IOError;
                     }
 
-                    if(item->GetState() == kDownloadItemState_Cancelled ||
-                       item->GetState() == kDownloadItemState_Paused)
+                    if(item->GetState() != kDownloadItemState_Downloading)
                         result = kError_UserCancel;
 
 
@@ -947,8 +941,7 @@ Error DownloadManager::Download(DownloadItem* item)
                                 if(wcount < 0)
                                     result = kError_WriteFile;
 
-                                if(item->GetState() == kDownloadItemState_Cancelled ||
-                                   item->GetState() == kDownloadItemState_Paused)
+                                if(item->GetState() != kDownloadItemState_Downloading)
                                     result = kError_UserCancel;
 
                             }while(count > 0 && IsntError(result) && 

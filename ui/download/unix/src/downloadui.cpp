@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.12.4.3 2000/03/04 08:39:45 ijr Exp $
+        $Id: downloadui.cpp,v 1.12.4.4 2000/03/06 23:40:31 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -221,6 +221,7 @@ Error DownloadUI::AcceptEvent(Event *e)
 
 void DownloadUI::UpdateOverallProgress(void)
 {
+/*
     uint32 itemCount = downloadList.size();
     uint32 totalBytes = 0, doneBytes = 0;
     uint32 totalItems = 0, doneItems = 0;
@@ -245,6 +246,7 @@ void DownloadUI::UpdateOverallProgress(void)
              }
         }
     }
+*/
 }
 
 void DownloadUI::CancelEvent(void)
@@ -285,8 +287,12 @@ void DownloadUI::ResumeEvent(void)
 
     DownloadItem *dli = downloadList[m_currentindex];
     if (dli != *downloadList.end()) {
-        m_dlm->QueueDownload(dli, true);
-	m_dlm->ResumeDownloads();
+        if (!m_resumeLabelIsStart) {
+            m_dlm->QueueDownload(dli, true);
+            m_dlm->ResumeDownloads();
+        }
+        else
+            m_dlm->ResumeDownloads();
         gtk_widget_set_sensitive(m_PauseButton, TRUE);
         gtk_widget_set_sensitive(m_CancelButton, TRUE);
         gtk_widget_set_sensitive(m_ResumeButton, FALSE);
@@ -301,12 +307,19 @@ bool DownloadUI::UpdateButtons(int row)
         return false; 
 
     gtk_label_set_text(GTK_LABEL(m_ResumeLabel), "  Resume  ");
+    m_resumeLabelIsStart = false;
+
     switch (dli->GetState()) {
         case kDownloadItemState_Queued: {
             gtk_widget_set_sensitive(m_PauseButton, FALSE);
             gtk_widget_set_sensitive(m_CancelButton, TRUE);
-            gtk_widget_set_sensitive(m_ResumeButton, m_dlm->IsPaused());
+       
+            int active = m_dlm->IsPaused();
+            if (!active && downloadList.size() == 1)
+                active = TRUE;
+            gtk_widget_set_sensitive(m_ResumeButton, active);
             gtk_label_set_text(GTK_LABEL(m_ResumeLabel), "  Start  ");
+            m_resumeLabelIsStart = true;
             break; }
         case kDownloadItemState_Downloading: {
             gtk_widget_set_sensitive(m_PauseButton, TRUE);

@@ -17,7 +17,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: YPClient.h,v 1.3 2000/09/22 10:37:54 sward Exp $
+        $Id: YPClient.h,v 1.4 2000/09/29 12:13:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef YPCLIENT_H
@@ -31,7 +31,7 @@ ____________________________________________________________________________*/
 
 using namespace std;
 
-class COMSocket;
+class COMHTTPSocket;
 class Mutex;
 // Any other class declares for function params go here
 typedef vector<pair<string, string> > StreamList;
@@ -43,6 +43,8 @@ public:
    ~YPClient();
     void SetAddress(string strIP, int nPort) 
     { m_strIP = strIP, m_nPort = nPort; }
+    void SetProxy(string strAddr, int nPort)
+    { m_proxyAddr = strAddr; m_proxyPort = nPort; }
     int SoundsLike(APSPlaylist& ResultList, APSPlaylist& SeedList, 
 			string& strCollectionID);
     int GeneratePlayList(APSPlaylist& ResultList, APSPlaylist& SeedList,
@@ -60,10 +62,12 @@ protected:
     int Disconnect();
 
 private:
-    COMSocket* m_pSocket;
+    COMHTTPSocket* m_pSocket;
     Mutex* m_pMutex;
     string m_strIP;
     int m_nPort;
+    string m_proxyAddr;
+    int m_proxyPort;
 };
 
 #endif

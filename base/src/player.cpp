@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.241 2000/09/28 08:08:00 ijr Exp $
+        $Id: player.cpp,v 1.242 2000/09/29 12:13:57 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -99,6 +99,37 @@ Player(FAContext *context) : EventQueue()
     m_context->aps = m_APSInterface;
 
     delete [] m_faDir;
+
+    bool useProxy = false;
+    m_context->prefs->GetPrefBoolean(kUseProxyPref, &useProxy);
+    if (useProxy)
+    {
+       uint32 size = 1024;
+       char *buffer = (char *)malloc(size);
+
+       if (kError_BufferTooSmall == m_context->prefs->GetPrefString(
+                                                 kProxyHostPref, buffer, &size))
+       {
+           buffer = (char *)realloc(buffer, size);
+           m_context->prefs->GetPrefString(kProxyHostPref, buffer, &size);
+       }
+   
+       char *port = strrchr(buffer, ':');
+       if (port) {
+           *port = '\0';
+           port++;
+       }
+
+       string proxyAddr = string(buffer, strlen(buffer) + 1);
+       int nPort = 80;
+       if (port && *port)
+           nPort = atoi(port);
+
+       free(buffer);
+       m_APSInterface->SetProxy(proxyAddr.c_str(), nPort);
+    }
+    else
+       m_APSInterface->SetProxy("", 0);
 
     m_signatureThread = NULL;
     m_bKillSignature = false;
@@ -2239,6 +2270,38 @@ HandlePrefsChanged(Event *pEvent)
  
     m_cdTimerActive = pollCD;
 #endif
+
+    bool useProxy = false;
+    m_context->prefs->GetPrefBoolean(kUseProxyPref, &useProxy);
+    if (useProxy)
+    {
+       uint32 size = 1024;
+       char *buffer = (char *)malloc(size);
+
+       if (kError_BufferTooSmall == m_context->prefs->GetPrefString(
+                                                 kProxyHostPref, buffer, &size))
+       {
+           buffer = (char *)realloc(buffer, size);
+           m_context->prefs->GetPrefString(kProxyHostPref, buffer, &size);
+       }
+
+       char *port = strrchr(buffer, ':');
+       if (port) {
+           *port = '\0';
+           port++;
+       }
+
+       string proxyAddr = string(buffer, strlen(buffer) + 1);
+       int nPort = 80;
+       if (port && *port)
+           nPort = atoi(port);
+
+       free(buffer);
+       m_APSInterface->SetProxy(proxyAddr.c_str(), nPort);
+    }
+    else
+       m_APSInterface->SetProxy("", 0);
+
 
     SendEventToUI(pEvent);
     SendEventToCatalog(pEvent);

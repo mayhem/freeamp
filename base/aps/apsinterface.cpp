@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.31 2000/09/27 11:29:37 elrod Exp $
+        $Id: apsinterface.cpp,v 1.32 2000/09/29 12:13:57 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -130,6 +130,12 @@ APSInterface::~APSInterface()
         delete m_pActiveProfiles;
         m_pActiveProfiles = NULL;
     }
+}
+
+void APSInterface::SetProxy(string strAddr, int nPort)
+{
+    if (m_pYpClient)
+        m_pYpClient->SetProxy(strAddr, nPort);
 }
 
 int APSInterface::APSFillMetaData(APSMetaData* pmetaData)

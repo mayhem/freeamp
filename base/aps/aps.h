@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: aps.h,v 1.9 2000/09/22 07:12:42 ijr Exp $
+        $Id: aps.h,v 1.10 2000/09/29 12:13:57 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -84,7 +84,10 @@ public:
     APSInterface(char *profilePath, const char* pYpIP  = "209.249.187.199", 
                  const char* pSigIP = "209.249.187.199");
     virtual ~APSInterface(); // to be or not to be virtual....
-       
+ 
+    /** Set the proxy url.  Use "" to disable. */   
+    void SetProxy(string strAddr, int nPort);
+    
     /** Attempts to finish filling in the metadata Record, 
         by comparing the record/filenames against a master music 
         database. */ 

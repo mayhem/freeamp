@@ -18,7 +18,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: signaturepmo.cpp,v 1.7 2000/09/19 17:28:18 robert Exp $
+  $Id: signaturepmo.cpp,v 1.8 2000/09/29 12:13:58 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -107,6 +107,35 @@ SignaturePMO::
 Init(OutputInfo* info)
 {
    m_data_size = info->max_buffer_size;
+
+   bool useProxy = false;
+   m_pContext->prefs->GetPrefBoolean(kUseProxyPref, &useProxy);
+   if (useProxy)
+   {
+       uint32 size = 1024;
+       char *buffer = (char *)malloc(size);
+
+       if (kError_BufferTooSmall == m_pContext->prefs->GetPrefString(
+                                                 kProxyHostPref, buffer, &size))
+       {
+           buffer = (char *)realloc(buffer, size);
+           m_pContext->prefs->GetPrefString(kProxyHostPref, buffer, &size);
+       }
+
+       char *port = strrchr(buffer, ':');
+       if (port) {
+           *port = '\0';
+           port++;
+       }
+
+       string proxyAddr = string(buffer, strlen(buffer) + 1);
+       int nPort = 80;
+       if (port && *port)
+           nPort = atoi(port);
+
+       free(buffer);
+       mb_SetProxy(m_MB, (char *)proxyAddr.c_str(), nPort);
+   }
 
    mb_SetPCMDataInfo(m_MB, info->samples_per_second, 
                     info->number_of_channels,

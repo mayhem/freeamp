@@ -387,6 +387,7 @@ BEGIN
     BEGIN
         MENUITEM "by &Artist",                  ID_SORT_ARTIST
         MENUITEM "by Al&bum",                   ID_SORT_ALBUM
+        MENUITEM "by &Comment",                 ID_SORT_COMMENT
         MENUITEM "by &Title",                   ID_SORT_TITLE
         MENUITEM "by &Year",                    ID_SORT_YEAR
         MENUITEM "by Trac&k",                   ID_SORT_TRACK

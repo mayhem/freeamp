@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.9.4.4 2000/03/04 17:32:52 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.9.4.5 2000/03/04 19:54:04 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -243,8 +243,6 @@ void DownloadUI::AddItem(DownloadItem *dli)
     if (!dli || !m_List || !isVisible)
         return;
 
-    gtk_clist_freeze(GTK_CLIST(m_List));
-
     char *iText[2];
     string displayString = dli->GetMetaData().Title();
 
@@ -253,8 +251,6 @@ void DownloadUI::AddItem(DownloadItem *dli)
 
     int row = gtk_clist_append(GTK_CLIST(m_List), iText);
     gtk_clist_set_row_data(GTK_CLIST(m_List), row, (gpointer)dli);
-
-    gtk_clist_thaw(GTK_CLIST(m_List));
 }
 
 void DownloadUI::UpdateItem(DownloadItem *dli)
@@ -267,18 +263,14 @@ void DownloadUI::UpdateItem(DownloadItem *dli)
     if (row < 0)
         return;
 
-    gtk_clist_freeze(GTK_CLIST(m_List));
-
     char *iText[2];
-    string displayString = dli->GetMetaData().Title();
+    iText[0] = (char *)StatusString(dli).c_str();
+    if (gtk_clist_get_text(GTK_CLIST(m_List), row, 1, &iText[1])) {
+        if (!strcmp(iText[0], iText[1]))
+            return;
+    }
 
-    iText[0] = (char *)displayString.c_str();
-    iText[1] = (char *)StatusString(dli).c_str();
-
-    for (int i = 0; i < 2; i++)
-        gtk_clist_set_text(GTK_CLIST(m_List), row, i, iText[i]);
-
-    gtk_clist_thaw(GTK_CLIST(m_List));
+    gtk_clist_set_text(GTK_CLIST(m_List), row, 1, iText[0]);
 
     if (row == (int)m_currentindex) 
         SelChangeEvent(m_currentindex);
@@ -294,9 +286,7 @@ void DownloadUI::RemoveItem(DownloadItem *dli)
     if (row < 0)
         return;
 
-    gtk_clist_freeze(GTK_CLIST(m_List));
     gtk_clist_remove(GTK_CLIST(m_List), row);
-    gtk_clist_thaw(GTK_CLIST(m_List));
 
     vector<DownloadItem *>::iterator i = downloadList.begin();
     for (; i != downloadList.end(); i++) {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.18 1999/12/14 18:41:21 robert Exp $
+   $Id: Theme.cpp,v 1.19 1999/12/16 01:29:42 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -225,7 +225,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
             {
                 m_oLastError = "Cannot find default theme";
                 rmdir(oTempPath.c_str());
-                return eRet;
+                return kError_InvalidParam;
             }    
         }
         if (IsError(eRet))
@@ -234,7 +234,15 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
             string        oErr, oMessage(szThemeUnzipError);
 
             oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
-            return kError_InvalidParam;
+            
+            m_pThemeMan->GetDefaultTheme(oFile);
+            eRet = oZip.DecompressThemeZip(oFile, oTempPath);
+            if (IsError(eRet))
+            {
+                m_oLastError = "Cannot find default theme";
+                rmdir(oTempPath.c_str());
+                return kError_InvalidParam;
+            }    
         }    
 
         oCompleteFile = oTempPath + string(DIR_MARKER_STR) 

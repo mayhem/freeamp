@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.18 1999/11/10 02:43:26 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.19 1999/11/11 00:12:25 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -698,7 +698,7 @@ void GTKMusicBrowser::AddFileCMD()
 
             DeleteListEvent();
 
-            if (!strncmp("M3U", ext, 3)) {
+            if (m_plm->IsSupportedPlaylistFormat(ext)) {
                 string tobeloaded = tempurl;
                 LoadPlaylist(tobeloaded);
             }
@@ -737,7 +737,7 @@ static void import_tool(GtkWidget *w, GTKMusicBrowser *p)
         char *tempurl = new char[length];
 
         if (IsntError(FilePathToURL(returnpath, tempurl, &length))) {
-            if (!strncmp("M3U", ext, 3))
+            if (m_context->plm->IsSupportedPlaylistFormat(ext))
                 p->ImportPlaylist(tempurl);
             else if (m_context->player->IsSupportedExtension(ext)) {
                 PlaylistItem *plist = new PlaylistItem(tempurl);

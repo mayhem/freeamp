@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.12 1999/11/08 17:23:34 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.13 1999/11/11 00:12:25 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -557,7 +557,7 @@ void MusicBrowser::DoSearchMusic(char *path)
             }
             else if ((fileExt = m_context->player->GetExtension(find.cFileName)))
             {
-                if (!strncmp("M3U", fileExt, 3) && 
+                if (m_plm->IsSupportedPlaylistFormat(fileExt) && 
                     strcmp("currentlist.m3u", find.cFileName))
                 {
                     string file = path;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.45 1999/11/09 01:39:05 elrod Exp $
+	$Id: playlist.h,v 1.46 1999/11/11 00:12:25 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -261,6 +261,8 @@ class PlaylistManager {
     Error GetPortablePlaylist(DeviceInfo* device);
 
     // External playlist support
+    bool  IsSupportedPlaylistFormat(const char *extension);
+
     Error GetSupportedPlaylistFormats(PlaylistFormatInfo* format, uint32 index);
     Error ReadPlaylist(const char* url, 
                        vector<PlaylistItem*>* items = NULL, 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.h,v 1.3 1999/10/30 04:26:58 ijr Exp $
+   $Id: GTKWindow.h,v 1.4 1999/11/11 00:12:25 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKWINDOW__H_
@@ -53,21 +53,26 @@ class GTKWindow : public Window
      virtual Error GetWindowPosition(Rect &oWindowRect); 
      virtual Error Minimize(void);
      virtual Error Restore(void);
-     
+     virtual bool  LButtonDown(void);    
+ 
      GtkWidget *GetWindow(void) { return mainWindow; }
-    
+   
+     void MouseLeaveCheck(void); 
      void DropFiles(char *filename);
 
-    protected:
-      Pos m_oWindowPos;
+     Mutex *m_pMindMeldMutex;
+ 
+   protected:
+     Pos m_oWindowPos;
       
-    private:
-      void GTKEventService(void);
+   private:
+     void GTKEventService(void);
 
-      GtkWidget *mainWindow;
-      int gtkTimer;
-      bool quitLoop;
-      bool initialized;
+     GtkWidget *mainWindow;
+     int gtkTimer;
+     bool quitLoop;
+     bool initialized;
+     bool m_bMouseInWindow;
 };
 
 #endif

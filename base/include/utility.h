@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.2.2.4 1999/09/22 18:58:21 ijr Exp $
+	$Id: utility.h,v 1.2.2.5 1999/09/24 00:14:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include "errors.h"
 #include "preferences.h"
 
+void RFC822GMTTimeString(struct tm* time, char buf[32]);
 char *strdup_new(const char *str);
 char *FreeampDir(Preferences *prefs);
 Error FilePathToURL(const char* path, char* url, uint32* length);

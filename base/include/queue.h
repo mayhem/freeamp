@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: queue.h,v 1.6.4.2 1999/09/23 21:00:06 elrod Exp $
+        $Id: queue.h,v 1.6.4.3 1999/09/24 00:14:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_QUEUE_H_
@@ -26,8 +26,6 @@ ____________________________________________________________________________*/
 
 #include "config.h"
 #include "mutex.h"
-
-namespace blah {
 
 template<class T>
 class Queue {
@@ -180,10 +178,5 @@ template<class T> void Queue<T>::ReleaseLock() {
     return;
 }
 
-};
 
 #endif //_QUEUE_H_
-
-
-
-

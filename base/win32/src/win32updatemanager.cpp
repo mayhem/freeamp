@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.1.2.2 1999/10/11 06:22:27 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.1.2.3 1999/10/11 20:58:28 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -143,10 +143,16 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
                             VS_FIXEDFILEINFO* fileInfo;
                             char* fileDescription;
                             uint32 size;
+                            UpdateItem* item = new UpdateItem;
+
+                            item->SetLocalFileName(string("findData.cFileName"));
+                            item->SetLocalFilePath(string(filePath));
 
                             if(VerQueryValue(data, "\\", (void**)&fileInfo, &size))
-                            {                                
-                                cout << filePath << ":" << endl;
+                            {        
+                                ostringstream ost;
+
+                                //cout << filePath << ":" << endl;
                                 //cout << "dwFileVersionLS: " << fileInfo->dwFileVersionLS << endl;
                                 //cout << "dwFileVersionMS: " << fileInfo->dwFileVersionMS << endl;
                                 //cout << "hi: " << HIWORD(fileInfo->dwFileVersionLS) << " lo: "<< LOWORD(fileInfo->dwFileVersionLS) << endl;
@@ -156,15 +162,23 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
                                 uint32 minor = LOWORD(fileInfo->dwFileVersionMS);
                                 uint32 rev = HIWORD(fileInfo->dwFileVersionLS);
 
-                                cout << "version: " << major << "." << minor << "." << rev << endl;
+                                ost << major << "." << minor << "." << rev << endl;
+                                
+                                item->SetLocalFileVersion(ost.str());
+
                             }
 
+                            // I need to learn how to correctly grab the proper language
+                            // but for now we just hardcode English (US) Unicode
                             if(VerQueryValue(data, "\\StringFileInfo\\040904B0\\FileDescription", (void**)&fileDescription, &size))
                             {     
-                                cout << fileDescription << endl;
+                                //cout << fileDescription << endl;
+                                item->SetFileDescription(string(fileDescription));
                             }
 
-                            cout << endl;
+                            //cout << endl;
+
+                            AddItem(item);
                         }
 
                         free(data);

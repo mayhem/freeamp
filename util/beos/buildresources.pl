@@ -1,5 +1,5 @@
 #!/bin/env perl
-# $Id: buildresources.pl,v 1.1 2000/03/12 06:09:23 hiro Exp $
+# $Id: buildresources.pl,v 1.2 2000/03/12 06:48:11 hiro Exp $
 # A lame perl script to compile mwbres .r src and add necessary resources
 # into a binary. Written by someone who can't write perl.
 
@@ -64,15 +64,15 @@ foreach $file ( @ARGV )
         $rsrcfile = $mwbressrc;
         $rsrcfile =~ s/\..*$/\.rsrc/;
         echo_and_run( "cd $resdir; mwbres -o $rsrcfile $mwbressrc" );
-        $rsrc = "$resdir/$rsrcfile";
+        push @rsrcs, "$resdir/$rsrcfile";
     }
     if ( $file =~ /.+\.rsrc$/ )
     {
         print "$file -> xres\n";
-        $rsrc = $file;
+        push @rsrcs, $file;
     }
-    echo_and_run( "xres -o $binary $rsrc" );
 }
+echo_and_run( "xres -o $binary @rsrcs" );
 
 # Set the version
 

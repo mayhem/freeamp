@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.128 2000/06/12 18:21:56 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.129 2000/06/20 08:24:11 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1810,7 +1810,15 @@ void FreeAmpTheme::DropFiles(vector<string> *pFileList)
 
                 m_pContext->plm->AddItem(url);
                 
-            }    
+            }
+            else if (!strcasecmp("fat", ext) ||
+                     !strcasecmp("zip", ext)) 
+            {
+                length = _MAX_PATH + 7;
+                FilePathToURL((*i).c_str(), url, &length);
+
+                m_pContext->player->AddTheme(url); 
+            }   
         }
     }
     

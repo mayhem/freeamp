@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.26 1999/11/17 09:17:22 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.27 1999/11/19 12:19:15 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -129,6 +129,7 @@ MusicBrowserUI::MusicBrowserUI(FAContext      *context,
 
     m_playerState = PLAYERSTATE_STOPPED;
     m_initialCount = 0;
+    m_itemsAddedBeforeWeWereCreated = 0;
     m_hNewPlaylistItem = NULL;
     m_hPlaylistView = NULL;
     m_hMusicCatalog = NULL;

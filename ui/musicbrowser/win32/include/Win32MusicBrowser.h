@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.37 1999/11/19 10:35:33 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.38 1999/11/19 12:19:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -301,6 +301,7 @@ class MusicBrowserUI : public UserInterface
     vector<string>      m_searchPathList;
     HTREEITEM           m_hNewPlaylistItem;  
     uint32              m_initialCount;
+    uint32              m_itemsAddedBeforeWeWereCreated;
 
     MetaData            m_editTrackMetaData;
 };

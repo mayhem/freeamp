@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.39.6.2 2000/06/07 16:13:27 robert Exp $
+   $Id: Win32Window.cpp,v 1.39.6.3 2000/06/09 10:56:54 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -410,13 +410,13 @@ Error Win32Window::Run(Pos &oPos)
         if (m_bStayOnTop)
             SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
         
-        CreateTooltips();
         UpdateWindow( m_hWnd );
 
         m_pTheme->PostWindowCreate();
 
         SetForegroundWindow(m_hWnd);
         AddToSystemMenu(m_hWnd);
+        CreateTooltips();
 
         while( GetMessage( &msg, NULL, 0, 0 ) )
         {
@@ -826,6 +826,8 @@ CreateTooltips()
 
         strTip = oList[uCtr].second;
         rect = oList[uCtr].first;
+		if (strTip.length() == 0)
+			continue;
 
         // add a tool tip
 
@@ -841,11 +843,9 @@ CreateTooltips()
         ti.rect.bottom = rect.y2; 
 
         SendMessage(hwndTooltip, 
-            TTM_ADDTOOL, 
+            TTM_ADDTOOL, 		  
             0, 
             (LPARAM) &ti);
-
-        uCtr++;
     }
         
     uTooltipCount = uCtr; // save value for next mindmeld
@@ -1090,4 +1090,5 @@ void Win32Window::PanelStateChanged(void)
 
 	InvalidateRect(m_hWnd, &sRect, true);
 	UpdateWindow(m_hWnd);
+    CreateTooltips();
 }

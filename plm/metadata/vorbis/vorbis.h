@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: vorbis.h,v 1.1 2000/09/21 12:44:09 robert Exp $
+	$Id: vorbis.h,v 1.2 2000/09/21 20:19:04 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_VORBIS_H
@@ -35,8 +35,6 @@ using namespace std;
 #include "facontext.h"
 
 #include "metadata.h"
-#include "vorbis/codec.h"
-//#include "bitwise.h" 
 
 class Vorbis : public MetaDataFormat {
  public:
@@ -49,7 +47,6 @@ class Vorbis : public MetaDataFormat {
 
  private:
 
-    bool    ReadHeader(const char *url, vorbis_comment &vc);
 };
 
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.14 1999/09/23 20:59:35 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.15 1999/09/23 21:20:46 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -29,7 +29,9 @@ ____________________________________________________________________________*/
 #endif
 
 #include <assert.h>
+#ifdef WIN32
 #include <io.h>
+#endif
 #include <fcntl.h>
 #include <errno.h>
 #include <iostream>

@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.30.2.6 1999/09/17 22:33:37 dogcow Exp $
+# $Id: Makefile.in,v 1.30.2.7 1999/09/20 19:49:11 robert Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = @FPIC@ for plugins.
@@ -65,6 +65,7 @@ clean-freeamp freeamp-clean:
 plugins: plugins-cc
 
 plugins-cc install-plugins clean-plugins plugins-install plugins-clean:
+	+test -d plugins || mkdir plugins
 	+$(PIMAKE) $@
 
 distclean: clean

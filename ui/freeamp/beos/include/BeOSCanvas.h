@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSCanvas.h,v 1.3 1999/10/23 08:25:00 hiro Exp $
+   $Id: BeOSCanvas.h,v 1.4 2000/07/12 20:10:50 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BEOSCANVAS_H__
@@ -54,11 +54,13 @@ public:
                                   Rect& oDestRec );
     virtual Error       MaskBlitRect( Bitmap* pSrcBitmap, Rect& oSrcRect,
                                       Rect& oDestRect );
+    virtual void        InitBackgrounds( vector<Panel*>* panels );
 
     BView*              GetBView( void ) { return m_canvasView; }
     void                SetParent( BeOSWindow* parent );
 
 protected:
+    void                InitBufferBitmap( void );
 
 private:
     BeOSWindow*         m_pParent;

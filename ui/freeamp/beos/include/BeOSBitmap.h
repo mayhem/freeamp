@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSBitmap.h,v 1.5 2000/07/10 04:23:56 hiro Exp $
+   $Id: BeOSBitmap.h,v 1.6 2000/07/12 20:10:50 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BEOSBITMAP_H__
@@ -52,6 +52,8 @@ public:
 
     BBitmap*            GetBBitmap( void ) { return m_bitmap; }
     BView*              OffscreenView( void ) { return m_offView; }
+
+    const char*         Name( void ) const { return m_oBitmapName.c_str(); }
 
 protected:
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSWindow.cpp,v 1.10 2000/03/01 04:41:38 hiro Exp $
+   $Id: BeOSWindow.cpp,v 1.11 2000/07/12 20:10:51 hiro Exp $
 ____________________________________________________________________________*/ 
 
 #define DEBUG 0
@@ -247,8 +247,8 @@ BeOSWindow::GetDesktopSize( int& x, int& y )
 
     return kError_NoErr;
 }
-
 #endif
+
 bool  
 BeOSWindow::LButtonDown(void)
 {
@@ -323,6 +323,13 @@ BeOSWindow::SetWindowPosition( Rect& oWindowRect )
     if ( !m_mainWindow ) return kError_NullValueInvalid;
 
     m_mainWindow->MoveTo( float(oWindowRect.x1), float(oWindowRect.y1) );
+    m_mainWindow->ResizeTo( float(oWindowRect.Width()),
+                            float(oWindowRect.Height()) );
+    if ( m_canvasView )
+    {
+        m_canvasView->ResizeTo( float( oWindowRect.Width() ),
+                                float( oWindowRect.Height() ) );
+    }
     m_mainWindow->Sync();
 
     return kError_NoErr;

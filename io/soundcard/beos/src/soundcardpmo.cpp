@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.3 1999/07/20 01:02:11 hiro Exp $
+	$Id: soundcardpmo.cpp,v 1.4 1999/08/06 07:18:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #define DEBUG 0
@@ -166,7 +166,7 @@ SoundCardPMO::Resume( void )
 bool
 SoundCardPMO::WaitForDrain( void )
 {
-	PRINT(( "SoundCardPMO::WaitForDrain:**************************************\n" ));
+	PRINT(( "SoundCardPMO::WaitForDrain\n" ));
 #if 0
 	if ( m_eventBufferThread )
 	{
@@ -177,11 +177,14 @@ SoundCardPMO::WaitForDrain( void )
 	PRINT(( "SoundCardPMO::WaitForDrain:event buffer terminated\n" ));
 #endif
 
-	if ( m_player )
+	if ( !m_player )
 	{
-		m_player->SetHasData( false );
-		m_player->Stop();
+		PRINT(( "SoundCardPMO::WaitForDrain:no BSoundPlayer exists?!\n" ));
+		return false;
 	}
+
+	m_player->SetHasData( false );
+	m_player->Stop();
 	PRINT(( "SoundCardPMO::WaitForDrain:sound player terminated\n" ));
 
 	return true;
@@ -310,6 +313,10 @@ SoundCardPMO::EventBufferThread( void )
 
 	// Don't do anything until resume is called.
 	m_pPauseSem->Wait();
+
+	// Prebuffer wait
+	PRINT(( "SoundCardPMO::EventBufferThread: prebuffering...\n" ));
+	PreBuffer();
 
 	PRINT(( "SoundCardPMO::EventBufferThread: okay now ready to spin!\n" ));
 

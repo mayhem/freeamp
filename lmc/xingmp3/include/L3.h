@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: L3.h,v 1.4 1999/07/13 18:42:10 robert Exp $
+	$Id: L3.h,v 1.5 1999/08/06 07:18:34 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  L3.h  ***************************************************
@@ -32,6 +32,8 @@ ____________________________________________________________________________*/
   *** Layer III code assumes 32 bit int ***
 
 ******************************************************************/
+
+#include "config.h"
 
 #define GLOBAL_GAIN_SCALE (4*15)
 /* #define GLOBAL_GAIN_SCALE 0 */

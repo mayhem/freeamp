@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.20 1999/07/09 00:50:32 robert Exp $
+        $Id: localfileinput.cpp,v 1.21 1999/08/06 07:18:33 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -89,7 +89,7 @@ LocalFileInput::~LocalFileInput()
 
 Error LocalFileInput::Prepare(PullBuffer *&pBuffer, bool bStartThread)
 {
-    int iBufferSize = iDefaultBufferSize;
+    int32 iBufferSize = iDefaultBufferSize;
     Error result;
 
     if (m_pOutputBuffer)

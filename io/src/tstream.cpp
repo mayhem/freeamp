@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.7 1999/08/03 18:31:29 robert Exp $
+   $Id: tstream.cpp,v 1.8 1999/08/06 07:18:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -36,7 +36,9 @@ ____________________________________________________________________________*/
 #include <sys/time.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#ifndef __BEOS__
 #include <arpa/inet.h>
+#endif
 #include <netdb.h>
 #include <fcntl.h>
 #endif  
@@ -132,6 +134,9 @@ Error TitleStreamServer::Init(int &iPort)
 
 Error TitleStreamServer::MulticastInit(char *szAddr, int iPort)
 {
+#ifdef __BEOS__
+    return kError_CantCreateSocket;
+#else
     int    iRet;
     struct ip_mreq sMreq;
     int    iReuse=0;
@@ -198,6 +203,7 @@ Error TitleStreamServer::MulticastInit(char *szAddr, int iPort)
     }
 
     return kError_NoErr;
+#endif
 }
 
 Error TitleStreamServer::Run(in_addr &sAddr, int iPort)
@@ -261,7 +267,7 @@ void TitleStreamServer::WorkerThread(void)
       {
           iStructSize = sizeof(struct sockaddr_in);
           iRet = recvfrom(m_hHandle, buf, 255, 0, (struct sockaddr *)m_pSin, 
-                          (socklen_t *)&iStructSize);
+                          &iStructSize);
       }
       else
           iRet = recv(m_hHandle, buf, 255, 0);

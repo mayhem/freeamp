@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.33 1999/07/13 18:42:09 robert Exp $
+   $Id: pullbuffer.cpp,v 1.34 1999/08/06 07:18:33 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -97,7 +97,7 @@ Error PullBuffer::Clear(void)
    return kError_NoErr;
 }
 
-int PullBuffer::GetReadIndex(void)
+int32 PullBuffer::GetReadIndex(void)
 {
    int iRet;
 
@@ -124,7 +124,7 @@ int PullBuffer::GetReadIndex(void)
    return iRet;
 }
 
-int PullBuffer::GetWriteIndex(void)
+int32 PullBuffer::GetWriteIndex(void)
 {
    int iRet;
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.15 1999/07/27 16:57:01 elrod Exp $
+        $Id: preferences.cpp,v 1.16 1999/08/06 07:18:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -83,7 +83,7 @@ SetDefaults()
     int32 dummyInt;
     bool  dummyBool;
     char  dummyString[255];
-    unsigned size = 255;
+    uint32 size = 255;
 
     // set default for input buffer size
     if (GetPrefInt32(kInputBufferSizePref, &dummyInt) == kError_NoPrefValue)
@@ -133,7 +133,7 @@ SetDefaults()
 
     dummyInt = 255;
     if (GetPrefString(kProxyHostPref, dummyString, 
-        (unsigned int *)&dummyInt) == kError_NoPrefValue)
+        (uint32 *)&dummyInt) == kError_NoPrefValue)
         SetPrefString(kProxyHostPref, kDefaultProxyHost);
 
     if (GetPrefBoolean(kUseAlternateNICPref, &dummyBool) == kError_NoPrefValue)
@@ -141,7 +141,7 @@ SetDefaults()
 
     dummyInt = 255;
     if (GetPrefString(kAlternateNICAddressPref, dummyString, 
-        (unsigned int *)&dummyInt) == kError_NoPrefValue)
+        (uint32 *)&dummyInt) == kError_NoPrefValue)
         SetPrefString(kAlternateNICAddressPref, kDefaultNICAddress);
 
     if (GetPrefBoolean(kUseTitleStreamingPref, &dummyBool) == kError_NoPrefValue)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: IntroductionWizard.cpp,v 1.2 1999/12/17 07:53:16 elrod Exp $
+        $Id: IntroductionWizard.cpp,v 1.3 1999/12/17 09:05:22 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -279,7 +279,7 @@ static BOOL CALLBACK IntroWizardSearch(HWND hwnd,
                                 "music collection.";
                                
             const char* kMsg2 = "By default "BRANDING" will search all the disk drives on "
-                                "your computer. If you would like to limit the "
+                                "your computer for music. If you would like to limit the "
                                 "scope of the search you may do so by selecting a "
                                 "disk drive for us to search. If you wish, you may "
                                 "also select a specific folder on that drive.";

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.4 1999/09/19 07:48:56 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.5 1999/09/20 18:23:34 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -71,6 +71,8 @@ DownloadManager::DownloadManager(FAContext* context)
         }
     }
 
+    m_runDownloadThread = true;
+
     m_downloadThread = Thread::CreateThread();
 
     if(m_downloadThread)
@@ -86,6 +88,9 @@ DownloadManager::~DownloadManager()
     uint32 size = 0;
     DownloadItem* item = NULL;
     //uint32 count = 0;
+
+    m_runDownloadThread = false;
+    m_downloadThread->Resume();
 
     size = m_itemList.size();
 
@@ -147,6 +152,7 @@ Error DownloadManager::AddItem(DownloadItem* item)
     if(item)
     {
         m_itemList.push_back(item);
+        QueueDownload(item);
 
         result = kError_NoErr;
     }
@@ -167,6 +173,13 @@ Error DownloadManager::AddItems(vector<DownloadItem*>* list)
         m_itemList.insert( m_itemList.end(),
                             list->begin(), 
                             list->end());
+
+        uint32 count = list->size();
+
+        for(uint32 i = 0; i < count; i++)
+        {
+            QueueDownload((*list)[i]);
+        }
 
         result = kError_NoErr;
     }
@@ -312,14 +325,30 @@ Error DownloadManager::QueueDownload(DownloadItem* item)
 {
     Error result = kError_InvalidParam;
 
+    assert(item);
+
+    if(item)
+    {
+        if(item->GetState() != kDownloadItemState_Downloading &&
+           item->GetState() != kDownloadItemState_Done &&
+           item->GetState() != kDownloadItemState_Queued)
+        {
+            item->SetState(kDownloadItemState_Queued);
+
+            m_queueList.push_back(item);
+
+            m_downloadThread->Resume();
+
+            result = kError_NoErr;
+        }
+    }
+
     return result;
 }
 
 Error DownloadManager::QueueDownload(uint32 index)
 {
-    Error result = kError_InvalidParam;
-
-    return result;
+    return QueueDownload(ItemAt(index));
 }
 
 
@@ -330,14 +359,36 @@ Error DownloadManager::CancelDownload(DownloadItem* item, bool allowResume)
 {
     Error result = kError_InvalidParam;
 
+    assert(item);
+
+    if(item)
+    {
+        if(item->GetState() == kDownloadItemState_Downloading ||
+           item->GetState() == kDownloadItemState_Queued)
+        {
+            if(!allowResume)
+            {
+                item->SetState(kDownloadItemState_Cancelled);
+            }
+            else
+            {
+                item->SetState(kDownloadItemState_Paused);
+            }
+
+            m_queueList.push_back(item);
+
+            m_downloadThread->Resume();
+
+            result = kError_NoErr;
+        }
+    }
+
     return result;
 }
 
 Error DownloadManager::CancelDownload(uint32 index, bool allowResume)
 {
-    Error result = kError_InvalidParam;
-
-    return result;
+    return CancelDownload(ItemAt(index), allowResume);
 }
 
 
@@ -506,19 +557,18 @@ inline uint32 DownloadManager::CheckIndex(uint32 index)
 	return index;
 }
 
-void DownloadManager::QueueItem(DownloadItem* item)
-{
-    item->SetState(kDownloadItemState_Queued);
-
-    m_queueList.push_back(item);
-
-    m_downloadThread->Resume();
-}
-
 DownloadItem* DownloadManager::GetNextQueuedItem()
 {
-    DownloadItem* result = m_queueList[0];
-    m_queueList.pop_front();
+    DownloadItem* result = NULL;
+
+    if(m_queueList.size())
+    {
+        result = m_queueList[0];
+
+        m_queueList.pop_front();
+
+
+    }
 
     return result;
 }
@@ -558,7 +608,7 @@ Error DownloadManager::SubmitToDatabase(DownloadItem* item)
 
 void DownloadManager::DownloadThreadFunction()
 {
-    while(true)
+    while(m_runDownloadThread)
     {
         DownloadItem* item = GetNextQueuedItem();
         Error result;
@@ -575,18 +625,20 @@ void DownloadManager::DownloadThreadFunction()
             }
             else if(result == kError_UserCancel)
             {
-                if(!item->IsResumable())
+                if(item->GetState() == kDownloadItemState_Cancelled)
                 {
                     CleanUpDownload(item);
                 }
-
-
             }
             else
             {
                 item->SetState(kDownloadItemState_Error);
             }
+
+            item->SetDownloadError(result);
         }
+
+        m_downloadThread->Suspend();
     }
 }
 

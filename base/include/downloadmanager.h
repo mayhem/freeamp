@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.7 1999/09/19 07:48:55 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.8 1999/09/20 18:23:34 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -100,9 +100,11 @@ typedef bool (*DLMCallBackFunction)(DLMEvent* event, void* userData);
 #define kInvalidIndex 0xFFFFFFFF
 
 typedef enum {
+    kDownloadItemState_Null,
     kDownloadItemState_Queued,
     kDownloadItemState_Downloading,
     kDownloadItemState_Cancelled,
+    kDownloadItemState_Paused,
     kDownloadItemState_Error,
     kDownloadItemState_Done
 
@@ -118,8 +120,6 @@ class DownloadItem {
     {
         assert(src);
 
-        m_allowResume = false;
-
         if(src)
             SetSourceURL(src);
 
@@ -128,6 +128,9 @@ class DownloadItem {
 
         if(metadata)
             SetMetaData(metadata);
+
+        m_state = kDownloadItemState_Null;
+        m_error = kError_NoErr;
     }
 
     virtual ~DownloadItem() {}
@@ -160,8 +163,8 @@ class DownloadItem {
     DownloadItemState GetState() const { return m_state; }
     void SetState(DownloadItemState state) { m_state = state; }
 
-    void SetResumeable(bool allowResume) { m_allowResume = allowResume; }
-    bool IsResumable()  const { return m_allowResume; }
+    void SetDownloadError(Error error) { m_error = error; }
+    Error GetDownloadError() const { return m_error; }
 
  protected:
     Error SetBuffer(char* dest, const char* src, uint32* len)
@@ -198,6 +201,7 @@ class DownloadItem {
     string m_dest;
     DownloadItemState m_state;
     bool m_allowResume;
+    Error m_error;
 };
 
 class DownloadManager {
@@ -235,7 +239,6 @@ class DownloadManager {
     Error CancelDownload(DownloadItem* item, bool allowResume = false);
     Error CancelDownload(uint32 index, bool allowResume = false);
 
- 
     // File Format support
     Error GetSupportedDownloadFormats(DownloadFormatInfo* format, uint32 index);
     Error ReadDownloadFile(char* url, vector<DownloadItem*>* items = NULL);
@@ -254,7 +257,6 @@ class DownloadManager {
     static void download_thread_function(void* arg);
     void DownloadThreadFunction();
 
-    void QueueItem(DownloadItem* item);
     DownloadItem* GetNextQueuedItem();
 
     Error Download(DownloadItem* item);
@@ -277,6 +279,7 @@ class DownloadManager {
     uint32 m_current;
 
     Thread* m_downloadThread;
+    bool m_runDownloadThread;
 
 };
 

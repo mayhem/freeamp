@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.2 1998/12/14 19:58:30 jdw Exp $
+	$Id: lcdui.cpp,v 1.3 1998/12/15 04:57:53 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -128,6 +128,7 @@ Error LcdUI::Init(int32 startupType) {
     m_lcdLock->Release();
 
     if ((m_startupType = startupType) == PRIMARY_UI) {
+	cout << "LCD Startup Type: PRIMARY_UI" << endl;
 	ProcessArgs();
 	tcgetattr(stdinfd, &::normalTTY);
 	::rawTTY = ::normalTTY;
@@ -211,8 +212,10 @@ int32 LcdUI::AcceptEvent(Event *e) {
 	//cout << "LcdUI: processing event " << e->Type() << endl;
 	switch (e->Type()) {
 	    case INFO_PlayListDonePlay: {
-		Event *e = new Event(CMD_QuitPlayer);
-		m_playerEQ->AcceptEvent(e);
+		if (m_startupType == PRIMARY_UI) {
+		    Event *e = new Event(CMD_QuitPlayer);
+		    m_playerEQ->AcceptEvent(e);
+		}
 		break; }
 	    case CMD_Cleanup: {
 		Event *e = new Event(INFO_ReadyToDieUI);
@@ -224,6 +227,7 @@ int32 LcdUI::AcceptEvent(Event *e) {
 		BlitTimeLine();
 		lcd.flush();
 		m_lcdLock->Release();
+		break;
 	    }
 	    case INFO_UserMessage: {
 		if (!strcmp("time_curr_mode",((UserMessageEvent *)e)->GetInfo())) {

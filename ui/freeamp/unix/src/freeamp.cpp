@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.20 1998/12/14 19:58:30 jdw Exp $
+	$Id: freeamp.cpp,v 1.21 1998/12/15 04:57:53 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -540,7 +540,9 @@ void FreeAmpUI::X11EventService() {
 	    XUnlockDisplay(m_display);
 	}
     } /* end while */
-    m_playerEQ->AcceptEvent(new Event(CMD_QuitPlayer));
+    if (m_startupType == PRIMARY_UI) {
+	m_playerEQ->AcceptEvent(new Event(CMD_QuitPlayer));
+    }
 }
 
 int32 FreeAmpUI::AcceptEvent(Event *e) {

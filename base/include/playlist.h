@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.51 1999/12/12 18:30:31 elrod Exp $
+	$Id: playlist.h,v 1.52 1999/12/15 07:14:54 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -263,6 +263,12 @@ class PlaylistManager {
     Error MoveItem(uint32 oldIndex, uint32 newIndex);
     Error MoveItems(vector<PlaylistItem*>* items, uint32 index);
     Error MoveItems(vector<uint32>* items, uint32 index);
+
+    // Functions for updating
+    // This function searches the items in the playlist
+    // and updates the metadata if the tracks are the
+    // same (matched based on URL)
+    Error UpdateTrackMetaData(PlaylistItem* updatedTrack);
 
     // Functions for sorting
     Error Sort(PlaylistSortKey key, PlaylistSortType type = PlaylistSortType_Ascending);

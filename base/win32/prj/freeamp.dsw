@@ -98,6 +98,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name theme
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rmp
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -199,6 +202,18 @@ Package=<4>
 ###############################################################################
 
 Project: "riolib"=..\..\..\plm\portable\pmp300\sba\prj\riolib.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "rmp"=..\..\..\dlm\rmp\prj\rmp.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

@@ -18,11 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.h,v 1.1.2.1 1999/09/25 21:27:00 elrod Exp $
+	$Id: rmp.h,v 1.1.2.2 1999/09/25 21:48:05 elrod Exp $
 ____________________________________________________________________________*/
 
-#ifndef INCLUDED_ID3V1_H
-#define INCLUDED_ID3V1_H
+#ifndef INCLUDED_RMP_H
+#define INCLUDED_RMP_H
 
 #include <string>
 
@@ -34,23 +34,21 @@ using namespace std;
 #include "errors.h"
 #include "facontext.h"
 
-#include "metadata.h"
+#include "downloadformat.h"
 
-class ID3v1 : public MetaDataFormat {
+class RMP : public DownloadFormat {
  public:
-    ID3v1(FAContext *context);
-    virtual ~ID3v1();
+    RMP(FAContext *context);
+    virtual ~RMP();
 
-    virtual bool ReadMetaData(const char* url, MetaData* metadata);
-    virtual bool WriteMetaData(const char* url, const MetaData& metadata);
+    virtual Error GetSupportedFormats(DownloadFormatInfo* info, uint32 index);
+    virtual Error ReadDownloadFile(char* url, vector<DownloadItem*>* items);
 
  private:
      FAContext* m_context;
-
-     void KillTrailingSpaces(char* string);
 };
 
 
 
-#endif // INCLUDED_ID3V1_H
+#endif // INCLUDED_RMP_H
 

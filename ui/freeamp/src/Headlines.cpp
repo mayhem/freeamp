@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Headlines.cpp,v 1.1 2000/02/04 22:24:04 robert Exp $
+   $Id: Headlines.cpp,v 1.2 2000/02/05 19:32:08 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -143,7 +143,7 @@ void Headlines::WorkerThread(void)
                                        m_oHeadlines[m_iIndex].c_str()));
             m_iIndex++;
         }
-        Sleep(m_oInfo.m_iHeadlineChangeInterval * 1000);
+        usleep(m_oInfo.m_iHeadlineChangeInterval * 1000000);
     }
 }
 

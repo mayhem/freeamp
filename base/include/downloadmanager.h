@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.1.2.1 1999/09/09 16:31:00 elrod Exp $
+	$Id: downloadmanager.h,v 1.1.2.2 1999/09/15 21:23:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -39,6 +39,61 @@ using namespace std;
 #include "thread.h"
 #include "metadata.h"
 #include "registry.h"
+
+class DownloadItem;
+
+typedef enum {
+    kDLMEvent_AddItem,
+    kDLMEvent_RemoveItem,
+    kDLMEvent_Status,
+    kDLMEvent_Progress,
+    kDLMEvent_Error
+} DLMEventType;
+
+#define kDLMProgressInfinity -1
+
+typedef struct DLMEventAddItemData {
+    uint32 index;
+    uint32 total;
+    DownloadItem* item;
+} DLMEventAddItemData;
+
+typedef struct DLMEventRemoveItemData {
+    uint32 index;
+    uint32 total;
+    DownloadItem* item;
+} DLMEventRemoveItemData;
+
+typedef struct DLMEventProgressData {
+    uint32 position;
+    uint32 total;
+    DownloadItem* item;
+} DLMEventProgressData;
+
+typedef struct DLMEventStatusData {
+    DownloadItem* item;
+} DLMEventStatusData;
+
+typedef struct DLMEventErrorData {
+    Error errorCode;
+    DownloadItem* item;
+} DLMEventErrorData;
+
+typedef union DLMEventData {
+    DLMEventAddItemData     addItemData;
+    DLMEventRemoveItemData  removeItemData;
+    DLMEventProgressData    progressData;
+    DLMEventStatusData      statusData;
+    DLMEventErrorData       errorData;
+} DLMEventData;
+
+typedef struct DLMEvent {
+    DLMEventType type;
+    DLMEventData data;
+    string eventString;
+} DLMEvent;
+
+typedef bool (*DLMCallBackFunction)(DLMEvent* event, void* userData);
 
 #define kInvalidIndex 0xFFFFFFFF
 
@@ -89,8 +144,10 @@ class DownloadItem {
     Error GetURL(char* buf, uint32* len) { return SetBuffer(buf, m_url.c_str(), len); }
     const string& URL() const { return m_url; }
 
-    void SetState(DownloadItemState state) { m_state = state; }
     DownloadItemState GetState() const { return m_state; }
+
+    Error StartDownload();
+    Error StopDownload(bool allowResume);
 
  protected:
     Error SetBuffer(char* dest, const char* src, uint32* len)
@@ -132,37 +189,41 @@ class DownloadManager {
  public:
     DownloadManager(FAContext* context);
     virtual ~DownloadManager();
-
-    Error SetCallbackFunction(DLMCallBackFunction function,
-                              void* cookie = NULL);    
    
-    // Functions for adding items to Download Manager       
+    // Functions for adding items to Download Manager
+    // Adding an item implicitly queues it for
+    // downloading.
     Error AddItem(const char* url);
-    Error AddItem(const char* url, uint32 index);
     Error AddItem(DownloadItem* item);
-    Error AddItem(DownloadItem* item, uint32 index);
     Error AddItems(vector<DownloadItem*>* list);
-    Error AddItems(vector<DownloadItem*>* list, uint32 index);
 
     // Functions for removing items from Download Manager
+    // Removing an item implicitly cancels a download
+    // that is occurring.
     Error RemoveItem(DownloadItem* item);
     Error RemoveItem(uint32 index);
     Error RemoveItems(uint32 index, uint32 count);
     Error RemoveItems(vector<DownloadItem*>* items);
     Error RemoveAll();
 
+    // Changes item state to queued if it is cancelled or error.
+    // This will indicate to the download thread that it should
+    // attempt to retrieve this item. Has no effect if the item's
+    // state is Done, or Downloading.
+    Error QueueDownload(DownloadItem* item);
+    Error QueueDownload(uint32 index);
+
+    // Changes item state to cancelled if it is queued or downloading.
+    // If allowResume is true then data is retained for later download.
+    // Has no effect if the item's state is Done, Cancelled, or Error.
+    Error CancelDownload(DownloadItem* item, bool allowResume = false);
+    Error CancelDownload(uint32 index, bool allowResume = false);
+
+ 
     // File Format support
     Error GetSupportedDownloadFormats(DownloadFormatInfo* format, uint32 index);
-    Error ImportDownloadFile(char* url, vector<DownloadItem*>* items = NULL, 
-                       DLMCallBackFunction function = NULL,
-                       void* cookie = NULL);
+    Error ImportDownloadFile(char* url, vector<DownloadItem*>* items = NULL);
 
-    Error ExportDownloadFile(char* url, DownloadFormatInfo* format, 
-                        vector<DownloadItem*>* items = NULL,
-                        DLMCallBackFunction function = NULL,
-                        void* cookie = NULL);
-
-    
     // Utility Functions
     bool            IsEmpty();
     uint32          CountItems();
@@ -173,14 +234,13 @@ class DownloadManager {
  protected:
     inline uint32 CheckIndex(uint32 index);
     uint32 InternalIndexOf(vector<DownloadItem*>* list, DownloadItem* item);
-
-    Error Download(DownloadItem* item,
-                   DLMCallBackFunction function,
-                   void* cookie = NULL);
-
-    Error Download(uint32 index,
-                   DLMCallBackFunction function,
-                   void* cookie = NULL);
+    
+    // Functions for controlling downloading
+    Error StartDownload(DownloadItem* item);
+    Error StartDownload(uint32 index);
+    Error StopDownload(DownloadItem* item, bool allowResume);
+    Error StopDownload(uint32 index, bool allowResume);
+    
 
  private:
 

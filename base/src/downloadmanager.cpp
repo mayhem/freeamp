@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.24 1999/09/25 20:53:10 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.25 1999/09/25 23:17:47 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -109,6 +109,8 @@ DownloadManager::~DownloadManager()
     DownloadItem* item = NULL;
     //uint32 count = 0;
 
+    m_queueMutex.Acquire();
+
     m_runDownloadThread = false;
     m_queueSemaphore.Signal();
 
@@ -122,6 +124,7 @@ DownloadManager::~DownloadManager()
 
         if(item)
         {
+            SendItemRemovedMessage(item);
             delete item;
         }
     }

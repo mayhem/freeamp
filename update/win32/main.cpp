@@ -1,6 +1,6 @@
 /*____________________________________________________________________________
 	
-	FreeAMP - The Free MP3 Player
+	FreeAmp - The Free MP3 Player
 	Portions copyright (C) 1999 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.1.2.3 1999/10/17 05:40:24 ijr Exp $
+	$Id: main.cpp,v 1.1.2.4 1999/10/17 06:37:58 ijr Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -33,7 +33,7 @@ ____________________________________________________________________________*/
 #include "win32prefs.h"
 #include "updatemanager.h"
 
-const char* kMessage = "An instance of FreeAmp is currently running. Please "
+const char* kMessage = "An instance of "BRANDING" is currently running. Please "
                        "close the application before continuing the update.";
 
 void MoveFiles(const char* src, const char* dest);
@@ -47,14 +47,14 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 
     runOnceMutex = CreateMutex(	NULL,
 							    TRUE,
-							    "FreeAmp Should Only Run One Time!");
+							    BRANDING" Should Only Run One Time!");
 
     // make sure FreeAmp is not running while this happens...
     while(WAIT_TIMEOUT == WaitForSingleObject(runOnceMutex, 0))
     {
         int32 result;
 
-        result = MessageBox(NULL, kMessage, "Updating FreeAmp", MB_RETRYCANCEL);
+        result = MessageBox(NULL, kMessage, "Updating "BRANDING, MB_RETRYCANCEL);
 
         if(result == IDCANCEL)
         {

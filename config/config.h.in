@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.14.8.6 1999/10/17 05:40:11 ijr Exp $
+	$Id: config.h.in,v 1.14.8.7 1999/10/17 06:37:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -26,6 +26,8 @@ ____________________________________________________________________________*/
 
 #include <limits.h>
 
+
+#define BRANDING "FreeAmp"
 
 #define FREEAMP_PATH_ENV "FREEAMP_PATH"
 #define FREEAMP_VERSION "unknown"

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.4.2.2 1999/10/17 05:40:18 ijr Exp $
+	$Id: soundcardpmo.cpp,v 1.4.2.3 1999/10/17 06:37:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #define DEBUG 0
@@ -234,7 +234,7 @@ SoundCardPMO::Init( OutputInfo* info )
 
 	m_player = new BSoundPlayer(
 							&m_format,
-							"FreeAmp",
+							BRANDING,
 							_PlayerHook,
 							_NotifierHook,
 							this

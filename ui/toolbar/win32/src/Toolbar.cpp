@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Toolbar.cpp,v 1.1.2.1 1999/10/03 21:20:28 robert Exp $
+	$Id: Toolbar.cpp,v 1.1.2.2 1999/10/17 06:37:58 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -361,7 +361,7 @@ AcceptEvent(Event* event)
 
 				char *foo = strrchr(info->m_filename,'\\');
 
-                char title[256] = "FreeAmp - ";
+                char title[256] = BRANDING" - ";
 
 fix me
 !
@@ -374,7 +374,7 @@ fix me
             { 
                 StreamInfoEvent *info = (StreamInfoEvent*)event;
 
-                char title[256] = "FreeAmp - ";
+                char title[256] = BRANDING" - ";
 
 
                 SetTrayTooltip(m_songTitleView->Text());
@@ -461,12 +461,12 @@ UIThreadFunction()
     wc.hCursor = LoadCursor( NULL, IDC_ARROW );
     wc.hIcon = LoadIcon( g_hinst, MAKEINTRESOURCE(IDI_EXE_ICON) );
     wc.hbrBackground = NULL;//(HBRUSH)( COLOR_WINDOW + 1 );
-    wc.lpszClassName = "FreeAmp";
+    wc.lpszClassName = BRANDING;
 
     if( RegisterClass( &wc ) )    
     {
-        CreateWindow(   "FreeAmp", 
-                        "FreeAmp",
+        CreateWindow(   BRANDING, 
+                        BRANDING,
                         WS_POPUP | WS_VISIBLE | WS_SYSMENU, 
                         0, 
                         0, 

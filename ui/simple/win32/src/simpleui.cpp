@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.21.8.3 1999/10/17 05:40:23 ijr Exp $
+	$Id: simpleui.cpp,v 1.21.8.4 1999/10/17 06:37:58 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -357,7 +357,7 @@ AcceptEvent(Event* event)
 						    (LPARAM) szTemp);
 
              
-                SetWindowText(m_hwnd, "FreeAmp");
+                SetWindowText(m_hwnd, BRANDING);
                 break;
             }
 
@@ -607,7 +607,7 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
 
             m_ui->ReadPreferences();
 
-            m_ui->SetTrayTooltip("Welcome to FreeAmp");
+            m_ui->SetTrayTooltip("Welcome to "BRANDING);
 
 			result = TRUE;
 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.26.6.5 1999/10/17 05:40:11 ijr Exp $
+	$Id: main.cpp,v 1.26.6.6 1999/10/17 06:37:56 ijr Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -47,7 +47,7 @@ EnumThreadWndProc(  HWND hwnd,
 {
     BOOL    result = TRUE;
     char    windowTitle[256];
-    char    freeampTitle[] = "FreeAmp";
+    char    freeampTitle[] = BRANDING;
     int32   count;
 
     count = GetWindowText(hwnd, windowTitle, sizeof(windowTitle));
@@ -72,7 +72,7 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 
     runOnceMutex = CreateMutex(	NULL,
 							    TRUE,
-							    "FreeAmp Should Only Run One Time!");
+							    BRANDING " Should Only Run One Time!");
 
     if(GetLastError() == ERROR_ALREADY_EXISTS)
     {

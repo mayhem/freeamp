@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.1.2.7 1999/10/17 05:40:22 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.1.2.8 1999/10/17 06:37:57 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -77,7 +77,7 @@ bool GTKPreferenceWindow::Show(Window *pWindow)
     gtk_window_set_modal(GTK_WINDOW(mainWindow), TRUE);
     gtk_signal_connect(GTK_OBJECT(mainWindow), "destroy",
                        GTK_SIGNAL_FUNC(pref_destroy), NULL);
-    gtk_window_set_title(GTK_WINDOW(mainWindow), "FreeAmp - Preferences");
+    gtk_window_set_title(GTK_WINDOW(mainWindow), BRANDING" - Preferences");
 
     GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(mainWindow), vbox);
@@ -851,13 +851,13 @@ GtkWidget *GTKPreferenceWindow::CreatePage3(void)
 
     GtkWidget *textlabel = gtk_label_new(NULL);
     gtk_label_set_line_wrap(GTK_LABEL(textlabel), TRUE);
-    gtk_label_set_text(GTK_LABEL(textlabel), "If you are experiencing a problem with FreeAmp it is possible to log what the program is doing in order to help us track down the cause.  When you enable logging a file is created in your home directory called freeamp.log.  You should send us the log file when you report a bug.");
+    gtk_label_set_text(GTK_LABEL(textlabel), "If you are experiencing a problem with "BRANDING" it is possible to log what the program is doing in order to help us track down the cause.  When you enable logging a file is created in your home directory called freeamp.log.  You should send us the log file when you report a bug.");
     gtk_container_add(GTK_CONTAINER(pane), textlabel);
     gtk_widget_show(textlabel);
 
     textlabel = gtk_label_new(NULL);
     gtk_label_set_line_wrap(GTK_LABEL(textlabel), TRUE);
-    gtk_label_set_text(GTK_LABEL(textlabel), "You have the ability to narrow the logging to a particular portion of FreeAmp by selecting the various logging options.  If you are not sure in which portion of the program the problem is occuring you can simply enable all the logging options.");
+    gtk_label_set_text(GTK_LABEL(textlabel), "You have the ability to narrow the logging to a particular portion of "BRANDING" by selecting the various logging options.  If you are not sure in which portion of the program the problem is occuring you can simply enable all the logging options.");
     gtk_container_add(GTK_CONTAINER(pane), textlabel);
     gtk_widget_show(textlabel);
 
@@ -934,7 +934,7 @@ GtkWidget *GTKPreferenceWindow::CreateAbout(void)
 
     GtkWidget *textlabel = gtk_label_new(NULL);
     gtk_label_set_line_wrap(GTK_LABEL(textlabel), TRUE);
-    gtk_label_set_text(GTK_LABEL(textlabel), "FreeAmp");
+    gtk_label_set_text(GTK_LABEL(textlabel), BRANDING);
     gtk_label_set_justify(GTK_LABEL(textlabel), GTK_JUSTIFY_CENTER);
     gtk_container_add(GTK_CONTAINER(pane), textlabel);
     gtk_widget_show(textlabel);

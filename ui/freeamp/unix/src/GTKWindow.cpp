@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.14 1999/10/13 01:14:01 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.15 1999/10/17 06:37:57 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -85,7 +85,7 @@ GTKWindow::GTKWindow(Theme *pTheme, string &oName)
     gdk_threads_enter();
     mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_widget_set_app_paintable(mainWindow, TRUE);
-    gtk_window_set_title(GTK_WINDOW(mainWindow), "FreeAmp");
+    gtk_window_set_title(GTK_WINDOW(mainWindow), BRANDING);
     gtk_window_set_policy(GTK_WINDOW(mainWindow), TRUE, TRUE, TRUE);
     gtk_widget_set_events(mainWindow, GDK_SUBSTRUCTURE_MASK | GDK_STRUCTURE_MASK
                           | GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK |

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.39 1999/10/17 05:40:09 ijr Exp $
+        $Id: player.cpp,v 1.133.2.40 1999/10/17 06:37:56 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -466,11 +466,11 @@ Usage(const char *progname)
     if(m_didUsage)
         return;
 
-    printf("FreeAmp version " FREEAMP_VERSION " -- Usage:\n\n");
-    printf("freeamp [-save] [-ui <UI plugin name>] <MP3 file/stream> "
-      "[MP3 file/stream] ...\n\n");
+    printf(BRANDING " version " FREEAMP_VERSION " -- Usage:\n\n");
+    printf("%s [-save] [-ui <UI plugin name>] <MP3 file/stream> "
+      "[MP3 file/stream] ...\n\n", progname);
     printf("Example command line:\n\n");
-    printf("   freeamp -ui freeamp-linux.ui mysong1.mp3 mysong2.mp3\n\n");
+    printf("   %s -ui freeamp.ui mysong1.mp3 mysong2.mp3\n\n", progname);
 
     m_didUsage = true;
 }
@@ -691,15 +691,15 @@ Run()
          uint32    size = MAX_PATH - 1;
 
          m_context->prefs->GetInstallDirectory(bar, &size);
-         sprintf(foo, "No UI plugin matched 'plugins\\%s' or 'plugins\\%s.ui' in '%s'.  FreeAmp will quit.", name, name, bar);
-         MessageBox(NULL, foo, "FreeAmp Error", MB_OK);
+         sprintf(foo, "No UI plugin matched 'plugins\\%s' or 'plugins\\%s.ui' in '%s'.  " BRANDING " will quit.", name, name, bar);
+         MessageBox(NULL, foo, BRANDING " Error", MB_OK);
 #else
          const char *thePath = getenv(FREEAMP_PATH_ENV);
 
          if (thePath == NULL)
           thePath = m_context->prefs->GetLibDirs();
          cerr << "No UI plugin in '" << thePath << "' matched 'plugins/" << name << "' or 'plugins/" << name << ".ui'" << endl;
-         cerr << "FreeAmp will quit." << endl;
+         cerr << BRANDING << " will quit." << endl;
 #endif
          Event    *e = new Event(CMD_QuitPlayer);
 

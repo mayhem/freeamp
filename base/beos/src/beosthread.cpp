@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: beosthread.cpp,v 1.2.4.1 1999/10/17 05:40:09 ijr Exp $
+	$Id: beosthread.cpp,v 1.2.4.2 1999/10/17 06:37:56 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -115,7 +115,7 @@ Create( thread_function function, void* arg )
 	m_arg = arg;
 	m_threadHandle = spawn_thread(
 						beosThread::internalThreadFunction,
-						"FreeAmp",
+						BRANDING,
 						beos_priority( m_priority ),
 						this
 						);

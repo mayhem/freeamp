@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.13 1999/10/13 04:49:44 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.14 1999/10/17 06:37:57 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -29,7 +29,7 @@ ____________________________________________________________________________*/
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
-const static char szAppName[] = "FreeAmp";
+const static char szAppName[] = BRANDING;
 HINSTANCE g_hinst = NULL;
 
 #define IDI_EXE_ICON 101

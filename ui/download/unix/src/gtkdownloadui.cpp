@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.1.2.2 1999/10/06 18:47:02 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.1.2.3 1999/10/17 06:37:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -242,7 +242,7 @@ void resume_internal(GtkWidget *w, DownloadUI *p)
 void DownloadUI::CreateDownloadUI(void)
 {
     m_downloadUI = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(m_downloadUI), "FreeAmp - DownloadManager");
+    gtk_window_set_title(GTK_WINDOW(m_downloadUI), BRANDING" - DownloadManager");
     gtk_window_set_policy(GTK_WINDOW(m_downloadUI), TRUE, TRUE, TRUE);
     gtk_signal_connect(GTK_OBJECT(m_downloadUI), "destroy",
                        GTK_SIGNAL_FUNC(toggle_vis_internal), this);

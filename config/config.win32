@@ -18,13 +18,15 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.10.4.5 1999/10/17 05:40:11 ijr Exp $
+	$Id: config.win32,v 1.10.4.6 1999/10/17 06:37:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
 #define CONFIG_H
 
 #include <limits.h>
+
+#define BRANDING "FreeAmp"
 
 #define FREEAMP_PATH_ENV "FREEAMP_PATH"
 #define FREEAMP_VERSION "1.5"

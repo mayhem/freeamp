@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.1.2.12 1999/10/17 05:40:10 ijr Exp $
+	$Id: updatemanager.cpp,v 1.1.2.13 1999/10/17 06:37:56 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -74,7 +74,7 @@ const char* kUpdatePath = "/update/freeamp/";
 const char* kUpdateFile = "/update/freeamp/version_info.xml";
 const char* kUpdateRequest = "GET %s HTTP/1.0\n"
                              "Host: %s\n"
-                             "User-Agent: FreeAmp/%s\n"
+                             "User-Agent: "BRANDING"/%s\n"
                              "\n";
 const uint8 kUpdatePort = 80;
 
@@ -747,7 +747,7 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
                 const char* kHTTPQuery = "GET %s HTTP/1.0\n"
                                          "Host: %s\n"
                                          "Accept: */*\n" 
-                                         "User-Agent: FreeAmp/%s\n"
+                                         "User-Agent: "BRANDING"/%s\n"
                                          "\n";
                                              
                 char* query = new char[ strlen(kHTTPQuery) + 

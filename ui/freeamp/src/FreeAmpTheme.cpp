@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.43 1999/10/16 21:25:42 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.44 1999/10/17 06:37:57 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -141,7 +141,7 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
 
        GetErrorString(oErr);
        oMessage += oErr;
-       oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
+       oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
    }
 }
 
@@ -200,7 +200,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          pFoo = (pFoo ? ++pFoo : info->m_filename);
          m_oTitle = string(pFoo);
          m_pWindow->ControlStringValue(oName, true, m_oTitle);
-         oText = string("FreeAmp: ") + string(pFoo);
+         oText = string(BRANDING": ") + string(pFoo);
          m_pWindow->SetTitle(oText);
 
 		 // Enable/disable the seek slider
@@ -228,7 +228,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          pInfo->GetTitle(szTitle, 100);
          m_oTitle = string(szTitle);
          m_pWindow->ControlStringValue(oName, true, m_oTitle);
-         oText = string("FreeAmp: ") + string(szTitle);
+         oText = string(BRANDING": ") + string(szTitle);
          m_pWindow->SetTitle(oText);
 
          break;
@@ -563,7 +563,7 @@ void FreeAmpTheme::InitControls(void)
 {
 	bool   bSet;
     int    iState;
-    string oWelcome("Welcome to FreeAmp!");
+    string oWelcome("Welcome to "BRANDING"!");
     
     assert(m_pWindow);
     
@@ -634,7 +634,7 @@ void FreeAmpTheme::ReloadTheme(void)
   
         GetErrorString(oErr);
         oMessage += oErr;
-        oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
+        oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
     }	
 }
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Toolbar.cpp,v 1.1.2.2 1999/10/04 19:18:45 elrod Exp $
+	$Id: Toolbar.cpp,v 1.1.2.3 1999/10/17 06:37:58 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -153,7 +153,7 @@ TrayNotify(int32 notifyMessage)
         {
             //ShowWindow( m_hWnd, SW_NORMAL);
 			//SetForegroundWindow(m_hWnd);
-            MessageBox(m_hWnd, "Show FreeAmp", "FreeAmp", MB_OK);
+            MessageBox(m_hWnd, "Show "BRANDING, BRANDING, MB_OK);
 			break;
         }
 
@@ -300,7 +300,7 @@ AcceptEvent(Event* event)
 
 				char *foo = strrchr(info->m_filename,'\\');
 
-                char title[256] = "FreeAmp - ";
+                char title[256] = BRANDING" - ";
                 if (foo)
                     strcat(title, foo);
                 else
@@ -315,7 +315,7 @@ AcceptEvent(Event* event)
             { 
                 StreamInfoEvent *info = (StreamInfoEvent*)event;
 
-                char title[256] = "FreeAmp - ";
+                char title[256] = BRANDING" - ";
                 
                 info->GetTitle(title + strlen(title), 256 - strlen(title));
                 SetTrayTooltip(title);

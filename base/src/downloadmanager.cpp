@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.37 1999/10/17 05:40:09 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.38 1999/10/17 06:37:56 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -696,7 +696,7 @@ Error DownloadManager::Download(DownloadItem* item)
                 const char* kHTTPQuery = "GET %s HTTP/1.1\n"
                                          "Host: %s\n"
                                          "Accept: */*\n" 
-                                         "User-Agent: FreeAmp/%s\n";
+                                         "User-Agent: "BRANDING"/%s\n";
 
                 const char* kRange = "Range: %lu-\n"
                                      "If-Range: %s\n";

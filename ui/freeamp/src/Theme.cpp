@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.26 1999/10/13 04:49:42 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.27 1999/10/17 06:37:57 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -187,7 +187,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
             MessageDialog oBox;
             string        oErr, oMessage(szCannotCreateTempDirError);
 
-            oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
+            oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
             return kError_InvalidParam;
         }    
         SetThemePath(oTempPath);
@@ -203,7 +203,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
        
                 string        oErr, oMessage(szThemeNotFoundError);
 
-                oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
+                oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
             }
         
             m_pThemeMan->GetDefaultTheme(oFile);
@@ -220,7 +220,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
             MessageDialog oBox;
             string        oErr, oMessage(szThemeUnzipError);
 
-            oBox.Show(oMessage.c_str(), string("FreeAmp"), kMessageOk);
+            oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
             return kError_InvalidParam;
         }    
 

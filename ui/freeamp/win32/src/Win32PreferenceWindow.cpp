@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.1.2.7 1999/10/17 05:40:22 ijr Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.1.2.8 1999/10/17 06:37:57 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -41,7 +41,7 @@ ____________________________________________________________________________*/
 
 static Win32PreferenceWindow *g_pCurrentPrefWindow = NULL;
 const char* kThemeFileFilter =
-            "FreeAmp Themes (.fat)\0"
+            BRANDING" Themes (.fat)\0"
             "*.fat\0"
             "All Files (*.*)\0"
             "*.*\0";
@@ -189,7 +189,7 @@ bool Win32PreferenceWindow::DisplayPreferences(HWND hwndParent, Preferences* pre
     psh.hwndParent = hwndParent;
     psh.hInstance = hinst;
     psh.pszIcon = NULL;
-    psh.pszCaption = "FreeAmp Preferences";
+    psh.pszCaption = BRANDING" Preferences";
     psh.nPages = sizeof(psp)/sizeof(PROPSHEETPAGE);
     psh.nStartPage = 0;
     psh.ppsp = psp;

@@ -296,7 +296,7 @@ int32 ncursesUI::AcceptEvent(Event *e) {
 
                     counter = 0;
                     title = (char *)malloc((2*sizeof(char)) * (12 + strlen(pmvi->m_filename)));
-                    sprintf( title, "Freeamp " FREEAMP_VERSION " - [%s]", pmvi->m_filename);
+                    sprintf( title, BRANDING " " FREEAMP_VERSION " - [%s]", pmvi->m_filename);
                     if ( strlen(title) > (unsigned)COLS - 13 )
                     {
                         titleStart = 0;
@@ -450,7 +450,7 @@ void ncursesUI::processSwitch(char *pc) {
     endwin();
     if (pc[1] == 'h' || pc[1] == 'H')
     {
-        cout << "FreeAmp ncurses user interface" << endl;
+        cout << BRANDING << " ncurses user interface" << endl;
         cout << "Syntax: freeamp [-h] <filenames>" << endl;
         cout << "-h shows this help" << endl;
         cout << "If you are running freeamp with the -ui argument to select" << endl;
@@ -474,7 +474,7 @@ void ncursesUI::showInfo() {
     for (int i=0; i < COLS; i++)
         addstr(" ");
     move(0, (COLS/2) - 4);
-    addstr("Freeamp" FREEAMP_VERSION);
+    addstr(BRANDING " " FREEAMP_VERSION);
     attroff(A_REVERSE);
 //    refresh();
     //color_set(7, NULL);

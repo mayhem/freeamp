@@ -238,10 +238,10 @@ HINSTANCE LoadLibrary(char *lpLibFileName) {
             {
                printf("%s\n\nThis is *not* a fatal error. The plugin ", 
                       dlerror());
-               printf("'%s' in FreeAmp's plugin \ndirectory could not ", ptr);
-               printf("be loaded. FreeAmp will use the default PMO.\n");
+               printf("'%s' in "BRANDING"'s plugin \ndirectory could not ", ptr);
+               printf("be loaded. "BRANDING" will use the default PMO.\n");
                printf("To get rid of this warning either fix the problem, ");
-               printf("or delete the\n'%s' file from FreeAmp's plugin ", ptr);
+               printf("or delete the\n'%s' file from "BRANDING"'s plugin ", ptr);
                printf("directory.\n");
                return hInst;
             }

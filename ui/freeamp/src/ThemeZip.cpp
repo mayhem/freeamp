@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.10 1999/12/13 14:45:43 robert Exp $
+   $Id: ThemeZip.cpp,v 1.11 1999/12/16 01:57:25 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <time.h>
@@ -521,6 +521,38 @@ Error ThemeZip::GetDescriptiveName(const string &oSrcFile, string &oDescriptiveN
             if(uPos!=oDescriptiveName.npos) oDescriptiveName.erase(uPos,uPos+1);
 
             break; //we're done
+        }
+
+        if (strcasecmp(TarRecord.header.name, "title.txt") == 0)
+        {
+            char *pText;
+            
+            iSize = from_oct(11,TarRecord.header.size);
+            if(iSize)
+            {
+                char *pPtr;
+                
+                iPadding = (iSize/512+1)*512-iSize;
+                pText = new char[iSize + iPadding + 1];
+                if (gzread(pIn, pText, iSize+iPadding) != iSize+iPadding)
+                {
+                    gzclose(pIn);
+                    return kError_ReadFile;
+                }
+                
+                pPtr = strchr(pText, '\n');
+                if (pPtr)
+                   *pPtr = 0;
+                pPtr = strchr(pText, '\r');
+                if (pPtr)
+                   *pPtr = 0;
+                   
+                oDescriptiveName = pText;
+                delete pText;
+                break;
+            }
+            
+            continue;
         }
 
         // skip actual content

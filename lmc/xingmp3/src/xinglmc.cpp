@@ -22,8 +22,13 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.44 1999/01/31 18:44:43 jdw Exp $
+   $Id: xinglmc.cpp,v 1.45 1999/01/31 19:18:45 jdw Exp $
 ____________________________________________________________________________*/
+
+#ifdef WIN32
+#include <windows.h>
+#define sleep(x) Sleep(1000*x)
+#endif
 
 /* system headers */
 #include <stdlib.h>

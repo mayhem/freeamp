@@ -18,13 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mbcd.h,v 1.1 2000/10/11 18:23:16 robert Exp $
+	$Id: mbcd.h,v 1.2 2000/10/12 17:57:11 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MBCD_H
 #define INCLUDED_MBCD_H
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -53,6 +54,7 @@ class MusicBrainzCD : public MetaDataFormat {
     bool    LookupCD(void);
 
     musicbrainz_t o;
+    vector<int> m_trackLens;
 };
 
 #endif

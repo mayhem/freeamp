@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.22 1999/11/17 00:27:59 elrod Exp $
+        $Id: AUTHORS,v 1.23 1999/11/19 00:29:33 robert Exp $
 ____________________________________________________________________________*/
 
 FreeAmp (www.freeamp.org) is an Open Source development effort 
@@ -82,3 +82,9 @@ Other major contributors and their contributions:
 
 "Mark Weaver" <mhw@netris.org>
 * Unix prefs
+
+"Henrik Johnson" <hpj@globecom.net>
+* Fast forward and fast backward in command line UI
+
+"Jean Tourrilhes" <jeant@rockfort.hpl.hp.com>
+* Unicast RTP support in obsinput.pmi

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.14 2000/10/09 19:41:05 ijr Exp $
+        $Id: cdpmo.cpp,v 1.15 2001/01/10 20:08:58 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -161,6 +161,8 @@ Error CDPMO::Init(OutputInfo *info)
    uint32 tracks = 0;
 
    m_locker.Acquire();
+
+   memset(&dinfo, 0, sizeof(struct disc_info));
 
    cddbid = 0;
    cdindexid = "";

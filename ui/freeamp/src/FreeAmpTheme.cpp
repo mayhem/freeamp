@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.157 2001/01/08 12:54:22 skx Exp $
+   $Id: FreeAmpTheme.cpp,v 1.158 2001/01/10 20:08:58 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -75,14 +75,6 @@ extern HINSTANCE g_hinst;
 #include "properties.h"
 #include "missingfile.h"
 #include "utility.h"
-
-#ifndef min
-#define min _cpp_min 
-#endif
-
-#ifndef max
-#define max _cpp_max
-#endif
 
 void WorkerThreadStart(void* arg);
 

@@ -18,21 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MultiStateControl.cpp,v 1.12 2001/01/08 12:54:23 skx Exp $
+   $Id: MultiStateControl.cpp,v 1.13 2001/01/10 20:08:58 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "MultiStateControl.h"
 #include "Window.h"
 #include "debug.h"
-
-#ifndef min
-#define min _cpp_min 
-#endif
-
-#ifndef max
-#define max _cpp_max
-#endif
 
 // Bitmap info:
 // For each 'state'

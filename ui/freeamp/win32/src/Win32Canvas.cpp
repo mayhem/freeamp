@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.18 2001/01/08 12:51:19 skx Exp $
+   $Id: Win32Canvas.cpp,v 1.19 2001/01/10 20:08:58 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -26,14 +26,6 @@ ____________________________________________________________________________*/
 #include "Win32Bitmap.h"
 #include "Win32Font.h"
 #include "debug.h"
-
-#ifndef min
-#define min _cpp_min 
-#endif
-
-#ifndef max
-#define max _cpp_max
-#endif
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 

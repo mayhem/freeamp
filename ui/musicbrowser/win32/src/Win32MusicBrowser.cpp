@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.77 2001/01/05 17:18:57 skx Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.78 2001/01/10 20:08:58 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -423,7 +423,7 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             CDInfoEvent* cie = (CDInfoEvent*)event;
             uint32 numTracks = cie->GetNumTracks();
 
-            if(cie->GetCDDB() != m_cdId)
+            if(m_cdTracks && cie->GetCDDB() != m_cdId)
             {			
                 m_cdId = cie->GetCDDB();
 

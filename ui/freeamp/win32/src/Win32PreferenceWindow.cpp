@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.67 2001/01/08 12:51:19 skx Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.68 2001/01/10 20:08:58 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -5097,23 +5097,6 @@ void Win32PreferenceWindow::ShowPrefPage(PrefPage* page, bool show)
             GetClientRect(hwndPage, &pageRect);
 
             MapWindowPoints(hwndPage, m_hwndPref, (LPPOINT)&pageRect, 2);
-
-            // Need to twiddle with some stuff so this works
-            // as a child window
-            if(lpDlgExRes->dlgVer == 1 && lpDlgExRes->signature == 0xFFFF)
-            {
-                lpDlgExRes->style &= ~WS_POPUP;
-                lpDlgExRes->style &= ~DS_MODALFRAME;
-
-                lpDlgExRes->style |= WS_CHILD | WS_OVERLAPPED | DS_CONTROL | WS_VISIBLE;
-            }
-            else
-            {
-                lpDlgRes->style &= ~WS_POPUP;
-                lpDlgRes->style &= ~DS_MODALFRAME;
-
-                lpDlgRes->style |= WS_CHILD | WS_OVERLAPPED | DS_CONTROL | WS_VISIBLE;
-            }
 
             // Create the Pref page
             page->hwnd = CreateDialogIndirect(

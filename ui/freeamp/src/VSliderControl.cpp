@@ -18,16 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.cpp,v 1.19 2001/01/08 12:54:23 skx Exp $
+   $Id: VSliderControl.cpp,v 1.20 2001/01/10 20:08:58 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "VSliderControl.h"
 #include "Window.h"
 #include "debug.h"
-
-#define min _MIN 
-#define max _MAX 
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 

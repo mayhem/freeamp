@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.18 2001/01/08 12:54:23 skx Exp $
+   $Id: ThemeZip.cpp,v 1.19 2001/01/10 20:08:58 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <time.h>
@@ -50,15 +50,6 @@ ____________________________________________________________________________*/
 #include "zip_wrapper.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
-
-#ifndef min
-#define min _cpp_min 
-#endif
-
-#ifndef max
-#define max _cpp_max
-#endif
-
 
 const int iMajorVersion = 1;
 const int iMinorVersion = 0;

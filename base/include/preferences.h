@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.25.2.1 2000/02/24 00:21:37 elrod Exp $
+	$Id: preferences.h,v 1.25.2.2 2000/02/27 07:10:03 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -82,6 +82,7 @@ extern const char* kWelcomePref;
 extern const char* kPlayImmediatelyPref;
 extern const char* kNumberOfURLsToRememberPref;
 extern const char* kConvertUnderscoresToSpacesPref;
+extern const char* kAllowMultipleInstancesPref;
 
 class LibDirFindHandle;
 
@@ -255,7 +256,8 @@ class Preferences {
     Error GetConvertUnderscoresToSpaces(bool* value);
     Error SetConvertUnderscoresToSpaces(bool value);
 
-    
+    Error GetAllowMultipleInstances(bool* value);
+    Error SetAllowMultipleInstances(bool  value);  
 };
 
 #endif /* _PREFERENCES_H */

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.33.2.1 2000/02/24 00:21:37 elrod Exp $
+        $Id: preferences.cpp,v 1.33.2.2 2000/02/27 07:10:04 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -75,6 +75,7 @@ const char* kWelcomePref = "Welcome";
 const char* kPlayImmediatelyPref = "PlayImmediately";
 const char* kNumberOfURLsToRememberPref = "NumberOfURLsToRemember";
 const char* kConvertUnderscoresToSpacesPref = "ConvertUnderscoresToSpaces";
+const char* kAllowMultipleInstancesPref = "AllowMultipleInstances";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -126,6 +127,7 @@ const bool kDefaultWelcome = true;
 const bool kDefaultPlayImmediately = true;
 const int32 kDefaultNumberOfURLsToRemember = 10;
 const bool kDefaultConvertUnderscoresToSpaces = true;
+const bool kDefaultAllowMultipleInstances = false;
 
 Error
 Preferences::
@@ -287,6 +289,9 @@ SetDefaults()
 
     if (GetPrefBoolean(kConvertUnderscoresToSpacesPref, &dummyBool) == kError_NoPrefValue)
         SetPrefBoolean(kConvertUnderscoresToSpacesPref, kDefaultConvertUnderscoresToSpaces);
+
+    if (GetPrefBoolean(kAllowMultipleInstancesPref, &dummyBool) == kError_NoPrefValue)
+        SetPrefBoolean(kAllowMultipleInstancesPref, kDefaultAllowMultipleInstances);
 
     return kError_NoErr;
 }
@@ -979,6 +984,20 @@ Preferences::
 SetConvertUnderscoresToSpaces(bool value)
 {
     return SetPrefBoolean(kConvertUnderscoresToSpacesPref, value);
+}
+
+Error
+Preferences::
+GetAllowMultipleInstances(bool* value)
+{
+    return GetPrefBoolean(kAllowMultipleInstancesPref, value);
+}
+
+Error
+Preferences::
+SetAllowMultipleInstances(bool value)
+{
+    return SetPrefBoolean(kAllowMultipleInstancesPref, value);
 }
 
 LibDirFindHandle *

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.20.2.1 2000/02/26 23:03:14 robert Exp $
+	$Id: bootstrap.cpp,v 1.20.2.2 2000/02/27 07:10:04 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -73,59 +73,75 @@ int main(int argc, char **argv)
     int        iProcess, i;
     char      *pCmdLine = NULL, *pPtr;
 
-    iCmdSem = semget(tSemKey, 1, IPC_CREAT | 0666);
-    if (iCmdSem < 0)
-    {
-       printf("Cannot create/open a semaphore. Is SYS V IPC installed?\n");
-       exit(0);
-    }
-
-    // Check to see if the process that created that semaphore still
-    // exists
-    iProcess = semctl(iCmdSem, 0, GETVAL, 0);
-    if (iProcess > 0)
-    {
-        if (kill(iProcess, 0) >= 0)
-        {
-            iCmdMem = shmget(tMemKey, iSharedMemSize, 0666);
-            pCmdLine = (char *)shmat(iCmdMem, NULL, 0); 
-            for(i = 1, pPtr = pCmdLine; i < argc; i++)
-            {
-                strcpy(pPtr, argv[i]);
-                pPtr += strlen(pPtr) + 1;
-            }
-            *pPtr = 0;
-
-            // Now wait for the main freeamp to parse the args and then exit
-            while(*pCmdLine != 0)
-            {
-                if (kill(iProcess, 0) < 0)
-                   break;
-
-                sleep(1);
-            }
-
-            shmdt(pCmdLine);
-
-            exit(0);
-        }
-    }
-
-    // Set the current pid into the semaphore
-    semctl(iCmdSem, 0, SETVAL, getpid());
-
-    // Create the shared memory segment
-    iCmdMem = shmget(tMemKey, iSharedMemSize, IPC_CREAT | 0666);
-    if (iCmdMem != -1)
-    {
-        pCmdLine = (char *)shmat(iCmdMem, NULL, 0); 
-        pCmdLine[0] = 0;
-    }
+    context->prefs = unixPrefs;
+    context->log = new LogFile("freeamp.log");
 
     int errLine;
     if ((errLine = unixPrefs->GetErrorLineNumber()))
-    	cerr << "ERROR parsing line " << errLine 
+        cerr << "ERROR parsing line " << errLine
              << " of ~/.freeamp/preferences\n";
+
+    bool allow_mult = false;
+    context->prefs->GetAllowMultipleInstances(&allow_mult);
+
+    if (!allow_mult) {
+        iCmdSem = semget(tSemKey, 1, IPC_CREAT | 0666);
+        if (iCmdSem < 0)
+        {
+           printf("Cannot create/open a semaphore. Is SYS V IPC installed?\n");
+           exit(0);
+        }
+
+        // Check to see if the process that created that semaphore still
+        // exists
+        iProcess = semctl(iCmdSem, 0, GETVAL, 0);
+        if (iProcess > 0 && !allow_mult)
+        {
+            if (kill(iProcess, 0) >= 0)
+            {
+                iCmdMem = shmget(tMemKey, iSharedMemSize, 0666);
+                pCmdLine = (char *)shmat(iCmdMem, NULL, 0); 
+                for(i = 1, pPtr = pCmdLine; i < argc; i++)
+                {
+                    char *path = new char[_MAX_PATH];
+                    strcpy(path, argv[i]);
+                    if (strncasecmp(argv[i], "http://", 7) &&
+                        strncasecmp(argv[i], "rtp://", 6))
+                        ResolvePath(&path);
+
+                    strcpy(pPtr, path);
+                    pPtr += strlen(pPtr) + 1;
+
+                    delete [] path;
+                }
+                *pPtr = 0;
+
+                // Now wait for the main freeamp to parse the args and then exit
+                while(*pCmdLine != 0)
+                {
+                    if (kill(iProcess, 0) < 0)
+                        break;
+
+                    sleep(1);
+                }
+
+                shmdt(pCmdLine);
+
+                exit(0);
+            }
+        }
+
+        // Set the current pid into the semaphore
+        semctl(iCmdSem, 0, SETVAL, getpid());
+
+        // Create the shared memory segment
+        iCmdMem = shmget(tMemKey, iSharedMemSize, IPC_CREAT | 0666);
+        if (iCmdMem != -1)
+        {
+            pCmdLine = (char *)shmat(iCmdMem, NULL, 0); 
+            pCmdLine[0] = 0;
+        }
+    }
 
 #ifdef DEBUG_MUTEXES
     struct sigaction sigact;
@@ -138,9 +154,6 @@ int main(int argc, char **argv)
          << "To dump mutex info: kill -SIGUSR1 " << getpid() << endl;
 #endif
     
-    context->prefs = unixPrefs;
-    context->log = new LogFile("freeamp.log");
-
     Registrar *registrar= new Registrar();
     Registry *lmc;
     Registry *pmi;
@@ -195,7 +208,7 @@ int main(int argc, char **argv)
         {
             if (!termSemaphore->TimedWait(1000))
             {
-                if (pCmdLine && strlen(pCmdLine) > 0)
+                if (pCmdLine && strlen(pCmdLine) > 0 && !allow_mult)
                 {
                     int iItems = context->plm->CountItems();
                     bool bPlay;
@@ -220,9 +233,12 @@ int main(int argc, char **argv)
         }
     }
 
-    if (pCmdLine)
-       shmdt(pCmdLine); 
-    semctl (iCmdSem, IPC_RMID, 0);
+    if (!allow_mult) {
+        if (pCmdLine)
+            shmdt(pCmdLine); 
+        semctl (iCmdSem, IPC_RMID, 0);
+        shmctl (iCmdMem, IPC_RMID, 0);
+    }
 
     delete pP;
     delete context;

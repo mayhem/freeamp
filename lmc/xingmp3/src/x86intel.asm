@@ -26,16 +26,16 @@
 ;	along with this program; if not, write to the Free Software
 ;	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ;
-;	$Id: x86intel.asm,v 1.7 1999/03/04 07:28:16 mhw Exp $
+;	$Id: x86intel.asm,v 1.8 1999/03/04 09:01:37 mhw Exp $
 ;
-
-extern _wincoef:dword
-extern _coef32:dword
 
 .386
 ;FLAT	group _TEXT
 ;	assume cs:FLAT, ds:FLAT, ss:FLAT
 _TEXT	segment para public use32 'CODE'
+
+extern _wincoef:dword
+extern _coef32:dword
 
 public _window_dual
 	align 16

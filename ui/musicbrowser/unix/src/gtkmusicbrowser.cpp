@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.87 2000/06/05 21:55:23 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.88 2000/06/06 10:21:07 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -822,6 +822,23 @@ void GTKMusicBrowser::DeleteEvent(void)
                     break; }
                 case kTreeFavStream: {
                     m_context->catalog->RemoveStream((*i)->track->URL().c_str());
+                    break; }
+                case kTreeAlbum: {
+                    AlbumList *list = (*i)->album;
+                    vector<PlaylistItem *>::iterator j = 
+                                                     list->m_trackList->begin();
+                    for (; j != list->m_trackList->end(); j++) 
+                        m_context->catalog->RemoveSong((*j)->URL().c_str());
+                    break; }
+                case kTreeArtist: {
+                    ArtistList *list = (*i)->artist;
+                    vector<AlbumList *>::iterator j = list->m_albumList->begin();
+                    for (; j != list->m_albumList->end(); j++) {
+                        vector<PlaylistItem *>::iterator k =
+                                                     (*j)->m_trackList->begin();
+                        for (; k != (*j)->m_trackList->end(); k++) 
+                            m_context->catalog->RemoveSong((*k)->URL().c_str());
+                    }
                     break; }
                 default:
                     break;

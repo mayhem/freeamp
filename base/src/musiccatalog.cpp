@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.61 2000/06/05 19:19:20 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.62 2000/06/06 10:21:07 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -888,11 +888,15 @@ void MusicCatalog::DoSearchMusic(char *path, bool bSendMessages)
                     PlaylistItem *plist = new PlaylistItem(tempurl);
                     m_plm->RetrieveMetaDataNow(plist);
 
-                    WriteMetaDataToDatabase(tempurl,
-                                            (MetaData)plist->GetMetaData());   
+                    MetaData *tempdata = ReadMetaDataFromDatabase(tempurl);
+                    if (!tempdata || !m_addImmediately) 
+                        WriteMetaDataToDatabase(tempurl,
+                                                (MetaData)plist->GetMetaData());
                     if (m_addImmediately)
                         AddSong(tempurl);
 
+                    if (tempdata)
+                        delete tempdata;
                     delete plist;
                     delete [] tempurl;
                 }

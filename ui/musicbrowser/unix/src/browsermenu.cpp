@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.cpp,v 1.8 2000/06/05 21:55:23 ijr Exp $
+        $Id: browsermenu.cpp,v 1.9 2000/06/06 10:21:07 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -317,6 +317,28 @@ static void delete_sel(GTKMusicBrowser *p, guint action, GtkWidget *w)
                 urlToDel = (*i)->playlistname;
             else if (type == kTreeTrack)
                 urlToDel = (*i)->track->URL();
+            else if (type == kTreeArtist) {
+                ArtistList *list = (*i)->artist;
+                vector<AlbumList *>::iterator j = list->m_albumList->begin();
+                for (; j != list->m_albumList->end(); j++) {
+                    vector<PlaylistItem *>::iterator k = 
+                                                     (*j)->m_trackList->begin();
+                    for (; k != (*j)->m_trackList->end(); k++) {
+                        urlToDel = (*k)->URL();
+                        if (p->AskToDelete(urlToDel))
+                            p->GetContext()->catalog->RemoveSong(urlToDel.c_str());
+                    }
+                }
+            }
+            else if (type == kTreeAlbum) {
+                AlbumList *list = (*i)->album;
+                vector<PlaylistItem *>::iterator j = list->m_trackList->begin();
+                for (; j != list->m_trackList->end(); j++) {
+                    urlToDel = (*j)->URL();
+                    if (p->AskToDelete(urlToDel))
+                        p->GetContext()->catalog->RemoveSong(urlToDel.c_str());
+                }
+            }
             else
                 continue;
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.9 1999/10/23 05:09:03 ijr Exp $
+	$Id: utility.cpp,v 1.10 1999/10/25 13:17:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -237,11 +237,12 @@ void RFC822GMTTimeString(struct tm* time, char buf[32])
                            "Jul", "Aug", "Sep", "Oct",  "Nov", "Dec"};
 
     // Example: Sun, 06 Nov 1994 08:49:37 GMT
-    const char* k822Format = "%s, %2d %s %4d %2d:%2d:%2d GMT";
+    const char* k822Format = "%s, %02d %s %4d %02d:%02d:%02d GMT";
 
     sprintf(buf, k822Format, day[time->tm_wday],
                              time->tm_mday,
                              month[time->tm_mon],
+                             time->tm_year + 1900,
                              time->tm_hour,
                              time->tm_min,
                              time->tm_sec);

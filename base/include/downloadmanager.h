@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.2 1999/10/19 07:12:45 elrod Exp $
+	$Id: downloadmanager.h,v 1.3 1999/10/25 13:17:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -183,7 +183,7 @@ class DownloadManager {
     // Functions for adding items to Download Manager
     // Adding an item implicitly queues it for
     // downloading.
-    Error AddItem(const char* url);
+    Error AddItem(const char* url, const char* filename = NULL);
     Error AddItem(DownloadItem* item);
     Error AddItems(vector<DownloadItem*>* list);
 

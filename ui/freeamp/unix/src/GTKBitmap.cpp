@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.6.4.1 2000/05/11 18:55:58 robert Exp $
+   $Id: GTKBitmap.cpp,v 1.6.4.2 2000/05/11 20:11:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -583,7 +583,7 @@ Error GTKBitmap::BlitRectMaskBitmap(Bitmap *pSrcBitmap, Rect &oSrcRect,
     return kError_NoErr;
 }
 
-Bitmap *GTKBitmap::Clone(void)
+Bitmap *GTKBitmap::clone(void)
 {
    GTKBitmap *pTemp;
    Rect       oRect;

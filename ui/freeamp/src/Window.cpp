@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.33.4.2 2000/05/11 18:55:58 robert Exp $
+   $Id: Window.cpp,v 1.33.4.3 2000/05/11 20:11:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -219,7 +219,6 @@ void Window::AddPanel(Panel *pPanel)
     string oName;
 
     IncUsageRef();
-    printf("AddPanel: %p\n",pPanel);
     m_oPanels.push_back(pPanel);
     DecUsageRef();
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.31.4.1 2000/05/11 18:55:58 robert Exp $
+   $Id: GTKWindow.cpp,v 1.31.4.2 2000/05/11 20:11:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -294,7 +294,6 @@ void GTKWindow::PanelStateChanged(void)
     gdk_threads_leave();
 
     ((GTKCanvas *)GetCanvas())->Paint(oRect);
-    printf("Paint: %d %d %d %d\n", oRect.x1, oRect.y1, oRect.x2, oRect.y2);
 }
 
 void GTKWindow::SaveWindowPos(Pos &oPos)

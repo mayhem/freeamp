@@ -28,44 +28,40 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Dialog
 //
 
-IDD_PREF_GENERAL DIALOG DISCARDABLE  0, 0, 233, 204
+IDD_PREF_GENERAL DIALOG DISCARDABLE  0, 0, 233, 174
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "General"
 FONT 8, "MS Sans Serif"
 BEGIN
     CONTROL         "Remain on top of all other windows.",IDC_STAYONTOP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,177,128,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,148,128,10
     CONTROL         "Show application icon in the system tray instead of the taskbar.",
-                    IDC_TRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,188,
+                    IDC_TRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,158,
                     213,10
-    GROUPBOX        "Miscellaneous",IDC_STATIC,3,155,227,46
+    GROUPBOX        "Miscellaneous",IDC_STATIC,3,117,227,54
     GROUPBOX        "Save Music Folder",IDC_STATIC,3,3,227,34
     EDITTEXT        IDC_SAVEMUSICDIR,11,16,160,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Browse...",IDC_BROWSE,175,16,50,14
-    GROUPBOX        "File Associations",IDC_STATIC,3,42,227,36
+    GROUPBOX        "File Associations",IDC_STATIC,3,42,227,38
     CONTROL         "Reclaim music file associations when application starts.",
                     IDC_RECLAIMFILETYPES,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,12,53,189,10
+                    WS_TABSTOP,12,54,189,10
     CONTROL         "Ask before reclaiming music file associations.",
                     IDC_ASKRECLAIM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,
-                    64,157,10
-    GROUPBOX        "Show Toolbars As",IDC_STATIC,3,83,227,26
+                    66,157,10
+    GROUPBOX        "Show Toolbars As",IDC_STATIC,3,85,227,26
     CONTROL         "Text only",IDC_TEXTONLY,"Button",BS_AUTORADIOBUTTON,178,
-                    95,43,10
+                    96,43,10
     CONTROL         "Images only",IDC_IMAGESONLY,"Button",BS_AUTORADIOBUTTON,
-                    101,95,53,10
+                    101,96,53,10
     CONTROL         "Text and images",IDC_TEXTANDIMAGES,"Button",
-                    BS_AUTORADIOBUTTON,11,95,66,10
+                    BS_AUTORADIOBUTTON,11,96,66,10
     CONTROL         "Save current playlist when exiting the application.",
                     IDC_SAVECURRENTLIST,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,12,136,171,10
+                    WS_TABSTOP,12,138,171,10
     CONTROL         "Default action is to queue tracks; do not play them immediately.",
                     IDC_DEFAULTACTION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    12,125,213,10
-    GROUPBOX        "Playlist",IDC_STATIC,3,114,227,36
-    CONTROL         "Convert underscores in metadata to spaces.",
-                    IDC_UNDERSCORES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,
-                    166,155,10
+                    12,128,213,10
 END
 
 IDD_PREF_DEBUG DIALOG DISCARDABLE  0, 0, 233, 174
@@ -99,7 +95,7 @@ BEGIN
                     IDC_STATIC,3,46,227,32
 END
 
-IDD_PREF_STREAMING DIALOG DISCARDABLE  0, 0, 233, 204
+IDD_PREF_STREAMING DIALOG DISCARDABLE  0, 0, 233, 174
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Streaming"
 FONT 8, "MS Sans Serif"
@@ -108,95 +104,95 @@ BEGIN
     EDITTEXT        IDC_STREAM_INTERVAL,117,14,25,12,ES_AUTOHSCROLL | 
                     ES_NUMBER
     LTEXT           "Seconds",IDC_STATIC,146,16,29,8
-    GROUPBOX        "",IDC_STATIC,3,39,227,43
+    GROUPBOX        "",IDC_STATIC,3,39,227,42
     LTEXT           " ",IDC_STATIC,9,41,8,8
     CONTROL         "Save SHOUTcast/icecast Streams Locally",IDC_SAVESTREAMS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,39,149,10
     LTEXT           "Save Location:",IDC_SAVELOCATION_TEXT,11,51,49,8
     EDITTEXT        IDC_STREAMSAVEDIR,11,61,160,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Browse...",IDC_BROWSE,175,61,50,14
-    GROUPBOX        "",IDC_STATIC,3,90,227,43
-    LTEXT           " ",IDC_STATIC,9,91,8,8
+    GROUPBOX        "",IDC_STATIC,3,88,227,41
+    LTEXT           " ",IDC_STATIC,9,89,8,8
     CONTROL         "Use Proxy Server",IDC_USEPROXY,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,11,90,69,10
-    EDITTEXT        IDC_PROXYADDRESS,11,112,173,14,ES_AUTOHSCROLL
-    CTEXT           ":",IDC_COLON_TEXT,185,115,8,8
-    EDITTEXT        IDC_PORT,193,112,29,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Port:",IDC_PORT_TEXT,193,102,15,8
-    LTEXT           "Proxy Address:",IDC_PROXYADDRESS_TEXT,11,102,47,8
-    GROUPBOX        "",IDC_STATIC,3,140,227,33
-    LTEXT           " ",IDC_STATIC,9,141,8,8
+                    WS_TABSTOP,11,88,69,10
+    EDITTEXT        IDC_PROXYADDRESS,11,110,173,14,ES_AUTOHSCROLL
+    CTEXT           ":",IDC_COLON_TEXT,185,113,8,8
+    EDITTEXT        IDC_PORT,193,110,29,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Port:",IDC_PORT_TEXT,193,100,15,8
+    LTEXT           "Proxy Address:",IDC_PROXYADDRESS_TEXT,11,100,47,8
+    GROUPBOX        "",IDC_STATIC,3,136,227,33
+    LTEXT           " ",IDC_STATIC,9,137,8,8
     CONTROL         "Use This Network Address For Streaming",IDC_USETHISIP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,140,143,10
-    EDITTEXT        IDC_IPADDRESS1,90,153,18,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "IP Address:",IDC_IPADDRESS_TEXT,47,157,37,8
-    CTEXT           ".",IDC_PERIOD1,108,159,8,8
-    EDITTEXT        IDC_IPADDRESS2,116,153,18,14,ES_AUTOHSCROLL | ES_NUMBER
-    CTEXT           ".",IDC_PERIOD2,134,159,8,8
-    EDITTEXT        IDC_IPADDRESS3,143,153,18,14,ES_AUTOHSCROLL | ES_NUMBER
-    CTEXT           ".",IDC_PERIOD3,161,159,8,8
-    EDITTEXT        IDC_IPADDRESS4,169,153,18,14,ES_AUTOHSCROLL | ES_NUMBER
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,136,143,10
+    EDITTEXT        IDC_IPADDRESS1,90,149,18,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "IP Address:",IDC_IPADDRESS_TEXT,47,153,37,8
+    CTEXT           ".",IDC_PERIOD1,108,155,8,8
+    EDITTEXT        IDC_IPADDRESS2,116,149,18,14,ES_AUTOHSCROLL | ES_NUMBER
+    CTEXT           ".",IDC_PERIOD2,134,155,8,8
+    EDITTEXT        IDC_IPADDRESS3,143,149,18,14,ES_AUTOHSCROLL | ES_NUMBER
+    CTEXT           ".",IDC_PERIOD3,161,155,8,8
+    EDITTEXT        IDC_IPADDRESS4,169,149,18,14,ES_AUTOHSCROLL | ES_NUMBER
     GROUPBOX        "Buffer Sizes",IDC_STATIC,3,3,227,29
 END
 
-IDD_PREF_ABOUT DIALOG DISCARDABLE  0, 0, 233, 204
+IDD_PREF_ABOUT DIALOG DISCARDABLE  0, 0, 233, 174
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
 FONT 8, "MS Sans Serif"
 BEGIN
-    PUSHBUTTON      "Visit FreeAmp.org",IDC_GOTOFREEAMP,30,186,67,14
-    PUSHBUTTON      "Visit EMusic.com",IDC_GOTOEMUSIC,136,186,67,14
+    PUSHBUTTON      "Visit FreeAmp.org",IDC_GOTOFREEAMP,30,156,67,14
+    PUSHBUTTON      "Visit EMusic.com",IDC_GOTOEMUSIC,136,156,67,14
     CONTROL         "App",IDC_APP,"Button",BS_OWNERDRAW | BS_CENTER | 
                     BS_FLAT | WS_TABSTOP,3,3,227,10
     CONTROL         "Version",IDC_VERSION,"Button",BS_OWNERDRAW | BS_CENTER | 
                     BS_FLAT | WS_TABSTOP,3,12,227,10
     CONTROL         "Credit",IDC_CREDIT,"Button",BS_OWNERDRAW | BS_CENTER | 
-                    BS_FLAT | WS_TABSTOP,3,37,227,143
+                    BS_FLAT | WS_TABSTOP,3,33,227,120
     CONTROL         "(based on FreeAmp)",IDC_BASED_ON_FREEAMP,"Button",
                     BS_OWNERDRAW | BS_CENTER | BS_FLAT | WS_TABSTOP,3,21,227,
                     10
 END
 
-IDD_PREF_THEME DIALOG DISCARDABLE  0, 0, 233, 204
+IDD_PREF_THEME DIALOG DISCARDABLE  0, 0, 233, 174
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Themes"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LISTBOX         IDC_THEMELISTBOX,11,16,153,110,LBS_SORT | 
+    LISTBOX         IDC_THEMELISTBOX,11,13,153,88,LBS_SORT | 
                     LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Theme Selection",IDC_STATIC,3,3,227,130
-    PUSHBUTTON      "&Add Theme",IDC_ADDTHEME,170,16,54,14
-    PUSHBUTTON      "&Delete Theme",IDC_DELETETHEME,170,35,54,14
-    GROUPBOX        "Default Font",IDC_STATIC,3,140,227,53
+    GROUPBOX        "Theme Selection",IDC_STATIC,5,3,224,106
+    PUSHBUTTON      "&Add Theme",IDC_ADDTHEME,170,14,54,14
+    PUSHBUTTON      "&Delete Theme",IDC_DELETETHEME,170,33,54,14
+    GROUPBOX        "Default Font",IDC_STATIC,5,116,224,53
     LTEXT           "A theme may specify a font type that is not installed on your system. The default font will be substituted in place of the missing font.",
-                    IDC_STATIC,11,151,212,19
-    PUSHBUTTON      "Choose &Font",IDC_CHOOSEFONT,172,173,50,14
+                    IDC_STATIC,11,127,212,19
+    PUSHBUTTON      "Choose &Font",IDC_CHOOSEFONT,172,149,50,14
     LTEXT           "Note: Only the font name will be used. The font will appear in the style specified in the theme.",
-                    IDC_STATIC,11,170,156,17
+                    IDC_STATIC,11,146,156,17
 END
 
-IDD_PREF_UPDATE DIALOGEX 0, 0, 233, 204
+IDD_PREF_UPDATE DIALOGEX 0, 0, 233, 174
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Update"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Description",-1,3,106,227,46
-    PUSHBUTTON      "Update Components",IDC_UPDATE,121,158,90,14
-    PUSHBUTTON      "Check for Latest Versions",IDC_CHECK,23,158,90,14
+    GROUPBOX        "Description",-1,3,80,227,46
+    PUSHBUTTON      "Update Components",IDC_UPDATE,121,131,90,14
+    PUSHBUTTON      "Check for Latest Versions",IDC_CHECK,23,131,90,14
     LTEXT           "This is a test. This text will tell the user what the hell the component actually does.By filling in this text I can see how the text will appear to the user when it is asctually filled in by the program and see if it looks good or bad the way it is.",
-                    IDC_DESCRIPTION,10,116,214,33
+                    IDC_DESCRIPTION,10,91,214,33
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
                     LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_OWNERDRAWFIXED | 
-                    LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,3,3,227,99,
+                    LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,3,3,227,74,
                     WS_EX_CLIENTEDGE
-    LTEXT           " Status: No update in progress.",IDC_STATUS,0,191,233,
+    LTEXT           " Status: No update in progress.",IDC_STATUS,0,163,233,
                     11,0,WS_EX_CLIENTEDGE
     CONTROL         "Check for the availability of updates when the application starts.",
                     IDC_AUTOCHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,
-                    176,216,10
-    PUSHBUTTON      "Cancel Version Check",IDC_CANCELCHECK,23,158,90,14,NOT 
+                    149,216,10
+    PUSHBUTTON      "Cancel Version Check",IDC_CANCELCHECK,23,131,90,14,NOT 
                     WS_VISIBLE | WS_DISABLED
-    PUSHBUTTON      "Cancel Update",IDC_CANCELUPDATE,121,158,90,14,NOT 
+    PUSHBUTTON      "Cancel Update",IDC_CANCELUPDATE,121,131,90,14,NOT 
                     WS_VISIBLE | WS_DISABLED
 END
 
@@ -240,7 +236,7 @@ BEGIN
     LTEXT           "Seconds",IDC_STATIC,103,156,29,8
 END
 
-IDD_PREF_ADVANCED DIALOG DISCARDABLE  0, 0, 233, 204
+IDD_PREF_ADVANCED DIALOG DISCARDABLE  0, 0, 233, 174
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Advanced"
 FONT 8, "MS Sans Serif"
@@ -271,10 +267,10 @@ BEGIN
                     IDC_STATIC,9,146,153,20
 END
 
-IDD_PREF_PLUGINS DIALOGEX 0, 0, 233, 204
+IDD_PREF_PLUGINS DIALOGEX 0, 0, 233, 174
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Plugins"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     COMBOBOX        IDC_PMO,78,17,125,54,CBS_DROPDOWNLIST | CBS_SORT | 
                     WS_VSCROLL | WS_TABSTOP
@@ -377,7 +373,7 @@ BEGIN
         LEFTMARGIN, 3
         RIGHTMARGIN, 230
         TOPMARGIN, 3
-        BOTTOMMARGIN, 201
+        BOTTOMMARGIN, 171
     END
 
     IDD_PREF_DEBUG, DIALOG
@@ -393,7 +389,7 @@ BEGIN
         LEFTMARGIN, 3
         RIGHTMARGIN, 230
         TOPMARGIN, 3
-        BOTTOMMARGIN, 198
+        BOTTOMMARGIN, 169
     END
 
     IDD_PREF_ABOUT, DIALOG
@@ -401,21 +397,13 @@ BEGIN
         LEFTMARGIN, 3
         RIGHTMARGIN, 230
         TOPMARGIN, 3
-        BOTTOMMARGIN, 200
-    END
-
-    IDD_PREF_THEME, DIALOG
-    BEGIN
-        LEFTMARGIN, 3
-        RIGHTMARGIN, 230
-        TOPMARGIN, 3
-        BOTTOMMARGIN, 201
+        BOTTOMMARGIN, 170
     END
 
     IDD_PREF_UPDATE, DIALOG
     BEGIN
         TOPMARGIN, 3
-        BOTTOMMARGIN, 202
+        BOTTOMMARGIN, 172
     END
 
     IDD_PREF_GENERAL_OLD, DIALOG
@@ -431,7 +419,7 @@ BEGIN
         LEFTMARGIN, 3
         RIGHTMARGIN, 230
         TOPMARGIN, 3
-        BOTTOMMARGIN, 200
+        BOTTOMMARGIN, 170
     END
 
     IDD_PREF_PLUGINS, DIALOG
@@ -439,7 +427,7 @@ BEGIN
         LEFTMARGIN, 3
         RIGHTMARGIN, 230
         TOPMARGIN, 3
-        BOTTOMMARGIN, 201
+        BOTTOMMARGIN, 171
     END
 
     IDD_UPDATEAVAILABLE, DIALOG

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Equalizer.cpp,v 1.2 2000/04/25 14:58:35 robert Exp $
+   $Id: Equalizer.cpp,v 1.3 2000/04/25 15:03:01 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <math.h>
@@ -39,11 +39,13 @@ ____________________________________________________________________________*/
 Equalizer::Equalizer(FAContext *context)
 {
 
-   m_context = context;
-   m_settingsChanged = false;
-   m_enabled = false;
+    m_context = context;
+    m_settingsChanged = false;
+    m_enabled = false;
 
-	for(int i=0; i<32; i++)
+    int i;
+
+	for(i=0; i<32; i++)
 		m_equalizer[i] = 1.0;
 	for(i=0; i<10; i++)
 		m_sliders[i] = 0;
@@ -83,7 +85,7 @@ void Equalizer::LoadSettings(void)
    for(i = 0; i < 10; i++)
       ChangeValue(i, m_sliders[i]);
 
-   Enable((bool)enabled);
+   Enable((enabled != 0));
    m_settingsChanged = false;
 }
 

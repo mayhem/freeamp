@@ -1,3 +1,28 @@
+[Input & Output\Sound Card Output]
+SELECTED=Yes
+FILENEED=HIGHLYRECOMMENDED
+HTTPLOCATION=
+STATUS=
+UNINSTALLABLE=Yes
+TARGET=<TARGETDIR>\Plugins
+FTPLOCATION=
+VISIBLE=Yes
+DESCRIPTION=This component allows FreeAmp to play audio through your sound card.
+DISPLAYTEXT=
+IMAGE=
+DEFSELECTION=Yes
+filegroup0=Sound Card Output
+COMMENT=
+INCLUDEINBUILD=Yes
+INSTALLATION=NEWERVERSION\NEWERDATE
+COMPRESSIFSEPARATE=No
+MISC=
+ENCRYPT=No
+DISK=ANYDISK
+TARGETDIRCDROM=
+PASSWORD=
+TARGETHIDDEN=General Application Destination\Plugins
+
 [System DLLs]
 SELECTED=Yes
 FILENEED=CRITICAL
@@ -24,7 +49,199 @@ TARGETDIRCDROM=
 PASSWORD=
 TARGETHIDDEN=Windows Operating System\Windows System Folder
 
-[Input and Output\HTTP Input]
+[MetaData\ID3v1]
+SELECTED=Yes
+FILENEED=STANDARD
+HTTPLOCATION=
+STATUS=
+UNINSTALLABLE=Yes
+TARGET=<TARGETDIR>
+FTPLOCATION=
+VISIBLE=Yes
+DESCRIPTION=This component  reads metadata in the ID3v1 format.
+DISPLAYTEXT=
+IMAGE=
+DEFSELECTION=Yes
+filegroup0=ID3v1 MetaData
+COMMENT=
+INCLUDEINBUILD=Yes
+INSTALLATION=NEWERVERSION\NEWERDATE
+COMPRESSIFSEPARATE=No
+MISC=
+ENCRYPT=No
+DISK=ANYDISK
+TARGETDIRCDROM=
+PASSWORD=
+TARGETHIDDEN=General Application Destination
+
+[Components]
+component17=Portable Players
+component9=Input & Output\HTTP Input
+component18=Playlist Formats
+component19=Portable Players\Rio PMP300
+component0=System DLLs
+component1=Input & Output\Sound Card Output
+component10=Decoders\Xing MP3
+component2=MetaData\ID3v1
+component11=Default Plugins
+component3=MetaData
+component12=Program Files
+component4=Input & Output
+component13=User Interfaces
+component5=MetaData\ID3v2
+component14=Input & Output\OBS Input
+component6=Input & Output\DirectSound Output
+component15=Playlist Formats\M3U
+component7=Decoders
+component16=Input & Output\File Input
+component8=User Interfaces\FreeAmp
+
+[MetaData\ID3v2]
+SELECTED=Yes
+FILENEED=STANDARD
+HTTPLOCATION=
+STATUS=
+UNINSTALLABLE=Yes
+TARGET=<TARGETDIR>
+FTPLOCATION=
+VISIBLE=Yes
+DESCRIPTION=This component  reads metadata in the ID3v2 format.
+DISPLAYTEXT=
+IMAGE=
+DEFSELECTION=Yes
+filegroup0=ID3v2 MetaData
+COMMENT=
+INCLUDEINBUILD=Yes
+INSTALLATION=NEWERVERSION\NEWERDATE
+COMPRESSIFSEPARATE=No
+MISC=
+ENCRYPT=No
+DISK=ANYDISK
+TARGETDIRCDROM=
+PASSWORD=
+TARGETHIDDEN=General Application Destination
+
+[Input & Output]
+SELECTED=Yes
+FILENEED=HIGHLYRECOMMENDED
+HTTPLOCATION=
+STATUS=
+UNINSTALLABLE=Yes
+TARGET=<TARGETDIR>\Plugins
+member0=Input & Output\File Input
+FTPLOCATION=
+member1=Input & Output\HTTP Input
+VISIBLE=Yes
+DESCRIPTION=These components allow FreeAmp to receive data from various sources and also to output audio to various destinations.
+member2=Input & Output\OBS Input
+member3=Input & Output\Sound Card Output
+member4=Input & Output\DirectSound Output
+DISPLAYTEXT=
+IMAGE=
+DEFSELECTION=Yes
+COMMENT=
+INCLUDEINBUILD=Yes
+INSTALLATION=NEWERVERSION\NEWERDATE
+COMPRESSIFSEPARATE=No
+MISC=
+ENCRYPT=No
+DISK=ANYDISK
+TARGETDIRCDROM=
+PASSWORD=
+TARGETHIDDEN=General Application Destination\Plugins
+
+[MetaData]
+SELECTED=Yes
+FILENEED=STANDARD
+HTTPLOCATION=
+STATUS=
+UNINSTALLABLE=Yes
+TARGET=<TARGETDIR>
+member0=MetaData\ID3v1
+FTPLOCATION=
+member1=MetaData\ID3v2
+VISIBLE=Yes
+DESCRIPTION=These components allow FreeAmp to read metadata stored within music files so it can display it during playback.
+DISPLAYTEXT=
+IMAGE=
+DEFSELECTION=Yes
+COMMENT=
+INCLUDEINBUILD=Yes
+INSTALLATION=NEWERVERSION\NEWERDATE
+COMPRESSIFSEPARATE=No
+MISC=
+ENCRYPT=No
+DISK=ANYDISK
+TARGETDIRCDROM=
+PASSWORD=
+TARGETHIDDEN=General Application Destination
+
+[TopComponents]
+component0=Program Files
+component1=Input & Output
+component2=Decoders
+component3=User Interfaces
+component4=MetaData
+component5=Portable Players
+component6=Playlist Formats
+component7=System DLLs
+component8=Default Plugins
+
+[Input & Output\DirectSound Output]
+SELECTED=Yes
+FILENEED=STANDARD
+HTTPLOCATION=
+STATUS=
+UNINSTALLABLE=Yes
+TARGET=<TARGETDIR>\Plugins
+FTPLOCATION=
+VISIBLE=Yes
+DESCRIPTION=This component allows FreeAmp to play audio through your sound card via DirectSound on Windows 95 and 98.
+DISPLAYTEXT=
+IMAGE=
+DEFSELECTION=Yes
+filegroup0=Direct Sound Output
+COMMENT=
+INCLUDEINBUILD=Yes
+INSTALLATION=NEWERVERSION\NEWERDATE
+COMPRESSIFSEPARATE=No
+MISC=
+ENCRYPT=No
+DISK=ANYDISK
+TARGETDIRCDROM=
+PASSWORD=
+TARGETHIDDEN=General Application Destination\Plugins
+
+[SetupType]
+setuptype0=Typical
+setuptype1=Custom
+
+[Decoders\Xing MP3]
+SELECTED=Yes
+FILENEED=STANDARD
+HTTPLOCATION=
+STATUS=
+UNINSTALLABLE=Yes
+TARGET=<TARGETDIR>\Plugins
+FTPLOCATION=
+VISIBLE=Yes
+DESCRIPTION=This component allows FreeAmp to play MPEG 1 (layer 1, 2, and 3), 2, and 2.5 audio streams.
+DISPLAYTEXT=
+IMAGE=
+DEFSELECTION=Yes
+filegroup0=Xing Decoder
+COMMENT=
+INCLUDEINBUILD=Yes
+INSTALLATION=NEWERVERSION\NEWERDATE
+COMPRESSIFSEPARATE=No
+MISC=
+ENCRYPT=No
+DISK=ANYDISK
+TARGETDIRCDROM=
+PASSWORD=
+TARGETHIDDEN=General Application Destination
+
+[Input & Output\HTTP Input]
 SELECTED=Yes
 FILENEED=HIGHLYRECOMMENDED
 HTTPLOCATION=
@@ -40,7 +257,7 @@ DEFSELECTION=Yes
 filegroup0=HTTP Input
 COMMENT=
 INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
+INSTALLATION=NEWERVERSION\NEWERDATE
 COMPRESSIFSEPARATE=No
 MISC=
 ENCRYPT=No
@@ -48,33 +265,6 @@ DISK=ANYDISK
 TARGETDIRCDROM=
 PASSWORD=
 TARGETHIDDEN=General Application Destination\Plugins
-
-[Components]
-component9=User Interfaces
-component0=Input and Output\HTTP Input
-component1=System DLLs
-component10=Input and Output\File Input
-component2=Decoders
-component11=User Interfaces\RainPlay
-component3=User Interfaces\FreeAmp
-component12=Input and Output
-component4=Input and Output\Sound Card Output
-component13=Input and Output\DirectSound Output
-component5=Input and Output\OBS Input
-component6=Program Files
-component7=Decoders\Xing Decoder
-component8=User Interfaces\Simple
-
-[TopComponents]
-component0=Program Files
-component1=Input and Output
-component2=Decoders
-component3=User Interfaces
-component4=System DLLs
-
-[SetupType]
-setuptype0=Typical
-setuptype1=Custom
 
 [User Interfaces\FreeAmp]
 SELECTED=Yes
@@ -92,7 +282,7 @@ DEFSELECTION=Yes
 filegroup0=FreeAmp UI
 COMMENT=
 INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
+INSTALLATION=NEWERVERSION\NEWERDATE
 COMPRESSIFSEPARATE=No
 MISC=
 ENCRYPT=No
@@ -108,7 +298,7 @@ HTTPLOCATION=
 STATUS=
 UNINSTALLABLE=Yes
 TARGET=<TARGETDIR>
-member0=Decoders\Xing Decoder
+member0=Decoders\Xing MP3
 FTPLOCATION=
 VISIBLE=Yes
 DESCRIPTION=These components allow FreeAmp to decode various audio formats.
@@ -117,7 +307,7 @@ IMAGE=
 DEFSELECTION=Yes
 COMMENT=
 INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
+INSTALLATION=NEWERVERSION\NEWERDATE
 COMPRESSIFSEPARATE=No
 MISC=
 ENCRYPT=No
@@ -126,32 +316,7 @@ TARGETDIRCDROM=
 PASSWORD=
 TARGETHIDDEN=General Application Destination
 
-[Input and Output\Sound Card Output]
-SELECTED=Yes
-FILENEED=HIGHLYRECOMMENDED
-HTTPLOCATION=
-STATUS=
-UNINSTALLABLE=Yes
-TARGET=<TARGETDIR>\Plugins
-FTPLOCATION=
-VISIBLE=Yes
-DESCRIPTION=This component allows FreeAmp to play audio through your sound card.
-DISPLAYTEXT=
-IMAGE=
-DEFSELECTION=Yes
-filegroup0=Sound Card Output
-COMMENT=
-INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
-COMPRESSIFSEPARATE=No
-MISC=
-ENCRYPT=No
-DISK=ANYDISK
-TARGETDIRCDROM=
-PASSWORD=
-TARGETHIDDEN=General Application Destination\Plugins
-
-[Decoders\Xing Decoder]
+[Default Plugins]
 SELECTED=Yes
 FILENEED=STANDARD
 HTTPLOCATION=
@@ -160,14 +325,15 @@ UNINSTALLABLE=Yes
 TARGET=<TARGETDIR>\Plugins
 FTPLOCATION=
 VISIBLE=Yes
-DESCRIPTION=This component allows FreeAmp to play MPEG 1 (layer 1, 2, and 3), 2, and 2.5 audio streams.
+DESCRIPTION=Base set of plugins that are required for the application to run.
 DISPLAYTEXT=
 IMAGE=
 DEFSELECTION=Yes
-filegroup0=Xing Decoder
+filegroup0=Default Plugins
+requiredby0=Program Files
 COMMENT=
 INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
+INSTALLATION=NEWERVERSION\NEWERDATE
 COMPRESSIFSEPARATE=No
 MISC=
 ENCRYPT=No
@@ -180,6 +346,7 @@ TARGETHIDDEN=General Application Destination
 required0=System DLLs
 SELECTED=Yes
 FILENEED=CRITICAL
+required1=Default Plugins
 HTTPLOCATION=
 STATUS=
 UNINSTALLABLE=Yes
@@ -193,7 +360,7 @@ DEFSELECTION=Yes
 filegroup0=Program Executable Files
 COMMENT=
 INCLUDEINBUILD=Yes
-INSTALLATION=SAMEORNEWERDATE
+INSTALLATION=NEWERVERSION\NEWERDATE
 COMPRESSIFSEPARATE=No
 MISC=
 ENCRYPT=No
@@ -202,7 +369,30 @@ TARGETDIRCDROM=
 PASSWORD=
 TARGETHIDDEN=General Application Destination
 
-[Input and Output\OBS Input]
+[SetupTypeItem-Custom]
+item5=MetaData\ID3v2
+item10=Program Files
+item6=Decoders
+item11=User Interfaces
+item7=User Interfaces\FreeAmp
+item12=Input & Output\OBS Input
+item8=Input & Output\HTTP Input
+item13=Playlist Formats\M3U
+item9=Decoders\Xing MP3
+item14=Input & Output\File Input
+item15=Playlist Formats
+item16=Portable Players
+item17=Portable Players\Rio PMP300
+Comment=
+item0=System DLLs
+item1=Input & Output\Sound Card Output
+item2=MetaData\ID3v1
+item3=MetaData
+Descrip=This choice allows you to select the plugins you would like to install.
+item4=Input & Output
+DisplayText=
+
+[Input & Output\OBS Input]
 SELECTED=Yes
 FILENEED=HIGHLYRECOMMENDED
 HTTPLOCATION=
@@ -218,7 +408,7 @@ DEFSELECTION=Yes
 filegroup0=OBS Input
 COMMENT=
 INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
+INSTALLATION=NEWERVERSION\NEWERDATE
 COMPRESSIFSEPARATE=No
 MISC=
 ENCRYPT=No
@@ -226,47 +416,6 @@ DISK=ANYDISK
 TARGETDIRCDROM=
 PASSWORD=
 TARGETHIDDEN=General Application Destination\Plugins
-
-[User Interfaces\Simple]
-SELECTED=Yes
-FILENEED=STANDARD
-HTTPLOCATION=
-STATUS=
-UNINSTALLABLE=Yes
-TARGET=<TARGETDIR>\Plugins
-FTPLOCATION=
-VISIBLE=Yes
-DESCRIPTION=This component is a dialog based, screen reader compatible user interface.
-DISPLAYTEXT=
-IMAGE=
-DEFSELECTION=Yes
-filegroup0=Simple UI
-COMMENT=
-INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
-COMPRESSIFSEPARATE=No
-MISC=
-ENCRYPT=No
-DISK=ANYDISK
-TARGETDIRCDROM=
-PASSWORD=
-TARGETHIDDEN=General Application Destination\Plugins
-
-[SetupTypeItem-Custom]
-item5=Input and Output\OBS Input
-item10=Input and Output
-item6=Program Files
-item7=Decoders\Xing Decoder
-item8=User Interfaces
-item9=Input and Output\File Input
-Comment=
-item0=Input and Output\HTTP Input
-item1=System DLLs
-item2=Decoders
-item3=User Interfaces\FreeAmp
-Descrip=This choice allows you to select the plugins you would like to install.
-item4=Input and Output\Sound Card Output
-DisplayText=
 
 [User Interfaces]
 SELECTED=Yes
@@ -275,18 +424,16 @@ HTTPLOCATION=
 STATUS=
 UNINSTALLABLE=Yes
 TARGET=<TARGETDIR>
-member0=User Interfaces\RainPlay
+member0=User Interfaces\FreeAmp
 FTPLOCATION=
-member1=User Interfaces\Simple
 VISIBLE=Yes
 DESCRIPTION=These components control the way FreeAmp looks and also allow FreeAmp to communicate with various devices.
-member2=User Interfaces\FreeAmp
 DISPLAYTEXT=
 IMAGE=
 DEFSELECTION=Yes
 COMMENT=
 INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
+INSTALLATION=NEWERVERSION\NEWERDATE
 COMPRESSIFSEPARATE=No
 MISC=
 ENCRYPT=No
@@ -295,7 +442,61 @@ TARGETDIRCDROM=
 PASSWORD=
 TARGETHIDDEN=General Application Destination
 
-[Input and Output\File Input]
+[Playlist Formats\M3U]
+SELECTED=Yes
+FILENEED=STANDARD
+HTTPLOCATION=
+STATUS=
+UNINSTALLABLE=Yes
+TARGET=<TARGETDIR>
+FTPLOCATION=
+VISIBLE=Yes
+DESCRIPTION=These components allow FreeAmp to read and write playlists in the M3U format.
+DISPLAYTEXT=
+IMAGE=
+DEFSELECTION=Yes
+filegroup0=M3U Playlist
+COMMENT=
+INCLUDEINBUILD=Yes
+INSTALLATION=NEWERVERSION\NEWERDATE
+COMPRESSIFSEPARATE=No
+MISC=
+ENCRYPT=No
+DISK=ANYDISK
+TARGETDIRCDROM=
+PASSWORD=
+TARGETHIDDEN=General Application Destination
+
+[Info]
+Type=CompDef
+Version=1.00.000
+Name=
+
+[SetupTypeItem-Typical]
+item5=MetaData\ID3v2
+item10=Decoders\Xing MP3
+item6=Input & Output\DirectSound Output
+item11=Program Files
+item7=User Interfaces\FreeAmp
+item12=User Interfaces
+item8=Decoders
+item13=Input & Output\OBS Input
+item9=Input & Output\HTTP Input
+item14=Playlist Formats\M3U
+item15=Input & Output\File Input
+item16=Playlist Formats
+item17=Portable Players
+Comment=
+item18=Portable Players\Rio PMP300
+item0=System DLLs
+item1=Input & Output\Sound Card Output
+item2=MetaData\ID3v1
+item3=MetaData
+Descrip=This choice will install the FreeAmp program and all plugins.
+item4=Input & Output
+DisplayText=
+
+[Input & Output\File Input]
 SELECTED=Yes
 FILENEED=HIGHLYRECOMMENDED
 HTTPLOCATION=
@@ -311,7 +512,7 @@ DEFSELECTION=Yes
 filegroup0=File Input
 COMMENT=
 INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
+INSTALLATION=NEWERVERSION\NEWERDATE
 COMPRESSIFSEPARATE=No
 MISC=
 ENCRYPT=No
@@ -320,106 +521,78 @@ TARGETDIRCDROM=
 PASSWORD=
 TARGETHIDDEN=General Application Destination\Plugins
 
-[User Interfaces\RainPlay]
+[Playlist Formats]
 SELECTED=Yes
 FILENEED=STANDARD
 HTTPLOCATION=
 STATUS=
 UNINSTALLABLE=Yes
-TARGET=<TARGETDIR>\Plugins
+TARGET=<TARGETDIR>
+member0=Playlist Formats\M3U
 FTPLOCATION=
 VISIBLE=Yes
-DESCRIPTION=This component is an alternate user interface for FreeAmp written by Bill Yuan.
+DESCRIPTION=These components allow FreeAmp to read and write playlists in various formats.
 DISPLAYTEXT=
 IMAGE=
 DEFSELECTION=Yes
-filegroup0=RainPlay UI
 COMMENT=
 INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
+INSTALLATION=NEWERVERSION\NEWERDATE
 COMPRESSIFSEPARATE=No
 MISC=
 ENCRYPT=No
 DISK=ANYDISK
 TARGETDIRCDROM=
 PASSWORD=
-TARGETHIDDEN=General Application Destination\Plugins
+TARGETHIDDEN=General Application Destination
 
-[Info]
-Type=CompDef
-Version=1.00.000
-Name=
-
-[SetupTypeItem-Typical]
-item5=Input and Output\OBS Input
-item10=Input and Output\File Input
-item6=Program Files
-item11=User Interfaces\RainPlay
-item7=Decoders\Xing Decoder
-item12=Input and Output
-item8=User Interfaces\Simple
-item13=Input and Output\DirectSound Output
-item9=User Interfaces
-Comment=
-item0=Input and Output\HTTP Input
-item1=System DLLs
-item2=User Interfaces\FreeAmp
-item3=Decoders
-Descrip=This choice will install the FreeAmp program and all plugins.
-item4=Input and Output\Sound Card Output
-DisplayText=
-
-[Input and Output]
-SELECTED=Yes
-FILENEED=HIGHLYRECOMMENDED
-HTTPLOCATION=
-STATUS=
-UNINSTALLABLE=Yes
-TARGET=<TARGETDIR>\Plugins
-member0=Input and Output\File Input
-FTPLOCATION=
-member1=Input and Output\HTTP Input
-VISIBLE=Yes
-DESCRIPTION=These components allow FreeAmp to receive data from various sources and also to output audio to various destinations.
-member2=Input and Output\OBS Input
-member3=Input and Output\Sound Card Output
-member4=Input and Output\DirectSound Output
-DISPLAYTEXT=
-IMAGE=
-DEFSELECTION=Yes
-COMMENT=
-INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
-COMPRESSIFSEPARATE=No
-MISC=
-ENCRYPT=No
-DISK=ANYDISK
-TARGETDIRCDROM=
-PASSWORD=
-TARGETHIDDEN=General Application Destination\Plugins
-
-[Input and Output\DirectSound Output]
+[Portable Players]
 SELECTED=Yes
 FILENEED=STANDARD
 HTTPLOCATION=
 STATUS=
 UNINSTALLABLE=Yes
-TARGET=<TARGETDIR>\Plugins
+TARGET=<TARGETDIR>
+member0=Portable Players\Rio PMP300
 FTPLOCATION=
 VISIBLE=Yes
-DESCRIPTION=This component allows FreeAmp to play audio through your sound card via DirectSound on Windows 95 and 98.
+DESCRIPTION=These components allow FreeAmp to manage the music on your portable audio player.
 DISPLAYTEXT=
 IMAGE=
 DEFSELECTION=Yes
-filegroup0=Direct Sound Output
 COMMENT=
 INCLUDEINBUILD=Yes
-INSTALLATION=ALWAYSOVERWRITE
+INSTALLATION=NEWERVERSION\NEWERDATE
 COMPRESSIFSEPARATE=No
 MISC=
 ENCRYPT=No
 DISK=ANYDISK
 TARGETDIRCDROM=
 PASSWORD=
-TARGETHIDDEN=General Application Destination\Plugins
+TARGETHIDDEN=General Application Destination
+
+[Portable Players\Rio PMP300]
+SELECTED=Yes
+FILENEED=STANDARD
+HTTPLOCATION=
+STATUS=
+UNINSTALLABLE=Yes
+TARGET=<TARGETDIR>
+FTPLOCATION=
+VISIBLE=Yes
+DESCRIPTION=This component knows how to communicate with the Diamond Rio PMP300.
+DISPLAYTEXT=
+IMAGE=
+DEFSELECTION=Yes
+filegroup0=PMP300 Portable
+COMMENT=
+INCLUDEINBUILD=Yes
+INSTALLATION=NEWERVERSION\NEWERDATE
+COMPRESSIFSEPARATE=No
+MISC=
+ENCRYPT=No
+DISK=ANYDISK
+TARGETDIRCDROM=
+PASSWORD=
+TARGETHIDDEN=General Application Destination
 

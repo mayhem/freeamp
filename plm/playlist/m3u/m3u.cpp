@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.1.2.5 1999/10/17 05:40:21 ijr Exp $
+	$Id: m3u.cpp,v 1.1.2.6 1999/10/18 17:30:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -124,23 +124,26 @@ Error M3U::ReadPlaylist(char* url, vector<PlaylistItem*>* list,
                 if(entry[0] == '#')
                     continue;
 
+                // if this is not a URL then let's
                 // enable people with different platforms 
                 // to swap files by changing the path 
                 // separator as necessary
-                for (index = strlen(entry) - 1; index >=0; index--)
+                if( strncmp(entry, "http://", 7) &&
+                    strncmp(entry, "rtp://", 6))
                 {
-                    if(entry[index] == '\\' && DIR_MARKER == '/')
-                        entry[index] = DIR_MARKER;
-                    else if(entry[index] == '/' && DIR_MARKER == '\\')
-                        entry[index] = DIR_MARKER;
+                    for (index = strlen(entry) - 1; index >=0; index--)
+                    {
+                        if(entry[index] == '\\' && DIR_MARKER == '/')
+                            entry[index] = DIR_MARKER;
+                        else if(entry[index] == '/' && DIR_MARKER == '\\')
+                            entry[index] = DIR_MARKER;
+                    }
                 }
 
                 // get rid of nasty trailing whitespace
                 for (index = strlen(entry) - 1; index >=0; index--)
                 {
-                    if(entry[index] == '\n' || 
-                       entry[index] == '\r' ||
-                       entry[index] == ' ')
+                    if(isspace(entry[index]))
                     {
                         entry[index] = 0x00;
                     }

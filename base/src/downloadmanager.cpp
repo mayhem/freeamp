@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.5 2000/03/07 00:42:35 robert Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.6 2000/03/07 02:36:42 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -32,14 +32,7 @@ ____________________________________________________________________________*/
 
 #include <assert.h>
 
-#ifdef WIN32
-#include <io.h>
-#else
-#undef socklen_t
-#include <sys/socket.h>
-#include <netdb.h>
-#include <unistd.h>
-#endif
+#include "downloadmanager.h"
 
 #if defined(unix) || defined(__BEOS__)
 #define SOCKET int
@@ -52,13 +45,13 @@ ____________________________________________________________________________*/
 #endif
 
 #if !defined(WIN32)
+#include <sys/time.h>
 #include <strstream>
 typedef ostrstream ostringstream;
 #else
 #include <sstream>
 #endif
 
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <time.h>
 #include <fcntl.h>
@@ -73,7 +66,6 @@ using namespace std;
 #include "facontext.h"
 
 #include "errors.h"
-#include "downloadmanager.h"
 #include "registrar.h"
 #include "utility.h"
 #include "event.h"

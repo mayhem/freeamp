@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.7 1998/10/22 04:29:09 jdw Exp $
+	$Id: registrar.cpp,v 1.8 1998/10/22 23:58:35 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -119,7 +119,7 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
                     {
                         error = kError_NoErr;
                         item->SetInitFunction(init);
-			totalFilesFound++;
+			            totalFilesFound++;
                     }
                 }
                 
@@ -132,23 +132,25 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
 
                     delete item;
                 }
-
-                //MessageBox(NULL, file, "Found File", MB_OK);
                 
             }while(FindNextFile(handle, &find));
 
             FindClose(handle);
         }
 #ifndef WIN32
-	error = prefs->GetNextLibDir(libDirHandle,dir,&len);
+	    error = prefs->GetNextLibDir(libDirHandle,dir,&len);
 #endif
     }
+
 #ifndef WIN32
-    if (libDirHandle) prefs->GetLibDirClose(libDirHandle);
+    if (libDirHandle) 
+        prefs->GetLibDirClose(libDirHandle);
 #endif
-    if (totalFilesFound == 0) {
-	return kError_NoFiles;
-    }
+
+    if (totalFilesFound == 0) 
+	    error = kError_NoFiles;
+
+    return error;
 }
 
 Error 

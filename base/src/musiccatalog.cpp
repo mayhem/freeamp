@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.43 2000/03/19 11:32:31 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.44 2000/03/23 01:51:03 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -239,7 +239,7 @@ Error MusicCatalog::RemoveStream(const char *url)
     vector<PlaylistItem *>::iterator i = m_streams->begin();
     for (; i != m_streams->end(); i++)
          if ((*i)->URL() == url) {
-             AcceptEvent(new MusicCatalogStreamRemovedEvent(*i));
+             m_context->target->AcceptEvent(new MusicCatalogStreamRemovedEvent(*i));
              m_streams->erase(i);
              break;
          }
@@ -346,7 +346,7 @@ Error MusicCatalog::AddStream(const char *url)
             return kError_DuplicateItem;
 
     m_streams->push_back(newstream);
-    AcceptEvent(new MusicCatalogStreamAddedEvent(newstream));
+    m_context->target->AcceptEvent(new MusicCatalogStreamAddedEvent(newstream));
 
     m_catMutex->Release();
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.cpp,v 1.2 2000/03/22 23:02:35 ijr Exp $
+        $Id: browsermenu.cpp,v 1.3 2000/03/23 01:51:03 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -508,7 +508,7 @@ static void create_cd(GTKMusicBrowser *p, guint action, GtkWidget *w)
 
 static void add_stream(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
-
+    p->AddStreamToFavs();
 }
 
 static void eject_cd(GTKMusicBrowser *p, guint action, GtkWidget *w)

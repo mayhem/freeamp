@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.28 2000/03/19 11:32:31 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.29 2000/03/23 01:51:03 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -232,6 +232,8 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
         case INFO_MusicCatalogCleared:
         case INFO_MusicCatalogPlaylistAdded:
         case INFO_MusicCatalogPlaylistRemoved:
+        case INFO_MusicCatalogStreamAdded:
+        case INFO_MusicCatalogStreamRemoved:
         case INFO_MusicCatalogTrackChanged:
         case INFO_MusicCatalogTrackRemoved: 
         case INFO_MusicCatalogTrackAdded: {

@@ -26,7 +26,7 @@
 ;	along with this program; if not, write to the Free Software
 ;	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ;
-;	$Id: x86intel.asm,v 1.8 1999/03/04 09:01:37 mhw Exp $
+;	$Id: x86intel.asm,v 1.9 1999/03/04 09:25:41 mhw Exp $
 ;
 
 .386
@@ -306,7 +306,9 @@ _fdct32 proc near
 	push esi
 	push ebx
 	sub esp,140
-	mov ecx,_coef32-128	; coef = coef32 - (32 * 4)
+;	mov ecx,_coef32-128	; coef = coef32 - (32 * 4)
+	mov ecx,_coef32		; coef = coef32
+	sub ecx,128
 	mov DWORD PTR [esp+4],1		; m = 1
 	mov ebp,16		; n = 32 / 2
 

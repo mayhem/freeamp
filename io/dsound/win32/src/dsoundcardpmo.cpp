@@ -19,7 +19,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: dsoundcardpmo.cpp,v 1.17 1999/11/13 17:00:48 robert Exp $
+  $Id: dsoundcardpmo.cpp,v 1.18 1999/12/14 17:01:02 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -479,7 +479,9 @@ HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
 
   if (pEvent->GetFrameNumber() != m_iLastFrame + 1)
   {
-    m_iTotalBytesWritten = 1152 * pEvent->GetFrameNumber() *  m_iBytesPerSample;
+    m_iTotalBytesWritten = m_samples_per_frame * 
+                           pEvent->GetFrameNumber() *  
+                           m_iBytesPerSample;
   }
   m_iLastFrame = pEvent->GetFrameNumber();
 

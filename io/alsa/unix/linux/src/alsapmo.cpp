@@ -24,7 +24,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.22 1999/11/13 17:00:47 robert Exp $
+        $Id: alsapmo.cpp,v 1.23 1999/12/14 17:01:00 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -340,7 +340,8 @@ void AlsaPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
 
    if (m_iBaseTime < 0)
    {
-       m_iBaseTime = (pEvent->GetFrameNumber() * 1152) / 
+       m_iBaseTime = (pEvent->GetFrameNumber() * 
+                      myInfo->samples_per_frame) / 
                       myInfo->samples_per_second;
    }
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.48 1999/12/14 14:47:42 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.49 1999/12/14 17:01:11 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -417,7 +417,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
                      info->m_seconds;
          if (iSeconds == m_iCurrentSeconds || m_bSeekInProgress)
              break;
-             
+
          m_iCurrentSeconds = iSeconds;            
          UpdateTimeDisplay(m_iCurrentSeconds);
 

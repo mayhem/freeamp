@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.46 1999/11/17 01:54:08 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.47 1999/12/14 17:01:08 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -77,6 +77,7 @@ SoundCardPMO::SoundCardPMO(FAContext *context) :
 
    m_channels = 0;
    m_samples_per_second = 0;
+   m_samples_per_frame = 0;
    m_hdr_size = 0;
    m_data_size = 0;
    m_initialized = false;
@@ -162,6 +163,7 @@ Error SoundCardPMO::Init(OutputInfo * info)
 
    m_channels = info->number_of_channels;
    m_samples_per_second = info->samples_per_second;
+   m_samples_per_frame = info->samples_per_frame;
    m_data_size = info->max_buffer_size;
 
    m_iBytesPerSample = info->number_of_channels * (info->bits_per_sample / 8);
@@ -229,7 +231,7 @@ void SoundCardPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
 
    if (m_iBaseTime == MAXINT32)
    {
-       m_iBaseTime = (pEvent->GetFrameNumber() * 1152) / 
+       m_iBaseTime = (pEvent->GetFrameNumber() * m_samples_per_frame) / 
                       m_samples_per_second;
 
        sTime.wType = TIME_BYTES;
@@ -246,7 +248,8 @@ void SoundCardPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
    if (waveOutGetPosition(m_hwo, &sTime, sizeof(sTime)) != MMSYSERR_NOERROR)
        return;
    
-   iTotalTime = (sTime.u.cb / (m_samples_per_second * m_iBytesPerSample)) + m_iBaseTime;
+   iTotalTime = (sTime.u.cb / (m_samples_per_second * m_iBytesPerSample)) +
+                m_iBaseTime;
       
    hours = iTotalTime / 3600;
    minutes = (iTotalTime - 
@@ -291,8 +294,6 @@ bool SoundCardPMO::WaitForDrain(void)
 void SoundCardPMO::Pause(void)
 {
     m_iBaseTime = MAXINT32;
-
-    waveOutPause(m_hwo);
 
     PhysicalMediaOutput::Pause();
 }

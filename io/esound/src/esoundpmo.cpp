@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-	$Id: esoundpmo.cpp,v 1.9 1999/12/07 20:29:04 elrod Exp $
+	$Id: esoundpmo.cpp,v 1.10 1999/12/14 17:01:04 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -233,7 +233,8 @@ void EsounDPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
 
    if (pEvent->GetFrameNumber() != m_iLastFrame + 1)
    {
-       m_iTotalBytesWritten = 1152 * pEvent->GetFrameNumber() * 
+       m_iTotalBytesWritten = myInfo->samples_per_frame * 
+                              pEvent->GetFrameNumber() * 
                               m_iBytesPerSample; 
    }
    m_iLastFrame = pEvent->GetFrameNumber();

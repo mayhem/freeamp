@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.cpp,v 1.3 1999/12/08 21:59:58 robert Exp $
+   $Id: VSliderControl.cpp,v 1.4 1999/12/14 17:01:13 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -92,6 +92,9 @@ void VSliderControl::Transition(ControlTransitionEnum  eTrans,
        {
        	   int iNewPos;	
 
+           if (m_iValue < 0 || m_iValue > 100)
+              return;
+              
            iNewPos = ((100 - m_iValue) * m_iRange) / 100;
            if (iNewPos == m_iCurrentPos)
                return;

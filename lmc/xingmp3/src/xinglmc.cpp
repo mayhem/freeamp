@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.114 1999/12/14 14:47:41 robert Exp $
+   $Id: xinglmc.cpp,v 1.115 1999/12/14 17:01:10 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -440,14 +440,12 @@ Error XingLMC::GetBitstreamStats(float &fTotalSeconds, float &fMsPerFrame,
           iTotalFrames = m_pXingHeader->frames;
           fTotalSeconds = (float) ((double) iTotalFrames * 
                                    (double) fMsPerFrame / 1000);
-          //Debug_v("VBR total: %f", fTotalSeconds);                        
        }                            
        else    
        {
           iTotalFrames = m_lFileSize / m_frameBytes;
           fTotalSeconds = (float)((double) iTotalFrames * 
                                   (double) fMsPerFrame / 1000);
-          //Debug_v("CBR total: %f", fTotalSeconds);                        
           fTotalSeconds -= 1;                        
        }    
    }
@@ -483,7 +481,6 @@ uint32 XingLMC::CalculateSongLength(const char *szUrl)
         if (fTotalSeconds < 0)
            return 0;
 
-        //Debug_v("CSL: %f", fTotalSeconds);                        
         return (int)fTotalSeconds;
     }
     
@@ -630,11 +627,17 @@ Error XingLMC::InitDecoder()
          info->samples_per_second = decinfo.samprate;
 
 		   if (m_sMpegHead.id)
+           {
              m_iMaxWriteSize = (info->number_of_channels * 
 	    		               (decinfo.bits / 8) * 1152);
+             info->samples_per_frame = 1152;
+           }                    
 		   else
+           {
              m_iMaxWriteSize = (info->number_of_channels * 
 	    		               (decinfo.bits / 8) * 576);
+             info->samples_per_frame = 576;
+           }                    
 
          info->max_buffer_size = m_iMaxWriteSize;
 
@@ -1032,7 +1035,6 @@ Error XingLMC::ChangePosition(int32 position)
    int32   dummy;
    uint32  lSeekTo;
 
-   
    m_frameCounter = position;
    if (m_pXingHeader)
       lSeekTo = XingLMC::SeekPoint(m_pXingHeader->toc, m_lFileSize, 

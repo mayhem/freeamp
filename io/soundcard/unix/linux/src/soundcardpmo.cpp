@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.33 1999/11/13 17:00:58 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.34 1999/12/14 17:01:06 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -290,7 +290,8 @@ void SoundCardPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
 
    if (pEvent->GetFrameNumber() != m_iLastFrame + 1)
    {
-       m_iTotalBytesWritten = 1152 * pEvent->GetFrameNumber() * 
+       m_iTotalBytesWritten = myInfo->samples_per_frame * 
+                              pEvent->GetFrameNumber() * 
                               m_iBytesPerSample; 
    }
    m_iLastFrame = pEvent->GetFrameNumber();

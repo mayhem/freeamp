@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.2 1999/10/19 07:13:17 elrod Exp $
+   $Id: SliderControl.cpp,v 1.3 1999/12/14 17:01:12 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -91,6 +91,13 @@ void SliderControl::Transition(ControlTransitionEnum  eTrans,
 	   case CT_SetValue:
        {
        	   int iNewPos;	
+
+
+           if (m_iValue < 0 || m_iValue > 100)
+           {
+              Debug_v("--- Illegal seek pos: %d", m_iValue);
+              return;
+           }   
 
            iNewPos = (m_iValue * m_iRange) / 100;
            if (iNewPos == m_iCurrentPos)
@@ -166,17 +173,21 @@ void SliderControl::HandleJump(ControlTransitionEnum  eTrans,
 {
     int     iNewPos;
 
+//    Debug_v("Handle jump: %d (%d - %d)", pPos->x, m_oRect.x1, m_oRect.x2);
+
     iNewPos = pPos->x - m_oRect.x1 - (m_iThumbWidth / 2);
     iNewPos = min(max(iNewPos, 0), m_iRange);
     if (iNewPos == m_iCurrentPos)
        return;
 
+//    Debug_v("iNewPos: %d Range: %d", iNewPos, m_iRange);
     MoveThumb(m_iCurrentPos, iNewPos);
 
     m_iCurrentPos = iNewPos;
     m_oLastPos = *pPos;
     
     m_iValue = (m_iCurrentPos * 100) / m_iRange;
+//    Debug_v("new value: %d", m_iValue);
     m_bIsDrag = true;
 }
 

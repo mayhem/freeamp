@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.25 1999/12/10 07:16:41 elrod Exp $
+	$Id: pmo.h,v 1.26 1999/12/14 17:01:05 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMO_H_
@@ -59,7 +59,7 @@ typedef struct OutputInfo
 	uint32 number_of_channels;
 	uint32 samples_per_second;
 	uint32 max_buffer_size;
-
+    uint32 samples_per_frame;
 }OutputInfo;
 
 class EventBuffer;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.64 1999/07/10 00:02:19 elrod Exp $
+	$Id: freeampui.cpp,v 1.65 1999/07/27 23:58:13 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2788,6 +2788,30 @@ AcceptEvent(Event* event)
 
 				break; 
             }
+
+            case INFO_StreamInfo:
+            { 
+                StreamInfoEvent *info = (StreamInfoEvent*)event;
+
+                char title[256] = "FreeAmp - ";
+
+                m_songTitleView->SetText(info->m_streamTitle);
+
+                SetTrayTooltip(m_songTitleView->Text());
+
+                if(m_prevSongInfoText)
+                        delete m_prevSongInfoText;
+
+                m_prevSongInfoText = new char [strlen(m_songTitleView->Text()) + 1];
+                strcpy(m_prevSongInfoText, m_songTitleView->Text());
+
+                strncat(title, m_songTitleView->Text(), sizeof(title) - strlen(title));
+
+                SetWindowText(m_hwnd, title);
+                
+                break;
+            }
+
 
             case INFO_MediaTimeInfo: 
             {

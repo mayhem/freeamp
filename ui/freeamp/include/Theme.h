@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.12 2000/02/01 23:32:11 robert Exp $
+   $Id: Theme.h,v 1.13 2000/02/04 22:24:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -43,6 +43,7 @@ using namespace std;
 #include "Bitmap.h"
 #include "Font.h"
 #include "ThemeManager.h"
+#include "Headlines.h"
 
 typedef map<string, string, less<string> > AttrMap;
 
@@ -92,6 +93,8 @@ class Theme : public Parse
       string        m_oThemePath;
       Window       *m_pWindow;
       FAContext    *m_pContext;
+	  Headlines    *m_pHeadlineGrabber;
+	  HeadlineInfo *m_pHeadlines, *m_pParsedHeadlines;
 
     private:
 

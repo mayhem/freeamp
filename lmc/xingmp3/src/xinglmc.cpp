@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.123.4.1 2000/03/06 07:44:58 robert Exp $
+   $Id: xinglmc.cpp,v 1.123.4.1.2.1 2000/03/15 20:32:35 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -176,14 +176,16 @@ void XingLMC::Clear()
 
 Error XingLMC::AdvanceBufferToNextFrame()
 {
-	void          *pBufferBase;
-	unsigned char *pBuffer;
+   void          *pBufferBase;
+   unsigned char *pBuffer;
    int32          iCount;
-	Error          Err;
+   Error          Err;
 
    Err = BeginRead(pBufferBase, iMaxFrameSize);
    if (Err == kError_EndOfStream || Err == kError_Interrupt)
+   {
       return Err;
+   }   
 
    if (Err != kError_NoErr)
    {
@@ -193,17 +195,18 @@ Error XingLMC::AdvanceBufferToNextFrame()
 
    for(;;)
    {
-		 pBuffer = ((unsigned char *)pBufferBase) + 1;
-
+	   pBuffer = ((unsigned char *)pBufferBase) + 1;
        for(iCount = 0; iCount < iMaxFrameSize - 1 &&
            !(*pBuffer == 0xFF && ((*(pBuffer+1) & 0xF0) == 0xF0 || 
                                   (*(pBuffer+1) & 0xF0) == 0xE0)); 
            pBuffer++, iCount++)
                ; // <=== Empty body!
 
+       Debug_v("Skipped %d bytes in advance frame.\n", iCount + 1);
        m_pContext->log->Log(LogDecode, "Skipped %d bytes in advance frame.\n", 
                            iCount + 1);
        EndRead(iCount + 1);
+
 
        if (iCount != 0 && iCount < iMaxFrameSize - 1)
        {
@@ -221,7 +224,7 @@ Error XingLMC::AdvanceBufferToNextFrame()
        }
    }
 
-	return kError_NoErr;
+   return kError_NoErr;
 }
 
 Error XingLMC::GetHeadInfo()
@@ -833,19 +836,20 @@ void XingLMC::DecodeWork()
           x = m_audioMethods.decode((unsigned char *)pBuffer, 
                                     (short *)pOutBuffer);
           if (x.in_bytes == 0)
-		    {
+		  {
              EndRead(x.in_bytes);
              m_pOutputBuffer->EndWrite(x.in_bytes);
-             m_pContext->log->Log(LogDecode, "Audio decode failed. "
-                                             "Resetting the decoder.\n");
+             //m_pContext->log->Log(LogDecode, "Audio decode failed. "
+             //                                "Resetting the decoder.\n");
 
              Err = AdvanceBufferToNextFrame();
              if (Err == kError_Interrupt)
+             {
                  break;
+             }    
 
              if (Err == kError_EndOfStream)
              {
-                 EndRead(0);
                  ((EventBuffer *)m_pOutputBuffer)->AcceptEvent(new PMOQuitEvent());
                  break;
              }
@@ -866,7 +870,7 @@ void XingLMC::DecodeWork()
       if (bRestart)
          continue;
          
-      if (m_bExit || Err == kError_Interrupt)
+      if (m_bExit || Err == kError_Interrupt || Err == kError_EndOfStream)
       {
           return;
       }

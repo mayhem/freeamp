@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.5 1999/12/06 13:29:49 ijr Exp $
+	$Id: facontext.h,v 1.6 1999/12/16 16:59:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FACONTEXT_H_
@@ -59,8 +59,9 @@ class FAContext
           downloadManager(0),
           //updateManager(0),
           player(0),
-#ifndef WIN32	  
+#ifdef HAVE_GTK
 	  gtkInitialized(false),
+          gtkRunning(false),
 #endif	  
 	  argc(0),
           argv(0),	  
@@ -86,9 +87,10 @@ class FAContext
     DownloadManager *downloadManager;
     //UpdateManager *updateManager;
     Player *player;
-#ifndef WIN32
+#ifdef HAVE_GTK
     Mutex gtkLock;
     bool gtkInitialized;
+    bool gtkRunning;
 #endif    
     int32 argc;
     char** argv;

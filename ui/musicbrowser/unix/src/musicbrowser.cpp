@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.16 1999/12/16 04:11:03 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.17 1999/12/16 16:59:53 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -77,8 +77,14 @@ void MusicBrowserUI::gtkServiceFunction(void *p)
     ((MusicBrowserUI *)p)->GTKEventService();
 }
 
+void MusicBrowserUI::SetRunning(void)
+{
+    m_context->gtkRunning = true;
+}
+
 static int musicbrowser_timeout(MusicBrowserUI *p)
 {
+    p->SetRunning();
     if (p->doQuitNow)
         gtk_main_quit();
 }

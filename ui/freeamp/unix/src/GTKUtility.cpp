@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.4 1999/11/15 17:27:27 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.5 1999/12/16 16:59:53 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <string>
@@ -34,6 +34,7 @@ ____________________________________________________________________________*/
 static Thread *gtkThread = NULL;
 static bool weAreGTK = false;
 static bool doQuitNow = false;
+static FAContext *ourContext;
 
 void IconifyWindow(GdkWindow *win)
 {
@@ -50,6 +51,7 @@ void WarpPointer(GdkWindow *win, int x, int y)
 
 static int theme_timeout(void *c)
 {
+    ourContext->gtkRunning = true;
     if (doQuitNow)
         gtk_main_quit();
 }
@@ -63,12 +65,13 @@ static void runGTK(void *c)
 
 void InitializeGTK(FAContext *context)
 {
+    ourContext = context;
+
     if (gtkThread)
         return;
     context->gtkLock.Acquire();
     if (!context->gtkInitialized) {
         context->gtkInitialized = true;
-
 	g_thread_init(NULL);
 	gtk_init(&context->argc, &context->argv);
 	gdk_rgb_init();
@@ -79,6 +82,14 @@ void InitializeGTK(FAContext *context)
     if (weAreGTK) {
         gtkThread = Thread::CreateThread();
         gtkThread->Create(runGTK, NULL);
+    }
+
+    bool running = false;
+
+    while (!running) {
+        context->gtkLock.Acquire();
+        running = context->gtkRunning;
+        context->gtkLock.Release();
     }
 }
 

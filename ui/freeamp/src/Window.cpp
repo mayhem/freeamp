@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.24 2000/02/01 23:32:11 robert Exp $
+   $Id: Window.cpp,v 1.25 2000/02/09 16:00:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -571,7 +571,7 @@ void Window::TimerEvent(void)
 {
     vector<Control *>::iterator i;
 
-    if (m_bMindMeldInProgress)
+    if (m_bMindMeldInProgress || !m_bTimerEnabled)
        return;
 
     for(i = m_oControls.begin(); i != m_oControls.end(); i++)
@@ -580,6 +580,11 @@ void Window::TimerEvent(void)
             (*i)->AcceptTransition(CT_Timer);
     }        
 }
+
+void Window::EnableTimer(bool bEnable)
+{
+    m_bTimerEnabled = bEnable;
+}  
 
 void Window::SetStayOnTop(bool bStay)
 {

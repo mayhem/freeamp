@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.28 2000/02/01 23:32:11 robert Exp $
+   $Id: Win32Window.cpp,v 1.29 2000/02/09 16:00:38 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -415,6 +415,8 @@ Error Win32Window::VulcanMindMeld(Window *pOther)
     m_pMindMeldMutex->Acquire();
     m_bMindMeldInProgress = true;
 
+    KillTimer(m_hWnd, 0);
+
 	oRect.x1 = oRect.x2 = oRect.y1 = oRect.y2 = 0;
 	GetWindowPosition(oRect);
     sRect.left = oRect.x1;
@@ -433,6 +435,7 @@ Error Win32Window::VulcanMindMeld(Window *pOther)
     if (IsError(eRet))
     {
        m_bMindMeldInProgress = false;
+       SetTimer(m_hWnd, 0, 250, NULL);
        return eRet;
     }   
 
@@ -456,6 +459,7 @@ Error Win32Window::VulcanMindMeld(Window *pOther)
         UpdateWindow(m_hWnd);
     }    
 
+    SetTimer(m_hWnd, 0, 250, NULL);
     m_bMindMeldInProgress = false;
 
     return kError_NoErr;
@@ -482,6 +486,9 @@ void Win32Window::Paint(void)
 
 void Win32Window::TimerEvent(void)
 {
+    if (!m_bTimerEnabled)
+       return;
+       
     if (m_bMindMeldInProgress)
        return;
        

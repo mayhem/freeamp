@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.16 2000/02/01 23:32:11 robert Exp $
+   $Id: Window.h,v 1.17 2000/02/09 16:00:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -63,6 +63,7 @@ class Window
       void    Keystroke(unsigned char cKey);
       bool    MenuCommand(uint32 uCommand);
       void    VolumeChanged(void);
+	  void    EnableTimer(bool bEnable);
 
       virtual void SetStayOnTop(bool bStay);
       virtual void SetLiveInToolbar(bool bLive);
@@ -142,7 +143,7 @@ class Window
       bool                      m_bIsVulcanMindMeldHost;
       Rect                      m_oMoveStart;
 	  int32                     m_iDesktopWidth, m_iDesktopHeight;
-	  bool                      m_bMindMeldInProgress;
+	  bool                      m_bMindMeldInProgress, m_bTimerEnabled;
 };
 
 #endif

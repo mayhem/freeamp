@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.25 2000/02/04 22:24:04 robert Exp $
+   $Id: Theme.cpp,v 1.26 2000/02/09 16:00:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -190,6 +190,9 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
     Error    eRet;
     struct   _stat buf;
 
+    if (m_pWindow)
+       m_pWindow->EnableTimer(false);
+
     if (_stat(oFile.c_str(), &buf) == 0 && (buf.st_mode & _S_IFDIR))
     {
         SetThemePath(oFile);
@@ -348,6 +351,9 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
        }   
        m_bThemeLoaded = true;
     }   
+
+    if (m_pWindow)
+       m_pWindow->EnableTimer(true);
        
     return eRet;
 }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.7 1999/08/31 23:39:33 elrod Exp $
+	$Id: pmp300.cpp,v 1.1.2.8 1999/09/01 22:30:53 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -34,6 +34,28 @@ using namespace std;
 
 #include "pmp300.h"
 #include "rio.h"
+
+
+#ifndef ltoa
+/* Following code is from snippits..  all pd stuff */
+char *ltoa(long val, char *buf, int base)
+{
+    ldiv_t r;
+ 
+    if (base > 36 || base < 2) {
+        *buf = '\0';
+        return buf;
+    }
+    if (val < 0)
+        *buf++ = '-';
+    r = ldiv(labs(val), base);
+    if (r.quot > 0)
+        buf = ltoa(r.quot, buf, base);
+    *buf++ = "0123456789abcdefghijklmnopqrstuvwxyz"[(int)r.rem];
+    *buf   = '\0';
+    return buf;
+}
+#endif
 
 typedef struct DeviceInfoStruct {
     char* manufacturer;

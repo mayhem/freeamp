@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.49.2.2 1999/08/31 04:47:16 ijr Exp $
+dnl $Id: configure.in,v 1.49.2.3 1999/09/01 22:30:53 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -50,6 +50,8 @@ AC_CONST
 AC_HAVE_HEADERS(sys/file.h string.h stdlib.h memory.h fcntl.h)
 
 dnl end checks for gdbm
+
+AC_CHECK_TYPE(socklen_t, unsigned int)
 
 x11="true"
 
@@ -279,7 +281,7 @@ dnl else
 dnl  OSDEPSRC=`find base/unix/src \( -name '*.c' -o -name '*.cpp' \) -print`
 fi
 
-dnl OSDEPSRC="$OSDEPSRC `find base/$OSDEP/src \( -name '*.c' -o		\dnl 					     -name '*.cpp' \) -print`"
+dnl oSDEPSRC="$OSDEPSRC `find base/$OSDEP/src \( -name '*.c' -o		\dnl 					     -name '*.cpp' \) -print`"
 dnl OSDEPOBJ=`echo $OSDEPSRC | sed -e 's,\.cp*,.o,g' | xargs echo`
 dnl I know. This is an abominable way to generate a dependency list.
 dnl it's either here or hardcoded in a Makefile, though.
@@ -310,6 +312,14 @@ if test "$have_esound" = "true"; then
 fi
 
 AC_SUBST(ESD_LIBS)
+
+AC_ARG_ENABLE(rio, [  --disable-rio           Don't compile the rio pmp300 support plugin], enable_rio=no, enable_rio=yes)
+
+if test "x$enable_rio" = "xyes"; then
+   OSDEPPLUGINS="$OSDEPPLUGINS plugins/pmp300.ppp"
+else
+   echo "Not building the rio pmp300 plugin"
+fi
 
 mp3prof="false"
 

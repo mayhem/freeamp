@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.3 1999/08/31 04:47:16 ijr Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.4 1999/09/01 22:30:52 ijr Exp $
 
 RELOC = @FPIC@
 
@@ -48,8 +48,6 @@ PLUGINS += plugins/id3v1.mdf
 PLUGINS += plugins/id3v2.mdf
 
 PLUGINS += plugins/m3u.plf
-
-PLUGINS += plugins/pmp300.ppp
 
 plugins plugins-cc: $(PLUGINS) $(OSDEPPLUGINS)
 

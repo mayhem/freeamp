@@ -37,6 +37,12 @@ ____________________________________________________________________________*/
 #include "playlist.h"
 #include "eventdata.h"
 
+/* ncurses / curses include */
+#include <curses.h>
+#ifndef NCURSES_VERSION
+#define color_set(a,b) ;
+#endif
+
 class FAContext;
 
 class ncursesUI : public UserInterface {
@@ -58,6 +64,8 @@ class ncursesUI : public UserInterface {
    Properties *m_propManager;
    void ProcessArgs();
    void showInfo();
+   void help();
+   void playlist();
    int32 m_startupLevel;
    int32 m_argc;
    char **m_argv;
@@ -68,18 +76,23 @@ class ncursesUI : public UserInterface {
    int32 m_lastIndexPlayed;
    bool m_id3InfoPrinted;
    float totalTime;
-   int totalFrames;
-   MpegInfoEvent m_mpegInfo;
-   bool m_mpegInfo_set;
-   MediaInfoEvent *m_mediaInfo;
-   bool m_mediaInfo_set;
+//   int totalFrames;
+//   MediaInfoEvent m_mediaInfo;
+//   bool m_mediaInfo_set;
    float lastSeconds;
    int titleStart;
    int titleDir;
-   char title[1024];
+   char *title;
    int counter;
+
+   bool cursesStarted;
+
+   WINDOW *helpwin;
+   bool helpwin_open;
+   WINDOW *playlistwin;
+   bool playlistwin_open;
 };
 
 
-#endif // _COMMANDLINECIO_H_
+#endif // _NCURSESUI_H_
 

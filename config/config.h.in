@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.h.in,v 1.14.8.2 1999/08/30 22:35:20 ijr Exp $
+	$Id: config.h.in,v 1.14.8.3 1999/09/01 22:30:53 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -182,6 +182,14 @@ typedef short			int32;
 
 #ifndef _MAX_PATH
 #define _MAX_PATH 4096
+#endif
+
+#ifndef MAX_PATH
+#define MAX_PATH 4096
+#endif
+
+#ifndef socklen_t
+#undef socklen_t
 #endif
 
 #endif /* CONFIG_H */

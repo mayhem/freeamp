@@ -39,12 +39,6 @@ ____________________________________________________________________________*/
 #include "thread.h"
 #include "eventdata.h"
 
-/* ncurses / curses include */
-#include <curses.h>
-#ifndef NCURSES_VERSION
-#define color_set(a,b) ;
-#endif
-
 #define stdinfd 0
 
 extern "C" {
@@ -77,22 +71,28 @@ ncursesUI::ncursesUI(FAContext *context) {
     m_playerEQ = NULL;
     m_lastIndexPlayed = -1;
     m_id3InfoPrinted = false;
+    helpwin = NULL;
+    helpwin_open = false;
+    playlistwin = NULL;
+    playlistwin_open = false;
+/* This stuff seems to mess up some events - palp
     m_mediaInfo_set = false;
     m_mediaInfo = NULL;
     m_mpegInfo_set = false;
-    totalFrames = 0;
-    
+
+    totalFrames = 0; */
+    totalTime = 0;    
     keyboardListenThread = NULL;
 }
 
 Error ncursesUI::Init(int32 startup_level) {
+    cursesStarted = false;
     if ((m_startupLevel = startup_level) == PRIMARY_UI) {
         tcgetattr(stdinfd, &::normalTTY);
         ::rawTTY = ::normalTTY;
         ::rawTTY.c_lflag &= ~ICANON;
         ::rawTTY.c_lflag &= ~ECHO;
         tcsetattr(stdinfd, TCSANOW, &rawTTY);
-        
 
         keyboardListenThread = Thread::CreateThread();
         keyboardListenThread->Create(ncursesUI::keyboardServiceFunction,this);
@@ -105,7 +105,7 @@ Error ncursesUI::Init(int32 startup_level) {
         intrflush( stdscr, false );
         keypad( stdscr, true );
         start_color();
-
+        cursesStarted = true;
         init_pair(1, COLOR_BLUE, COLOR_BLACK);
         init_pair(2, COLOR_GREEN, COLOR_BLACK);
         init_pair(3, COLOR_RED, COLOR_BLACK);
@@ -124,6 +124,13 @@ Error ncursesUI::Init(int32 startup_level) {
 }
 
 ncursesUI::~ncursesUI() {
+    if (cursesStarted) {
+        curs_set(1);
+        move(0,0);
+        clear();
+        refresh();
+        endwin();
+    }
     if (m_startupLevel == PRIMARY_UI) {
         tcsetattr(stdinfd, TCSANOW, &normalTTY);
     }
@@ -133,7 +140,7 @@ ncursesUI::~ncursesUI() {
         delete keyboardListenThread;
         keyboardListenThread = NULL;
     }
-    delete m_mediaInfo;
+//    delete m_mediaInfo;
 }
 
 void ncursesUI::keyboardServiceFunction(void *pclcio) {
@@ -183,6 +190,13 @@ void ncursesUI::keyboardServiceFunction(void *pclcio) {
                 e = new Event(CMD_Play);
                 pMe->m_playerEQ->AcceptEvent(e);
                 break;}
+            case 'h':
+            case 'H': {
+                pMe->help();
+                break;}
+//            case '/': {
+//                pMe->playlist();
+//                break;}
 //          case 'f':{
 //              Event *e = new Event(CMD_ChangePosition,(void *)200);
 //              pMe->m_playerEQ->AcceptEvent(pMe->m_playerEQ,e);
@@ -208,19 +222,31 @@ int32 ncursesUI::AcceptEvent(Event *e) {
             case INFO_MPEGInfo: {
                 MpegInfoEvent *mie = (MpegInfoEvent *)e;
                 if (mie) {
-                    m_mpegInfo = *mie;
-                    m_mpegInfo_set = true;
+                    char buf[1024];
+                    sprintf(buf, "%d kbps", mie->GetBitRate() / 1000);
+                    move(LINES - 6, COLS - strlen(buf));
+                    addstr(buf);
+                    sprintf(buf, "%d kHz %s", mie->GetSampleRate() / 1000,
+                                              mie->GetStereo() < 4 ? "stereo" : "mono");
+                    move(LINES - 5, COLS - strlen(buf));
+                    addstr(buf);
+                    sprintf(buf, "MPEG-%s layer %d",
+                                 mie->GetMpegVersion() == 1 ? "1" :
+                                 mie->GetMpegVersion() == 2 ? "2" : "2.5",
+                                 mie->GetLayer());
+                    move(LINES - 4, COLS - strlen(buf));
+                    addstr(buf);
+                    refresh();
                 }
-                totalFrames = m_mpegInfo.GetTotalFrames();
                 break;
             }
             case INFO_MediaInfo: {
                 MediaInfoEvent *pmvi = (MediaInfoEvent *)e;
                 if (pmvi)
                 {
-                       m_mediaInfo = new MediaInfoEvent(*pmvi);
-                    totalTime = m_mediaInfo->m_totalSeconds;
-                    m_mediaInfo_set = true;
+//                    m_mediaInfo = new MediaInfoEvent(*pmvi);
+                    totalTime = pmvi->m_totalSeconds;
+//                    m_mediaInfo_set = true;
                 }
                 if (pmvi && m_lastIndexPlayed != pmvi->m_indexOfSong) {
                     m_lastIndexPlayed = pmvi->m_indexOfSong;
@@ -240,6 +266,7 @@ int32 ncursesUI::AcceptEvent(Event *e) {
 //                    refresh();
 
                     counter = 0;
+                    title = (char *)malloc((2*sizeof(char)) * (12 + strlen(pmvi->m_filename)));
                     sprintf( title, "Freeamp - [%s]", pmvi->m_filename);
                     if ( 12 + strlen(pmvi->m_filename) > (unsigned)COLS - 13 )
                     {
@@ -259,9 +286,9 @@ int32 ncursesUI::AcceptEvent(Event *e) {
                         attron(A_REVERSE);
                         addstr(title);
                         attroff(A_REVERSE);
-//                        refresh();
                     }
                 }
+                refresh();
                 break; }
             case INFO_StreamInfo:
             {
@@ -332,12 +359,8 @@ int32 ncursesUI::AcceptEvent(Event *e) {
                 move(LINES-1, 0);
                 for (i=0; i < pmtp->m_totalSeconds / percentAmount; i++)
                     addch(ACS_BLOCK);
-//                color_set(3, NULL);
                 for (; i < COLS; i++)
-                {
                     addch(ACS_BOARD);
-                }
-//                color_set(7, NULL);
                 refresh();
                 lastSeconds = pmtp->m_totalSeconds;
                 break;}
@@ -381,7 +404,7 @@ void ncursesUI::ProcessArgs() {
         //cout << "Adding arg " << i << ": " << argv[i] << endl;
         pc = m_argv[i];
         if (pc[0] == '-') {
-            processSwitch(&(pc[0]));
+            processSwitch(pc);
         } else {
             m_plm->AddItem(pc,0);
         }
@@ -392,6 +415,29 @@ void ncursesUI::ProcessArgs() {
 }
 
 void ncursesUI::processSwitch(char *pc) {
+
+    cursesStarted = false;
+    curs_set(1);
+    move(0,0);
+    clear();
+    refresh();
+    endwin();
+    if (pc[1] == 'h' || pc[1] == 'H')
+    {
+        cout << "FreeAmp ncurses user interface" << endl;
+        cout << "Syntax: freeamp [-h] <filenames>" << endl;
+        cout << "-h shows this help" << endl;
+        cout << "If you are running freeamp with the -ui argument to select" << endl;
+        cout << "the ncurses ui, you can edit ~/.freeamp_prefs and change the" << endl;
+        cout << "value of TextUI." << endl << endl;
+        cout << "ncurses user interface Copyright (C) 1999 Stephan Auerhahn" << endl;
+    }
+    else
+    {
+        cout << "Invalid command line argument, try -h for help." << endl;
+    }
+    Event *e = new Event(CMD_QuitPlayer);
+    m_playerEQ->AcceptEvent(e);
     return;
 }
 
@@ -408,13 +454,16 @@ void ncursesUI::showInfo() {
     attroff(A_REVERSE);
 //    refresh();
     color_set(7, NULL);
-    move(8,0);
+    move(LINES - 4 ,0);
+    addstr(" press h for keystroke help ");
+/*
     addstr("       Keystroke Help     \n");
     addstr("  ( q )    Quit           \n");
     addstr("  ( + )    Next Song      \n");
     addstr("  ( - )    Prev Song      \n");
     addstr("  ( p )    Pause / UnPause\n");
     addstr("  ( s )    Shuffle        \n");
+*/
     move(LINES - 2, 0);
     addstr("00:00:00");
     move(LINES - 2, COLS - 8);
@@ -427,5 +476,104 @@ void ncursesUI::showInfo() {
     
 //    refresh();
     return;
+}
+
+void ncursesUI::help() {
+     if (helpwin_open)
+     {
+        delwin(helpwin);
+        helpwin_open = false;
+        touchwin(stdscr);
+        refresh();
+        if (playlistwin_open)
+        {
+            touchwin(playlistwin);
+            wrefresh(playlistwin);
+        }
+     }
+     else
+     {
+        helpwin = newwin( 10, 30, (LINES / 2) - 5, (COLS / 2) - 15 );
+        wmove(helpwin, 0, 0);
+        waddch(helpwin, ACS_ULCORNER);
+        for (int i = 0; i < 2; i++)
+            waddch(helpwin, ACS_HLINE);
+        waddch(helpwin, ACS_RTEE);
+        waddstr(helpwin, "Help( h to close )");
+        waddch(helpwin, ACS_LTEE);
+        for (int i = 0; i < 2; i++)
+            waddch(helpwin, ACS_HLINE);
+        waddch(helpwin, ACS_URCORNER);
+        waddch(helpwin, 10);
+        waddch(helpwin, ACS_VLINE);
+        waddstr(helpwin, " ( q )    Quit          ");
+        waddch(helpwin, ACS_VLINE);
+        waddch(helpwin, 10);
+        waddch(helpwin, ACS_VLINE);
+        waddstr(helpwin, " ( + )    Next Song     ");
+        waddch(helpwin, ACS_VLINE);
+        waddch(helpwin, 10);
+        waddch(helpwin, ACS_VLINE);
+        waddstr(helpwin, " ( - )    Prev Song     ");
+        waddch(helpwin, ACS_VLINE);
+        waddch(helpwin, 10);
+        waddch(helpwin, ACS_VLINE);
+        waddstr(helpwin, " ( p )    Pause/UnPause ");
+        waddch(helpwin, ACS_VLINE);
+        waddch(helpwin, 10);
+        waddch(helpwin, ACS_VLINE);
+        waddstr(helpwin, " ( s )    Shuffle       ");
+        waddch(helpwin, ACS_VLINE);
+        waddch(helpwin, 10);
+        waddch(helpwin, ACS_LLCORNER);
+        for (int i = 0; i < 24; i++)
+            waddch(helpwin, ACS_HLINE);
+        waddch(helpwin, ACS_LRCORNER);
+        wrefresh(helpwin);
+        helpwin_open = true;
+     }
+}
+
+void ncursesUI::playlist() {
+/*
+     if (playlistwin_open)
+     {
+        delwin(playlistwin);
+        playlistwin_open = false;
+        touchwin(stdscr);
+        refresh();
+        if (helpwin_open)
+        {
+            touchwin(helpwin);
+            wrefresh(helpwin);
+        }
+     }
+     else
+     {
+        playlistwin = newwin( LINES - 10, 70, 4, (COLS / 2) - 35);
+        wmove(playlistwin, 0, 0);
+        waddch(playlistwin, ACS_ULCORNER);
+        for (int i = 0; i < 68; i++)
+            waddch(playlistwin, ACS_HLINE);
+        waddch(playlistwin, ACS_URCORNER);
+        for (int i = 1; i < LINES - 10; i++)
+        {
+            mvwaddch(playlistwin, i, 0, ACS_VLINE);
+            mvwaddch(playlistwin, i, 69, ACS_VLINE);
+        }
+        wmove(playlistwin, LINES - 11, 0);
+        waddch(playlistwin, ACS_LLCORNER);
+        for (int i = 0; i < 68; i++)
+            waddch(playlistwin, ACS_HLINE);
+        waddch(playlistwin, ACS_LRCORNER);
+        for (int i = 0; i < m_plm->CountItems() && i < LINES - 12; i++)
+        {
+             wmove(playlistwin, i + 1, 3);
+             waddstr(playlistwin, m_plm->ItemAt(i)->StringForPlayerToDisplay());
+        }
+        wrefresh(playlistwin);
+        playlistwin_open = true;
+     }
+*/
 }
 

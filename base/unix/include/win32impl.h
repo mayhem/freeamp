@@ -3,8 +3,6 @@
 
 #include "config.h"
 
-#define MAX_PATH 1024
-
 class FILETIME {
  public:
     int32 dwLowDateTime;

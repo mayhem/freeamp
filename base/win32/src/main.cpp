@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.49 2000/02/18 10:14:49 elrod Exp $
+	$Id: main.cpp,v 1.49.2.1 2000/02/24 00:26:56 robert Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -77,8 +77,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
         return 0;
     }
 
-    if (IsWinNT() && IsMultiProcessor())
-        SetProcessAffinityMask(GetCurrentProcess(), 0);
+    //if (IsWinNT() && IsMultiProcessor())
+    //    SetProcessAffinityMask(GetCurrentProcess(), 0);
 
     WSADATA sGawdIHateMicrosoft;
     WSAStartup(0x0002,  &sGawdIHateMicrosoft);

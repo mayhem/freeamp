@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.94 1999/03/16 08:10:56 elrod Exp $
+        $Id: player.cpp,v 1.95 1999/03/16 08:33:51 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1041,6 +1041,7 @@ void Player::Play(Event *pEvent)
     {
         if (SetState(STATE_Paused))
         {
+           SEND_NORMAL_EVENT(INFO_Playing); 
            SEND_NORMAL_EVENT(INFO_Paused);
         }
     }

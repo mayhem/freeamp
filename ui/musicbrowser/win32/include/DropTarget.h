@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DropTarget.h,v 1.6 2000/09/11 22:14:04 ijr Exp $
+        $Id: DropTarget.h,v 1.7 2000/09/16 11:47:48 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DROPTARGET_H_
@@ -26,8 +26,8 @@ ____________________________________________________________________________*/
 
 #include <ole2.h>
 
-#define UWM_DROPURLS    WM_USER + 92173 
-#define UWM_MOVEITEMS   WM_USER + 120742
+#define UWM_DROPURLS    WM_USER + 42 
+#define UWM_MOVEITEMS   WM_USER + 43
 
 class FAR DropTarget : public IDropTarget
 {

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.54 2000/09/14 11:00:22 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.55 2000/09/24 19:26:25 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -41,6 +41,17 @@ using namespace std;
 
 class FAContext;
 class MusicBrowserUI;
+
+typedef enum {
+    kEmptyColumn,
+    kArtistColumn,
+    kAlbumColumn,
+    kCommentColumn,
+    kGenreColumn,
+    kLocationColumn,
+    kTitleColumn,
+    kTimeColumn
+} PlaylistColumns;
 
 typedef enum {
     kStateCollapsed,

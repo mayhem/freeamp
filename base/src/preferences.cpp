@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.52 2000/08/30 13:45:31 ijr Exp $
+        $Id: preferences.cpp,v 1.53 2000/09/24 19:26:24 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -92,6 +92,7 @@ const char* kMusicBrowserPositionPref = "MusicBrowserPosition";
 const char* kMusicBrowserHeaderWidthsPref = "MusicBrowserHeaderWidths";
 const char* kCloseDLMOnCompletePref = "CloseDLMOnComplete";
 const char* kPerformDBCheckPref = "PerformDBCheck";
+const char* kPlaylistHeaderColumnsPref = "PlaylistHeaderColumns";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -160,6 +161,7 @@ const char* kDefaultMusicBrowserPosition = "-1,-1,-1,-1,-1";
 const char* kDefaultMusicBrowserHeaderWidths = "-1,-1,-1.-1";
 const bool  kDefaultCloseDLMOnComplete = false;
 const bool kDefaultPerformDBCheck = true;
+const char* kDefaultPlaylistHeaderColumns = "Title|Artist|Album|Time|Genre";
 
 Error
 Preferences::
@@ -386,6 +388,11 @@ SetDefaults()
     if (GetPrefBoolean(kCheckCDAutomaticallyPref, &dummyBool) == 
         kError_NoPrefValue)
         SetPrefBoolean(kCheckCDAutomaticallyPref, kDefaultCheckCDAutomatically);
+
+    dummyInt = 255;
+    if (GetPrefString(kPlaylistHeaderColumnsPref, dummyString,
+        (uint32 *)&dummyInt) == kError_NoPrefValue)
+        SetPrefString(kPlaylistHeaderColumnsPref, kDefaultPlaylistHeaderColumns);
 
     return kError_NoErr;
 }

@@ -19,7 +19,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: AUTHORS,v 1.45 2000/09/18 20:10:05 ijr Exp $
+        $Id: AUTHORS,v 1.46 2000/09/24 19:26:24 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -153,3 +153,6 @@ Michael Rich <istan@alltel.net>
 
 "Robert Hart" <ab6rah@bath.ac.uk>
 * patch to grab track numbers from filenames
+
+"Steve Kemp" <skx@tardis.ed.ac.uk>
+* Playlist column selection for Win32 version of musicbrowser.ui

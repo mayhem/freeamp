@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.20 2000/07/31 19:51:40 ijr Exp $
+   $Id: Win32PreferenceWindow.h,v 1.21 2000/09/24 19:26:24 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -94,11 +94,13 @@ typedef struct PrefsStruct
     // page 7
     bool checkForUpdates;
 
-
+    // Browser page
+    string playlistHeaderColumns;
     
     bool operator == (const struct PrefsStruct& pref)
     {
         return (
+            playlistHeaderColumns == pref.playlistHeaderColumns &&
             defaultUI == pref.defaultUI &&
             defaultPMO == pref.defaultPMO &&
             inputBufferSize == pref.inputBufferSize &&
@@ -200,6 +202,10 @@ class Win32PreferenceWindow : public PreferenceWindow
                bool PrefPluginsProc(HWND hwnd, 
                                   UINT msg, 
                                   WPARAM wParam, 
+                                  LPARAM lParam);
+	       bool PrefBrowserProc(HWND hwnd,
+                                  UINT msg,
+                                  WPARAM wParam,
                                   LPARAM lParam);
                bool PrefUpdateProc(HWND hwnd, 
                                   UINT msg, 

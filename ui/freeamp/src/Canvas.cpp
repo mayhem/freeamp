@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.10.4.3 2000/06/07 09:53:53 robert Exp $
+   $Id: Canvas.cpp,v 1.10.4.4 2000/06/07 13:46:08 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -176,9 +176,9 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
     {
         if ((*i)->IsHidden())
         {
-            string j;
-            (*i)->GetName(j);
-            printf("Panel %s is hidden\n", j.c_str());
+            //string j;
+            //(*i)->GetName(j);
+            //printf("Panel %s is hidden\n", j.c_str());
             continue;
         }
 

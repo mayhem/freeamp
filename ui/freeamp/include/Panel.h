@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Panel.h,v 1.1.6.1 2000/06/06 22:47:31 robert Exp $
+   $Id: Panel.h,v 1.1.6.2 2000/06/07 13:46:08 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_PANEL__H_
@@ -79,10 +79,10 @@ class Panel
       void    SetParentWindow(Window *pWin) { m_pWindow = pWin; };
       Window *GetParentWindow(void) { return m_pWindow; };
 
-      void    SetOnOpenHide(Panel *pPanel) { m_pOnOpenHide = pPanel; };
-      void    SetOnOpenShow(Panel *pPanel) { m_pOnOpenShow = pPanel; };
-      void    SetOnCloseHide(Panel *pPanel) { m_pOnCloseHide = pPanel; };
-      void    SetOnCloseShow(Panel *pPanel) { m_pOnCloseShow = pPanel; };
+      void    SetOnOpenHide(Panel *pPanel);
+      void    SetOnOpenShow(Panel *pPanel);
+      void    SetOnCloseHide(Panel *pPanel);
+      void    SetOnCloseShow(Panel *pPanel);
 
       Control *ControlFromPos(Pos &oPos);
  

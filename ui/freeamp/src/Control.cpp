@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.15.4.1 2000/06/06 22:47:31 robert Exp $
+   $Id: Control.cpp,v 1.15.4.2 2000/06/07 13:46:08 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -260,6 +260,9 @@ void Control::BlitFrame(ControlStateEnum eFrame, int iState, Rect *pRect,
     Canvas *pCanvas;
     Rect    oFrameRect, oDestRect;
 
+    if (m_pPanel->IsHidden())
+       return;
+
     if (pRect == NULL)
         oDestRect = m_oRect;
     else
@@ -304,6 +307,9 @@ void Control::BlitFrame(ControlStateEnum eFrame, int iState, Rect *pRect,
 void Control::BlitFrame(int iFrame, int iNumFramesInBitmap, Rect *pRect,
                         bool bUpdate)
 {
+   if (m_pPanel->IsHidden())
+       return;
+
 	if (m_bHorizontalBitmap)
 		BlitFrameHoriz(iFrame,iNumFramesInBitmap,pRect, bUpdate);
 	else

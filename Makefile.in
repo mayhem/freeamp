@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.63 2000/08/17 18:03:35 robert Exp $
+# $Id: Makefile.in,v 1.64 2000/08/17 19:18:27 robert Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -55,7 +55,7 @@ MUSICBRAINZOBJ += lib/musicbrainz/lib/http.o
 MUSICBRAINZOBJ += lib/musicbrainz/lib/xql.o
 MUSICBRAINZOBJ += lib/musicbrainz/lib/cdi.o
 MUSICBRAINZOBJ += lib/musicbrainz/lib/diskid.o
-MUSICBRAINZOBJ += lib/musicbrainz/lib/xmlparse.o
+MUSICBRAINZOBJ += lib/musicbrainz/lib/parse.o
 
 lib/musicbrainz/lib/libmusicbrainz.a: $(MUSICBRAINZOBJ)
 	+test -d lib/musicbrainz/lib || mkdir lib/musicbrainz/lib

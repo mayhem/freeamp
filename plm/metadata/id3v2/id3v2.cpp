@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.1.2.4 1999/10/02 17:06:27 robert Exp $
+	$Id: id3v2.cpp,v 1.1.2.5 1999/10/02 17:59:36 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -30,8 +30,6 @@ ____________________________________________________________________________*/
 #else
 #include <netinet/in.h>
 #endif
-
-using namespace std;
 
 #include "config.h"
 #include "errors.h"

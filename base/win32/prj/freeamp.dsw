@@ -116,6 +116,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name download
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name id3v2
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -166,6 +169,18 @@ Package=<4>
 ###############################################################################
 
 Project: "id3v1"=..\..\..\plm\metadata\id3v1\prj\id3v1.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "id3v2"=..\..\..\plm\metadata\id3v2\prj\id3v2.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

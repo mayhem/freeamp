@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Toolbar.h,v 1.2 1999/10/19 07:13:33 elrod Exp $
+	$Id: Toolbar.h,v 1.3 1999/11/02 20:25:11 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_TOOLBAR_UI_H_
@@ -58,7 +58,7 @@ class ToolbarUI : public UserInterface
     ToolbarUI(FAContext *context);
     ~ToolbarUI();
 
-    virtual Error Init(int32 startup_type) { return kError_NoErr;}
+    virtual Error Init(int32 startup_type);
     virtual int32 AcceptEvent(Event*);
 
     void TrayNotify(int32 notifyMessage);
@@ -69,6 +69,7 @@ class ToolbarUI : public UserInterface
 
  protected:
 
+    void SetupToolIcon(void);
     void AddTrayIcon();
     void RemoveTrayIcon();
     void SetTrayTooltip(char *str);
@@ -80,6 +81,7 @@ class ToolbarUI : public UserInterface
     FAContext*          m_context;
     HWND                m_hWnd;
     UIState             m_state;
+    Thread             *m_uiThread;
 };
 
 

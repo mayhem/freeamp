@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.4 1999/11/01 19:06:08 robert Exp $
+   $Id: Theme.h,v 1.5 1999/11/02 20:24:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -73,6 +73,7 @@ class Theme : public Parse
       virtual void  HandleKeystroke(unsigned char cKey) = 0;
       virtual void  InitControls(void) = 0;
       virtual void  InitWindow(void) = 0;
+      virtual void  PostWindowCreate(void);
       virtual void  DropFiles(vector<string> *pFileList) = 0;
       virtual void  SetDefaultFont(const string &oFont);
 

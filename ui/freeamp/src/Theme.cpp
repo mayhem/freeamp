@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.7 1999/11/01 19:06:15 robert Exp $
+   $Id: Theme.cpp,v 1.8 1999/11/02 20:25:03 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -1031,4 +1031,8 @@ Error Theme::ParsePos(string &oPosstring, Pos &oPos)
 void Theme::SetDefaultFont(const string &oFont)
 { 
 	m_oDefaultFont = oFont;
+}
+
+void Theme::PostWindowCreate(void)
+{
 }

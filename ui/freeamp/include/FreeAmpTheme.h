@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.3 1999/10/20 18:23:01 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.4 1999/11/02 20:24:57 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -56,6 +56,7 @@ class FreeAmpTheme : public UserInterface, public Theme
         virtual void  DropFiles(vector<string> *pFileList);
         virtual void  InitControls(void);
         virtual void  InitWindow(void);
+        virtual void  PostWindowCreate(void);
                 void  ShowOptions(void);
 
         void  WorkerThread(void);

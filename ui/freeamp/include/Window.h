@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: Window.h,v 1.3 1999/11/02 20:25:00 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -58,11 +58,12 @@ class Window
 
       void    GetName(string &oName);
       Canvas *GetCanvas(void);
-      void    SetStayOnTop(bool bStay);
       void    SetLiveInToolbar(bool bLive);
       void    AddControl(Control *pControl);
       void    ClearControls(void);
       void    Keystroke(unsigned char cKey);
+
+      virtual void    SetStayOnTop(bool bStay);
 
       // The following functions are designed to give access to the 
       // controls via the control's name. 

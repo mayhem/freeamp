@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.141 1999/11/02 02:54:47 elrod Exp $
+        $Id: player.cpp,v 1.142 1999/11/02 20:24:42 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -605,6 +605,19 @@ Run()
 
        musicBrowserName = new char[len];
    }
+#ifdef WIN32
+   len = 255;
+   char *toolbarName = new char[len];
+   while  ((error = m_context->prefs->GetPrefString(kToolbarUIPref,
+                                                    toolbarName, &len)) ==
+           kError_BufferTooSmall)
+   {
+       delete[] downloadName;
+       len++;
+     
+       downloadName = new char[len];
+   }
+#endif
 
    if (IsntError(error))
    {
@@ -648,6 +661,22 @@ Run()
                    m_ui = NULL;
                }
             }
+#ifdef WIN32 
+            else
+            if (!CompareNames(item->Name(), toolbarName))
+            {
+               m_ui = (UserInterface *) item->InitFunction()(m_context);
+
+               Error er = m_ui->Init(SECONDARY_UI_STARTUP);
+               if (IsntError(er)) 
+                   RegisterActiveUI(m_ui);
+               else 
+               {
+                   delete m_ui;
+                   m_ui = NULL;
+               }
+            }
+#endif            
             else if (!CompareNames(item->Name(), name))
             {
                m_ui = (UserInterface *) item->InitFunction()(m_context);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.6 1999/11/01 19:38:31 robert Exp $
+   $Id: Win32Window.h,v 1.7 1999/11/02 20:25:06 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -68,6 +68,7 @@ class Win32Window : public Window
              void  CreateTooltips(void);
              void  Paint(void);
              void  TimerEvent(void);
+             void  SetStayOnTop(bool bStay);
              
     protected:
     

@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.5 1998/10/14 17:11:11 jdw Exp $
+##      $Id: Makefile.am,v 1.6 1998/10/15 21:56:10 jdw Exp $
 ##
 ############################################################################
 
@@ -29,7 +29,7 @@ SUBDIRS = base io ui lmc
 if AM_HAVE_WIN32
 PRG =
 else
-PRG = freeamp decspeed
+PRG = freeamp
 ALLLDADD = @top_srcdir@/base/unix/@target_os@/src/*.o \
 	  @top_srcdir@/io/local/*.o \
 	  @top_srcdir@/ui/cmdline/*.o \
@@ -53,10 +53,12 @@ freeamp_SOURCES = freeamp.cpp
 freeamp_LDADD = $(FALDADD)
 freeamp_DEPENDENCIES = $(MYDEPS)
 
-decspeed_SOURCES = decoder_speed.cpp
-decspeed_LDADD = $(DSLDADD)
-decspeed_DEPENDENCIES = $(MYDEPS)
+## decspeed_SOURCES = decoder_speed.cpp
+## decspeed_LDADD = $(DSLDADD)
+## decspeed_DEPENDENCIES = $(MYDEPS)
 
 INCLUDES = -I@top_srcdir@/base/include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@top_srcdir@/lmc/include
 CXXFLAGS = $(EXTRA_CXXFLAGS) -D__@target_os@__
+
+
 

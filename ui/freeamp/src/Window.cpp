@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.49 2000/09/28 08:08:02 ijr Exp $
+   $Id: Window.cpp,v 1.50 2000/09/28 09:22:25 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -594,6 +594,11 @@ void Window::HandleMouseLButtonDown(Pos &oScreenPos)
        DecUsageRef();
        return;
     }
+
+#ifdef __QNX__
+    DecUsageRef();
+    return;
+#endif
 
     m_bWindowMove = true;
 #ifndef HAVE_GTK

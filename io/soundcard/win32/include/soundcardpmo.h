@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: soundcardpmo.h,v 1.26 2000/05/04 10:54:57 robert Exp $
+    $Id: soundcardpmo.h,v 1.27 2000/06/09 14:26:12 ksteinbe Exp $
 ____________________________________________________________________________*/
 
 
@@ -38,6 +38,7 @@ ____________________________________________________________________________*/
 #include "eventbuffer.h"
 #include "preferences.h"
 #include "facontext.h"
+#include "Win32Volume.h"
 
 class SoundCardPMO : public PhysicalMediaOutput
 {
@@ -55,7 +56,7 @@ public:
  
  private:
 
-    bool          SetupVolumeControl(void);
+    bool          SetupVolumeControl( HWND );
     void          WorkerThread(void); 
     virtual Error Reset(bool user_stop);
     void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
@@ -72,7 +73,6 @@ public:
     WAVEFORMATEX*   m_wfex;
     WAVEHDR*        m_wavehdr_array;
     HWAVEOUT        m_hwo;
-    HMIXER          m_hmixer;
 
     uint32          m_buffer[MAXCHANNELS];
     uint32          m_channels;
@@ -90,6 +90,9 @@ public:
     string          m_oDstLineName, m_oVolumeControlName;
     DWORD           m_dwMinimum, m_dwMaximum, m_dwVolumeControlID;
     char           *pBase;
+
+    Win32Volume    *m_volume;
+    HWND            m_hWnd;
 };
 
 #endif /* _SOUNDCARDPMO_H_ */

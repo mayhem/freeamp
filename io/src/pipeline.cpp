@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pipeline.cpp,v 1.8 1999/11/12 02:36:23 robert Exp $
+        $Id: pipeline.cpp,v 1.9 1999/11/29 18:27:05 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 #include <string.h>
 #include <time.h>
 #include <assert.h>
+#include <stdarg.h>
 
 /* project headers */
 #include <config.h>

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.110 1999/04/15 22:06:46 robert Exp $
+        $Id: player.cpp,v 1.111 1999/04/20 23:01:01 dogcow Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -356,6 +356,10 @@ Usage(const char *progname)
 
 #ifdef __linux__
 #define ARCH_NAME "linux"
+#elif defined(sparc)
+#define ARCH_NAME "solaris"
+#elif defined(beos)
+#define ARCH_NAME "beos"
 #else
 #define ARCH_NAME "unknown"
 #endif

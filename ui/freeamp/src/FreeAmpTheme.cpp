@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.42 1999/12/09 07:37:56 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.43 1999/12/09 16:14:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -492,7 +492,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
       case CMD_ShowPreferences:
       {
          ShowPreferencesEvent* prefsEvent = (ShowPreferencesEvent*)e;
-      	 ShowOptions(prefsEvent->GetDefaultPage(), false);
+      	 ShowOptions(prefsEvent->GetDefaultPage());
       	 break;
       }
 
@@ -702,8 +702,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    }
    if (oControlName == string("Options") && eMesg == CM_Pressed)
    {
-       ShowOptions(0, true);
-
+       m_pContext->target->AcceptEvent(new ShowPreferencesEvent(0));
        return kError_NoErr;
    }
    if (oControlName == string("Quit") && eMesg == CM_Pressed)
@@ -991,7 +990,7 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
         
      case 'o':
      case 'O':
-     	ShowOptions(0, true);
+        m_pContext->target->AcceptEvent(new ShowPreferencesEvent(0));
         break;
 
      case 'c':
@@ -1011,7 +1010,7 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
     }
 }
 
-void FreeAmpTheme::ShowOptions(uint32 defaultPage, bool inEventLoop)
+void FreeAmpTheme::ShowOptions(uint32 defaultPage)
 {
     PreferenceWindow *pWindow;
        
@@ -1020,8 +1019,7 @@ void FreeAmpTheme::ShowOptions(uint32 defaultPage, bool inEventLoop)
 #elif defined(__BEOS__)
     pWindow = new BeOSPreferenceWindow(m_pContext, m_pThemeMan);
 #else
-    pWindow = new GTKPreferenceWindow(m_pContext, m_pThemeMan, defaultPage, 
-                                      inEventLoop);
+    pWindow = new GTKPreferenceWindow(m_pContext, m_pThemeMan, defaultPage); 
 #endif
 
     pWindow->Show(m_pWindow);

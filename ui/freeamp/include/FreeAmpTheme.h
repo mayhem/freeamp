@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.12 1999/12/02 22:06:52 elrod Exp $
+   $Id: FreeAmpTheme.h,v 1.13 1999/12/09 16:14:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -64,8 +64,7 @@ class FreeAmpTheme : public UserInterface, public Theme
         virtual void  InitControls(void);
         virtual void  InitWindow(void);
         virtual void  PostWindowCreate(void);
-                void  ShowOptions(uint32 defaultPage = 0, 
-                                  bool   inEventLoop = true);
+                void  ShowOptions(uint32 defaultPage = 0);
 
         void  WorkerThread(void);
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.11 1999/12/09 07:37:56 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.12 1999/12/09 16:14:52 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -124,8 +124,7 @@ class GTKPreferenceWindow : public PreferenceWindow
 
                GTKPreferenceWindow(FAContext *context,
                                    ThemeManager *pThemeMan,
-                                   uint32 defaultPage,
-                                   bool inEventLoop);
+                                   uint32 defaultPage);
       virtual ~GTKPreferenceWindow(void); 
       
       virtual  bool Show(Window *pParent);

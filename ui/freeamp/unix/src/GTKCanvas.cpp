@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.2 1999/10/19 07:13:20 elrod Exp $
+   $Id: GTKCanvas.cpp,v 1.3 1999/12/09 16:14:52 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -145,7 +145,7 @@ void GTKCanvas::Paint(Rect &oRect)
 {
     assert(m_pParent);
     GtkWidget *w = m_pParent->GetWindow();
-    if (!w->window)
+    if (!w->window || !m_pBufferBitmap)
         return;
     gdk_threads_enter();
     gdk_window_set_back_pixmap(w->window, m_pBufferBitmap->GetBitmap(), 0);

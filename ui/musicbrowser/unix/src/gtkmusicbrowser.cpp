@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.35 1999/12/09 08:15:00 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.36 1999/12/09 16:14:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -2179,6 +2179,7 @@ void GTKMusicBrowser::ShowMusicBrowser(void)
              ExpandCollapseEvent();
     }
 
+    SetToolbarType();
     gdk_threads_leave();
 }
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.14 1999/03/11 02:53:33 robert Exp $
+   $Id: pullbuffer.cpp,v 1.15 1999/03/15 09:02:28 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -28,13 +28,14 @@ ____________________________________________________________________________*/
 
 #include "pullbuffer.h"
 #include "log.h"
+#include "debug.hpp"
 
 extern LogFile *g_Log;
 
 #ifndef min
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #endif
-#define DB printf("%d\n", __LINE__);
+#define DB Debug_v("%x:%d\n", GetCurrentThread(), __LINE__);
 
 PullBuffer::PullBuffer(size_t iBufferSize,
                        size_t iOverflowSize,
@@ -202,6 +203,7 @@ Error PullBuffer::Resize(size_t iNewSize,
        if (m_bReadOpPending || m_bWriteOpPending)
        {
            m_pMutex->Release();
+		   usleep(10000);
            continue;
        }
        break;

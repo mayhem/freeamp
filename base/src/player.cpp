@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.92 1999/03/13 00:45:12 robert Exp $
+        $Id: player.cpp,v 1.93 1999/03/15 09:02:21 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -902,6 +902,7 @@ void Player::Stop(Event *pEvent)
     if (m_lmc)
     {
        m_lmc->Stop();
+
        delete    m_lmc;
  
        m_lmc = NULL;
@@ -911,6 +912,7 @@ void Player::Stop(Event *pEvent)
     {
        SEND_NORMAL_EVENT(INFO_Stopped);
     }
+
     delete pEvent;
 }
 
@@ -1019,6 +1021,7 @@ void Player::Play(Event *pEvent)
            SEND_NORMAL_EVENT(INFO_Playing);
         }
     }
+
     delete pEvent;
 }
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: eventbuffer.cpp,v 1.4 1999/03/11 02:53:32 robert Exp $
+   $Id: eventbuffer.cpp,v 1.5 1999/03/15 09:02:27 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -28,8 +28,9 @@ ____________________________________________________________________________*/
 #include <sys/types.h>
 
 #include "eventbuffer.h"
+#include "debug.hpp"
 
-#define DB printf("%s:%d\n", __FILE__, __LINE__);
+#define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
 
 EventBuffer::EventBuffer(size_t iBufferSize, size_t iOverFlowSize, 
                          size_t iWriteTriggerSize) : 
@@ -62,7 +63,6 @@ Error EventBuffer::BeginRead(void *&pBuffer, size_t &iBytesWanted)
        return PullBuffer::BeginRead(pBuffer, iBytesWanted, false);
    }
 
-
    if (pEvent->iIndex > iReadIndex)
       iMaxBytes = pEvent->iIndex - iReadIndex;
    else
@@ -70,7 +70,6 @@ Error EventBuffer::BeginRead(void *&pBuffer, size_t &iBytesWanted)
 
    if (iBytesWanted > iMaxBytes)
       iBytesWanted = iMaxBytes;
-
 
    return PullBuffer::BeginRead(pBuffer, iBytesWanted);
 }

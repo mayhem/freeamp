@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: filebuffer.cpp,v 1.10 1999/03/12 20:29:41 robert Exp $
+   $Id: filebuffer.cpp,v 1.11 1999/03/15 09:02:22 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -30,6 +30,7 @@ ____________________________________________________________________________*/
 
 #include "filebuffer.h"
 #include "log.h"
+//#include "debug.hpp"
 
 extern LogFile *g_Log;
 

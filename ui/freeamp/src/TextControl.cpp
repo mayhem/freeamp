@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.16 2000/09/28 08:08:02 ijr Exp $
+   $Id: TextControl.cpp,v 1.17 2000/09/29 00:34:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -161,6 +161,18 @@ void TextControl::TextChanged(void)
                                m_oValue, m_eAlign, 
                                m_pFont, m_oColor, m_bBold, 
                                m_bItalic, m_bUnderline); 
+
+    // If this is the time display, don't marquee it
+    if (iRet > 0 && m_oName == string("Time") || 
+                    m_oName == string("TimeRemaining"))
+    {
+       pCanvas->Erase(m_oRect);
+       pCanvas->RenderText(m_oRect.Height(), m_oRect, 
+                           m_oValue, eRight, 
+                           m_pFont, m_oColor, m_bBold, 
+                           m_bItalic, m_bUnderline); 
+       iRet = 0;
+    }
 
     m_oMutex.Acquire();
     m_bWantsTimingMessages = (iRet > 0);

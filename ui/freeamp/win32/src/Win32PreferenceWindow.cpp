@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.31.2.2 2000/02/24 04:33:15 elrod Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.31.2.3 2000/02/25 00:00:43 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -545,7 +545,7 @@ bool Win32PreferenceWindow::PrefGeneralProc(HWND hwnd,
             hwndTextAndImages = GetDlgItem(hwnd, IDC_TEXTANDIMAGES);
             hwndSavePlaylistOnExit = GetDlgItem(hwnd, IDC_SAVECURRENTLIST);
             hwndDefaultAction = GetDlgItem(hwnd, IDC_DEFAULTACTION);
-            hwndConvertUnderscores = GetDlgItem(hwnd, IDC_UNDERSCORES);
+            //hwndConvertUnderscores = GetDlgItem(hwnd, IDC_UNDERSCORES);
 
 
             Button_SetCheck(hwndStayOnTop, m_originalValues.stayOnTop);
@@ -558,7 +558,7 @@ bool Win32PreferenceWindow::PrefGeneralProc(HWND hwnd,
 
             Button_SetCheck(hwndDefaultAction, !m_originalValues.playImmediately);
 
-            Button_SetCheck(hwndConvertUnderscores, m_originalValues.convertUnderscores);
+            //Button_SetCheck(hwndConvertUnderscores, m_originalValues.convertUnderscores);
 
             Button_SetCheck(hwndTextOnly, 
                 m_originalValues.useTextLabels && !m_originalValues.useImages);
@@ -649,7 +649,7 @@ bool Win32PreferenceWindow::PrefGeneralProc(HWND hwnd,
                     break;
                 }
 
-                case IDC_UNDERSCORES:
+                /*case IDC_UNDERSCORES:
                 {
                     if(Button_GetCheck(hwndConvertUnderscores) == BST_CHECKED)
                     {
@@ -670,7 +670,7 @@ bool Win32PreferenceWindow::PrefGeneralProc(HWND hwnd,
                     }
 
                     break;
-                }
+                }*/
 
                 case IDC_DEFAULTACTION:
                 {

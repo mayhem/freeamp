@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.10 1999/03/05 01:16:21 mhw Exp $
+##      $Id: Makefile.am,v 1.11 1999/04/15 21:51:02 robert Exp $
 ##
 ############################################################################
 
@@ -83,6 +83,6 @@ libfalmc_a_SOURCES = $(C_FILES) $(ASM_FILES)
 INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include \
            -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) \
            -I@top_srcdir@/io/include -I@top_srcdir@/ui/include \
-           -I@top_srcdir@/lmc/include
+           -I@top_srcdir@/lmc/include -I@top_srcdir@/base/unix/include
 CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT)
 CFLAGS = $(MP3_PROF) $(EXTRA_CFLAGS) $(REENT) $(ASM_DEFS)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.20 1999/03/31 19:28:19 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.21 1999/04/15 21:50:58 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -47,7 +47,6 @@ const int iDefaultBufferSize = 512 * 1024;
 const int iOrigBufferSize = 64 * 1024;
 const int iOverflowSize = 0;
 const int iWriteTriggerSize = 8 * 1024;
-const int iWriteToCard = 8 * 1024;
 
 extern    "C"
 {
@@ -454,6 +453,7 @@ void SoundCardPMO::WorkerThread(void)
               bPerfWarn = true;
           }
 
+          EndRead(0);
           m_pPauseMutex->Release();
           m_pReadSem->Wait();
           continue;

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: alsapmo.h,v 1.3 1999/03/19 20:51:59 robert Exp $
+	$Id: alsapmo.h,v 1.4 1999/04/15 21:50:55 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -143,6 +143,7 @@ public:
 //   bool         m_bPause;
    int          m_iOutputBufferSize, m_iTotalBytesWritten, m_iBytesPerSample;
    int          m_iLastFrame;
+   int          m_iDataSize;
  
     struct audio_info_struct *ai;
     int audio_set_all(struct audio_info_struct *);

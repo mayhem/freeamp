@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: obsbuffer.cpp,v 1.14 1999/03/18 20:53:37 robert Exp $
+   $Id: obsbuffer.cpp,v 1.15 1999/04/15 21:50:57 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -252,12 +252,15 @@ void ObsBuffer::WorkerThread(void)
           eError = BeginWrite(pBuffer, iToCopy);
           if (eError == kError_BufferTooSmall)
           {
+              EndWrite(0);
+              //printf("Sleeping on too small\n");
               m_pWriteSem->Wait();
               continue;
           }
           if (eError == kError_NoErr && iToCopy < iRead)
           {
               EndWrite(0);
+              //printf("Sleeping on not enough space\n");
               m_pWriteSem->Wait();
               continue;
           }

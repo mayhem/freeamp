@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.34.6.1 2000/06/09 20:03:18 robert Exp $
+   $Id: GTKWindow.cpp,v 1.34.6.2 2000/06/10 15:39:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -287,7 +287,7 @@ Error GTKWindow::VulcanMindMeld(Window *pOther)
 
 void GTKWindow::PanelStateChanged(void)
 {
-    Rect       oRect;
+    Rect       oRect, oWindowRect;
     GdkBitmap *mask;
 
     GetCanvas()->SetNoScreenUpdate(true);

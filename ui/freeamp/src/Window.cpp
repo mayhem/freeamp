@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.40.4.4 2000/06/07 16:13:27 robert Exp $
+   $Id: Window.cpp,v 1.40.4.5 2000/06/10 15:39:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -205,7 +205,7 @@ void Window::AddPanel(Panel *pPanel)
 void Window::PanelStateChanged(void)
 {
     vector<Panel *>::iterator i;
-    Rect oRect;
+    Rect oRect, oWindowRect;
 
     IncUsageRef();
     m_pCanvas->InitBackgrounds(&m_oPanels);
@@ -213,7 +213,12 @@ void Window::PanelStateChanged(void)
     for(i = m_oPanels.begin(); i != m_oPanels.end(); i++)
         (*i)->ShowAllControls();
 
+    GetWindowPosition(oWindowRect);
     m_pCanvas->GetBackgroundRect(oRect);
+    oWindowRect.x2 = oWindowRect.x1 + oRect.Width();
+    oWindowRect.y2 = oWindowRect.y1 + oRect.Height();
+    SetWindowPosition(oWindowRect);
+
     m_pCanvas->Invalidate(oRect);
 
     DecUsageRef();

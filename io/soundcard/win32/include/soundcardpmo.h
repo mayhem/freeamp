@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.17 1999/07/05 23:11:14 robert Exp $
+	$Id: soundcardpmo.h,v 1.18 1999/07/16 22:49:10 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -39,7 +39,6 @@ ____________________________________________________________________________*/
 #include "eventbuffer.h"
 #include "preferences.h"
 #include "facontext.h"
-#include "win32volume.h"
 
 class SoundCardPMO : public PhysicalMediaOutput
 {
@@ -49,7 +48,8 @@ public:
     virtual ~SoundCardPMO();
     
     virtual Error Init(OutputInfo* info);
-    virtual VolumeManager *GetVolumeManager();
+    virtual int32 GetVolume(void);
+	virtual void  SetVolume(int32);
 
     static void   StartWorkerThread(void *);
 
@@ -79,7 +79,7 @@ public:
 	uint32          m_samples_per_second;
 	uint32			m_hdr_size;
 	uint32			m_data_size;
-	uint32			m_num_headers;
+	uint32			m_num_headers, m_iLastVolume;
 	bool			m_initialized, m_bPaused;
 
     Thread         *m_pBufferThread;

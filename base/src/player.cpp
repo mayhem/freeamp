@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.128 1999/07/16 19:48:48 robert Exp $
+        $Id: player.cpp,v 1.129 1999/07/16 22:49:02 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -873,10 +873,8 @@ CreatePMO(PlayListItem * pc, Event * pC)
       pmo->SetTarget((EventQueue *)this);
       if (m_iVolume < 0)
          m_iVolume = pmo->GetVolume();
-      else
-      {
-         pmo->SetVolume(m_iVolume);
-      }
+      
+      pmo->SetVolume(m_iVolume);
    }
 
    error = kError_NoErr;

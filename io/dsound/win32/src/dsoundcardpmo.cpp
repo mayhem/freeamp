@@ -19,7 +19,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: dsoundcardpmo.cpp,v 1.14 1999/07/16 00:40:36 elrod Exp $
+  $Id: dsoundcardpmo.cpp,v 1.15 1999/07/16 22:49:09 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -162,6 +162,7 @@ DSoundCardPMO(FAContext *context):
   m_pDSWriteSem         = new Semaphore(1);
   m_pDSBufferSem        = new Semaphore(0);
   m_DSBufferManager.pDSSecondaryBuffer  = NULL;
+  m_iLastVolume         = 0;
   m_bIsBufferEmptyNow   = true;
   m_bLMCsaidToPlay      = false;
 
@@ -247,11 +248,37 @@ DSoundCardPMO::
   }
 }
 
-VolumeManager*
+int32
 DSoundCardPMO::
-GetVolumeManager()
+GetVolume(void)
 {
-   return new DSoundVolumeManager();
+    int32 volume = 0;
+
+    if (m_DSBufferManager.pDSSecondaryBuffer)
+	{
+       m_DSBufferManager.pDSSecondaryBuffer->GetVolume((LPLONG) &volume);
+	   volume = 100 - ((100 * volume) / (DSBVOLUME_MIN-DSBVOLUME_MAX));
+       
+    }
+	else
+	{
+	   waveOutGetVolume((HWAVEOUT)WAVE_MAPPER, (DWORD*)&volume);
+       volume = (int32)(100 * ((float)LOWORD(volume)/(float)0xffff));
+	}
+
+    return volume;
+}
+
+void
+DSoundCardPMO::
+SetVolume(int32 v)
+{
+    if (m_DSBufferManager.pDSSecondaryBuffer)
+	{
+        m_DSBufferManager.pDSSecondaryBuffer->SetVolume(((100 - v) * (DSBVOLUME_MIN-DSBVOLUME_MAX)) / 100);
+	}
+
+    m_iLastVolume = v;
 }
 
 Error
@@ -376,6 +403,8 @@ Init(OutputInfo* info)
     m_DSBufferManager.pDSSecondaryBuffer = NULL;
     return result;
   }
+
+  SetVolume(m_iLastVolume);
 
   m_initialized = true;
 

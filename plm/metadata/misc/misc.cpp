@@ -2,7 +2,7 @@
 	
 	FreeAmp - The Free MP3 Player
 
-	Portions Copyright (C) 1999 EMusic.com
+	Portions Copyright (C) 1999-2000 EMusic.com
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.cpp,v 1.4 1999/11/05 22:56:47 robert Exp $
+	$Id: misc.cpp,v 1.5 2000/02/19 06:04:56 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -147,15 +147,24 @@ bool Misc::ReadMetaData(const char* url, MetaData* metadata)
         char* ext = strrchr(temp, '.');
         char* file = strrchr(temp, '/'); // these are all URLs so we don't need DIR_MARKER
         
-        if(ext)
+        if(ext) {
             *ext = 0x00;
+            ext++;
+        }
         
         if(!file)
             file = temp;
         else
             file++;
     
-        metadata->SetTitle(file);
+        if (ext && *ext && !strncasecmp("CDA", ext, 3) && atoi(file) != 0) {
+            char *cdTrack = new char[20];
+            sprintf(cdTrack, "CD Track %d", atoi(file));
+            metadata->SetTitle(cdTrack);
+            delete [] cdTrack;
+        }
+        else
+            metadata->SetTitle(file);
 
         delete [] temp;
     }

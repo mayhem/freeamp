@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: Mpg123UI.cpp,v 1.22 2000/02/09 21:21:27 elrod Exp $
+    $Id: Mpg123UI.cpp,v 1.23 2000/02/19 06:04:58 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -79,7 +79,7 @@ Init(int32 startup_level)
       // cout << endl << "mpg123 0.59k command line compatability mode" << endl 
       // << endl;
       cerr << "High Performance MPEG 1.0/2.0/2.5 Audio Player for Layer 1, 2 and 3" << endl;
-      cerr << "Version 2.0.2 (2000/Feb/04).  " << endl;
+      cerr << "Version 2.1.0 (2000/Feb/04).  " << endl;
       cerr << "Copyrights EMusic, XingTech. See 'README' for more!" << endl;
       cerr << "This software is distributed under the GNU GPL." << endl;
       signal(SIGTERM, mysigterm);

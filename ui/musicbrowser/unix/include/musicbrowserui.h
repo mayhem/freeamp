@@ -2,7 +2,7 @@
 
         FreeAmp - The Free MP3 Player
 
-        Portions Copyright (C) 1999 EMusic.com
+        Portions Copyright (C) 1999-2000 EMusic.com
 
         This program is free software; you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowserui.h,v 1.10 2000/02/09 21:21:27 elrod Exp $
+        $Id: musicbrowserui.h,v 1.11 2000/02/19 06:04:58 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSERUI_H_
@@ -55,6 +55,8 @@ class MusicBrowserUI : public UserInterface {
   
     void SearchClose(void);
     void WizardClose(void);
+
+    void DoCDCheck(void);
 
     bool doQuitNow;
 

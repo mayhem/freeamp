@@ -2,7 +2,7 @@
 
         FreeAmp - The Free MP3 Player
 
-        Portions Copyright (C) 1999 EMusic.com
+        Portions Copyright (C) 1999-2000 EMusic.com
 
         This program is free software; you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.24 2000/02/09 21:21:27 elrod Exp $
+        $Id: gtkmusicbrowser.h,v 1.25 2000/02/19 06:04:58 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -62,17 +62,19 @@ typedef enum {
    kTreeAlbum,
    kTreeTrack,
    kTreePlaylistHead,
-   kTreePlaylist
+   kTreePlaylist,
+   kTreeCDHead
 } TreeNodeType;
 
 typedef struct {
-    int type;
-    MusicCatalog *catalog;
-    ArtistList   *artist;
-    AlbumList    *album;
-    PlaylistItem *track;
-    string        playlistname;
-    string        message;
+    int                     type;
+    MusicCatalog           *catalog;
+    ArtistList             *artist;
+    AlbumList              *album;
+    PlaylistItem           *track;
+    string                  playlistname;
+    string                  message;
+    vector<PlaylistItem *> *cdtracks;
 } TreeData;
 
 class GTKMusicBrowser {
@@ -103,9 +105,18 @@ class GTKMusicBrowser {
     int pauseState;
     int stopState;
 
- private:
+    vector<PlaylistItem *> *CDTracks;
+
+ protected:
     FAContext *m_context;
+
+ private:
     MusicBrowserUI *parentUI;
+ 
+    uint32 CD_DiscID;
+    uint32 CD_numtracks;
+    bool   scheduleCDredraw;
+    void   RegenerateCDTree(void);
 
     bool isVisible;
     void UpdatePlaylistList(void);
@@ -157,6 +168,7 @@ class GTKMusicBrowser {
     GtkCTreeNode *allTree;
     GtkCTreeNode *uncatTree;
     GtkCTreeNode *playlistTree;
+    GtkCTreeNode *CDTree;
 
     GtkWidget *NewPixmap(char **data);
 
@@ -171,7 +183,8 @@ class GTKMusicBrowser {
     TreeData *NewTreeData(int type, MusicCatalog *cat = NULL, 
                           ArtistList *art = NULL, AlbumList *alb = NULL, 
                           PlaylistItem *tr = NULL, char *pname = NULL,
-                          char *message = NULL);
+                          char *message = NULL,
+                          vector<PlaylistItem *> *cdlist = NULL);
 
     void SetToolbarType();
 

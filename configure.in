@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.81 2000/02/18 20:57:56 ijr Exp $
+dnl $Id: configure.in,v 1.82 2000/02/19 06:04:54 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-2000 EMusic.com
 dnl
@@ -37,12 +37,19 @@ AC_CHECK_PROGS(NASM, nasm)
 
 dnl libcdaudio stuff
 AC_HEADER_STDC
-AC_CHECK_HEADERS(linux/cdrom.h linux/ucdrom.h sys/cdio.h io/cam/cdrom.h mntent.h sys/mntent.h sys/ucred.h sys/mount.h)
-AC_CHECK_FUNCS(getmntinfo)
+AC_CHECK_HEADERS(stdarg.h linux/cdrom.h linux/ucdrom.h sys/cdio.h io/cam/cdrom.h mntent.h sys/mntent.h sys/ucred.h sys/mount.h)
+AC_CHECK_FUNCS(getmntinfo snprintf)
 AC_FUNC_GETMNTENT
 
 AC_C_CONST
-AC_C_BIGENDIAN
+case "$cross_compiling" in
+  yes)
+    ;;
+  no)
+    AC_C_BIGENDIAN
+    AC_CHECK_SIZEOF(long)
+    ;;
+esac
 
 dnl Checks for libraries.
 
@@ -113,6 +120,8 @@ dnl  OSLINK='-Wl,soname,${*F}'
 dnl not needed.
     ;;
   solaris*)
+    AC_DEFINE(SOLARIS_GETMNTENT)
+    AC_DEFINE(BROKEN_SOLARIS_LEADOUT)
     host_os="solaris"
     if test "$GCC" != "yes" ; then
       dnl probably Sun CC.

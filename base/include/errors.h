@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.25 2000/01/15 01:54:54 robert Exp $
+	$Id: errors.h,v 1.26 2000/02/19 06:04:54 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_ERROR_H
@@ -98,7 +98,8 @@ typedef enum Error
     kError_HTTPFileNotFound     = 67,
     kError_CDInitFailed         = 68,
     kError_InvalidTrack         = 69,
-    kError_DownloadDenied       = 70,  
+    kError_DownloadDenied       = 70,
+    kError_NoDiscInDrive        = 71,
     kError_LastError            = 9999
 };
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.48 2000/02/16 22:49:36 elrod Exp $
+        $Id: eventdata.h,v 1.49 2000/02/19 06:04:54 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -578,6 +578,22 @@ public:
       strncpy(szTitle, m_streamTitle, iSize - 1);
       szTitle[iSize - 1] = 0;
    }
+};
+
+class CDInfoEvent : public Event {
+private:
+    uint32 m_totalTracks;
+    uint32 m_cddb;
+    string m_cdindex;
+public:
+    CDInfoEvent(const uint32 numtracks, const uint32 cddb, char *cdindex)
+    { m_type = INFO_CDDiscStatus; m_totalTracks = numtracks; 
+      m_cddb = cddb; m_cdindex = cdindex; }
+    virtual ~CDInfoEvent() {}
+
+    const uint32 GetNumTracks() const { return m_totalTracks; }
+    const uint32 GetCDDB() const { return m_cddb; }
+    const string GetCdindex() const { return m_cdindex; }
 };
 
 class MusicCatalogStreamAddedEvent : public Event {

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.1 1998/10/13 08:46:11 elrod Exp $
+	$Id: main.cpp,v 1.2 1998/10/13 10:07:04 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -34,21 +34,22 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "utility.h"
 #include "registrar.h"
+#include "dummycoo.h"
 
 int APIENTRY WinMain(	HINSTANCE hInstance, 
 						HINSTANCE hPrevInstance,
 		 				LPSTR lpszCmdLine, 
 						int cmdShow)
 {
-   LMCRegistry* lmc;
-   PMIRegistry* pmi;
-   PMORegistry* pmo;
-   UIRegistry*  ui;
-
    // Initialize Windows Registry
    InitWindowsRegistry();
 
     // find all the plug-ins we use
+    LMCRegistry* lmc;
+    PMIRegistry* pmi;
+    PMORegistry* pmo;
+    UIRegistry*  ui;
+
     lmc = new LMCRegistry;
     RegisterLMCs(lmc);
 
@@ -61,10 +62,35 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     ui = new UIRegistry;
     RegisterUIs(ui);
 
+    // need a way to signal main thread to quit...
+    Semaphore *termination = new Semaphore();
+    DummyCOO *dummy = new DummyCOO(termination);
+
 	// create the player
 	Player *player = Player::getPlayer();
 
+    player->registerCOO(dummy);
+
+    //CIO* defaultCIO;
+    //COO* defaultCOO;
+
+    //CreateDefaultUI(UIRegistry, &defaultCIO, &defaultCOO);
+
+    //player->registerCOO(defaultCOO);
+    //player->registerCIO(defaultCIO);
+
+    Event *e = new Event(CMD_QuitPlayer);
+	Player::getPlayer()->acceptEvent(*e);
+    delete e;
+
+    // sit around and twiddle our thumbs
+    termination->Wait();
+
+    // clean up our act
     delete player;
+
+    delete dummy;
+    delete termination;
 
     delete lmc;
     delete pmi;

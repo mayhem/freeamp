@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: cdlmc.cpp,v 1.4 2000/05/24 17:08:33 ijr Exp $
+   $Id: cdlmc.cpp,v 1.5 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -99,9 +99,6 @@ Error CDLMC::ChangePosition(int32 position)
    return kError_NoErr;
 }
 
-#define _EQUALIZER_ENABLE_
-#ifdef  _EQUALIZER_ENABLE_
-
 Error CDLMC::SetEQData(float *arrayEQ) 
 {
     return kError_NoErr;
@@ -111,6 +108,10 @@ Error CDLMC::SetEQData(bool enable)
 {    
     return kError_NoErr;
 }
-#endif  //_EQUALIZER_ENABLE_
-#undef  _EQUALIZER_ENABLE_
+
+Error CDLMC::SetDecodeInfo(DecodeInfo &info)
+{
+    m_decodeInfo = info;
+    return kError_NoErr;
+}
 

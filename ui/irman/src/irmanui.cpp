@@ -18,12 +18,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.cpp,v 1.12 2000/05/24 17:08:34 ijr Exp $
+	$Id: irmanui.cpp,v 1.13 2000/07/31 19:51:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
 
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
 #include <unistd.h>
 

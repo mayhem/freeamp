@@ -19,14 +19,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.13 2000/02/09 09:48:32 hiro Exp $
+   $Id: tstream.cpp,v 1.14 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <string.h>
-#include <iostream.h>
+#include <iostream>
 #include <errno.h>
 #include <assert.h>
 #ifdef WIN32

@@ -18,13 +18,15 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.h,v 1.12 2000/06/14 09:05:40 ijr Exp $
+        $Id: musiccatalog.h,v 1.13 2000/07/31 19:51:38 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
 #define INCLUDED_MUSICBROWSER_H_
 
 #include <vector>
+#include <map>
+#include <set>
 #include <string>
 using namespace std;
 
@@ -33,6 +35,8 @@ using namespace std;
 #include "metadata.h"
 #include "playlist.h"
 #include "timer.h"
+#include "aps.h"
+#include "FAMetaUnit.h"
 
 class FAContext;
 class Player;
@@ -79,6 +83,8 @@ class MusicCatalog : public EventQueue
  public:
     MusicCatalog(FAContext *context, char *databasepath = NULL);
     virtual ~MusicCatalog();
+
+    string GetFilename(const string &strGUID);
 
     void StartTimer(void);
     void SetDatabase(const char *path);
@@ -139,6 +145,8 @@ class MusicCatalog : public EventQueue
     void        WatchTimer();
 
  private:
+    void GenerateSignature(PlaylistItem *track);
+
     bool CaseCompare(string s1, string s2);
 
     Mutex *m_catMutex;
@@ -148,6 +156,11 @@ class MusicCatalog : public EventQueue
     vector<PlaylistItem *> *m_unsorted;
     vector<string> *m_playlists;
     vector<PlaylistItem *> *m_streams;
+
+    set<PlaylistItem *> *m_sigs;
+
+    multimap<string, string, less<string> > *m_guidTable;
+    APSInterface *m_APSInterface;
 
     Database *m_database;
     PlaylistManager *m_plm;

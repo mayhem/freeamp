@@ -18,10 +18,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.17 2000/03/08 23:07:30 hklein Exp $
+	$Id: lcdui.cpp,v 1.18 2000/07/31 19:51:40 ijr Exp $
 ____________________________________________________________________________*/
 
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
 #include <unistd.h>
 

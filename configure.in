@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.103 2000/06/13 20:24:31 ijr Exp $
+dnl $Id: configure.in,v 1.104 2000/07/31 19:51:38 ijr Exp $
 
 dnl Process this file with your mom to produce a configure script
 AC_INIT(base/src/player.cpp)
@@ -348,7 +348,7 @@ else
   echo "WARNING: You don't have FreeType installed.  This means that FreeAmp"
   echo "will fall back on X fonts.  To make FreeAmp's GUI interface all pretty,"
   echo "you need FreeType.  Get the latest stable version at: "
-  echo "http://www.freetype.org/download.htm"
+  echo "http://www.freetype.org/download.html"
 fi
  
 AC_SUBST(TTF_LIBS)

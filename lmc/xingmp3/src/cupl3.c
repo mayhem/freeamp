@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupl3.c,v 1.10 2000/05/25 18:21:24 ijr Exp $
+	$Id: cupl3.c,v 1.11 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  cupL3.c  ***************************************************
@@ -1195,6 +1195,7 @@ int L3audio_decode_init(MPEG_HEAD * h, int framebytes_arg,
    decinfo.channels = out_chans;
    decinfo.outvalues = outvalues;
    decinfo.samprate = samprate >> reduction_code;
+
    if (bit_code)
       decinfo.bits = 8;
    else

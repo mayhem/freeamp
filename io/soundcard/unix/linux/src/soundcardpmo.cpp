@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.43 2000/06/30 06:29:34 ijr Exp $
+        $Id: soundcardpmo.cpp,v 1.44 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -194,7 +194,7 @@ Error SoundCardPMO::Init(OutputInfo * info)
    }
 
    // configure the device:
-   int       play_precision = 16;
+   int       play_precision = info->bits_per_sample;
    int       play_stereo = channels - 1;
    int       play_sample_rate = info->samples_per_second;
 

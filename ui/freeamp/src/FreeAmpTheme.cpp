@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.134 2000/07/10 16:26:00 hiro Exp $
+   $Id: FreeAmpTheme.cpp,v 1.135 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1027,7 +1027,16 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
            m_pContext->target->AcceptEvent(new Event(CMD_Stop));
        return kError_NoErr;
    }
-   
+  
+   if (oControlName == string("Relatable Playlist") && eMesg == CM_Pressed)
+   {
+       GeneratePlaylistEvent *gpe;
+       gpe = new GeneratePlaylistEvent(m_pContext->plm->GetCurrentItem(),
+                                       m_pContext->plm);
+       m_pContext->target->AcceptEvent((Event *)gpe);
+       return kError_NoErr;
+   }
+
    if (oControlName == string("Play") && eMesg == CM_Pressed)
    {
        if (m_pContext->plm->CountItems() == 0)

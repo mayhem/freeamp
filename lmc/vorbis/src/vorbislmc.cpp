@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.cpp,v 1.4 2000/06/22 15:13:36 elrod Exp $
+   $Id: vorbislmc.cpp,v 1.5 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -494,3 +494,10 @@ size_t VorbisLMC::Read(void *buf, size_t size, size_t num)
 
    return bytes / size;   
 }
+
+Error VorbisLMC::SetDecodeInfo(DecodeInfo &info)
+{
+    m_decodeInfo = info;
+    return kError_NoErr;
+}
+

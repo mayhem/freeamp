@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.22 2000/04/28 00:42:54 robert Exp $
+	$Id: registrar.cpp,v 1.23 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -31,7 +31,7 @@ ____________________________________________________________________________*/
 
 #include <stdio.h>
 #include <string.h>
-#include <iostream.h>
+#include <iostream>
 
 /* Project Includes */
 #include "config.h"

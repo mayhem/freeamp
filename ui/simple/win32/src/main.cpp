@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.4 2000/03/01 03:49:30 elrod Exp $
+	$Id: main.cpp,v 1.5 2000/07/31 19:51:40 ijr Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -25,7 +25,7 @@ ____________________________________________________________________________*/
 #include <commctrl.h>
 #include <stdio.h>
 #include <string.h>
-#include <iostream.h>
+#include <iostream>
 
 /* Project Includes */
 #include "event.h"

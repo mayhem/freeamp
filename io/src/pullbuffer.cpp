@@ -18,9 +18,10 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pullbuffer.cpp,v 1.40 2000/06/21 13:34:36 ijr Exp $
+   $Id: pullbuffer.cpp,v 1.41 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

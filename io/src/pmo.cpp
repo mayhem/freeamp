@@ -18,12 +18,12 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.17 2000/05/17 09:27:33 robert Exp $
+        $Id: pmo.cpp,v 1.18 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
-#include <iostream.h>
+#include <iostream>
 #include <fcntl.h>
 //#include <sys/soundcard.h>
 #include <errno.h>

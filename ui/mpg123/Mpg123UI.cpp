@@ -18,10 +18,10 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: Mpg123UI.cpp,v 1.25 2000/06/05 17:47:01 ijr Exp $
+    $Id: Mpg123UI.cpp,v 1.26 2000/07/31 19:51:40 ijr Exp $
 ____________________________________________________________________________*/
 
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>

@@ -18,12 +18,12 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-	$Id: esoundpmo.cpp,v 1.18 2000/06/23 07:21:15 ijr Exp $
+	$Id: esoundpmo.cpp,v 1.19 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
-#include <iostream.h>
+#include <iostream>
 #include <errno.h>
 #include <string.h>
 #include <time.h>

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.7 2000/05/08 12:59:11 elrod Exp $
+	$Id: facontext.h,v 1.8 2000/07/31 19:51:38 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FACONTEXT_H_
@@ -44,6 +44,7 @@ class DownloadManager;
 class UpdateManager;
 class Player;
 class TimerManager;
+class APSInterface;
 
 class FAContext
 {
@@ -58,6 +59,7 @@ class FAContext
           target(0),
 	  catalog(0),
           downloadManager(0),
+          aps(0),
           //updateManager(0),
           player(0),
 #ifdef HAVE_GTK
@@ -86,6 +88,7 @@ class FAContext
     EventQueue *target;
     MusicCatalog *catalog;
     DownloadManager *downloadManager;
+    APSInterface *aps;
     //UpdateManager *updateManager;
     TimerManager *timerManager;
     Player *player;

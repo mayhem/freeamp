@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.21 2000/05/20 12:32:00 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.22 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -183,6 +183,7 @@ class GTKPreferenceWindow : public PreferenceWindow
       GtkWidget *CreateThemes(void);
       GtkWidget *CreateAdvanced(void);
       GtkWidget *CreateDirectories(void);
+      GtkWidget *CreateProfiles(void);
 
       GtkWidget *saveMusicBox;
 
@@ -225,12 +226,17 @@ class GTKPreferenceWindow : public PreferenceWindow
 
       GtkCTree *prefTree;
 
+      GtkWidget *profileList;
+      GtkWidget *profileEntry;
+
       vector<OptionsPane *> *paneList;
       void AddPane(OptionsPane *pane);      
 
       bool firsttime;
 
+      void ApplyProfiles(void);
       vector<string> *m_PMOnames;
+      set<uint32>     m_profileSelection;
 
   public:
       void SetPane(OptionsPane *pane);
@@ -241,6 +247,11 @@ class GTKPreferenceWindow : public PreferenceWindow
 
       int32 numPMOs;
       bool  done;
+
+      void UpdateProfileList(void);
+      void SelectProfile(int row, bool select);
+      void AddProfileEvent(void);
+      void DeleteProfileEvent(void);
 
       void UpdateThemeList(void);
       void AddThemeEvent(const char *newpath);

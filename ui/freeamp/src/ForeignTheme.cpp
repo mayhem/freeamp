@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: ForeignTheme.cpp,v 1.2 2000/06/13 20:24:32 ijr Exp $
+   $Id: ForeignTheme.cpp,v 1.3 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -75,9 +75,8 @@ void ForeignTheme::TryToConvert(string &oDir)
     string testfile = oDir + string(DIR_MARKER_STR) + string("theme.xml");
     struct stat st;
  
-// FIXME: remember to uncomment this eventually
-//    if (stat(testfile.c_str(), &st) != -1)
-//        return;
+    if (stat(testfile.c_str(), &st) != -1)
+        return;
 
     for (uint32 i = 0; i < numFormats; i++) {
         ftf = m_formats[i];

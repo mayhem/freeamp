@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: introwizard.h,v 1.4 2000/05/24 17:08:34 ijr Exp $
+        $Id: introwizard.h,v 1.5 2000/07/31 19:51:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_INTROWIZARD_H_
@@ -50,6 +50,7 @@ class IntroWizardUI {
     void EndSearch();
     void GoToPage1();
     void GoToPage2();
+    void GoToPage3();
     void DeleteEvent();
     void Close();
     
@@ -76,10 +77,12 @@ class IntroWizardUI {
 
     GtkWidget *page1;
     GtkWidget *page2;
+    GtkWidget *page3;
     
     string searchPath;
 
     GtkWidget *IntroPage(void);
+    GtkWidget *RelatablePage(void);
     GtkWidget *SearchPage(void);
 
     MusicBrowserUI *m_parent;

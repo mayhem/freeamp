@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmi.cpp,v 1.4 1999/12/10 07:16:41 elrod Exp $
+        $Id: pmi.cpp,v 1.5 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -26,7 +26,7 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 #include <fcntl.h>
 #include <string.h>
-#include <iostream.h>
+#include <iostream>
 #include <errno.h>
 #include <assert.h>
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.cpp,v 1.9 2000/06/22 15:13:36 elrod Exp $
+	$Id: misc.cpp,v 1.10 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -124,7 +124,7 @@ bool Misc::ReadMetaData(const char* url, MetaData* metadata)
                 LogicalMediaConverter *lmc;
                 uint32                 length = 0;
 
-                lmcItem = iter->second; 
+                lmcItem = (*iter).second; 
 
                 lmc = (LogicalMediaConverter*)lmcItem->InitFunction()(m_context);
                 length = lmc->CalculateSongLength(url);

@@ -18,12 +18,12 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pipeline.cpp,v 1.12 2000/01/20 00:48:49 robert Exp $
+        $Id: pipeline.cpp,v 1.13 2000/07/31 19:51:39 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
-#include <iostream.h>
+#include <iostream>
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>

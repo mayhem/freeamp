@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: cdlmc.h,v 1.4 2000/05/24 17:08:33 ijr Exp $
+   $Id: cdlmc.h,v 1.5 2000/07/31 19:51:39 ijr Exp $
 
 ____________________________________________________________________________*/
 
@@ -52,6 +52,8 @@ class  CDLMC:public LogicalMediaConverter
 
    virtual Error SetEQData(float *);
    virtual Error SetEQData(bool);
+
+   virtual Error SetDecodeInfo(DecodeInfo &info);
 
    virtual vector<const char *> *GetExtensions(void);
 };

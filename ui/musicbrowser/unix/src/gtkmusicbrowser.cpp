@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.95 2000/06/23 07:21:15 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.96 2000/07/31 19:51:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -39,6 +39,114 @@ using namespace std;
 
 #include "cdaudio.h"
 #include "cdpmo.h"
+
+#include "aps.h"
+#include "apsplaylist.h"
+
+void GTKMusicBrowser::SubmitPlaylist(void)
+{
+    vector<PlaylistItem *> *items;
+
+    if (GetClickState() == kContextPlaylist) {
+        items = new vector<PlaylistItem *>;
+        set<uint32>::iterator i = m_plSelected.begin();
+        for (; i != m_plSelected.end(); i++) {
+            PlaylistItem *item = m_plm->ItemAt(*i);
+            if (item)
+                items->push_back(item);
+        }
+    }
+    else if (GetClickState() == kContextBrowser) 
+        items = GetTreeSelection();
+    else 
+        return;
+
+    vector<PlaylistItem *>::iterator i;
+
+    if (!items->empty()) {
+        APSPlaylist InputPlaylist;
+        
+        // Assumes that GUID's are set properly in meta structures
+        for (i = items->begin(); i != items->end(); i++)
+            InputPlaylist.Insert((*i)->GetMetaData().GUID().c_str(),
+                                 (*i)->URL().c_str());
+
+        APSInterface *pInterface = m_context->aps;
+
+        if (pInterface) 
+            pInterface->APSSubmitPlaylist(&InputPlaylist);
+    }
+
+    delete items;    
+}
+
+void GTKMusicBrowser::GenPlaylist(void)
+{
+    vector<PlaylistItem *> *items;  
+
+    if (GetClickState() == kContextPlaylist) {
+        items = new vector<PlaylistItem *>;
+        set<uint32>::iterator i = m_plSelected.begin();
+        for (; i != m_plSelected.end(); i++) {
+            PlaylistItem *item = m_plm->ItemAt(*i);
+            if (item)
+                items->push_back(item);
+        }
+    }
+    else if (GetClickState() == kContextBrowser)
+        items = GetTreeSelection();
+    else
+        return;
+
+    GenPlaylist(items);
+ 
+    delete items;
+}
+
+void GTKMusicBrowser::GenPlaylist(vector<PlaylistItem *> *seed)
+{
+    APSPlaylist ResultPlaylist;
+    uint32 nResponse = 0;
+
+    if (!m_context->aps)
+        return;
+
+    // Branch here, based on number of selected elements.
+    // If nothing is selected, use a profile based query.
+    // If tracks are selected, use track based query
+
+    if ((seed) && (!seed->empty())) {
+        APSPlaylist InputPlaylist;
+        vector<PlaylistItem *>::iterator i;
+
+        for (i = seed->begin(); i != seed->end(); i++) 
+            InputPlaylist.Insert((*i)->GetMetaData().GUID().c_str(),
+                                 (*i)->URL().c_str());
+
+        nResponse = m_context->aps->APSGetPlaylist(&InputPlaylist, 
+                                                   &ResultPlaylist);
+    }
+    else 
+        nResponse = m_context->aps->APSGetPlaylist(NULL, &ResultPlaylist);
+   
+    if (nResponse == APS_NOERROR) {
+        if (ResultPlaylist.Size() > 0) {
+            vector<string> newitems;
+            string strTemp;
+            string strFilename;
+            APSPlaylist::iterator j;
+
+            for (j = ResultPlaylist.begin(); j.isvalid(); j.next()) {
+                strFilename = m_context->catalog->GetFilename(j.first());
+                if (strFilename != "")
+                    newitems.push_back(strFilename.c_str());
+            }
+         
+            DeleteListEvent();
+            m_plm->AddItems(newitems);
+        }
+    }
+}
 
 void GTKMusicBrowser::AddPLStreamToFavs(void)
 {
@@ -267,7 +375,7 @@ void GTKMusicBrowser::SetRepeatType(RepeatMode mode)
                                         "/Controls/Repeat No Tracks");
     else if (mode == kPlaylistMode_RepeatOne)
         w = gtk_item_factory_get_widget(menuFactory,
-                                        "/Controls/Repeat One Track");
+                                        "/Controls/Repeat Current Track");
     else
         w = gtk_item_factory_get_widget(menuFactory, 
                                         "/Controls/Repeat All Tracks");
@@ -788,7 +896,7 @@ void GTKMusicBrowser::SetClickState(ClickState newState)
         gtk_widget_set_sensitive(gtk_item_factory_get_widget(menuFactory,
                                  "/Controls/Repeat No Tracks"), FALSE);
         gtk_widget_set_sensitive(gtk_item_factory_get_widget(menuFactory,
-                                 "/Controls/Repeat One Track"), FALSE);
+                                 "/Controls/Repeat Current Track"), FALSE);
         gtk_widget_set_sensitive(gtk_item_factory_get_widget(menuFactory,
                                  "/Controls/Repeat All Tracks"), FALSE);
     }
@@ -1624,6 +1732,19 @@ Error GTKMusicBrowser::AcceptEvent(Event *e)
                 UpdateCatalog();
                 gdk_threads_leave();
             }
+            break; }
+        case CMD_GeneratePlaylist: {
+            GeneratePlaylistEvent *gpe = (GeneratePlaylistEvent *)e;
+
+            vector<PlaylistItem *> seed;
+            if (gpe->Item()) {
+                PlaylistItem plTemp(gpe->Item()->URL().c_str(),
+                                    &(gpe->Item()->GetMetaData()));
+                seed.push_back(&plTemp);
+                GenPlaylist(&seed);
+            }
+            else
+                GenPlaylist(NULL);
             break; }
         default:
             break;

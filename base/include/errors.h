@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.26 2000/02/19 06:04:54 ijr Exp $
+	$Id: errors.h,v 1.27 2000/07/31 19:51:38 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_ERROR_H
@@ -101,7 +101,7 @@ typedef enum Error
     kError_DownloadDenied       = 70,
     kError_NoDiscInDrive        = 71,
     kError_LastError            = 9999
-};
+} _Errors;
 
 
 #define IsError( err )		( (err) != kError_NoErr )

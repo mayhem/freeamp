@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.67 2000/06/22 18:53:10 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.68 2000/07/31 19:51:40 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -904,6 +904,25 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                 }
             }
 
+            break;
+        }
+
+        case CMD_GeneratePlaylist:
+        {
+            GeneratePlaylistEvent *gpe = (GeneratePlaylistEvent *)event;
+
+            vector<PlaylistItem *> SeedList;
+            if (gpe->Item() != NULL)
+            {
+                PlaylistItem plTemp(gpe->Item()->URL().c_str(),
+                                    &(gpe->Item()->GetMetaData()));
+                SeedList.push_back(&plTemp);
+                GenPlaylistEvent(&SeedList);
+            }
+            else
+            {
+                GenPlaylistEvent(NULL);
+            }
             break;
         }
 

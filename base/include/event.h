@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.51 2000/05/23 10:23:12 robert Exp $
+	$Id: event.h,v 1.52 2000/07/31 19:51:38 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENT_H_
@@ -149,5 +149,8 @@ class EventQueue {
 #define INFO_VorbisInfo             82 // Used to send vorbis stream info
 #define INFO_FileNotFound           83 // Used to send file not found info
 #define CMD_EditCurrentPlaylistItemInfo  84 // Used to instruct the info editor to edit the current metadata item
+#define CMD_GenerateSignature        85 // sent by the MC to tell the player to generate a signature
+#define INFO_AudioSignatureGenerated 86 // sent by the signature.pmo generation algo.
+#define CMD_GeneratePlaylist         87 // sent to the MC to generate an APL playlist
 #endif // _EVENT_H_
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Equalizer.cpp,v 1.1 2000/04/25 14:39:59 robert Exp $
+   $Id: Equalizer.cpp,v 1.2 2000/04/25 14:58:35 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <math.h>
@@ -45,7 +45,7 @@ Equalizer::Equalizer(FAContext *context)
 
 	for(int i=0; i<32; i++)
 		m_equalizer[i] = 1.0;
-	for(int i=0; i<10; i++)
+	for(i=0; i<10; i++)
 		m_sliders[i] = 0;
 }
 

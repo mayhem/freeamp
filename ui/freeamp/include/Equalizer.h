@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Equalizer.h,v 1.1 2000/04/25 14:39:59 robert Exp $
+   $Id: Equalizer.h,v 1.2 2000/04/25 14:58:35 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EQUALIZER_H
@@ -28,7 +28,7 @@ ____________________________________________________________________________*/
 // STL often creates symbols longer than that.
 // When symbols are longer than 255 characters, the warning is disabled.
 #ifdef WIN32
-#pragma warning(disable:4786)
+#pragma warning(disable:4786 4800)
 #endif
 
 #include "facontext.h"

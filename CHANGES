@@ -1,3 +1,8 @@
+Changes for Linux and Windows version 2.0.5
+--------------------------------------------------------------------
+
+- More bugfixes than you can shake a stick at.
+
 Changes for Linux and Windows version 2.0.4
 --------------------------------------------------------------------
 
@@ -9,7 +14,6 @@ Changes for Linux and Windows version 2.0.3
 - Help files on Linux work again.
 - Changing window modes in a theme work again.
 - A bug in the Linux 'My Music' file selection/import was fixed.
-
 
 Changes for Linux and Windows version 2.0.2
 --------------------------------------------------------------------

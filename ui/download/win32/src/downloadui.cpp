@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.5 1999/09/27 09:40:52 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.6 1999/09/27 11:46:09 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -195,6 +195,11 @@ BOOL DownloadUI::InitDialog()
     m_hwndResume = GetDlgItem(m_hwnd, IDC_RESUME);
     m_hwndClose = GetDlgItem(m_hwnd, IDC_CLOSE);
 
+
+    HICON appIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_EXE_ICON));
+
+    SetClassLong(m_hwnd, GCL_HICON, (LONG)appIcon);
+
     // initialize controls
     // first let's add our columns
     RECT rect;
@@ -218,6 +223,12 @@ BOOL DownloadUI::InitDialog()
 
     ListView_InsertColumn(m_hwndList, 1, &lvc);
 
+    lvc.pszText = "";
+    lvc.cx = (rect.right-rect.left); // width of column in pixels
+    lvc.iSubItem = 0;
+
+    ListView_InsertColumn(m_hwndInfo, 0, &lvc);
+
     // init the images    
     m_noteImage = ImageList_Create(16, 16, ILC_MASK, 1, 0);
     HBITMAP bmp = LoadBitmap(g_hInstance, MAKEINTRESOURCE(IDB_NOTE));
@@ -228,10 +239,23 @@ BOOL DownloadUI::InitDialog()
 
     ListView_SetImageList(m_hwndList, m_noteImage, LVSIL_SMALL);
 
-    // Add a test item
+    // Add items to info view
     LV_ITEM item;
 
-    
+    item.mask = LVIF_PARAM | LVIF_STATE;
+    item.state = 0;
+    item.stateMask = 0;
+    item.iSubItem = 0;
+    item.lParam = NULL;
+
+    for(int32 i = 0; i < 7; i++)
+    {
+        item.iItem = i;
+        ListView_InsertItem(m_hwndInfo, &item);
+    }
+
+
+    // Add a few test items to the list view
     MetaData md;
     md.SetTitle("Trip Like I Do");
 
@@ -262,9 +286,49 @@ BOOL DownloadUI::InitDialog()
 
     md.SetTitle("Rhyme and Reason By the Bank of the River");
     dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
-    dli->SetState(kDownloadItemState_Downloading);
+    dli->SetState(kDownloadItemState_Paused);
     dli->SetTotalBytes(1000);
-    dli->SetBytesReceived(1000);
+    dli->SetBytesReceived(800);
+    item.iItem = ListView_GetItemCount(m_hwndList);
+    item.lParam = (LPARAM)dli;
+    
+    ListView_InsertItem(m_hwndList, &item);
+
+    md.SetTitle("Mustang Sally");
+    dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    dli->SetState(kDownloadItemState_Queued);
+    dli->SetTotalBytes(6345634);
+    dli->SetBytesReceived(0);
+    item.iItem = ListView_GetItemCount(m_hwndList);
+    item.lParam = (LPARAM)dli;
+    
+    ListView_InsertItem(m_hwndList, &item);
+
+    md.SetTitle("Another Brick in the Wall");
+    dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    dli->SetState(kDownloadItemState_Done);
+    dli->SetTotalBytes(245352343);
+    dli->SetBytesReceived(245352343);
+    item.iItem = ListView_GetItemCount(m_hwndList);
+    item.lParam = (LPARAM)dli;
+    
+    ListView_InsertItem(m_hwndList, &item);
+
+    md.SetTitle("Welcome to the Jungle");
+    dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    dli->SetState(kDownloadItemState_Cancelled);
+    dli->SetTotalBytes(34534343);
+    dli->SetBytesReceived(45345);
+    item.iItem = ListView_GetItemCount(m_hwndList);
+    item.lParam = (LPARAM)dli;
+    
+    ListView_InsertItem(m_hwndList, &item);
+
+    md.SetTitle("Happy Birthday To You...");
+    dli = new DownloadItem("file://c|/temp/t.mp3", "http://www.blah.com", &md);
+    dli->SetState(kDownloadItemState_Error);
+    dli->SetTotalBytes(34534343);
+    dli->SetBytesReceived(45345);
     item.iItem = ListView_GetItemCount(m_hwndList);
     item.lParam = (LPARAM)dli;
     
@@ -576,6 +640,226 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
 
             break;
         }
+
+        case IDC_INFO:
+        {
+            SetTextColor(dis->hDC, RGB(0, 0, 128));
+            SetBkColor(dis->hDC, GetSysColor(COLOR_WINDOW));
+            string displayString;
+
+            string longestString = "File Name :";
+
+            SIZE stringSize;
+                    
+            GetTextExtentPoint32(dis->hDC, longestString.c_str(), 
+                                    longestString.size(), &stringSize);
+
+            uint32 dataOffset = stringSize.cx + 15;
+
+
+            RECT rcClip = dis->rcItem;  
+
+            rcClip.left += 2;
+
+            switch(dis->itemID)
+            {
+                case 0:
+                {
+                    displayString = "Artist :";
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+
+                    rcClip.left = dis->rcItem.left + dataOffset;
+
+                    displayString = "The Crystal Method";
+
+                    SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+
+                    break;
+                }
+
+                case 1:
+                {
+                    displayString = "Album :";
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+
+                    rcClip.left = dis->rcItem.left + dataOffset;
+
+                    displayString = "Vegas";
+
+                    SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+                    break;
+                }
+
+                case 2:
+                {
+                    displayString = "Title :";
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+
+                    rcClip.left = dis->rcItem.left + dataOffset;
+
+                    displayString = "Trip Like I Do";
+
+                    SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+                    break;
+                }
+
+                case 3:
+                {
+                    displayString = "Genre :";
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+
+                    rcClip.left = dis->rcItem.left + dataOffset;
+
+                    displayString = "Electronica";
+
+                    SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+                    break;
+                }
+
+                case 4:
+                {
+                    displayString = "Playlist :";
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+
+                    rcClip.left = dis->rcItem.left + dataOffset;
+
+                    displayString = "The Crystal Method - Vegas";
+
+                    SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+                    break;
+                }
+
+                case 5:
+                {
+                    displayString = "File Name :";
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+
+                    rcClip.left = dis->rcItem.left + dataOffset;
+
+                    displayString = "The Crystal Method - Vegas - 1 - Trip Like I Do.mp3";
+
+                    SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+                    break;
+                }
+
+                case 6:
+                {
+                    displayString = "File Size :";
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+
+                    rcClip.left = dis->rcItem.left + dataOffset;
+
+                    displayString = "5.34 MB";
+
+                    SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+
+                    ExtTextOut( dis->hDC, 
+                        rcClip.left, rcClip.top + 1, 
+                        ETO_CLIPPED | ETO_OPAQUE,
+                        &rcClip, 
+                        displayString.c_str(),
+                        displayString.size(),
+                        NULL);
+
+                    break;
+                }
+            }
+
+            SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+            SetBkColor(dis->hDC, GetSysColor(COLOR_WINDOW));
+
+            break;
+        }
     }
 
     return result;
@@ -633,6 +917,30 @@ BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd,
 			break;
 		}
 
+        case WM_INITMENUPOPUP:
+        {
+            HMENU menuPopup = (HMENU)wParam;
+            BOOL fSystemMenu = (BOOL) HIWORD(lParam);
+
+            if(fSystemMenu)
+            {
+                int32 count = GetMenuItemCount(menuPopup);
+
+                for(int32 i = 0; i < count; i++)
+                {
+                    int32 id = GetMenuItemID(menuPopup, i);
+
+                    if(61488 == id || id == 61440) // MAXIMIZE & SIZE COMMAND
+                    {
+                        EnableMenuItem(menuPopup, id, MF_BYCOMMAND|MF_DISABLED|MF_GRAYED);
+                    }
+                }
+            }
+
+            result = TRUE;
+            break;
+        }
+
         case WM_MEASUREITEM:
         {
             MEASUREITEMSTRUCT* mis = (MEASUREITEMSTRUCT*) lParam;
@@ -643,7 +951,7 @@ BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd,
 
 
             // Make sure the control is the listview control
-            if (mis->CtlType != ODT_LISTVIEW)
+            if (mis->CtlType != ODT_LISTVIEW || mis->CtlID == IDC_INFO)
                 return FALSE;
 
 	        // Get the handle of the ListView control we're using
@@ -683,7 +991,7 @@ BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd,
 		case WM_COMMAND:
 		{
             result = m_ui->Command(wParam, (HWND)lParam);
-        }
+        }       
 
 		case WM_CLOSE:
 		{

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.h,v 1.1.2.4 1999/10/07 07:15:47 elrod Exp $
+	$Id: updatemanager.h,v 1.1.2.5 1999/10/12 22:13:48 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UPDATE_MANAGER_H_
@@ -151,9 +151,9 @@ class UpdateManager : public Parse {
     
     Error ParseInfo(string& info);
 
-    Error BeginElement(string &element, AttrMap &attrMap);
-    Error EndElement(string &element);
-    Error PCData(string &data);
+    virtual Error BeginElement(string &element, AttrMap &attrMap);
+    virtual Error EndElement(string &element);
+    virtual Error PCData(string &data);
 
     Error InternalRetrieveLatestVersionInfo(
                                     UMCallBackFunction function = NULL,

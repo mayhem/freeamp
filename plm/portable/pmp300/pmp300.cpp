@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.5 2000/06/22 15:27:17 elrod Exp $
+	$Id: pmp300.cpp,v 1.6 2000/08/18 08:36:24 robert Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -993,7 +993,7 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                                                   origInternal.end(), 
                                                   PlaylistItemCompare(item))) != origInternal.end())
                             {
-                                entryOrder[index] = distance(origInternal.begin(), position);
+                                entryOrder[index] = distance(origInternal.begin(), position, entryOrder[index]);
                             }
 
                         }
@@ -1014,7 +1014,7 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                                                   origExternal.end(), 
                                                   PlaylistItemCompare(item))) != origExternal.end())
                             {
-                                entryOrder[index] = distance(origExternal.begin(), position);
+                                entryOrder[index] = distance(origExternal.begin(), position, entryOrder[index]);
                             }
                         }
 

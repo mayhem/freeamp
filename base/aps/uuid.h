@@ -17,7 +17,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: uuid.h,v 1.3 2000/08/17 21:47:30 robert Exp $
+        $Id: uuid.h,v 1.4 2000/08/18 08:36:24 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _UUID_H_
@@ -28,7 +28,7 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 #include <string.h>
 
-typedef unsigned char uuid_t[17];
+typedef unsigned char uuid_t1[17];
 
 typedef unsigned int __u32;
 typedef unsigned short __u16;
@@ -42,11 +42,11 @@ struct uuid {
    __u8  node[6];
 };
 
-void uuid_clear(uuid_t uu);
-int uuid_parse(char *in, uuid_t uu);
-void uuid_pack(struct uuid *uu, uuid_t ptr);
-void uuid_unpack(uuid_t in, struct uuid *uu);
-void uuid_ascii(uuid_t in, char ascii[37]);
+void uuid_clear(uuid_t1 uu);
+int uuid_parse(char *in, uuid_t1 uu);
+void uuid_pack(struct uuid *uu, uuid_t1 ptr);
+void uuid_unpack(uuid_t1 in, struct uuid *uu);
+void uuid_ascii(uuid_t1 in, char ascii[37]);
   
 #endif
 

@@ -17,12 +17,12 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: uuid.cpp,v 1.2 2000/08/17 21:09:32 robert Exp $
+        $Id: uuid.cpp,v 1.3 2000/08/18 08:36:24 robert Exp $
 ____________________________________________________________________________*/
 
 #include "uuid.h"
 
-int uuid_parse(char *in, uuid_t uu)
+int uuid_parse(char *in, uuid_t1 uu)
 {
 	struct uuid uuid;
 	int i;
@@ -58,7 +58,7 @@ int uuid_parse(char *in, uuid_t uu)
 
 }
 
-void uuid_pack(struct uuid *uu, uuid_t ptr)
+void uuid_pack(struct uuid *uu, uuid_t1 ptr)
 {
 	__u32	tmp;
 	unsigned char	*out = ptr;
@@ -90,7 +90,7 @@ void uuid_pack(struct uuid *uu, uuid_t ptr)
 	memcpy(out+10, uu->node, 6);
 
 }
-void uuid_unpack(uuid_t in, struct uuid *uu)
+void uuid_unpack(uuid_t1 in, struct uuid *uu)
 {
   __u8	*ptr = in;
   __u32	tmp;
@@ -116,7 +116,7 @@ void uuid_unpack(uuid_t in, struct uuid *uu)
   memcpy(uu->node, ptr, 6);
 }
 
-void uuid_ascii(uuid_t in, char ascii[37])
+void uuid_ascii(uuid_t1 in, char ascii[37])
 {
     uuid foo;
 

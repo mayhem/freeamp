@@ -18,13 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: volume.cpp,v 1.1 1999/04/18 05:01:18 dogcow Exp $
+	$Id: volume.cpp,v 1.2 1999/04/21 06:48:32 dogcow Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-/*#include <linux/soundcard.h>*/
+#include <sys/audioio.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <iostream.h>
@@ -33,22 +33,26 @@ ____________________________________________________________________________*/
 #include "volume.h"
 
 void VolumeManager::SetVolume(int32 v) {
-    int mixFd = open("/dev/mixer",O_RDWR);
-    if (mixFd != -1) {
-	v |= (v << 8);
-/*	ioctl(mixFd, SOUND_MIXER_WRITE_VOLUME, &v); */ /* XXX DOGCOW */
-	close(mixFd);
-    }
+  struct audio_info ainfo;
+  int mixFd = open("/dev/audioctl",O_RDWR);
+  if (mixFd != -1) {
+    ioctl(mixFd, AUDIO_GETINFO, &ainfo);
+    ainfo.play.gain = v;
+    ioctl(mixFd, AUDIO_SETINFO, &ainfo);
+    close(mixFd);
+  }
 }
 
 int32 VolumeManager::GetVolume() {
-    int mixFd = open("/dev/mixer",O_RDWR);
-    int volume = 0;
-    if (mixFd != -1) {
-/*	ioctl(mixFd, SOUND_MIXER_READ_VOLUME, &volume);*/ /* XXX DOGCOW */
-	volume &= 0xFF;
-	close(mixFd);
-    }
-    return volume;
+  struct audio_info ainfo;
+  int mixFd = open("/dev/audioctl",O_RDWR);
+  int volume = 0;
+  if (mixFd != -1) {
+    ioctl(mixFd, AUDIO_GETINFO, &ainfo);
+    volume = ainfo.play.gain;
+    volume &= 0xFF;
+    close(mixFd);
+  }
+  return volume;
 }
 

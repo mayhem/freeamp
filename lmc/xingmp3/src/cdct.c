@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cdct.c,v 1.16 2000/10/13 14:29:02 ijr Exp $
+	$Id: cdct.c,v 1.17 2001/01/05 06:40:07 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cdct.c  ***************************************************
@@ -103,9 +103,9 @@ void fdct32(MPEG *m, float x[], float c[])
    float *src = x;
 
    int i;
-   if (m->eq.enableEQ) {
+   if (m->eq->enableEQ) {
        for(i=0; i<32; i++)
-	   b[i] = x[i] * m->eq.equalizer[i];
+	   b[i] = x[i] * m->eq->equalizer[i];
        src = b;
    }
 

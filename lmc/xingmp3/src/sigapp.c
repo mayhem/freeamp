@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigapp.c,v 1.8 2001/01/04 04:09:43 robert Exp $
+        $Id: sigapp.c,v 1.9 2001/01/05 06:40:07 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -42,8 +42,7 @@ ____________________________________________________________________________*/
 
 #include "musicbrainz/mb_c.h"
 
-float     equalizer[32] =
-{
+float     equalizer[32] = {
    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
@@ -72,18 +71,18 @@ static int handout = -1;
 /*------------------------------------------*/
 static int bs_fill();
 int       ff_decode(char *filename,
+
                     char *fileout,
                     int reduction_code,
                     int convert_code,
-                    int decode8_flag,
-                    int freq_limit,
-                    int integer_decode);
+                    int decode8_flag, int freq_limit, int integer_decode);
 int       cvt_to_wave_test();
 int       write_pcm_header_wave(int handout,
-                              int samprate, int channels, int bits, int type);
+                                int samprate, int channels, int bits, int type);
 int       write_pcm_tailer_wave(int handout, unsigned int pcm_bytes);
 
-int ff_decode(char *filename, char ascii_sig[37],
+int
+ff_decode(char *filename, char ascii_sig[37],
           int reduction_code, int convert_code, int decode8_flag,
           int freq_limit, int integer)
 {
@@ -97,8 +96,8 @@ int ff_decode(char *filename, char ascii_sig[37],
    int       bitrate, ret = 0;
    char      sig[17];
    trm_t     trm = 0;
-   unsigned  int skip;
-   
+   unsigned int skip;
+
 /*------------------------------------------*/
 /*   typedef struct
    {
@@ -183,7 +182,7 @@ int ff_decode(char *filename, char ascii_sig[37],
    }
 
 /*---- init decoder -------*/
-   mpeg_init(&m);
+   mpeg_init(&m, 1);
    if (!audio_decode_init(&m, &head, framebytes,
                           reduction_code, 0, convert_code, freq_limit))
    {
@@ -219,9 +218,9 @@ int ff_decode(char *filename, char ascii_sig[37],
          ret = trm_GenerateSignature(trm, pcm_buffer, pcm_bufbytes, sig, NULL);
          if (ret)
          {
-             pcm_bufbytes = 0;
-             break;
-	 }
+            pcm_bufbytes = 0;
+            break;
+         }
 
          out_bytes += pcm_bufbytes;
          pcm_bufbytes = 0;
@@ -235,25 +234,27 @@ int ff_decode(char *filename, char ascii_sig[37],
 
       ret = trm_GenerateSignature(trm, pcm_buffer, pcm_bufbytes, sig, NULL);
       if (!ret)
-          trm_GenerateSignatureNow(trm, sig, NULL);
+         trm_GenerateSignatureNow(trm, sig, NULL);
 
       out_bytes += pcm_bufbytes;
       pcm_bufbytes = 0;
    }
 
-   trm_ConvertSigToASCII(trm, sig, ascii_sig); 
+   trm_ConvertSigToASCII(trm, sig, ascii_sig);
 
    ret = 1;
 
  abort:
+   mpeg_cleanup(&m);
    close(handle);
    free(bs_buffer);
    free(pcm_buffer);
    trm_Delete(trm);
    return ret;
 }
+
 /*-------------------------------------------------------------*/
-static int 
+static int
 bs_fill()
 {
    unsigned int nread;

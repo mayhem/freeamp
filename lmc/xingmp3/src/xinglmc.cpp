@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.147 2001/01/04 04:09:43 robert Exp $
+   $Id: xinglmc.cpp,v 1.148 2001/01/05 06:40:07 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -117,7 +117,7 @@ XingLMC::XingLMC(FAContext *context) :
    m_decodeInfo.mono = false;
    m_decodeInfo.eightbit = false;
    m_decodeInfo.sendInfo = true;
-   mpeg_init(&m_sMPEG);
+   mpeg_init(&m_sMPEG, 1);
 }
 
 XingLMC::~XingLMC()
@@ -139,6 +139,7 @@ XingLMC::~XingLMC()
       delete m_pXingHeader->toc;
       delete m_pXingHeader;
    }
+   mpeg_cleanup(&m_sMPEG);
 }
 
 Error XingLMC::Prepare(PullBuffer *pInputBuffer, PullBuffer *&pOutBuffer)
@@ -903,7 +904,7 @@ void XingLMC::DecodeWork()
                      ((EventBuffer *)m_pOutputBuffer)->AcceptEvent(new PMOErrorEvent());
                  return;
              }
-          mpeg_init(&m_sMPEG);
+          mpeg_init(&m_sMPEG, 0);
 			 audio_decode_init(&m_sMPEG, &m_sMpegHead, m_frameBytes, 0, 0, 0, 24000);
 		  }
 		  else
@@ -1014,14 +1015,14 @@ Error XingLMC::SetEQData(float *arrayEQ, float preamp)
 {
     Error error = kError_NoErr;
     for(int i=0; i<32; i++)
-       m_sMPEG.eq.equalizer[i] = arrayEQ[i];
-    m_sMPEG.eq.EQ_gain_adjust = preamp;
+       m_sMPEG.eq->equalizer[i] = arrayEQ[i];
+    m_sMPEG.eq->EQ_gain_adjust = preamp;
     return error;
 }
 
 Error XingLMC::SetEQData(bool enable) {
     Error error = kError_NoErr;
-    m_sMPEG.eq.enableEQ = enable;
+    m_sMPEG.eq->enableEQ = enable;
     return error;
 }
 

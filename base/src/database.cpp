@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.1.2.4 1999/09/23 20:30:17 elrod Exp $
+        $Id: database.cpp,v 1.1.2.5 1999/09/24 02:05:45 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -56,6 +56,13 @@ Database::~Database()
     if (m_dbase)
         gdbm_close(m_dbase);
     delete m_lock;
+}
+
+bool Database::Working(void)
+{
+    if (!m_dbase)
+        return false;
+    return true;
 }
 
 int Database::Insert(const char *key, char *content)

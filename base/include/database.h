@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.h,v 1.1.2.6 1999/09/17 18:20:17 ijr Exp $
+        $Id: database.h,v 1.1.2.7 1999/09/24 02:05:45 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -33,7 +33,8 @@ class Database
  public:
    Database(const char *name = NULL);
    ~Database();
-  
+   bool  Working(void);
+   
    int   Insert(const char *key, char *content);
    void  Remove(const char *key);
    char *Value(const char *key);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.10 1999/09/23 20:30:18 elrod Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.11 1999/09/24 02:05:46 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -61,6 +61,10 @@ void MusicCatalog::PopulateFromDatabase(MusicBrowser *mb, Database *dbase)
 {
     assert(mb);
     assert(dbase);
+
+    if (!dbase->Working())
+        return;
+
     delete m_artistList;
     delete m_unsorted;
     delete m_playlists;
@@ -159,6 +163,11 @@ void MusicBrowser::SetDatabase(const char *path)
 
     m_database = new Database(path);
 
+    if (!m_database->Working()) {
+        delete m_database;
+        m_database = NULL;
+    }
+
     if (m_database)
         m_catalog->PopulateFromDatabase(this, m_database);
 }
@@ -171,6 +180,9 @@ typedef struct MusicSearchThreadStruct {
 
 void MusicBrowser::SearchMusic(char *path)
 {
+    if (!m_database->Working())
+        return;
+
     Thread *thread = Thread::CreateThread();
 
     if (thread) {
@@ -299,6 +311,9 @@ void MusicBrowser::DoSearchMusic(char *path)
 
 void MusicBrowser::WriteMetaDataToDatabase(char *path, MetaData information)
 {
+    if (!m_database->Working())
+        return;
+
     string data;
     char tempstr[11];
 
@@ -345,6 +360,9 @@ void MusicBrowser::WriteMetaDataToDatabase(char *path, MetaData information)
 
 MetaData *MusicBrowser::ReadMetaDataFromDatabase(char *path)
 {
+    if (!m_database->Working())
+        return NULL;
+
     char *data = m_database->Value(path);
 
     if (!data)

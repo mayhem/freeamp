@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.11 1999/03/04 07:23:45 robert Exp $
+	$Id: pmo.h,v 1.12 1999/03/05 23:17:27 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -27,6 +27,7 @@ ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
+#include <assert.h>
 
 
 #if HAVE_UNISTD_H
@@ -39,7 +40,7 @@ ____________________________________________________________________________*/
 
 
 /* project headers */
-#include "event.h"
+#include "eventdata.h"
 #include "config.h"
 #include "errors.h"
 #include "properties.h"
@@ -59,6 +60,7 @@ typedef struct OutputInfo
 class PhysicalMediaOutput
 {
 public:
+            PhysicalMediaOutput() { m_target = NULL; }
     virtual ~PhysicalMediaOutput() { }
     virtual Error Init(OutputInfo* /*info*/){ return kError_GotDefaultMethod; }
 
@@ -79,6 +81,12 @@ public:
     virtual void  WaitToQuit(){ };
     virtual const char *GetErrorString(int32) { return NULL; }
     virtual Error SetPropManager(Properties *) = 0;
+    virtual void  ReportError(const char *szError)
+                  {
+                     assert(m_target);
+
+                     m_target->AcceptEvent(new LMCErrorEvent(szError));
+                  };
 
 protected:
 
@@ -86,15 +94,5 @@ protected:
 };
 
 #endif /* _PMO_H_ */
-
-
-
-
-
-
-
-
-
-
 
 

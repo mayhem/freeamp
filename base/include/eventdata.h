@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.20 1999/03/04 07:23:37 robert Exp $
+	$Id: eventdata.h,v 1.21 1999/03/05 23:17:19 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -27,6 +27,7 @@ ____________________________________________________________________________*/
 
 #include <iostream.h>
 #include <string.h>
+#include <stdlib.h>
 
 //#include "lmc.h"
 //#include "playlist.h"
@@ -123,15 +124,29 @@ class ChangePositionEvent : public Event {
     virtual ~ChangePositionEvent() {}
 };
 
-class LMCErrorEvent : public Event {
- private:
-    LogicalMediaConverter *m_lmc;
-    Error m_error;
- public:
-    LMCErrorEvent(LogicalMediaConverter *p, Error e) { m_type = INFO_LMCError; m_lmc = p; m_error = e; }
-    LogicalMediaConverter *GetLMC() { return m_lmc; }
-    Error GetError() { return m_error; }
-    virtual ~LMCErrorEvent() {}
+class LMCErrorEvent : public Event 
+{
+    public:
+
+             LMCErrorEvent(const char *szError)
+             {
+                 m_szError = strdup(szError);
+                 m_type = INFO_LMCError;
+             };
+
+    virtual ~LMCErrorEvent()
+             { 
+                 free(m_szError);
+             };
+       
+    const char *GetError() 
+             { 
+                 return m_szError; 
+             };
+
+    private:
+
+             char *m_szError;
 };
 
 class MpegInfoEvent : public Event {

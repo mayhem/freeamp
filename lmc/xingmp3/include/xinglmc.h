@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.22 1999/03/04 07:23:59 robert Exp $
+   $Id: xinglmc.h,v 1.23 1999/03/05 23:17:39 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -104,8 +104,6 @@ class     XingLMC:public LogicalMediaConverter
    virtual Error SetPMO(PhysicalMediaOutput *);
    virtual Error SetTarget(EventQueue *);
    virtual Error InitDecoder();
-   virtual const char *GetErrorString(int32);
-
 
    virtual Error SetEQData(float *);
    virtual Error SetEQData(bool);
@@ -125,7 +123,6 @@ class     XingLMC:public LogicalMediaConverter
    int32       m_frameWaitTill;
    Semaphore  *m_pauseSemaphore;
    AUDIO       m_audioMethods;
-   EventQueue *m_target;
    Mutex      *m_seekMutex;
    Queue <XingCommand *> *m_xcqueue;
    PhysicalMediaInput *m_input;

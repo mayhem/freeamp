@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: obsbuffer.h,v 1.4 1999/03/02 04:36:47 robert Exp $
+   $Id: obsbuffer.h,v 1.5 1999/03/05 23:17:31 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSBUFFER_H_
@@ -68,12 +68,14 @@ enum
    obsError_MaximumError
 };
 
+class ObsInput;
 class ObsBuffer : public StreamBuffer
 {
     public:
 
                ObsBuffer(size_t iBufferSize, size_t iOverFlowSize,
-                         size_t iWriteTriggerSize, char *szFile);
+                         size_t iWriteTriggerSize, char *szFile,
+                         ObsInput *pObsInput);
       virtual ~ObsBuffer(void);
 
       Error    Open(void);
@@ -82,19 +84,18 @@ class ObsBuffer : public StreamBuffer
 
       Error    GetID3v1Tag(unsigned char *pTag);
 
-      const char *GetErrorString(int32 error);
       static   void     StartWorkerThread(void *);
 
     private:
 
 
       int                 m_hHandle;
-      char                m_szUrl[iMaxUrlLen], *m_szError;
+      char                m_szUrl[iMaxUrlLen];
       Thread             *m_pBufferThread;
       bool                m_bLoop;
       ID3Tag             *m_pID3Tag;
       struct sockaddr_in *m_pSin;
- 
+      ObsInput           *m_pObs;
 
     public:
 

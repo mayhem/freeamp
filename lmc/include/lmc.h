@@ -19,14 +19,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.16 1999/03/01 22:47:35 robert Exp $
+	$Id: lmc.h,v 1.17 1999/03/05 23:17:38 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
 #define _LMC_H_
 
 #include "errors.h"
-#include "event.h"
+#include "eventdata.h"
 #include "pmo.h"
 #include "pmi.h"
 #include "properties.h"
@@ -57,7 +57,17 @@ class LogicalMediaConverter {
     virtual Error SetEQData(float *) = 0;
     virtual Error SetEQData(bool) = 0;
 
-    virtual const char *GetErrorString(int32 /*error*/) = 0;
+    virtual void  ReportError(const char *szError)
+                  {
+                     assert(m_target);
+
+                     m_target->AcceptEvent(new LMCErrorEvent(szError));
+                  };
+
+    protected:
+     
+      EventQueue *m_target;
 };
 
 #endif // _LMC_H_
+

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.7 1999/03/04 07:23:43 robert Exp $
+        $Id: httpinput.h,v 1.8 1999/03/05 23:17:25 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPINPUT_H_
@@ -32,7 +32,7 @@ ____________________________________________________________________________*/
 #include "pmi.h"
 #include "httpbuffer.h"
 
-class     HttpInput:public PhysicalMediaInput
+class HttpInput:public PhysicalMediaInput
 {
    public:
 
@@ -66,7 +66,6 @@ class     HttpInput:public PhysicalMediaInput
    {
       return m_path;
    }
-   virtual const char *GetErrorString(int32);
 
    virtual Error SetPropManager(Properties *p) 
 	{ 

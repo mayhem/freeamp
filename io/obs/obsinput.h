@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.h,v 1.3 1999/03/04 07:23:51 robert Exp $
+        $Id: obsinput.h,v 1.4 1999/03/05 23:17:33 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSFILEINPUT_H_
@@ -64,7 +64,6 @@ class     ObsInput:public PhysicalMediaInput
    {
       return m_path;
    }
-   virtual const char *GetErrorString(int32);
    virtual Error SetPropManager(Properties *p) 
 	{ 
 	   m_propManager = p; 

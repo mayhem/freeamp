@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.15 1999/03/04 07:23:44 robert Exp $
+	$Id: pmi.h,v 1.16 1999/03/05 23:17:26 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
+#include <assert.h>
 
 
 #if HAVE_UNISTD_H
@@ -42,6 +43,7 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "config.h"
 #include "errors.h"
+#include "eventdata.h"
 #include "properties.h"
 
 #define SEEK_FROM_START		SEEK_SET
@@ -51,6 +53,7 @@ ____________________________________________________________________________*/
 class PhysicalMediaInput {
 
 public:
+            PhysicalMediaInput() { m_target = NULL; }
     virtual ~PhysicalMediaInput() { }
     virtual Error BeginRead(void* & /*buf*/, size_t &/*bytesneeded*/) 
 	               { return kError_GotDefaultMethod; }
@@ -86,9 +89,21 @@ public:
 	 virtual Error SetPropManager(Properties *) = 0;
 		 
     virtual Error SetTo(char* url) = 0;
+    virtual Error SetTarget(EventQueue *target)
+                  { m_target = target; };
     virtual Error Close(void) = 0;
     virtual const char* Url(void) const = 0;
-    virtual const char *GetErrorString(int32) = 0;
+
+    virtual void  ReportError(const char *szError)
+                  {
+                     assert(m_target);
+
+                     m_target->AcceptEvent(new LMCErrorEvent(szError));
+                  };
+
+    protected:
+     
+        EventQueue *m_target;
 };
 
 #endif /* _PMI_H_ */

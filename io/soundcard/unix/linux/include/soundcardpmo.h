@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.h,v 1.10 1999/03/04 07:23:52 robert Exp $
+        $Id: soundcardpmo.h,v 1.11 1999/03/05 23:17:34 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SOUNDCARDPMO_H_
@@ -64,7 +64,6 @@ class SoundCardPMO:public PhysicalMediaOutput, public EventBuffer
    virtual Error Resume();
    virtual void  WaitToQuit();
    virtual Error Clear();
-   virtual const char *GetErrorString(int32);
    virtual Error SetPropManager(Properties * p);
 
    static void   StartWorkerThread(void *);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.7 1999/11/13 13:03:20 elrod Exp $
+   $Id: Window.h,v 1.8 1999/11/13 17:41:40 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -129,7 +129,8 @@ class Window
       Canvas                   *m_pCanvas;
       bool                      m_bExit, m_bWindowMove, m_bLButtonDown;
       Theme                    *m_pTheme;
-      Control                  *m_pMouseInControl, *m_pCaptureControl;
+      Control                  *m_pMouseInControl, *m_pMouseDownControl;
+      Control                  *m_pCaptureControl;
       Pos                       m_oMovePos;
       bool                      m_bStayOnTop, m_bLiveInToolbar;
       bool                      m_bIsVulcanMindMeldHost;

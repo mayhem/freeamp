@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.21.4.8 2000/03/07 05:07:21 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.21.4.9 2000/03/08 01:04:23 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -550,6 +550,31 @@ static int32 GetContentLengthFromHeader(const char* buffer)
     return result;
 }
 
+static void GetContentTimeFromHeader(const char* buffer, string &mTime)
+{
+    int32 result = -1;
+
+    char* cp = strstr(buffer, "Last-Modified:");
+    if(cp)
+    {
+        string::size_type pos;
+        
+        cp += strlen("Last-Modified:") + 1;
+        mTime = string(cp);
+
+        pos = mTime.find(string("\r"), 0);
+        if (pos != string::npos)
+           mTime.erase(pos, mTime.length() - 2);
+
+        pos = mTime.find(string("\n"), 0);
+        if (pos != string::npos)
+           mTime.erase(pos, mTime.length() - 2);
+    }
+    else
+        mTime = string("");
+}
+
+
 const uint8 kHttpPort = 80;
 const uint32 kMaxHostNameLen = 64;
 
@@ -733,19 +758,18 @@ Error DownloadManager::Download(DownloadItem* item)
                                          "Accept: */*\n" 
                                          "User-Agent: FreeAmp/%s\n";
 
-                const char* kRange = "Range: bytes=%lu-\n"
-                                     "If-Range: %s\n";
+                const char* kRange = "Range: bytes=%lu-\n";
+                const char* kIfRange = "If-Range: %s\n";
 
                 const char* kCookie = "Cookie: %s\n";
 
-                // the magic 58 is enough for fixed length time in
-                // HTTP time format + 2 terabyte length range numbers.
-                // the 2 extra bytes on the end is an extra \n and 0x00 byte
+                // the magic 256 is enough for a time field that
+                // we got from the server
                 char* query = new char[ strlen(kHTTPQuery) + 
                                         strlen(file) +
                                         strlen(localname) +
                                         strlen(FREEAMP_VERSION)+
-                                        (item->GetBytesReceived() ? (strlen(kRange) + 58): 0 ) +
+                                        (item->GetBytesReceived() ? (strlen(kRange) + 256): 0 ) +
                                         (item->SourceCookie().size() ? (item->SourceCookie().size() + strlen(kCookie)): 0) +
                                         2];
             
@@ -758,20 +782,22 @@ Error DownloadManager::Download(DownloadItem* item)
 
                     if(-1 != stat(destPath, &st))
                     {
-                        char* range = new char[strlen(kRange) + 58 + 1];
-                        char time[32];
+                        char* range = new char[strlen(kRange) + 256 + 1];
 
-                        RFC822GMTTimeString(gmtime(&st.st_mtime), time);
-
-                        sprintf(range, kRange, item->GetBytesReceived(), time);
-
+                        sprintf(range, kRange, item->GetBytesReceived());
                         strcat(query, range);
 
+                        if (item->MTime().length() > 0)
+                        {
+                            sprintf(range, kIfRange, item->MTime().c_str());
+                            strcat(query, range);
+                        }
                         delete [] range;
                     }
                     else
                     {
                         item->SetBytesReceived(0);
+                        item->SetMTime("");
                     }
                 }
 
@@ -901,15 +927,19 @@ Error DownloadManager::Download(DownloadItem* item)
 
                         int openFlags = O_BINARY|O_CREAT|O_RDWR|O_APPEND;
 
-                        //Debug_v("response: %d", returnCode);
                         if(returnCode != 206) // server oked partial download
                         {
-                            //Debug_v("No a resume!");
+                            string mTime;
+
                             item->SetBytesReceived(0);
                             openFlags |= O_TRUNC;
+                            
+                            GetContentTimeFromHeader(buffer, mTime);
+                            item->SetMTime(mTime.c_str());
                         }
-
-                        //*m_debug << "open file:" << destPath<< endl;
+                        else
+                            item->SetMTime("");
+                        
 
                         int fd = open(destPath, openFlags, S_IREAD | S_IWRITE);
 
@@ -1306,8 +1336,15 @@ void DownloadManager::SaveResumableDownloadItems()
 
                     sprintf(num, "%ld", (long int)item->GetTotalBytes());
                     ost << strlen(num) << kDatabaseDelimiter;
+
                     sprintf(num, "%ld", (long int)item->GetBytesReceived());
-                    ost << strlen(num) << kDatabaseDelimiter;
+                    if (item->MTime().length())
+                    {
+                        int iTimeSize = strlen(num) + 1 + item->MTime().length();
+                        ost << iTimeSize << kDatabaseDelimiter;
+                    }
+                    else
+                        ost << strlen(num) << kDatabaseDelimiter;
 
                     // metadata lengths
                     ost << metadata.Artist().size() << kDatabaseDelimiter;
@@ -1334,6 +1371,10 @@ void DownloadManager::SaveResumableDownloadItems()
                     ost << item->PlaylistName();
                     ost << item->GetTotalBytes();
                     ost << item->GetBytesReceived();
+
+                    if (item->MTime().length())
+                        ost << " " << item->MTime();
+                        
                     ost << metadata.Artist();
                     ost << metadata.Album();
                     ost << metadata.Title();
@@ -1436,8 +1477,21 @@ void DownloadManager::LoadResumableDownloadItems()
                             item->SetTotalBytes(atoi(data.substr(count, fieldLength[j]).c_str()));
                             break;
                         case 5:
-                            item->SetBytesReceived(atoi(data.substr(count, fieldLength[j]).c_str()));
+                        {
+                            string            val;
+                            string::size_type pos;
+                            
+                            val = data.substr(count, fieldLength[j]).c_str();
+                            item->SetBytesReceived(atoi(val.c_str()));
+                            
+                            pos = val.find(string(" "), 0);
+                            if (pos != string::npos)
+                            {
+                                val.erase(0, pos + 1);
+                                item->SetMTime(val.c_str());
+                            }
                             break;
+                        }    
                         case 6:
                             metadata.SetArtist(data.substr(count, fieldLength[j]).c_str());
                             break;

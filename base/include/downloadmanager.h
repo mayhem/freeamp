@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.h,v 1.7.2.1.2.3 2000/03/07 04:05:40 robert Exp $
+	$Id: downloadmanager.h,v 1.7.2.1.2.4 2000/03/08 01:04:23 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_MANAGER_H_
@@ -152,6 +152,10 @@ class DownloadItem {
     void SetNormalDownload(void) { m_normalDownload = true; };
 	bool IsNormalDownload(void) { return m_normalDownload; };
 
+    Error SetMTime(const char* mtime) { m_mtime = string(mtime); return kError_NoErr;}
+    Error GetMTime(char* buf, uint32* len) { return SetBuffer(buf, m_mtime.c_str(), len); }
+    const string& MTime() const { return m_mtime; }
+
  protected:
     Error SetBuffer(char* dest, const char* src, uint32* len)
     {
@@ -187,6 +191,7 @@ class DownloadItem {
     string m_dest;
     string m_cookie;
     string m_playlist;
+    string m_mtime;
     DownloadItemState m_state;
     bool m_allowResume;
     Error m_error;

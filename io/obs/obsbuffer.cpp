@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: obsbuffer.cpp,v 1.6 1999/02/28 00:21:31 robert Exp $
+   $Id: obsbuffer.cpp,v 1.7 1999/03/01 22:47:30 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -37,6 +37,8 @@ ____________________________________________________________________________*/
 
 #include "obsbuffer.h"
 #include "log.h"
+
+extern LogFile *g_Log;
 
 const int iMaxHostNameLen = 64;
 const int iGetHostNameBuffer = 1024;
@@ -192,7 +194,7 @@ void ObsBuffer::StartWorkerThread(void *pVoidBuffer)
 void ObsBuffer::WorkerThread(void)
 {
    size_t          iToCopy, iStructSize, iActual; 
-   int             iRead, iPacketNum = -1, iCurrNum, iRet;
+   int             iRead, iPacketNum = -1, iCurrNum, iRet, iHeaderSize;
    RTPHeader      *pHeader;
    void           *pBuffer;
    unsigned        char *pTemp, *pCopy;
@@ -244,36 +246,20 @@ void ObsBuffer::WorkerThread(void)
       if (eError != kError_NoErr)
          break; 
 
-      iCurrNum = ntohs(pHeader->iFlags & 0xFFFF);
+      pHeader->iFlags = ntohl(pHeader->iFlags);
+      iCurrNum = pHeader->iFlags & 0xFFFF;
       if (iPacketNum != -1 && iPacketNum != iCurrNum - 1)
       {
           g_Log->Log(LogInput, "Lost packet (%d, %d)\n", iPacketNum, iCurrNum); 
       }
       iPacketNum = iCurrNum;
 
-      iRead -= sizeof(RTPHeader);
-      for(pCopy = pTemp + sizeof(RTPHeader); iRead > 0;)
-      {
-          iActual = min(iToCopy, iRead);
-          memcpy(pBuffer, pCopy, iActual);
-          EndWrite(iActual);
+      iHeaderSize = sizeof(RTPHeader) + sizeof(int32);
+      iHeaderSize += sizeof(int32) * ((pHeader->iFlags >> 24) & 0xF);
 
-          pCopy += iActual;
-          iRead -= iActual;
-
-          if (iRead != 0)
-          {
-              for(; !m_bExit;)
-              {   
-                  eError = BeginWrite(pBuffer, iToCopy);      
-                  if (eError == kError_BufferTooSmall)
-                     m_pWriteSem->Wait();
-                  else
-                     break;
-              }
-          }
-      }
-
+      iRead -= iHeaderSize;
+      memcpy(pBuffer, pTemp + iHeaderSize, iRead);
+      EndWrite(iRead);
    }
 
    delete pTemp;

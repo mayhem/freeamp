@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: httpbuffer.h,v 1.4 1999/02/13 01:35:38 robert Exp $
+   $Id: httpbuffer.h,v 1.5 1999/03/01 22:47:24 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPBUFFER_H_
@@ -77,6 +77,8 @@ class HttpBuffer : public StreamBuffer
       static   void     StartWorkerThread(void *);
 
     private:
+
+      void            LogError(char *);
 
       int             m_hHandle;
       char            m_szUrl[iMaxUrlLen], *m_szError;

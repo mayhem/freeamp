@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: streambuffer.cpp,v 1.3 1999/02/13 01:35:46 robert Exp $
+   $Id: streambuffer.cpp,v 1.4 1999/03/01 22:47:34 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -77,7 +77,7 @@ Error StreamBuffer::BeginRead(void *&pBuffer, size_t &iBytesNeeded)
 
 		 m_bBufferingUp = false;
 	}
-   
+  
    if (GetNumBytesInBuffer() < iBytesNeeded && !IsEndOfStream())
 	{
        if (IsEndOfStream())
@@ -107,9 +107,12 @@ Error StreamBuffer::BeginWrite(void *&pBuffer, size_t &iBytesNeeded)
   
 	if (m_bPause && eRet == kError_BufferTooSmall)
 	{
-	    DiscardBytes();
+	    eRet = DiscardBytes();
   
 	    m_pStreamMutex->Release();
+
+       if (IsError(eRet))
+          return eRet;
 
        return PullBuffer::BeginWrite(pBuffer, iBytesNeeded);
    }

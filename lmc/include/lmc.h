@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.15 1999/02/28 00:21:34 robert Exp $
+	$Id: lmc.h,v 1.16 1999/03/01 22:47:35 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
@@ -47,6 +47,7 @@ class LogicalMediaConverter {
     virtual bool IsStreaming() = 0;
     virtual Error ExtractMediaInfo() = 0;
 
+    virtual Error SetTo(char *url) = 0;
     virtual Error SetPMI(PhysicalMediaInput *) = 0;
     virtual Error SetPMO(PhysicalMediaOutput *) = 0;
     virtual Error SetPropManager(Properties *) = 0;

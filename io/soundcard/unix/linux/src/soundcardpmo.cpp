@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.10 1999/03/01 10:40:59 mhw Exp $
+        $Id: soundcardpmo.cpp,v 1.11 1999/03/01 22:47:32 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -35,12 +35,15 @@ ____________________________________________________________________________*/
 #include "soundcardpmo.h"
 #include "log.h"
 
+LogFile *g_Log;
+
 #define PIECES 50
 
 extern    "C"
 {
-   PhysicalMediaOutput *Initialize()
+   PhysicalMediaOutput *Initialize(LogFile *pLog)
    {
+      g_Log = pLog;
       return new SoundCardPMO();
    }
 }

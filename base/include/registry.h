@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registry.h,v 1.4 1999/01/25 23:00:13 robert Exp $
+	$Id: registry.h,v 1.5 1999/03/01 22:47:21 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _REGISTRY_H_
@@ -26,8 +26,9 @@ ____________________________________________________________________________*/
 
 #include "config.h"
 #include "vector.h"
+#include "log.h"
 
-typedef void *(*InitializeFunction)();
+typedef void *(*InitializeFunction)(LogFile *);
 
 class RegistryItem {
  public:

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.5 1999/01/28 20:02:16 robert Exp $
+        $Id: httpinput.h,v 1.6 1999/03/01 22:47:26 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPFILEINPUT_H_
@@ -57,6 +57,7 @@ class     HttpInput:public PhysicalMediaInput
 
    virtual void  Pause();
    virtual void  Resume();
+   virtual void  Break();
 
    virtual Error SetTo(char *url);
    virtual Error Close(void);

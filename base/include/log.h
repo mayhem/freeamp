@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: log.h,v 1.1 1999/02/13 01:35:32 robert Exp $
+        $Id: log.h,v 1.2 1999/03/01 22:47:20 robert Exp $
 ____________________________________________________________________________*/
 #ifndef __LOG_H__
 #define __LOG_H__
@@ -57,7 +57,5 @@ class LogFile
         char *m_szLogFile;
         int   m_iLogLevelFlags;
 };
-
-extern LogFile *g_Log;
 
 #endif

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.13 1999/01/28 20:02:18 robert Exp $
+	$Id: pmi.h,v 1.14 1999/03/01 22:47:27 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -75,6 +75,8 @@ public:
 	 virtual void  Pause()
 	               { };
 	 virtual void  Resume()
+	               { };
+	 virtual void  Break()
 	               { };
 	 virtual bool  CachePMI()
 	               { return false; };

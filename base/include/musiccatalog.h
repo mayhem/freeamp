@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.h,v 1.20 2000/10/06 09:16:13 ijr Exp $
+        $Id: musiccatalog.h,v 1.21 2000/10/17 21:15:33 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -137,7 +137,9 @@ class MusicCatalog : public EventQueue
  protected:
     static void musicsearch_thread_function(void *arg);
     static void prune_thread_function(void *arg);
-
+    static void mb_lookup_thread(void *arg);
+    
+    void MBLookupThread(string url, string GUID);
     void PruneThread(bool sendmessages);
 
     void DoSearchMusic(char *path, bool bSendMessages);
@@ -188,5 +190,6 @@ class MusicCatalog : public EventQueue
     TimerRef m_watchTimer;
 
     int32    m_trackCount;
+    int      m_pendingMBLookups;
 };
 #endif

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.50 2000/01/20 00:48:48 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.51 2000/01/20 02:30:40 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -278,26 +278,26 @@ void SoundCardPMO::HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent)
 
 bool SoundCardPMO::WaitForDrain(void)
 {
-   unsigned iLoop;
+   unsigned iLoop, iNumHeadersPending = 0;
 
    for(; !m_bExit && !m_bPause; )
    {   
        g_pHeaderMutex->Acquire();
 
-	   for(iLoop = 0; iLoop < m_num_headers; iLoop++)
+	   for(iLoop = 0, iNumHeadersPending = 0; iLoop < m_num_headers; iLoop++)
        {
-           if ((int)m_wavehdr_array[iLoop]->dwUser >= 0)
-			   break;
+           if ((int)m_wavehdr_array[iLoop]->dwUser > 0)
+               iNumHeadersPending++;
 	   }
 	   g_pHeaderMutex->Release();
-
-	   if (iLoop == m_num_headers)
+   
+       if (iNumHeadersPending == 0)
 	   {
 		  return true;
 	   }
 	   WasteTime();
    }
- 
+
    return false;
 }
 
@@ -547,7 +547,7 @@ void SoundCardPMO::WorkerThread(void)
     
               if (pEvent->Type() == PMO_Quit) 
               {
-                  delete pEvent;
+				  delete pEvent;
                   if (WaitForDrain())
 				  {
                      m_pTarget->AcceptEvent(new Event(INFO_DoneOutputting));

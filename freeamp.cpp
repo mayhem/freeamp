@@ -1,4 +1,3 @@
-
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
@@ -19,6 +18,6 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: freeamp.cpp,v 1.2 1998/10/20 03:16:05 elrod Exp $
 ____________________________________________________________________________*/
 

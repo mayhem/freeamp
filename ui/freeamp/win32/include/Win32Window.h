@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.h,v 1.11 1999/12/13 12:49:49 robert Exp $
+   $Id: Win32Window.h,v 1.12 1999/12/21 20:32:01 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32WINDOW__H_
@@ -79,6 +79,7 @@ class Win32Window : public Window
      void  SetStayOnTop(bool bStay);
      void  SetLiveInToolbar(bool bLive);
 	 void  MouseLeaveCheck(void);
+     void  AddToSystemMenu(HWND hWnd);
     
      HWND     m_hWnd;
      Pos      m_oWindowPos;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.18 1999/12/18 02:23:54 robert Exp $
+   $Id: Window.cpp,v 1.19 1999/12/21 20:31:58 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -513,6 +513,11 @@ void Window::SetLiveInToolbar(bool bLive)
 void Window::Keystroke(unsigned char cKey)
 {
     m_pTheme->HandleKeystroke(cKey);
+}
+
+bool Window::MenuCommand(uint32 uCommand)
+{
+    return m_pTheme->HandleMenuCommand(uCommand);
 }
 
 void Window::GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight, 

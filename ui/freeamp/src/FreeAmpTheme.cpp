@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.58 1999/12/18 05:00:43 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.59 1999/12/21 20:31:57 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -207,6 +207,19 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
 
    m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
    oThemePath = szTemp;
+   
+   if (strchr(szTemp, DIR_MARKER) == NULL)
+   {
+       string oBase = oThemePath;
+       iLen = 255;
+       
+       m_pContext->prefs->GetInstallDirectory(szTemp, &iLen);
+       oThemePath = string(szTemp) + 
+                    string(DIR_MARKER_STR) + 
+                    string("themes") +
+                    string(DIR_MARKER_STR) + 
+                    oBase;
+   }
   
    iLen = 255; 
    m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
@@ -1085,6 +1098,49 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
      	ShowHelp();
         break;
     }
+}
+
+bool FreeAmpTheme::HandleMenuCommand(uint32 uCommand)
+{
+    switch(uCommand)
+    {
+        case kMCMyMusic:
+            m_pContext->target->AcceptEvent(
+                       new Event(CMD_ToggleMusicBrowserUI));
+            return true;           
+
+        case kMCPlay:
+            m_pContext->target->AcceptEvent(
+                       new Event(CMD_Play));
+            return true;           
+
+        case kMCStop:
+            m_pContext->target->AcceptEvent(
+                       new Event(CMD_Stop));
+            return true;           
+
+        case kMCPause:
+            m_pContext->target->AcceptEvent(
+                       new Event(CMD_Pause));
+            return true;           
+
+        case kMCNext:
+            m_pContext->target->AcceptEvent(
+                       new Event(CMD_NextMediaPiece));
+            return true;           
+
+        case kMCPrev:
+            m_pContext->target->AcceptEvent(
+                       new Event(CMD_PrevMediaPiece));
+            return true;           
+
+        case kMCExit:
+            m_pContext->target->AcceptEvent(
+                       new Event(CMD_QuitPlayer));
+            return true;           
+    }
+    
+    return false;
 }
 
 void FreeAmpTheme::UpdateTimeDisplay(int iCurrentSeconds)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.72 2000/09/27 12:16:40 elrod Exp $
+        $Id: MusicTree.cpp,v 1.73 2000/10/27 12:31:30 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -678,10 +678,10 @@ void MusicBrowserUI::FillStreams()
     m_fillStreamsThread = Thread::CreateThread();
 	m_fillStreamsThread->Create(MusicBrowserUI::streams_timer, this);
     
-    m_context->timerManager->StartTimer(&m_streamsTimer,
-                                        MusicBrowserUI::streams_timer,
-                                        60,
-                                        this);
+    //m_context->timerManager->StartTimer(&m_streamsTimer,
+    //                                    MusicBrowserUI::streams_timer,
+    //                                    60,
+    //                                    this);
 }
 
 void MusicBrowserUI::FillPortables()

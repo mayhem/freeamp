@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.99 2000/10/05 12:29:31 ijr Exp $
+        $Id: Dialog.cpp,v 1.100 2000/10/27 12:31:30 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -190,6 +190,10 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
                 case ID_POPUP_ADDTRACK_PLAY:
                     AddTrackAndPlayEvent();
                     return 1;
+
+                case ID_POPUP_SUPDATE:
+					StreamsTimer();
+					return 1;
 
                 case ID_POPUP_PLAY:
                     PlayNowEvent();

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.4 2000/01/10 19:38:53 elrod Exp $
+	$Id: main.cpp,v 1.5 2000/01/21 22:27:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -123,8 +123,11 @@ void MoveFiles(const char* src, const char* dest)
                 }
                 else 
                 {
+                    // remove old file
+                    DeleteFile(destPath);
+                    
                     // actually move the file
-                    if(!MoveFileEx(srcPath, destPath, MOVEFILE_REPLACE_EXISTING))
+                    if(!MoveFile(srcPath, destPath))
                     {
                         LPVOID lpMessageBuffer;
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.1.2.2 1999/09/22 18:58:21 ijr Exp $
+        $Id: infoeditor.cpp,v 1.1.2.3 1999/10/06 18:47:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "utility.h"
@@ -113,7 +113,7 @@ void infoeditorUI::DisplayInfo(void)
    MetaData songmeta = m_playlistItem->GetMetaData();
 
    m_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-   gtk_window_set_title(GTK_WINDOW(m_window), "FreeAmp Information Editor");
+   gtk_window_set_title(GTK_WINDOW(m_window), "FreeAmp - Information Editor");
    gtk_signal_connect(GTK_OBJECT(m_window), "delete_event",
                       GTK_SIGNAL_FUNC(info_delete_event), this);
    gtk_container_set_border_width(GTK_CONTAINER(m_window), 5);

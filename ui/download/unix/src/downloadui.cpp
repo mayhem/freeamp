@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.1.2.1 1999/10/06 16:42:16 ijr Exp $
+        $Id: downloadui.cpp,v 1.1.2.2 1999/10/06 18:47:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -236,5 +236,6 @@ void DownloadUI::SelChangeEvent(int row)
         default:
             break;
     }
+    UpdateInfo();
 }
 

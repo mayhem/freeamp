@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.1.2.1 1999/10/06 16:42:16 ijr Exp $
+        $Id: gtkdownloadui.cpp,v 1.1.2.2 1999/10/06 18:47:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -46,6 +46,43 @@ void toggle_vis_internal(GtkWidget *widget, DownloadUI *p)
 
 void DownloadUI::UpdateInfo(void)
 {
+    DownloadItem *dli = downloadList[m_currentindex];
+
+    if (!dli) {
+        gtk_label_set_text(GTK_LABEL(artist), "");
+        gtk_label_set_text(GTK_LABEL(album), "");
+        gtk_label_set_text(GTK_LABEL(title), "");
+        gtk_label_set_text(GTK_LABEL(genre), "");
+        gtk_label_set_text(GTK_LABEL(playlist), "");
+        gtk_label_set_text(GTK_LABEL(name), "");
+        gtk_label_set_text(GTK_LABEL(size), "");
+        return;
+    }
+
+    gtk_label_set_text(GTK_LABEL(artist), dli->GetMetaData().Artist().c_str());
+    gtk_label_set_text(GTK_LABEL(album), dli->GetMetaData().Album().c_str());
+    gtk_label_set_text(GTK_LABEL(title), dli->GetMetaData().Title().c_str());
+    gtk_label_set_text(GTK_LABEL(genre), dli->GetMetaData().Genre().c_str());
+    gtk_label_set_text(GTK_LABEL(playlist), dli->PlaylistName().c_str());
+    gtk_label_set_text(GTK_LABEL(name), dli->DestinationFile().c_str());
+    float total;
+    char totsize[64];
+    
+    total = dli->GetTotalBytes();
+    if (total >= 1048576) {
+        total /= 1048576;
+        sprintf(totsize, "%.2f MB", total);;
+    }
+    else if(total >= 1024) {
+        total /= 1024;
+        sprintf(totsize, "%.2f KB", total);
+    }
+    else
+        sprintf(totsize, "%.2f Bytes", total);
+ 
+    string display = totsize;
+
+    gtk_label_set_text(GTK_LABEL(size), display.c_str());
 }
 
 void DownloadUI::UpdateDownloadList(void)
@@ -58,6 +95,9 @@ void DownloadUI::UpdateDownloadList(void)
 
     uint32 iLoop = downloadList.size();
 
+    if (iLoop == 0)
+        return;
+
     for (uint32 i = 0; i < iLoop; i++) {
         DownloadItem *dli = downloadList[i];
         char *iText[2];
@@ -69,35 +109,30 @@ void DownloadUI::UpdateDownloadList(void)
   
         switch (dli->GetState()) {
             case kDownloadItemState_Queued: {
-                ostrstream ost;
+                char outtext[128];
                 float total;
- 
-                ost.precision(2);
-                ost.flags(ios::fixed);
  
                 total = dli->GetTotalBytes();
  
                 if (total >= 1048576) {
                     total /= 1048576;
-                    ost << "Queued (" << total << " MB)";
+                    sprintf(outtext, "Queued (%.2f MB)", total);
                 }
                 else if (total >= 1024) {
                     total /= 1024;
-                    ost << "Queued (" << total << " KB)";
+                    sprintf(outtext, "Queued (%.2f KB)", total);
                 }
                 else 
-                    ost << "Queued (" << total << " Bytes)";
+                    sprintf(outtext, "Queued (%.2f Bytes)", total);
                 
-                statusString = ost.str();
+                statusString = outtext;
                 break; }
             case kDownloadItemState_Downloading: {
                 float total;
                 float recvd;
                 uint32 percent;
-                ostrstream ost;
+                char outtext[128];
 
-                ost.precision(2);
-                ost.flags(ios::fixed);
                 total = dli->GetTotalBytes();
                 recvd = dli->GetBytesReceived();
                 percent = (uint32)(recvd/total*100);
@@ -105,30 +140,27 @@ void DownloadUI::UpdateDownloadList(void)
                 if (total >= 1048576) {
                     total /= 1048576;
                     recvd /= 1048576;
-                    ost << percent << "% (" << recvd << " of " << total << " MB) ";
+                    sprintf(outtext, "%d%% (%.2f of %.2f MB)", percent, recvd, total);
                 }
                 else if(total >= 1024) {
                     total /= 1024;
                     recvd /= 1024;
-                    ost << percent << "% ("<< recvd << " of "<< total << " KB)";
+                    sprintf(outtext, "%d%% (%.2f of %.2f KB)", percent, recvd, total);
                 }
                 else
-                    ost << percent << "% (" << recvd << " of " << total << " Bytes)";
+                    sprintf(outtext, "%d%% (%.2f of %.2f Bytes)", percent, recvd, total);
                 
-                statusString = ost.str();
+                statusString = outtext;
                 break; }
             case kDownloadItemState_Cancelled: {
                 statusString = "Cancelled";
                 break; }
             case kDownloadItemState_Paused: {
-                ostrstream ost;
+                char outtext[128];
                 float total;
                 float recvd;
                 uint32 percent;
  
-                ost.precision(2);
-                ost.flags(ios::fixed);
-  
                 total = dli->GetTotalBytes();
                 recvd = dli->GetBytesReceived();
                 percent = (uint32)(recvd/total*100);
@@ -136,25 +168,25 @@ void DownloadUI::UpdateDownloadList(void)
                 if (total >= 1048576) {
                     total /= 1048576;
                     recvd /= 1048576;
-                    ost << "Paused (" << recvd << " of "<< total << " MB - " << percent << "%)";
+                    sprintf(outtext, "Paused (%.2f of %.2f MB - %d%%)", recvd, total, percent);
                 }
                 else if(total >= 1024) {
                     total /= 1024;
                     recvd /= 1024;
-                    ost << "Paused (" << recvd << " of "<< total << " KB - " << percent << "%)";
+                    sprintf(outtext, "Paused (%.2f of %.2f KB - %d%%)", recvd, total, percent);
                 }
                 else
-                    ost << "Paused (" << recvd << " of " << total << " Bytes - " << percent << "%)";
+                    sprintf(outtext, "Paused (%.2f of %.2f Bytes - %d%%)", recvd, total, percent);
 
-                statusString = ost.str();
+                statusString = outtext;
                 break; }
             case kDownloadItemState_Error: {
-                ostrstream ost;
-                ost << "Error: " << dli->GetDownloadError();
-                statusString = ost.str();
+                char outtext[128];
+                sprintf(outtext, "Error: %d\n", dli->GetDownloadError());
+                statusString = outtext;
                 break; }
             case kDownloadItemState_Done: {
-                statusString = "Download Complete";
+                statusString = "Download Complete\0";
                 break; }
             default:
                 break;
@@ -184,6 +216,7 @@ void DownloadUI::CreateDownloadList(GtkWidget *box)
 
     m_List = gtk_clist_new_with_titles(2, titles);
     gtk_container_add(GTK_CONTAINER(box), m_List);
+    gtk_clist_set_column_width(GTK_CLIST(m_List), 0, 200);
     gtk_signal_connect(GTK_OBJECT(m_List), "select_row",
                        GTK_SIGNAL_FUNC(set_current_sel_internal), this);
     gtk_widget_show(m_List);
@@ -226,7 +259,97 @@ void DownloadUI::CreateDownloadUI(void)
     gtk_widget_set_usize(listwindow, 400, 140);
     gtk_widget_show(listwindow);
 
+    GtkWidget *sep = gtk_hseparator_new();
+    gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, TRUE, 0);
+    gtk_widget_show(sep);
+
+    GtkWidget *table = gtk_table_new(7, 2, FALSE);
+    gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
+    gtk_widget_show(table);
+
+    GtkWidget *label;
+    label = gtk_label_new("Artist:");
+    gtk_misc_set_alignment(GTK_MISC(label), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1, GTK_FILL, GTK_FILL,
+                     10, 1);
+    gtk_widget_show(label);
+
+    artist = gtk_label_new(" ");
+    gtk_misc_set_alignment(GTK_MISC(artist), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach_defaults(GTK_TABLE(table), artist, 1, 2, 0, 1);
+    gtk_widget_show(artist);
+
+    label = gtk_label_new("Album:");
+    gtk_misc_set_alignment(GTK_MISC(label), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2, GTK_FILL, GTK_FILL,
+                     10, 1);
+    gtk_widget_show(label);
+
+    album = gtk_label_new(" ");
+    gtk_misc_set_alignment(GTK_MISC(album), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach_defaults(GTK_TABLE(table), album, 1, 2, 1, 2);
+    gtk_widget_show(album);
+
+    label = gtk_label_new("Title:");
+    gtk_misc_set_alignment(GTK_MISC(label), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3, GTK_FILL, GTK_FILL,
+                     10, 1);
+    gtk_widget_show(label);
+
+    title = gtk_label_new(" ");
+    gtk_misc_set_alignment(GTK_MISC(title), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach_defaults(GTK_TABLE(table), title, 1, 2, 2, 3);
+    gtk_widget_show(title);
+
+    label = gtk_label_new("Genre:");
+    gtk_misc_set_alignment(GTK_MISC(label), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 3, 4, GTK_FILL, GTK_FILL,
+                     10, 1);
+    gtk_widget_show(label);
+
+    genre = gtk_label_new(" ");
+    gtk_misc_set_alignment(GTK_MISC(genre), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach_defaults(GTK_TABLE(table), genre, 1, 2, 3, 4);
+    gtk_widget_show(genre);
+
+    label = gtk_label_new("Playlist:");
+    gtk_misc_set_alignment(GTK_MISC(label), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 4, 5, GTK_FILL, GTK_FILL,
+                     10, 1);
+    gtk_widget_show(label);
+
+    playlist = gtk_label_new(" ");
+    gtk_misc_set_alignment(GTK_MISC(playlist), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach_defaults(GTK_TABLE(table), playlist, 1, 2, 4, 5);
+    gtk_widget_show(playlist);
+
+    label = gtk_label_new("File Name:");
+    gtk_misc_set_alignment(GTK_MISC(label), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 5, 6, GTK_FILL, GTK_FILL,
+                     10, 1);
+    gtk_widget_show(label);
+
+    name = gtk_label_new(" ");
+    gtk_misc_set_alignment(GTK_MISC(name), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach_defaults(GTK_TABLE(table), name, 1, 2, 5, 6);
+    gtk_widget_show(name);
+
+    label = gtk_label_new("File Size:");
+    gtk_misc_set_alignment(GTK_MISC(label), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 6, 7, GTK_FILL, GTK_FILL,
+                     10, 1);
+    gtk_widget_show(label);
+
+    size = gtk_label_new(" ");
+    gtk_misc_set_alignment(GTK_MISC(size), (gfloat)0.0, (gfloat)0.5);
+    gtk_table_attach_defaults(GTK_TABLE(table), size, 1, 2, 6, 7);
+    gtk_widget_show(size);
+
     CreateDownloadList(listwindow);
+
+    sep = gtk_hseparator_new();
+    gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, TRUE, 5);
+    gtk_widget_show(sep);
 
     GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
     gtk_box_pack_end(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
@@ -249,6 +372,10 @@ void DownloadUI::CreateDownloadUI(void)
     gtk_signal_connect(GTK_OBJECT(m_ResumeButton), "clicked", 
                        GTK_SIGNAL_FUNC(resume_internal), this);
     gtk_widget_show(m_ResumeButton);
+
+    sep = gtk_vseparator_new();
+    gtk_box_pack_start(GTK_BOX(hbox), sep, TRUE, FALSE, 5);
+    gtk_widget_show(sep);
 
     m_CloseButton = gtk_button_new_with_label("Close");
     gtk_box_pack_end(GTK_BOX(hbox), m_CloseButton, FALSE, FALSE, 5);

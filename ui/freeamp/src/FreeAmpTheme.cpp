@@ -18,11 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.36 1999/10/06 03:07:15 hiro Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.37 1999/10/06 18:47:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
+#include <unistd.h>
 #include "config.h"
+#include "downloadmanager.h"
 
 #ifdef HAVE_GTK
 #include "GTKUtility.h"
@@ -539,12 +541,10 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        
 #ifdef WIN32
        pWindow = new Win32PreferenceWindow(m_pContext);
-#else
-#ifdef __BEOS__
+#elif defined(__BEOS__)
        pWindow = new BeOSPreferenceWindow(m_pContext);
 #else
        pWindow = new GTKPreferenceWindow(m_pContext);
-#endif
 #endif       
        if (pWindow->Show(m_pWindow))
        	  ReloadTheme();

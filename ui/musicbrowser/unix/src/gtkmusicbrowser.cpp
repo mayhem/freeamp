@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.13 1999/10/05 02:05:00 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.14 1999/10/06 18:47:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -574,7 +574,7 @@ void MusicBrowserUI::ExpandCollapseEvent(void)
         m_state = STATE_EXPANDED;
         gtk_widget_show(masterBrowserBox);
         gtk_label_set_text(GTK_LABEL(expandLabel), "<< Collapse");
-        gtk_window_set_title(GTK_WINDOW(musicBrowser), "Music Browser");
+        gtk_window_set_title(GTK_WINDOW(musicBrowser), "FreeAmp - Music Browser");
         UpdateCatalog();
     }
     else {
@@ -582,7 +582,7 @@ void MusicBrowserUI::ExpandCollapseEvent(void)
 
         gtk_widget_hide(masterBrowserBox);
         gtk_label_set_text(GTK_LABEL(expandLabel), "<< Expand");
-        gtk_window_set_title(GTK_WINDOW(musicBrowser), "Playlist Editor");
+        gtk_window_set_title(GTK_WINDOW(musicBrowser), "FreeAmp - Playlist Editor");
     }
 }
 
@@ -925,7 +925,7 @@ void MusicBrowserUI::CreatePlaylist(void)
     localui = this;
 
     musicBrowser = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(musicBrowser), "Playlist Editor");
+    gtk_window_set_title(GTK_WINDOW(musicBrowser), "FreeAmp - Playlist Editor");
     gtk_window_set_policy(GTK_WINDOW(musicBrowser), TRUE, TRUE, TRUE);
     gtk_signal_connect(GTK_OBJECT(musicBrowser), "destroy",
                        GTK_SIGNAL_FUNC(toggle_vis_internal), this);

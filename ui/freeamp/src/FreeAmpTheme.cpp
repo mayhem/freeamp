@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.86 2000/02/16 04:39:35 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.87 2000/02/18 17:24:48 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -81,7 +81,6 @@ extern    "C"
 {
    UserInterface *Initialize(FAContext * context)
    {
-      Debug_v("##Clear");
       return new FreeAmpTheme(context);
    }
 }
@@ -1445,7 +1444,7 @@ void FreeAmpTheme::ShowHelp(void)
 {
     string  oHelpFile;
     char   *dir;
-    uint32  len = sizeof(dir);
+    uint32  len = _MAX_PATH;
 
     dir = new char[_MAX_PATH];
     
@@ -1470,6 +1469,7 @@ void FreeAmpTheme::ShowHelp(void)
 #endif
 #ifdef HAVE_GTK   
     struct _stat   st;
+
 
     if (_stat(oHelpFile.c_str(), &st) == 0 && st.st_mode & S_IFREG)
         LaunchBrowser((char *)oHelpFile.c_str());

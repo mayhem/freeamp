@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.7 1999/11/01 07:39:32 elrod Exp $
+        $Id: Dialog.cpp,v 1.8 1999/11/01 22:57:20 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -617,6 +617,34 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
     InitList();
     SetTitles();
     CreateToolbar();
+
+    m_hPlaylistHeader = FindWindowEx(m_hPlaylistView, NULL, WC_HEADER, NULL);
+
+    if(m_hPlaylistHeader)
+    {
+        // Set the proc address as a property 
+	    // of the window so it can get it
+	    SetProp(m_hPlaylistView, 
+			    "oldproc",
+			    (HANDLE)GetWindowLong(m_hPlaylistView, GWL_WNDPROC));
+	    
+	    // Subclass the window so we can draw it
+	    SetWindowLong(	m_hPlaylistView, 
+					    GWL_WNDPROC, 
+					    (DWORD)ListViewWndProc );  
+
+        HD_ITEM hd_item;
+    
+        hd_item.mask = HDI_FORMAT;
+        hd_item.fmt = HDF_OWNERDRAW;
+
+        Header_SetItem(m_hPlaylistHeader, 0, &hd_item);
+
+        //hd_item.fmt = HDF_CENTER;
+        //Header_SetItem(m_hPlaylistHeader, 1, &hd_item);
+        //Header_SetItem(m_hPlaylistHeader, 2, &hd_item);
+        //Header_SetItem(m_hPlaylistHeader, 3, &hd_item);
+    }
     
     m_hStatus= CreateStatusWindow(WS_CHILD | WS_VISIBLE,
                                   "", m_hWnd, IDC_STATUS);

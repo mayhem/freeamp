@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.10 1999/11/01 07:02:51 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.11 1999/11/01 22:57:19 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -54,6 +54,12 @@ bool FileOpenDialog(HWND hwnd,
                     const char* filter,
                     vector<char*>* fileList,
                     Preferences* prefs);
+
+LRESULT WINAPI 
+ListViewWndProc(HWND hwnd, 
+                UINT msg, 
+                WPARAM wParam, 
+                LPARAM lParam);
 
 class MusicBrowserUI : public UserInterface 
 {
@@ -173,6 +179,8 @@ class MusicBrowserUI : public UserInterface
     bool                 m_trackSplitter;
     RECT                 m_splitterRect;
     HBRUSH               m_splitterBrush;
+
+    HWND                 m_hPlaylistHeader;
 };
 
 #endif

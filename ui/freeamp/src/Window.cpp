@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.37 2000/05/15 16:38:23 robert Exp $
+   $Id: Window.cpp,v 1.38 2000/05/23 10:22:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -653,6 +653,27 @@ void Window::HandleMouseLButtonDown(Pos &oScreenPos)
 
     if (IsError(GetDesktopSize(m_iDesktopWidth, m_iDesktopHeight)))
        m_iDesktopWidth = m_iDesktopHeight = 0;
+
+    DecUsageRef();
+
+    return;
+}
+
+void Window::HandleMouseLButtonDoubleClick(Pos &oScreenPos)
+{
+    Control *pControl;
+    Rect     oRect;
+    Pos      oPos;
+
+    IncUsageRef();
+
+    GetWindowPosition(oRect);
+    oPos.x = oScreenPos.x - oRect.x1;
+    oPos.y = oScreenPos.y - oRect.y1;
+
+    pControl = ControlFromPos(oPos);
+    if (pControl)
+        m_pMouseInControl->AcceptTransition(CT_MouseLButtonDoubleClick);
 
     DecUsageRef();
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.32 2000/05/14 21:20:46 robert Exp $
+   $Id: GTKWindow.cpp,v 1.33 2000/05/23 10:22:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -59,7 +59,12 @@ void button_down(GtkWidget *w, GdkEvent *e, GTKWindow *ui)
     gdk_threads_leave();
     ui->m_pMindMeldMutex->Acquire();
     if (e->button.button == 1) 
-        ui->HandleMouseLButtonDown(oPos);
+    {
+        if (e->type==GDK_2BUTTON_PRESS)
+            ui->HandleMouseLButtonDoubleClick(oPos);
+        else
+            ui->HandleMouseLButtonDown(oPos);
+    }
     else if (e->button.button == 3)
         ui->BringWindowToFront();
     ui->m_pMindMeldMutex->Release();

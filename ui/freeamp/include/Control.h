@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.13 2000/05/14 21:20:46 robert Exp $
+   $Id: Control.h,v 1.14 2000/05/23 10:22:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -51,6 +51,7 @@ enum ControlMessageEnum
     CM_Pressed,
     CM_MouseEnter,
     CM_MouseLeave,
+    CM_MouseDoubleClick,
     CM_SliderUpdate,
     CM_ValueChanged,
     CM_ChangeWindow,
@@ -72,6 +73,7 @@ enum ControlTransitionEnum
     CT_MouseLeave,
     CT_MouseLButtonUp,
     CT_MouseLButtonDown,
+    CT_MouseLButtonDoubleClick,
     CT_SetValue,
     CT_Timer,
 

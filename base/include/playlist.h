@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.9 1999/08/26 18:01:22 elrod Exp $
+	$Id: playlist.h,v 1.40.4.10 1999/08/27 07:16:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -163,6 +163,8 @@ class PlaylistManager {
 
     Error GotoNextItem(bool userAction = false);
     Error GotoPreviousItem(bool userAction = false);
+
+    bool HasAnotherItem();
 
     Error SetShuffleMode(bool shuffle);
     bool GetShuffleMode() const {return m_shuffle;}

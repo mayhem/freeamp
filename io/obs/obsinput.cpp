@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.22.2.2 1999/08/18 04:18:07 ijr Exp $
+        $Id: obsinput.cpp,v 1.22.2.3 1999/08/27 07:16:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -112,7 +112,7 @@ ObsInput::~ObsInput()
        close(m_hHandle);
 }
 
-bool ObsInput::CanHandle(char *szUrl, char *szTitle)
+bool ObsInput::CanHandle(const char *szUrl, char *szTitle)
 {
    bool bRet;
 

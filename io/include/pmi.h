@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.24 1999/07/02 01:13:34 robert Exp $
+	$Id: pmi.h,v 1.24.4.1 1999/08/27 07:16:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMI_H_
@@ -58,7 +58,7 @@ public:
             PhysicalMediaInput(FAContext *context);
     virtual ~PhysicalMediaInput();
 
-    virtual Error SetTo(char *url);
+    virtual Error SetTo(const char *url);
     virtual Error Close(void);
     virtual Error Open(void) = 0;
     virtual const char* Url(void) const = 0;
@@ -67,7 +67,7 @@ public:
     virtual Error Seek(int32 & rtn, int32 offset, int32 origin)
                   { return kError_FileSeekNotSupported; };
 	 virtual Error GetID3v1Tag(Id3TagInfo &sTag);
-	 virtual bool  CanHandle(char *szUrl, char *szTitle)
+	 virtual bool  CanHandle(const char *szUrl, char *szTitle)
 	               {return false;}
     virtual Error GetLength(size_t &iSize)
                   { return kError_FileSeekNotSupported; };

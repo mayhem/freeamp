@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.3 1999/08/27 03:09:35 elrod Exp $
+        $Id: player.cpp,v 1.133.2.4 1999/08/27 07:16:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -32,7 +32,6 @@ ____________________________________________________________________________*/
 #include "player.h"
 #include "thread.h"
 #include "debug.h"
-#include "list.h"
 #include "ui.h"
 #include "queue.h"
 #include "semaphore.h"
@@ -75,7 +74,7 @@ EventQueue()
    // cout << "Created queue" << endl;
    m_eventServiceThread = NULL;
    // cout << "Started event thread" << endl;
-   m_uiList = new List < UserInterface * >();
+   m_uiList = new vector < UserInterface * >;
    // cout << "Created Lists" << endl;
    m_uiManipLock = new Mutex();
    m_lmcMutex = new Mutex();
@@ -85,7 +84,7 @@ EventQueue()
    // cout << "Created mutex" << endl;
    m_imQuitting = 0;
    m_quitWaitingFor = 0;
-   m_plm = new PlaylistManager((EventQueue *) this);
+   m_plm = new PlaylistManager(m_context);
    m_playerState = PlayerState_Stopped;
 
    m_lmcRegistry = NULL;
@@ -101,7 +100,7 @@ EventQueue()
    m_lmc = NULL;
    m_ui = NULL;
 
-   m_argUIList = new List < char *>();
+   m_argUIList = new vector < char *>();
 
    m_argc = 0;
    m_argv = NULL;
@@ -145,8 +144,12 @@ Player::
    // Delete CIOs
    if (m_uiList)
    {
-      m_uiList->DeleteAll();
-      delete    m_uiList;
+        int32 count = m_uiList->size();
+
+        for(int32 i=0;i<count;i++)
+            delete m_uiList->at(i);
+
+        delete m_uiList;
 
       m_uiList = NULL;
    }
@@ -182,7 +185,7 @@ bool
 Player::
 SetArgs(int32 argc, char **argv)
 {
-   List < char *>argList;
+   vector < char *>argList;
    bool      justGotArgvZero = false;
    char     *arg = NULL;
    char     *argUI = NULL;
@@ -215,7 +218,7 @@ SetArgs(int32 argc, char **argv)
    justGotArgvZero = true;
 #endif	// ndef WIN32
 
-   argList.AddItem(argv[0]);
+   argList.push_back(argv[0]);
    for (int32 i = 1; i < argc; i++)
    {
       arg = argv[i];
@@ -253,12 +256,17 @@ SetArgs(int32 argc, char **argv)
                   argUI = new char[strlen(arg) + 1];
 
                   strcpy(argUI, arg);
+
                   if (justGotArgvZero)
                   {
-                     m_argUIList->DeleteAll();
+                     int32 count = m_argUIList->size();
+
+                     for(int32 i=0;i<count;i++)
+                        delete m_argUIList->at(i);
+
                      justGotArgvZero = false;
                   }
-                  m_argUIList->AddItem(argUI);
+                  m_argUIList->push_back(argUI);
                }
 	       else
 		  goto normalArg;
@@ -310,7 +318,7 @@ SetArgs(int32 argc, char **argv)
 #endif
          default:
 	 normalArg:
-            argList.AddItem(argv[i]);
+            argList.push_back(argv[i]);
 	    break;
          }
       }
@@ -321,28 +329,31 @@ SetArgs(int32 argc, char **argv)
 		 pPtr = strrchr(argv[i], '.');
 		 if (pPtr && strcasecmp(pPtr, szPlaylistExt) == 0)
 		 { 
-		 	 Error eRet;
+		 	/* 
+            Error eRet;
 
 		     eRet = m_plm->ExpandM3U(argv[i], argList);
+
 		     if (IsError(eRet))
 #ifndef WIN32
                 printf("Error: Cannot open file '%s'.\n", argv[i]);
 #else
                 MessageBox(NULL, "Cannot open playlist file", argv[i], MB_OK); 
 #endif
+            */
 		 }
 		 else
-             argList.AddItem(argv[i]);
+             argList.push_back(argv[i]);
       }
    }
-   m_argc = argList.CountItems();
+   m_argc = argList.size();
    if (m_argc)
    {
 	   //LEAK-2
 	   m_argv = new pchar[m_argc];
       for (int f = 0; f < m_argc; f++)
       {
-         m_argv[f] = argList.ItemAt(f);
+         m_argv[f] = argList.at(f);
          // cerr << "Adding argument (" << f << "): " << m_argv[f] << endl;
       }
    }
@@ -443,7 +454,7 @@ Run()
       m_context->log->AddLogLevel(LogPerf);
 
    // which ui should we instantiate first??
-   if (m_argUIList->CountItems() == 0)
+   if (m_argUIList->size() == 0)
    {
       const char *pref = kUIPref;
       name = new char[len];
@@ -463,7 +474,7 @@ Run()
    }
    else
    {
-      char *orig = m_argUIList->ItemAt(uiListIndex);
+      char *orig = m_argUIList->at(uiListIndex);
       name = new char[strlen(orig) + 1];
 
       strcpy(name, orig);
@@ -503,7 +514,7 @@ Run()
                break;
             }
          }
-         char     *p = m_argUIList->ItemAt(++uiListIndex);
+         char     *p = m_argUIList->at(++uiListIndex);
 
          if (p)
          {
@@ -573,7 +584,7 @@ RegisterActiveUI(UserInterface * ui)
    GetUIManipLock();
    if (m_uiList && ui)
    {
-      m_uiList->AddItem(ui);
+      m_uiList->push_back(ui);
       ReleaseUIManipLock();
       return 0;
    }
@@ -586,7 +597,7 @@ RegisterActiveUI(UserInterface * ui)
 
 int32     
 Player::
-RegisterLMCs(LMCRegistry * registry)
+RegisterLMCs(Registry * registry)
 {
    int32     result = 0;
 
@@ -607,17 +618,17 @@ RegisterLMCs(LMCRegistry * registry)
 
    RegistryItem *lmc_item;
    LogicalMediaConverter *lmc;
-   int iItems = registry->GetNumItems();
+   int iItems = registry->CountItems();
 
    for (int iLoop = 0; iLoop < iItems; iLoop++)
    {
       lmc_item = registry->GetItem(iLoop);
 
       lmc = (LogicalMediaConverter *)lmc_item->InitFunction()(m_context);
-      List<char *> *extList = lmc->GetExtensions();
+      vector<char *> *extList = lmc->GetExtensions();
 
-      for (int iextLoop = 0; iextLoop < extList->CountItems(); iextLoop++)
-           m_lmcExtensions->Insert(extList->ItemAt(iextLoop), lmc_item);
+      for (int iextLoop = 0; iextLoop < extList->size(); iextLoop++)
+           m_lmcExtensions->Insert(extList->at(iextLoop), lmc_item);
 
       delete extList;
       delete lmc;
@@ -630,7 +641,7 @@ RegisterLMCs(LMCRegistry * registry)
 
 int32     
 Player::
-RegisterPMIs(PMIRegistry * registry)
+RegisterPMIs(Registry * registry)
 {
    int32     result = 0;
 
@@ -651,7 +662,7 @@ RegisterPMIs(PMIRegistry * registry)
 
 int32     
 Player::
-RegisterPMOs(PMORegistry * registry)
+RegisterPMOs(Registry * registry)
 {
    int32     result = 0;
 
@@ -672,7 +683,7 @@ RegisterPMOs(PMORegistry * registry)
 
 int32     
 Player::
-RegisterUIs(UIRegistry * registry)
+RegisterUIs(Registry * registry)
 {
    int32     result = 0;
 
@@ -691,28 +702,28 @@ RegisterUIs(UIRegistry * registry)
    return result;
 }
 
-LMCRegistry* 
+Registry* 
 Player::
 GetLMCRegistry() const
 {
     return m_lmcRegistry;
 }
 
-PMIRegistry* 
+Registry* 
 Player::
 GetPMIRegistry() const
 {
     return m_pmiRegistry;
 }
 
-PMORegistry* 
+Registry* 
 Player::
 GetPMORegistry() const
 {
     return m_pmoRegistry;
 }
 
-UIRegistry*  
+Registry*  
 Player::
 GetUIRegistry() const
 {
@@ -772,7 +783,7 @@ SetState(PlayerState ps)
 
 char *
 Player::
-GetExtension(char *title)
+GetExtension(const char *title)
 {
    char *temp_ext;
    char *ext_return = NULL;
@@ -794,7 +805,7 @@ GetExtension(char *title)
 
 bool
 Player::
-IsSupportedExtension(char *ext)
+IsSupportedExtension(const char *ext)
 {
    RegistryItem *lmc_item = m_lmcExtensions->Value(ext);
 
@@ -805,7 +816,7 @@ IsSupportedExtension(char *ext)
 
 RegistryItem *
 Player::
-ChooseLMC(char *szUrl, char *szTitle)
+ChooseLMC(const char *szUrl, char *szTitle)
 {
    RegistryItem *lmc_item = NULL;
    char     *iExt;
@@ -827,7 +838,7 @@ ChooseLMC(char *szUrl, char *szTitle)
 
 RegistryItem *
 Player::
-ChoosePMI(char *szUrl, char *szTitle)
+ChoosePMI(const char *szUrl, char *szTitle)
 {
    PhysicalMediaInput *pmi;
    RegistryItem *pmi_item, *ret = NULL;
@@ -843,7 +854,7 @@ ChoosePMI(char *szUrl, char *szTitle)
       szUrl = szNewUrl;
    }
 
-   for (iLoop = 0; iLoop < m_pmiRegistry->GetNumItems(); iLoop++)
+   for (iLoop = 0; iLoop < m_pmiRegistry->CountItems(); iLoop++)
    {
       pmi_item = m_pmiRegistry->GetItem(iLoop);
 
@@ -866,7 +877,7 @@ ChoosePMI(char *szUrl, char *szTitle)
 
 void 
 Player::
-CreatePMO(PlaylistItem * pc, Event * pC)
+CreatePMO(const PlaylistItem * pc, Event * pC)
 {
    Error     error = kError_NoErr;
    Event    *e;
@@ -879,7 +890,7 @@ CreatePMO(PlaylistItem * pc, Event * pC)
 
    if (!pc)
    {
-      m_plm->SetFirst();
+      m_plm->SetCurrentIndex(0);
       if (m_pmo)
       {
          m_pmo->Pause();
@@ -909,7 +920,7 @@ CreatePMO(PlaylistItem * pc, Event * pC)
       m_pmo = NULL;
    }
 
-   pmi_item = ChoosePMI(pc->URL());
+   pmi_item = ChoosePMI(pc->URL().c_str());
    if (!pmi_item)
    {
       char szErr[1024];
@@ -921,7 +932,7 @@ CreatePMO(PlaylistItem * pc, Event * pC)
       return;
    }
 
-   lmc_item = ChooseLMC(pc->URL());
+   lmc_item = ChooseLMC(pc->URL().c_str());
    if (!lmc_item)
    // FIXME: Should probably have a user definable default LMC
       lmc_item = m_lmcRegistry->GetItem(0);
@@ -983,7 +994,7 @@ CreatePMO(PlaylistItem * pc, Event * pC)
    m_lmc = lmc;
    lmc = NULL;
 
-   error = pmo->SetTo(pc->URL());
+   error = pmo->SetTo(pc->URL().c_str());
    if (IsError(error))
    {
       char szErr[1024];
@@ -1037,7 +1048,7 @@ DoneOutputting(Event *pEvent)
 
    SEND_NORMAL_EVENT(INFO_DoneOutputting);
 
-   if (m_plm->HasAnotherSong())
+   if (m_plm->HasAnotherItem())
    {
       AcceptEvent(new Event(CMD_NextMediaPiece));
 
@@ -1052,7 +1063,7 @@ DoneOutputting(Event *pEvent)
    }
    else
    {
-      m_plm->SetFirst();
+      m_plm->SetCurrentIndex(0);
       SEND_NORMAL_EVENT(INFO_PlaylistDonePlay);
    }
    
@@ -1128,11 +1139,11 @@ void
 Player::
 GetMediaInfo(Event *pEvent)
 {
-     PlaylistItem *pItem;
+     const PlaylistItem *pItem;
 
      if (m_playerState == PlayerState_Stopped)
      {
-         pItem = m_plm->GetCurrent();
+         pItem = m_plm->GetCurrentItem();
          if (pItem)
             CreatePMO(pItem, pEvent);
      }
@@ -1156,13 +1167,13 @@ GetMediaTitle(Event *pEventArg)
      pEvent = (PLMGetMediaTitleEvent *)pEventArg;
 
      pItem = pEvent->GetPlaylistItem();
-     pRegItem = ChoosePMI(pItem->URL(), szTitle);
+     pRegItem = ChoosePMI(pItem->URL().c_str(), szTitle);
      if (pRegItem && !strlen(szTitle))
      {
          pPmi = (PhysicalMediaInput *)pRegItem->InitFunction()(m_context);
 
          pPmi->SetTarget((EventQueue *)this);
-         eRet = pPmi->SetTo(pItem->URL());
+         eRet = pPmi->SetTo(pItem->URL().c_str());
          if (!IsError(eRet))
          {
             eRet = pPmi->GetID3v1Tag(sID3Tag);
@@ -1179,7 +1190,7 @@ GetMediaTitle(Event *pEventArg)
 
      if(*szTitle)
      {
-        pItem->SetDisplayString(szTitle);
+        //pItem->SetDisplayString(szTitle);
 
         SendEventToUI(new PlaylistItemUpdatedEvent(pItem) );
      }
@@ -1191,7 +1202,7 @@ void
 Player::
 Play(Event *pEvent)
 {
-    PlaylistItem *pItem;
+    const PlaylistItem *pItem;
 
     if (m_playerState == PlayerState_Playing)
     {
@@ -1206,7 +1217,7 @@ Play(Event *pEvent)
 
     if (!m_pmo)
     {
-       pItem = m_plm->GetCurrent();
+       pItem = m_plm->GetCurrentItem();
        if (pItem)
           CreatePMO(pItem, pEvent);
 
@@ -1243,7 +1254,7 @@ Next(Event *pEvent)
       AcceptEvent(new Event(CMD_Stop));
    }
 
-   m_plm->SetNext(true);
+   m_plm->GotoNextItem(true);
 
    if (m_playerState != PlayerState_Stopped)
    {
@@ -1265,7 +1276,7 @@ Previous(Event *pEvent)
       AcceptEvent(new Event(CMD_Stop));
    }
 
-   m_plm->SetPrev(true);
+   m_plm->GotoPreviousItem(true);
 
    if (m_playerState != PlayerState_Stopped)
    {
@@ -1332,7 +1343,7 @@ Quit(Event *pEvent)
    // 2) Get CIO/COO manipulation lock
    GetUIManipLock();
    // 3) Count CIO/COO, put into m_quitWaitingFor.
-   m_quitWaitingFor = m_uiList->CountItems();
+   m_quitWaitingFor = m_uiList->size();
    // 4) Send CMD_Cleanup event to all CIO/COOs
 
    pe = new Event(CMD_Cleanup);
@@ -1397,7 +1408,7 @@ HandleMediaInfo(Event *pEvent)
    GetUIManipLock();
 
    pmvi = (MediaInfoEvent *)pEvent;
-   pmvi->m_indexOfSong = m_plm->Current() + 1;         // zero based
+   pmvi->m_indexOfSong = m_plm->GetCurrentIndex() + 1;         // zero based
    pmvi->m_totalSongs = m_plm->CountItems();
 
    SendToUI(pEvent);
@@ -1634,9 +1645,9 @@ SendToUI(Event * pe)
 {
    int32     i;
 
-   for (i = 0; i < m_uiList->CountItems(); i++)
+   for (i = 0; i < m_uiList->size(); i++)
    {
-      m_uiList->ItemAt(i)->AcceptEvent(pe);
+      m_uiList->at(i)->AcceptEvent(pe);
    }
 }
 

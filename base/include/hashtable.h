@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: hashtable.h,v 1.4 1999/04/08 07:34:34 elrod Exp $
+	$Id: hashtable.h,v 1.4.12.1 1999/08/27 07:16:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HASHTABLE_H_
@@ -26,7 +26,9 @@ ____________________________________________________________________________*/
 
 #define KEYLENGTH 64
 
-#include <iostream.h>
+#include <iostream>
+
+using namespace std;
 
 #include "config.h"
 

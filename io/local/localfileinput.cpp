@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.21 1999/08/06 07:18:33 elrod Exp $
+        $Id: localfileinput.cpp,v 1.21.2.1 1999/08/27 07:16:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -130,7 +130,7 @@ Error LocalFileInput::Prepare(PullBuffer *&pBuffer, bool bStartThread)
 }
 
 
-bool LocalFileInput::CanHandle(char *szUrl, char *szTitle)
+bool LocalFileInput::CanHandle(const char *szUrl, char *szTitle)
 {
     bool bRet;
  
@@ -141,7 +141,7 @@ bool LocalFileInput::CanHandle(char *szUrl, char *szTitle)
     return bRet;
 }
 
-Error LocalFileInput::SetTo(char *url)
+Error LocalFileInput::SetTo(const char *url)
 {
     Error  result = kError_NoErr;
     int32  len = strlen(url) + 1;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.42.4.2 1999/08/27 03:09:35 elrod Exp $
+        $Id: player.h,v 1.42.4.3 1999/08/27 07:16:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -36,10 +36,7 @@ using namespace std;
 #include "mutex.h"
 #include "playlist.h"
 #include "semaphore.h"
-#include "lmcregistry.h"
-#include "pmiregistry.h"
-#include "pmoregistry.h"
-#include "uiregistry.h"
+#include "registry.h"
 #include "preferences.h"
 #include "properties.h"
 #include "propimpl.h"
@@ -65,15 +62,15 @@ class Player : public EventQueue, Properties, PropertyWatcher
    virtual  ~Player();
 
    int32     RegisterActiveUI(UserInterface * ui);
-   int32     RegisterLMCs(LMCRegistry * registry);
-   int32     RegisterPMIs(PMIRegistry * registry);
-   int32     RegisterPMOs(PMORegistry * registry);
-   int32     RegisterUIs(UIRegistry * registry);
+   int32     RegisterLMCs(Registry * registry);
+   int32     RegisterPMIs(Registry * registry);
+   int32     RegisterPMOs(Registry * registry);
+   int32     RegisterUIs(Registry * registry);
 
-   LMCRegistry* GetLMCRegistry() const;
-   PMIRegistry* GetPMIRegistry() const;
-   PMORegistry* GetPMORegistry() const;
-   UIRegistry*  GetUIRegistry() const;
+   Registry* GetLMCRegistry() const;
+   Registry* GetPMIRegistry() const;
+   Registry* GetPMORegistry() const;
+   Registry*  GetUIRegistry() const;
 
    void      Run();
    bool      SetArgs(int32 argc, char **argv);
@@ -81,11 +78,11 @@ class Player : public EventQueue, Properties, PropertyWatcher
    void      testQueue();
    static void EventServiceThreadFunc(void *);
    virtual int32 AcceptEvent(Event *);
-   virtual RegistryItem *ChooseLMC(char *szUrl, char *szTitle = NULL);
-   virtual RegistryItem *ChoosePMI(char *szUrl, char *szTitle = NULL);
+   virtual RegistryItem *ChooseLMC(const char *szUrl, char *szTitle = NULL);
+   virtual RegistryItem *ChoosePMI(const char *szUrl, char *szTitle = NULL);
 
-   bool    IsSupportedExtension(char *ext);
-   char *GetExtension(char *title);
+   bool    IsSupportedExtension(const char *ext);
+   char *GetExtension(const char *title);
       
    // Properties
    virtual Error GetProperty(const char *, PropValue **);
@@ -106,7 +103,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
    PlayerState  State() const { return m_playerState; }
 
    int32     ServiceEvent(Event *);
-   void      CreatePMO(PlaylistItem * pc, Event * pC);
+   void      CreatePMO(const PlaylistItem * pc, Event * pC);
 
    FAContext *m_context;
 
@@ -172,10 +169,10 @@ class Player : public EventQueue, Properties, PropertyWatcher
    LogicalMediaConverter *m_lmc;
    UserInterface *m_ui;
 
-   LMCRegistry *m_lmcRegistry;
-   PMIRegistry *m_pmiRegistry;
-   PMORegistry *m_pmoRegistry;
-   UIRegistry *m_uiRegistry;
+   Registry *m_lmcRegistry;
+   Registry *m_pmiRegistry;
+   Registry *m_pmoRegistry;
+   Registry *m_uiRegistry;
 
     vector < char *>*m_argUIList;
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.22 1999/08/06 07:18:33 elrod Exp $
+	$Id: pmo.h,v 1.22.2.1 1999/08/27 07:16:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -82,7 +82,7 @@ public:
 
     virtual void  SetLMC(LogicalMediaConverter *pLMC);
     virtual void  SetPMI(PhysicalMediaInput *pPMI);
-    virtual Error SetTo(char *url);  
+    virtual Error SetTo(const char *url);  
 
     virtual const char *GetErrorString(int32) { return NULL; };
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.7 1999/07/06 23:11:04 robert Exp $
+        $Id: pmo.cpp,v 1.7.4.1 1999/08/27 07:16:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -70,7 +70,7 @@ PhysicalMediaOutput::~PhysicalMediaOutput()
     delete m_pPmi;
 }
 
-Error PhysicalMediaOutput::SetTo(char *url)
+Error PhysicalMediaOutput::SetTo(const char *url)
 {
     Error       eRet;
     PullBuffer *pBuffer;

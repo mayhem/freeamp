@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.26 1999/05/03 03:52:24 elrod Exp $
+	$Id: main.cpp,v 1.26.6.1 1999/08/27 07:16:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -27,12 +27,13 @@ ____________________________________________________________________________*/
 #include <commctrl.h>
 #include <stdio.h>
 #include <string.h>
-#include <iostream.h>
+#include <iostream>
 
 /* Project Includes */
 #include "player.h"
 #include "event.h"
 #include "registrar.h"
+#include "registry.h"
 #include "log.h"
 #include "facontext.h"
 #include "win32prefs.h"
@@ -128,28 +129,28 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 
     // find all the plug-ins we use
     Registrar* registrar;
-    LMCRegistry* lmc;
-    PMIRegistry* pmi;
-    PMORegistry* pmo;
-    UIRegistry*  ui;
+    Registry* lmc;
+    Registry* pmi;
+    Registry* pmo;
+    Registry*  ui;
 
     registrar = new Registrar;
 
     registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.lmc");
-    lmc = new LMCRegistry;
+    lmc = new Registry;
     registrar->InitializeRegistry(lmc, context->prefs);
 
     registrar->SetSearchString("*.pmi");
-    pmi = new PMIRegistry;
+    pmi = new Registry;
     registrar->InitializeRegistry(pmi, context->prefs);
 
     registrar->SetSearchString("*.pmo");
-    pmo = new PMORegistry;
+    pmo = new Registry;
     registrar->InitializeRegistry(pmo, context->prefs);
 
     registrar->SetSearchString("*.ui");
-    ui = new UIRegistry;
+    ui = new Registry;
     registrar->InitializeRegistry(ui, context->prefs);
 
     delete registrar;

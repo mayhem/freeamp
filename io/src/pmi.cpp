@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmi.cpp,v 1.2 1999/07/06 23:11:03 robert Exp $
+        $Id: pmi.cpp,v 1.2.4.1 1999/08/27 07:16:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -75,7 +75,7 @@ PhysicalMediaInput::~PhysicalMediaInput()
     }
 }
 
-Error PhysicalMediaInput::SetTo(char *url)
+Error PhysicalMediaInput::SetTo(const char *url)
 {
     delete m_path;
 

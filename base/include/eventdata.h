@@ -18,16 +18,16 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.30.4.1 1999/08/27 03:09:35 elrod Exp $
+        $Id: eventdata.h,v 1.30.4.2 1999/08/27 07:16:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
 #define _EVENTDATA_H_
 
-#include <iostream.h>
 #include <string.h>
 #include <stdlib.h>
 
+#include <iostream>
 #include <vector>
 using namespace std;
 

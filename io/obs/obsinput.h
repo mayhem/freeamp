@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.h,v 1.11 1999/07/26 20:22:20 robert Exp $
+        $Id: obsinput.h,v 1.11.4.1 1999/08/27 07:16:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSFILEINPUT_H_
@@ -80,7 +80,7 @@ class ObsInput :public PhysicalMediaInput
    virtual Error Prepare(PullBuffer *&pBuffer, bool bStartThread);
    virtual Error Run(void);
 
-   virtual bool  CanHandle(char *szUrl, char *szTitle);
+   virtual bool  CanHandle(const char *szUrl, char *szTitle);
    virtual bool  IsStreaming(void)
                  { return true; };
    virtual bool  PauseLoop(bool bLoop);

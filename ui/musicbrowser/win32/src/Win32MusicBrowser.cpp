@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.19 1999/11/10 12:49:51 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.20 1999/11/11 05:59:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <algorithm>
@@ -475,7 +475,9 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
 
         case CMD_AddFiles:
         {
-            AddFileEvent();
+            //SendMessage(m_hWnd, WM_COMMAND, ID_EDIT_ADDFILE, 0);
+            //AddFileEvent();
+            //MessageBox(NULL, "CMD_AddFiles", "Event", MB_OK);
             break;
         }
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.6 1999/11/03 19:45:08 robert Exp $
+	$Id: downloadui.cpp,v 1.7 1999/11/11 05:59:20 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1254,6 +1254,8 @@ BOOL DownloadUI::Command(int32 command, HWND src)
                 m_dlm->AddItem(sp);
             
                 delete [] url;
+                
+                SetWindowText(hwndURL, "");
             }
 			break;
 		}

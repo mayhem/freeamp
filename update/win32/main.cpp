@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.5.2.1.4.2 2000/03/27 03:13:03 elrod Exp $
+	$Id: main.cpp,v 1.5.2.1.4.3 2000/03/27 20:11:01 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -98,22 +98,55 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 
     if(needToReboot)
     {
-        /*
         // let ourselves know we need to reboot with a lock file
         strcat(appPath, "\\NeedToRebootForUpdate");
         creat(appPath, _S_IREAD | _S_IWRITE);
 
         // but make sure it gets axed when the reboot occurs
         MoveFileOnReboot(appPath, NULL);
-        */
 
         int result;
 
         result = MessageBox(NULL, kReboot, "Restart Your Computer?", 
-                            MB_ICONQUESTION|MB_YESNO);
+                            MB_ICONQUESTION|MB_YESNO|MB_SETFOREGROUND);
 
         if(result == IDYES)
         {
+            OSVERSIONINFO osid;
+
+	        osid.dwOSVersionInfoSize = sizeof(osid);
+	        GetVersionEx(&osid);
+
+            if(osid.dwPlatformId == VER_PLATFORM_WIN32_NT)
+            {
+                HANDLE token;
+
+                if(OpenProcessToken(GetCurrentProcess(),
+                                    TOKEN_ADJUST_PRIVILEGES,
+                                    &token))
+                {
+                    TOKEN_PRIVILEGES tp;
+                    LUID luid;
+
+                    LookupPrivilegeValue(NULL,
+                                         SE_SHUTDOWN_NAME,
+                                         &luid);
+
+                    tp.PrivilegeCount = 1;
+                    tp.Privileges[0].Luid = luid;
+                    tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+
+                    AdjustTokenPrivileges(token, 
+                                          FALSE, 
+                                          &tp, 
+                                          sizeof(TOKEN_PRIVILEGES), 
+                                          NULL, 
+                                          NULL); 
+ 
+                    CloseHandle(token);
+                }
+            }
+
             ExitWindowsEx(EWX_REBOOT, 0);
         }
     }
@@ -258,8 +291,6 @@ bool MoveSystemFiles(const char* src)
                 strcpy(sp, findData.cFileName);
                 strcpy(dp, findData.cFileName);
 
-            
-
                 BOOL success;
 
                 success = TRUE;
@@ -323,7 +354,5 @@ void MoveFileOnReboot(const char* src, const char* dest)
             MoveFileEx(src, dest, MOVEFILE_DELAY_UNTIL_REBOOT);
 		    break;    
         }
-    }
-
-    
+    } 
 }

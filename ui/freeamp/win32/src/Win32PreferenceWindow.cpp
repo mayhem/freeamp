@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.31.2.4.4.1 2000/03/23 18:13:19 elrod Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.31.2.4.4.2 2000/03/27 20:11:01 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2327,7 +2327,7 @@ static void check_function(void* arg)
 
             if(strstr(item->GetCurrentFileLocation().c_str(), "_system_"))
             {
-                newItem = false;
+                //newItem = false;
             }
             else
             {
@@ -2697,7 +2697,24 @@ bool Win32PreferenceWindow::PrefUpdateProc(HWND hwnd,
             int32 numFields;
             bool currentVersionMoreRecent = false;
             
-            if(item->GetLocalFileVersion().size())
+            if(item->GetLocalFileTime().size())
+            {
+                uint32 month, day, year;
+                
+                numFields = sscanf(item->GetLocalFileTime().c_str(),
+                       "%lu/%lu/%lu",&month,&day,&year);
+
+                struct tm fileTime;
+
+                memset(&fileTime, 0x00, sizeof(struct tm));
+
+                fileTime.tm_mon = month;
+                fileTime.tm_mday = day;
+                fileTime.tm_year = year - 1900;
+
+                localFileTime = mktime(&fileTime);
+            }
+            else
             {
                 numFields = sscanf(item->GetLocalFileVersion().c_str(),
                        "%lu.%lu.%lu.%lu",
@@ -2715,12 +2732,13 @@ bool Win32PreferenceWindow::PrefUpdateProc(HWND hwnd,
 
                 if(numFields < 1)
                     localMajorVersion = 0;
-            }
-            else
+            }            
+
+            if(item->GetCurrentFileTime().size())
             {
                 uint32 month, day, year;
                 
-                numFields = sscanf(item->GetLocalFileTime().c_str(),
+                numFields = sscanf(item->GetCurrentFileTime().c_str(),
                        "%lu/%lu/%lu",&month,&day,&year);
 
                 struct tm fileTime;
@@ -2731,10 +2749,15 @@ bool Win32PreferenceWindow::PrefUpdateProc(HWND hwnd,
                 fileTime.tm_mday = day;
                 fileTime.tm_year = year - 1900;
 
-                localFileTime = mktime(&fileTime);
-            }
+                currentFileTime = mktime(&fileTime);
 
-            if(item->GetCurrentFileVersion().size())
+                // is the version on the server more recent?
+                if(currentFileTime > localFileTime)
+                {
+                    currentVersionMoreRecent = true;
+                }
+            }
+            else
             {
                 numFields = sscanf(item->GetCurrentFileVersion().c_str(),
                        "%lu.%lu.%lu.%lu",
@@ -2767,31 +2790,7 @@ bool Win32PreferenceWindow::PrefUpdateProc(HWND hwnd,
                 {
                     currentVersionMoreRecent = true;
                 }
-            }
-            else
-            {
-                uint32 month, day, year;
-                
-                numFields = sscanf(item->GetCurrentFileTime().c_str(),
-                       "%lu/%lu/%lu",&month,&day,&year);
-
-                struct tm fileTime;
-
-                memset(&fileTime, 0x00, sizeof(struct tm));
-
-                fileTime.tm_mon = month;
-                fileTime.tm_mday = day;
-                fileTime.tm_year = year - 1900;
-
-                currentFileTime = mktime(&fileTime);
-
-                // is the version on the server more recent?
-                if(currentFileTime > localFileTime)
-                {
-                    currentVersionMoreRecent = true;
-                }
-            }
-
+            }            
 
             uint32 uiFlags = ILD_TRANSPARENT;
             RECT rcClip;

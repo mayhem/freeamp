@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.12.10.1 2000/03/23 18:13:19 elrod Exp $
+	$Id: updatemanager.cpp,v 1.12.10.2 2000/03/27 20:11:01 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -227,7 +227,41 @@ bool UpdateManager::IsUpdateAvailable()
 
             item = *i;
 
-            if(item->GetLocalFileVersion().size())
+            if(item->GetLocalFileTime().size())
+            {
+                time_t localFileTime, currentFileTime;
+                uint32 month, day, year;
+                
+                numFields = sscanf(item->GetLocalFileTime().c_str(),
+                       "%lu/%lu/%lu",&month,&day,&year);
+
+                struct tm fileTime;
+
+                memset(&fileTime, 0x00, sizeof(struct tm));
+
+                fileTime.tm_mon = month;
+                fileTime.tm_mday = day;
+                fileTime.tm_year = year - 1900;
+
+                localFileTime = mktime(&fileTime);
+
+                numFields = sscanf(item->GetCurrentFileTime().c_str(),
+                       "%lu/%lu/%lu",&month,&day,&year);
+
+                fileTime.tm_mon = month;
+                fileTime.tm_mday = day;
+                fileTime.tm_year = year - 1900;
+
+                currentFileTime = mktime(&fileTime);
+
+                // is the version on the server more recent?
+                if(currentFileTime > localFileTime)
+                {
+                    result = true;
+                    break;
+                }
+            }
+            else
             {
                 numFields = sscanf(item->GetLocalFileVersion().c_str(),
                        "%lu.%lu.%lu.%lu", 
@@ -278,41 +312,7 @@ bool UpdateManager::IsUpdateAvailable()
                     result = true;
                     break;
                 }
-            }
-            else
-            {
-                time_t localFileTime, currentFileTime;
-                uint32 month, day, year;
-                
-                numFields = sscanf(item->GetLocalFileTime().c_str(),
-                       "%lu/%lu/%lu",&month,&day,&year);
-
-                struct tm fileTime;
-
-                memset(&fileTime, 0x00, sizeof(struct tm));
-
-                fileTime.tm_mon = month;
-                fileTime.tm_mday = day;
-                fileTime.tm_year = year - 1900;
-
-                localFileTime = mktime(&fileTime);
-
-                numFields = sscanf(item->GetCurrentFileTime().c_str(),
-                       "%lu/%lu/%lu",&month,&day,&year);
-
-                fileTime.tm_mon = month;
-                fileTime.tm_mday = day;
-                fileTime.tm_year = year - 1900;
-
-                currentFileTime = mktime(&fileTime);
-
-                // is the version on the server more recent?
-                if(currentFileTime > localFileTime)
-                {
-                    result = true;
-                    break;
-                }
-            }
+            }            
         }
     }
 
@@ -351,7 +351,40 @@ Error UpdateManager::UpdateComponents(UMCallBackFunction function,
 
                 item = *i;
 
-                if(item->GetLocalFileVersion().size())
+                if(item->GetLocalFileTime().size())
+                {
+                    time_t localFileTime, currentFileTime;
+                    uint32 month, day, year;
+                
+                    numFields = sscanf(item->GetLocalFileTime().c_str(),
+                           "%lu/%lu/%lu",&month,&day,&year);
+
+                    struct tm fileTime;
+
+                    memset(&fileTime, 0x00, sizeof(struct tm));
+
+                    fileTime.tm_mon = month;
+                    fileTime.tm_mday = day;
+                    fileTime.tm_year = year - 1900;
+
+                    localFileTime = mktime(&fileTime);
+
+                    numFields = sscanf(item->GetCurrentFileTime().c_str(),
+                           "%lu/%lu/%lu",&month,&day,&year);
+
+                    fileTime.tm_mon = month;
+                    fileTime.tm_mday = day;
+                    fileTime.tm_year = year - 1900;
+
+                    currentFileTime = mktime(&fileTime);
+
+                    // is the version on the server more recent?
+                    if(currentFileTime > localFileTime)
+                    {
+                        currentVersionMoreRecent = true;
+                    }
+                }
+                else
                 {
                     numFields = sscanf(item->GetLocalFileVersion().c_str(),
                            "%lu.%lu.%lu.%lu", 
@@ -402,39 +435,7 @@ Error UpdateManager::UpdateComponents(UMCallBackFunction function,
                         currentVersionMoreRecent = true;
                     }
                 }
-                else
-                {
-                    time_t localFileTime, currentFileTime;
-                    uint32 month, day, year;
                 
-                    numFields = sscanf(item->GetLocalFileTime().c_str(),
-                           "%lu/%lu/%lu",&month,&day,&year);
-
-                    struct tm fileTime;
-
-                    memset(&fileTime, 0x00, sizeof(struct tm));
-
-                    fileTime.tm_mon = month;
-                    fileTime.tm_mday = day;
-                    fileTime.tm_year = year - 1900;
-
-                    localFileTime = mktime(&fileTime);
-
-                    numFields = sscanf(item->GetCurrentFileTime().c_str(),
-                           "%lu/%lu/%lu",&month,&day,&year);
-
-                    fileTime.tm_mon = month;
-                    fileTime.tm_mday = day;
-                    fileTime.tm_year = year - 1900;
-
-                    currentFileTime = mktime(&fileTime);
-
-                    // is the version on the server more recent?
-                    if(currentFileTime > localFileTime)
-                    {
-                        currentVersionMoreRecent = true;
-                    }
-                }
 
                 if(currentVersionMoreRecent)
                 {

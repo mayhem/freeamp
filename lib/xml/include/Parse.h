@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.h,v 1.1.2.3 1999/09/27 22:16:49 robert Exp $
+   $Id: Parse.h,v 1.1.2.4 1999/10/06 17:53:22 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_PARSE_H__
@@ -48,11 +48,16 @@ class Parse
       virtual ~Parse(void);
 
       Error    ParseFile(const string &oFile);
+      Error    ParseString(const string &oXML);
       void     GetErrorString(string &oError);
       int      GetErrorLine(void);
 
     protected:
      
+              Error DoParse(void);
+              int   Scanf(const char *szFormat, char *szData);
+              bool  Eof(void);
+
       virtual Error BeginElement(string &oElement, AttrMap &oAttrMap) = 0; 
       virtual Error EndElement(string &oElement) = 0;
       virtual Error PCData(string &oData) = 0;
@@ -60,6 +65,9 @@ class Parse
 
       string        m_oLastError;
       int           m_iErrorLine; 
+      FILE         *m_fpFile;
+      string        m_oXML;
+      uint32        m_uScanOffset;
 };
 
 #endif

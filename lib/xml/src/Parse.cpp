@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.1.2.7 1999/10/01 20:55:53 robert Exp $
+   $Id: Parse.cpp,v 1.1.2.8 1999/10/06 17:53:23 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -37,15 +37,79 @@ const int iMaxPCDataLength = 4096;
 
 Parse::Parse(void)
 {
+	 m_oLastError = string("");
+    m_iErrorLine = 1;
+    m_fpFile = NULL;
 }
 
 Parse::~Parse(void)
 {
 }
 
+
 Error Parse::ParseFile(const string &oFile)
 {
-    FILE    *fpFile;
+    Error eRet;
+
+    m_fpFile = fopen(oFile.c_str(), "r");
+    if (m_fpFile == NULL)
+    {
+       m_oLastError = string("File ") + oFile + string(" not found"); 
+       return kError_FileNotFound;
+    }   
+
+    eRet = DoParse();
+
+    fclose(m_fpFile);
+    m_fpFile = NULL;
+
+    return eRet;
+}
+
+Error Parse::ParseString(const string &oXML)
+{
+    m_uScanOffset = 0;
+    m_oXML = oXML;
+
+    return DoParse();
+}
+
+int Parse::Scanf(const char *szFormat, char *szData)
+{
+    char *szCustomFormat;
+    int   iRet, iOffset;
+
+    if (m_fpFile)
+        return fscanf(m_fpFile, szFormat, szData);
+
+    szCustomFormat = new char[strlen(szFormat) + 3];
+    strcpy(szCustomFormat, szFormat);
+    strcat(szCustomFormat, "%n");
+
+    iOffset = 0;
+    iRet = sscanf(m_oXML.c_str() + m_uScanOffset, szCustomFormat, 
+                  szData, &iOffset);
+    if (iRet > 0 || iOffset > 0)
+       m_uScanOffset += iOffset;
+
+    delete szCustomFormat;
+
+    return iRet;
+}
+
+bool Parse::Eof(void)
+{
+    if (m_fpFile)
+       return feof(m_fpFile) != 0;
+
+    if (m_uScanOffset == m_oXML.size())
+       return true;
+
+    return false;
+}
+
+Error Parse::DoParse(void)
+{
     char    *szElement, *szElementName, *szAttr, *szValue, *szData;
     char     szDummy[10];
     string   oElementName, oAttr, oValue, oData;
@@ -53,16 +117,6 @@ Error Parse::ParseFile(const string &oFile)
     bool     bError = false, bEmptyTag = false;
     AttrMap  oAttrMap; 
     Error    eRet;
-
-	m_oLastError = string("");
-    m_iErrorLine = 1;
-    
-    fpFile = fopen(oFile.c_str(), "r");
-    if (fpFile == NULL)
-    {
-       m_oLastError = string("File ") + oFile + string(" not found"); 
-       return kError_FileNotFound;
-    }   
 
     szElement = new char[iMaxElementLineLength];
     szElementName = new char[iMaxElementNameLength];
@@ -73,15 +127,15 @@ Error Parse::ParseFile(const string &oFile)
     {
     	m_iErrorLine += CountNewlines(szElement);
         
-        iRet = fscanf(fpFile, " < %1024[^>] >", szElement);
+        iRet = Scanf(" < %1024[^>] >", szElement);
         if (iRet < 1)
         {
-            if (feof(fpFile))
+            if (Eof())
                break;
 
-		    iRet = fscanf(fpFile, " %4095[^<]", szData);
+		      iRet = Scanf(" %4095[^<]", szData);
             if (iRet < 1)
-		    {
+		      {
 		        m_oLastError = string("Unrecognized characters found");
                 bError = true;
                 break;
@@ -97,7 +151,7 @@ Error Parse::ParseFile(const string &oFile)
             continue; 
         }
 
-        iRet = fscanf(fpFile, "%[\n\t \r]", szElementName);
+        iRet = Scanf("%[\n\t \r]", szElementName);
         if (iRet > 0)
     	    m_iErrorLine += CountNewlines(szElementName);
 
@@ -118,7 +172,7 @@ Error Parse::ParseFile(const string &oFile)
             continue;
         }
         
-		iOffset = 0;
+		  iOffset = 0;
         int iRet = sscanf(szElement, " %254[A-Za-z0-9_] %n", szElementName, &iOffset);
         oElementName = szElementName;
         if (iOffset == 0)
@@ -147,9 +201,17 @@ Error Parse::ParseFile(const string &oFile)
                           szAttr, szValue, &iTemp);
             if (iRet < 2 || iTemp == 0)
             {
-               m_oLastError = string("Improperly formatted attribute list");
-               bError = true;
-               break;
+               iTemp = 0;
+               iRet = sscanf(szElement + iOffset, 
+                             " %254[A-Za-z0-9] = \" \" %n", 
+                             szAttr, &iTemp);
+               if (iRet < 1 || iTemp == 0)
+               {
+                   m_oLastError = string("Improperly formatted attribute list");
+                   bError = true;
+                   break;
+               }
+               szValue[0] = 0;
             }
 
             iOffset += iTemp;
@@ -174,8 +236,6 @@ Error Parse::ParseFile(const string &oFile)
     delete szAttr;
     delete szValue;
     delete szData;
-
-    fclose(fpFile);
 
     if (bError)
     {

@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.h,v 1.7 1999/10/19 07:13:04 elrod Exp $
+        $Id: soundcardpmo.h,v 1.8 2000/10/02 09:28:21 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_SOUNDCARDPMO_H_
@@ -64,8 +64,8 @@ class SoundCardPMO:public PhysicalMediaOutput
    virtual Error Init(OutputInfo * info);
 
    static void   StartWorkerThread(void *);
-          int32  GetVolume(void);
-          void   SetVolume(int32);
+          void   GetVolume(int32 &, int32 &);
+          void   SetVolume(int32, int32);
 
  private:
    void          WorkerThread(void); 

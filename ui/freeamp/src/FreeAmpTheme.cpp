@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1 2000/03/07 22:49:04 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.1 2000/03/15 21:18:58 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -897,7 +897,11 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    }
    if (oControlName == string("ReloadTheme") && eMesg == CM_Pressed)
    {
+       m_pWindow->DecUsageRef();
+       m_pWindow->DecUsageRef();
        ReloadTheme();
+       m_pWindow->IncUsageRef();
+       m_pWindow->IncUsageRef();
        return kError_NoErr;
    }
    if (oControlName == string("Shuffle") && eMesg == CM_Pressed)

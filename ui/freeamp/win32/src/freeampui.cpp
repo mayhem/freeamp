@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.44 1999/03/20 20:59:56 elrod Exp $
+	$Id: freeampui.cpp,v 1.45 1999/03/24 07:41:01 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2596,7 +2596,8 @@ UpdatePlayList()
 
             while(playlistItem = m_plm->ItemAt(i))
             {
-                if(playlistItem != (PlayListItem*) m_playlistView->ItemAt(i++)->UserValue())
+                if( m_playlistView->ItemAt(i) &&
+                    playlistItem != (PlayListItem*) m_playlistView->ItemAt(i++)->UserValue())
                 {
                     different = true;
                     break;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.cpp,v 1.13 1999/03/19 23:23:20 robert Exp $
+	$Id: listview.cpp,v 1.14 1999/03/24 07:41:01 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -35,6 +35,8 @@ ____________________________________________________________________________*/
 #include "renderer.h"
 #include "scrollview.h"
 #include "freeampui.h"
+
+#define PAGE_SIZE 8
 
 
 ListView::
@@ -105,21 +107,18 @@ KeyPressed(int32 keyCode)
         {
             if(m_anchorIndex > 0)
             {
-                m_anchorIndex-=7;
+                m_anchorIndex-=PAGE_SIZE;
 
                 if(m_anchorIndex < 0)
                     m_anchorIndex = 0;
 
                 Select(m_anchorIndex, false);
 
-                if(m_anchorIndex >= 0 && m_firstVisible > m_anchorIndex)
+                if(m_firstVisible > m_anchorIndex)
                 {
                     m_firstVisible = m_anchorIndex;
 
                     ScrollTo(m_firstVisible);
-
-                    if(m_scroller)
-                        m_scroller->SetPosition(m_firstVisible);
                 }
             }
 
@@ -130,22 +129,21 @@ KeyPressed(int32 keyCode)
         {
             if(m_anchorIndex < CountItems() - 1)
             {
-                m_anchorIndex+=7;
+                m_anchorIndex+=PAGE_SIZE;
 
                 if(m_anchorIndex > CountItems() - 1)
                     m_anchorIndex = CountItems() - 1; 
 
                 Select(m_anchorIndex, false);
 
-                if(m_anchorIndex > m_firstVisible + 7)
+                m_firstVisible = m_anchorIndex;
+                
+                if(m_firstVisible > CountItems() - PAGE_SIZE)
                 {
-                    m_firstVisible += m_anchorIndex - m_firstVisible;
-
-                    ScrollTo(m_firstVisible); 
-
-                    if(m_scroller)
-                        m_scroller->SetPosition(m_firstVisible);
+                    m_firstVisible = CountItems() - PAGE_SIZE; 
                 }
+
+                ScrollTo(m_firstVisible);
             }
 
             break; 
@@ -163,9 +161,6 @@ KeyPressed(int32 keyCode)
                 m_firstVisible = m_anchorIndex;
 
                 ScrollTo(m_firstVisible);
-
-                if(m_scroller)
-                    m_scroller->SetPosition(m_firstVisible);
             }
 
             break; 
@@ -181,9 +176,6 @@ KeyPressed(int32 keyCode)
             if(m_anchorIndex > m_firstVisible + 7)
             {
                 ScrollTo(++m_firstVisible); 
-
-                if(m_scroller)
-                    m_scroller->SetPosition(m_firstVisible);
             }
 
             break; 
@@ -195,22 +187,16 @@ KeyPressed(int32 keyCode)
 
             ScrollTo(m_firstVisible); 
 
-            if(m_scroller)
-                m_scroller->SetPosition(m_firstVisible);
-
             break; 
         }
 
         case VK_END: 
         {
-            if(CountItems() > 8)
+            if(CountItems() > PAGE_SIZE)
             {
-                m_firstVisible = CountItems() - 8;
+                m_firstVisible = CountItems() - PAGE_SIZE;
 
                 ScrollTo(m_firstVisible); 
-
-                if(m_scroller)
-                    m_scroller->SetPosition(m_firstVisible);
             }
 
             break; 
@@ -677,11 +663,17 @@ void
 ListView::
 TargetedByScrollView(ScrollView *scroller)
 {
+
     m_scroller = scroller;
 
-    UpdateScrollBar();
+    if(scroller)
+    {
+        m_scroller->SetSteps(1, PAGE_SIZE); 
 
-    m_scroller->SetPosition(m_firstVisible);
+        UpdateScrollBar();
+
+        m_scroller->SetPosition(m_firstVisible);
+    }
 }
 
 void 
@@ -693,6 +685,9 @@ ScrollTo(int32 index)
     if(index >= 0)
     {
         m_firstVisible = index;
+
+        if(m_scroller)
+            m_scroller->SetPosition(m_firstVisible);
 
         Invalidate();
     }
@@ -1498,12 +1493,12 @@ UpdateScrollBar()
 {
     if(m_scroller)
     {
-        m_scroller->SetRange(0, CountItems() - 1);
+        m_scroller->SetRange(0, CountItems());
     
-        if(CountItems() - 1 < 7)
-            m_scroller->SetProportion(CountItems() - 1);
+        /*if(CountItems() - 1 < 7)
+            m_scroller->SetSteps(1, CountItems() - 1);
         else
-            m_scroller->SetProportion(7);    
+            m_scroller->SetSteps(1, 7); */   
     }
 }
 
@@ -1525,7 +1520,7 @@ ThreadFunction()
         }
         else if(m_increment < 0)
         {
-            if(m_firstVisible < CountItems() - 8)
+            if(m_firstVisible < CountItems() - PAGE_SIZE)
             {
                 ScrollTo(++m_firstVisible); 
 

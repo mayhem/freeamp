@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.73 2000/10/06 09:16:13 ijr Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.74 2000/11/13 23:04:13 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -52,6 +52,10 @@ const int iSpacer = 15;
 
 #define DB Debug_v("%d", __LINE__);
 
+const char *mbcdNotFoundMessage = 
+    "This CD was not found in MusicBrainz. Would "
+    "you like to enter the information for this CD and submit "
+    "the data for inclusion in the MusicBrainz metadatabase?";
 
 bool operator<(const TreeData &A, const TreeData &b)
 {
@@ -1007,6 +1011,17 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
 
             break;
         }
+        case INFO_CDNotFound: {
+            CDNotFoundEvent *ev = (CDNotFoundEvent *)event;
+
+            if (MessageBox(m_hWnd, mbcdNotFoundMessage, "CD Not Found", 
+                MB_YESNO) == IDYES)
+            {
+                ShellExecute(hwnd, "open", ev->URL().c_str(), NULL,
+                               NULL, SW_SHOWNORMAL);
+            }
+
+            break; } 
         default:
             break;
     }

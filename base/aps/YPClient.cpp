@@ -17,7 +17,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: YPClient.cpp,v 1.8 2000/09/29 13:06:08 sward Exp $
+        $Id: YPClient.cpp,v 1.9 2000/10/02 13:01:49 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -74,7 +74,7 @@ int YPClient::Connect(string& strIP, int nPort)
         m_pSocket->SetProxy(NULL);
     else {
         char *proxyurl = new char[m_proxyAddr.size() + 128];
-        sprintf(proxyurl, "http://%s:%d", m_proxyAddr.c_str(), m_proxyPort);
+        sprintf(proxyurl, "%s:%d", m_proxyAddr.c_str(), m_proxyPort);
         m_pSocket->SetProxy(proxyurl);
         delete [] proxyurl;
     }

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.3 1999/10/20 18:23:10 robert Exp $
+   $Id: Win32Window.cpp,v 1.4 1999/10/26 00:54:45 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -253,6 +253,12 @@ Error Win32Window::Run(Pos &oPos)
        m_oWindowPos.x = 0;
     if (m_oWindowPos.y > iMaxY || m_oWindowPos.y + oRect.Height() < 0)
        m_oWindowPos.y = 0;
+
+    if(m_oWindowPos.x < 0 || m_oWindowPos.y < 0)
+    {
+        m_oWindowPos.x = (iMaxX - oRect.Width())/2;
+        m_oWindowPos.y = (iMaxY - oRect.Height())/2;
+    }
 
     if (m_bLiveInToolbar)
         m_hWnd = CreateWindowEx(WS_EX_TOOLWINDOW,

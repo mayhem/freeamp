@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSWindow.h,v 1.4 1999/12/10 05:05:46 elrod Exp $
+   $Id: BeOSWindow.h,v 1.5 1999/12/10 07:16:42 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BEOSWINDOW_H
@@ -51,7 +51,7 @@ public:
     virtual Error   Minimize( void );
     virtual Error   Restore( void );
     virtual bool  LButtonDown(void);
-	virtual Error GetDesktopSize(int &iX, int &iY);
+	virtual Error GetDesktopSize(int32 &iX, int32 &iY);
 
     // These functions should be called from the OS dependent event
     // loop to handle mouse messages

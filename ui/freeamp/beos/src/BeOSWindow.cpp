@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSWindow.cpp,v 1.5 1999/12/10 05:05:46 elrod Exp $
+   $Id: BeOSWindow.cpp,v 1.6 1999/12/10 07:16:42 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -225,7 +225,7 @@ BeOSWindow::LButtonDown(void)
 }
 
 Error
-BeOSWindow::GetDesktopSize(int &iX, int &iY)
+BeOSWindow::GetDesktopSize(int32 &iX, int32 &iY)
 {
 	BScreen s;
 	BRect r = s.Frame();

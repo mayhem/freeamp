@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmi.cpp,v 1.3 1999/10/19 07:13:05 elrod Exp $
+        $Id: pmi.cpp,v 1.4 1999/12/10 07:16:41 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -30,7 +30,7 @@ ____________________________________________________________________________*/
 #include <errno.h>
 #include <assert.h>
 
-#include <config.h>
+#include "config.h"
 
 #if HAVE_UNISTD_H
 #include <unistd.h>

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: L3.h,v 1.6 1999/10/19 07:13:08 elrod Exp $
+	$Id: L3.h,v 1.7 1999/12/10 07:16:42 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  L3.h  ***************************************************
@@ -49,6 +49,12 @@ ____________________________________________________________________________*/
 
 #ifdef sparc
 #define LITTLE_ENDIAN 0
+#endif
+
+#if defined(__POWERPC__)
+#define LITTLE_ENDIAN 0
+#elif defined(__INTEL__)
+#define LITTLE_ENDIAN 1
 #endif
 
 #ifndef LITTLE_ENDIAN

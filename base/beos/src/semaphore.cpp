@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.cpp,v 1.3 1999/10/19 07:12:45 elrod Exp $
+	$Id: semaphore.cpp,v 1.4 1999/12/10 07:16:40 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -93,7 +93,7 @@ bool Semaphore::Wait( long timeout )
 	}
 	else
 	{
-		stat = acquire_sem_etc( mutex, 1, B_TIMEOUT, timeout * 1e6 );
+		stat = acquire_sem_etc( mutex, 1, B_TIMEOUT, (bigtime_t)(timeout * 1e6) );
 	}
 
 	return( stat == B_NO_ERROR );

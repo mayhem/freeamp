@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.24 1999/11/13 17:00:54 robert Exp $
+	$Id: pmo.h,v 1.25 1999/12/10 07:16:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMO_H_
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 #include <assert.h>
 
+#include "config.h"
 
 #if HAVE_UNISTD_H
 #include <unistd.h>
@@ -43,7 +44,6 @@ ____________________________________________________________________________*/
 #include "pipeline.h"
 #include "mutex.h"
 #include "eventdata.h"
-#include "config.h"
 #include "errors.h"
 #include "properties.h"
 #include "facontext.h"

@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.37 1999/11/08 22:38:13 robert Exp $
+   $Id: xinglmc.h,v 1.38 1999/12/10 07:16:42 elrod Exp $
 
 ____________________________________________________________________________*/
 
@@ -129,8 +129,8 @@ class     XingLMC:public LogicalMediaConverter
    Error                AdvanceBufferToNextFrame();
    Error                GetHeadInfo();
    Error                GetBitstreamStats(float &fTotalSeconds, float &fMsPerFrame,
-                                          int &iTotalFrames, int &iSampleRate, 
-                                          int &iLayer);
+                                          int32 &iTotalFrames, int32 &iSampleRate, 
+                                          int32 &iLayer);
 
    int                  GetXingHeader(XHEADDATA *X,  unsigned char *buf);
    int                  SeekPoint(unsigned char TOC[100], int file_bytes, float percent);

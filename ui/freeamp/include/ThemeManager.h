@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.h,v 1.4 1999/11/18 01:42:34 robert Exp $
+   $Id: ThemeManager.h,v 1.5 1999/12/10 07:16:43 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEMEMANAGER_H__
@@ -33,7 +33,7 @@ ____________________________________________________________________________*/
 
 #include <string>
 #include <map>
-#include <errors.h>
+#include "errors.h"
 #include "facontext.h"
 
 using namespace std;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.9 1999/11/17 01:54:13 robert Exp $
+   $Id: Window.h,v 1.10 1999/12/10 07:16:43 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -112,7 +112,7 @@ class Window
       virtual Error Minimize(void) = 0;
       virtual Error Restore(void) = 0;
 	  virtual bool  LButtonDown(void) = 0;
-	  virtual Error GetDesktopSize(int &iX, int &iY) = 0;
+	  virtual Error GetDesktopSize(int32 &iX, int32 &iY) = 0;
       
       // Mouse position is in screen coordinates
       virtual Error SetMousePos(Pos &oMousePos) = 0;

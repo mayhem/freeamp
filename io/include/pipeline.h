@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pipeline.h,v 1.4 1999/11/12 02:36:16 robert Exp $
+	$Id: pipeline.h,v 1.5 1999/12/10 07:16:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PIPELINE_H_
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 #include <assert.h>
 
+#include "config.h"
 
 #if HAVE_UNISTD_H
 #include <unistd.h>
@@ -41,7 +42,6 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "semaphore.h"
 #include "mutex.h"
-#include "config.h"
 #include "errors.h"
 #include "facontext.h"
 #include "event.h"

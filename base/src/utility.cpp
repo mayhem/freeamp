@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.15 1999/11/16 00:50:50 elrod Exp $
+	$Id: utility.cpp,v 1.16 1999/12/10 07:16:41 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -308,7 +308,7 @@ char *FreeampDir(Preferences *pref)
     assert(find_directory(B_USER_SETTINGS_DIRECTORY, &prefPath) == B_NO_ERROR);
     prefPath.Append( "freeamp.org" );
 
-    char *path = prefPath.Path();
+    const char *path = prefPath.Path();
     char *s = new char[strlen(path) + 1];
     strcpy(s, path);
 

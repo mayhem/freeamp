@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.8 1999/11/07 05:57:19 ijr Exp $
+   $Id: ThemeZip.cpp,v 1.9 1999/12/10 07:16:43 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <time.h>
@@ -238,7 +238,7 @@ Error ThemeZip::CompressThemeZip(const string &oDestFile,
 
 #define ISODIGIT(Char) \
   ((unsigned char) (Char) >= '0' && (unsigned char) (Char) <= '7')
-#define ISSPACE(Char) (__isascii (Char) && isspace (Char))
+#define ISSPACE(Char) (isascii (Char) && isspace (Char))
 
 
 long from_oct (int digs, char *where)

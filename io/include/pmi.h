@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.27 1999/11/13 17:00:53 robert Exp $
+	$Id: pmi.h,v 1.28 1999/12/10 07:16:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMI_H_
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 #include <assert.h>
 
+#include "config.h"
 
 #if HAVE_UNISTD_H
 #include <unistd.h>
@@ -40,7 +41,6 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "pipeline.h"
 #include "thread.h"
-#include "config.h"
 #include "errors.h"
 #include "eventdata.h"
 

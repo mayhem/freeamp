@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pipeline.cpp,v 1.9 1999/11/29 18:27:05 elrod Exp $
+        $Id: pipeline.cpp,v 1.10 1999/12/10 07:16:41 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -178,7 +178,7 @@ bool PipelineUnit::Sleep(void)
 
 void PipelineUnit::DebugPrint(void)
 {
-    printf("[%c %c %d]", 
+    printf("[%c %c %ld]", 
         m_bSleeping ? 'S' : 'W',
         m_bPause ? 'P' : 'R',
         m_pOutputBuffer->GetBufferPercentage());

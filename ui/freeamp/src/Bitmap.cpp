@@ -18,14 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.cpp,v 1.2 1999/10/19 07:13:16 elrod Exp $
+   $Id: Bitmap.cpp,v 1.3 1999/12/10 07:16:43 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
 #include "Bitmap.h"
 #include "debug.h"
 
-Bitmap::Bitmap(string &oName)
+Bitmap::Bitmap(const string &oName)
 {
    m_oBitmapName = oName;
    m_bHasTransColor = false;

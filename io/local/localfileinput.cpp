@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.26 1999/11/15 19:36:03 robert Exp $
+        $Id: localfileinput.cpp,v 1.27 1999/12/10 07:16:41 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -35,7 +35,7 @@ ____________________________________________________________________________*/
 #include <netinet/in.h>
 #endif
 
-#include <config.h>
+#include "config.h"
 
 #if HAVE_UNISTD_H
 #include <unistd.h>

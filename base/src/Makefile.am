@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.11 1998/10/18 04:38:46 jdw Exp $
+##      $Id: Makefile.am,v 1.12 1998/10/22 00:52:01 jdw Exp $
 ##
 ############################################################################
 
@@ -45,7 +45,7 @@ noinst_LIBRARIES = libfabase.a
 libfabase_a_SOURCES = $(FILES)
 
 INCLUDES = -I@top_srcdir@/base/include -I$(TRGT_SYS_HEADS) -I@top_srcdir@/io/include -I@top_srcdir@/ui/include -I@top_srcdir@/lmc/include -I@top_srcdir@/ui/dummy/include -I@top_srcdir@/io/local -I@top_srcdir@/lmc/xingmp3/include -I@top_srcdir@/ui/cmdline $(INCLS)
-CXXFLAGS = -D__@target_os@__ $(REENT) $(EXTRA_CXXFLAGS)
+CXXFLAGS = $(REENT) $(EXTRA_CXXFLAGS)
 
 
 

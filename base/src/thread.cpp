@@ -18,13 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: thread.cpp,v 1.3 1998/10/14 02:23:40 elrod Exp $
+	$Id: thread.cpp,v 1.4 1998/10/22 00:52:01 jdw Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
 #include "thread.h"
 
-#ifdef __linux__
+#ifdef __LINUX__
     #include "linuxthread.h"
 #elif WIN32
     #include "win32thread.h"

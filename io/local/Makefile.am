@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.5 1998/10/19 23:53:22 jdw Exp $
+##      $Id: Makefile.am,v 1.6 1998/10/22 00:52:02 jdw Exp $
 ##
 ############################################################################
 
@@ -42,7 +42,7 @@ noinst_LIBRARIES = $(MYLIBS)
 libfaiolocal_a_SOURCES = $(FILES)
 
 INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS)
-CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT) -D__@target_os@__
+CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT)
 
 all-local: localfile-local
 

@@ -18,23 +18,29 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.h,v 1.1 1999/10/25 00:15:29 elrod Exp $
+	$Id: misc.h,v 1.2 1999/10/25 07:13:54 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MISC_H
 #define INCLUDED_MISC_H
 
+#include <assert.h>
+
 #include <string>
+#include <vector>
+#include <map>
 
 using namespace std;
-
-#include <assert.h>
 
 #include "config.h"
 #include "errors.h"
 #include "facontext.h"
+#include "registrar.h"
+#include "registry.h"
 
 #include "metadata.h"
+
+typedef map<string, RegistryItem*> ExtensionMap;
 
 class Misc : public MetaDataFormat 
 {
@@ -48,7 +54,10 @@ class Misc : public MetaDataFormat
 
  private:
 
-     FAContext* m_context;
+    FAContext* m_context;
+    Registry  m_lmcReg;
+    Registry  m_pmiReg;
+    ExtensionMap m_extensions;
 };
 
 

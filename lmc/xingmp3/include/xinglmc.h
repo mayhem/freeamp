@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.34 1999/10/19 07:13:08 elrod Exp $
+   $Id: xinglmc.h,v 1.35 1999/10/25 07:13:54 elrod Exp $
 
 ____________________________________________________________________________*/
 
@@ -77,6 +77,8 @@ class     XingLMC:public LogicalMediaConverter
    public:
             XingLMC(FAContext *context);
    virtual ~XingLMC();
+
+   virtual uint32 CalculateSongLength();
 
    virtual Error ChangePosition(int32 position);
 

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: towave.c,v 1.4 2000/05/09 10:21:02 elrod Exp $
+	$Id: towave.c,v 1.4.10.1 2000/08/11 18:27:46 robert Exp $
 ____________________________________________________________________________*/
 
 /* ------------------------------------------------------------------------
@@ -330,6 +330,7 @@ int ff_decode(char *filename, char *fileout,
    int framebytes;
    int u;
    MPEG_HEAD head;
+   MPEG m;
    unsigned int nwrite;
    IN_OUT x;
    int in_bytes, out_bytes;
@@ -373,6 +374,7 @@ int ff_decode(char *filename, char *fileout,
 /*-----------------------*/
 
 
+   //memset(&m, 0, sizeof(MPEG));
    in_bytes = out_bytes = 0;
 /*-----------------------*/
    handout = -1;
@@ -498,14 +500,14 @@ int ff_decode(char *filename, char *fileout,
    }
 
 /*---- init decoder -------*/
-   if (!audio.decode_init(&head, framebytes,
+   if (!audio_decode_init(&m, &head, framebytes,
 			  reduction_code, 0, convert_code, freq_limit))
    {
       printf("\n DECODER INIT FAIL \n");
       goto abort;
    }
 /*---- get info -------*/
-   audio.decode_info(&decinfo);
+   audio_decode_info(&m, &decinfo);
 /*---- info display -------*/
    printf("\n output samprate = %6ld", decinfo.samprate);
    printf("\n output channels = %6d", decinfo.channels);
@@ -535,7 +537,7 @@ int ff_decode(char *filename, char *fileout,
 #ifdef TIME_TEST
       set_clock();
 #endif
-      x = audio.decode(bs_bufptr, (short *) (pcm_buffer + pcm_bufbytes));
+      x = audio_decode(&m, bs_bufptr, (short *) (pcm_buffer + pcm_bufbytes));
 #ifdef TIME_TEST
       get_clock();
       tot_cycles += global_cycles;

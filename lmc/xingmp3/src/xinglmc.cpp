@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.134 2000/08/09 00:45:44 ijr Exp $
+   $Id: xinglmc.cpp,v 1.134.2.1 2000/08/11 18:27:46 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -64,21 +64,12 @@ extern    "C"
    }
 }
 
-static AUDIO audio_table[2][2] =
-{
-   {                            // [0][]
-   // non integer mode
-      {audio_decode_init, audio_decode_info, audio_decode},
-      {audio_decode8_init, audio_decode8_info, audio_decode8},  // 8 bit
-                        // methods
-   },
-   {                            // [1][]
-   // integer mode
-      {i_audio_decode_init, i_audio_decode_info, i_audio_decode},
-      {audio_decode8_init, audio_decode8_info, audio_decode8},  // 8 bit
-                        // methods
-   }
-};
+
+int    audio_decode_init(MPEG *, MPEG_HEAD * h, int framebytes_arg, 
+                         int reduction_code, int transform_code, 
+                         int convert_code, int freq_limit);
+void   audio_decode_info(MPEG *, DEC_INFO * info);
+IN_OUT audio_decode     (MPEG *, unsigned char *bs, short *pcm);
 
 static int sample_rate_table[8] =
 {
@@ -611,8 +602,6 @@ Error XingLMC::InitDecoder()
 		    return Err;
    }
 
-   m_audioMethods = audio_table[0][0];       // not integer, non 8 bit mode
-
    uint32 iRedCode = 0;
 //   if (m_decodeInfo.downsample == 1)
 //       iRedCode = 1;
@@ -625,18 +614,18 @@ Error XingLMC::InitDecoder()
 //   if (m_decodeInfo.eightbit)
 //       iConvCode += 8;
 
-   if (m_audioMethods.decode_init(&m_sMpegHead,
-                                  m_frameBytes,
-                                  iRedCode /* reduction code */ ,
-                                  0 /* transform code (ignored) */ ,
-                                  iConvCode /* convert code */ ,
-                                  24000 /* freq limit */ ))
+   memset(&m_sMPEG, 0, sizeof(MPEG));
+   if (audio_decode_init(&m_sMPEG, &m_sMpegHead, m_frameBytes,
+                   iRedCode /* reduction code */, 
+                   0 /* transform code (ignored) */ ,
+                   iConvCode /* convert code */ ,
+                   24000 /* freq limit */ ))
    {
          DEC_INFO      decinfo;
          int32         iNewSize;
          Error         result;
 
-         m_audioMethods.decode_info(&decinfo);
+         audio_decode_info(&m_sMPEG, &decinfo);
 
 #if __BYTE_ORDER != __LITTLE_ENDIAN
          cvt_to_wave_init(decinfo.bits);
@@ -860,8 +849,7 @@ void XingLMC::DecodeWork()
               return;
           }
 
-          x = m_audioMethods.decode((unsigned char *)pBuffer, 
-                                    (short *)pOutBuffer);
+          x = audio_decode(&m_sMPEG, (unsigned char *)pBuffer, (short *)pOutBuffer);
           if (x.in_bytes == 0)
 		  {
              EndRead(x.in_bytes);
@@ -887,7 +875,8 @@ void XingLMC::DecodeWork()
                  ReportError("Cannot advance to next frame. Possible media corruption?");
                  return;
              }
-			 m_audioMethods.decode_init(&m_sMpegHead, m_frameBytes, 0, 0, 0, 24000);
+          memset(&m_sMPEG, 0, sizeof(MPEG));
+			 audio_decode_init(&m_sMPEG, &m_sMpegHead, m_frameBytes, 0, 0, 0, 24000);
 		  }
 		  else
           {

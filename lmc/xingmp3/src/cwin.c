@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cwin.c,v 1.7 1999/10/19 07:13:08 elrod Exp $
+	$Id: cwin.c,v 1.7.26.1 2000/08/11 18:27:46 robert Exp $
 ____________________________________________________________________________*/
 
 /****  cwin.c  ***************************************************
@@ -33,8 +33,6 @@ portable C
 
 ******************************************************************/
 
-#include "config.h"
-
 #ifdef ASM_X86
 extern void window_mpg_asm(float *a, int b, short *c);
 extern void window_dual_asm(float *a, int b, short *c);
@@ -44,8 +42,10 @@ extern void window8_asm(float *a, int b, short *c);
 extern void window8_dual_asm(float *a, int b, short *c);
 #endif /* ASM_X86 */
 
+#include "mhead.h"
+
 /*-------------------------------------------------------------------------*/
-void window(float *vbuf, int vb_ptr, short *pcm)
+void window(MPEG *m, float *vbuf, int vb_ptr, short *pcm)
 {
 #ifdef ASM_X86
    window_mpg_asm(vbuf, vb_ptr, pcm);
@@ -121,7 +121,7 @@ void window(float *vbuf, int vb_ptr, short *pcm)
 
 /*------------------------------------------------------------*/
 #ifndef ASM_X86_OLD
-void window_dual(float *vbuf, int vb_ptr, short *pcm)
+void window_dual(MPEG *m, float *vbuf, int vb_ptr, short *pcm)
 {
 #ifdef ASM_X86
    window_dual_asm(vbuf, vb_ptr, pcm);
@@ -198,7 +198,7 @@ void window_dual(float *vbuf, int vb_ptr, short *pcm)
 #endif	/* ndef ASM_X86_OLD */
 /*------------------------------------------------------------*/
 /*------------------- 16 pt window ------------------------------*/
-void window16(float *vbuf, int vb_ptr, short *pcm)
+void window16(MPEG *m, float *vbuf, int vb_ptr, short *pcm)
 {
 #ifdef ASM_X86
    window16_asm(vbuf, vb_ptr, pcm);
@@ -272,7 +272,7 @@ void window16(float *vbuf, int vb_ptr, short *pcm)
 #endif
 }
 /*--------------- 16 pt dual window (interleaved output) -----------------*/
-void window16_dual(float *vbuf, int vb_ptr, short *pcm)
+void window16_dual(MPEG *m, float *vbuf, int vb_ptr, short *pcm)
 {
 #ifdef ASM_X86
    window16_dual_asm(vbuf, vb_ptr, pcm);
@@ -349,7 +349,7 @@ void window16_dual(float *vbuf, int vb_ptr, short *pcm)
 #endif
 }
 /*------------------- 8 pt window ------------------------------*/
-void window8(float *vbuf, int vb_ptr, short *pcm)
+void window8(MPEG8 *m, float *vbuf, int vb_ptr, short *pcm)
 {
 #ifdef ASM_X86
    window8_asm(vbuf, vb_ptr, pcm);
@@ -423,7 +423,7 @@ void window8(float *vbuf, int vb_ptr, short *pcm)
 #endif
 }
 /*--------------- 8 pt dual window (interleaved output) -----------------*/
-void window8_dual(float *vbuf, int vb_ptr, short *pcm)
+void window8_dual(MPEG8 *m, float *vbuf, int vb_ptr, short *pcm)
 {
 #ifdef ASM_X86
    window8_dual_asm(vbuf, vb_ptr, pcm);

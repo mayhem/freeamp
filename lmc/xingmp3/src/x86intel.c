@@ -26,7 +26,7 @@
 /*	along with this program; if not, write to the Free Software */
 /*	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. */
 
-/*	$Id: x86intel.c,v 1.8 1999/04/21 04:20:57 elrod Exp $ */
+/*	$Id: x86intel.c,v 1.8.36.1 2000/08/11 18:27:46 robert Exp $ */
 /*	Generated from Id: x86gas.s,v 1.9 1999/03/05 08:58:18 mhw Exp $ */
 
 

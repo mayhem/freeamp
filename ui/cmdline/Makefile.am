@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.6 1998/10/19 21:59:23 jdw Exp $
+##      $Id: Makefile.am,v 1.7 1998/10/19 23:53:23 jdw Exp $
 ##
 ############################################################################
 
@@ -47,9 +47,7 @@ CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT) -D__@target_os@__
 
 
 all-local: cmdline-local
-##	gcc -shared -Wl,-soname,xingmp3-@target_os@.lmc -o xingmp3-@target_os@.lmc Mpg123UI.o
-##	cp xingmp3-@target_os@.lmc @top_srcdir@/lmc
 
 cmdline-local: cmdlineUI.o
 	gcc -shared -Wl,-soname,freeamp-@target_os@.ui -o freeamp-@target_os@.ui cmdlineUI.o
-	cp freeamp-@target_os@.ui @top_srcdir@/ui
+	cp freeamp-@target_os@.ui @top_srcdir@/plugins

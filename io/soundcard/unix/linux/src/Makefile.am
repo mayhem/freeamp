@@ -18,7 +18,7 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.1 1998/10/16 23:33:57 jdw Exp $
+##      $Id: Makefile.am,v 1.2 1998/10/19 23:53:23 jdw Exp $
 ##
 ############################################################################
 
@@ -47,7 +47,7 @@ all-local: sndcard-local
 
 sndcard-local: soundcardpmo.o soundcardlib.o
 	gcc -shared -Wl,-soname,soundcard-@target_os@.pmo -o soundcard-@target_os@.pmo soundcardpmo.o soundcardlib.o
-	cp soundcard-@target_os@.pmo @top_srcdir@/io
+	cp soundcard-@target_os@.pmo @top_srcdir@/plugins
 
 
 

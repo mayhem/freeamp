@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.4 1998/10/19 23:39:30 jdw Exp $
+	$Id: bootstrap.cpp,v 1.5 1998/10/19 23:53:22 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -62,12 +62,14 @@ int main(int argc, char **argv) {
     PMORegistry *pmo;
     UIRegistry* ui;
     
-    registrar->SetSubDir("lmc");
+//    registrar->SetSubDir("lmc");
+    registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.lmc");
     lmc = new LMCRegistry();
     registrar->InitializeRegistry(lmc,prefs);
 
-    registrar->SetSubDir("io");
+//    registrar->SetSubDir("io");
+    registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.pmi");
     pmi = new PMIRegistry;
     registrar->InitializeRegistry(pmi,prefs);
@@ -77,7 +79,8 @@ int main(int argc, char **argv) {
     registrar->InitializeRegistry(pmo,prefs);
 
 
-    registrar->SetSubDir("ui");
+//    registrar->SetSubDir("ui");
+    registrar->SetSubDir("plugins");
     registrar->SetSearchString("*.ui");
     ui = new UIRegistry;
     registrar->InitializeRegistry(ui,prefs);

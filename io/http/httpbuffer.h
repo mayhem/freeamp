@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: httpbuffer.h,v 1.5 1999/03/01 22:47:24 robert Exp $
+   $Id: httpbuffer.h,v 1.6 1999/03/02 04:36:44 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPBUFFER_H_
@@ -49,7 +49,7 @@ struct ID3Tag
 
 enum
 {
-   httpError_MinimumError = 0x00010000,
+   httpError_MinimumError = 2000,
    httpError_BadUrl,
    httpError_GetHostByNameFailed,
    httpError_CannotOpenSocket,

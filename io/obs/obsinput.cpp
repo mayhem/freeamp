@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.5 1999/03/01 22:47:31 robert Exp $
+        $Id: obsinput.cpp,v 1.6 1999/03/02 04:36:48 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -47,7 +47,7 @@ ____________________________________________________________________________*/
 LogFile *g_Log;
 
 const int iBufferSize = 8192;
-const int iOverflowSize = 1024;
+const int iOverflowSize = 1536;
 const int iTriggerSize = 1024;
 
 extern    "C"

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.11 1999/03/01 22:47:32 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.12 1999/03/02 04:36:50 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -50,8 +50,8 @@ extern    "C"
 
 static char *g_ErrorArray[8] =
 {
-   "Invalid Error Code",
-   "dsp device open failed",
+   "Unknown Error Code",
+   "Cannot open the sound device (/dev/dsp).",
    "fcntl F_GETFL on /dev/dsp failed",
    "fcntl F_SETFL on /dev/dsp failed"
    "ioctl reset failed",

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: obsbuffer.h,v 1.3 1999/02/13 01:35:42 robert Exp $
+   $Id: obsbuffer.h,v 1.4 1999/03/02 04:36:47 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSBUFFER_H_
@@ -59,7 +59,7 @@ struct RTPHeader
 
 enum
 {
-   obsError_MinimumError = 0x00010000,
+   obsError_MinimumError = 3000,
    obsError_BadUrl,
    obsError_CannotSetSocketOpts,
    obsError_CannotCreateSocket,

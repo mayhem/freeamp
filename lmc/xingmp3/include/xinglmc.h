@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.20 1999/03/01 22:47:36 robert Exp $
+   $Id: xinglmc.h,v 1.21 1999/03/02 04:36:51 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -70,15 +70,12 @@ AUDIO;
 
 enum
 {
-   lmcError_MinimumError = 0x00010000,
-   lmcError_HeadInfoReturnedZero,
+   lmcError_MinimumError = 1000,
+   lmcError_DecodeFailed,
    lmcError_AudioDecodeInitFailed,
-   lmcError_BSFillFailed,
    lmcError_DecoderThreadFailed,
-   lmcError_OutputWriteFailed,
-   lmcError_DecodeDidntDecode,
-   lmcError_ID3ReadFailed,
-   lmcError_OutputInitializeFailed,
+   lmcError_PMIError,
+   lmcError_PMOError,
    lmcError_MaximumError
 };
 
@@ -147,6 +144,7 @@ class     XingLMC:public LogicalMediaConverter
    int32     m_frameCounter;
 	time_t    m_iBufferUpdate;
    char     *m_szUrl;
+   const char *m_szError;
 
 };
 

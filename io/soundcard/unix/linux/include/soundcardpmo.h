@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.8 1999/01/22 06:02:50 jdw Exp $
+	$Id: soundcardpmo.h,v 1.9 1999/03/02 04:36:49 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -38,7 +38,7 @@ ____________________________________________________________________________*/
 static const uint32 OBUFFERSIZE = 2 * 1152;
 
 enum {
-    pmoError_MinimumError = 0x00010000,
+    pmoError_MinimumError = 4000,
     pmoError_DeviceOpenFailed,
     pmoError_IOCTL_F_GETFL,
     pmoError_IOCTL_F_SETFL,

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: scrollview.h,v 1.1 1999/03/03 09:03:41 elrod Exp $
+	$Id: scrollview.h,v 1.2 1999/03/18 06:36:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SCROLLVIEW_H_
@@ -66,7 +66,7 @@ class ScrollView : public View {
             void Range(int32* min, int32* max);
             void SetRange(int32 min, int32 max);
 
-            void Proportion(int32* visible);
+            int32 Proportion() const;
             void SetProportion(int32 visible);
 
             int32 Orientation() const;

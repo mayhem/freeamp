@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.37 1999/03/18 04:34:22 elrod Exp $
+	$Id: freeampui.cpp,v 1.38 1999/03/18 06:36:28 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -176,6 +176,7 @@ MainWndProc(HWND hwnd,
             ui->Timer(wParam);
             break;
 
+        case WM_KILLFOCUS:
         case WM_CANCELMODE:
             ui->CancelMode();
             break;
@@ -480,6 +481,7 @@ KeyDown(int32 keyCode)
         case VK_HOME: 
         case VK_END: 
         case VK_DELETE: 
+        case 'A':
             if(m_playlistView->Visible() && m_playlistView->Enabled())
                 m_playlistView->KeyPressed(keyCode);
             break;

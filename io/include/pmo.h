@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.6 1998/10/16 19:42:07 elrod Exp $
+	$Id: pmo.h,v 1.7 1998/10/20 08:49:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -60,6 +60,8 @@ public:
 	virtual bool Init(OutputInfo* /*info*/){ return false; }
 	virtual bool Reset(bool /*user_stop*/){ return false; }
 	virtual int32 Write(void * /* pBuffer */, int32 /* bufflength */) { return -1; }
+    virtual void Pause(){}
+    virtual void Resume(){}
 	virtual void Clear(){ }
 };
 
@@ -71,6 +73,8 @@ typedef struct PMO{
     bool    (*Init)         (struct PMO*, OutputInfo*);
     bool    (*Reset)        (struct PMO*, bool);
     int32   (*Write)        (struct PMO*, void*, int32);
+    void    (*Pause)        (struct PMO*);
+    void    (*Resume)       (struct PMO*);
     void    (*Clear)        (struct PMO*);
     void    (*Cleanup)      (struct PMO*);
 }PMO, *PMORef;

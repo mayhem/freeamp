@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.cpp,v 1.3 1998/10/15 13:33:50 elrod Exp $
+	$Id: soundcardpmo.cpp,v 1.4 1998/10/20 08:49:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -256,6 +256,21 @@ NextHeader()
 
 	return result;
 }
+
+void 
+SoundCardPMO::
+Pause()
+{
+     waveOutPause(m_hwo);
+}
+
+void 
+SoundCardPMO::
+Resume()
+{
+    waveOutRestart(m_hwo);
+}
+
 
 void 
 SoundCardPMO::

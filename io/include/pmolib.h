@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmolib.h,v 1.4 1998/10/16 19:42:07 elrod Exp $
+	$Id: pmolib.h,v 1.5 1998/10/20 08:49:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMOLIB_H_
@@ -38,6 +38,8 @@ void Initialize(PMORef ref);
 bool Init(PMORef ref, OutputInfo* info);
 bool Reset(PMORef ref, bool user_stop);
 int32 Write(PMORef ref, void* buf, int32 len);
+void Pause(PMORef ref);
+void Resume(PMORef ref);
 void Clear(PMORef ref);
 void Cleanup(PMORef ref);
 

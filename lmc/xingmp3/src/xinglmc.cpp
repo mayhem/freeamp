@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.8 1998/10/19 07:51:44 elrod Exp $
+	$Id: xinglmc.cpp,v 1.9 1998/10/20 08:49:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -419,12 +419,14 @@ void XingLMC::DecodeWork() {
     return;
 }
 void XingLMC::Pause() {
+    m_output->Pause(m_output);
     XingCommand *xc = new XingCommand[1];
     xc[0] = XING_Pause;
     m_xcqueue->Write(xc);
 }
 
 void XingLMC::Resume() {
+    m_output->Resume(m_output);
     XingCommand *xc = new XingCommand[1];
     xc[0] = XING_Resume;
     m_xcqueue->Write(xc);

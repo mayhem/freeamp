@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.4 1998/10/16 19:35:34 elrod Exp $
+	$Id: pmi.h,v 1.5 1998/10/20 08:49:46 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -41,6 +41,7 @@ ____________________________________________________________________________*/
 
 /* project headers */
 #include "config.h"
+#include "errors.h"
 
 #define SEEK_FROM_START		SEEK_SET
 #define SEEK_FROM_CURRENT	SEEK_CUR
@@ -52,8 +53,8 @@ public:
     virtual ~PhysicalMediaInput() { }
     virtual int32 Read(void* /*buf*/, size_t /*numbytes*/) {return -1;}
     virtual int32 Seek(int32 offset, int32 origin) {return -1;}
-    virtual bool SetTo(char* url) = 0;
-    virtual bool Close(void) = 0;
+    virtual Error SetTo(char* url) = 0;
+    virtual Error Close(void) = 0;
     virtual const char* Url(void) const = 0;
 };
 
@@ -65,8 +66,8 @@ typedef struct PMI {
     void*       ref;
     int32       (*Read)     (struct PMI*, void*, size_t);
     int32       (*Seek)     (struct PMI*, int32, int32);
-    bool        (*SetTo)    (struct PMI*, char*);
-    bool        (*Close)    (struct PMI*);
+    Error       (*SetTo)    (struct PMI*, char*);
+    Error       (*Close)    (struct PMI*);
     const char* (*Url)      (struct PMI*);
     void        (*Cleanup)  (struct PMI*);
 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: localfilelib.cpp,v 1.5 1998/10/18 06:53:23 elrod Exp $
+	$Id: localfilelib.cpp,v 1.6 1998/10/20 08:49:46 elrod Exp $
 ____________________________________________________________________________*/
 
 /* project headers */
@@ -54,14 +54,14 @@ int32 Seek(PMIRef ref, int32 offset, int32 origin)
     return pmi->Seek(offset, origin);
 }
 
-bool SetTo(PMIRef ref, char* url)
+Error SetTo(PMIRef ref, char* url)
 {
     PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref->ref;
 
     return pmi->SetTo(url);
 }
 
-bool Close(PMIRef ref)
+Error Close(PMIRef ref)
 { 
     PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref->ref;
 

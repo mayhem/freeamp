@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.2 1998/10/17 21:38:06 elrod Exp $
+	$Id: errors.h,v 1.3 1998/10/20 08:49:46 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -35,7 +35,13 @@ typedef enum Error
     kError_FindFuncFailed   = 4,
     kError_NoFiles          = 5,
     kError_NoPrefs          = 6,
-    kError_BufferTooSmall   = 7
+    kError_BufferTooSmall   = 7,
+    kError_OutOfMemory      = 8,
+    kError_FileNoAccess     = 9,
+    kError_FileExists       = 10,
+    kError_FileInvalidArg   = 11,
+    kError_FileNotFound     = 12,
+    kError_FileNoHandles    = 13
 
 }Error;
 

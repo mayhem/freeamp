@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.4 1998/10/13 23:58:10 elrod Exp $
+	$Id: main.cpp,v 1.5 1998/10/14 03:34:44 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -29,7 +29,6 @@ ____________________________________________________________________________*/
 #include <iostream.h>
 
 /* Project Includes */
-#include "resource.h"
 #include "player.h"
 #include "event.h"
 #include "utility.h"

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.60 2000/05/15 23:09:05 elrod Exp $
+        $Id: MusicTree.cpp,v 1.61 2000/05/30 12:28:20 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -292,23 +292,30 @@ void MusicBrowserUI::FillTracks(TV_ITEM *pItem)
 
         metadata = (*track)->GetMetaData();
 
+        /*ostringstream ost;
+        
         if(metadata.Track() == 0)
-            insert.hInsertAfter = TVI_SORT;
-        else
-            insert.hInsertAfter = TVI_LAST;
+            ost << "?. ";
+        else            
+            ost << metadata.Track() << ". ";
 
-        if (metadata.Title() == string(" ") || 
+        ost << metadata.Title();
+
+        string title = ost.str();
+        */
+
+        if(metadata.Title() == string(" ") ||
             metadata.Title().length() == 0)
             insert.item.pszText = "Unknown";
         else    
             insert.item.pszText = (char *)(metadata.Title().c_str());
             
-        insert.item.cchTextMax = metadata.Title().length();
+        insert.item.cchTextMax = strlen(insert.item.pszText);
         insert.item.iImage = 4;
         insert.item.iSelectedImage = 4;
         insert.item.cChildren= 0;
         insert.item.lParam = (LPARAM) new TreeData(data);
-        //insert.hInsertAfter = TVI_LAST;
+        insert.hInsertAfter = TVI_LAST;
         insert.hParent = pItem->hItem;
         TreeView_InsertItem(m_hMusicView, &insert);
     }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.60 2000/05/23 13:37:30 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.61 2000/05/30 12:28:20 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -871,8 +871,11 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
             if(IsntError(m_context->props->GetProperty("MainWindow", (PropValue **)&prop)))
             {
                 HWND hwnd = (HWND)prop->GetInt32();
-    
-                AddFileEvent(hwnd);
+                bool playNow;
+
+                m_context->prefs->GetPlayImmediately(&playNow);
+
+                AddFileEvent(hwnd, playNow);
             }
             
             break;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.14 1999/10/01 08:30:56 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.15 1999/10/01 19:55:55 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -58,6 +58,12 @@ BOOL CALLBACK MainProc(	HWND hwnd,
 						UINT msg, 
 						WPARAM wParam, 
 						LPARAM lParam ); 
+
+LRESULT WINAPI 
+ProgressWndProc(HWND hwnd, 
+                UINT msg, 
+                WPARAM wParam, 
+                LPARAM lParam);
 
 extern "C" DownloadUI *Initialize(FAContext *context)
 {
@@ -124,6 +130,7 @@ int32 DownloadUI::AcceptEvent(Event* event)
         {
 	        case CMD_Cleanup: 
             {
+                DestroyWindow(m_hwnd);
 	            m_target->AcceptEvent(new Event(INFO_ReadyToDieUI));
 	            break; 
             }
@@ -166,7 +173,6 @@ int32 DownloadUI::AcceptEvent(Event* event)
                 if(itemCount)
                 {
                     LV_ITEM item;
-
 
                     for(uint32 i = 0; i < itemCount; i++)
                     {
@@ -301,7 +307,18 @@ BOOL DownloadUI::InitDialog()
     m_hwndCancel = GetDlgItem(m_hwnd, IDC_CANCEL);
     m_hwndResume = GetDlgItem(m_hwnd, IDC_RESUME);
     m_hwndClose = GetDlgItem(m_hwnd, IDC_CLOSE);
+    m_hwndProgress = GetDlgItem(m_hwnd, IDC_OVERALL_PROGRESS);
 
+    // Set the proc address as a property 
+	// of the window so it can get it
+	SetProp(m_hwndProgress, 
+			"oldproc",
+			(HANDLE)GetWindowLong(m_hwndProgress, GWL_WNDPROC));
+	
+	// Subclass the window so we can draw it
+	SetWindowLong(	m_hwndProgress, 
+					GWL_WNDPROC, 
+					(DWORD)ProgressWndProc );  
 
     HICON appIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_EXE_ICON));
 
@@ -343,6 +360,12 @@ BOOL DownloadUI::InitDialog()
     DeleteObject(bmp);
 
     m_progressBitmap = LoadBitmap(g_hInstance, MAKEINTRESOURCE(IDB_PROGRESS));
+
+    // Set progress bitmap for overall progress view
+	SetProp(m_hwndProgress, 
+			"bitmap",
+			(HANDLE)m_progressBitmap);
+
 
     ListView_SetImageList(m_hwndList, m_noteImage, LVSIL_SMALL);
 
@@ -995,6 +1018,12 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
     return result;
 }
 
+BOOL DownloadUI::Destroy()
+{
+
+    return TRUE;
+}
+
 
 BOOL DownloadUI::Command(int32 command, HWND src)
 {
@@ -1238,6 +1267,7 @@ BOOL CALLBACK DownloadUI::MainProc(	HWND hwnd,
 
         case WM_DESTROY:
         {
+            result = m_ui->Destroy();
             break;
         }
 	
@@ -1292,4 +1322,127 @@ uint32 DownloadUI::CalcStringEllipsis(HDC hdc, string& displayString, int32 colu
     GetTextExtentPoint32(hdc, displayString.c_str(), displayString.size(), &sizeString);
 
     return sizeString.cx;
+}
+
+
+LRESULT WINAPI 
+ProgressWndProc(HWND hwnd, 
+                UINT msg, 
+                WPARAM wParam, 
+                LPARAM lParam)
+{
+    WNDPROC lpOldProc;
+    lpOldProc = (WNDPROC)GetProp( hwnd, "oldproc" );
+    HBITMAP progressBitmap = (HBITMAP)GetProp( hwnd, "bitmap" );
+    static uint32 totalItems = 0;
+    static uint32 doneItems = 0;
+    static uint32 totalBytes = 100;
+    static uint32 doneBytes = 50;
+
+	switch(msg)
+	{
+		case WM_DESTROY:   
+		{
+			//  Put back old window proc and
+			SetWindowLong( hwnd, GWL_WNDPROC, (DWORD)lpOldProc );
+
+			// remove window property
+			RemoveProp( hwnd, "oldproc" ); 
+			break;
+		}
+
+        case WM_PAINT:
+        {
+            HDC hdc;
+            PAINTSTRUCT ps;
+            
+            hdc = BeginPaint(hwnd, &ps);
+
+            if(progressBitmap)
+            {
+                string displayString;
+                ostringstream ost;
+                float total = totalBytes;
+                float recvd = doneBytes;
+                uint32 percent;
+                RECT rcClip;
+
+                GetClientRect(hwnd, &rcClip);
+
+                ost.precision(2);
+                ost.flags(ios_base::fixed);
+
+                percent = (uint32)recvd/total*100;
+
+                if(total >= 1048576)
+                {
+                    total /= 1048576;
+                    recvd /= 1048576;
+                    ost  << percent << "% (" << recvd << " of "<< total << " MB) ";
+                }
+                else if(total >= 1024)
+                {
+                    total /= 1024;
+                    recvd /= 1024;
+                    ost << percent << "% ("<< recvd << " of "<< total << " MB)";
+                }
+                else
+                {
+                    ost << percent << "% (" << doneBytes << " of " << totalBytes << " Bytes)";
+                }
+
+                displayString = ost.str();
+
+                SIZE stringSize;
+
+                GetTextExtentPoint32(hdc, displayString.c_str(), 
+                                    displayString.size(), &stringSize);
+
+                
+                int32 progressWidth = 100;
+                int32 bmpWidth = (float)(progressWidth - 3) * (float)percent/(float)100;
+                int32 count = bmpWidth/(kProgressWidth);
+                int32 remainder = bmpWidth%(kProgressWidth);
+
+                //ostringstream debug;
+                //debug << "bmpWidth: " << bmpWidth << endl << "progressWidth: " << progressWidth << endl;
+                //OutputDebugString(debug.str().c_str());
+
+                HDC memDC = CreateCompatibleDC(hdc);
+                SelectObject(memDC, progressBitmap);
+
+                rcClip.left += kPrePadding;
+
+                RECT progressRect = rcClip;
+
+                progressRect.top += ((rcClip.bottom - rcClip.top) - kProgressHeight)/2 - 1;
+                progressRect.bottom = progressRect.top + kProgressHeight + 2;
+                progressRect.right = progressRect.left + progressWidth;
+
+                DrawEdge(hdc, &progressRect, EDGE_SUNKEN, BF_RECT);
+
+                uint32 i = 0;
+
+                for(i = 0; i< count; i++)
+                {
+                    BitBlt(hdc, progressRect.left + 2 + i*kProgressWidth, progressRect.top + 2, kProgressWidth, kProgressHeight, 
+                           memDC, 0, 0, SRCCOPY);
+
+                }
+
+                if(remainder)
+                {
+                    BitBlt(hdc, progressRect.left + 2 + i*kProgressWidth, progressRect.top + 2, remainder, kProgressHeight, 
+                           memDC, 0, 0, SRCCOPY);
+                }
+            }
+
+            EndPaint(hwnd, &ps);
+            break;
+        }
+
+    } 
+	
+	//  Pass all non-custom messages to old window proc
+	return CallWindowProc(lpOldProc, hwnd, msg, wParam, lParam ) ;
 }

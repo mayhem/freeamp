@@ -69,7 +69,9 @@ BEGIN
     PUSHBUTTON      "Resume Download",IDC_RESUME,142,173,70,14
     PUSHBUTTON      "Pause Download",IDC_PAUSE,72,173,70,14
     PUSHBUTTON      "Close",IDC_CLOSE,222,173,50,14
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDVERT,216,173,1,17
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDVERT,216,172,1,16
+    CONTROL         "",IDC_OVERALL_PROGRESS,"Button",BS_OWNERDRAW,2,91,270,
+                    11
 END
 
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.1.2.6 1999/10/01 07:30:38 elrod Exp $
+	$Id: downloadui.h,v 1.1.2.7 1999/10/01 19:55:54 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -57,11 +57,11 @@ class DownloadUI : public UserInterface {
     void SetWindowHandle(HWND hwnd){m_hwnd = hwnd;}
 
     BOOL InitDialog();
-    BOOL Destroy();
     BOOL Command(int32 command, HWND src);
     BOOL Notify(int32 controlId, NMHDR* nmh);
     BOOL DrawItem(int32 controlId, DRAWITEMSTRUCT* dis);
     BOOL MeasureItem(HWND hwnd, MEASUREITEMSTRUCT* mis);
+    BOOL Destroy();
 
    
  protected:
@@ -90,6 +90,7 @@ class DownloadUI : public UserInterface {
     HWND    m_hwndCancel;
     HWND    m_hwndResume;
     HWND    m_hwndClose;
+    HWND    m_hwndProgress;
 
     HIMAGELIST  m_noteImage;
     HBITMAP  m_progressBitmap;

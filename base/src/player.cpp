@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.36 1999/10/09 18:54:37 robert Exp $
+        $Id: player.cpp,v 1.133.2.37 1999/10/13 23:07:55 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -78,6 +78,7 @@ Player(FAContext *context):
 EventQueue()
 {
     m_context = context;
+    m_context->player = this;
     // cout << "Creating player..." << endl;
     m_eventSem = new Semaphore();
     m_eventQueue = new Queue < Event * >();

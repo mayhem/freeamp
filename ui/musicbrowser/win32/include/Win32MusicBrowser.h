@@ -18,13 +18,14 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.1.2.2 1999/10/13 01:14:01 ijr Exp $
+        $Id: Win32MusicBrowser.h,v 1.1.2.3 1999/10/13 23:08:09 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
 #define INCLUDED_WIN32MUSICBROWSER_H_
 
 #include <windows.h>
+#include <commctrl.h>
 
 #ifdef WIN32
 #pragma warning(disable:4786)
@@ -60,6 +61,8 @@ class MusicBrowserUI : public UserInterface
     void  GetMinMaxInfo(MINMAXINFO *pInfo);
     void  SetMinMaxInfo(void);
     void  SizeWindow(int iWidth, int iHeight);
+    int   Notify(WPARAM wParam, NMHDR *pNMHDR);
+    void  StartMusicSearch(void);
  
  protected:
     FAContext *m_context;
@@ -76,7 +79,6 @@ class MusicBrowserUI : public UserInterface
     void AddTrackPlaylistEvent(PlaylistItem *newitem);
     void AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist);
     void PlayEvent(void);
-    void StartMusicSearch(void);
     void SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType type);
     void PopUpInfoEditor(void);
     void SaveCurrentPlaylist(char *path);
@@ -106,6 +108,7 @@ class MusicBrowserUI : public UserInterface
     int              m_iXMargin, m_iYMargin;
     int              m_iXListMargin, m_iYListMargin;
     int              m_iLeftListMargin, m_iCenterListMargin;
+    HTREEITEM	     m_hPlaylistItem, m_hCatalogItem;
 };
 
 #endif

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.2 1999/10/13 01:14:01 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.3 1999/10/13 23:08:08 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -26,6 +26,7 @@ ____________________________________________________________________________*/
 #define gdk_threads_leave()
 #include "Win32MusicBrowser.h"
 #include "debug.h"
+#include "resource.h"
 #else
 #include "gtkmusicbrowser.h" 
 #include "infoeditor.h"
@@ -158,11 +159,16 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             }
             break; }
         case INFO_BrowserMessage: {
+#if HAVE_GTK
             if (m_initialized) {
                 gdk_threads_enter();
                 SetStatusText(((BrowserMessageEvent *)event)->GetBrowserMessage());
                 gdk_threads_leave();
             }
+#else
+            SetWindowText(GetDlgItem(m_hWnd, IDC_STATUS),
+                          ((BrowserMessageEvent *)event)->GetBrowserMessage());
+#endif                
             break; }
         case CMD_TogglePlaylistUI: {
             gdk_threads_enter();
@@ -299,7 +305,7 @@ void MusicBrowserUI::StartMusicSearch(void)
     m_context->browser->SearchMusic(ROOT_DIR);
 #else
 	// Enumerate drives and then call search for each one
-
+    m_context->browser->SearchMusic("E:\\");
 #endif    
 }
 
@@ -363,7 +369,7 @@ void MusicBrowserUI::ImportPlaylist(char *path)
 {
     if (!path)
         return;
-    m_context->browser->m_catalog->AddPlaylist(path);
+//    m_context->browser->m_catalog->AddPlaylist(path);
     UpdateCatalog();
 }
 

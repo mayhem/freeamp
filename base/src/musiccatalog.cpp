@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.14 1999/10/12 00:04:54 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.1.2.1 1999/10/13 23:07:54 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -247,7 +247,6 @@ void MusicBrowser::musicsearch_thread_function(void *arg)
     mst->mb->m_mutex->Acquire();
 
     mst->mb->m_numSymLinks = 0;
-    mst->mb->m_player = Player::GetPlayer(0);
     mst->mb->DoSearchMusic(mst->path);
 
     mst->mb->AcceptEvent(new Event(INFO_SearchMusicDone));
@@ -272,7 +271,7 @@ void MusicBrowser::DoSearchMusic(char *path)
  
     string *info = new string("Searching: ");
     (*info) += path;
-    m_player->AcceptEvent(new BrowserMessageEvent(info->c_str()));
+    m_context->player->AcceptEvent(new BrowserMessageEvent(info->c_str()));
     delete info;
    
     if (search[search.size() - 1] != DIR_MARKER)
@@ -318,7 +317,7 @@ void MusicBrowser::DoSearchMusic(char *path)
 #endif
                 }
             }
-            else if ((fileExt = m_player->GetExtension(find.cFileName)))
+            else if ((fileExt = m_context->player->GetExtension(find.cFileName)))
             {
                 if (!strncmp("M3U", fileExt, 3))
                 {
@@ -328,7 +327,7 @@ void MusicBrowser::DoSearchMusic(char *path)
                     m_database->Insert(file.c_str(), "P");
 
                 }
-                else if (m_player->IsSupportedExtension(fileExt))
+                else if (m_context->player->IsSupportedExtension(fileExt))
                 {
                     string file = path;
                     file.append(DIR_MARKER_STR);

@@ -18,11 +18,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.1.2.2 1999/10/13 04:49:38 robert Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.1.2.3 1999/10/13 23:08:16 robert Exp $
 ____________________________________________________________________________*/
 
-#include "config.h"
 
+#include "config.h"
 #include "utility.h"
 #include "resource.h"
 #include "Win32MusicBrowser.h"
@@ -102,9 +102,6 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
     {
         case WM_INITDIALOG:
         {
-            assert(g_ui != NULL);
-            
-        	g_ui->InitDialog();
             break;
         }
 
@@ -119,13 +116,21 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
             g_ui->SizeWindow(LOWORD(lParam), HIWORD(lParam));
             break;
         } 
+		case WM_NOTIFY:
+            return g_ui->Notify(wParam, (LPNMHDR)lParam);
+            
         case WM_SHOWWINDOW:
         {
+            assert(g_ui != NULL);
+            
+        	g_ui->InitDialog();
         	g_ui->SetMinMaxInfo();
             break;
 		}
-		case WM_GETMINMAXINFO:
-            g_ui->GetMinMaxInfo((MINMAXINFO *)lParam);
+//		case WM_GETMINMAXINFO:
+//            g_ui->GetMinMaxInfo((MINMAXINFO *)lParam);
+//            break;
+
             
         case WM_COMMAND:
         {
@@ -136,6 +141,9 @@ static BOOL CALLBACK MainDlgProc(HWND hwnd, UINT msg,
                 break;
                 case IDOK:
                    g_ui->HideBrowser();
+                break;
+                case IDC_SEARCH:
+                   g_ui->StartMusicSearch();
                 break;
             }    
         }        
@@ -244,6 +252,7 @@ void MusicBrowserUI::MoveControls(int iPixelsToMove)
 
 void MusicBrowserUI::SizeWindow(int iWidth, int iHeight)
 {
+#if 0
     RECT   sRect, sClient;
     POINT  sPoint, sClientPoint;
     int   *iIndex, iSpaceLeftX, iSpaceLeftY, iCenterPost;
@@ -260,10 +269,9 @@ void MusicBrowserUI::SizeWindow(int iWidth, int iHeight)
        sPoint.y - m_iYMargin - (sRect.bottom - sRect.top),
        0, 0, SWP_NOZORDER | SWP_NOSIZE);
 
-	// Move the music tree
-  	GetWindowRect(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sRect);
-	iSpaceLeftX = (sClient.right - sClient.left) - m_iXListMargin;
-	iSpaceLeftY = (sClient.bottom - sRect.top) - m_iYListMargin;
+    GetWindowRect(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sRect);
+    iSpaceLeftX = (sClient.right - sClient.left) - m_iXListMargin;
+    iSpaceLeftY = (sClient.bottom - sRect.top) - m_iYListMargin;
 
 	SetWindowPos(GetDlgItem(m_hWnd, IDC_MUSICTREE), NULL,
        0, 0,
@@ -336,7 +344,8 @@ void MusicBrowserUI::SizeWindow(int iWidth, int iHeight)
            sPoint.x - m_iXMargin - (sRect.right - sRect.left),
            sClientPoint.y,
            0, 0, SWP_NOZORDER | SWP_NOSIZE);
-    }                 
+    }
+#endif                     
 }
 
 void MusicBrowserUI::GetMinMaxInfo(MINMAXINFO *pInfo)
@@ -376,6 +385,66 @@ void MusicBrowserUI::SetMinMaxInfo(void)
 
 void MusicBrowserUI::InitDialog(void)
 {
+    HIMAGELIST      hList;
+    HMODULE         hShell;
+    DWORD           dwIcon;
+    TV_ITEM         sItem;
+    TV_INSERTSTRUCT sInsert;
+    
+    hList = ImageList_Create(14, 14, ILC_COLOR8, 3, 0);
+    hShell = GetModuleHandle("SHELL32.DLL");
+    dwIcon = 4;     // 'Closed folder' Icon
+    ImageList_AddIcon(hList, LoadIcon(hShell, MAKEINTRESOURCE(dwIcon)));
+    dwIcon = 5; 	   // 'Open folder' icon
+    ImageList_AddIcon(hList, LoadIcon(hShell, MAKEINTRESOURCE(dwIcon)));
+    dwIcon = 6; 	   // 'File folder' icon (hopefully)
+    ImageList_AddIcon(hList, LoadIcon(hShell, MAKEINTRESOURCE(dwIcon)));
+	FreeLibrary(hShell);
+ 
+    TreeView_SetImageList(GetDlgItem(m_hWnd, IDC_MUSICTREE),
+                          hList, TVSIL_NORMAL); 
+                          
+    sItem.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_CHILDREN |
+                 TVIF_SELECTEDIMAGE; 
+        
+    sItem.pszText = "My Music Catalog";
+    sItem.cchTextMax = lstrlen(sInsert.item.pszText);
+    sItem.iImage = 0;
+    sItem.iSelectedImage = 1;
+    sItem.cChildren= 1;
+        
+    sInsert.item = sItem;
+    sInsert.hInsertAfter = TVI_FIRST;
+    sInsert.hParent = NULL;
+    m_hCatalogItem = TreeView_InsertItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sInsert);
+
+    sItem.pszText = "My Playlists";
+    sItem.cchTextMax = lstrlen(sInsert.item.pszText);
+    sItem.iImage = 0;
+    sItem.iSelectedImage = 1;
+    sItem.cChildren= 1;
+        
+    sInsert.item = sItem;
+    sInsert.hInsertAfter = m_hPlaylistItem;
+    sInsert.hParent = NULL;
+    m_hPlaylistItem = TreeView_InsertItem(GetDlgItem(m_hWnd, IDC_MUSICTREE), &sInsert);
+}
+
+int32 MusicBrowserUI::Notify(WPARAM command, NMHDR *pHdr)
+{
+	NM_TREEVIEW *pTreeView;
+    
+    pTreeView = (NM_TREEVIEW *)pHdr;
+    
+	if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
+        pTreeView->itemNew.hItem == m_hPlaylistItem)
+        Debug_v("Expand playlist");
+
+	if (pTreeView->hdr.code == TVN_ITEMEXPANDING && 
+        pTreeView->itemNew.hItem == m_hCatalogItem)
+        Debug_v("Expand catalog");
+
+	return 1;
 }
 
 void MusicBrowserUI::UpdateCatalog(void)

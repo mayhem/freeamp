@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.1.2.7 1999/10/13 05:24:57 elrod Exp $
+	$Id: updatemanager.cpp,v 1.1.2.8 1999/10/13 23:07:56 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1030,7 +1030,6 @@ bool UpdateManager::HasItem(UpdateItem* item)
 }
 
 // Internal functions
-
 inline uint32 UpdateManager::CheckIndex(uint32 index)
 {
 	// If we're dealing with a bogus index then set it to -1.

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.1.2.9 1999/10/12 00:04:54 ijr Exp $
+        $Id: musicbrowser.h,v 1.1.2.10 1999/10/13 23:07:52 robert Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -107,7 +107,6 @@ class MusicBrowser : public EventQueue
     Mutex *m_mutex;
     
     FAContext *m_context;
-    Player *m_player;
 
  private:   
     Database *m_database;

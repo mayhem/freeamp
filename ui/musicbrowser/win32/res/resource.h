@@ -4,6 +4,7 @@
 //
 #define IDD_MUSICBROWSER                101
 #define IDR_MENU1                       102
+#define IDI_CLOSED                      104
 #define IDC_MUSICTREE                   1000
 #define IDC_PLAYLISTBOX                 1002
 #define IDC_PLAYLISTCOMBO               1003
@@ -17,6 +18,7 @@
 #define IDC_CLEARLIST                   1011
 #define IDC_MUSICCATALOGTEXT            1012
 #define IDC_PLAYLISTTEXT                1013
+#define IDC_STATUS                      1014
 #define ID_FILE_NEWPLAYLIST             40001
 #define ID_FILE_OPENPLAYLIST            40002
 #define ID_FILE_SAVEPLAYLIST            40004
@@ -37,9 +39,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        103
+#define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1014
+#define _APS_NEXT_CONTROL_VALUE         1015
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

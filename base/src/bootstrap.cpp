@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.7 1998/10/16 22:25:30 jdw Exp $
+	$Id: bootstrap.cpp,v 1.8 1998/10/16 22:58:29 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -124,8 +124,10 @@ int main(int argc, char **argv) {
     pP->RegisterUIs(ui);
 
 
+    cout << "Looking to start up a UI..." << endl;
     RegistryItem *item = ui->GetItem(0);
     if (item) {
+	cout << "Got an item..." << endl;
 	UI *myui = new UI;
 	item->InitFunction()(myui);
 	myui->SetArgs(myui,argc,argv);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: ctrlobj.h,v 1.7 1998/10/16 22:25:31 jdw Exp $
+	$Id: ctrlobj.h,v 1.8 1998/10/16 22:58:29 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _CTRLOBJ_H_
@@ -30,7 +30,7 @@ ____________________________________________________________________________*/
 class UserInterface : public EventQueue {
  public:
     virtual int32 AcceptEvent(Event *) = 0;
-    virtual int32 SetArgs(int32,char **) = 0;
+    virtual void  SetArgs(int32,char **) = 0;
     virtual ~UserInterface() {}
 };
 
@@ -43,7 +43,8 @@ typedef struct UI{
 
     EventQueue* (*Target)   (struct UI);
     void        (*Cleanup)  (struct UI*);
-    int32       (*SetArgs)  (struct UI*,int32 /*argc*/,char ** /*argv*/);
+    void        (*SetArgs)  (struct UI*,int32 /*argc*/,char ** /*argv*/);
+    int32       (*AcceptEvent) (struct UI*,Event *);
 }UI, *UIRef;
 
 #ifdef __cplusplus
@@ -51,3 +52,4 @@ typedef struct UI{
 #endif
 
 #endif // _CTRLOBJ_H_
+

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.2 1998/10/16 22:25:31 jdw Exp $
+	$Id: Mpg123UI.h,v 1.3 1998/10/16 22:58:29 jdw Exp $
 ____________________________________________________________________________*/
 
 // Mpg123UI.h
@@ -35,7 +35,7 @@ class Mpg123UI : public UserInterface {
     Mpg123UI();
 
     virtual int32 AcceptEvent(Event *);
-    virtual void setArgs(int argc, char **argv);
+    virtual void SetArgs(int argc, char **argv);
     ~Mpg123UI();
  private:
     bool verboseMode;

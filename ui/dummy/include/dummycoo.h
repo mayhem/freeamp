@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dummycoo.h,v 1.3 1998/10/16 22:25:31 jdw Exp $
+	$Id: dummycoo.h,v 1.4 1998/10/16 22:58:29 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _DUMMY_COO_H_
@@ -31,7 +31,7 @@ ____________________________________________________________________________*/
 class DummyCOO : public UserInterface {
  public:
     virtual int32 AcceptEvent(Event *);
-    virtual int32 SetArgs(int32 i, char **c) { return 0; }
+    virtual void  SetArgs(int32 i, char **c) { return; }
     DummyCOO(Semaphore*);
     virtual ~DummyCOO();
 

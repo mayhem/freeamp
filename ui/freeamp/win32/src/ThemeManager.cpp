@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.1.2.1 1999/10/09 18:53:13 robert Exp $
+   $Id: ThemeManager.cpp,v 1.1.2.2 1999/10/09 21:13:03 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -87,7 +87,7 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
 
 Error ThemeManager::UseTheme(string &oThemeFile)
 {
-    char   dir[MAX_PATH], *ptr;
+    char   dir[MAX_PATH];
     uint32 len = sizeof(dir);
     string oThemePath;
 

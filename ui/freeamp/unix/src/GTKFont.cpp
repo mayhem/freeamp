@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.3 1999/11/01 05:38:31 ijr Exp $
+   $Id: GTKFont.cpp,v 1.4 1999/11/01 17:57:49 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKFont.h"
@@ -58,7 +58,9 @@ GTKFont::GTKFont(string &oName, string &oFace, string &oDefault) :
 //    free(dup);
 
     gfont = NULL;
+#ifdef HAVE_FREETYPE
     ttfont = NULL;
+#endif
     bold = false;
     italic = false;
     underline = false;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.60 2000/10/01 18:45:06 ijr Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.61 2000/10/04 20:03:10 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1887,6 +1887,12 @@ bool Win32PreferenceWindow::PrefProfileProc(HWND hwnd,
             InvalidateRect(hwndProfileList, NULL, true);
             break;
         }
+		case UWM_HELP:
+		case WM_HELP:
+		{
+			ShowHelp(m_pContext, Preferences_Relatable);
+			break;
+		}
         case WM_COMMAND:
         {
             switch(LOWORD(wParam))
@@ -1943,9 +1949,9 @@ bool Win32PreferenceWindow::PrefProfileProc(HWND hwnd,
 
                     break;
                 }
-                case IDC_PROFILE_HELP:
+                case IDC_PROFILE_HELP: 
                 {
-                    ShowHelp(m_pContext, Preferences_Relatable);
+                    ShowHelp(m_pContext, Preferences_RelatableFeatures);
                     break;
                 }
                 case IDC_ADDPROFILE:

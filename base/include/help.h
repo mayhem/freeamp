@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: help.h,v 1.5 2000/09/28 09:37:46 robert Exp $
+   $Id: help.h,v 1.6 2000/10/04 20:03:10 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_HELP_H
@@ -38,5 +38,6 @@ ____________________________________________________________________________*/
 #define Preferences_Directory         "preferences_directory_entry.html"
 #define Preferences_Relatable         "preferences_relatable_entry.html"
 #define Edit_Info                     "edit_info_entry.html"
+#define Preferences_RelatableFeatures "what_are_relatable_features_entry.html"
 
 #endif

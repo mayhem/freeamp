@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.26 2000/10/02 22:40:23 ijr Exp $
+	$Id: id3v2.cpp,v 1.27 2000/10/04 20:03:10 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -240,10 +240,12 @@ bool ID3v2::ReadMetaData(const char* url, MetaData* metadata)
     }
 */
 
-    int num = 1;
-    if (ID3LIB_PATCH_VERSION >= 13 || ID3LIB_MINOR_VERSION > 7 ||
-        ID3LIB_MAJOR_VERSION > 3) 
-        num = 0;
+#if (ID3LIB_PATCH_VERSION >= 13) || (ID3LIB_MINOR_VERSION > 7) || \
+    (ID3LIB_MAJOR_VERSION > 3)
+    int num = 0;
+#else
+	int num = 1;
+#endif
 
     pData = new char[iDataFieldLen];
 

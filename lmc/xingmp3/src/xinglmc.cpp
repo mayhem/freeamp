@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.111 1999/11/17 02:42:57 robert Exp $
+   $Id: xinglmc.cpp,v 1.112 1999/11/17 18:01:27 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -318,7 +318,6 @@ vector<char *> *XingLMC::GetExtensions(void)
    extList->push_back("MP3");
    extList->push_back("MP2");
    extList->push_back("MP1");
-   extList->push_back("MPG");
 
    return extList;
 }

@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.98 1999/08/06 07:18:34 elrod Exp $
+   $Id: xinglmc.cpp,v 1.98.2.1 1999/08/16 21:51:52 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -84,7 +84,6 @@ static int sample_rate_table[8] =
     22050L, 24000L, 16000L, 1L, 44100L, 48000L, 32000L, 1L
 };
 
-const int ID3_TAG_SIZE = 128;
 const int iMaxDecodeRetries = 32;
 const int iStreamingBufferSize = 64;  // in kbytes 
 const int iDefaultBufferUpInterval = 3;
@@ -322,7 +321,7 @@ Error XingLMC::ExtractMediaInfo()
    Error           Err;
    float           totalSeconds;
    MediaInfoEvent *pMIE;
-   Id3TagInfo      tag_info;
+   //Id3TagInfo      tag_info;
 
    if (!m_pPmi)
       return kError_NullValueInvalid;
@@ -337,7 +336,7 @@ Error XingLMC::ExtractMediaInfo()
    if (m_pPmi->GetLength(end) == kError_FileSeekNotSupported)
       end = 0;
 
-   m_pPmi->GetID3v1Tag(tag_info);
+   //m_pPmi->GetID3v1Tag(tag_info);
 
    int32     sampRateIndex = 4 * m_sMpegHead.id + m_sMpegHead.sr_index;
    int32     samprate = sample_rate_table[sampRateIndex];
@@ -365,10 +364,11 @@ Error XingLMC::ExtractMediaInfo()
    }
 
    pMIE = new MediaInfoEvent(m_pPmi->Url(), totalSeconds);
+
    if (!pMIE)
       return kError_OutOfMemory;
 
-   if (tag_info.m_containsInfo)
+   /*if (tag_info.m_containsInfo)
    {
        ID3TagEvent *ite = new ID3TagEvent(tag_info);
        if (ite)
@@ -380,7 +380,7 @@ Error XingLMC::ExtractMediaInfo()
        {
            return kError_OutOfMemory;
        }
-   }
+   }*/
 
    /*LEAK*/MpegInfoEvent *mie = new MpegInfoEvent(totalFrames,
                        (float)(milliseconds_per_frame / 1000), m_frameBytes,

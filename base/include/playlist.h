@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40 1999/07/27 23:23:18 elrod Exp $
+	$Id: playlist.h,v 1.40.4.1 1999/08/16 21:51:48 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -304,24 +304,24 @@ class PlayListManager {
     PlayListItem*   ItemAt(int32 index);
 	int32	        IndexOf(PlayListItem* item);
 
-    virtual	Error AddItem(char *url,int32 type);
-    virtual	Error AddItem(char *url,int32 type, int32 index);
+    Error AddItem(char *url,int32 type);
+    Error AddItem(char *url,int32 type, int32 index);
 
-    virtual	Error AddItem(PlayListItem* item);
-    virtual Error AddItem(PlayListItem* item, int32 index);
-    virtual Error AddList(List<PlayListItem*>* items);
-    virtual Error AddList(List<PlayListItem*>* items, int32 index);
+    Error AddItem(PlayListItem* item);
+    Error AddItem(PlayListItem* item, int32 index);
+    Error AddList(List<PlayListItem*>* items);
+    Error AddList(List<PlayListItem*>* items, int32 index);
 
-    virtual Error           RemoveItem(PlayListItem* item);
-    virtual PlayListItem*   RemoveItem(int32 index);
-    virtual Error           RemoveItems(int32 index, int32 count);
-    virtual Error           RemoveList(List<PlayListItem*>* items);
-    virtual Error           RemoveAll();
+    Error           RemoveItem(PlayListItem* item);
+    PlayListItem*   RemoveItem(int32 index);
+    Error           RemoveItems(int32 index, int32 count);
+    Error           RemoveList(List<PlayListItem*>* items);
+    Error           RemoveAll();
 
-    virtual Error           MoveList(List<PlayListItem*>* items, int32 index);
+    Error           MoveList(List<PlayListItem*>* items, int32 index);
 
-    virtual	void MakeEmpty();
-		    bool IsEmpty();
+    void MakeEmpty();
+    bool IsEmpty();
 
     void DoForEach(bool (*func)(PlayListItem*));
     void DoForEach(bool (*func)(PlayListItem*, void*), void*);

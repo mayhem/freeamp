@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 5.00
 
 ###############################################################################
 
-Project: "Rainplay"=..\..\..\ui\rainplay\Rainplay.dsp - Package Owner=<4>
+Project: "Rainplay"="..\..\..\ui\rainplay\Rainplay.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -24,7 +24,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "dsoundcard"=..\..\..\io\dsound\win32\prj\dsoundcard.dsp - Package Owner=<4>
+Project: "dsoundcard"="..\..\..\io\dsound\win32\prj\dsoundcard.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -36,7 +36,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "fileinput"=..\..\..\io\local\win32\prj\fileinput.dsp - Package Owner=<4>
+Project: "fileinput"="..\..\..\io\local\win32\prj\fileinput.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -48,7 +48,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "freeamp"=.\freeamp.dsp - Package Owner=<4>
+Project: "freeamp"=".\freeamp.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -81,16 +81,13 @@ Package=<4>
     Project_Dep_Name simple
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name Rainplay
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name dsoundcard
     End Project Dependency
 }}}
 
 ###############################################################################
 
-Project: "freeampui"=..\..\..\ui\freeamp\win32\prj\freeampui.dsp - Package Owner=<4>
+Project: "freeampui"="..\..\..\ui\freeamp\win32\prj\freeampui.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -111,7 +108,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "httpinput"=..\..\..\io\http\win32\prj\httpinput.dsp - Package Owner=<4>
+Project: "httpinput"="..\..\..\io\http\win32\prj\httpinput.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -123,7 +120,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "obsinput"=..\..\..\io\obs\win32\prj\obsinput.dsp - Package Owner=<4>
+Project: "obsinput"="..\..\..\io\obs\win32\prj\obsinput.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -135,7 +132,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "simple"=..\..\..\ui\simple\win32\prj\simple.dsp - Package Owner=<4>
+Project: "simple"="..\..\..\ui\simple\win32\prj\simple.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -156,7 +153,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "soundcard"=..\..\..\io\soundcard\win32\prj\soundcard.dsp - Package Owner=<4>
+Project: "soundcard"="..\..\..\io\soundcard\win32\prj\soundcard.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -168,7 +165,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "xing"=..\..\..\lmc\xingmp3\win32\prj\xing.dsp - Package Owner=<4>
+Project: "xing"="..\..\..\lmc\xingmp3\win32\prj\xing.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

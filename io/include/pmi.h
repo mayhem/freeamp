@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.2 1998/10/14 06:11:26 elrod Exp $
+	$Id: pmi.h,v 1.3 1998/10/15 13:33:50 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -56,5 +56,21 @@ public:
     virtual bool Close(void) = 0;
     virtual const char* Url(void) const = 0;
 };
+
+extern "C" {
+
+typedef struct PMI {
+    void*       ref;
+    int32       (*Read)     (struct PMI*, void*, size_t);
+    int32       (*Seek)     (struct PMI*, int32, int32);
+    bool        (*SetTo)    (struct PMI*, char*);
+    bool        (*Close)    (struct PMI*);
+    const char* (*Url)      (struct PMI*);
+    void        (*Cleanup)  (struct PMI*);
+
+}PMI, *PMIRef;
+
+
+} // extern "C"
 
 #endif /* _PMI_H_ */

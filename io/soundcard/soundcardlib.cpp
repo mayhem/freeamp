@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardlib.cpp,v 1.1 1998/10/14 08:52:09 elrod Exp $
+	$Id: soundcardlib.cpp,v 1.2 1998/10/15 13:33:50 elrod Exp $
 ____________________________________________________________________________*/
 
 /* project headers */
@@ -34,42 +34,41 @@ void Initialize(PMORef ref)
         ref->Init = Init;
         ref->Reset = Reset;
         ref->Write = Write;
-        ref->WriteThis = WriteThis;
         ref->Clear = Clear;
+        ref->Cleanup = Cleanup;
     }
 }
 
 bool Init(PMORef ref, OutputInfo* info)
 {
-    PhysicalMediaOutput* pmo = (PhysicalMediaOutput*)ref;
+    PhysicalMediaOutput* pmo = (PhysicalMediaOutput*)ref->ref;
 
     return pmo->Init(info);
 }
 
 bool Reset(PMORef ref, bool user_stop)
 {
-    PhysicalMediaOutput* pmo = (PhysicalMediaOutput*)ref;
+    PhysicalMediaOutput* pmo = (PhysicalMediaOutput*)ref->ref;
 
     return pmo->Reset(user_stop);
 }
 
-int32 Write(PMORef ref)
-{
-    PhysicalMediaOutput* pmo = (PhysicalMediaOutput*)ref;
 
-    return pmo->Write();
-}
-
-int32 WriteThis(PMORef ref, void* buf, int32 len)
+int32 Write(PMORef ref, void* buf, int32 len)
 { 
-    PhysicalMediaOutput* pmo = (PhysicalMediaOutput*)ref;
+    PhysicalMediaOutput* pmo = (PhysicalMediaOutput*)ref->ref;
 
-    return pmo->WriteThis(buf, len);
+    return pmo->Write(buf, len);
 }
 
 void Clear(PMORef ref)
 {
-    PhysicalMediaOutput* pmo = (PhysicalMediaOutput*)ref;
+    PhysicalMediaOutput* pmo = (PhysicalMediaOutput*)ref->ref;
 
     pmo->Clear();
+}
+
+void Cleanup(PMORef ref)
+{
+    delete ref->ref;
 }

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: error.h,v 1.1 1998/10/13 08:46:10 elrod Exp $
+	$Id: error.h,v 1.2 1998/10/15 13:33:49 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -28,9 +28,12 @@ ____________________________________________________________________________*/
 
 typedef enum Error
 {
-	kError_NoErr		= 0,
-	kError_UnknownErr	= 1,
-    kError_InvalidParam = 2,
+	kError_NoErr		    = 0,
+	kError_UnknownErr	    = 1,
+    kError_InvalidParam     = 2,
+    kError_LoadLibFailed    = 3,
+    kError_FindFuncFailed   = 4,
+    kError_NoFiles          = 5
 
 }Error;
 

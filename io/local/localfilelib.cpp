@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: localfilelib.cpp,v 1.1 1998/10/14 08:52:09 elrod Exp $
+	$Id: localfilelib.cpp,v 1.2 1998/10/15 13:33:50 elrod Exp $
 ____________________________________________________________________________*/
 
 /* project headers */
@@ -36,40 +36,46 @@ void Initialize(PMIRef ref)
         ref->SetTo = SetTo;
         ref->Close = Close;
         ref->Url = Url;
+        ref->Cleanup = Cleanup;
     }
 }
 
 int32 Read(PMIRef ref, void* buf, size_t len)
 {
-    PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref;
+    PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref->ref;
 
     return pmi->Read(buf, len);
 }
 
 int32 Seek(PMIRef ref, int32 offset, int32 origin)
 {
-    PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref;
+    PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref->ref;
 
     return pmi->Seek(offset, origin);
 }
 
 bool SetTo(PMIRef ref, char* url)
 {
-    PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref;
+    PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref->ref;
 
     return pmi->SetTo(url);
 }
 
 bool Close(PMIRef ref)
 { 
-    PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref;
+    PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref->ref;
 
     return pmi->Close();
 }
 
 const char* Url(PMIRef ref)
 {
-    PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref;
+    PhysicalMediaInput* pmi = (PhysicalMediaInput*)ref->ref;
 
     return pmi->Url();
+}
+
+void Cleanup(PMIRef ref)
+{
+    delete ref->ref;
 }

@@ -1,4 +1,3 @@
-
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
@@ -19,10 +18,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.4 1998/10/13 22:09:05 jdw Exp $
+	$Id: bootstrap.cpp,v 1.5 1998/10/15 13:33:49 elrod Exp $
 ____________________________________________________________________________*/
-
-// bootstrap.cpp -- Main freeamp program.  Loads Player object and registers compiled in modules
 
 #include <iostream.h>
 #include <stdio.h>

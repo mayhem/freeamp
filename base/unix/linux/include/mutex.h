@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: mutex.h,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: mutex.h,v 1.2 1998/10/15 13:33:49 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef MUTEX_H
@@ -34,7 +34,7 @@ public:
 	~Mutex();
 
 
-	bool Acquire(long timeout);
+	bool Acquire(long timeout = WAIT_FOREVER);
 	void Release();
 	void DumpMutex(void);
 

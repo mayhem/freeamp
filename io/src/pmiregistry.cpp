@@ -18,11 +18,22 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmiregistry.cpp,v 1.1 1998/10/13 08:46:11 elrod Exp $
+	$Id: pmiregistry.cpp,v 1.2 1998/10/15 13:33:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #include "pmiregistry.h"
 
+PMIItem::
+PMIItem():
+RegistryItem()
+{
+}
+
+PMIItem::
+~PMIItem()
+{
+    
+}
 
 PMIRegistry::
 PMIRegistry():

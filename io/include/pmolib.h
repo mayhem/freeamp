@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmolib.h,v 1.1 1998/10/14 08:53:19 elrod Exp $
+	$Id: pmolib.h,v 1.2 1998/10/15 13:33:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMOLIB_H_
@@ -31,25 +31,15 @@ ____________________________________________________________________________*/
 
 extern "C" {
 
-typedef struct PMOSTRUCT {
-    void*   ref;
-    bool    (*Init)         (struct PMOSTRUCT*, OutputInfo*);
-    bool    (*Reset)        (struct PMOSTRUCT*, bool);
-    int32   (*Write)        (struct PMOSTRUCT*);
-    int32   (*WriteThis)    (struct PMOSTRUCT*, void*, int32);
-    void    (*Clear)        (struct PMOSTRUCT*);
-
-}PMOSTRUCT, *PMORef;
-
 void Initialize(PMORef ref);
 
 bool Init(PMORef ref, OutputInfo* info);
 bool Reset(PMORef ref, bool user_stop);
-int32 Write(PMORef ref);
-int32 WriteThis(PMORef ref, void* buf, int32 len);
+int32 Write(PMORef ref, void* buf, int32 len);
 void Clear(PMORef ref);
+void Cleanup(PMORef ref);
 
-}
+} //extern "C"
 
 #endif /* _PMOLIB_H_ */
 

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.2 1998/10/14 07:10:54 elrod Exp $
+	$Id: soundcardpmo.h,v 1.3 1998/10/15 13:33:50 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -49,14 +49,11 @@ public:
     
     virtual bool Init(OutputInfo* info);
     virtual bool Reset(bool user_stop);
-    virtual int32 Write();
-    virtual int32 WriteThis(void *,int32);
+    virtual int32 Write(void*,int32);
     virtual void Clear();
     
     
  private:
-	void wave_swap();
-
 	WAVEHDR* NextHeader();
 
 private:

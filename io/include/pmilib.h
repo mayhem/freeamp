@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmilib.h,v 1.1 1998/10/14 08:53:19 elrod Exp $
+	$Id: pmilib.h,v 1.2 1998/10/15 13:33:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMILIB_H_
@@ -31,16 +31,6 @@ ____________________________________________________________________________*/
 
 extern "C" {
 
-typedef struct PMISTRUCT {
-    void*       ref;
-    int32       (*Read)     (struct PMISTRUCT*, void*, size_t);
-    int32       (*Seek)     (struct PMISTRUCT*, int32, int32);
-    bool        (*SetTo)    (struct PMISTRUCT*, char*);
-    bool        (*Close)    (struct PMISTRUCT*);
-    const char* (*Url)      (struct PMISTRUCT*);
-
-}PMISTRUCT, *PMIRef;
-
 void Initialize(PMIRef ref);
 
 int32 Read(PMIRef ref, void* buf, size_t numbytes);
@@ -48,8 +38,9 @@ int32 Seek(PMIRef ref, int32 offset, int32 origin);
 bool SetTo(PMIRef ref, char* url);
 bool Close(PMIRef ref);
 const char* Url(PMIRef ref);
+void Cleanup(PMIRef ref);
 
-}
+} // extern "C"
 
 #endif /* _PMILIB_H_ */
 

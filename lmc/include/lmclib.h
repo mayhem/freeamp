@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmclib.h,v 1.3 1998/10/14 08:50:31 elrod Exp $
+	$Id: lmclib.h,v 1.4 1998/10/15 13:33:51 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMCLIB_H_
@@ -32,27 +32,11 @@ ____________________________________________________________________________*/
 
 extern "C" {
 
-typedef struct LMCSTRUCT{
-    void*   ref;
-    void    (*SetPMI)            (struct LMCSTRUCT*, PhysicalMediaInput*);
-    void    (*SetPMO)            (struct LMCSTRUCT*, PhysicalMediaOutput*);
-    void    (*SetInfoEventQueue) (struct LMCSTRUCT*, EventQueue*);
-
-    bool    (*Decode)            (struct LMCSTRUCT*);
-    void    (*Stop)              (struct LMCSTRUCT*);
-    void    (*Pause)             (struct LMCSTRUCT*);
-    void    (*Resume)            (struct LMCSTRUCT*);
-    void    (*Reset)             (struct LMCSTRUCT*);
-    bool    (*ChangePosition)    (struct LMCSTRUCT*, int32);
-
-}LMCSTRUCT, *LMCRef;
-
-
 void Initialize(LMCRef ref);
 
-
-void SetPMI(LMCRef ref, PhysicalMediaInput*);
-void SetPMO(LMCRef ref, PhysicalMediaOutput*);
+void Init(LMCRef ref);
+void SetPMI(LMCRef ref, PMIRef);
+void SetPMO(LMCRef ref, PMORef);
 void SetInfoEventQueue(LMCRef ref, EventQueue*);
 
 bool Decode(LMCRef ref);
@@ -61,8 +45,9 @@ void Pause(LMCRef ref);
 void Resume(LMCRef ref);
 void Reset(LMCRef ref);
 bool ChangePosition(LMCRef ref, int32 pos);
+void Cleanup(LMCRef ref);
 
-}
+} //extern "C"
 
 #endif /* _LMCLIB_H_ */
 

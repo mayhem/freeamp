@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmiregistry.h,v 1.1 1998/10/13 08:46:11 elrod Exp $
+	$Id: pmiregistry.h,v 1.2 1998/10/15 13:33:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMI_REGISTRY_H_
@@ -27,10 +27,10 @@ ____________________________________________________________________________*/
 #include "config.h"
 #include "registry.h"
 
-class PMIInfo : public RegistryInfo {
+class PMIItem : public RegistryItem {
  public:
-    PMIInfo(){}
-    ~PMIInfo(){}
+    PMIItem();
+    ~PMIItem();
 };
 
 class PMIRegistry : public Registry{

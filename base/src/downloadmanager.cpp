@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.18 1999/09/23 23:31:23 dogcow Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.19 1999/09/24 01:31:58 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -42,6 +42,9 @@ ____________________________________________________________________________*/
 #define _O_CREAT O_CREAT
 #define _O_RDWR O_RDWR
 #endif
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <iostream>
@@ -528,7 +531,13 @@ Error DownloadManager::Download(DownloadItem* item)
         struct hostent      host;
         SOCKET s = -1;
         char* file;
-        
+        char* destPath = NULL;
+
+        destPath = new char[_MAX_PATH];
+
+        uint32 length = _MAX_PATH;
+
+        URLToFilePath(item->DestinationURL().c_str(), destPath, &length);
 
         result = kError_ProtocolNotSupported;
 
@@ -617,7 +626,7 @@ Error DownloadManager::Download(DownloadItem* item)
                                          "User-Agent: FreeAmp/%s\n";
 
                 const char* kRange = "Range: %lu-\n"
-                                     "If-Unmodified-Since: %s\n";
+                                     "If-Range: %s\n";
 
                 // the magic 58 is enough for fixed length time in
                 // HTTP time format + 2 terabyte length range numbers.
@@ -633,14 +642,26 @@ Error DownloadManager::Download(DownloadItem* item)
 
                 // do we need to request a range?
                 if(item->GetBytesReceived())
-                {
-                    char* range = new char[strlen(kRange) + 58 + 1];
+                { 
+                    struct stat st;
 
-                    sprintf(range, kRange, item->GetBytesReceived());
+                    if(-1 != stat(destPath, &st))
+                    {
+                        char* range = new char[strlen(kRange) + 58 + 1];
+                        char time[32];
 
-                    strcat(query, range);
+                        RFC822GMTTimeString(gmtime(&st.st_mtime), time);
 
-                    delete [] range;
+                        sprintf(range, kRange, item->GetBytesReceived(), time);
+
+                        strcat(query, range);
+
+                        delete [] range;
+                    }
+                    else
+                    {
+                        item->SetBytesReceived(0);
+                    }
                 }
             
                 strcat(query, "\n");
@@ -659,7 +680,6 @@ Error DownloadManager::Download(DownloadItem* item)
                 delete [] query;
             }
         }
-
 
         // receive response
         if(IsntError(result))
@@ -728,14 +748,14 @@ Error DownloadManager::Download(DownloadItem* item)
                     {
                         result = kError_UnknownErr;
 
-                        char path[MAX_PATH];
-                        uint32 length = sizeof(path);
+                        cout << destPath << endl;
 
-                        URLToFilePath(item->DestinationURL().c_str(), path, &length);
+                        int openFlags = _O_BINARY|_O_CREAT|_O_RDWR;
 
-                        cout << path << endl;
+                        if(returnCode == 200) // always whole file
+                            openFlags |= _O_TRUNC;
 
-                        int fd = open(path, _O_BINARY|_O_CREAT|_O_RDWR);
+                        int fd = open(destPath, openFlags);
 
                         if(fd >= 0)
                         {
@@ -764,7 +784,11 @@ Error DownloadManager::Download(DownloadItem* item)
                                 count = recv(s, buffer, bufferSize, 0);
 
                                 if(count > 0)
+                                {
                                     write(fd, buffer, count);
+
+                                    item->SetBytesReceived(count + item->GetBytesReceived());
+                                }
 
                                 //cout << "bytes recvd:" << count << endl;
 
@@ -838,7 +862,9 @@ Error DownloadManager::Download(DownloadItem* item)
                                 break;
 
                             case 416:
-                                result = kError_RangeNotExceptable;
+                                // try to grab the whole thing...
+                                item->SetBytesReceived(0);
+                                result = Download(item);
                                 break;
 
                             default:
@@ -867,6 +893,9 @@ Error DownloadManager::Download(DownloadItem* item)
 
             if(s > 0)
                 closesocket(s);
+
+            if(destPath)
+                delete [] destPath;
         }
 
     }

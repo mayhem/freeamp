@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.65 2000/07/31 19:51:38 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.66 2000/08/01 22:05:00 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -454,10 +454,12 @@ Error MusicCatalog::AddSong(const char *url)
 
     m_catMutex->Acquire();
 
-    if (meta->GUID().size() > 0)
+    if (meta->GUID().size() > 0) {
+        generated = true;
         m_guidTable->insert(multimap<string, string, less<string> >
                             ::value_type(meta->GUID(), url));
-    else
+    }
+    else 
         GenerateSignature(newtrack);
 
     if ((meta->Artist().size() == 0) || (meta->Artist() == " ")) {

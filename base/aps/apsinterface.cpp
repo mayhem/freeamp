@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.33 2000/10/02 13:39:53 ijr Exp $
+        $Id: apsinterface.cpp,v 1.34 2000/10/02 13:45:37 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -155,7 +155,8 @@ int APSInterface::APSFillMetaData(APSMetaData* pmetaData)
 
     o = mb_New();
     mb_SetServer(o, "www.musicbrainz.org", 80);
-    mb_SetProxy(o, (char *)m_strProxyAddr.c_str(), m_nProxyPort);
+    if (m_strProxyAddr.size() > 7)
+        mb_SetProxy(o, (char *)m_strProxyAddr.c_str(), m_nProxyPort);
 
     uuid_ascii((unsigned char*)pmetaData->GUID().c_str(), guid);
 

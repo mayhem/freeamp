@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.3 1998/10/09 19:03:36 jdw Exp $
+	$Id: xinglmc.cpp,v 1.4 1998/10/10 05:40:15 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -40,9 +40,9 @@ ____________________________________________________________________________*/
 extern "C" {
 #include "mhead.h"
 #include "port.h"
-	   }
 
 int wait_n_times;
+	   }
 
 #define TEST_TIME 0
 

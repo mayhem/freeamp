@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.h,v 1.6 2000/02/09 21:21:25 elrod Exp $
+        $Id: musiccatalog.h,v 1.6.2.1 2000/02/24 04:55:37 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -128,6 +128,8 @@ class MusicCatalog : public EventQueue
     FAContext *m_context;
 
  private:
+    bool CaseCompare(string s1, string s2);
+
     Mutex *m_catMutex;
 
     vector<ArtistList *> *m_artistList;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.40 2000/02/16 06:18:29 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.40.2.1 2000/02/24 04:55:37 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -286,13 +286,13 @@ Error MusicCatalog::RemoveSong(const char *url)
         i = m_artistList->begin();
         for (; i != m_artistList->end() && !found; i++) 
         {
-            if (meta->Artist() == (*i)->name) 
+            if (CaseCompare(meta->Artist(),(*i)->name)) 
             {
                 alList = (*i)->m_albumList;
                 j = alList->begin();
                 for (; j != alList->end() && !found; j++) 
                 {
-                    if (meta->Album() == (*j)->name) 
+                    if (CaseCompare(meta->Album(),(*j)->name)) 
                     {
                         trList = (*j)->m_trackList;
                         k = trList->begin();
@@ -353,6 +353,18 @@ Error MusicCatalog::AddStream(const char *url)
     return kError_NoErr;
 }
 
+bool MusicCatalog::CaseCompare(string s1, string s2)
+{
+    if (s1.length() == s2.length()) {
+        for (uint32 i = 0; i < s1.length(); i++) {
+            if (toupper(s1[i]) != toupper(s2[i]))
+                return false;
+        }
+        return true;
+    }
+    return false;
+}
+
 Error MusicCatalog::AddSong(const char *url)
 {
     assert(url);
@@ -411,13 +423,13 @@ Error MusicCatalog::AddSong(const char *url)
         bool found_artist = false;
         vector<ArtistList *>::iterator i = m_artistList->begin();
         for (; i != m_artistList->end(); i++) {
-            if (meta->Artist() == (*i)->name) {
+            if (CaseCompare(meta->Artist(),(*i)->name)) {
                 bool found_album = false;
                 found_artist = true;
                 vector<AlbumList *> *alList = (*i)->m_albumList;
                 vector<AlbumList *>::iterator j = alList->begin();
                 for (; j != alList->end(); j++) {
-                    if (meta->Album() == (*j)->name) {
+                    if (CaseCompare(meta->Album(),(*j)->name)) {
                         found_album = true;
                        
                         vector<PlaylistItem *> *trList = (*j)->m_trackList;

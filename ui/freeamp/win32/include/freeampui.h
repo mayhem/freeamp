@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.8 1998/12/09 08:08:04 jdw Exp $
+	$Id: freeampui.h,v 1.9 1999/01/20 02:44:46 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -45,7 +45,7 @@ class FreeAmpUI : public UserInterface {
     FreeAmpUI();
     ~FreeAmpUI();
 
-    virtual Error Init() { return kError_NoErr; }
+    virtual Error Init(int32 startup_type) { return kError_NoErr; }
     virtual void SetTarget(EventQueue*);
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int32,char **);

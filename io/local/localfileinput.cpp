@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.8 1999/01/19 05:10:19 jdw Exp $
+        $Id: localfileinput.cpp,v 1.9 1999/01/20 02:44:45 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -165,10 +165,15 @@ GetLength(size_t &iSize)
     return m_pPullBuffer->GetLength(iSize);
 }
 
-bool LocalFileInput::
+Error LocalFileInput::
 GetID3v1Tag(unsigned char *pTag)
 {
-   return m_pPullBuffer->GetID3v1Tag(pTag);
+	if (m_pPullBuffer->GetID3v1Tag(pTag)) {
+		return kError_NoErr;
+	} else {
+		return kError_UnknownErr;
+	}
+   //return m_pPullBuffer->GetID3v1Tag(pTag);
 }
 
 Error LocalFileInput::

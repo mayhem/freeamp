@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.214 2000/08/02 15:01:00 ijr Exp $
+        $Id: player.cpp,v 1.215 2000/08/03 20:09:34 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1600,12 +1600,15 @@ DoneOutputting(Event *pEvent)
    }
 
    PlaylistItem *item = m_plm->GetCurrentItem();
-   MetaData mdata = (MetaData)item->GetMetaData();
-   mdata.AddPlayCount();
-   item->SetMetaData(&mdata);
-   m_plm->UpdateTrackMetaData(item);
-   m_musicCatalog->UpdateSong(item);
-   m_APSInterface->WriteToLog(mdata.GUID());   
+   if (item)
+   {
+      MetaData mdata = (MetaData)item->GetMetaData();
+      mdata.AddPlayCount();
+      item->SetMetaData(&mdata);
+      m_plm->UpdateTrackMetaData(item);
+      m_musicCatalog->UpdateSong(item);
+      m_APSInterface->WriteToLog(mdata.GUID());   
+   }
 
    SEND_NORMAL_EVENT(INFO_DoneOutputting);
 

@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: MissingFileDialog.cpp,v 1.4 2000/06/22 15:13:36 elrod Exp $
+    $Id: MissingFileDialog.cpp,v 1.5 2000/08/03 20:09:35 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -171,6 +171,8 @@ BOOL MissingFileDialog::DialogProc(HWND hwnd,
 
                     char filter[] = "MPEG Audio Streams (.mp1;.mp2;.mp3;.mpp)\0"
                                     "*.mp1;*.mp2;*.mp3;*.mpp\0"
+                                    "Ogg/Vorbis Files (*.ogg)\0"
+                                    "*.ogg\0"
                                     "All Files (*.*)\0"
                                     "*.*\0"
                                     "\0";

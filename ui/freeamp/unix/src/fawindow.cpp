@@ -18,7 +18,7 @@
          along with this program; if not, write to the Free Software
          Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
          
-         $Id: fawindow.cpp,v 1.21 1999/07/27 19:25:05 robert Exp $
+         $Id: fawindow.cpp,v 1.21.4.1 1999/09/10 02:20:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -29,8 +29,8 @@ ____________________________________________________________________________*/
 
 #include "player.h"
 #include "fawindow.h"
-#include "lcd_display_mask.xbm"
-#include "lcd_icons_mask.xbm"
+//#include "lcd_display_mask.xbm"
+//#include "lcd_icons_mask.xbm"
 
 FAWindow::FAWindow()
 {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.1.2.2 1999/09/09 02:42:00 elrod Exp $
+        $Id: musicbrowser.h,v 1.1.2.3 1999/09/10 02:20:14 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -28,19 +28,19 @@
 #include "metadata.h"
 #include "playlist.h"
 
+class FAContext;
+
 class MusicBrowser
 {
  public:
-    MusicBrowser(char *path = NULL);
+    MusicBrowser(FAContext *context, char *path = NULL);
     ~MusicBrowser();
 
     void SetDatabase(const char *path);
     void SearchMusic(char *path);
-    void SetPlaylistManager(PlaylistManager *plm) { m_plm = plm; }
     
     void WriteMetaDataToDatabase(char *path, MetaData information);
     MetaData *ReadMetaDataFromDatabase(char *path);
-    
     
  private:
     void DoSearchMusic(char *path);

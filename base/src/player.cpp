@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.11 1999/09/09 03:58:08 elrod Exp $
+        $Id: player.cpp,v 1.133.2.12 1999/09/10 02:20:15 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -459,9 +459,7 @@ Run()
    if (bValue)
       m_context->log->AddLogLevel(LogPerf);
 
-//   m_musicBrowser->SetPlaylistManager(m_plm);
-
-//   m_musicBrowser->SearchMusic("/data/music");
+//   m_musicBrowser->SearchMusic(m_context, "/data/music");
 
    // which ui should we instantiate first??
    if (m_argUIList->size() == 0)

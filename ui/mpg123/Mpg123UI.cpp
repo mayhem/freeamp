@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.14.4.3 1999/08/30 22:35:21 ijr Exp $
+	$Id: Mpg123UI.cpp,v 1.14.4.4 1999/09/10 02:20:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -62,6 +62,14 @@ Mpg123UI::Mpg123UI(FAContext *context) {
 
 Error Mpg123UI::Init(int32 startup_level) {
     if ((m_startupType = startup_level) == PRIMARY_UI) {
+
+        m_plm = m_context->plm;
+        m_playerEQ = m_context->target;
+        m_propManager = m_context->props;
+
+        m_argc = m_context->argc;
+        m_argv = m_context->argv;
+       
 	ProcessArgs();
 	//cout << endl << "mpg123 0.59k command line compatability mode" << endl << endl;
 	cerr << "High Performance MPEG 1.0/2.0/2.5 Audio Player for Layer 1, 2 and 3" << endl;
@@ -211,9 +219,6 @@ void Mpg123UI::DisplayStuff() {
 }
 
 
-void Mpg123UI::SetArgs(int argc, char **argv) {
-    m_argc = argc; m_argv = argv;
-}
 void Mpg123UI::ProcessArgs() {
     char *pc = NULL;
     int addedStuff = 0;
@@ -360,12 +365,3 @@ void Mpg123UI::ProcessArgs() {
 	m_playerEQ->AcceptEvent(new Event(CMD_QuitPlayer));
     }
 }
-
-void Mpg123UI::SetPlaylistManager(PlaylistManager *plm) {
-    m_plm = plm;
-}
-
-void Mpg123UI::SetTarget(EventQueue *eq) {
-    m_playerEQ = eq;
-}
-

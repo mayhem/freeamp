@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.3 1999/09/09 03:20:20 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.4 1999/09/10 02:20:15 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -37,10 +37,10 @@ ____________________________________________________________________________*/
 
 #define DBASEDELIM ":"
 
-MusicBrowser::MusicBrowser(char *path)
+MusicBrowser::MusicBrowser(FAContext *context, char *path)
 {
     m_database = NULL;
-    m_plm = NULL;
+    m_plm = context->plm;
 
     if (path)
         SetDatabase(path);

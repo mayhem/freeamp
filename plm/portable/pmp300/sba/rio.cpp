@@ -956,7 +956,7 @@ CDirEntry* CRio::FindFile( const char* pszFile, CFindFile* pFindFile)
         }
     }
 	
-	for(iA; iA<iCountEntry; ++iA, ++pDirEntry )
+	for(; iA<iCountEntry; ++iA, ++pDirEntry )
 	{
 		if ( !strcmp(pszFile, pDirEntry->m_szName) )
         {

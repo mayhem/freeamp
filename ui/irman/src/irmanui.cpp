@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: irmanui.cpp,v 1.8.4.3 1999/08/30 22:35:21 ijr Exp $
+	$Id: irmanui.cpp,v 1.8.4.4 1999/09/10 02:20:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -54,10 +54,6 @@ UserInterface *Initialize(FAContext *context) {
 }
     
 	   }
-
-void IRManUI::SetPlaylistManager(PlaylistManager *plm) {
-    m_plm = plm;
-}
 
 
 #define ASSOCIATE(x,y) pInt = new int32; *pInt = y; m_commands.Insert(x,pInt);
@@ -98,6 +94,14 @@ IRManUI::~IRManUI() {
 
 Error IRManUI::Init(int32 startupType) {
     m_startupType = startupType;
+
+    m_plm = m_context->plm;
+    m_playerEQ = m_context->target;
+    m_propManager = m_context->props;    
+    
+    m_argc = m_context->argc;
+    m_argv = m_context->argv;
+
     if (m_startupType == PRIMARY_UI) {
 	ProcessArgs();
     }
@@ -223,10 +227,6 @@ int32 IRManUI::AcceptEvent(Event *e) {
 	}
     }
     return 0;
-}
-
-void IRManUI::SetArgs(int argc, char **argv) {
-    m_argc = argc; m_argv = argv;
 }
 
 void IRManUI::ProcessArgs() {

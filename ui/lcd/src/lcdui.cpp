@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.9.8.3 1999/08/30 22:35:21 ijr Exp $
+	$Id: lcdui.cpp,v 1.9.8.4 1999/09/10 02:20:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -76,10 +76,6 @@ UserInterface *Initialize(FAContext *context) {
 //    return 0;
 //}
 
-
-void LcdUI::SetPlaylistManager(PlaylistManager *plm) {
-    m_plm = plm;
-}
 
 LcdUI::LcdUI(FAContext *context) {
     m_context = context;
@@ -161,6 +157,13 @@ Error LcdUI::Init(int32 startupType) {
     lcd.flush();
 #endif
     m_lcdLock->Release();
+
+    m_plm = m_context->plm;
+    m_playerEQ = m_context->target;
+    m_propManager = m_context->props;
+ 
+    m_argc = m_context->argc;
+    m_argv = m_context->argv;
 
     if ((m_startupType = startupType) == PRIMARY_UI) {
 	ProcessArgs();
@@ -404,9 +407,6 @@ void LcdUI::BlitTimeLine() {
 #endif
 }
 
-void LcdUI::SetArgs(int argc, char **argv) {
-    m_argc = argc; m_argv = argv;
-}
 void LcdUI::ProcessArgs() {
     char *pc = NULL;
     for(int i=1;i<m_argc;i++) {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.1 1999/09/09 01:25:35 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.2 1999/09/10 02:20:17 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowser.h" 
@@ -49,6 +49,11 @@ Error musicbrowserUI::Init(int32 startup_level)
 {
     if ((m_startupType = startup_level) != PRIMARY_UI) 
         return kError_InitFailedSafely;
+
+    m_argc = m_context->argc;
+    m_argv = m_context->argv;
+    m_plm = m_context->plm;
+    m_playerEQ = m_context->target;
 
     gtkThread = Thread::CreateThread();
     gtkThread->Create(musicbrowserUI::gtkServiceFunction, this);
@@ -88,25 +93,6 @@ void musicbrowserUI::GTKEventService(void)
 
     if (m_startupType == PRIMARY_UI)
         m_playerEQ->AcceptEvent(new Event(CMD_QuitPlayer));
-}
-
-void musicbrowserUI::SetArgs(int argc, char **argv)
-{
-    m_argc = argc;
-    m_argv = argv;
-    // delay arg parsing till later, except for looking for -h and --help
-    // if found, set m_noStartUp to true and send the QuitPlayer message...
-    for (int i = 0;i < m_argc;i++) {
-        if (m_argv[i][0] == '-') {
-            if ((m_argv[i][1] == 'h') || (m_argv[i][1] == 'H') ||
-                !strcmp(&(m_argv[i][1]),"-help")) {
-                m_noStartUp = true;
-                Usage();
-                m_playerEQ->AcceptEvent(new Event(CMD_QuitPlayer));
-            }
-
-        }
-    }
 }
 
 void musicbrowserUI::Usage(void)

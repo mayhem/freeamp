@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: uph.c,v 1.2 1999/07/13 18:42:22 robert Exp $
+	$Id: uph.c,v 1.2.4.1 1999/09/10 02:20:16 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  uph.c  ***************************************************
@@ -50,7 +50,7 @@ Layer 3 audio
 #define MAXBITS 9
 
 static HUFF_ELEMENT huff_table_0[4] =
-{0, 0, 0, 64};			/* dummy must not use */
+{{0}, {0}, {0}, {64}};			/* dummy must not use */
 
 #include "htable.h"
 
@@ -88,40 +88,40 @@ HUFF_SETUP;
 
 static HUFF_SETUP table_look[] =
 {
-   huff_table_0, 0, no_bits,
-   huff_table_1, 0, one_shot,
-   huff_table_2, 0, one_shot,
-   huff_table_3, 0, one_shot,
-   huff_table_0, 0, no_bits,
-   huff_table_5, 0, one_shot,
-   huff_table_6, 0, one_shot,
-   huff_table_7, 0, no_linbits,
-   huff_table_8, 0, no_linbits,
-   huff_table_9, 0, no_linbits,
-   huff_table_10, 0, no_linbits,
-   huff_table_11, 0, no_linbits,
-   huff_table_12, 0, no_linbits,
-   huff_table_13, 0, no_linbits,
-   huff_table_0, 0, no_bits,
-   huff_table_15, 0, no_linbits,
-   huff_table_16, 1, have_linbits,
-   huff_table_16, 2, have_linbits,
-   huff_table_16, 3, have_linbits,
-   huff_table_16, 4, have_linbits,
-   huff_table_16, 6, have_linbits,
-   huff_table_16, 8, have_linbits,
-   huff_table_16, 10, have_linbits,
-   huff_table_16, 13, have_linbits,
-   huff_table_24, 4, have_linbits,
-   huff_table_24, 5, have_linbits,
-   huff_table_24, 6, have_linbits,
-   huff_table_24, 7, have_linbits,
-   huff_table_24, 8, have_linbits,
-   huff_table_24, 9, have_linbits,
-   huff_table_24, 11, have_linbits,
-   huff_table_24, 13, have_linbits,
-   huff_table_0, 0, quad_a,
-   huff_table_0, 0, quad_b,
+  {huff_table_0, 0, no_bits},
+  {huff_table_1, 0, one_shot},
+  {huff_table_2, 0, one_shot},
+  {huff_table_3, 0, one_shot},
+  {huff_table_0, 0, no_bits},
+  {huff_table_5, 0, one_shot},
+  {huff_table_6, 0, one_shot},
+  {huff_table_7, 0, no_linbits},
+  {huff_table_8, 0, no_linbits},
+  {huff_table_9, 0, no_linbits},
+  {huff_table_10, 0, no_linbits},
+  {huff_table_11, 0, no_linbits},
+  {huff_table_12, 0, no_linbits},
+  {huff_table_13, 0, no_linbits},
+  {huff_table_0, 0, no_bits},
+  {huff_table_15, 0, no_linbits},
+  {huff_table_16, 1, have_linbits},
+  {huff_table_16, 2, have_linbits},
+  {huff_table_16, 3, have_linbits},
+  {huff_table_16, 4, have_linbits},
+  {huff_table_16, 6, have_linbits},
+  {huff_table_16, 8, have_linbits},
+  {huff_table_16, 10, have_linbits},
+  {huff_table_16, 13, have_linbits},
+  {huff_table_24, 4, have_linbits},
+  {huff_table_24, 5, have_linbits},
+  {huff_table_24, 6, have_linbits},
+  {huff_table_24, 7, have_linbits},
+  {huff_table_24, 8, have_linbits},
+  {huff_table_24, 9, have_linbits},
+  {huff_table_24, 11, have_linbits},
+  {huff_table_24, 13, have_linbits},
+  {huff_table_0, 0, quad_a},
+  {huff_table_0, 0, quad_b},
 };
 
 /*========================================================*/

@@ -61,9 +61,6 @@ int getKey() {
     return 0;
 }
 
-void ncursesUI::SetPlaylistManager(PlaylistManager *plm) {
-    m_plm = plm;
-}
 
 ncursesUI::ncursesUI(FAContext *context) {
     m_context = context;
@@ -116,6 +113,13 @@ Error ncursesUI::Init(int32 startup_level) {
         curs_set(0);
 
         showInfo();
+
+        m_plm = m_context->plm;
+        m_propManager = m_context->props;
+        m_playerEQ = m_context->target;
+
+        m_argc = m_context->argc;
+        m_argv = m_context->argv;
 
         ProcessArgs();
     }
@@ -420,9 +424,6 @@ int32 ncursesUI::AcceptEvent(Event *e) {
     return 0;
 }
 
-void ncursesUI::SetArgs(int argc, char **argv) {
-    m_argc = argc; m_argv = argv;
-}
 void ncursesUI::ProcessArgs() {
     char *pc = NULL;
     for(int i=1;i<m_argc;i++) {

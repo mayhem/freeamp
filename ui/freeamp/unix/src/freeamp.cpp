@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.37.4.3 1999/08/30 22:35:21 ijr Exp $
+	$Id: freeamp.cpp,v 1.37.4.4 1999/09/10 02:20:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -97,10 +97,6 @@ FreeAmpUI::~FreeAmpUI() {
 
 }
 
-void FreeAmpUI::SetPlaylistManager(PlaylistManager *plm) {
-    m_plm = plm;
-}
-
 Error FreeAmpUI::Init(int32 startup_type)
 {
     assert(this);
@@ -115,6 +111,15 @@ Error FreeAmpUI::Init(int32 startup_type)
     XWMHints *wm_hints;
     XClassHint *class_hints;
     int32 display_depth;
+
+    m_plm = m_context->plm;
+    m_playerEQ = m_context->target;
+    m_propManager = m_context->props;
+
+    m_argc = m_context->argc;
+    m_argv = m_context->argv;
+
+    CheckArgs();
 
     if (!(size_hints = XAllocSizeHints())) {
 	fprintf(stderr, "%s: failure allocating memory\n", m_argv[0]);
@@ -717,9 +722,7 @@ int32 FreeAmpUI::AcceptEvent(Event *e) {
     return 0;
 }
 
-void FreeAmpUI::SetArgs(int argc, char **argv) {
-    m_argc = argc;
-    m_argv = argv;
+void FreeAmpUI::CheckArgs() {
     // delay arg parsing till later, except for looking for -h and --help
     // if found, set m_noStartUp to true and send the QuitPlayer message...
     for (int i = 0;i < m_argc;i++) {
@@ -734,7 +737,6 @@ void FreeAmpUI::SetArgs(int argc, char **argv) {
 	    
 	}
     }
-
 }
 
 void FreeAmpUI::Usage() {

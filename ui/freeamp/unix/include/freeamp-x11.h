@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-x11.h,v 1.13.8.4 1999/09/09 03:58:13 elrod Exp $
+	$Id: freeamp-x11.h,v 1.13.8.5 1999/09/10 02:20:16 ijr Exp $
 ____________________________________________________________________________*/
 // FreeAmpUI.h
 
@@ -129,6 +129,7 @@ class FreeAmpUI : public UserInterface {
     int32 m_argc;
     char **m_argv;
     void processSwitch(char *);
+    void CheckArgs();
     void ParseArgs();
     Thread *gtkListenThread;
     PlaylistManager *m_plm;

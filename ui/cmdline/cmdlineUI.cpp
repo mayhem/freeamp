@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.17.2.3 1999/08/30 22:35:21 ijr Exp $
+	$Id: cmdlineUI.cpp,v 1.17.2.4 1999/09/10 02:20:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -64,10 +64,6 @@ int getKey() {
 }
 #endif
 
-void cmdlineUI::SetPlaylistManager(PlaylistManager *plm) {
-    m_plm = plm;
-}
-
 cmdlineUI::cmdlineUI(FAContext *context) {
     m_context = context;
     m_plm = NULL;
@@ -86,6 +82,9 @@ Error cmdlineUI::Init(int32 startup_level) {
 	::rawTTY.c_lflag &= ~ECHO;
 	tcsetattr(stdinfd, TCSANOW, &rawTTY);
 	
+        m_propManager = m_context->props;
+        m_plm = m_context->plm;
+        m_playerEQ = m_context->target;
 	
 	keyboardListenThread = Thread::CreateThread();
 	keyboardListenThread->Create(cmdlineUI::keyboardServiceFunction,this);
@@ -96,6 +95,10 @@ Error cmdlineUI::Init(int32 startup_level) {
 	cout << " * -    Prev Song" << endl;
 	cout << " * p    Pause / UnPause" << endl;
 	cout << " * s    Shuffle" << endl << endl;
+
+        m_argc = m_context->argc;
+        m_argv = m_context->argv;
+
 	ProcessArgs();
     }
     return kError_NoErr;
@@ -210,9 +213,6 @@ int32 cmdlineUI::AcceptEvent(Event *e) {
     return 0;
 }
 
-void cmdlineUI::SetArgs(int32 argc, char **argv) {
-    m_argc = argc; m_argv = argv;
-}
 void cmdlineUI::ProcessArgs() {
     char *pc = NULL;
     for(int i=1;i<m_argc;i++) {

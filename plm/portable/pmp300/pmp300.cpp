@@ -18,17 +18,22 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.12 1999/09/09 03:58:13 elrod Exp $
+	$Id: pmp300.cpp,v 1.1.2.13 1999/09/10 02:20:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
 #include <iostream>
 #include <algorithm>
+#ifdef linux
+#include <strstream>
+#else
 #include <sstream>
+#endif
 #include <string>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 #ifdef WIN32
 #include <direct.h>
@@ -542,7 +547,11 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                 m_context->prefs->GetInstallDirectory(tempPath, &length);
                 strcat(tempPath, tmpnam(NULL));
 
+#ifdef WIN32
                 mkdir(tempPath);
+#else
+                mkdir(tempPath, S_IRWXU);
+#endif
 
                 // first get current state of device
                 // we break our lists into internal and 
@@ -615,7 +624,7 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                             memorySize = &internalTotal;
                             addList = &newInternal;
 
-                            if(*memorySize < size)
+                            if(*memorySize < (uint32)size)
                                 useExternal = true;
                             else
                                 *memorySize -= size;
@@ -626,7 +635,7 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                             memorySize = &externalTotal;
                             addList = &newExternal;
 
-                            if(*memorySize < size)
+                            if(*memorySize < (uint32)size)
                                 break;
                             else
                                 *memorySize -= size;
@@ -1265,7 +1274,11 @@ Error privateReadPlaylist(CRio& rio,
             for(uint32 index = 0; index < count; ++index, ++pDirEntry)
             {
                 string url;
+#ifdef linux
+                ostrstream ost;
+#else
                 ostringstream ost;
+#endif
                 MetaData metadata;
 
                 ost << "portable://rio_pmp300/" << 

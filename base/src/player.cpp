@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.38 1998/10/27 21:07:49 jdw Exp $
+	$Id: player.cpp,v 1.39 1998/10/28 02:27:23 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -294,12 +294,12 @@ void Player::Run(){
         {
             if(!CompareNames(item->Name(),name))
             {
-		        m_ui = (UserInterface *)item->InitFunction()();
+		m_ui = (UserInterface *)item->InitFunction()();
 		
-		        m_ui->SetTarget((EventQueue *)this);
+		m_ui->SetTarget((EventQueue *)this);
 		
                 m_ui->SetArgs(m_argc, m_argv);
-		
+		m_ui->Init();
                 RegisterActiveUI(m_ui);
 		        uisActivated++;
                 break;

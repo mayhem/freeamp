@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.h,v 1.4 1998/10/28 02:27:24 jdw Exp $
+	$Id: freeamp-gtk.h,v 1.1 1998/10/28 02:27:24 jdw Exp $
 ____________________________________________________________________________*/
 // CommandLineCIO.h
 
@@ -31,19 +31,20 @@ ____________________________________________________________________________*/
 #include "thread.h"
 #include "playlist.h"
 
-class cmdlineUI : public UserInterface {
+class GtkUI : public UserInterface {
  public:
-    cmdlineUI();
+    GtkUI();
     virtual int32 AcceptEvent(Event *);
     virtual void SetArgs(int argc, char **argv);
     virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
-    virtual void Init() {}
-    static void keyboardServiceFunction(void *);
-    virtual ~cmdlineUI();
- private:
+    virtual void Init();
+    static void gtkServiceFunction(void *);
+    virtual ~GtkUI();
+
     EventQueue *m_playerEQ;
+ private:
     void processSwitch(char *);
-    Thread *keyboardListenThread;
+    Thread *gtkListenThread;
     PlayList *mypl;
 };
 

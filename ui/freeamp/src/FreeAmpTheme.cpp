@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.143 2000/09/20 12:51:36 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.144 2000/09/21 12:44:09 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -784,7 +784,7 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
       }
       case CMD_ShowPreferences:
       {
-         ShowPreferencesEvent* prefsEvent = (ShowPreferencesEvent*)e;
+          ShowPreferencesEvent* prefsEvent = (ShowPreferencesEvent*)e;
       	 ShowOptions(prefsEvent->GetDefaultPage());
       	 break;
       }

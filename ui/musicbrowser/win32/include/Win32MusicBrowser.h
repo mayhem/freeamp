@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.52 1999/12/16 03:06:31 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.53 1999/12/16 10:51:13 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -60,6 +60,15 @@ bool operator<(const TreeData &A, const TreeData &b);
 bool operator==(const TreeData &A, const TreeData &b);
 void ClientToWindow(HWND hWnd, POINT *Pt); 
 extern HINSTANCE g_hinst;
+
+class TrackSort : public binary_function<PlaylistItem*, PlaylistItem*, bool> {
+
+ public:
+    TrackSort(){ }
+
+    bool operator() (PlaylistItem* item1, PlaylistItem* item2) const;
+};
+
 
 bool FileOpenDialog(HWND hwnd, 
                     const char* title,

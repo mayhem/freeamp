@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.11 1998/10/17 21:38:06 elrod Exp $
+	$Id: main.cpp,v 1.12 1998/10/17 21:43:23 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -31,7 +31,6 @@ ____________________________________________________________________________*/
 /* Project Includes */
 #include "player.h"
 #include "event.h"
-#include "utility.h"
 #include "registrar.h"
 #include "dummycoo.h"
 #include "preferences.h"
@@ -56,18 +55,17 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 		 				LPSTR lpszCmdLine, 
 						int cmdShow)
 {
-    // Initialize Windows Registry
-    InitWindowsRegistry();
+    // Initialize the preferences
+   Preferences* prefs;
+
+   prefs = new Preferences;
 
     // find all the plug-ins we use
-    Preferences* prefs;
     Registrar* registrar;
     LMCRegistry* lmc;
     PMIRegistry* pmi;
     PMORegistry* pmo;
     UIRegistry*  ui;
-
-    prefs = new Preferences;
 
     registrar = new Registrar;
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: httpbuffer.cpp,v 1.20 1999/04/26 21:37:17 robert Exp $
+   $Id: httpbuffer.cpp,v 1.21 1999/04/27 21:03:22 mhw Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -394,7 +394,7 @@ Error HttpBuffer::Open(void)
     bool bSave;
     unsigned  size = 255;
     m_context->prefs->GetPrefBoolean(kSaveStreamsPref, &bSave);
-    if (bSave)
+    if (bSave || (m_context->argFlags & FAC_ARGFLAGS_SAVE_STREAMS))
     {
         char szPath[255], szFile[255];
         int i;

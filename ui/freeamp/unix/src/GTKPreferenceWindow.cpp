@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.20 1999/12/18 16:25:53 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.20.2.1 2000/01/03 20:57:09 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -42,10 +42,12 @@ GTKPreferenceWindow::GTKPreferenceWindow(FAContext *context,
 {    
     startPage = defaultPage;
     done = false;
+    m_PMOnames = new vector<string>;
 }
 
 GTKPreferenceWindow::~GTKPreferenceWindow(void)
 {
+    delete m_PMOnames;
 } 
 
 static gboolean pref_destroy(GtkWidget *widget, GTKPreferenceWindow *p)
@@ -400,14 +402,6 @@ void GTKPreferenceWindow::SavePrefsValues(Preferences* prefs,
     }
     prefs->SetUsersPortablePlayers(portableList.c_str());
 
-    Registry *pmo = m_pContext->player->GetPMORegistry();
-    int32 k = 0;
-    RegistryItem *item;
-
-    while (pmo && (item = pmo->GetItem(k++))) {
-        if (values->outputIndex == (k-1))
-            values->defaultPMO = item->Name();
-    }
     prefs->SetDefaultPMO(values->defaultPMO.c_str());
     
     if (*values != currentValues) {
@@ -983,24 +977,26 @@ GtkWidget *GTKPreferenceWindow::CreatePage2(void)
 
 void GTKPreferenceWindow::SetPMO(int newsel)
 {
-    proposedValues.outputIndex = newsel;
+    proposedValues.defaultPMO = (*m_PMOnames)[newsel];
     gtk_widget_set_sensitive(applyButton, TRUE);
 }
 
 void pmo_select(GtkWidget *item, GTKPreferenceWindow *p)
 {
     int i = 0;
+
     if (!GTK_WIDGET_MAPPED(item))
         return;
 
     GSList *glist = gtk_radio_menu_item_group((GtkRadioMenuItem *)
                         (((GtkOptionMenu *)p->pmoOptionMenu)->menu_item));
+
     while (glist && !((GtkCheckMenuItem *)(glist->data))->active) {
         glist = glist->next;
         i++;
     }
- 
-    p->SetPMO(p->numPMOs - i);
+
+    p->SetPMO(p->numPMOs - i - 1);
 }
 
 void GTKPreferenceWindow::AlsaSet(void)
@@ -1045,8 +1041,12 @@ GtkWidget *GTKPreferenceWindow::CreatePage3(void)
     pmoMenu = gtk_menu_new();
     GSList *group = NULL;
     GtkWidget *menuitem;
+    uint32 outputIndex = 0;
 
     while (pmo && (item = pmo->GetItem(i++))) {
+        if (!strncmp("cd.pmo", item->Name(), 7))
+            continue;
+
         menuitem = gtk_radio_menu_item_new_with_label(group, item->Name());
         gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
                            GTK_SIGNAL_FUNC(pmo_select), this);
@@ -1054,10 +1054,9 @@ GtkWidget *GTKPreferenceWindow::CreatePage3(void)
         gtk_menu_append(GTK_MENU(pmoMenu), menuitem);
         if (originalValues.defaultPMO == item->Name()) {
             gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), TRUE);
-
-            originalValues.outputIndex = currentValues.outputIndex = 
-                                         proposedValues.outputIndex = i - 1;
+            outputIndex = i - 1;
         }
+        m_PMOnames->push_back(string(item->Name()));
         gtk_widget_show(menuitem);
     }
 
@@ -1065,8 +1064,7 @@ GtkWidget *GTKPreferenceWindow::CreatePage3(void)
     gtk_option_menu_set_menu(GTK_OPTION_MENU(pmoOptionMenu), pmoMenu);
     gtk_table_attach(GTK_TABLE(table), pmoOptionMenu, 1, 2, 1, 2, GTK_FILL,
                      GTK_FILL, 5, 5);
-    gtk_option_menu_set_history(GTK_OPTION_MENU(pmoOptionMenu),
-                                proposedValues.outputIndex);
+    gtk_option_menu_set_history(GTK_OPTION_MENU(pmoOptionMenu), outputIndex);
     gtk_widget_show(pmoOptionMenu);
 
     frame = gtk_frame_new("ALSA Setup");
@@ -1115,6 +1113,7 @@ GtkWidget *GTKPreferenceWindow::CreatePage3(void)
     gtk_box_pack_start(GTK_BOX(hbox), alsaTwoBox, FALSE, FALSE, 0);
     gtk_widget_show(alsaTwoBox);
 
+/*
     frame = gtk_frame_new("Portable Devices");
     gtk_box_pack_start(GTK_BOX(pane), frame, FALSE, FALSE, 0);
     gtk_container_set_border_width(GTK_CONTAINER(frame), 1);
@@ -1142,6 +1141,7 @@ GtkWidget *GTKPreferenceWindow::CreatePage3(void)
     gtk_box_pack_start(GTK_BOX(vbox), textlabel, TRUE, FALSE, 0);
     gtk_widget_show(textlabel);
 
+*/
     return pane;
 }
 

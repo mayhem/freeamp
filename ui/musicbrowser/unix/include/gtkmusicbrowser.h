@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.21.2.1 2000/01/02 00:59:35 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.21.2.2 2000/01/03 20:57:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -67,13 +67,14 @@ typedef enum {
 } TreeNodeType;
 
 typedef struct {
-    int type;
-    MusicCatalog *catalog;
-    ArtistList   *artist;
-    AlbumList    *album;
-    PlaylistItem *track;
-    string        playlistname;
-    string        message;
+    int                     type;
+    MusicCatalog           *catalog;
+    ArtistList             *artist;
+    AlbumList              *album;
+    PlaylistItem           *track;
+    string                  playlistname;
+    string                  message;
+    vector<PlaylistItem *> *cdtracks;
 } TreeData;
 
 class GTKMusicBrowser {
@@ -185,7 +186,8 @@ class GTKMusicBrowser {
     TreeData *NewTreeData(int type, MusicCatalog *cat = NULL, 
                           ArtistList *art = NULL, AlbumList *alb = NULL, 
                           PlaylistItem *tr = NULL, char *pname = NULL,
-                          char *message = NULL);
+                          char *message = NULL, 
+                          vector<PlaylistItem *> *cdlist = NULL);
 
     void SetToolbarType();
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.48.2.2 2000/01/02 02:25:26 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.48.2.3 2000/01/03 20:57:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -264,7 +264,8 @@ void GTKMusicBrowser::ShowOptions(int page)
 TreeData *GTKMusicBrowser::NewTreeData(int type, MusicCatalog *cat, 
                                        ArtistList *art, AlbumList *alb, 
                                        PlaylistItem *tr, char *pname,
-                                       char *message)
+                                       char *message,
+                                       vector<PlaylistItem *> *cdlist)
 {
     TreeData *data = new TreeData;
     data->type = type;
@@ -280,6 +281,7 @@ TreeData *GTKMusicBrowser::NewTreeData(int type, MusicCatalog *cat,
         data->message = message;
     else 
         data->message = "";
+    data->cdtracks = cdlist;
     return data;
 }
 
@@ -356,6 +358,14 @@ static vector<PlaylistItem *> *getTreeSelection(GtkCTree *tree)
                                (vector<PlaylistItem *>*)cat->GetUnsortedMusic();
             vector<PlaylistItem *>::iterator k = unsorted->begin();
             for (; k != unsorted->end(); k++) {
+                PlaylistItem *item = new PlaylistItem(*(PlaylistItem *)*k);
+                newlist->push_back(item);
+            }
+            break; }
+        case kTreeCDHead: {
+            vector<PlaylistItem *> *cd = data->cdtracks;
+            vector<PlaylistItem *>::iterator k = cd->begin();
+            for (; k != cd->end(); k++) { 
                 PlaylistItem *item = new PlaylistItem(*(PlaylistItem *)*k);
                 newlist->push_back(item);
             }
@@ -1050,7 +1060,7 @@ void GTKMusicBrowser::CreateMainTreeItems(void)
     CDTree = gtk_ctree_insert_node(musicBrowserTree, NULL, NULL, name, 5, 
                                    pixmap, mask, pixmap, mask, false, false);
     data = NewTreeData(kTreeCDHead, NULL, NULL, NULL, NULL, NULL, 
-                       "This tree item contains information on the CD that is currently in your CD-ROM");
+                       "This tree item contains information on the CD that is currently in your CD-ROM", CDTracks);
     gtk_ctree_node_set_row_data(musicBrowserTree, CDTree, data);
 
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.13 1999/12/17 03:23:23 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.13.2.1 2000/01/03 20:57:09 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -45,7 +45,6 @@ typedef struct PrefsStruct
 
     // page 1
     string defaultPMO;
-    int32 outputIndex;
     int32 inputBufferSize;
     int32 outputBufferSize;
     int32 preBufferLength;
@@ -109,7 +108,6 @@ typedef struct PrefsStruct
             saveMusicDirectory == pref.saveMusicDirectory &&
             portablePlayers == pref.portablePlayers &&
             listboxIndex == pref.listboxIndex &&
-            outputIndex == pref.outputIndex && 
             alsaOutput == pref.alsaOutput &&
             true
         );
@@ -190,6 +188,8 @@ class GTKPreferenceWindow : public PreferenceWindow
 
       bool firsttime;
 
+      vector<string> *m_PMOnames;
+ 
   public:
       GtkWidget *mainWindow;
       GtkWidget *pmoOptionMenu;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.43 2000/09/24 19:26:24 ijr Exp $
+	$Id: preferences.h,v 1.44 2000/10/05 11:47:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -100,6 +100,7 @@ extern const char* kCloseDLMOnCompletePref;
 extern const char* kPerformDBCheckPref;
 extern const char* kWAVOutputPathPref;
 extern const char* kPlaylistHeaderColumnsPref;
+extern const char* kAdvancedRelatablePref;
 
 extern const int32 kDefaultWatchThisDirTimeout;
 

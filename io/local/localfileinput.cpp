@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.35 2000/09/20 12:59:13 robert Exp $
+        $Id: localfileinput.cpp,v 1.36 2000/10/05 11:47:33 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -420,5 +420,14 @@ void LocalFileInput::WorkerThread(void)
       }
    }
    m_pContext->log->Log(LogInput, "PMI: filebuffer thread exit\n");
+}
+
+vector<string> * LocalFileInput::GetProtocols(void)
+{
+   vector<string> *protoList = new vector<string>;
+
+   protoList->push_back("file");
+
+   return protoList;
 }
 

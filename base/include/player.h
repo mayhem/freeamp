@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.64 2000/09/20 11:03:51 ijr Exp $
+        $Id: player.h,v 1.65 2000/10/05 11:47:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -89,6 +89,9 @@ class Player : public EventQueue, Properties, PropertyWatcher
     bool    IsSupportedExtension(const char *ext);
     char *GetExtension(const char *title);
  
+    bool  IsSupportedProtocol(const char *proto);
+    char *GetProtocol(const char *title);
+    
     // Properties
     virtual Error GetProperty(const char *, PropValue **);
     virtual Error SetProperty(const char *, PropValue *);
@@ -213,7 +216,8 @@ class Player : public EventQueue, Properties, PropertyWatcher
     char    **m_argv;
 
     map<string, RegistryItem *> *m_lmcExtensions;
-
+    map<string, RegistryItem *> *m_pmiProtocols;
+    
     MusicCatalog *m_musicCatalog;
     UserInterface *m_browserUI;
 

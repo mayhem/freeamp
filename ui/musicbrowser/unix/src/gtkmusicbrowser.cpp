@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.119 2000/10/04 22:49:39 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.120 2000/10/05 11:47:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1008,6 +1008,12 @@ void GTKMusicBrowser::SetClickState(ClickState newState)
     else
         gtk_container_foreach(GTK_CONTAINER(sig), set_label_menu,
                               (gpointer)"Stop Signaturing");
+
+    sig = gtk_item_factory_get_widget(menuFactory,
+                                      "/Relatable/Learn Playlist");
+    bool advancedRelate = false;
+    m_context->prefs->GetPrefBoolean(kAdvancedRelatablePref, &advancedRelate);
+    gtk_widget_set_sensitive(sig, advancedRelate);
 
     m_clickState = newState;
     if (m_clickState == kContextPlaylist) {

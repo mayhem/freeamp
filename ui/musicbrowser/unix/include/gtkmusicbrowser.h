@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: gtkmusicbrowser.h,v 1.57 2000/10/04 22:49:39 ijr Exp $
+    $Id: gtkmusicbrowser.h,v 1.58 2000/10/05 11:47:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -317,6 +317,7 @@ class GTKMusicBrowser {
     void DeleteEvent();
     bool AskToDelete(string url);
     void DeletePlaylistItem(uint32 loc);
+    void HandleKeypress(char key);
     void MoveUpEvent();
     void MoveDownEvent();
     void MoveItemEvent(int source, int dest);

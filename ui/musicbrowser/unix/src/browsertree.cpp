@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.33 2000/10/04 12:18:40 ijr Exp $
+        $Id: browsertree.cpp,v 1.34 2000/10/05 11:47:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -647,6 +647,34 @@ void GTKMusicBrowser::ClearTree(void)
     CreateMainTreeItems();
 
     gtk_clist_thaw(GTK_CLIST(musicBrowserTree));
+}
+
+void GTKMusicBrowser::HandleKeypress(char key)
+{
+    GtkCTreeNode *sibling = GTK_CTREE_ROW(mainTree)->children;
+    sibling = GTK_CTREE_ROW(sibling)->sibling;
+    sibling = GTK_CTREE_ROW(sibling)->sibling;
+
+    while (sibling) {
+        GtkCListRow *row = (GtkCListRow *)GTK_CTREE_ROW(sibling);
+        char *sibtext = GTK_CELL_PIXTEXT(row->cell[0])->text;
+        if (tolower(sibtext[0]) == key) {
+            gtk_ctree_expand(musicBrowserTree, GTK_CTREE_NODE(mainTree));
+            gtk_ctree_node_moveto(musicBrowserTree, GTK_CTREE_NODE(sibling), 
+                                  0, 0.5, 0);
+            gtk_ctree_unselect_recursive(musicBrowserTree, 
+                                         GTK_CTREE_NODE(mainTree));
+            gtk_ctree_select(musicBrowserTree, GTK_CTREE_NODE(sibling));
+            break;
+        }
+        sibling = GTK_CTREE_ROW(sibling)->sibling;
+    }
+}
+
+static void tree_keypress(GtkWidget *w, GdkEventKey *event, GTKMusicBrowser *p)
+{
+    assert(event);
+    p->HandleKeypress(tolower((char)event->keyval));
 }
 
 bool GTKMusicBrowser::CheckEmptyDatabase(void)
@@ -1690,6 +1718,8 @@ void GTKMusicBrowser::CreateTree(void)
                        GTK_SIGNAL_FUNC(ctree_selected), this);
     gtk_signal_connect(GTK_OBJECT(musicBrowserTree), "tree_unselect_row",
                        GTK_SIGNAL_FUNC(ctree_unselected), this);
+    gtk_signal_connect(GTK_OBJECT(musicBrowserTree), "key_press_event",
+                       GTK_SIGNAL_FUNC(tree_keypress), this);
     gtk_clist_set_selection_mode(GTK_CLIST(musicBrowserTree), 
                                  GTK_SELECTION_EXTENDED);
     gtk_clist_set_compare_func(GTK_CLIST(musicBrowserTree), nocase_compare);

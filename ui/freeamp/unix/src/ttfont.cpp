@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-       $Id: ttfont.cpp,v 1.6 2000/05/25 18:21:24 ijr Exp $
+       $Id: ttfont.cpp,v 1.7 2000/10/05 11:47:33 ijr Exp $
  ____________________________________________________________________________*/ 
 
 /*
@@ -157,7 +157,7 @@ calc_size(Efont * f, int *width, int *height, char *text)
 
 static void
 render_text(TT_Raster_Map *rmap, TT_Raster_Map *rchr, Efont *f, char *text,
-	    int *xor, int *yor)
+	    int *xorblah, int *yor)
 {
    TT_Glyph_Metrics    metrics;
    TT_Instance_Metrics imetrics;
@@ -176,7 +176,7 @@ render_text(TT_Raster_Map *rmap, TT_Raster_Map *rchr, Efont *f, char *text,
 
    y_offset = -(f->max_descent / 64);
 
-   *xor = x_offset;
+   *xorblah = x_offset;
    *yor = rmap->rows - y_offset;
 
    rtmp = NULL;

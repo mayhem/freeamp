@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.21 2000/05/25 12:58:23 robert Exp $
+        $Id: httpinput.h,v 1.22 2000/10/05 11:47:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_HTTPINPUT_H_
@@ -81,6 +81,8 @@ class HttpInput:public PhysicalMediaInput
    }
 
    void            WorkerThread(void); 
+
+   virtual vector<string> *GetProtocols(void);
 
 protected:
 

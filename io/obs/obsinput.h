@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.h,v 1.13 1999/11/12 02:36:22 robert Exp $
+        $Id: obsinput.h,v 1.14 2000/10/05 11:47:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_OBSFILEINPUT_H_
@@ -92,6 +92,8 @@ class ObsInput :public PhysicalMediaInput
    }
 
    void           WorkerThread(void);
+
+   virtual vector<string> *GetProtocols(void);
 
  protected:
 

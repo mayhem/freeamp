@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.54 2000/09/28 08:08:00 ijr Exp $
+        $Id: preferences.cpp,v 1.55 2000/10/05 11:47:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -98,6 +98,7 @@ const char* kMusicBrowserHeaderWidthsPref = "MusicBrowserHeaderWidths";
 const char* kCloseDLMOnCompletePref = "CloseDLMOnComplete";
 const char* kPerformDBCheckPref = "PerformDBCheck";
 const char* kPlaylistHeaderColumnsPref = "PlaylistHeaderColumns";
+const char* kAdvancedRelatablePref = "UseAdvancedRelatableFeatures";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -167,6 +168,7 @@ const char* kDefaultMusicBrowserHeaderWidths = "-1,-1,-1.-1";
 const bool  kDefaultCloseDLMOnComplete = false;
 const bool kDefaultPerformDBCheck = true;
 const char* kDefaultPlaylistHeaderColumns = "Title|Artist|Album|Time|Genre";
+const bool kDefaultAdvancedRelatable = false;
 
 Error
 Preferences::
@@ -399,6 +401,9 @@ SetDefaults()
         (uint32 *)&dummyInt) == kError_NoPrefValue)
         SetPrefString(kPlaylistHeaderColumnsPref, kDefaultPlaylistHeaderColumns);
 
+    if (GetPrefBoolean(kAdvancedRelatablePref, &dummyBool) == 
+        kError_NoPrefValue)
+        SetPrefBoolean(kAdvancedRelatablePref, kDefaultAdvancedRelatable);
     return kError_NoErr;
 }
 

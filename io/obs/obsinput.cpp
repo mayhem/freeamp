@@ -19,7 +19,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.33 2000/10/02 08:03:44 ijr Exp $
+        $Id: obsinput.cpp,v 1.34 2000/10/05 11:47:33 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -412,3 +412,13 @@ void ObsInput::WorkerThread(void)
    m_hHandle = -1;
    m_pContext->log->Log(LogInput, "Worker thread done");
 }
+
+vector<string> *ObsInput::GetProtocols(void)
+{
+   vector<string> *protoList = new vector<string>;
+
+   protoList->push_back("rtp");
+
+   return protoList;
+}
+

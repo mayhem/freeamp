@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.14 2000/09/19 07:31:00 ijr Exp $
+   $Id: GTKBitmap.cpp,v 1.15 2000/10/05 11:47:33 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -717,6 +717,9 @@ void GTKBitmap::GetColor(Pos oPos, Color &oColor)
         default:
             break;
     }
+    gdk_image_destroy(m_image);
+    m_image = NULL;
+    m_cache = false;
     gdk_threads_leave();
 }
 

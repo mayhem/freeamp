@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.80 2000/10/05 00:44:54 ijr Exp $
+# $Id: Makefile.in,v 1.81 2000/10/05 11:47:33 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -85,7 +85,7 @@ FREEAMPsolarisLIBS = -ldl -lpthread
 FREEAMPfreebsdLIBS = -pthread
 FREEAMPqnxLIBS = -lasound
 FREEAMPirixLIBS = -lpthread
-UNIXFREEAMPLIBS = $(FREEAMP$(HOST_OS)LIBS) -lmusicbrainz $(EXTRALIBS) #-ldmallocthcxx
+UNIXFREEAMPLIBS = $(FREEAMP$(HOST_OS)LIBS) $(EXTRALIBS) -lmusicbrainz #-ldmallocthcxx
 
 BEOSFREEAMPLIBS = -lbe -lroot
 BEOSFREEAMPPOSTLINK = util/beos/buildresources.pl -o freeamp -s "application/x-vnd.freeamp.freeamp" base/beos/res/freeamp_app.rsrc

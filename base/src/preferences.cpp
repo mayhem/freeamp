@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.33 2000/01/14 20:44:17 elrod Exp $
+        $Id: preferences.cpp,v 1.33.2.1 2000/02/24 00:21:37 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -74,6 +74,7 @@ const char* kWindowModePref = "WindowMode";
 const char* kWelcomePref = "Welcome";
 const char* kPlayImmediatelyPref = "PlayImmediately";
 const char* kNumberOfURLsToRememberPref = "NumberOfURLsToRemember";
+const char* kConvertUnderscoresToSpacesPref = "ConvertUnderscoresToSpaces";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -124,6 +125,7 @@ const bool kDefaultViewMusicBrowser = true;
 const bool kDefaultWelcome = true;
 const bool kDefaultPlayImmediately = true;
 const int32 kDefaultNumberOfURLsToRemember = 10;
+const bool kDefaultConvertUnderscoresToSpaces = true;
 
 Error
 Preferences::
@@ -282,6 +284,9 @@ SetDefaults()
 
     if (GetPrefInt32(kNumberOfURLsToRememberPref, &dummyInt) == kError_NoPrefValue)
         SetPrefInt32(kNumberOfURLsToRememberPref, kDefaultNumberOfURLsToRemember);
+
+    if (GetPrefBoolean(kConvertUnderscoresToSpacesPref, &dummyBool) == kError_NoPrefValue)
+        SetPrefBoolean(kConvertUnderscoresToSpacesPref, kDefaultConvertUnderscoresToSpaces);
 
     return kError_NoErr;
 }
@@ -960,6 +965,20 @@ Preferences::
 SetNumberOfURLsToRemember(int32 value)
 {
     return SetPrefInt32(kNumberOfURLsToRememberPref, value);
+}
+
+Error
+Preferences::
+GetConvertUnderscoresToSpaces(bool* value)
+{
+    return GetPrefBoolean(kConvertUnderscoresToSpacesPref, value);
+}
+
+Error
+Preferences::
+SetConvertUnderscoresToSpaces(bool value)
+{
+    return SetPrefBoolean(kConvertUnderscoresToSpacesPref, value);
 }
 
 LibDirFindHandle *

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.71 2000/08/09 15:44:31 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.72 2000/08/09 17:55:08 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -750,9 +750,12 @@ Error MusicCatalog::RePopulateFromDatabase()
         key = m_database->NextKey(key);
     }
     m_catMutex->Release();
-    set<string> *newset = new set<string>(*m_sigs);
-    m_context->target->AcceptEvent(new GenerateSignatureEvent(newset));
-    m_sigs->erase(m_sigs->begin(), m_sigs->end());
+    if (!m_sigs->empty()) {
+        set<string> *newset = new set<string>;
+        newset->insert(m_sigs->begin(), m_sigs->end());
+        m_context->target->AcceptEvent(new GenerateSignatureEvent(newset));
+        m_sigs->erase(m_sigs->begin(), m_sigs->end());
+    }
     return kError_NoErr;
 }
 

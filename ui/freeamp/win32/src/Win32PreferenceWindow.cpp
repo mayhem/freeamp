@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.52 2000/07/31 19:51:40 ijr Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.53 2000/08/09 17:55:08 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -256,8 +256,8 @@ bool Win32PreferenceWindow::DisplayPreferences(HWND hwndParent)
     m_pages.push_back(page);
         
     GetPrefsValues(&m_originalValues);
-
-    m_proposedValues = m_currentValues = m_originalValues;
+    GetPrefsValues(&m_currentValues);
+    GetPrefsValues(&m_proposedValues);
 
     //result = (PropertySheet(&psh) > 0);
     result = (DialogBox(hinst, 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.11 1999/02/28 00:21:30 robert Exp $
+        $Id: localfileinput.cpp,v 1.12 1999/03/02 01:03:22 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -42,6 +42,9 @@ ____________________________________________________________________________*/
 
 /* project headers */
 #include "localfileinput.h"
+#include "log.h"
+
+LogFile *g_Log;
 
 const int32 iBufferSize = 65536;
 const int32 iOverflowSize = 8192;
@@ -49,8 +52,9 @@ const int32 iTriggerSize = 8192;
 
 extern    "C"
 {
-   PhysicalMediaInput *Initialize()
+   PhysicalMediaInput *Initialize(LogFile *pLog)
    {
+	  g_Log = pLog;
       return new LocalFileInput();
    }
 }

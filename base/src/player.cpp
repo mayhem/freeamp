@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.77 1999/03/01 22:47:22 robert Exp $
+        $Id: player.cpp,v 1.78 1999/03/02 01:03:18 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -841,8 +841,6 @@ void Player::CreateLMC(PlayListItem * pc, Event * pC)
 
 void Player::DoneOutputting(Event *pEvent)
 {
-   Event *e;
-  
    // LMC or PMO sends this when its done
    // outputting whatever.  Now, go on to next
    // piece in playlist

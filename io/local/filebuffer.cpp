@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: filebuffer.cpp,v 1.6 1999/02/28 00:21:29 robert Exp $
+   $Id: filebuffer.cpp,v 1.7 1999/03/02 01:03:21 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -166,8 +166,6 @@ Error FileBuffer::GetID3v1Tag(unsigned char *pTag)
 
 Error FileBuffer::Run(void)
 {
-    int32 iRet;
-
     if (!m_pBufferThread)
     {
        m_pBufferThread = Thread::CreateThread();

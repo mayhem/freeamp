@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: buttonview.cpp,v 1.1 1999/03/03 09:06:20 elrod Exp $
+	$Id: buttonview.cpp,v 1.2 1999/03/15 10:53:04 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -123,7 +123,7 @@ void
 ButtonView::
 LeftButtonUp(int32 x, int32 y, int32 modifiers)
 {
-    if(m_flags & ButtonType_ToggleButton)
+    if(0)//m_flags & ButtonType_ToggleButton)
     {
         if(m_state == Unpressed)
         {
@@ -167,6 +167,30 @@ LeftButtonUp(int32 x, int32 y, int32 modifiers)
     }
 
     Invalidate();
+}
+
+void 
+ButtonView::
+SetState(ButtonState state)
+{
+    if(m_state != state)
+    {
+        if(m_flags & ButtonType_ToggleButton)
+        {
+            m_state = state;
+
+            if(m_state == Unpressed)
+            {
+                m_offset = 0;
+            }
+            else if(m_state == Pressed)
+            {
+                m_offset = Height()*2;
+            }
+        }
+
+        Invalidate();
+    }
 }
 
 void

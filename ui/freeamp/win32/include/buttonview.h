@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: buttonview.h,v 1.1 1999/03/03 09:03:40 elrod Exp $
+	$Id: buttonview.h,v 1.2 1999/03/15 10:53:04 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _BUTTONVIEW_H_
@@ -64,6 +64,9 @@ class ButtonView : public View {
     virtual void LeftButtonUp(int32 x, int32 y, int32 modifiers);
 
     virtual void Invoke(void);
+
+    void SetState(ButtonState state);
+
 
  protected:
     

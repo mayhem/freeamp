@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.h,v 1.1.2.10 1999/09/26 03:23:28 robert Exp $
+   $Id: Canvas.h,v 1.1.2.11 1999/09/28 22:59:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CANVAS_H__
@@ -27,6 +27,10 @@ ____________________________________________________________________________*/
 #include "Types.h"
 #include "Bitmap.h"
 
+const int iMarqueeSpacer = 20;	 // Number of pixels of space to insert
+                                 // between wrappings of the same text.
+const int iMarqueeDelay = 250;   // Number of milliseconds between text
+                                 // marquee frames.
 enum AlignEnum
 {
     eLeft,
@@ -48,13 +52,17 @@ class Canvas
      void SetBackgroundBitmap(Bitmap *pBitmap);
      void SetMaskBitmap(Bitmap *pBitmap);
      Bitmap *GetBackgroundBitmap(void);
-     void SetDefaultFont(const string &oFont);
 
      virtual void  Init(void) = 0;
      virtual void  Erase(Rect &oPaintRect) = 0;
-     virtual Error RenderText(int iFontHeight, Rect &oClipRect,
+     virtual int   RenderText(int iFontHeight, Rect &oClipRect,
                               string &oText, AlignEnum eAlign,
-                              string &oFont, const Color &oColor) = 0;
+                              string &oFont, const Color &oColor,
+                              bool bBold, bool bItalic, bool bUnderline) = 0;
+     virtual int   RenderOffsetText(int iFontHeight, Rect &oClipRect, 
+                                    string &oText, int iOffset,
+                                    string &oFont, const Color &oColor,
+                                    bool bBold, bool bItalic, bool bUnderline) = 0;
      virtual Error Invalidate(Rect &oRect) = 0;
      virtual Error Update(void) = 0;
      virtual Error BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec) = 0;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.1.2.6 1999/09/27 17:47:35 robert Exp $
+   $Id: Win32Window.cpp,v 1.1.2.7 1999/09/28 22:59:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -78,6 +78,8 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
             result = SetWindowLong(hwnd, GWL_USERDATA, (LONG)ui);
             ui->Init();
             
+            SetTimer(hwnd, 0, 250, NULL);
+            
             break;
         }
 
@@ -85,6 +87,8 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
         {
             Rect oRect;
             Pos  oPos;
+
+            KillTimer(hwnd, 0);
  
             ui->GetWindowPosition(oRect);
             oPos.x = oRect.x1;
@@ -93,6 +97,10 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
             PostQuitMessage(0);
             break;
         }    
+
+		case WM_TIMER:
+            ui->TimerEvent();
+            break;
 
         case WM_DESTROY:
             break;

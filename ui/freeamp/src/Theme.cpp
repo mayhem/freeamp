@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.13 1999/09/27 22:20:29 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.14 1999/09/28 22:59:39 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -36,9 +36,11 @@ ____________________________________________________________________________*/
 #ifdef WIN32
 #include "Win32Window.h"
 #include "Win32Bitmap.h"
+#include "Win32Font.h"
 #else
 #include "GTKWindow.h"
 #include "GTKBitmap.h"
+#include "GTKFont.h"
 #endif
 
 const int iThemeVersionMajor = 1;
@@ -313,7 +315,11 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
     {
        Font *pFont;
 
-       pFont = new Font(oAttrMap["Name"], oAttrMap["Face"]);
+#ifndef WIN32
+       pFont = new GTKFont(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
+#else
+       pFont = new Win32Font(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
+#endif
        if (!m_pParsedFonts)
            m_pParsedFonts = new vector<Font *>;
            
@@ -716,15 +722,7 @@ Error Theme::ParsePos(string &oPosstring, Pos &oPos)
     return (iRet == 2) ? kError_NoErr : kError_InvalidParam;
 }
 
-Error Theme::SetDefaultFont(const string &oFont)
+void Theme::SetDefaultFont(const string &oFont)
 { 
-    Canvas *pCanvas;
-    
-    if (!m_pWindow)
-        return kError_InvalidParam;
-
-    pCanvas = m_pWindow->GetCanvas();
-    pCanvas->SetDefaultFont(oFont);
-
-    return kError_NoErr;
+	m_oDefaultFont = oFont;
 }

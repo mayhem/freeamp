@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.1.2.8 1999/09/26 03:23:41 robert Exp $
+   $Id: Window.cpp,v 1.1.2.9 1999/09/28 22:59:41 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -322,4 +322,14 @@ void Window::HandleMouseLButtonUp(Pos &oPos)
     return;
 }
 
-                             
+void Window::TimerEvent(void)
+{
+    vector<Control *>::iterator i;
+
+    for(i = m_oControls.begin(); i != m_oControls.end(); i++)
+    {
+        if ((*i)->WantsTimingMessages())
+            (*i)->AcceptTransition(CT_Timer);
+    }        
+}
+

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: font.h,v 1.1.2.1 1999/09/26 03:23:34 robert Exp $
+   $Id: font.h,v 1.1.2.2 1999/09/28 22:59:34 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_FONT_H__
@@ -44,15 +44,15 @@ class Font
 {
     public:
 
-               Font(string &oName, string &oFace);
+               Font(string &oName, string &oFace, string &oDefault);
       virtual ~Font(void);
       
       virtual Error GetName(string &oName);
       virtual Error GetFace(string &oFace);
 
-	private:
+	protected:
     
-      string   m_oName, m_oFace;
+      string   m_oName, m_oFace, m_oDefault;
 };
 
 #endif

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.1.2.9 1999/09/27 02:02:27 robert Exp $
+   $Id: Control.h,v 1.1.2.10 1999/09/28 22:59:30 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -129,6 +129,7 @@ class Control
       Error StringValue(bool bSet, string &oValue);
 
       virtual bool PosInControl(Pos &oPos);
+      virtual bool WantsTimingMessages(void);
       virtual void Init(void) = 0;
       virtual void AcceptTransition(ControlTransitionEnum eTrans,
                                     Pos *pMousePos = NULL);
@@ -154,7 +155,7 @@ class Control
       ControlStateEnum       m_eCurrentState, m_eLastState;
       vector<TransitionInfo> m_oTransitions;
       Window                *m_pParent;
-      bool                   m_bShow, m_bEnable;
+      bool                   m_bShow, m_bEnable, m_bWantsTimingMessages;
       int                    m_iValue;
       string                 m_oValue;
 };

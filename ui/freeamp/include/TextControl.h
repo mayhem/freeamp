@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.h,v 1.1.2.8 1999/09/27 19:20:35 ijr Exp $
+   $Id: TextControl.h,v 1.1.2.9 1999/09/28 22:59:31 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_TEXTCONTROL_H__
@@ -46,11 +46,14 @@ class TextControl : public Control
     private:
 
       void       TextChanged(void);
+      void       MarqueeText(void);
+      
       AlignEnum	 m_eAlign;
       Color      m_oColor;
       string     m_oFont;
       bool       m_bBold, m_bItalic, m_bUnderline;
       Font      *m_pFont;
+      int        m_iMarqueePos;
 };
 
 #endif

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.18 1999/09/28 20:22:13 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.19 1999/09/28 22:59:37 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -49,9 +49,6 @@ extern    "C"
 
 FreeAmpTheme::FreeAmpTheme(FAContext * context)
 {
-   char          szTemp[255];
-   unsigned int  iLen = 255;
-   
    m_pContext = context;
    m_iCurrentSeconds = 0;
    m_iTotalSeconds = -1;
@@ -70,9 +67,6 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
 
    LoadFreeAmpTheme();
    SelectWindow(m_oCurrentWindow);
-   
-   m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
-   SetDefaultFont(string(szTemp));
 }
 
 FreeAmpTheme::~FreeAmpTheme()
@@ -94,8 +88,15 @@ Error FreeAmpTheme::Init(int32 startup_type)
 void FreeAmpTheme::WorkerThread(void)
 {
    char   szTemp[255];
+   unsigned int  iLen = 255;
    Error  eRet;
    bool   bSet = false;
+   string oWelcome("Welcome to FreeAmp");
+
+   m_pContext->prefs->GetPrefString(kMainWindowPosPref, szTemp, &iLen);
+   sscanf(szTemp, " %d , %d", &m_oWindowPos.x, &m_oWindowPos.y);
+
+   //m_pWindow->ControlStringValue(string("Title"), true, oWelcome);
 
    eRet = Theme::Run(m_oWindowPos);
    if (!IsError(eRet))
@@ -132,9 +133,9 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
    oThemePath = szTemp;
    SetThemePath(oThemePath);
    
-   m_pContext->prefs->GetPrefString(kMainWindowPosPref, szTemp, &iLen);
-   sscanf(szTemp, " %d , %d", &m_oWindowPos.x, &m_oWindowPos.y);
-
+   m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
+   SetDefaultFont(string(szTemp));
+   
    eRet = LoadTheme(oThemeFile);
    if (IsError(eRet))					   
    {
@@ -500,6 +501,9 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
        oThemePath = szTemp;
        SetThemePath(oThemePath);
+
+       m_pContext->prefs->GetPrefString(kThemeDefaultFontPref, szTemp, &iLen);
+       SetDefaultFont(string(szTemp));
 
 	   eRet = LoadTheme(oThemeFile);
 	   if (IsError(eRet))					   

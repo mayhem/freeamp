@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.1.2.10 1999/09/27 00:00:53 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.1.2.11 1999/09/28 22:59:47 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -101,8 +101,8 @@ void Win32Bitmap::CreateMaskBitmap(void)
    pInfo->bmiHeader.biBitCount = 24;
    pInfo->bmiHeader.biCompression = BI_RGB;
 
-   pMaskInfo = (BITMAPINFO *)new char[sizeof(BITMAPINFOHEADER) + 2 * 
-                                  sizeof(RGBQUAD)];
+   pMaskInfo = (BITMAPINFO *)new char[sizeof(BITMAPINFOHEADER) + 
+                                      64 * sizeof(RGBQUAD)];
    pMaskInfo->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
    pMaskInfo->bmiHeader.biWidth = sInfo.bmWidth;
    pMaskInfo->bmiHeader.biHeight = sInfo.bmHeight;

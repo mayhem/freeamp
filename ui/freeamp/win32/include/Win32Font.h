@@ -18,32 +18,38 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: font.cpp,v 1.1.2.3 1999/09/28 22:59:42 robert Exp $
+   $Id: Win32Font.h,v 1.1.2.1 1999/09/28 22:59:44 robert Exp $
 ____________________________________________________________________________*/ 
 
-#include "font.h"
+#ifndef INCLUDED_WIN32FONT_H__
+#define INCLUDED_WIN32FONT_H__
 
-Font::Font(string &oName, string &oFace, string &oDefault)
+// The debugger can't handle symbols more than 255 characters long.
+// STL often creates symbols longer than that.
+// When symbols are longer than 255 characters, the warning is disabled.
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
+
+#include <string>
+#include <windows.h>
+
+using namespace std;
+
+#include "Font.h"
+
+class Win32Font : public Font
 {
-   m_oName = oName;
-   m_oFace = oFace;
-   m_oDefault = oDefault;
-}
+    public:
 
-Font::~Font(void)
-{
-}
+               Win32Font(string &oName, string &oFace, string &oDefault);
+      virtual ~Win32Font(void);
+      
+      int      Callback(unsigned char *szFontFace);
+      
+    protected:
+      
+      bool m_bFound;
+};
 
-Error Font::GetName(string &oName)
-{
-   oName = m_oName;
-   
-   return kError_NoErr;
-}
-
-Error Font::GetFace(string &oFace)
-{
-   oFace = m_oFace;
-
-   return kError_NoErr;
-}
+#endif

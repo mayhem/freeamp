@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.1.2.10 1999/09/27 17:47:31 robert Exp $
+   $Id: Window.h,v 1.1.2.11 1999/09/28 22:59:33 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -85,6 +85,7 @@ class Window
      
      // This init call is made after the window is created
       virtual void  Init(void);
+      virtual void  TimerEvent(void);
 
       // Run handles OS dependent messages and calls the functions below
       // or passes the messages on to child controls

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.h,v 1.1.2.11 1999/09/27 22:20:26 robert Exp $
+   $Id: Theme.h,v 1.1.2.12 1999/09/28 22:59:32 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_THEME_H__
@@ -66,11 +66,10 @@ class Theme : public Parse
       virtual Error Close(void);
       virtual void  SetThemePath(string &oPath);
       virtual Error LoadTheme(string &oFile);
-      virtual Error SetDefaultFont(const string &oFont);
       virtual Error HandleControlMessage(string &oControlName, 
                                          ControlMessageEnum eMesg) = 0;
       virtual void  InitControls(void) = 0;
-      
+      virtual void  SetDefaultFont(const string &oFont);
 
     protected:
      
@@ -101,6 +100,7 @@ class Theme : public Parse
       bool              m_bReloadTheme, m_bReloadWindow;
       string            m_oReloadWindow, m_oReloadFile;
       ControlTypeEnum   m_eCurrentControl;
+      string            m_oDefaultFont;
 };
 
 #endif

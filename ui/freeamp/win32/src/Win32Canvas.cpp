@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.1.2.8 1999/09/26 03:23:49 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.1.2.9 1999/09/28 22:59:48 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -59,13 +59,18 @@ void Win32Canvas::Init(void)
    m_pBufferBitmap->BlitRect(m_pBGBitmap, m_oBGRect, oDestRect);
 }
 
-Error Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect, 
-                              string &oText, AlignEnum eAlign,
-                              string &oFont, const Color &oColor)
+// This function returns the number of pixels of the text that
+// were clipped if the text does not fit into the clipping rect.
+// If the text all fit, it returns 0.
+int Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect, 
+                            string &oText, AlignEnum eAlign,
+                            string &oFont, const Color &oColor,
+                            bool bBold, bool bItalic, bool bUnderline)
 {
    HDC   hRootDC, hMemDC;
    HFONT hFont;
    RECT  sClip;
+   SIZE  sSize;
    
    sClip.left = oClipRect.x1;
    sClip.right = oClipRect.x2;
@@ -80,25 +85,20 @@ Error Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect,
    
    DeleteObject(SelectObject(hMemDC, m_pBufferBitmap->GetBitmapHandle()));
    
-   hFont = CreateFont(iFontHeight, 0, 0, 0, FW_BOLD, 0, 0, 0, DEFAULT_CHARSET,
+   hFont = CreateFont(iFontHeight, 0, 0, 0, bBold ? FW_BOLD : FW_NORMAL, 
+                      bItalic, bUnderline, 0, DEFAULT_CHARSET,
  					  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
                       DEFAULT_PITCH, oFont.c_str()); 
                       
-   if (!hFont)
-   {
-       Debug_v("usgin default: %s", m_oDefaultFont.c_str());
-       hFont = CreateFont(iFontHeight, 0, 0, 0, FW_BOLD, 0, 0, 0, DEFAULT_CHARSET,
- 	     				  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-                          DEFAULT_PITCH, m_oDefaultFont.c_str()); 
-   }                       
-
    DeleteObject(SelectObject(hMemDC, hFont));
 
    SetBkMode(hMemDC, TRANSPARENT);
    SetTextColor(hMemDC, RGB(oColor.red, oColor.green, oColor.blue));
-   DrawText(hMemDC, oText.c_str(), oText.length(), &sClip, 
-            (eAlign == eLeft) ? DT_LEFT :
-		    (eAlign == eRight) ? DT_RIGHT : DT_CENTER);
+   DrawText(hMemDC, oText.c_str(), oText.length(), &sClip, DT_NOPREFIX |
+            ((eAlign == eLeft) ? DT_LEFT :
+		    (eAlign == eRight) ? DT_RIGHT : DT_CENTER));
+            
+   GetTextExtentPoint32(hMemDC, oText.c_str(), oText.length(), &sSize);
           
    DeleteDC(hMemDC);
    DeleteObject(hFont);
@@ -106,7 +106,79 @@ Error Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect,
    Invalidate(oClipRect);
    Update();
 
-   return kError_NoErr;
+   return max(0, sSize.cx - oClipRect.Width());
+}
+
+
+// This function returns the number of pixels of the text that
+// were clipped if the text does not fit into the clipping rect.
+// If the text all fit, it returns 0.
+int Win32Canvas::RenderOffsetText(int iFontHeight, Rect &oClipRect, 
+                                  string &oText, int iOffset,
+                                  string &oFont, const Color &oColor,
+                                  bool bBold, bool bItalic, bool bUnderline)
+{
+   HDC   hRootDC, hMemDC;
+   HFONT hFont;
+   RECT  sClip;
+   SIZE  sSize;
+   int   iRet;
+   
+   sClip.left = oClipRect.x1;
+   sClip.right = oClipRect.x2;
+   sClip.top = oClipRect.y1;
+   sClip.bottom = oClipRect.y2;
+
+   Erase(oClipRect);
+   
+   hRootDC = GetDC(NULL);
+   hMemDC = CreateCompatibleDC(hRootDC);
+   ReleaseDC(NULL, hRootDC);
+   
+   DeleteObject(SelectObject(hMemDC, m_pBufferBitmap->GetBitmapHandle()));
+   
+   hFont = CreateFont(iFontHeight, 0, 0, 0, bBold ? FW_BOLD : FW_NORMAL, 
+                      bItalic, bUnderline, 0, DEFAULT_CHARSET,
+ 					  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+                      DEFAULT_PITCH, oFont.c_str()); 
+                      
+   DeleteObject(SelectObject(hMemDC, hFont));
+
+   GetTextExtentPoint32(hMemDC, oText.c_str(), oText.length(), &sSize);
+
+   // The size of this text is artificially inflated to insert some
+   // spaces between occurances of this string. Otherwise, the end of
+   // the first string would run right into the beginning of the next.
+   sSize.cx += iMarqueeSpacer;
+   if (iOffset > sSize.cx)
+   {
+      DeleteDC(hMemDC);
+      DeleteObject(hFont);
+      return sSize.cx - iOffset;
+   }   
+
+   SetBkMode(hMemDC, TRANSPARENT);
+   SetTextColor(hMemDC, RGB(oColor.red, oColor.green, oColor.blue));
+   ExtTextOut(hMemDC, oClipRect.x1 - iOffset, oClipRect.y1, ETO_CLIPPED,
+              &sClip, oText.c_str(), oText.length(), NULL);
+
+   // If some space was left in the clipping rectangle, textout
+   // the same string right at the end of the previous string
+   // The above sSize.cx += iMarqueeSpacer ensures that there is
+   // a space between the first and second string.
+   iRet = sSize.cx - iOffset - oClipRect.Width();
+   if (iRet < 0)
+       ExtTextOut(hMemDC, oClipRect.x1 + (sSize.cx - iOffset), 
+                  oClipRect.y1, ETO_CLIPPED,
+                  &sClip, oText.c_str(), oText.length(), NULL);
+          
+   DeleteDC(hMemDC);
+   DeleteObject(hFont);
+
+   Invalidate(oClipRect);
+   Update();
+   
+   return max(iRet, 0);
 }
 
 Error Win32Canvas::Invalidate(Rect &oRect)

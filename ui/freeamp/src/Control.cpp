@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.1.2.10 1999/09/27 00:00:48 robert Exp $
+   $Id: Control.cpp,v 1.1.2.11 1999/09/28 22:59:36 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -53,7 +53,8 @@ Control::Control(Window *pWindow, string &oName, TransitionInfo *pInfo)
     m_bEnable = true;
     m_iValue = 0;
     m_pBitmap = NULL;
-
+    m_bWantsTimingMessages = false;
+    
     for(iLoop = 0; ; iLoop++, pInfo++)
     {
         if (pInfo->eState == CS_LastState)
@@ -97,8 +98,11 @@ Error Control::IntValue(bool bSet, int &iValue)
 {
     if (bSet)
     {
-        m_iValue = iValue;
-        AcceptTransition(CT_SetValue);
+    	if (m_iValue != iValue)
+        {
+            m_iValue = iValue;
+            AcceptTransition(CT_SetValue);
+        }   
     }
     else
         iValue = m_iValue;
@@ -110,8 +114,11 @@ Error Control::StringValue(bool bSet, string &oValue)
 {
     if (bSet)
     {
-        m_oValue = oValue;
-        AcceptTransition(CT_SetValue);
+    	if (m_oValue != oValue)
+        {
+            m_oValue = oValue;
+            AcceptTransition(CT_SetValue);
+        }   
     }
     else
         oValue = m_oValue;
@@ -215,3 +222,8 @@ void Control::GetTip(string &oTip)
 {
     oTip = m_oToolTip;
 }    
+
+bool Control::WantsTimingMessages(void)
+{
+	return m_bWantsTimingMessages;
+}

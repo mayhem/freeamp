@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.13 1999/12/21 20:31:56 robert Exp $
+   $Id: Window.h,v 1.14 2000/01/05 00:23:24 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -44,8 +44,8 @@ using namespace std;
 #include "semaphore.h"
 #include "mutex.h"
 
-typedef map<string, Control *> ControlMap;
-typedef map<string, Control *>::iterator ControlMapIterator;
+typedef multimap<string, Control *> ControlMap;
+typedef multimap<string, Control *>::iterator ControlMapIterator;
 
 class Theme;
 

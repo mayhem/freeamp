@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.24 2000/01/04 19:07:55 robert Exp $
+   $Id: Win32Window.cpp,v 1.25 2000/01/05 00:23:26 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -410,7 +410,7 @@ Error Win32Window::VulcanMindMeld(Window *pOther)
     sRect.top = oRect.y1;
     sRect.right = oRect.y2;
 
-    InvalidateRect(NULL, &sRect, true);
+    ShowWindow(m_hWnd, SW_HIDE);
     
     eRet = Window::VulcanMindMeld(pOther);
     m_pMindMeldMutex->Release();
@@ -437,7 +437,7 @@ Error Win32Window::VulcanMindMeld(Window *pOther)
 
         CreateTooltips();
 
-	    InvalidateRect(m_hWnd, NULL, false);
+        ShowWindow(m_hWnd, SW_SHOW);
         UpdateWindow(m_hWnd);
     }    
 

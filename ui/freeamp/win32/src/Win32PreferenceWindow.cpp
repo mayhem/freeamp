@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.62 2000/10/05 12:29:30 ijr Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.63 2000/10/06 11:45:50 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -3982,7 +3982,7 @@ bool Win32PreferenceWindow::PrefBrowserProc(HWND hwnd,
         case UWM_HELP:
         case WM_HELP:
         {
-            //ShowHelp(m_pContext, Preferences_Advanced);
+            ShowHelp(m_pContext, Preferences_MusicBrowser);
             break;
         }
 
@@ -3994,7 +3994,7 @@ bool Win32PreferenceWindow::PrefBrowserProc(HWND hwnd,
             {
                 case PSN_HELP:
                 {
-         //           ShowHelp(m_pContext, Preferences_Advanced);
+                    ShowHelp(m_pContext, Preferences_MusicBrowser);
                     break;
                 }
                 case PSN_SETACTIVE:

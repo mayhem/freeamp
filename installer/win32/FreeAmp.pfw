@@ -21,7 +21,7 @@ Type=2
 Compress=1
 Sign=0
 Transfer=0
-Files=29
+Files=36
 
 [Engine]
 Setup=disk1\SETUP.EXE
@@ -60,175 +60,217 @@ Count=1
 Folder1=disk1
 
 [File 1]
-Name=os.dat
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 2]
-Name=_ISDEL.EXE
-Path=Media\32bit\Disk Images\disk1\
-Flags=589825
-Disk=0
-
-[File 3]
-Name=SETUP.EXE
-Path=Media\32bit\Disk Images\disk1\
-Flags=589825
-Disk=0
-
-[File 4]
-Name=lang.dat
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 5]
-Name=_INST32I.EX_
-Path=Media\32bit\Disk Images\disk1\
-Flags=524289
-Disk=0
-
-[File 6]
-Name=_SETUP.DLL
-Path=Media\32bit\Disk Images\disk1\
-Flags=655377
-Disk=0
-
-[File 7]
-Name=setup.ins
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 8]
-Name=_sys1.cab
-Path=Media\32bit\Disk Images\disk1\
-Flags=2097153
-Disk=0
-
-[File 9]
-Name=DATA.TAG
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 10]
-Name=SETUP.INI
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 11]
-Name=_user1.cab
-Path=Media\32bit\Disk Images\disk1\
-Flags=2097153
-Disk=0
-
-[File 12]
-Name=layout.bin
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 13]
-Name=freeamp.exe
-Path=Media\32bit\Disk Images\disk1\
-Flags=65537
-Disk=0
-
-[File 14]
-Name=ReadMe.txt
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 15]
-Name=portio.sys
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 16]
-Name=Copying.txt
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 17]
-Name=Changes.txt
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 18]
 Name=Authors.txt
 Path=Media\32bit\Disk Images\disk1\
 Flags=1
 Disk=0
 
-[File 19]
-Name=fileinput.pmi
+[File 2]
+Name=Changes.txt
 Path=Media\32bit\Disk Images\disk1\
 Flags=1
 Disk=0
 
-[File 20]
-Name=httpinput.pmi
+[File 3]
+Name=Copying.txt
 Path=Media\32bit\Disk Images\disk1\
 Flags=1
 Disk=0
 
-[File 21]
-Name=obsinput.pmi
+[File 4]
+Name=DATA.TAG
 Path=Media\32bit\Disk Images\disk1\
 Flags=1
 Disk=0
 
-[File 22]
-Name=soundcard.pmo
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 23]
-Name=dsoundcard.pmo
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 24]
-Name=xing.lmc
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 25]
-Name=rainplay.ui
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 26]
-Name=simple.ui
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 27]
-Name=freeamp.ui
-Path=Media\32bit\Disk Images\disk1\
-Flags=1
-Disk=0
-
-[File 28]
+[File 5]
 Name=data1.cab
 Path=Media\32bit\Disk Images\disk1\
 Flags=2097153
 Disk=0
 
-[File 29]
+[File 6]
+Name=download.ui
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 7]
+Name=dsoundcard.pmo
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 8]
+Name=fileinput.pmi
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 9]
+Name=freeamp.exe
+Path=Media\32bit\Disk Images\disk1\
+Flags=65537
+Disk=0
+
+[File 10]
+Name=freeamp.fat
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 11]
+Name=freeamp.ui
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 12]
+Name=httpinput.pmi
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 13]
+Name=id3v1.mdf
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 14]
+Name=id3v2.mdf
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 15]
+Name=lang.dat
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 16]
+Name=layout.bin
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 17]
+Name=m3u.plf
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 18]
+Name=msvcirt.dll
+Path=Media\32bit\Disk Images\disk1\
+Flags=131089
+Disk=0
+
+[File 19]
+Name=musicbrowser.ui
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 20]
+Name=obsinput.pmi
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 21]
+Name=os.dat
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 22]
+Name=pmp300.ppp
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 23]
+Name=portio.sys
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 24]
+Name=ReadMe.txt
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 25]
+Name=SETUP.EXE
+Path=Media\32bit\Disk Images\disk1\
+Flags=589825
+Disk=0
+
+[File 26]
+Name=SETUP.INI
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 27]
+Name=setup.ins
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 28]
 Name=setup.lid
 Path=Media\32bit\Disk Images\disk1\
 Flags=1
+Disk=0
+
+[File 29]
+Name=soundcard.pmo
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 30]
+Name=update.exe
+Path=Media\32bit\Disk Images\disk1\
+Flags=65537
+Disk=0
+
+[File 31]
+Name=xing.lmc
+Path=Media\32bit\Disk Images\disk1\
+Flags=1
+Disk=0
+
+[File 32]
+Name=_INST32I.EX_
+Path=Media\32bit\Disk Images\disk1\
+Flags=524289
+Disk=0
+
+[File 33]
+Name=_ISDEL.EXE
+Path=Media\32bit\Disk Images\disk1\
+Flags=589825
+Disk=0
+
+[File 34]
+Name=_SETUP.DLL
+Path=Media\32bit\Disk Images\disk1\
+Flags=655377
+Disk=0
+
+[File 35]
+Name=_sys1.cab
+Path=Media\32bit\Disk Images\disk1\
+Flags=2097153
+Disk=0
+
+[File 36]
+Name=_user1.cab
+Path=Media\32bit\Disk Images\disk1\
+Flags=2097153
 Disk=0

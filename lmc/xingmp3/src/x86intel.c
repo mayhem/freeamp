@@ -26,7 +26,7 @@
 /*	along with this program; if not, write to the Free Software */
 /*	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. */
 
-/*	$Id: x86intel.c,v 1.2 1999/03/04 23:43:22 mhw Exp $ */
+/*	$Id: x86intel.c,v 1.3 1999/03/04 23:56:17 mhw Exp $ */
 /*	Generated from Id: x86gas.s,v 1.7 1999/03/04 07:28:16 mhw Exp $ */
 
 
@@ -45,7 +45,7 @@ __asm {
 	mov DWORD PTR [esp+L_pcm],ecx
 
 	mov ebp,511		; ebp = 511
-	lea ecx,_wincoef	; coef = wincoef
+	lea ecx,wincoef	; coef = wincoef
 	add esi,16		; si = vb_ptr + 16
 	mov ebx,esi
 	add ebx,32

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.h,v 1.6 2000/05/06 21:44:11 ijr Exp $
+   $Id: SliderControl.h,v 1.6.20.1 2000/09/29 15:06:36 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_SLIDERCONTROL_H__
@@ -29,6 +29,7 @@ ____________________________________________________________________________*/
 class SliderControl : public Control
 {
     public:
+
 
                SliderControl(Window *pWindow, string &oName, int iThumbs,
                              int iNumFrames);
@@ -44,6 +45,8 @@ class SliderControl : public Control
                                    int iFrames, bool bHoriz, int iDelta,
                                    bool bMiddle);
 
+	virtual void Keystroke(unsigned char cKey);
+
     private:
 
               void MoveThumb(int iCurrentPos, int iNewPos);
@@ -52,6 +55,7 @@ class SliderControl : public Control
       Pos     m_oOrigin, m_oLastPos;
       int     m_iRange;
       int     m_iCurrentPos;
+	  int     m_iOrigPos;
       int     m_iThumbWidth;
       bool    m_bIsDrag, m_bInUpdate;
       int     m_iNumThumbStates, m_iNumFrames;

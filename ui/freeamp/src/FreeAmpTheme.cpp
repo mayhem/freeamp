@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.146 2000/09/28 08:08:02 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.146.4.1 2000/09/29 15:06:36 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -942,14 +942,15 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        return kError_NoErr;
    }
    if (oControlName == string("Volume") && 
-       (eMesg == CM_ValueChanged || eMesg == CM_SliderUpdate))
+       (eMesg == CM_ValueChanged || eMesg == CM_SliderUpdate ||
+	    eMesg == CM_DragCancelled))
    {
        int iVol;
 
        if (eMesg == CM_SliderUpdate)
            m_bVolumeChangeInProgress = true;
            
-       if (eMesg == CM_ValueChanged)
+       if (eMesg == CM_ValueChanged || CM_DragCancelled)
            m_bVolumeChangeInProgress = false;
 
        m_pWindow->ControlIntValue(oControlName, false, iVol);
@@ -1034,6 +1035,18 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        UpdateTimeDisplay(iTime);
        m_bSeekInProgress = true;
               
+       return kError_NoErr;
+   }
+   if (oControlName == string("Seek") && eMesg == CM_DragCancelled)
+   {
+       string oName("Time"), oText("");
+       int    iValue, iTime;
+       
+       m_pWindow->ControlIntValue(oControlName, false, iValue);
+       
+       iTime = (iValue * m_iTotalSeconds) / 100;
+       UpdateTimeDisplay(iTime);
+       m_bSeekInProgress = false;
        return kError_NoErr;
    }    
    if (oControlName == string("Preamp") && eMesg == CM_SliderUpdate)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.h,v 1.5 2000/05/06 21:44:11 ijr Exp $
+   $Id: VSliderControl.h,v 1.5.20.1 2000/09/29 15:06:36 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_VSLIDERCONTROL_H__
@@ -44,6 +44,8 @@ class VSliderControl : public Control
                                    int iFrames, bool bHoriz, int iDelta,
                                    bool bMiddle);
 
+     virtual  void Keystroke(unsigned char cKey);
+
     private:
 
               void MoveThumb(int iCurrentPos, int iNewPos);
@@ -52,6 +54,7 @@ class VSliderControl : public Control
       Pos     m_oOrigin, m_oLastPos;
       int     m_iRange;
       int     m_iCurrentPos;
+	  int     m_iOrigPos;
       int     m_iThumbHeight;
       bool    m_bIsDrag, m_bInUpdate;
       int     m_iNumThumbStates, m_iNumFrames;

@@ -290,11 +290,11 @@ INTDIR=.\Debug
 
 !IF "$(RECURSE)" == "0" 
 
-ALL : "..\..\..\..\config\config.h" ".\freeamp.ui"
+ALL : ".\freeamp.ui"
 
 !ELSE 
 
-ALL : "unzip - Win32 NASM Debug" "fabaselib - Win32 NASM Debug" "zlib - Win32 NASM Debug" "..\..\..\..\config\config.h" ".\freeamp.ui"
+ALL : "unzip - Win32 NASM Debug" "fabaselib - Win32 NASM Debug" "zlib - Win32 NASM Debug" ".\freeamp.ui"
 
 !ENDIF 
 
@@ -342,7 +342,6 @@ CLEAN :
 	-@erase "$(OUTDIR)\freeamp.pdb"
 	-@erase ".\freeamp.ilk"
 	-@erase ".\freeamp.ui"
-	-@erase "..\..\..\..\config\config.h"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -405,7 +404,7 @@ DS_POSTBUILD_DEP=$(INTDIR)\postbld.dep
 
 ALL : $(DS_POSTBUILD_DEP)
 
-$(DS_POSTBUILD_DEP) : "unzip - Win32 NASM Debug" "fabaselib - Win32 NASM Debug" "zlib - Win32 NASM Debug" "..\..\..\..\config\config.h" ".\freeamp.ui"
+$(DS_POSTBUILD_DEP) : "unzip - Win32 NASM Debug" "fabaselib - Win32 NASM Debug" "zlib - Win32 NASM Debug" ".\freeamp.ui"
    IF NOT EXIST ..\..\..\..\base\win32\prj\plugins mkdir                                                          ..\..\..\..\base\win32\prj\plugins
 	copy freeamp.ui                                         ..\..\..\..\base\win32\prj\plugins
 	echo Helper for Post-build step > "$(DS_POSTBUILD_DEP)"
@@ -968,7 +967,7 @@ SOURCE=..\res\freeampui.rc
 !ELSEIF  "$(CFG)" == "freeampui - Win32 NASM Debug"
 
 
-"$(INTDIR)\freeampui.res" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\freeampui.res" : $(SOURCE) "$(INTDIR)" "..\..\..\..\config\config.h"
 	$(RSC) /l 0x409 /fo"$(INTDIR)\freeampui.res" /i "\Local\src\freeamp\ui\freeamp\win32\res" /d "_DEBUG" $(SOURCE)
 
 

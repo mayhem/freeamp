@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Panel.h,v 1.3 2000/08/08 22:06:12 ijr Exp $
+   $Id: Panel.h,v 1.3.8.1 2000/09/29 15:06:36 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_PANEL__H_
@@ -84,6 +84,8 @@ class Panel
       void    SetOnOpenShow(Panel *pPanel);
       void    SetOnCloseHide(Panel *pPanel);
       void    SetOnCloseShow(Panel *pPanel);
+
+	  void	  Keystroke(unsigned char cKey);
 
       Control *ControlFromPos(Pos &oPos);
       void    GetControlToolTips(vector<pair<Rect, string> > &oList);

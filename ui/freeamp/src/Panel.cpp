@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Panel.cpp,v 1.7 2000/08/08 22:34:43 robert Exp $
+   $Id: Panel.cpp,v 1.7.8.1 2000/09/29 15:06:36 elrod Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -252,6 +252,26 @@ Error Panel::ControlGetTip(const string &oTarget, string &oTip)
 bool Panel::DoesControlExist(const string &oName)
 {
     return m_oControlMap.find(oName) != m_oControlMap.end();
+}
+
+void Panel::Keystroke(unsigned char cKey)
+{
+	vector<Control *>::iterator i;
+    bool                        bShown;
+
+    if (m_bIsHidden)
+       return;
+
+    for(i = m_oControls.begin(); i != m_oControls.end(); i++)
+    {
+        (*i)->Show(false, bShown);
+
+        if (bShown) 
+        {
+			(*i)->Keystroke(cKey);
+        }    
+    }        
+
 }
 
 Control *Panel::ControlFromPos(Pos &oPos)

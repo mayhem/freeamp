@@ -421,6 +421,18 @@ SOURCE=..\res\unchecked.bmp
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\..\..\..\..\..\include\algobase.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\base\aps\aps.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\base\aps\apsmetadata.h
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\..\..\..\..\Program Files\Microsoft Visual Studio\VC98\Include\BASETSD.H"
 # End Source File
 # Begin Source File
@@ -485,6 +497,10 @@ SOURCE=..\..\..\..\base\include\facontext.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\..\base\aps\FAMetaUnit.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\include\Font.h
 # End Source File
 # Begin Source File
@@ -501,7 +517,19 @@ SOURCE=..\..\..\..\lib\gdbm\gdbm_fa.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\..\..\..\include\hashtable.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\include\Headlines.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\..\..\include\heap.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\base\include\help.h
 # End Source File
 # Begin Source File
 
@@ -549,6 +577,10 @@ SOURCE=..\..\..\..\base\win32\include\mutex.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\include\Panel.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\..\lib\xml\include\Parse.h
 # End Source File
 # Begin Source File
@@ -558,6 +590,10 @@ SOURCE=..\..\..\..\io\include\pipeline.h
 # Begin Source File
 
 SOURCE=..\..\include\PixFontControl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\include\PixSliderControl.h
 # End Source File
 # Begin Source File
 
@@ -625,6 +661,14 @@ SOURCE=..\..\include\SliderControl.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\..\..\..\include\stl_config.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\..\..\include\tempbuf.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\include\TextControl.h
 # End Source File
 # Begin Source File
@@ -650,6 +694,14 @@ SOURCE=..\..\..\..\base\include\thread.h
 # Begin Source File
 
 SOURCE=..\..\..\..\base\include\timer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\..\..\include\tree.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\..\..\include\type_traits.h
 # End Source File
 # Begin Source File
 

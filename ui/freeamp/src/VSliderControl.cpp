@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: VSliderControl.cpp,v 1.17 2000/09/11 23:21:13 ijr Exp $
+   $Id: VSliderControl.cpp,v 1.17.6.1 2000/09/29 15:06:36 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -335,6 +335,7 @@ void VSliderControl::HandleDrag(ControlTransitionEnum  eTrans,
     if (m_oOrigin.y == -1)
     {
         m_oLastPos = m_oOrigin = *pPos;
+		m_iOrigPos = m_iCurrentPos;
 
         m_oMutex.Release();
 
@@ -473,4 +474,25 @@ void VSliderControl::BlitTrough(int iPos)
 
     pCanvas->Invalidate(oDestRect);
     pCanvas->Update();
+}
+
+void VSliderControl::Keystroke(unsigned char cKey)
+{
+	if(cKey == 27)
+	{
+		if(m_eCurrentState == CS_Dragging)
+		{
+			m_eCurrentState = CS_Normal;
+			m_pParent->EndMouseCapture();
+            m_pParent->HideMouse(false);
+
+			MoveThumb(m_iCurrentPos, m_iOrigPos);
+			m_iCurrentPos = m_iOrigPos;
+			m_iValue = (m_iCurrentPos * 100) / m_iRange;
+
+			m_oOrigin.y = -1;
+
+			m_pParent->SendControlMessage(this, CM_DragCancelled);
+		}
+	}
 }

@@ -20,7 +20,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.44 2000/09/21 13:03:03 robert Exp $
+   $Id: Win32Window.cpp,v 1.44.6.1 2000/09/29 15:06:37 elrod Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -274,10 +274,10 @@ LRESULT Win32Window::WindowProc(HWND hwnd, UINT msg,
             if (wParam == VK_F1)
             {
                wParam = 'h';
-               Keystroke((unsigned char)wParam);
+			   Keystroke((unsigned char)wParam);
             }
-            else   
-               result = DefWindowProc( hwnd, msg, wParam, lParam );
+			else
+				result = DefWindowProc( hwnd, msg, wParam, lParam );
                
             break;
         }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.50 2000/09/28 09:22:25 ijr Exp $
+   $Id: Window.cpp,v 1.50.4.1 2000/09/29 15:06:36 elrod Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -753,6 +753,13 @@ void Window::SetLiveInToolbar(bool bLive)
 
 void Window::Keystroke(unsigned char cKey)
 {
+	vector<Panel *>::iterator   i;
+
+	for(i = m_oPanels.begin(); i != m_oPanels.end(); i++)
+    {
+        (*i)->Keystroke(cKey);
+    }
+
     m_pTheme->HandleKeystroke(cKey);
 }
 

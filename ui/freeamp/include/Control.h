@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.18 2000/06/13 20:24:32 ijr Exp $
+   $Id: Control.h,v 1.18.10.1 2000/09/29 15:06:36 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -58,6 +58,7 @@ enum ControlMessageEnum
     CM_WindowEnter,
     CM_WindowLeave,
     CM_TogglePanel,
+	CM_DragCancelled,
 
     CM_LastValue
 };
@@ -154,6 +155,7 @@ class Control
       virtual void Move(Pos &oPos);
       virtual void AcceptTransition(ControlTransitionEnum eTrans,
                                     Pos *pMousePos = NULL);
+	  virtual void Keystroke(unsigned char cKey) { }
 
     protected:
 

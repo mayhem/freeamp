@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.47 2000/08/15 20:53:07 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.48 2000/08/16 18:33:34 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -193,7 +193,7 @@ bool GTKPreferenceWindow::Show(Window *pWindow)
     gdk_threads_enter();
 
     mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_modal(GTK_WINDOW(mainWindow), TRUE);
+    //gtk_window_set_modal(GTK_WINDOW(mainWindow), TRUE);
     gtk_signal_connect(GTK_OBJECT(mainWindow), "destroy",
                        GTK_SIGNAL_FUNC(pref_destroy), this);
     gtk_window_set_title(GTK_WINDOW(mainWindow), BRANDING" - Preferences");

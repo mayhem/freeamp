@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.138 2000/09/01 10:57:59 ijr Exp $
+   $Id: xinglmc.cpp,v 1.139 2000/09/21 16:32:34 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -876,8 +876,10 @@ void XingLMC::DecodeWork()
               return;
           }
 
+DB
           x = m_audioMethods.decode((unsigned char *)pBuffer, 
                                     (short *)pOutBuffer);
+DB
           if (x.in_bytes == 0)
 		  {
              EndRead(x.in_bytes);

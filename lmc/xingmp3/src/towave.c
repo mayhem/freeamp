@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: towave.c,v 1.4 2000/05/09 10:21:02 elrod Exp $
+	$Id: towave.c,v 1.5 2000/09/21 16:32:34 robert Exp $
 ____________________________________________________________________________*/
 
 /* ------------------------------------------------------------------------
@@ -159,6 +159,14 @@ extern unsigned int global_cycles;
 
 #endif
 
+float equalizer[32] = {
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+};
+int enableEQ = 0;
+float EQ_gain_adjust = 1.0;
 
 /*********  bitstream buffer */
 #define BS_BUFBYTES 60000U

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.cpp,v 1.12 1999/03/13 00:45:21 robert Exp $
+        $Id: obsinput.cpp,v 1.13 1999/03/24 18:11:52 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -106,7 +106,7 @@ bool ObsInput::CanHandle(char *szUrl, char *szTitle)
    return bRet;
 }
 
-Error ObsInput::SetTo(char *url)
+Error ObsInput::SetTo(char *url, bool bStartThread)
 {
    Error     result = kError_NoErr;
 
@@ -143,7 +143,7 @@ Error ObsInput::SetTo(char *url)
          assert(m_pPullBuffer);
 
          result = m_pPullBuffer->Open();
-         if (!IsError(result))
+         if (!IsError(result) && bStartThread)
             result = m_pPullBuffer->Run();
       }
    }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: httpbuffer.cpp,v 1.11 1999/03/07 01:29:51 robert Exp $
+   $Id: httpbuffer.cpp,v 1.12 1999/03/24 18:11:45 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -289,7 +289,12 @@ Error HttpBuffer::Open(void)
 
 		  if (iRet != iICY_OK)
 		  {
-            g_Log->Error("This stream is not available: %s\n", m_szError);
+            char szErr[255];
+
+            sprintf(szErr, "This stream is not available: %s\n", m_szError);
+            g_Log->Error(szErr);
+            m_pHttp->ReportError(szErr);
+
 		      delete pInitialBuffer;
 		      closesocket(m_hHandle);
 				return (Error)httpError_CustomError;

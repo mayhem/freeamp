@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.70 1999/03/23 19:51:45 robert Exp $
+   $Id: xinglmc.cpp,v 1.71 1999/03/24 18:11:54 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -956,7 +956,7 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
        m_iBufferUpdate = iNow;
   	}
 
-   if (bBufferUp && iInPercent < 10 && iOutPercent < 10)
+   if (bBufferUp && iInPercent < 5 && iOutPercent < 5)
    {
        int iBufferUpBytes;
 

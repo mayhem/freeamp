@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.104 1999/03/20 10:33:17 elrod Exp $
+        $Id: player.cpp,v 1.105 1999/03/24 18:11:44 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -991,7 +991,7 @@ void Player::GetMediaTitle(Event *pEventArg)
          pPmi = (PhysicalMediaInput *)pRegItem->InitFunction()(g_Log);
 
          pPmi->SetTarget((EventQueue *)this);
-         eRet = pPmi->SetTo(pItem->URL());
+         eRet = pPmi->SetTo(pItem->URL(), false);
          if (!IsError(eRet))
          {
             eRet = pPmi->GetID3v1Tag(szTagBuffer);

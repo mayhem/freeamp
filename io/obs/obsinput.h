@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.h,v 1.6 1999/03/13 00:45:22 robert Exp $
+        $Id: obsinput.h,v 1.7 1999/03/24 18:11:53 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSFILEINPUT_H_
@@ -59,7 +59,7 @@ class     ObsInput:public PhysicalMediaInput
 	virtual bool  CachePMI() 
 	              { return true; };
 
-   virtual Error SetTo(char *url);
+   virtual Error SetTo(char *url, bool bStartThread = true);
    virtual Error Close(void);
    virtual const char *Url(void) const
    {

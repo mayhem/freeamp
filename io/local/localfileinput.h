@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.h,v 1.12 1999/03/13 00:45:20 robert Exp $
+        $Id: localfileinput.h,v 1.13 1999/03/24 18:11:51 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LOCALFILEINPUT_H_
@@ -53,7 +53,7 @@ class     LocalFileInput:public PhysicalMediaInput
    virtual Error SetBufferSize(size_t iNewSize)
                  { return kError_NoErr; };
 
-   virtual Error SetTo(char *url);
+   virtual Error SetTo(char *url, bool bStartThread = true);
    virtual Error Close(void);
    virtual const char *Url(void) const
    {

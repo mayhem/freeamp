@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.15 1999/03/13 00:45:19 robert Exp $
+        $Id: localfileinput.cpp,v 1.16 1999/03/24 18:11:50 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -104,7 +104,7 @@ bool LocalFileInput::CanHandle(char *szUrl, char *szTitle)
    return bRet;
 }
 
-Error     LocalFileInput::SetTo(char *url)
+Error     LocalFileInput::SetTo(char *url, bool bStartThread)
 {
    Error     result = kError_NoErr;
    
@@ -146,9 +146,12 @@ Error     LocalFileInput::SetTo(char *url)
          result = m_pPullBuffer->Open();
          if (!IsError(result))
          {
-             result = m_pPullBuffer->Run();
-             if (IsError(result))
-                 ReportError("Could run the input plugin.");
+             if (bStartThread)
+             {
+                result = m_pPullBuffer->Run();
+                if (IsError(result))
+                    ReportError("Could run the input plugin.");
+             }
          }
          else
              ReportError("Could not open the specified file.");

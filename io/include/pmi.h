@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.19 1999/03/13 00:45:18 robert Exp $
+	$Id: pmi.h,v 1.20 1999/03/24 18:11:49 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -88,7 +88,7 @@ public:
 
 	 virtual Error SetPropManager(Properties *) = 0;
 		 
-    virtual Error SetTo(char* url) = 0;
+    virtual Error SetTo(char* url, bool bStartThread = true) = 0;
     virtual Error SetTarget(EventQueue *target)
                   { m_target = target; return kError_NoErr; };
     virtual Error Close(void) = 0;

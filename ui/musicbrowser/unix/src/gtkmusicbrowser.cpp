@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.13 1999/10/30 04:26:59 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.14 1999/11/04 04:39:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1217,7 +1217,7 @@ void GTKMusicBrowser::LoadPlaylist(string &oPlaylist)
         char *PlaylistURL = new char[length];
         if (IsntError(FilePathToURL(oPlaylist.c_str(), PlaylistURL, &length))) {
             m_plm->ReadPlaylist(PlaylistURL);
-            m_currentListName = oPlaylist;
+            m_currentListName = PlaylistURL;
             UpdatePlaylistList();
         }
         delete [] PlaylistURL;
@@ -1527,7 +1527,7 @@ void GTKMusicBrowser::PopUpInfoEditor(PlaylistItem *editee)
 
 void GTKMusicBrowser::SaveCurrentPlaylist(char *path)
 {
-    if (path)
+    if (path != NULL)
         m_currentListName = path;
 
     if (m_currentListName.length() == 0)
@@ -1666,7 +1666,7 @@ void GTKMusicBrowser::Close(void)
     }
 
     gdk_threads_leave();
- 
+
     SaveCurrentPlaylist(NULL);
 }
 

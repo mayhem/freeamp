@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.12 1999/11/02 20:25:01 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.13 1999/11/03 03:53:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -658,7 +658,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        ShellExecute(hWnd, "open", oUrl.c_str(),
                     NULL, NULL, SW_SHOWNORMAL);
 #else
-       LaunchBrowser(oUrl.c_str());
+       LaunchBrowser((char *)oUrl.c_str());
 #endif
    }
    if (oControlName == string("Help") && eMesg == CM_Pressed)
@@ -1002,8 +1002,10 @@ void FreeAmpTheme::DropFiles(vector<string> *pFileList)
 
 void FreeAmpTheme::PostWindowCreate(void)
 {
+#ifdef WIN32
     Int32PropValue *pProp;
     
     pProp = new Int32PropValue((int)((Win32Window *)m_pWindow)->GetWindowHandle());
     m_pContext->props->SetProperty("MainWindow", pProp);
+#endif
 }

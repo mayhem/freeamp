@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: MultiStateControl.cpp,v 1.4 1999/11/02 20:25:02 robert Exp $
+   $Id: MultiStateControl.cpp,v 1.5 1999/11/03 03:53:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -71,7 +71,7 @@ MultiStateControl::~MultiStateControl(void)
 
 void MultiStateControl::GetDesc(string &oDesc)
 {
-    int i = m_iState;
+    uint32 i = m_iState;
 
     if (m_oDescs.size() == 0)
     {
@@ -87,7 +87,7 @@ void MultiStateControl::GetDesc(string &oDesc)
 
 void MultiStateControl::GetTip(string &oTip)
 {
-    int i = m_iState;
+    uint32 i = m_iState;
     
     if (m_oTips.size() == 0)
     {
@@ -103,8 +103,9 @@ void MultiStateControl::GetTip(string &oTip)
 
 void MultiStateControl::Init(void)
 {
-    int   iOffset, iRet;
-    char *szDup;
+    uint32 iOffset;
+    int    iRet;
+    char  *szDup;
 
     szDup = strdup(m_oDesc.c_str());
     iOffset = 0;

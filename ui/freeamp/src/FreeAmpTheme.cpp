@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.144 2000/09/21 12:44:09 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.145 2000/09/21 14:03:16 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -990,6 +990,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        int    iPos;
 
        m_pWindow->ControlIntValue(oControlName, false, iPos);
+       m_eq->ChangeValue(atoi(oControlName.c_str() + 2), iPos); 
        sprintf(szText, "%d db", ((iPos - 50) * 2) / 3);
        oDesc = string(szText);
        m_pWindow->ControlStringValue(oName, true, oDesc);
@@ -1036,6 +1037,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        int    iPos;
 
        m_pWindow->ControlIntValue(oControlName, false, iPos);
+       m_eq->ChangePreamp(iPos); 
        sprintf(szText, "%d db", ((iPos - 50) * 10) / 25);
        oDesc = string(szText);
        m_pWindow->ControlStringValue(oName, true, oDesc);

@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.34 1998/11/09 10:10:18 elrod Exp $
+	$Id: xinglmc.cpp,v 1.35 1998/11/12 20:22:08 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -260,6 +260,7 @@ Error XingLMC::InitDecoder() {
 	    info.bits_per_sample = decinfo.bits;
 	    info.number_of_channels = decinfo.channels;
 	    info.samples_per_second = decinfo.samprate;
+	    cout << "sampersec : " << decinfo.samprate;
 	    info.max_buffer_size = (info.number_of_channels * 2 * 1152) << 2;
 //	    info.max_buffer_size = PCM_BUFBYTES;
 	    Error error = m_output->Init(&info);

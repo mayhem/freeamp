@@ -18,9 +18,9 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.2 1998/10/16 22:25:31 jdw Exp $
+##      $Id: Makefile.am,v 1.3 1998/11/12 20:22:08 jdw Exp $
 ##
 ############################################################################
 
-SUBDIRS = xingmp3 src
+SUBDIRS = xingmp3 src mpg123
 

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.9 1999/11/03 19:45:18 robert Exp $
+   $Id: Win32Window.cpp,v 1.10 1999/11/03 22:36:29 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -102,7 +102,6 @@ LRESULT Win32Window::WindowProc(HWND hwnd, UINT msg,
 {
     LRESULT result = 0;
 
-    m_pMindMeldMutex->Acquire();
     switch (msg)
     {
 		case WM_CLOSE:
@@ -121,14 +120,18 @@ LRESULT Win32Window::WindowProc(HWND hwnd, UINT msg,
         }    
 
 		case WM_TIMER:
+            m_pMindMeldMutex->Acquire();
             TimerEvent();
+            m_pMindMeldMutex->Release();
             break;
 
         case WM_DESTROY:
             break;
 
         case WM_PAINT:
+            m_pMindMeldMutex->Acquire();
             Paint();
+            m_pMindMeldMutex->Release();
             break;
 
         case WM_MOUSEMOVE:
@@ -214,7 +217,6 @@ LRESULT Win32Window::WindowProc(HWND hwnd, UINT msg,
             break;
 
     }
-    m_pMindMeldMutex->Release();
 
     return result;
 }

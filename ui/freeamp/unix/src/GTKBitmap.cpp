@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.1.2.8 1999/09/27 19:20:36 ijr Exp $
+   $Id: GTKBitmap.cpp,v 1.1.2.9 1999/09/28 05:16:53 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -55,22 +55,27 @@ GTKBitmap::GTKBitmap(string &oName)
     m_Bitmap = NULL;
     m_MaskBitmap = NULL;
     shape_set = false;
+    gdk_threads_enter();
     m_GC = gdk_gc_new(gdk_window_foreign_new(GDK_ROOT_WINDOW()));
+    gdk_threads_leave();
 }
 
 GTKBitmap::GTKBitmap(int iWidth, int iHeight, string &oName) 
           :Bitmap(oName)
 {
     m_oBitmapName = oName;
+    m_MaskBitmap = NULL;
+    shape_set = false;
+    gdk_threads_enter();
     m_Bitmap = gdk_pixmap_new(NULL, iWidth, iHeight, 
                               gdk_visual_get_best_depth());
-    m_MaskBitmap = NULL;
-    shape_set = true;
     m_GC = gdk_gc_new(gdk_window_foreign_new(GDK_ROOT_WINDOW()));
+    gdk_threads_leave();
 }
 
 GTKBitmap::~GTKBitmap(void)
 {
+    gdk_threads_enter();
     if (m_Bitmap)
         gdk_pixmap_unref(m_Bitmap);
     m_Bitmap = NULL;
@@ -82,6 +87,7 @@ GTKBitmap::~GTKBitmap(void)
     if (m_GC)
         gdk_gc_unref(m_GC);
     m_GC = NULL; 
+    gdk_threads_leave();
 }
 
 Error GTKBitmap::ReadleShort(FILE *file, gushort *ret)
@@ -459,6 +465,7 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
         }
     }
 
+    gdk_threads_enter();
     if (m_bHasTransColor) {
         ptr = data;
         m_MaskBitmap = gdk_pixmap_new(NULL, w, h, 1);
@@ -485,6 +492,7 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
     gdk_draw_rgb_image(m_Bitmap, m_GC, 0, 0, w, h, GDK_RGB_DITHER_MAX, data, 
                        w * 3);
 
+    gdk_threads_leave();
     g_free(data);
     g_free(buffer);
 
@@ -502,9 +510,11 @@ Error GTKBitmap::BlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect,
     GdkWindow *src = (GdkWindow *)(((GTKBitmap *)pSrcBitmap)->m_Bitmap);
     GdkWindow *dest = (GdkWindow *)m_Bitmap;
 
+    gdk_threads_enter();
     gdk_window_copy_area(dest, m_GC, oDestRect.x1, oDestRect.y1, src,
                          oSrcRect.x1, oSrcRect.y1, oDestRect.Width(),
                          oDestRect.Height());
+    gdk_threads_leave();
 
     return kError_NoErr;
 }
@@ -520,11 +530,13 @@ Error GTKBitmap::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect,
     if (!src->GetMask())
         return BlitRect(pSrcBitmap, oSrcRect, oDestRect);
 
+    gdk_threads_enter();
     gdk_gc_set_clip_mask(m_GC, src->GetMask());
     gdk_gc_set_clip_origin(m_GC, oDestRect.x1 - oSrcRect.x1, oDestRect.y1 - 
                            oSrcRect.y1);
     gdk_draw_pixmap(dest, m_GC, src->GetBitmap(), oSrcRect.x1, oSrcRect.y1, 
                     oDestRect.x1, oDestRect.y1, w, h);
-    
+    gdk_threads_leave();    
+
     return kError_NoErr;
 }

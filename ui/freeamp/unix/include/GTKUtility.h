@@ -18,14 +18,18 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.h,v 1.1.2.1 1999/09/27 19:20:36 ijr Exp $
+   $Id: GTKUtility.h,v 1.1.2.2 1999/09/28 05:16:53 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKUTILITY__H_
 #define INCLUDED_GTKUTILITY__H_
 
 #include <gdk/gdk.h>
+#include "facontext.h"
+
 void IconifyWindow(GdkWindow *win);
 void WarpPointer(GdkWindow *win, int x, int y);
+void InitializeGTK(FAContext *context);
+void ShutdownGTK(void);
 
 #endif

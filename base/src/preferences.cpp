@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.17.2.3 1999/09/26 03:23:00 robert Exp $
+        $Id: preferences.cpp,v 1.17.2.4 1999/09/28 05:16:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -31,6 +31,8 @@ const char* kInstallDirPref = "InstallDirectory";
 const char* kLibraryPathPref = "LibraryPath";
 const char* kUIPref = "UI";
 const char* kTextUIPref = "TextUI";
+const char* kMusicBrowserUIPref = "MusicBrowserUI";
+const char* kDownloadManagerUIPref = "DownloadManagerUI";
 const char* kPMOPref = "PMO";
 const char* kALSADevicePref = "ALSADevice";
 const char* kESOUNDHostPref = "EsounDHost";
@@ -86,6 +88,8 @@ const char *kDefaultThemeDefaultFont = "Arial";
 #else
 const char *kDefaultThemeDefaultFont = "Helvetica";
 #endif
+const char *kDefaultDownloadManagerUI = "download.ui";
+const char *kDefaultMusicBrowserUI = "musicbrowser.ui";
 
 Error
 Preferences::
@@ -172,6 +176,16 @@ SetDefaults()
     if (GetPrefString(kThemeDefaultFontPref, dummyString, 
         (uint32 *)&dummyInt) == kError_NoPrefValue)
         SetPrefString(kThemeDefaultFontPref, kDefaultThemeDefaultFont);
+
+    dummyInt = 255;
+    if (GetPrefString(kMusicBrowserUIPref, dummyString,
+        (uint32 *)&dummyInt) == kError_NoPrefValue)
+        SetPrefString(kMusicBrowserUIPref, kDefaultMusicBrowserUI);
+
+    dummyInt = 255;
+    if (GetPrefString(kDownloadManagerUIPref, dummyString,
+        (uint32 *)&dummyInt) == kError_NoPrefValue)
+        SetPrefString(kDownloadManagerUIPref, kDefaultDownloadManagerUI);
 
     return kError_NoErr;
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.6 1999/09/24 18:23:40 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.7 1999/09/28 05:16:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -32,9 +32,9 @@ ____________________________________________________________________________*/
 #include "fileselector.h"
 
 /* evil, yes */
-musicbrowserUI *localui = NULL;
+MusicBrowserUI *localui = NULL;
 
-void musicbrowserUI::UpdateCatalog(void)
+void MusicBrowserUI::UpdateCatalog(void)
 {
     m_musicCatalog = m_context->browser->m_catalog;
 
@@ -115,7 +115,7 @@ void musicbrowserUI::UpdateCatalog(void)
     }
 }
 
-void music_search_internal(GtkWidget *widget, musicbrowserUI *p)
+void music_search_internal(GtkWidget *widget, MusicBrowserUI *p)
 {
     p->StartMusicSearch();
 }
@@ -125,7 +125,7 @@ void music_search()
     localui->StartMusicSearch();
 }
 
-void musicbrowserUI::CreateExpanded(void)
+void MusicBrowserUI::CreateExpanded(void)
 {
     GtkWidget *hbox;
     GtkWidget *browserlabel;
@@ -177,7 +177,7 @@ void musicbrowserUI::CreateExpanded(void)
     gtk_widget_show(button);
 }
 
-void musicbrowserUI::ExpandCollapseEvent(void)
+void MusicBrowserUI::ExpandCollapseEvent(void)
 {
     if (m_state == STATE_COLLAPSED) {
         CreateExpanded();
@@ -196,22 +196,22 @@ void musicbrowserUI::ExpandCollapseEvent(void)
     }
 }
 
-void expand_collapse_internal(GtkWidget *widget, musicbrowserUI *p)
+void expand_collapse_internal(GtkWidget *widget, MusicBrowserUI *p)
 {
     p->ExpandCollapseEvent();
 }
 
-void delete_list_internal(GtkWidget *widget, musicbrowserUI *p)
+void delete_list_internal(GtkWidget *widget, MusicBrowserUI *p)
 {
     p->DeleteListEvent();
 }
 
-void delete_internal(GtkWidget *widget, musicbrowserUI *p)
+void delete_internal(GtkWidget *widget, MusicBrowserUI *p)
 {
     p->DeleteEvent();
 }
 
-void add_track_plist_internal(GtkWidget *widget, musicbrowserUI *p)
+void add_track_plist_internal(GtkWidget *widget, MusicBrowserUI *p)
 {
     FileSelector *filesel = new FileSelector("Add a Track");
     filesel->SetExtended();
@@ -231,23 +231,23 @@ void add_track_plist_internal(GtkWidget *widget, musicbrowserUI *p)
     delete filesel;
 }
 
-void move_up_internal(GtkWidget *widget, musicbrowserUI *p)
+void move_up_internal(GtkWidget *widget, MusicBrowserUI *p)
 {
     p->MoveUpEvent();
 }
 
-void move_down_internal(GtkWidget *widget, musicbrowserUI *p)
+void move_down_internal(GtkWidget *widget, MusicBrowserUI *p)
 {
     p->MoveDownEvent();
 }
 
-void playlist_row_move_internal(GtkWidget *widget, int source, int dest, musicbrowserUI *p)
+void playlist_row_move_internal(GtkWidget *widget, int source, int dest, MusicBrowserUI *p)
 {
     p->MoveItemEvent(source, dest);
 }
 
 void set_current_index_internal(GtkWidget *widget, int row, int column, 
-                                GdkEventButton *button, musicbrowserUI *p)
+                                GdkEventButton *button, MusicBrowserUI *p)
 {
     p->m_currentindex = row;
     if (button && button->type == GDK_2BUTTON_PRESS)
@@ -259,7 +259,7 @@ void quit_menu()
     gtk_main_quit();
 }
 
-void sort_playlist_internal(int column, musicbrowserUI *p, PlaylistSortType type                            = PlaylistSortType_Ascending)
+void sort_playlist_internal(int column, MusicBrowserUI *p, PlaylistSortType type                            = PlaylistSortType_Ascending)
 {
     PlaylistSortKey key;
 
@@ -341,7 +341,7 @@ void new_list()
     localui->m_currentListName = "";
 }
 
-void new_list_internal(GtkWidget *widget, musicbrowserUI *p)
+void new_list_internal(GtkWidget *widget, MusicBrowserUI *p)
 {
     p->SaveCurrentPlaylist();
     p->DeleteListEvent();
@@ -375,7 +375,7 @@ void about()
    cout << " - Need to parse file if no metadata exists.\n";
 }
 
-void musicbrowserUI::CreateMenu(GtkWidget *topbox)
+void MusicBrowserUI::CreateMenu(GtkWidget *topbox)
 {
     GtkItemFactory *item_factory;
     GtkAccelGroup *accel_group;
@@ -439,10 +439,12 @@ void musicbrowserUI::CreateMenu(GtkWidget *topbox)
     gtk_widget_show(separator);
 }
 
-void musicbrowserUI::UpdatePlaylistList(void)
+void MusicBrowserUI::UpdatePlaylistList(void)
 {
-    gtk_clist_freeze(GTK_CLIST(playlistList));
+    if (!playlistList)
+        return;
 
+    gtk_clist_freeze(GTK_CLIST(playlistList));
     gtk_clist_clear(GTK_CLIST(playlistList));
 
     uint32 iLoop = m_plm->CountItems();
@@ -477,7 +479,7 @@ void musicbrowserUI::UpdatePlaylistList(void)
 }
 
 
-void playlist_column_click_internal(GtkCList *clist, gint column, musicbrowserUI                                    *p)
+void playlist_column_click_internal(GtkCList *clist, gint column, MusicBrowserUI                                    *p)
 {
     if (column == p->m_playlistLastSort) {
         if (p->m_playlistColumnSort == PlaylistSortType_Ascending)
@@ -492,7 +494,7 @@ void playlist_column_click_internal(GtkCList *clist, gint column, musicbrowserUI
     sort_playlist_internal(column, p, p->m_playlistColumnSort);
 }
     
-void musicbrowserUI::CreatePlaylistList(GtkWidget *box)
+void MusicBrowserUI::CreatePlaylistList(GtkWidget *box)
 {
     static char *titles[] =
     {
@@ -515,7 +517,7 @@ void musicbrowserUI::CreatePlaylistList(GtkWidget *box)
     UpdatePlaylistList();
 }
 
-void musicbrowserUI::SetStatusText(const char *text)
+void MusicBrowserUI::SetStatusText(const char *text)
 {
     if (statusContext > 0) 
         gtk_statusbar_pop(GTK_STATUSBAR(statusBar), statusContext);
@@ -525,7 +527,7 @@ void musicbrowserUI::SetStatusText(const char *text)
     gtk_statusbar_push(GTK_STATUSBAR(statusBar), 1, text);
 }
 
-void musicbrowserUI::CreatePlaylist(void)
+void MusicBrowserUI::CreatePlaylist(void)
 {
     GtkWidget *vbox;
     GtkWidget *buttonvbox;

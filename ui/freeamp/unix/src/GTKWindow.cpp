@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.5 1999/09/27 19:20:36 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.6 1999/09/28 05:16:53 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -64,6 +64,7 @@ GTKWindow::GTKWindow(Theme *pTheme, string &oName)
 
 GTKWindow::~GTKWindow(void)
 {
+    Close();
     delete m_pCanvas;
     m_pCanvas = NULL;
 }
@@ -76,6 +77,7 @@ Error GTKWindow::Run(Pos &oPos)
     m_oWindowPos = oPos;
     m_pCanvas->Init();
 
+    gdk_threads_enter();
     iMaxX = gdk_screen_width();
     iMaxY = gdk_screen_height();
  
@@ -91,7 +93,7 @@ Error GTKWindow::Run(Pos &oPos)
     gtk_window_set_title(GTK_WINDOW(mainWindow), "FreeAmp");
     gtk_window_set_policy(GTK_WINDOW(mainWindow), TRUE, TRUE, TRUE);
     gtk_signal_connect(GTK_OBJECT(mainWindow), "destroy",
-                       GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
+                       GTK_SIGNAL_FUNC(gtk_widget_destroy), NULL);
     gtk_widget_set_uposition(mainWindow, m_oWindowPos.x, m_oWindowPos.y);
     gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
 
@@ -112,15 +114,15 @@ Error GTKWindow::Run(Pos &oPos)
 
     gtk_widget_show(mainWindow);
     gdk_flush(); 
- 
-    gtk_main();  
+
+    gdk_threads_leave();
 
     return kError_NoErr;
 }
 
 Error GTKWindow::Close(void)
 {
-    gtk_main_quit();
+    gtk_widget_destroy(mainWindow);
     return kError_NoErr;
 }
 

@@ -18,12 +18,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.16 1999/09/27 22:20:28 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.17 1999/09/28 05:16:53 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 #ifndef WIN32
-#include <gtk/gtk.h>
+#include "GTKUtility.h"
 #endif
 
 #include "FreeAmpTheme.h"
@@ -43,7 +43,6 @@ extern    "C"
 {
    UserInterface *Initialize(FAContext * context)
    {
-	  Debug_v("##Clear");
       return new FreeAmpTheme(context);
    }
 }
@@ -66,16 +65,8 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
 #ifndef WIN32
     // This needs to be done before _any_ gdk/gtk calls, so really needs
     // go here...
-    m_pContext->gtkLock.Acquire();
-    if (!m_pContext->gtkInitialized) {
-        g_thread_init(NULL);
-        gtk_init(&(m_pContext->argc), &(m_pContext->argv));
-        gdk_rgb_init();
-        m_pContext->gtkInitialized = true;
-    }
-    m_pContext->gtkLock.Release();
+    InitializeGTK(m_pContext);
 #endif
-
 
    LoadFreeAmpTheme();
    SelectWindow(m_oCurrentWindow);
@@ -162,6 +153,10 @@ Error FreeAmpTheme::Close(void)
 	Theme::Close();
     
     m_uiThread->Join();
+
+#ifndef WIN32
+    ShutdownGTK();
+#endif
 
     return kError_NoErr;
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.9 1999/09/27 19:20:35 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.10 1999/09/28 05:16:53 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "gtkmusicbrowser.h" 
@@ -28,30 +28,34 @@ ____________________________________________________________________________*/
 extern "C" {
 
 UserInterface *Initialize(FAContext *context) {
-    return new musicbrowserUI(context);
+    return new MusicBrowserUI(context);
 }
            }
 
-musicbrowserUI::musicbrowserUI(FAContext *context)
+MusicBrowserUI::MusicBrowserUI(FAContext *context)
 {
     m_context = context;
     m_plm = NULL;
-    m_noStartUp = false;
     m_browserCreated = false;
+    m_initialized = false;
     m_currentindex = 0;
     m_currentListName = "";
     statusContext = 0;
+    m_state = STATE_COLLAPSED;
+    isVisible = false;
 }
 
-musicbrowserUI::~musicbrowserUI()
+MusicBrowserUI::~MusicBrowserUI()
 {
 }
 
 
-Error musicbrowserUI::Init(int32 startup_level) 
+Error MusicBrowserUI::Init(int32 startup_level) 
 {
-    if ((m_startupType = startup_level) != PRIMARY_UI) 
-        return kError_InitFailedSafely;
+//    if ((m_startupType = startup_level) != SECONDARY_UI_STARTUP) {
+//        cout << "The musicbrowser cannot run as the primary ui\n"; 
+//        return kError_InitFailedSafely;
+//    }
 
     m_argc = m_context->argc;
     m_argv = m_context->argv;
@@ -60,45 +64,50 @@ Error musicbrowserUI::Init(int32 startup_level)
     m_musicCatalog = NULL;
 
     gtkThread = Thread::CreateThread();
-    gtkThread->Create(musicbrowserUI::gtkServiceFunction, this);
+    gtkThread->Create(MusicBrowserUI::gtkServiceFunction, this);
 
     return kError_NoErr;
 }
 
-void musicbrowserUI::gtkServiceFunction(void *p) 
+void MusicBrowserUI::gtkServiceFunction(void *p) 
 {
     assert(p);
-    ((musicbrowserUI *)p)->GTKEventService();
+    ((MusicBrowserUI *)p)->GTKEventService();
 }
 
-void musicbrowserUI::GTKEventService(void)
+void MusicBrowserUI::GTKEventService(void)
 {
-    m_context->gtkLock.Acquire();
-    if (!m_context->gtkInitialized) {
-        g_thread_init(NULL);
-        gtk_init(&m_argc, &m_argv);
-        gdk_rgb_init();
-        m_context->gtkInitialized = true;
-    }
-    m_context->gtkLock.Release();
-
-    CreatePlaylist();
-
     string lastPlaylist = FreeampDir(m_context->prefs);
     lastPlaylist += "/currentlist.m3u";
 
     LoadPlaylist((char *)lastPlaylist.c_str());
 
-    gtk_main();
+    bool init = false;
 
-    if (m_startupType == PRIMARY_UI)
-        m_playerEQ->AcceptEvent(new Event(CMD_QuitPlayer));
+    m_context->gtkLock.Acquire();
+    if (!m_context->gtkInitialized) {
+        init = true;
+        m_context->gtkInitialized = true;
+    }
+    m_context->gtkLock.Release();
+
+    if (init) {
+        g_thread_init(NULL);
+        gtk_init(&m_argc, &m_argv);
+        gdk_rgb_init();
+        gtk_main();
+    }
 }
 
-int32 musicbrowserUI::AcceptEvent(Event *event)
+int32 MusicBrowserUI::AcceptEvent(Event *event)
 {
+    
     switch (event->Type()) {
         case CMD_Cleanup: {
+            gdk_threads_enter();
+            gtk_main_quit();
+            gdk_threads_leave();
+
             gtkThread->Join();
             
             string lastPlaylist = FreeampDir(m_context->prefs);
@@ -109,14 +118,56 @@ int32 musicbrowserUI::AcceptEvent(Event *event)
 
             break; }
         case INFO_SearchMusicDone: {
-            gdk_threads_enter();
-            UpdateCatalog();
-            SetStatusText("");
-            gdk_threads_leave();
+            if (m_initialized) {
+                gdk_threads_enter();
+                UpdateCatalog();
+                SetStatusText("");
+                gdk_threads_leave();
+            }
             break; }
         case INFO_BrowserMessage: {
+            if (m_initialized) {
+                gdk_threads_enter();
+                SetStatusText(((BrowserMessageEvent *)event)->GetBrowserMessage());
+                gdk_threads_leave();
+            }
+            break; }
+        case INFO_TogglePlaylistUI: {
             gdk_threads_enter();
-            SetStatusText(((BrowserMessageEvent *)event)->GetBrowserMessage());
+            if (m_initialized && isVisible) {
+                gtk_widget_hide(musicBrowser);
+                isVisible = false;
+            }
+            else {
+                isVisible = true;
+                if (m_initialized)
+                    gtk_widget_show(musicBrowser);
+                else {
+                    CreatePlaylist();
+                    m_initialized = true;
+                }
+            }
+            if (m_state == STATE_EXPANDED)
+                ExpandCollapseEvent();
+            gdk_threads_leave();
+            break; }
+        case INFO_ToggleMusicBrowserUI: {
+            gdk_threads_enter();
+            if (m_initialized && isVisible) {
+                gtk_widget_hide(musicBrowser);
+                isVisible = false;
+            }
+            else {
+                isVisible = true;
+                if (m_initialized)
+                    gtk_widget_show(musicBrowser);
+                else {
+                    CreatePlaylist();
+                    m_initialized = true;
+                }
+            }
+            if (m_state == STATE_COLLAPSED)
+                ExpandCollapseEvent();
             gdk_threads_leave();
             break; }
         default:
@@ -125,19 +176,19 @@ int32 musicbrowserUI::AcceptEvent(Event *event)
     return 0;
 }
 
-void musicbrowserUI::DeleteListEvent(void)
+void MusicBrowserUI::DeleteListEvent(void)
 {
     m_plm->RemoveAll();
     UpdatePlaylistList();
 }
 
-void musicbrowserUI::DeleteEvent(void)
+void MusicBrowserUI::DeleteEvent(void)
 {
     m_plm->RemoveItem(m_currentindex);
     UpdatePlaylistList();
 }
 
-void musicbrowserUI::MoveUpEvent(void)
+void MusicBrowserUI::MoveUpEvent(void)
 {
     if (m_currentindex == 0)
         return;
@@ -147,7 +198,7 @@ void musicbrowserUI::MoveUpEvent(void)
     UpdatePlaylistList();
 }
 
-void musicbrowserUI::MoveDownEvent(void)
+void MusicBrowserUI::MoveDownEvent(void)
 {
     if (m_currentindex == m_plm->CountItems() - 1)
         return;
@@ -157,30 +208,30 @@ void musicbrowserUI::MoveDownEvent(void)
     UpdatePlaylistList();
 }
 
-void musicbrowserUI::MoveItemEvent(int source, int dest)
+void MusicBrowserUI::MoveItemEvent(int source, int dest)
 {
     m_plm->MoveItem(source, dest);
     UpdatePlaylistList();
 }
 
-void musicbrowserUI::AddTrackPlaylistEvent(char *path)
+void MusicBrowserUI::AddTrackPlaylistEvent(char *path)
 {
     m_plm->AddItem(path, m_currentindex);
     UpdatePlaylistList();
 }
 
-void musicbrowserUI::PlayEvent(void)
+void MusicBrowserUI::PlayEvent(void)
 {
     m_plm->SetCurrentIndex(m_currentindex);
     m_playerEQ->AcceptEvent(new Event(CMD_Play));
 }
 
-void musicbrowserUI::StartMusicSearch(void)
+void MusicBrowserUI::StartMusicSearch(void)
 {
     m_context->browser->SearchMusic(ROOT_DIR);
 }
 
-void musicbrowserUI::SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType
+void MusicBrowserUI::SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType
                                        type)
 {
     if (order == kPlaylistSortKey_Random)
@@ -190,7 +241,7 @@ void musicbrowserUI::SortPlaylistEvent(PlaylistSortKey order, PlaylistSortType
     UpdatePlaylistList();
 }
 
-void musicbrowserUI::PopUpInfoEditor(void)
+void MusicBrowserUI::PopUpInfoEditor(void)
 {
     infoeditorUI *infoedit = new infoeditorUI(m_context, 
                                               m_plm->ItemAt(m_currentindex));
@@ -198,7 +249,7 @@ void musicbrowserUI::PopUpInfoEditor(void)
     infoedit->DisplayInfo();
 }
 
-void musicbrowserUI::SaveCurrentPlaylist(char *path)
+void MusicBrowserUI::SaveCurrentPlaylist(char *path)
 {
     if (path)
         m_currentListName = path;
@@ -231,7 +282,7 @@ void musicbrowserUI::SaveCurrentPlaylist(char *path)
     m_plm->WritePlaylist((char *)m_currentListName.c_str(), &format);
 }
 
-void musicbrowserUI::LoadPlaylist(char *path)
+void MusicBrowserUI::LoadPlaylist(char *path)
 {
     Error err;
 
@@ -242,6 +293,10 @@ void musicbrowserUI::LoadPlaylist(char *path)
     err = m_plm->ReadPlaylist(path);
     if (err == kError_NoErr) {
         m_currentListName = path;
-        UpdatePlaylistList();
+        if (m_initialized) {
+            gdk_threads_enter();
+            UpdatePlaylistList();
+            gdk_threads_leave();
+        }
     }
 }

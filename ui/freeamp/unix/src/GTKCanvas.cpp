@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKCanvas.cpp,v 1.1.2.6 1999/09/27 19:20:36 ijr Exp $
+   $Id: GTKCanvas.cpp,v 1.1.2.7 1999/09/28 05:16:53 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKCanvas.h"
@@ -59,6 +59,7 @@ Error GTKCanvas::RenderText(int iFontHeight, Rect &oClipRect,
                             string &oText, AlignEnum eAlign, 
                             string &oFont, const Color &oColor)
 {
+   Erase(oClipRect);
    return kError_NoErr;
 }
 
@@ -96,6 +97,7 @@ Error GTKCanvas::MaskBlitRect(Bitmap *pSrcBitmap, Rect &oSrcRect, Rect &oDestRec
 void GTKCanvas::Paint(Rect &oRect)
 {
     GtkWidget *w = m_pParent->GetWindow();
+    gdk_threads_enter();
     if (!shape_set) {
         shape_set = true;
         GdkBitmap *mask = ((GTKBitmap *)m_pBGBitmap)->GetMask();
@@ -104,6 +106,7 @@ void GTKCanvas::Paint(Rect &oRect)
     }
     gdk_window_set_back_pixmap(w->window, m_pBufferBitmap->GetBitmap(), 0);
     gdk_window_clear(w->window);
+    gdk_threads_leave();
 }
 
 void GTKCanvas::Erase(Rect &oRect)

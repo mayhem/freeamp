@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.21 1999/09/27 02:02:21 robert Exp $
+        $Id: player.cpp,v 1.133.2.22 1999/09/28 05:16:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -500,6 +500,30 @@ Run()
       strcpy(name, orig);
    }
 
+   len = 255;
+   char *downloadName = new char[len];
+   while  ((error = m_context->prefs->GetPrefString(kDownloadManagerUIPref,
+                                                    downloadName, &len)) ==
+           kError_BufferTooSmall)
+   {
+       delete[] downloadName;
+       len++;
+     
+       downloadName = new char[len];
+   }
+
+   len = 255;
+   char *musicBrowserName = new char[len];
+   while  ((error = m_context->prefs->GetPrefString(kMusicBrowserUIPref, 
+                                                    musicBrowserName, &len)) ==
+           kError_BufferTooSmall)
+   {
+       delete[] musicBrowserName;
+       len++;
+
+       musicBrowserName = new char[len];
+   }
+
    if (IsntError(error))
    {
       while (*name)
@@ -510,6 +534,33 @@ Run()
 
          while (NULL != (item = m_uiRegistry->GetItem(i++)))
          {
+            if (!CompareNames(item->Name(), downloadName))
+            {
+               m_ui = (UserInterface *) item->InitFunction()(m_context);
+
+               Error er = m_ui->Init(SECONDARY_UI_STARTUP);
+               if (IsntError(er)) 
+               {
+                   RegisterActiveUI(m_ui);
+                   m_downloadUI = m_ui;
+               }
+               else 
+               {
+                   delete m_ui;
+                   m_ui = NULL;
+               }
+            }
+            if (!CompareNames(item->Name(), musicBrowserName))
+            {
+               m_ui = (UserInterface *) item->InitFunction()(m_context);
+              
+               Error er = m_ui->Init(SECONDARY_UI_STARTUP);
+               if (IsntError(er))
+               {
+                   RegisterActiveUI(m_ui);
+                   m_browserUI = m_ui;
+               }
+            }
             if (!CompareNames(item->Name(), name))
             {
                m_ui = (UserInterface *) item->InitFunction()(m_context);
@@ -530,7 +581,7 @@ Run()
 
                   m_ui = NULL;
                }
-               break;
+           //    break;  Don't think this'll work now...
             }
          }
 
@@ -573,7 +624,9 @@ Run()
    m_eventServiceThread = Thread::CreateThread();
    m_eventServiceThread->Create(Player::EventServiceThreadFunc, this);
 
-   delete[]name;
+   delete[] name;
+   delete[] musicBrowserName;
+   delete[] downloadName;
 }
 
 void 
@@ -1474,6 +1527,33 @@ LMCError(Event *pEvent)
       delete pEvent;
 }
 
+void
+Player::
+ToggleUI(Event *pEvent)
+{
+   switch (pEvent->Type()) 
+   {
+      case INFO_ToggleDownloadUI: {
+           if (!m_downloadUI) {
+              delete pEvent;
+              return;
+           }
+           m_downloadUI->AcceptEvent(pEvent);
+           break; }
+      case INFO_TogglePlaylistUI: 
+      case INFO_ToggleMusicBrowserUI: {
+           if (!m_browserUI) {
+              delete pEvent;
+              return;
+           }
+           m_browserUI->AcceptEvent(pEvent);
+           break; }
+      default:
+           break;
+   }
+   delete pEvent;
+} 
+
 int32 
 Player::
 ServiceEvent(Event * pC)
@@ -1567,6 +1647,12 @@ ServiceEvent(Event * pC)
            SendEventToUI(pC);
            break;
 
+      case INFO_ToggleDownloadUI:
+      case INFO_TogglePlaylistUI:
+      case INFO_ToggleMusicBrowserUI:
+           ToggleUI(pC);
+           break;
+      
       case INFO_LMCError:
            LMCError(pC);
            break;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.1.2.4 1999/09/24 18:23:40 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.1.2.5 1999/09/28 05:16:52 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -39,13 +39,13 @@ class FAContext;
 #define STATE_COLLAPSED 0
 #define STATE_EXPANDED  1
 
-class musicbrowserUI : public UserInterface {
+class MusicBrowserUI : public UserInterface {
  public:
-    musicbrowserUI(FAContext *);
+    MusicBrowserUI(FAContext *);
     virtual int32 AcceptEvent(Event *);
     virtual Error Init(int32);
     static void gtkServiceFunction(void *);
-    virtual ~musicbrowserUI();
+    virtual ~MusicBrowserUI();
  
     EventQueue *m_playerEQ;
 
@@ -59,12 +59,12 @@ class musicbrowserUI : public UserInterface {
     FAContext *m_context;
 
  private:
+    bool isVisible;
     void UpdatePlaylistList(void);
     void UpdateCatalog(void);
    
     Properties *m_propManager;
     int32 m_startupType;
-    bool m_noStartUp;
 
     bool m_initialized;
     bool m_browserCreated;

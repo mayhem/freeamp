@@ -18,13 +18,13 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-     $Id: queries.h,v 1.6 2000/10/02 16:16:38 sward Exp $
+     $Id: queries.h,v 1.7 2000/10/06 13:30:43 sward Exp $
 
 ----------------------------------------------------------------------------*/
 #ifndef _QUERIES_H_
 #define _QUERIES_H_
 
-#define MUSICBRAINZ_VERSION "musicbrainz_client/1.0.0-pre1"
+#define MUSICBRAINZ_VERSION "musicbrainz_client/1.0.0-pre2"
 
 // local query names
 #define MB_GetCDInfo              "@CDINFO@"

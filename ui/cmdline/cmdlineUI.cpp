@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.3 1998/10/19 23:39:30 jdw Exp $
+	$Id: cmdlineUI.cpp,v 1.4 1998/10/20 18:57:25 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -125,7 +125,7 @@ void cmdlineUI::keyboardServiceFunction(void *pclcio) {
 	    case 's':
 	    case 'S': {
 		if (pMe->mypl) {
-		    pMe->mypl->Shuffle();
+		    pMe->mypl->SetOrder(PlayList::ORDER_SHUFFLED);
 		    pMe->mypl->SetFirst();
 		}
 		Event *e = new Event(CMD_Stop);

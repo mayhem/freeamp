@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.3 1998/11/03 01:21:04 jdw Exp $
+	$Id: freeampui.h,v 1.4 1998/11/03 02:24:52 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -65,13 +65,13 @@ class FreeAmpUI : public UserInterface {
 
     EventQueue*     m_target;
 	int32			m_state;
+	 PlayList *		m_playList;
 
  protected:
       static void UIThreadFunc(void *);
 
 
  private:
-	 PlayList *		m_playList;
     int32			m_totalSeconds;
     float			m_secondsPerFrame;
     Thread*         m_uiThread;

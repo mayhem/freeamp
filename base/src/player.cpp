@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.43 1998/11/03 01:21:04 jdw Exp $
+	$Id: player.cpp,v 1.44 1998/11/03 02:24:52 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -636,13 +636,13 @@ int32 Player::ServiceEvent(Event *pC) {
 	    
 		case CMD_SetPlaylist: {
 			
-			if (m_myPlayList) {
+			PlayList *localPL = ((SetPlayListEvent *)pC)->GetPlayList();
+			if (m_myPlayList && (m_myPlayList != localPL)) {
 				delete m_myPlayList;
 				m_myPlayList = NULL;
 			}
 			
-			m_myPlayList = ((SetPlayListEvent *)pC)->GetPlayList();
-			//m_myPlayList->SetFirst();
+			m_myPlayList = localPL;
 
 			GetUIManipLock();
 			Event *pe = new PlayListEvent(m_myPlayList);

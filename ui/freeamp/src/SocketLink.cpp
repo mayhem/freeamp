@@ -18,22 +18,39 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SocketLink.cpp,v 1.1.2.1 2000/07/08 14:20:57 robert Exp $
+   $Id: SocketLink.cpp,v 1.1.2.2 2000/07/08 14:46:40 robert Exp $
 ____________________________________________________________________________*/ 
 
-#include <errno.h> 
-#include <signal.h>
-#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/wait.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
+#include <iostream.h>
+#include <errno.h>
 #include <assert.h>
-#include <string>
+#ifdef WIN32
+#include <winsock.h>
+#include <time.h>
+#else
+#include <sys/time.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#ifndef __BEOS__
+#include <arpa/inet.h> 
+#endif
+#include <netdb.h>
+#include <fcntl.h>
+#endif 
+
+#include "config.h"
+
+#if HAVE_UNISTD_H
+#include <unistd.h>
+#elif HAVE_IO_H
+#include <io.h>
+#else
+#error Must have unistd.h or io.h!
+#endif // HAVE_UNISTD_H
 
 #include "SocketLink.h"
 
@@ -65,7 +82,7 @@ bool SocketLink::HasConnection(void)
    return m_newSocket != -1;
 }
 
-bool SocketLink::Disconnect(void)
+void SocketLink::Disconnect(void)
 {
    m_sem->Signal();
 }
@@ -121,7 +138,7 @@ Error SocketLink::CreateSocket(void)
 
 void SocketLink::WorkerThread(void)
 {
-   unsigned            uRet;
+   int                 uRet;
    Error               eError;
    struct sockaddr_in  sOther;
 
@@ -135,7 +152,7 @@ void SocketLink::WorkerThread(void)
       m_newSocket = accept(m_socket, (struct sockaddr *)&sOther, &uRet);
       if (m_newSocket < 0)
       {
-          sleep(1);
+          usleep(1000000);
           continue;
       }
 

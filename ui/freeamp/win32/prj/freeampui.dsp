@@ -268,6 +268,10 @@ SOURCE=..\..\src\SliderControl.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\SocketLink.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\TextControl.cpp
 # End Source File
 # Begin Source File

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SocketLink.h,v 1.1.2.1 2000/07/08 14:23:24 robert Exp $
+   $Id: SocketLink.h,v 1.1.2.2 2000/07/08 14:46:40 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_SOCKETLINK_H__
@@ -27,19 +27,22 @@ ____________________________________________________________________________*/
 #include "errors.h" 
 #include "thread.h" 
 #include "semaphore.h" 
+#include <string>
+
+using namespace std;
 
 class SocketLink
 {
     public:
 
-       SocketLink::SocketLink(unsigned short iPortNum);
-       SocketLink::~SocketLink(void);
+       SocketLink(unsigned short iPortNum);
+       ~SocketLink(void);
 
        Error Run(void);
 
        bool  HasConnection(void);
-       bool  Disconnect(void);
-       bool  SendCommand(const string &str);
+       void  Disconnect(void);
+       bool  SendCommand(const string &st);
 
     private:
 

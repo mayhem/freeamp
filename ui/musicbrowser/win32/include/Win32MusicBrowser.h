@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.75 2000/05/30 12:28:20 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.76 2000/06/12 10:08:21 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -161,8 +161,8 @@ class MusicBrowserUI : public UserInterface
     
     const PlaylistManager* PLManager() const { return m_plm; }
 
-    static void icecast_timer(void* arg);
-    void IceCastTimer();
+    static void streams_timer(void* arg);
+    void StreamsTimer();
  
  protected:
     FAContext *m_context;
@@ -280,7 +280,7 @@ class MusicBrowserUI : public UserInterface
     void    FillUncatTracks();
     void    FillPortables();
     void    FillWiredPlanet();
-    void    FillIceCast(vector<IcecastStreamInfo> &list);
+    void    FillStreams(vector<IcecastStreamInfo> &list);
     void    FillFavorites();
     int32   GetCurrentItemFromMousePos();
     void    GetSelectedMusicTreeItems(vector<PlaylistItem*>* items);
@@ -380,9 +380,9 @@ class MusicBrowserUI : public UserInterface
     vector<PlaylistItem*>* m_cdTracks;
 
     uint32              m_cdId;
-    TimerRef            m_iceCastTimer;
+    TimerRef            m_streamsTimer;
     Thread*             m_fillAllThread;
-    Thread*             m_fillIceCastThread;
+    Thread*             m_fillStreamsThread;
 
 };
 

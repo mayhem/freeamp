@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeZip.cpp,v 1.15 2000/03/16 10:52:13 elrod Exp $
+   $Id: ThemeZip.cpp,v 1.16 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <time.h>
@@ -37,6 +37,10 @@ ____________________________________________________________________________*/
 #undef socklen_t
 #include <netinet/in.h>
 #include "win32impl.h"
+#endif
+
+#ifdef __QNX__
+#include <strings.h>
 #endif
 
 #include "zlib.h"

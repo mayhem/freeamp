@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: cdlmc.h,v 1.6 2000/08/24 14:37:05 robert Exp $
+   $Id: cdlmc.h,v 1.7 2000/09/28 08:08:01 ijr Exp $
 
 ____________________________________________________________________________*/
 
@@ -55,7 +55,7 @@ class  CDLMC:public LogicalMediaConverter
 
    virtual Error SetDecodeInfo(DecodeInfo &info);
 
-   virtual vector<const char *> *GetExtensions(void);
+   virtual vector<string> *GetExtensions(void);
 };
 
 #endif /* _CDLMC_H */

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: misc.cpp,v 1.11 2000/09/14 11:00:22 ijr Exp $
+	$Id: misc.cpp,v 1.12 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -32,6 +32,10 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 #include <assert.h>
 #include <errno.h>
+
+#ifdef __QNX__
+#include <strings.h>
+#endif
 
 #include "config.h"
 #include "errors.h"
@@ -68,7 +72,7 @@ Misc::Misc(FAContext* context):MetaDataFormat(context)
         RegistryItem* temp = m_lmcReg.GetItem(i);
 
         lmc = (LogicalMediaConverter *)temp->InitFunction()(m_context);
-        vector<const char*>* extList = lmc->GetExtensions();
+        vector<string>* extList = lmc->GetExtensions();
 
         for (uint32 j = 0; j < extList->size(); j++)
         {

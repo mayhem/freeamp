@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.cpp,v 1.10 2000/09/22 09:38:17 robert Exp $
+   $Id: vorbislmc.cpp,v 1.11 2000/09/28 08:08:01 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -121,9 +121,9 @@ void VorbisLMC::Clear()
       ((EventBuffer *)m_pOutputBuffer)->Clear();
 }
 
-vector<const char *> *VorbisLMC::GetExtensions(void)
+vector<string> *VorbisLMC::GetExtensions(void)
 {
-   vector<const char *> *extList = new vector<const char *>;
+   vector<string> *extList = new vector<string>;
 
    extList->push_back("OGG");
 

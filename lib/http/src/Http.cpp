@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.13 2000/09/25 12:52:16 ijr Exp $
+   $Id: Http.cpp,v 1.14 2000/09/28 08:08:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -49,8 +49,14 @@ ____________________________________________________________________________*/
 #if defined(unix) || defined(_BSD_SOURCE)
 #include <arpa/inet.h>
 #define closesocket(x) close(x)
+#ifndef O_BINARY
 #define O_BINARY 0
+#endif
 #endif  
+
+#ifdef __QNX__
+#include <strings.h>
+#endif
 
 #include "Http.h"
 

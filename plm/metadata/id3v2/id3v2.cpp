@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.19 2000/08/30 09:20:53 ijr Exp $
+	$Id: id3v2.cpp,v 1.20 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -31,6 +31,10 @@ ____________________________________________________________________________*/
 #else
 #include <sys/types.h>
 #include <netinet/in.h>
+#endif
+
+#ifdef __QNX__
+#include <strings.h>
 #endif
 
 #include "config.h"

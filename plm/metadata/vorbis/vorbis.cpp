@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: vorbis.cpp,v 1.2 2000/09/21 20:19:04 robert Exp $
+    $Id: vorbis.cpp,v 1.3 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -27,6 +27,10 @@ ____________________________________________________________________________*/
 #include <assert.h>
 #include <string>
 #include <errno.h>
+
+#ifdef __QNX__
+#include <strings.h>
+#endif
 
 using namespace std;
 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.24 2000/09/20 11:03:51 ijr Exp $
+	$Id: registrar.cpp,v 1.25 2000/09/28 08:08:00 ijr Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -164,7 +164,6 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
                     item->SetModule(module);
 
                     init = (InitializeFunction)GetProcAddress(module, "Initialize");
-
                     if(init)
                     {
                         error = kError_NoErr;

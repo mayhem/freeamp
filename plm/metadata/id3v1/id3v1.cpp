@@ -18,12 +18,16 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v1.cpp,v 1.8 2000/06/21 13:34:36 ijr Exp $
+	$Id: id3v1.cpp,v 1.9 2000/09/28 08:08:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
 #include <string>
 #include <errno.h>
+
+#ifdef __QNX__
+#include <strings.h>
+#endif
 
 using namespace std;
 

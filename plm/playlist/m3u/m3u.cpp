@@ -18,13 +18,17 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.14 2000/06/21 13:34:37 ijr Exp $
+	$Id: m3u.cpp,v 1.15 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
 #include <iostream>
 #include <string>
 #include <stdlib.h>
+
+#ifdef __QNX__
+#include <strings.h>
+#endif
 
 using namespace std;
 

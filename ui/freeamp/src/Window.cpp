@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.48 2000/09/20 12:00:58 robert Exp $
+   $Id: Window.cpp,v 1.49 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -441,6 +441,7 @@ void Window::HandleMouseMove(Pos &oScreenPos)
        m_oMoveStart.y2 += (oScreenPos.y - m_oMovePos.y);
 
        oActualPos = m_oMoveStart;
+
        if (m_iDesktopWidth > 0 && m_iDesktopHeight > 0)
        {
            if ((oActualPos.x1 >= 0 && oActualPos.x1 < iDesktopSnapAmount) || 

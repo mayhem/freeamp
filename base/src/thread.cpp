@@ -18,13 +18,14 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: thread.cpp,v 1.10 2000/08/30 09:20:53 ijr Exp $
+	$Id: thread.cpp,v 1.11 2000/09/28 08:08:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
 #include "thread.h"
 
-#if defined(__LINUX__) || defined(solaris) || defined(__FreeBSD__)
+#if defined(__LINUX__) || defined(solaris) || defined(__FreeBSD__) || \
+    defined(__QNX__)
     #include "pthreadthread.h"
 #elif WIN32
     #include "win32thread.h"
@@ -37,7 +38,8 @@ ____________________________________________________________________________*/
 Thread* Thread::CreateThread()
 {
     Thread* thread = NULL;
-#if defined(__LINUX__) || defined(solaris) || defined(__FreeBSD__)
+#if defined(__LINUX__) || defined(solaris) || defined(__FreeBSD__) || \
+    defined(__QNX__)
     thread = new pthreadThread();
 #elif WIN32
     thread = new win32Thread();

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkdownloadui.cpp,v 1.15 2000/06/22 15:13:36 elrod Exp $
+        $Id: gtkdownloadui.cpp,v 1.16 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -27,6 +27,10 @@ ____________________________________________________________________________*/
 #include <sys/stat.h>
 #include <strstream>
 #include <iostream>
+
+#ifdef __QNX__
+#include <strings.h>
+#endif
 
 #include "utility.h"
 #include "downloadui.h"

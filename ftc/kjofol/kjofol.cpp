@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: kjofol.cpp,v 1.6 2000/06/21 19:03:49 ijr Exp $
+   $Id: kjofol.cpp,v 1.7 2000/09/28 08:08:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -31,6 +31,10 @@ using namespace std;
 #else
 #include <unistd.h>
 #include "win32impl.h"
+#endif
+
+#ifdef __QNX__
+#include <strings.h>
 #endif
 
 #ifdef WIN32

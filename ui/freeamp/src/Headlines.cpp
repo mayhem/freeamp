@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Headlines.cpp,v 1.11 2000/05/24 11:28:46 ijr Exp $
+   $Id: Headlines.cpp,v 1.12 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -42,7 +42,9 @@ ____________________________________________________________________________*/
 #if defined(unix)
 #include <arpa/inet.h>
 #define closesocket(x) close(x)
+#ifndef O_BINARY
 #define O_BINARY 0
+#endif
 #endif  
 
 #include "Headlines.h"
@@ -154,6 +156,7 @@ void Headlines::WorkerThread(void)
 
 Error Headlines::Download(void)
 {
+#ifndef __QNX__
     string oPage;
     Error  eRet;
     Http   oDownload(m_pContext);
@@ -183,6 +186,8 @@ Error Headlines::Download(void)
     }
     
     return eRet;
+#endif
+    return kError_YouScrewedUp;
 }
 
 Error Headlines::BeginElement(string &oElement, AttrMap &oAttrMap)

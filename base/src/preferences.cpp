@@ -18,11 +18,16 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.53 2000/09/24 19:26:24 ijr Exp $
+        $Id: preferences.cpp,v 1.54 2000/09/28 08:08:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
 #include <stdlib.h>
+
+#ifdef __QNX__
+#include <strings.h>
+#endif
+
 #include "preferences.h"
 
 

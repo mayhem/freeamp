@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.145 2000/09/21 14:03:16 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.146 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -35,13 +35,19 @@ ____________________________________________________________________________*/
 #ifndef WIN32
 #include <unistd.h>
 #define _stat stat
+#ifndef _S_IFDIR
 #define _S_IFDIR S_IFDIR
+#endif
 #endif
 #if defined(WIN32)
 #define STRICT
 #endif
 #include "config.h"
 #include "downloadmanager.h"
+
+#ifdef __QNX__
+#include <strings.h>
+#endif
 
 #ifdef HAVE_GTK
 #include "GTKUtility.h"

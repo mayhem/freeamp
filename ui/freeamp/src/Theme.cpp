@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.55 2000/09/19 11:12:32 ijr Exp $
+   $Id: Theme.cpp,v 1.56 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -37,7 +37,9 @@ ____________________________________________________________________________*/
 #include <io.h>
 #else
 #include <unistd.h>
+#ifndef _S_IFDIR
 #define _S_IFDIR S_IFDIR
+#endif
 #define _stat stat
 #endif
 #include <map>
@@ -68,6 +70,10 @@ ____________________________________________________________________________*/
 #define MKDIR(z) mkdir(z)
 #else
 #define MKDIR(z) mkdir(z, 0755)
+#endif
+
+#ifdef __QNX__
+#include <strings.h>
 #endif
 
 #ifdef WIN32

@@ -18,12 +18,16 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: fileselector.cpp,v 1.7 2000/06/05 21:55:23 ijr Exp $
+    $Id: fileselector.cpp,v 1.8 2000/09/28 08:08:03 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
 
 #include <unistd.h>
+
+#ifdef __QNX__
+#include <strings.h>
+#endif
 
 #include "fileselector.h"
 #include "utility.h"

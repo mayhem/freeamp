@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.240 2000/09/21 21:39:04 robert Exp $
+        $Id: player.cpp,v 1.241 2000/09/28 08:08:00 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -39,6 +39,10 @@ ____________________________________________________________________________*/
 #define MKDIR(z) mkdir(z)
 #else
 #define MKDIR(z) mkdir(z, 0755)
+#endif
+
+#ifdef __QNX__
+#include <strings.h>
 #endif
 
 #include <set>
@@ -1030,8 +1034,8 @@ RegisterLMCs(Registry * registry)
       RegistryItem* temp = registry->GetItem(iLoop);
 
       lmc = (LogicalMediaConverter *)temp->InitFunction()(m_context);
-      vector<const char *> *extList = lmc->GetExtensions();
-      vector<const char *>::iterator i;
+      vector<string> *extList = lmc->GetExtensions();
+      vector<string>::iterator i;
 
       for (i = extList->begin(); i != extList->end(); i++)
       {

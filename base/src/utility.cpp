@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: utility.cpp,v 1.33 2000/08/25 10:39:44 ijr Exp $
+    $Id: utility.cpp,v 1.34 2000/09/28 08:08:00 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -38,6 +38,9 @@ ____________________________________________________________________________*/
 
 using namespace std;
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #ifdef WIN32
 #include <windows.h>
 #include <direct.h>
@@ -48,7 +51,13 @@ using namespace std;
 #include <unistd.h>
 #define MKDIR(z) mkdir(z, 0755)
 #define _stat stat
+#ifndef _S_IFDIR
 #define _S_IFDIR S_IFDIR 
+#endif
+#endif
+
+#ifdef __QNX__
+#include <strings.h>
 #endif
 
 #include "config.h"
@@ -56,8 +65,6 @@ using namespace std;
 #include "utility.h"
 #include "errors.h"
 #include "properties.h"
-#include <sys/types.h>
-#include <sys/stat.h>
 
 void CreateDirectoryPath(const char* path)
 {

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.30 2000/09/19 11:12:32 ijr Exp $
+        $Id: browsertree.cpp,v 1.31 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -32,6 +32,11 @@ ____________________________________________________________________________*/
 #include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
+#endif
+
+
+#ifdef __QNX__
+#include <strings.h>
 #endif
 
 #if defined(unix) || defined(__BEOS__)
@@ -1188,6 +1193,7 @@ void GTKMusicBrowser::stream_timer_func(void *arg)
 
 void GTKMusicBrowser::StreamTimer(void)
 {
+#ifndef __QNX__
     Error  eRet;
     Http   streamDownload(m_context);
     string page;
@@ -1215,6 +1221,7 @@ void GTKMusicBrowser::StreamTimer(void)
         HandleStreamList(list);
     else
        cout << "no streams.\n";
+#endif
 }
 
 void GTKMusicBrowser::HandleStreamList(vector<FreeAmpStreamInfo> &list)

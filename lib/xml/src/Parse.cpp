@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.8 2000/09/25 12:52:16 ijr Exp $
+   $Id: Parse.cpp,v 1.9 2000/09/28 08:08:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -213,6 +213,9 @@ Error Parse::DoParse(void)
 
         for(;;)
         {
+#ifdef __QNX__
+cout << szElement << endl;
+#endif
             iTemp = 0;
             sscanf(szElement + iOffset, " /%n", &iTemp);
             if (iTemp > 0)
@@ -227,7 +230,7 @@ Error Parse::DoParse(void)
                 break;
 
             iRet = sscanf(szElement + iOffset, 
-                          " %254[A-Za-z0-9:] = \"%254[^\"] \" %n", 
+                          " %254[A-Za-z0-9:] = \"%254[^\"] \"%n", 
                           szAttr, szValue, &iTemp);
             if (iRet < 2 || iTemp == 0)
             {

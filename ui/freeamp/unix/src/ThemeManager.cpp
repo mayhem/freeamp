@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.19 2000/09/19 11:12:32 ijr Exp $
+   $Id: ThemeManager.cpp,v 1.20 2000/09/28 08:08:02 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -30,6 +30,10 @@ ____________________________________________________________________________*/
 #include "ThemeZip.h"
 #include "utility.h"
 #include "win32impl.h"
+
+#ifdef __QNX__
+#include <strings.h>
+#endif
 
 #define THEME_IN_DEVEL "<theme in development>"
 

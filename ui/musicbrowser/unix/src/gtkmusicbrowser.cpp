@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.116 2000/09/26 08:54:00 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.117 2000/09/28 08:08:03 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -27,6 +27,10 @@ ____________________________________________________________________________*/
 
 #include <iostream>
 using namespace std;
+
+#ifdef __QNX__
+#include <strings.h>
+#endif
 
 #include "utility.h"
 #include "gtkmusicbrowser.h"
@@ -37,8 +41,10 @@ using namespace std;
 #include "musicbrowserui.h"
 #include "gtkmessagedialog.h"
 
+#ifndef NO_CDAUDIO
 #include "cdaudio.h"
 #include "cdpmo.h"
+#endif
 
 #include "aps.h"
 #include "apsplaylist.h"
@@ -552,6 +558,7 @@ void GTKMusicBrowser::UpdateCD(void)
 
 void GTKMusicBrowser::EjectCD(void)
 {
+#ifndef NO_CDAUDIO
     Registry *pmoRegistry = m_context->player->GetPMORegistry();
     RegistryItem *pmo_item = NULL;
     int32 i = 0;
@@ -573,6 +580,7 @@ void GTKMusicBrowser::EjectCD(void)
     ((CDPMO*)pmo)->Eject();
 
     delete pmo;
+#endif
 }
 
 void GTKMusicBrowser::PlayMenu()

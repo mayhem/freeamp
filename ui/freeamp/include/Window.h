@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.17 2000/02/09 16:00:37 robert Exp $
+   $Id: Window.h,v 1.18 2000/02/14 22:03:37 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -129,6 +129,11 @@ class Window
       Control *ControlFromPos(Pos &oPos);
       void     GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight, 
                                   Rect &oNewRect);
+
+      void     IncUsageRef(void);
+	  void     DecUsageRef(void);
+	  void     LockUsageRef(void);
+	  void     UnlockUsageRef(void);
      
       string                    m_oName;
       vector<Control *>         m_oControls;
@@ -144,6 +149,9 @@ class Window
       Rect                      m_oMoveStart;
 	  int32                     m_iDesktopWidth, m_iDesktopHeight;
 	  bool                      m_bMindMeldInProgress, m_bTimerEnabled;
+	  Mutex                    *m_pUsageMutex;
+	  Semaphore                *m_pUsageSem;
+	  int32                     m_iUsageCount;
 };
 
 #endif

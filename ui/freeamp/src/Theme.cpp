@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.27 2000/02/10 01:45:14 robert Exp $
+   $Id: Theme.cpp,v 1.28 2000/02/14 22:03:38 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -184,11 +184,11 @@ void Theme::SetThemePath(string &oThemePath)
 
 Error Theme::LoadTheme(string &oFile, string &oWindowName)
 {
-    char    *pTemp;
-    ThemeZip oZip;
-    string   oCompleteFile, oTempPath, oDefaultPath;
-    Error    eRet;
-    struct   _stat buf;
+    char     *pTemp;
+    ThemeZip *pZip = NULL;
+    string    oCompleteFile, oTempPath, oDefaultPath;
+    Error     eRet;
+    struct    _stat buf;
 
     if (m_pWindow)
        m_pWindow->EnableTimer(false);
@@ -213,8 +213,9 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
             return kError_InvalidParam;
         }    
         SetThemePath(oTempPath);
-	 
-        eRet = oZip.DecompressThemeZip(oFile, oTempPath);
+
+        pZip = new ThemeZip();
+        eRet = pZip->DecompressThemeZip(oFile, oTempPath);
         if (eRet == kError_FileNotFound)
         {
             string oDefaultPath;
@@ -229,14 +230,17 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
             }
        
             m_pThemeMan->GetDefaultTheme(oFile);
-            eRet = oZip.DecompressThemeZip(oFile, oTempPath);
+            eRet = pZip->DecompressThemeZip(oFile, oTempPath);
             if (IsError(eRet))
             {
                 m_oLastError = "Cannot find default theme";
                 rmdir(oTempPath.c_str());
+                
+                delete pZip;
                 return kError_InvalidParam;
             }    
         }
+
         if (IsError(eRet))
         {
             MessageDialog oBox(m_pContext);
@@ -245,11 +249,12 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
             oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
             
             m_pThemeMan->GetDefaultTheme(oFile);
-            eRet = oZip.DecompressThemeZip(oFile, oTempPath);
+            eRet = pZip->DecompressThemeZip(oFile, oTempPath);
             if (IsError(eRet))
             {
                 m_oLastError = "Cannot find default theme";
                 rmdir(oTempPath.c_str());
+                delete pZip;
                 return kError_InvalidParam;
             }    
         }    
@@ -257,8 +262,9 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
         oCompleteFile = oTempPath + string(DIR_MARKER_STR) 
 	                + string("theme.xml");
         eRet = Parse::ParseFile(oCompleteFile);
-        oZip.CleanupThemeZip();
+        pZip->CleanupThemeZip();
         rmdir(oTempPath.c_str());
+        delete pZip;
     }    
 
     if (!IsError(eRet))
@@ -266,6 +272,7 @@ Error Theme::LoadTheme(string &oFile, string &oWindowName)
        string                      oTemp;
        vector<Window *>::iterator  i;
        Window                     *pMainWindow, *pNewWindow = NULL; 
+  
       
        // Is this a reload, as opposed to a new load?
        if (m_pWindows)

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.8 2000/02/08 20:03:16 robert Exp $
+   $Id: Control.cpp,v 1.9 2000/02/14 22:03:38 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -72,6 +72,7 @@ Control::~Control(void)
 Error Control::Show(bool bSet, bool &bShow)
 {
     m_oMutex.Acquire();
+
     if (bSet)
     {
         m_bShow = bShow;
@@ -92,7 +93,7 @@ Error Control::Show(bool bSet, bool &bShow)
 Error Control::Enable(bool bSet, bool &bEnable)
 {
     m_oMutex.Acquire();
-    
+
     if (bSet)
     {
         m_bEnable = bEnable;
@@ -129,7 +130,7 @@ Error Control::IntValue(bool bSet, int &iValue)
         iValue = m_iValue;
     
     m_oMutex.Release();
-    
+
     return kError_NoErr;
 }
 

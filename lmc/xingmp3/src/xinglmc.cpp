@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.144 2000/10/06 10:48:31 robert Exp $
+   $Id: xinglmc.cpp,v 1.145 2000/10/06 12:13:04 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -906,7 +906,10 @@ void XingLMC::DecodeWork()
              {
                  m_pContext->log->Error("LMC: Cannot advance to next frame: %d\n", Err);
                  if (m_decodeInfo.sendInfo)
+                 {
                      ReportStatus("Skipping corrupt track.");
+                     m_pTarget->AcceptEvent(new Event(INFO_DoneOutputtingDueToError));
+                 }
                  else
                      ((EventBuffer *)m_pOutputBuffer)->AcceptEvent(new PMOErrorEvent());
                  return;

@@ -18,13 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.18 2000/10/05 09:07:56 robert Exp $
+   $Id: TextControl.cpp,v 1.19 2000/10/06 12:13:04 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "TextControl.h"
 #include "Window.h"
 #include "debug.h"
+#include "sys/types.h"
 
 #ifdef __QNX__
 #include <strings.h>

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: localfileinput.cpp,v 1.36 2000/10/05 11:47:33 ijr Exp $
+        $Id: localfileinput.cpp,v 1.37 2000/10/05 20:14:05 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -240,7 +240,7 @@ Error LocalFileInput::Seek(int32 &iRet, int32 iPos, int32 iFrom)
 
 void LocalFileInput::Clear(void) 
 { 
-	if (m_fpFile)
+    if (m_fpFile)
        fseek(m_fpFile, SEEK_SET, 0); 
     m_pOutputBuffer->Clear();
     PipelineUnit::Clear();

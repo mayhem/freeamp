@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.25 2000/09/28 08:08:00 ijr Exp $
+	$Id: registrar.cpp,v 1.26 2000/10/05 20:14:05 ijr Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -214,8 +214,10 @@ CleanupRegistry(Registry* registry)
 {
     Error           error   = kError_NoErr;
     int count = registry->CountItems();
-    for (int i = 0; i < count; i++) {
+    for (int i = count - 1; i >= 0; i--) {
+#ifndef WIN32
         FreeLibrary(registry->GetItem(i)->Module());
+#endif
         delete (registry->GetItem(i));
     }
  

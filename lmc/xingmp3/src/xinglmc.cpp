@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.142 2000/10/05 17:03:00 robert Exp $
+   $Id: xinglmc.cpp,v 1.143 2000/10/05 20:14:05 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -988,8 +988,8 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded)
        if (eRet == kError_NoDataAvail)
        {
            m_pPmi->Wake();
-           if (Sleep())
-              return kError_Interrupt;
+           if (Sleep()) 
+              return kError_Interrupt; 
            continue;
        }
        break;

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.48 2000/02/14 21:31:24 elrod Exp $
+	$Id: main.cpp,v 1.49 2000/02/18 10:14:49 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -576,7 +576,7 @@ const char* kFileTypes[][5] = {
     {".m3u", "M3UPlaylistFile", "audio/x-mpegurl", "M3U Playlist File", "16"},
     {".pls", "PLSPlaylistFile", "audio/x-scpls", "PLS Playlist File", "17"},
     {".rmp", "RealMusicPackage", "application/vnd.rn-rn_music_package", "Real Music Package", "4"},
-    {".fat", "FreeAmpTheme", "application/x-freeamp-theme", "FreeAmp Theme File", "16"},
+    {".fat", "FreeAmpTheme", "application/x-freeamp-theme", "FreeAmp Theme File", "19"},
     {NULL, NULL}
 };
 

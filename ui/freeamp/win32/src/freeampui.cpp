@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.50 1999/04/03 22:22:19 elrod Exp $
+	$Id: freeampui.cpp,v 1.51 1999/04/07 01:13:28 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -454,6 +454,8 @@ UserInterface()
 
     m_uiSemaphore->Wait();
     delete m_uiSemaphore;
+
+    m_prefs = new Preferences;
 }
 
 FreeAmpUI::
@@ -474,6 +476,9 @@ FreeAmpUI::
 
     if(m_uiThread)
         delete m_uiThread;
+
+    if(m_prefs)
+        delete m_prefs;
 }
 
 void 

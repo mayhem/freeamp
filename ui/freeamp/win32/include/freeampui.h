@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.27 1999/04/02 19:34:29 elrod Exp $
+	$Id: freeampui.h,v 1.28 1999/04/07 01:12:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -48,6 +48,7 @@ ____________________________________________________________________________*/
 #include "view.h"
 #include "dib.h"
 #include "linkedlist.h"
+#include "preferences.h"
 
 #include "bitmapview.h"
 #include "buttonview.h"
@@ -113,6 +114,7 @@ class FreeAmpUI : public UserInterface {
 
     EventQueue* Target() const { return m_target; }
     int32 State() const { return m_state; }
+    Preferences* GetPreferences() const { return m_prefs;}
 
  protected:
     static void ui_thread_function(void*);
@@ -158,6 +160,7 @@ class FreeAmpUI : public UserInterface {
 
     PlayListManager*    m_plm;
     Properties*         m_propManager;
+    Preferences*        m_prefs;
     Thread*             m_uiThread;
     HWND                m_hwnd;
     HPALETTE            m_palette;

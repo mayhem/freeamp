@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.45 2000/02/16 21:34:45 elrod Exp $
+        $Id: MusicTree.cpp,v 1.45.2.1 2000/02/28 06:21:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -1159,7 +1159,18 @@ void MusicBrowserUI::MusicCatalogTrackAdded(const ArtistList* artist,
         }
         else // might need to add the artist
         {
-            if(TreeView_GetNextSibling(m_hMusicView, m_hUncatItem))
+            HTREEITEM root = TreeView_GetRoot(m_hMusicView);
+
+            TV_ITEM tv_item;
+
+            tv_item.hItem = root;
+            tv_item.mask = TVIF_STATE;
+            tv_item.stateMask = TVIS_EXPANDEDONCE;
+            tv_item.state = 0;
+
+            TreeView_GetItem(m_hMusicView, &tv_item);
+
+            if(tv_item.state & TVIS_EXPANDEDONCE)
             {
                 TV_INSERTSTRUCT insert;
                 TreeData        data;

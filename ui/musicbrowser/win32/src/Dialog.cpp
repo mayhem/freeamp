@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.67 2000/02/16 21:34:45 elrod Exp $
+        $Id: Dialog.cpp,v 1.67.2.1 2000/02/28 06:21:41 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -2032,8 +2032,8 @@ FileOpenDialog(HWND hwnd,
     ofn.nFileOffset       = 0;
     ofn.nFileExtension    = 0;
     ofn.lpstrDefExt       = "MP3";
-    ofn.lCustData         = (DWORD)&url_list;
-    ofn.lpfnHook          = OpenFileHookProc;
+    ofn.lCustData         = (DWORD)(allowURL ? &url_list : NULL);
+    ofn.lpfnHook          = (allowURL ? OpenFileHookProc : NULL);
     ofn.lpTemplateName    = (allowURL ? MAKEINTRESOURCE(IDD_OPENURL) : NULL);
 
     if(GetOpenFileName(&ofn) || ofn.lCustData)

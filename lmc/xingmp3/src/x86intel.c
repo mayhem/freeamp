@@ -26,10 +26,12 @@
 /*	along with this program; if not, write to the Free Software */
 /*	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. */
 
-/*	$Id: x86intel.c,v 1.3 1999/03/04 23:56:17 mhw Exp $ */
+/*	$Id: x86intel.c,v 1.4 1999/03/04 23:58:53 mhw Exp $ */
 /*	Generated from Id: x86gas.s,v 1.7 1999/03/04 07:28:16 mhw Exp $ */
 
 
+extern float wincoef[264];
+extern float coef32[31];
 
 #define L_tmp 0
 #define L_pcm 4

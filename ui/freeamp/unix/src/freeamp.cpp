@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.35 1999/07/19 18:11:19 robert Exp $
+	$Id: freeamp.cpp,v 1.36 1999/07/26 20:22:22 robert Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -609,6 +609,22 @@ int32 FreeAmpUI::AcceptEvent(Event *e) {
 	    XUnlockDisplay(m_display);
 	    break;
 	}
+   case INFO_StreamInfo:
+   { 
+       char szTitle[100], szURL[100];
+
+       StreamInfoEvent *pInfo = (StreamInfoEvent *)e;
+
+	    pInfo->GetTitle(szTitle, 100);
+	    m_lcdWindow->SetMainText(szTitle);
+	    m_needsWiggling = true;
+
+	    XLockDisplay(m_display);
+	    m_lcdWindow->Draw(FALcdWindow::FullRedraw);
+	    XUnlockDisplay(m_display);
+
+	    break;
+   }
 	case INFO_MediaTimeInfo: {
 	    MediaTimeInfoEvent *info = (MediaTimeInfoEvent *)e;
 	    m_lcdWindow->SetCurrentTime(info->m_hours,info->m_minutes,info->m_seconds);
@@ -932,7 +948,7 @@ void FreeAmpUI::TimerEventFunction(void *p) {
 	    pMe->SeekJogAction();
 	}
 	pMe->m_seekSlice = ++(pMe->m_seekSlice) % SEEK_SLICE;
-	usleep(170000);
+	usleep(370000);
     }
 }
 

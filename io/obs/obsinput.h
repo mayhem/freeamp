@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: obsinput.h,v 1.10 1999/07/02 01:13:43 robert Exp $
+        $Id: obsinput.h,v 1.11 1999/07/26 20:22:20 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _OBSFILEINPUT_H_
@@ -30,6 +30,7 @@ ____________________________________________________________________________*/
 /* project headers */
 #include "config.h"
 #include "pmi.h"
+#include "tstream.h"
 
 const int iMaxUrlLen = 1024;
 const int iMaxErrorLen = 1024;
@@ -102,6 +103,7 @@ class ObsInput :public PhysicalMediaInput
    Thread             *m_pBufferThread;
    bool                m_bLoop, m_bDiscarded;
    struct sockaddr_in *m_pSin;
+   TitleStreamServer *m_pTitleStream; 
 };
 
 #endif /* _OBSFILEINPUT_H_ */

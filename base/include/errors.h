@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.17 1999/07/02 01:13:24 robert Exp $
+	$Id: errors.h,v 1.18 1999/07/26 20:22:10 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -61,7 +61,14 @@ typedef enum Error
     kError_YouScrewedUp         = 30,
     kError_NoPrefValue          = 31,
     kError_SyntaxError          = 32,
-    kError_EndOfStream          = 33
+    kError_EndOfStream          = 33,
+    kError_ConnectFailed        = 34,
+    kError_CantCreateSocket     = 35,
+    kError_CannotSetSocketOpts  = 36,
+    kError_CannotBind           = 37,
+
+
+    kError_LastError            = 9999
 }Error;
 
 

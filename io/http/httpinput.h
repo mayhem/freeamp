@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: httpinput.h,v 1.15 1999/07/06 23:10:59 robert Exp $
+        $Id: httpinput.h,v 1.16 1999/07/26 20:22:18 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _HTTPINPUT_H_
@@ -32,7 +32,8 @@ ____________________________________________________________________________*/
 #include "pmi.h"
 #include "thread.h"
 #include "semaphore.h"
-#include "streambuffer.h"  
+#include "pullbuffer.h"  
+#include "tstream.h"  
 
 const int iMaxUrlLen = 1024;
 const int iMaxErrorLen = 1024;   
@@ -78,9 +79,10 @@ class HttpInput:public PhysicalMediaInput
 
 protected:
 
-   virtual Error     Open(void);
-   static  void      StartWorkerThread(void *);
-   void              LogError(char *);
+   virtual Error      Open(void);
+   static  void       StartWorkerThread(void *);
+   void               LogError(char *);
+   TitleStreamServer *m_pTitleStream;
 
 private:
 

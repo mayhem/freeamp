@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: eventdata.h,v 1.27 1999/04/26 00:51:29 robert Exp $
+	$Id: eventdata.h,v 1.28 1999/07/26 20:22:12 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENTDATA_H_
@@ -335,6 +335,38 @@ public:
 		  {
 		     return m_iBufferPercent;
 		  };
+};
+
+class StreamInfoEvent : public Event
+{
+private:
+        char *m_szStreamURL;
+        char *m_szStreamTitle;
+
+public:
+
+        StreamInfoEvent(char *szTitle, char *szURL)
+		  {
+            m_type = INFO_StreamInfo;
+            m_szStreamURL = strdup(szURL);
+            m_szStreamTitle = strdup(szTitle);
+		  };
+		  virtual ~StreamInfoEvent() 
+        {
+            free(m_szStreamURL);
+            free(m_szStreamTitle);
+        };
+
+        void GetURL(char *szUrl, int iSize)
+        {
+            strncpy(szUrl, m_szStreamURL, iSize - 1);
+            szUrl[iSize - 1] = 0;
+        }
+        void GetTitle(char *szTitle, int iSize)
+        {
+            strncpy(szTitle, m_szStreamTitle, iSize - 1);
+            szTitle[iSize - 1] = 0;
+        }
 };
 
 #endif /* _EVENTDATA_H_ */

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.27 1999/04/26 00:51:27 robert Exp $
+	$Id: event.h,v 1.28 1999/07/26 20:22:11 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _EVENT_H_
@@ -105,6 +105,8 @@ class EventQueue {
 #define INFO_StatusMessage      46 // sent to UIs so they can display status info
 
 #define INFO_VolumeInfo         47
+#define INFO_StreamInfo         48
+
 #endif // _EVENT_H_
 
 

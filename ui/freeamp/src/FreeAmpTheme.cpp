@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.87 2000/02/18 17:24:48 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88 2000/02/18 20:38:57 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -865,7 +865,13 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    if (eMesg == CM_ChangeWindow)
    {
        m_pWindow->ControlStringValue(oControlName, false, m_oCurrentWindow);
+
+       // This is cheating, but I don't know how else to do it. :-(
+       m_pWindow->DecUsageRef();
+       m_pWindow->DecUsageRef();
        SwitchWindow(m_oCurrentWindow);
+       m_pWindow->IncUsageRef();
+       m_pWindow->IncUsageRef();
    
        return kError_NoErr;
    }

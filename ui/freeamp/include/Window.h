@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.h,v 1.21 2000/02/16 02:20:47 ijr Exp $
+   $Id: Window.h,v 1.22 2000/02/18 20:38:56 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WINDOW__H_
@@ -130,6 +130,10 @@ class Window
 	  // that might cause a deadlock
       virtual void  ProcessWaitingMessages(void) { ; };
 
+      // For deadlock avaoidance
+      virtual void  IncUsageRef(void);
+      virtual void  DecUsageRef(void);
+
     protected:
 
       Control *ControlFromPos(Pos &oPos);
@@ -137,8 +141,6 @@ class Window
                                   Rect &oNewRect);
 
       // For locking the window in preparatiom for a VMM
-      virtual void  IncUsageRef(void);
-      virtual void  DecUsageRef(void);
       virtual void  LockUsageRef(void);
       virtual void  UnlockUsageRef(void);
      

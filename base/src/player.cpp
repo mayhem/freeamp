@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.96 1999/03/17 03:30:49 robert Exp $
+        $Id: player.cpp,v 1.97 1999/03/17 03:53:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -47,7 +47,6 @@ LogFile *g_Log = NULL;
 
 const char *szPlaylistExt = ".M3U";
 
-#define DB //printf("%s:%d\n", __FILE__, __LINE__);
 #define SEND_NORMAL_EVENT(e) { Event *ev = new Event(e); GetUIManipLock();    \
                                SendToUI(ev); ReleaseUIManipLock(); delete ev; \
                              }
@@ -890,9 +889,11 @@ void Player::DoneOutputting(Event *pEvent)
    {
        SEND_NORMAL_EVENT(INFO_Stopped);
    }
-   if (!m_plm->NextIsSame())
+
+   if (m_plm->HasAnotherSong())
    {
       AcceptEvent(new Event(CMD_NextMediaPiece));
+
       if (m_playerState == STATE_Paused)
       {
          AcceptEvent(new Event(CMD_PlayPaused));

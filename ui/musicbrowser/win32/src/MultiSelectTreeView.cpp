@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.17 2000/04/18 06:32:42 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.18 2000/05/15 22:25:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -435,6 +435,10 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
                 {
                     m_context->target->AcceptEvent(new ShowPreferencesEvent(3));
                 }
+                else if(tv_htinfo.hItem == m_hNewFavoritesItem)
+                {
+                    NewFavoriteEvent();
+                }
             }
             break;
         }
@@ -763,6 +767,8 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
                                item != m_hUncatItem &&
                                item != m_hNewPlaylistItem &&
                                item != m_hStreamsItem &&
+                               item != m_hFavoritesItem &&
+                               item != m_hNewFavoritesItem &&
                                item != m_hPortableItem &&
                                TreeView_GetParent(m_hMusicView, item) != m_hPortableItem &&
                                item != m_hWiredPlanetItem &&

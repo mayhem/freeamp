@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.56 2000/05/15 12:24:47 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.57 2000/05/15 22:25:28 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -236,6 +236,7 @@ void MusicBrowserUI::Init()
     m_hStreamsItem = NULL;
     m_hCDItem = NULL;
     m_hFavoritesItem = NULL;
+    m_hNewFavoritesItem = NULL;
     
     m_hMusicView = NULL;
     m_hPortableItem = NULL;
@@ -500,6 +501,38 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
                                      pie->NewItem());
             
             break; 
+        }
+
+        case INFO_MusicCatalogStreamAdded:
+        {
+            MusicCatalogStreamAddedEvent* pie = (MusicCatalogStreamAddedEvent*)event;
+
+            vector<MusicBrowserUI *>::iterator i;
+
+            for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+            {
+                (*i)->MusicCatalogStreamAdded(pie->Item());
+            }
+
+            MusicCatalogStreamAdded(pie->Item());
+
+            break;
+        }
+
+        case INFO_MusicCatalogStreamRemoved:
+        {
+            MusicCatalogStreamRemovedEvent* pie = (MusicCatalogStreamRemovedEvent*)event;
+
+            vector<MusicBrowserUI *>::iterator i;
+
+            for(i = m_oWindowList.begin(); i != m_oWindowList.end(); i++)
+            {
+                (*i)->MusicCatalogStreamRemoved(pie->Item());
+            }
+
+            MusicCatalogStreamRemoved(pie->Item());
+
+            break;
         }
 
         case INFO_MusicCatalogTrackAdded:

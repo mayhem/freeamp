@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.57 2000/05/10 15:47:10 elrod Exp $
+	$Id: playlist.h,v 1.58 2000/05/15 22:25:28 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -137,7 +137,7 @@ class PlaylistItem {
     bool operator==(const PlaylistItem& item) const
     {
         bool result = false;
-
+        
         result = ( m_metadata == item.m_metadata &&
                    m_url == item.m_url);
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.20 1999/04/27 23:00:33 elrod Exp $
+	$Id: simpleui.cpp,v 1.21 1999/04/28 00:52:48 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -474,23 +474,11 @@ ReadPreferences()
                     0, 0, 0, 0, 
                     SWP_NOMOVE|SWP_NOSIZE);
 
-    if(m_liveInTray)
-    {
-        ShowWindow(m_hwnd, FALSE);
-        AddTrayIcon();
-    }
-    else
-    {
-        ShowWindow(m_hwnd, TRUE);
-        RemoveTrayIcon();
-    }
-
-
     // what follows is a sad hack that actually makes windows 
     // refresh the toolbar correctly...
-    //ShowWindow(m_hwnd, FALSE);
+    ShowWindow(m_hwnd, FALSE);
 
-    /*LONG styles, extendedStyles;
+    LONG styles, extendedStyles;
 
     styles = GetWindowLong(m_hwnd, GWL_STYLE);
     extendedStyles = GetWindowLong(m_hwnd, GWL_EXSTYLE);
@@ -517,7 +505,7 @@ ReadPreferences()
     SetWindowLong(m_hwnd, GWL_STYLE, styles);
     SetWindowLong(m_hwnd, GWL_EXSTYLE, extendedStyles);
 
-    ShowWindow(m_hwnd, TRUE);*/
+    ShowWindow(m_hwnd, TRUE);
 
 }
 

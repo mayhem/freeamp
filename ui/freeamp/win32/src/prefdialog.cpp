@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: prefdialog.cpp,v 1.7 1999/04/26 09:01:27 elrod Exp $
+	$Id: prefdialog.cpp,v 1.8 1999/04/28 00:52:48 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -531,15 +531,8 @@ PrefPage2Proc(  HWND hwnd,
                                         originalValues.saveStreamsDirectory, 
                                         &size);
 
-            if(!strcmp(originalValues.saveStreamsDirectory, "."))
-            {
-                Edit_SetText(hwndSaveStreamsDirectory, "(Current Directory)");
-            }
-            else
-            {
-                Edit_SetText(   hwndSaveStreamsDirectory, 
-                                originalValues.saveStreamsDirectory);
-            }
+            Edit_SetText(   hwndSaveStreamsDirectory, 
+                            originalValues.saveStreamsDirectory);
 
             Button_Enable(  hwndSaveStreamsDirectory, 
                             originalValues.saveStreams);
@@ -1042,7 +1035,9 @@ bool DisplayPreferences(HWND hwndParent, Preferences* prefs)
     psh.pszIcon = NULL;
     psh.pszCaption = "FreeAmp Preferences";
     psh.nPages = sizeof(psp)/sizeof(PROPSHEETPAGE);
+    psh.nStartPage = 0;
     psh.ppsp = psp;
+    psh.pfnCallback = NULL;
 
     result = (PropertySheet(&psh) > 0);
 

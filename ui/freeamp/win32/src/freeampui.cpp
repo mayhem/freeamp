@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.60 1999/04/27 01:11:29 elrod Exp $
+	$Id: freeampui.cpp,v 1.61 1999/04/28 00:52:48 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1713,7 +1713,7 @@ TrayNotify(int32 notifyMessage)
                 mii.wID = IDC_STOP;
 
                 SetMenuItemInfo(popupHandle, 
-                                7,
+                                5,
                                 TRUE,
                                 &mii);
             }
@@ -1729,7 +1729,7 @@ TrayNotify(int32 notifyMessage)
                 mii.fState = MFS_CHECKED;
 
                 SetMenuItemInfo(popupHandle, 
-                                8,
+                                6,
                                 TRUE,
                                 &mii);
             }

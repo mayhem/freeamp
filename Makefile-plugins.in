@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile-plugins.in,v 1.16.2.12 1999/09/29 09:02:54 robert Exp $
+# $Id: Makefile-plugins.in,v 1.16.2.13 1999/10/01 06:12:51 robert Exp $
 
 RELOC = @FPIC@
 
@@ -48,6 +48,7 @@ PLUGINS += plugins/id3v1.mdf
 # PLUGINS += plugins/id3v2.mdf  not yet...
 
 PLUGINS += plugins/m3u.plf
+PLUGINS += lib/zlib/lib/libzlib.a
 
 plugins plugins-cc: $(PLUGINS) $(OSDEPPLUGINS)
 
@@ -227,7 +228,16 @@ PMP300OBJ = plm/portable/pmp300/pmp300.o plm/portable/pmp300/sba/rio.o
 plugins/pmp300.ppp: $(PMP300OBJ)
 	$(LINKMOD) -o $@ $(PMP300OBJ)
 
+# zlib section
 
+ZLIBOBJ  = lib/zlib/src/adler32.o lib/zlib/src/compress.o lib/zlib/src/crc32.o
+ZLIBOBJ += lib/zlib/src/deflate.o lib/zlib/src/gzio.o lib/zlib/src/infblock.o
+ZLIBOBJ += lib/zlib/src/infcodes.o lib/zlib/src/inffast.o lib/zlib/src/inflate.o
+ZLIBOBJ += lib/zlib/src/inftrees.o lib/zlib/src/infutil.o lib/zlib/src/trees.o
+ZLIBOBJ += lib/zlib/src/uncompr.o lib/zlib/src/zutil.o
+
+lib/zlib/lib/libzlib.a: $(ZLIBOBJ)
+	$(LIBMOD) $@ $(ZLIBOBJ)
 
 depend:
 	makedepend -fMakefile-plugins -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(LFIOBJ) $(THEMEUIOBJ) $(HTTPOBJ) $(SCPMOOBJ) $(ALSAOBJ) $(ESNDOBJ) $(CMDUIOBJ) $(MPG123UIOBJ) $(NCURSESUIOBJ) $(LCDUIOBJ) $(IRMANUIOBJ) $(GTKUIOBJ) $(FREEAMPUIOBJ) $(XINGLMCOBJ) $(PMP300OBJ) $(M3UOBJ) $(ID3V1OBJ) $(ID3V2OBJ) | sed -e 's,\.o,.cpp,g'`

@@ -1,6 +1,6 @@
 # Freeamp Makefile header 
 # contains all the compiler-related configure-extracted vars
-# $Id: Makefile.header.in,v 1.4.2.7 1999/09/29 07:40:19 robert Exp $
+# $Id: Makefile.header.in,v 1.4.2.8 1999/10/01 06:12:56 robert Exp $
 
 SHELL = /bin/sh
 
@@ -56,10 +56,11 @@ OSDEP = @OSDEP@
 OSINC = @OSINC@
 OSTYPE = @OSTYPE@
 LINKMOD = @LINKMOD@ $(LDFLAGS)
+LIBMOD = @LIBMOD@
 
 OSDEPOBJ = @OSDEPOBJ@
 
-INCLUDES = -Ilib/gdbm -Ibase/include -Iconfig -Iio/include -Iui/include -Ilmc/include $(OSINC) -Iio/soundcard/$(OSDEP)/include -Iui/lcd/include -Iui/irman/include -Ilmc/xingmp3/include -Iplm/portable/pmp300/sba -Ilib/xml/include
+INCLUDES = -Ilib/gdbm -Ibase/include -Iconfig -Iio/include -Iui/include -Ilmc/include $(OSINC) -Iio/soundcard/$(OSDEP)/include -Iui/lcd/include -Iui/irman/include -Ilmc/xingmp3/include -Iplm/portable/pmp300/sba -Ilib/xml/include -Ilib/zlib/include
 CXXFLAGS = $(EXTRA_CXXFLAGS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(srcdir)/config/mkinstalldirs

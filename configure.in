@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.49.2.5 1999/09/22 15:55:26 ijr Exp $
+dnl $Id: configure.in,v 1.49.2.6 1999/10/01 06:12:54 robert Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998 GoodNoise
 dnl
@@ -204,6 +204,7 @@ isunix="true"
 OSLINK=""
 FPIC="-fpic"
 LINKMOD="gcc -shared"
+LIBMOD="ar -r"
 OSTYPE="UNIX";
 
 case "$host_os" in
@@ -293,6 +294,7 @@ AC_SUBST(OSINC)
 AC_SUBST(OSLINK)
 AC_SUBST(FPIC)
 AC_SUBST(LINKMOD)
+AC_SUBST(LIBMOD)
 AC_SUBST(build_cpu)
 AC_SUBST(CFLAGS)
 

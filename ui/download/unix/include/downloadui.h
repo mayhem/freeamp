@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.3 1999/10/28 18:53:39 ijr Exp $
+	$Id: downloadui.h,v 1.4 1999/11/15 17:27:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -57,6 +57,8 @@ class DownloadUI : public UserInterface {
     void ResumeEvent(void);
     void SelChangeEvent(int row);
     void AddURLEvent(void);
+
+    bool doQuitNow;
 
  protected:
 

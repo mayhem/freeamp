@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.3 1999/10/23 04:54:43 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.4 1999/11/15 17:27:27 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <string>
@@ -33,6 +33,7 @@ ____________________________________________________________________________*/
 
 static Thread *gtkThread = NULL;
 static bool weAreGTK = false;
+static bool doQuitNow = false;
 
 void IconifyWindow(GdkWindow *win)
 {
@@ -47,8 +48,15 @@ void WarpPointer(GdkWindow *win, int x, int y)
     XWarpPointer(GDK_DISPLAY(), window, window, 0, 0, 0, 0, x, y);
 }
 
+static int theme_timeout(void *c)
+{
+    if (doQuitNow)
+        gtk_main_quit();
+}
+
 static void runGTK(void *c)
 {
+    gtk_timeout_add(250, theme_timeout, NULL);
     gtk_main();
     gdk_threads_leave();
 }
@@ -81,7 +89,8 @@ void ShutdownGTK(void)
         gtk_main_quit();
         gdk_threads_leave();
         weAreGTK = false;
-//        gtkThread->Join();
+        doQuitNow = true;
+        gtkThread->Join();
         gtkThread = NULL;
     }
 }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.8 1999/11/13 01:48:09 ijr Exp $
+        $Id: musicbrowser.cpp,v 1.9 1999/11/15 17:27:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "musicbrowserui.h"
@@ -72,10 +72,18 @@ void MusicBrowserUI::gtkServiceFunction(void *p)
     assert(p);
     ((MusicBrowserUI *)p)->GTKEventService();
 }
+
+static int musicbrowser_timeout(MusicBrowserUI *p)
+{
+    if (p->doQuitNow)
+        gtk_main_quit();
+}
+
 void MusicBrowserUI::GTKEventService(void)
 {
     weAreGTK = false;
-
+    doQuitNow = false;
+ 
     string URL = string("file://") + FreeampDir(NULL) + 
                  string("/currentlist.m3u");
     mainBrowser = new GTKMusicBrowser(m_context, this, URL);
@@ -91,6 +99,7 @@ void MusicBrowserUI::GTKEventService(void)
     m_context->gtkLock.Release();
 
     if (weAreGTK) {
+        gtk_timeout_add(250, musicbrowser_timeout, this);
         gtk_main();
         gdk_threads_leave();
     }
@@ -109,13 +118,12 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
                 delete (*i);
             }
 
-            if (weAreGTK) {
-                gdk_threads_enter();
-                gtk_main_quit();
-                gdk_threads_leave();
-            }
+            if (weAreGTK) 
+                doQuitNow = true;
+
             if (searching)
                 delete searching;
+
             gtkThread->Join();
             m_playerEQ->AcceptEvent(new Event(INFO_ReadyToDieUI));
             break; }

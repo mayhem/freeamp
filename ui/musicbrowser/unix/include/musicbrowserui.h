@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowserui.h,v 1.4 1999/11/08 02:22:49 ijr Exp $
+        $Id: musicbrowserui.h,v 1.5 1999/11/15 17:27:27 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSERUI_H_
@@ -50,6 +50,8 @@ class MusicBrowserUI : public UserInterface {
     void WindowClose(GTKMusicBrowser *oldUI);
 
     void StartSearch(bool runMain = true);
+
+    bool doQuitNow;
 
  protected:
     FAContext *m_context;

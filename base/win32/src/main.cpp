@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.8 1998/10/16 19:35:34 elrod Exp $
+	$Id: main.cpp,v 1.9 1998/10/17 02:09:44 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -98,7 +98,7 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 	Player *player = Player::GetPlayer();
 
     // register items... we give up ownership here
-    player->RegisterCOO(dummy);
+    player->RegisterActiveUI(dummy);
     player->RegisterLMCs(lmc);
     player->RegisterPMIs(pmi);
     player->RegisterPMOs(pmo);

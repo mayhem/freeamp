@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.13 1999/11/29 08:03:43 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.14 1999/11/29 08:23:20 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -197,7 +197,7 @@ class GTKMusicBrowser {
 
     void CreateNewEditor(char *playlisturl);
 
-    void ShowOptions(void);
+    void ShowOptions(int page = 0);
     void StopMenu(void);
     void PlayMenu(void);
     void NextMenu(void);

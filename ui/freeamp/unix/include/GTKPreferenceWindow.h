@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.6 1999/11/17 05:45:29 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.7 1999/11/29 08:23:20 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -116,7 +116,9 @@ class GTKPreferenceWindow : public PreferenceWindow
   public:
 
                GTKPreferenceWindow(FAContext *context,
-                                   ThemeManager *pThemeMan);
+                                   ThemeManager *pThemeMan,
+                                   uint32 defaultPage,
+                                   bool inEventLoop);
       virtual ~GTKPreferenceWindow(void); 
       
       virtual  bool Show(Window *pParent);
@@ -136,6 +138,9 @@ class GTKPreferenceWindow : public PreferenceWindow
       map<string, string> m_oThemeList;
 
   private:
+      bool   eventLoop;
+      uint32 startPage;
+
       GtkWidget *CreatePage1(void);
       GtkWidget *CreatePage2(void);
       GtkWidget *CreatePage3(void);
@@ -175,6 +180,7 @@ class GTKPreferenceWindow : public PreferenceWindow
       GtkWidget *pmoOptionMenu;
 
       int32 numPMOs;
+      bool  done;
 
       void UpdateThemeList(void);
       void AddThemeEvent(const char *newpath);

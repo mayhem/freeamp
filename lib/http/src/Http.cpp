@@ -18,13 +18,15 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.1 2000/04/09 20:30:24 robert Exp $
+   $Id: Http.cpp,v 1.2 2000/04/10 22:56:50 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifndef WIN32
 #include <sys/time.h>
+#endif
 #include <fcntl.h>    
 #include <errno.h>    
 

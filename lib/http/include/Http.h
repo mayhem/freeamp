@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.h,v 1.1 2000/04/09 20:30:23 robert Exp $
+   $Id: Http.h,v 1.2 2000/04/10 22:56:49 elrod Exp $
 ____________________________________________________________________________*/
 #ifndef __HTTP_H__
 #define __HTTP_H__
@@ -26,6 +26,8 @@ ____________________________________________________________________________*/
 #include "errors.h"
 #include "facontext.h"
 #include <string>
+
+using namespace std;
 
 class Http
 {

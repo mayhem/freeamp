@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.1.2.9 1999/10/14 07:09:37 elrod Exp $
+	$Id: updatemanager.cpp,v 1.1.2.10 1999/10/14 20:31:08 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -77,6 +77,8 @@ const char* kUpdateRequest = "GET %s HTTP/1.0\n"
                              "User-Agent: FreeAmp/%s\n"
                              "\n";
 const uint8 kUpdatePort = 80;
+
+extern AttrMap  oAttrMap; 
 
 UpdateManager::UpdateManager(FAContext* context)
 {
@@ -149,11 +151,21 @@ Error UpdateManager::InternalRetrieveLatestVersionInfo(
     Error result;
     string info;
 
+    if(function)
+    {
+        UMEvent event;
+
+        memset(&event, 0x00, sizeof(UMEvent));
+        event.type = kUMEvent_Status;
+        event.eventString = "Retrieving latest version info from server...";
+        function(&event, cookie);
+    }
+
     result = DownloadInfo(info, function, cookie);
 
     if(IsntError(result))
     {
-        result = ParseFile(string("c:\\temp\\version_info.xml")); // ParseString(info);//
+        result = ParseString(info);
     }
     
     return result;
@@ -278,6 +290,18 @@ Error UpdateManager::DownloadInfo(string& info,
         file = kUpdateFile;
     }
 
+    if(function)
+    {
+        UMEvent event;
+
+        memset(&event, 0x00, sizeof(UMEvent));
+        event.type = kUMEvent_Status;
+        event.eventString = "Looking up server address...";
+        bool ok = function(&event, cookie);
+
+        if(!ok)
+            result = kError_UserCancel;
+    }
 
     // get hostname
     if(IsntError(result))
@@ -310,10 +334,19 @@ Error UpdateManager::DownloadInfo(string& info,
         {
             memcpy(&host, hostByName, sizeof(struct hostent));
         }
+    }
 
-        /*if(item->GetState() == kDownloadItemState_Cancelled ||
-           item->GetState() == kDownloadItemState_Paused)
-            result = kError_UserCancel;*/
+    if(function)
+    {
+        UMEvent event;
+
+        memset(&event, 0x00, sizeof(UMEvent));
+        event.type = kUMEvent_Status;
+        event.eventString = "Found server address...";
+        bool ok = function(&event, cookie);
+
+        if(!ok)
+            result = kError_UserCancel;
     }
 
     // open socket
@@ -328,10 +361,19 @@ Error UpdateManager::DownloadInfo(string& info,
 
         if(s < 0)
             result = kError_CantCreateSocket;
+    }
 
-        /*if(item->GetState() == kDownloadItemState_Cancelled ||
-           item->GetState() == kDownloadItemState_Paused)
-            result = kError_UserCancel;*/
+    if(function)
+    {
+        UMEvent event;
+
+        memset(&event, 0x00, sizeof(UMEvent));
+        event.type = kUMEvent_Status;
+        event.eventString = "Connecting to the server...";
+        bool ok = function(&event, cookie);
+
+        if(!ok)
+            result = kError_UserCancel;
     }
 
     // connect and send request
@@ -340,9 +382,18 @@ Error UpdateManager::DownloadInfo(string& info,
         if(connect(s,(const struct sockaddr*)&addr, sizeof(struct sockaddr)))
             result = kError_CannotBind;
 
-        /*if(item->GetState() == kDownloadItemState_Cancelled ||
-           item->GetState() == kDownloadItemState_Paused)
-            result = kError_UserCancel;*/
+        if(function)
+        {
+            UMEvent event;
+
+            memset(&event, 0x00, sizeof(UMEvent));
+            event.type = kUMEvent_Status;
+            event.eventString = "Requesting latest version info...";
+            bool ok = function(&event, cookie);
+
+            if(!ok)
+                result = kError_UserCancel;
+        }
 
         if(IsntError(result))
         {
@@ -364,12 +415,21 @@ Error UpdateManager::DownloadInfo(string& info,
                 result = kError_IOError;
             }
 
-            /*if(item->GetState() == kDownloadItemState_Cancelled ||
-               item->GetState() == kDownloadItemState_Paused)
-                result = kError_UserCancel;*/
-
             delete [] query;
         }
+    }
+
+    if(function)
+    {
+        UMEvent event;
+
+        memset(&event, 0x00, sizeof(UMEvent));
+        event.type = kUMEvent_Status;
+        event.eventString = "Receiving latest version info...";
+        bool ok = function(&event, cookie);
+
+        if(!ok)
+            result = kError_UserCancel;
     }
 
     // receive response
@@ -396,16 +456,24 @@ Error UpdateManager::DownloadInfo(string& info,
                 {
                     buffer[count] = 0x00;
                     info += buffer;
-                    //item->SetBytesReceived(count + item->GetBytesReceived());
-                    //SendProgressMessage(item);
+                    total += count;
                 }
 
                 if(count < 0)
                     result = kError_IOError;
                 
-                /*if(item->GetState() == kDownloadItemState_Cancelled ||
-                   item->GetState() == kDownloadItemState_Paused)
-                    result = kError_UserCancel;*/
+                if(function)
+                {
+                    UMEvent event;
+
+                    memset(&event, 0x00, sizeof(UMEvent));
+                    event.type = kUMEvent_Status;
+                    event.eventString = "Receiving latest version info...";
+                    bool ok = function(&event, cookie);
+
+                    if(!ok)
+                        result = kError_UserCancel;
+                }
 
             }while(count > 0 && IsntError(result));
 
@@ -441,6 +509,22 @@ static bool IsHTTPHeaderComplete(char* buffer, uint32 length)
             }
         //}
     //}
+
+    return result;
+}
+
+static int32 GetContentLengthFromHeader(const char* buffer)
+{
+    int32 result = -1;
+
+    char* cp = strstr(buffer, "Content-Length:");
+
+    if(cp)
+    {
+        cp += strlen("Content-Length:") + 1;
+
+        result = atoi(cp);
+    }
 
     return result;
 }
@@ -547,9 +631,19 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
             }            
         }
 
-        /*if(item->GetState() == kDownloadItemState_Cancelled ||
-           item->GetState() == kDownloadItemState_Paused)
-            result = kError_UserCancel;*/
+        if(function)
+        {
+            UMEvent event;
+
+            memset(&event, 0x00, sizeof(UMEvent));
+            event.type = kUMEvent_Status;
+            event.eventString = "Downloading ";
+            event.eventString += item->GetLocalFileName();
+            bool ok = function(&event, cookie);
+
+            if(!ok)
+                result = kError_UserCancel;
+        }
 
         // get hostname
         if(IsntError(result))
@@ -583,9 +677,19 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
                 memcpy(&host, hostByName, sizeof(struct hostent));
             }
 
-            /*if(item->GetState() == kDownloadItemState_Cancelled ||
-               item->GetState() == kDownloadItemState_Paused)
-                result = kError_UserCancel;*/
+            if(function)
+            {
+                UMEvent event;
+
+                memset(&event, 0x00, sizeof(UMEvent));
+                event.type = kUMEvent_Status;
+                event.eventString = "Downloading ";
+                event.eventString += item->GetLocalFileName();
+                bool ok = function(&event, cookie);
+
+                if(!ok)
+                    result = kError_UserCancel;
+            }
         }
 
         // open socket
@@ -601,9 +705,19 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
             if(s < 0)
                 result = kError_CantCreateSocket;
 
-            /*if(item->GetState() == kDownloadItemState_Cancelled ||
-               item->GetState() == kDownloadItemState_Paused)
-                result = kError_UserCancel;*/
+            if(function)
+            {
+                UMEvent event;
+
+                memset(&event, 0x00, sizeof(UMEvent));
+                event.type = kUMEvent_Status;
+                event.eventString = "Downloading ";
+                event.eventString += item->GetLocalFileName();
+                bool ok = function(&event, cookie);
+
+                if(!ok)
+                    result = kError_UserCancel;
+            }
         }
 
         // connect and send request
@@ -612,9 +726,19 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
             if(connect(s,(const struct sockaddr*)&addr, sizeof(struct sockaddr)))
                 result = kError_CannotBind;
 
-            /*if(item->GetState() == kDownloadItemState_Cancelled ||
-               item->GetState() == kDownloadItemState_Paused)
-                result = kError_UserCancel;*/
+            if(function)
+            {
+                UMEvent event;
+
+                memset(&event, 0x00, sizeof(UMEvent));
+                event.type = kUMEvent_Status;
+                event.eventString = "Downloading ";
+                event.eventString += item->GetLocalFileName();
+                bool ok = function(&event, cookie);
+
+                if(!ok)
+                    result = kError_UserCancel;
+            }
 
             if(IsntError(result))
             {
@@ -642,12 +766,22 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
                     result = kError_IOError;
                 }
 
-                /*if(item->GetState() == kDownloadItemState_Cancelled ||
-                   item->GetState() == kDownloadItemState_Paused)
-                    result = kError_UserCancel;*/
-
                 delete [] query;
             }
+        }
+
+        if(function)
+        {
+            UMEvent event;
+
+            memset(&event, 0x00, sizeof(UMEvent));
+            event.type = kUMEvent_Status;
+            event.eventString = "Downloading ";
+            event.eventString += item->GetLocalFileName();
+            bool ok = function(&event, cookie);
+
+            if(!ok)
+                result = kError_UserCancel;
         }
 
         // receive response
@@ -690,9 +824,19 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
                         result = kError_IOError;
                     }
 
-                    /*if(item->GetState() == kDownloadItemState_Cancelled ||
-                       item->GetState() == kDownloadItemState_Paused)
-                        result = kError_UserCancel;*/
+                    if(function)
+                    {
+                        UMEvent event;
+
+                        memset(&event, 0x00, sizeof(UMEvent));
+                        event.type = kUMEvent_Status;
+                        event.eventString = "Downloading ";
+                        event.eventString += item->GetLocalFileName();
+                        bool ok = function(&event, cookie);
+
+                        if(!ok)
+                            result = kError_UserCancel;
+                    }
 
 
                 }while(!IsHTTPHeaderComplete(buffer, total) && IsntError(result));
@@ -723,6 +867,8 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
 
                         cout << destPath << endl;
 
+                        int32 fileSize = GetContentLengthFromHeader(buffer);
+
                         int openFlags = O_BINARY|O_CREAT|O_RDWR|O_TRUNC;
 
                         int fd = open(destPath, openFlags);
@@ -748,8 +894,23 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
                                 if(cp - buffer < (int)total)
                                 {
                                     write(fd, cp, total - (cp - buffer));
-                                    //item->SetBytesReceived(total - (cp - buffer) + item->GetBytesReceived());
-                                    //SendProgressMessage(item);
+                                    total -= (cp - buffer);
+
+                                    if(function)
+                                    {
+                                        UMEvent event;
+
+                                        memset(&event, 0x00, sizeof(UMEvent));
+                                        event.type = kUMEvent_Progress;
+                                        event.data.progressData.item = item;
+                                        event.data.progressData.position = total;
+                                        event.data.progressData.total = fileSize;
+
+                                        bool ok = function(&event, cookie);
+
+                                        if(!ok)
+                                            result = kError_UserCancel;
+                                    }
                                 }
                             }
 
@@ -760,16 +921,27 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
                                 if(count > 0)
                                 {
                                     write(fd, buffer, count);
-                                    //item->SetBytesReceived(count + item->GetBytesReceived());
-                                    //SendProgressMessage(item);
+                                    total += count;
                                 }
 
                                 if(count < 0)
                                     result = kError_IOError;
                                 
-                                /*if(item->GetState() == kDownloadItemState_Cancelled ||
-                                   item->GetState() == kDownloadItemState_Paused)
-                                    result = kError_UserCancel;*/
+                                if(function)
+                                {
+                                    UMEvent event;
+
+                                    memset(&event, 0x00, sizeof(UMEvent));
+                                    event.type = kUMEvent_Progress;
+                                    event.data.progressData.item = item;
+                                    event.data.progressData.position = total;
+                                    event.data.progressData.total = fileSize;
+
+                                    bool ok = function(&event, cookie);
+
+                                    if(!ok)
+                                        result = kError_UserCancel;
+                                }
 
                                 //cout << "bytes recvd:" << count << endl;
 
@@ -1044,29 +1216,17 @@ inline uint32 UpdateManager::CheckIndex(uint32 index)
 // parsing code
 Error UpdateManager::BeginElement(string &element, AttrMap &attrMap)
 {
-    if(attrMap.size())
+    /*if(attrMap.size())
     {
-        AttrMap::iterator i = attrMap.find("NAME");
-    }
+        //AttrMap::iterator i = attrMap.find("NAME");
+        AttrMap::iterator i = oAttrMap.find("NAME");
+    }*/
 
-    /*char temp[256];
-
-    OutputDebugString("BeginElement: \r\n");
-
-    sprintf(temp, "%d\r\n",attrMap.size());
-    OutputDebugString(temp);*/
-
-	/*m_path += string("/") + element;
+	m_path += string("/") + element;
 
 	if(m_path == "/VERSIONINFO/PLATFORM")
 	{
-        AttrMap::iterator i = attrMap.find(string("NAME"));
-
-		if (i != attrMap.end())
-        {
-           m_versionPlatform = (*i).second; 
-           //m_versionPlatform = attrMap["NAME"];
-        }
+        m_versionPlatform = oAttrMap["NAME"];
     }
 
     if(m_path == "/VERSIONINFO/PLATFORM/COMPONENT" &&
@@ -1082,7 +1242,7 @@ Error UpdateManager::BeginElement(string &element, AttrMap &attrMap)
         {
             item = *i;
 
-            if(!strcasecmp(attrMap["NAME"].c_str(), 
+            if(!strcasecmp(oAttrMap["NAME"].c_str(), 
                            item->GetLocalFileName().c_str()))
             {
                 foundComponent = true;
@@ -1095,35 +1255,35 @@ Error UpdateManager::BeginElement(string &element, AttrMap &attrMap)
         {
             item = new UpdateItem();   
             m_itemList.push_back(item);
-            item->SetLocalFileName(attrMap["NAME"]);
+            item->SetLocalFileName(oAttrMap["NAME"]);
         }
 
-        item->SetCurrentFileLocation(attrMap["LOCATION"]);
+        item->SetCurrentFileLocation(oAttrMap["LOCATION"]);
 
         string url = "http://";
 
         // where is the latest version located?
         url += kUpdateServer;
         url += kUpdatePath;
-        url += attrMap["LOCATION"];
+        url += oAttrMap["LOCATION"];
 
         item->SetCurrentFileURL(url);
 
-        item->SetCurrentFileVersion(attrMap["VERSION"]);
-        item->SetFileDescription(attrMap["DESCRIPTION"]);
+        item->SetCurrentFileVersion(oAttrMap["VERSION"]);
+        item->SetFileDescription(oAttrMap["DESCRIPTION"]);
 
-        if(attrMap.find("NAME") != attrMap.end())
-            cout << "Name: " << attrMap["NAME"] << endl;
+        if(oAttrMap.find("NAME") != oAttrMap.end())
+            cout << "Name: " << oAttrMap["NAME"] << endl;
 
-        if(attrMap.find("DESCRIPTION") != attrMap.end())
-            cout << "Description: " << attrMap["DESCRIPTION"] << endl;
+        if(oAttrMap.find("DESCRIPTION") != oAttrMap.end())
+            cout << "Description: " << oAttrMap["DESCRIPTION"] << endl;
 
-        if(attrMap.find("VERSION") != attrMap.end())
-            cout << "Version: " << attrMap["VERSION"] << endl;
+        if(oAttrMap.find("VERSION") != oAttrMap.end())
+            cout << "Version: " << oAttrMap["VERSION"] << endl;
 
-        if(attrMap.find("LOCATION") != attrMap.end())
-            cout << "Location: " << attrMap["LOCATION"] << endl;
-    }*/
+        if(oAttrMap.find("LOCATION") != oAttrMap.end())
+            cout << "Location: " << oAttrMap["LOCATION"] << endl;
+    }
 
     return kError_NoErr;
 }
@@ -1140,7 +1300,7 @@ Error UpdateManager::EndElement(string &element)
 {
     //cout << "EndElement: " << element << endl;
 
-	/*char *ptr;
+	char *ptr;
     int   offset;
     
     ptr = strrchr(m_path.c_str(), '/');
@@ -1148,7 +1308,7 @@ Error UpdateManager::EndElement(string &element)
        return kError_NoErr;
        
     offset = ptr - m_path.c_str();
-    m_path.erase(offset, m_path.length() - offset);   */
+    m_path.erase(offset, m_path.length() - offset);
      
 	return kError_NoErr;
 }

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: tstream.cpp,v 1.12 1999/10/19 07:13:05 elrod Exp $
+   $Id: tstream.cpp,v 1.13 2000/02/09 09:48:32 hiro Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -50,7 +50,7 @@ ____________________________________________________________________________*/
 #include "log.h" 
 #include "eventdata.h" 
 
-#ifndef WIN32
+#if !defined(WIN32) && !defined(__BEOS__)
 #define closesocket(s) close(s)
 #endif  
 

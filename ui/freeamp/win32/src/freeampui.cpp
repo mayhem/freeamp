@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.25 1999/03/08 14:31:24 elrod Exp $
+	$Id: freeampui.cpp,v 1.26 1999/03/09 09:31:54 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -480,7 +480,8 @@ KeyDown(int32 keyCode)
         case VK_HOME: 
         case VK_END: 
         case VK_DELETE: 
-            m_playlistView->KeyPressed(keyCode);
+            if(m_playlistView->Visible() && m_playlistView->Enabled())
+                m_playlistView->KeyPressed(keyCode);
             break;
     }
 

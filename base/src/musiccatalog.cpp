@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.54 2000/05/08 13:58:53 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.55 2000/05/10 18:40:48 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -73,6 +73,7 @@ MusicCatalog::MusicCatalog(FAContext *context, char *databasepath)
 
 void MusicCatalog::StartTimer(void)
 {
+    WatchTimer();
     if (m_timeout > 0)
         m_context->timerManager->StartTimer(&m_watchTimer, watch_timer,
                                             m_timeout, this);
@@ -1118,12 +1119,15 @@ void MusicCatalog::WatchTimer(void)
 
     m_context->prefs->GetWatchThisDirectory(watchDir, &length);
 
-    string watchPath = watchDir;
-
     vector<string> searchPaths;
-    searchPaths.push_back(watchPath);
 
-    PruneDirectory(watchPath);
+    char *temp = strtok(watchDir, ";");
+    do {
+        string dir = temp;
+        searchPaths.push_back(dir);
+        PruneDirectory(dir);
+    } while ((temp = strtok(NULL, ";")));
+
     SearchMusic(searchPaths, false);
 
     delete [] watchDir;

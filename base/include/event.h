@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.15 1998/11/08 01:20:00 jdw Exp $
+	$Id: event.h,v 1.16 1998/11/09 08:55:47 jdw Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -78,6 +78,9 @@ class EventQueue {
 #define INFO_ID3TagInfo			30 // info about ID3 tag
 #define CMD_PLMGetMediaInfo             31 // sent by PlayListManager to player to get vital info about a particular playlistitem
 #define CMD_PLMSetMediaInfo             32 // sent by Player to PlayListManger to set the info the PLM requested.
+#define INFO_PlayListRepeat     33 // sent by PLM to player to inform of a setting of repeat mode
+#define INFO_PlayListShuffle    34 // sent by PLM to player to inform of a setting of shuffle mode
+#define INFO_PlayListUpdated	35 // sent by PLM to player to inform of a playlist update
 #endif // _EVENT_H_
 
 

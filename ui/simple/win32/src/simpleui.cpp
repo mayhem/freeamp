@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.16 1998/11/07 02:39:05 jdw Exp $
+	$Id: simpleui.cpp,v 1.17 1998/11/09 08:55:47 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -412,7 +412,7 @@ SetArgs(int32 argc, char** argv)
     playlist->SetFirst();
 
     if(shuffle) 
-        playlist->SetOrder(PlayListManager::ORDER_SHUFFLED);
+        playlist->SetShuffle(SHUFFLE_SHUFFLED);
     
     if(count)
     {

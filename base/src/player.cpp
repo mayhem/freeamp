@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.52 1998/11/08 04:34:09 jdw Exp $
+	$Id: player.cpp,v 1.53 1998/11/09 08:55:47 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -762,6 +762,18 @@ int32 Player::ServiceEvent(Event *pC) {
 		return 0;
 		break; 
 	    }
+		case INFO_PlayListShuffle:
+		case INFO_PlayListRepeat: 
+		case INFO_PlayListUpdated:
+			{
+				GetUIManipLock();
+				SendToUI(pC);
+				ReleaseUIManipLock();
+				delete pC;
+				return 0;
+				break;
+			}
+
 	    case INFO_LMCError: {
 		LMCErrorEvent *e = (LMCErrorEvent *)pC;
 		DISPLAY_ERROR(m_lmc,(e->GetError()));

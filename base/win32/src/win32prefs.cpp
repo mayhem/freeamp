@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32prefs.cpp,v 1.11 1999/12/02 22:06:51 elrod Exp $
+	$Id: win32prefs.cpp,v 1.12 1999/12/17 11:20:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -197,6 +197,15 @@ Initialize()
 				{
 					result = RegSetValueEx( m_prefsKey,
 											kInstallDirPref, 
+											NULL, 
+											REG_SZ, 
+											(LPBYTE)cwd, 
+											strlen(cwd) + 1);
+
+                    strcat(cwd, "\\db");
+
+                    result = RegSetValueEx( m_prefsKey,
+											kDatabaseDirPref, 
 											NULL, 
 											REG_SZ, 
 											(LPBYTE)cwd, 

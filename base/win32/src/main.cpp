@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.39 1999/12/09 08:40:24 elrod Exp $
+	$Id: main.cpp,v 1.40 1999/12/17 11:20:29 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -378,9 +378,9 @@ void CreateHiddenWindow(void* arg)
 }
 
 const char* kFileTypes[][2] = {
-    {".mp1", "MP1AudioFile"},
-    {".mp2", "MP2AudioFile"},
-    {".mp3", "MP3AudioFile"},
+    {".mp1", "MPEGAudioFile"},
+    {".mp2", "MPEGAudioFile"},
+    {".mp3", "MPEGAudioFile"},
     {".m3u", "M3UPlaylistFile"},
     {".pls", "PLSPlaylistFile"},
     {".rmp", "RealMusicPackage"},

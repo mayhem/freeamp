@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.14 1999/12/14 19:10:11 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.15 1999/12/17 11:20:29 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -536,7 +536,7 @@ DownloadItem* DownloadManager::GetNextQueuedItem()
 
         m_queueList.pop_front();
 
-        cout << "Queue count: " << m_queueList.size() << endl;
+        //cout << "Queue count: " << m_queueList.size() << endl;
     }
 
     m_queueMutex.Release();
@@ -864,7 +864,7 @@ Error DownloadManager::Download(DownloadItem* item)
                 buffer[total] = 0x00;
                 //cout << buffer << endl;
 
-                cout << returnCode << endl;
+                //cout << returnCode << endl;
 
                 switch(buffer[9])
                 {
@@ -885,7 +885,7 @@ Error DownloadManager::Download(DownloadItem* item)
                         if(fileSize > 0)
                             item->SetTotalBytes(fileSize);
 
-                        cout << destPath << endl;
+                        //cout << destPath << endl;
 
                         int openFlags = O_BINARY|O_CREAT|O_RDWR|O_APPEND;
 
@@ -1086,7 +1086,7 @@ Error DownloadManager::Download(DownloadItem* item)
 
 void DownloadManager::CleanUpDownload(DownloadItem* item)
 {
-    cout << "Cleaning item: " << item->SourceURL() << endl;
+    //cout << "Cleaning item: " << item->SourceURL() << endl;
 
     char path[_MAX_PATH];
     uint32 length = sizeof(path);
@@ -1109,7 +1109,7 @@ Error DownloadManager::SubmitToDatabase(DownloadItem* item)
 
     if(item)
     {
-        cout << "Submitting item: " << item->SourceURL() << endl;
+        //cout << "Submitting item: " << item->SourceURL() << endl;
 
         char path[_MAX_PATH];
         uint32 length = sizeof(path);

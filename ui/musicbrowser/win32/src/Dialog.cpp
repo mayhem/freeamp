@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.54 1999/12/16 03:06:31 elrod Exp $
+        $Id: Dialog.cpp,v 1.55 1999/12/17 11:20:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -466,10 +466,10 @@ Error MusicBrowserUI::CloseMainDialog(void)
 
 void MusicBrowserUI::ShowBrowser(bool bShowExpanded)
 {
-    PostMessage(m_hWnd, WM_EMPTYDBCHECK, 0, 0);
     ShowWindow(m_hWnd, SW_RESTORE);
 	ShowWindow(m_hWnd, SW_SHOW);
     SetForegroundWindow(m_hWnd);
+    PostMessage(m_hWnd, WM_EMPTYDBCHECK, 0, 0);
 }
 
 void MusicBrowserUI::HideBrowser(void)

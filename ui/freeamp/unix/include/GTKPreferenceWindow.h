@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.1.2.5 1999/10/16 21:25:42 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.1.2.6 1999/10/17 00:18:49 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -50,7 +50,7 @@ typedef struct PrefsStruct
     // page 2
     int32 streamInterval;
     bool saveStreams;
-    char saveStreamsDirectory[MAX_PATH + 1];
+    char saveStreamsDirectory[_MAX_PATH + 1];
     bool useProxyServer;
     char proxyServer[256]; // is there a domain name length limit???
     bool useAlternateIP;
@@ -77,6 +77,8 @@ typedef struct PrefsStruct
         memset(saveStreamsDirectory, 0x00, sizeof(saveStreamsDirectory));
         memset(proxyServer, 0x00, sizeof(proxyServer));
         memset(alternateIP, 0x00, sizeof(alternateIP));
+        memset(defaultFont, 0x00, sizeof(defaultFont));
+        currentTheme = "";
     }
 
 } PrefsStruct;
@@ -99,8 +101,6 @@ class GTKPreferenceWindow : public PreferenceWindow
 
   protected:
     
-      FAContext   *m_pContext;
-      PrefsStruct  originalValues;
       PrefsStruct  currentValues;
 
       map<string, string> m_oThemeList;
@@ -143,7 +143,6 @@ class GTKPreferenceWindow : public PreferenceWindow
       GtkWidget *mainWindow;
 
       void ApplyInfo(void);
-      void DefaultInfo(void);
       
       void SetInputBufferSize(int newvalue);
       void SetOutputBufferSize(int newvalue);

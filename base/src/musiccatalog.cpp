@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.1.2.3 1999/10/16 21:48:09 robert Exp $
+        $Id: musiccatalog.cpp,v 1.1.2.4 1999/10/17 00:18:49 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -28,9 +28,11 @@ ____________________________________________________________________________*/
 #pragma warning(disable:4786)
 #endif
 
+#include <sys/stat.h>
 #ifdef WIN32
 #include <windows.h>
 #else
+#include <unistd.h>
 #include "win32impl.h"
 #endif
 
@@ -72,7 +74,14 @@ void MusicCatalog::AddPlaylist(const char *path)
     if (!data) 
         dbase->Insert(path, "P");
 
-    m_playlists->push_back(path);
+    bool found = false;
+    vector<string>::iterator i = m_playlists->begin();
+    for (; i != m_playlists->end(); i++)
+         if ((*i) == path)
+             found = true;
+    
+    if (!found)
+        m_playlists->push_back(path);
 }
 
 void MusicCatalog::AddSong(const char *path)
@@ -214,6 +223,18 @@ void MusicBrowser::SetDatabase(const char *path)
 
     if (m_database)
         m_catalog->PopulateFromDatabase();
+}
+
+void MusicBrowser::PruneDatabase(void)
+{
+    char *key = m_database->NextKey(NULL);
+    struct stat st;
+
+    while (key) {
+        if (-1 == stat(key, &st))
+            m_database->Remove(key);
+        key = m_database->NextKey(key);
+    }
 }
 
 typedef struct MusicSearchThreadStruct {
@@ -456,6 +477,11 @@ int32 MusicBrowser::AcceptEvent(Event *e)
     switch (e->Type()) {
         case INFO_SearchMusicDone: {
             m_database->Sync();
+            string info = "Pruning the Music Catalog Database...";
+            m_context->target->AcceptEvent(new BrowserMessageEvent(info.c_str()));
+            PruneDatabase();
+            info = "Regenerating the Music Catalog Database...";
+            m_context->target->AcceptEvent(new BrowserMessageEvent(info.c_str()));
             m_catalog->PopulateFromDatabase();
             m_context->target->AcceptEvent(new Event(INFO_SearchMusicDone));
             break;

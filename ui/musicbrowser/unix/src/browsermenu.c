@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsermenu.c,v 1.1.2.2 1999/10/11 23:39:36 ijr Exp $
+        $Id: browsermenu.c,v 1.1.2.3 1999/10/17 00:18:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -84,8 +84,8 @@ void CreateMenuItems(GtkItemFactory *item_factory)
      {"/_Sort/Location",        NULL,           sort_location, 0, 0 },
      {"/_Sort/Randomize",       NULL,           sort_random, 0, 0 },
 
-     {"/_Help",                 NULL,           0,          0, "<LastBranch>" },
-     {"/_Help/_About",          NULL,           about,      0, 0 },
+//     {"/_Help",                 NULL,           0,          0, "<LastBranch>" },
+//     {"/_Help/_About",          NULL,           about,      0, 0 },
     };
     
     int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);

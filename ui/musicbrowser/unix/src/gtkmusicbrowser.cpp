@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.1.2.16 1999/10/16 21:25:42 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.1.2.17 1999/10/17 00:18:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -787,11 +787,6 @@ void save_list()
 
 void about()
 {
-   cout << "TODO:\n";
-   cout << " - Drag'N'Drop between tree and clist.\n";
-   cout << endl;
-   cout << "BUGS:\n";
-   cout << " - Need to parse file if no metadata exists.\n";
 }
 
 void MusicBrowserUI::CreateMenu(GtkWidget *topbox)

@@ -23,7 +23,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.10 1999/04/21 16:53:20 robert Exp $
+        $Id: alsapmo.cpp,v 1.11 1999/04/22 03:02:42 robert Exp $
 
  *  You can use -a <soundcard #>:<device #>...
  *  For example: mpg123 -a 1:0 aaa.mpg
@@ -38,7 +38,6 @@ ____________________________________________________________________________*/
 #include <ctype.h>
 #include <errno.h>
 #include <string.h>
-#include <timebits.h>
 
 /* project headers */
 #include <config.h>

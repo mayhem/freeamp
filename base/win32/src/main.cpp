@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.20 1998/11/09 07:53:46 elrod Exp $
+	$Id: main.cpp,v 1.21 1998/11/09 07:57:11 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -49,6 +49,7 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 
    if(GetLastError() == ERROR_ALREADY_EXISTS)
    {
+        CloseHandle(runOnceMutex);
         return 0;
    }
 
@@ -113,6 +114,8 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
 
     // clean up our act
     delete player;
+
+    CloseHandle(runOnceMutex);
 
 	return 0;
 }

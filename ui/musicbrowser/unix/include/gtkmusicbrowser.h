@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.19 1999/12/13 17:03:18 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.20 1999/12/16 04:11:03 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -118,6 +118,8 @@ class GTKMusicBrowser {
 
     bool master;
 
+    bool iSetRepeatMode;
+
     uint32 m_playingindex;
 
     PlaylistManager *m_plm;
@@ -187,8 +189,12 @@ class GTKMusicBrowser {
                         PlaylistItem *item);
     void AddCatPlaylist(string playlist);
     void RemoveCatPlaylist(string playlist);
+    void SetRepeatType(RepeatMode mode);
+    void SetShuffleType(bool shuffled);
 
   public:
+    bool iSetShuffleMode;
+
     ClickState GetClickState() { return m_clickState; }
     void SetClickState(ClickState newState);
 

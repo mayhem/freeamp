@@ -23,7 +23,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: alsapmo.cpp,v 1.6 1999/04/16 00:04:05 robert Exp $
+        $Id: alsapmo.cpp,v 1.7 1999/04/16 00:18:06 robert Exp $
 
  *  You can use -a <soundcard #>:<device #>...
  *  For example: mpg123 -a 1:0 aaa.mpg
@@ -327,7 +327,6 @@ Error AlsaPMO::Init(OutputInfo* info) {
                 if (!isdigit(sdevice[0]) || device < 0 || device > 31) {
                         return (Error)pmoError_ALSA_DeviceNumber;
                 }
-            printf("opening alsa card %d device %d\n", card, device);
         }
         if((err=snd_pcm_open(&ai->handle, card, device, SND_PCM_OPEN_PLAYBACK)) < 0 )
         {

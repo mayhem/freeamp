@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.5 1998/10/27 05:44:09 jdw Exp $
+	$Id: errors.h,v 1.6 1998/10/27 21:07:49 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -44,7 +44,8 @@ typedef enum Error
     kError_FileNoHandles    = 13,
     kError_NoMoreLibDirs    = 14,
     kError_NullValueInvalid = 15,
-    kError_InvalidError     = 16
+    kError_InvalidError     = 16,
+    kError_PluginNotInitialized = 17
 }Error;
 
 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.h,v 1.7 1998/10/27 05:44:09 jdw Exp $
+	$Id: xinglmc.h,v 1.8 1998/10/27 21:07:49 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -67,6 +67,9 @@ enum {
     lmcError_HeadInfoReturnedZero,
     lmcError_AudioDecodeInitFailed,
     lmcError_BSFillFailed,
+    lmcError_DecoderThreadFailed,
+    lmcError_OutputWriteFailed,
+    lmcError_DecodeDidntDecode,
     lmcError_MaximumError
 };
 
@@ -89,15 +92,16 @@ public:
     virtual Error SetPMO(PhysicalMediaOutput *);
     virtual Error SetTarget(EventQueue *);
     virtual Error InitDecoder();
-    virtual Error GetErrorString(int32, char *,int32);
+    virtual const char *GetErrorString(int32);
 
-    void DecodeWork();
 private:
     static void DecodeWorkerThreadFunc(void *);
+    void DecodeWork();
 
     int32 bs_fill();
     void bs_clear();
 private:
+    bool                    m_properlyInitialized;
     int32                   m_frameWaitTill;
     Semaphore *             m_pauseSemaphore;
     AUDIO                   m_audioMethods;

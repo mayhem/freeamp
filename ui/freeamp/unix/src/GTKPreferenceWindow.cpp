@@ -18,12 +18,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: GTKPreferenceWindow.cpp,v 1.10 1999/11/29 08:23:20 ijr Exp $
+	$Id: GTKPreferenceWindow.cpp,v 1.11 1999/11/29 22:44:11 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
 #include <stdlib.h>
 #include <assert.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 #include "player.h"
@@ -32,6 +33,7 @@ ____________________________________________________________________________*/
 #include "GTKWindow.h"
 #include "GTKFileSelector.h"
 #include "MessageDialog.h"
+#include "help.h"
 
 GTKPreferenceWindow::GTKPreferenceWindow(FAContext *context,
                                          ThemeManager *pThemeMan,
@@ -91,6 +93,32 @@ void pref_close_click(GtkWidget *w, GTKPreferenceWindow *p)
 {
     gtk_widget_destroy(p->mainWindow);
     p->done = true;
+}
+
+void GTKPreferenceWindow::ShowHelp(void)
+{
+    string oHelpFile;
+    char   dir[_MAX_PATH];
+    uint32 len = _MAX_PATH;
+
+    m_pContext->prefs->GetInstallDirectory(dir, &len);
+    oHelpFile = string(dir) + string(DIR_MARKER_STR) + string("../share/");
+    oHelpFile += string(HELP_FILE);
+
+    struct stat st;
+
+    if (stat(oHelpFile.c_str(), &st) == 0 && st.st_mode & S_IFREG)
+        LaunchBrowser((char *)oHelpFile.c_str());
+    else {
+        MessageDialog oBox(m_pContext);
+        string oMessage("Cannot find the help files. Please make sure that the help files are properly installed, and you are not running "BRANDING" from the build directory.");
+        oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk, true);
+    }
+}
+
+void help_click(GtkWidget *w, GTKPreferenceWindow *p)
+{
+    p->ShowHelp();
 }
 
 bool GTKPreferenceWindow::Show(Window *pWindow)
@@ -162,6 +190,8 @@ bool GTKPreferenceWindow::Show(Window *pWindow)
 
     button = gtk_button_new_with_label("  Help  ");
     gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+    gtk_signal_connect(GTK_OBJECT(button), "clicked", 
+                       GTK_SIGNAL_FUNC(help_click), this);
     gtk_widget_show(button);
 
     applyButton = gtk_button_new_with_label("  Apply  ");

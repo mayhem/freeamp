@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.37 1999/11/29 08:23:20 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.38 1999/11/29 22:44:11 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1178,12 +1178,15 @@ void FreeAmpTheme::PostWindowCreate(void)
 void FreeAmpTheme::ShowHelp(void)
 {
     string            oHelpFile;
-    char              dir[MAX_PATH];
+    char              dir[_MAX_PATH];
     uint32            len = sizeof(dir);
     
     m_pContext->prefs->GetInstallDirectory(dir, &len);
     oHelpFile = string(dir);
     oHelpFile += string(DIR_MARKER_STR);    
+#ifdef unix
+    oHelpFile += string("../share/");
+#endif
     oHelpFile += string(HELP_FILE);    
     
 #ifdef WIN32   

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.1.2.10 1999/10/14 20:31:08 elrod Exp $
+	$Id: updatemanager.cpp,v 1.1.2.11 1999/10/16 00:17:18 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -78,7 +78,7 @@ const char* kUpdateRequest = "GET %s HTTP/1.0\n"
                              "\n";
 const uint8 kUpdatePort = 80;
 
-extern AttrMap  oAttrMap; 
+//extern AttrMap  oAttrMap; 
 
 UpdateManager::UpdateManager(FAContext* context)
 {
@@ -1226,7 +1226,7 @@ Error UpdateManager::BeginElement(string &element, AttrMap &attrMap)
 
 	if(m_path == "/VERSIONINFO/PLATFORM")
 	{
-        m_versionPlatform = oAttrMap["NAME"];
+        m_versionPlatform = attrMap["NAME"];
     }
 
     if(m_path == "/VERSIONINFO/PLATFORM/COMPONENT" &&
@@ -1242,7 +1242,7 @@ Error UpdateManager::BeginElement(string &element, AttrMap &attrMap)
         {
             item = *i;
 
-            if(!strcasecmp(oAttrMap["NAME"].c_str(), 
+            if(!strcasecmp(attrMap["NAME"].c_str(), 
                            item->GetLocalFileName().c_str()))
             {
                 foundComponent = true;
@@ -1255,34 +1255,34 @@ Error UpdateManager::BeginElement(string &element, AttrMap &attrMap)
         {
             item = new UpdateItem();   
             m_itemList.push_back(item);
-            item->SetLocalFileName(oAttrMap["NAME"]);
+            item->SetLocalFileName(attrMap["NAME"]);
         }
 
-        item->SetCurrentFileLocation(oAttrMap["LOCATION"]);
+        item->SetCurrentFileLocation(attrMap["LOCATION"]);
 
         string url = "http://";
 
         // where is the latest version located?
         url += kUpdateServer;
         url += kUpdatePath;
-        url += oAttrMap["LOCATION"];
+        url += attrMap["LOCATION"];
 
         item->SetCurrentFileURL(url);
 
-        item->SetCurrentFileVersion(oAttrMap["VERSION"]);
-        item->SetFileDescription(oAttrMap["DESCRIPTION"]);
+        item->SetCurrentFileVersion(attrMap["VERSION"]);
+        item->SetFileDescription(attrMap["DESCRIPTION"]);
 
-        if(oAttrMap.find("NAME") != oAttrMap.end())
-            cout << "Name: " << oAttrMap["NAME"] << endl;
+        if(attrMap.find("NAME") != attrMap.end())
+            cout << "Name: " << attrMap["NAME"] << endl;
 
-        if(oAttrMap.find("DESCRIPTION") != oAttrMap.end())
-            cout << "Description: " << oAttrMap["DESCRIPTION"] << endl;
+        if(attrMap.find("DESCRIPTION") != attrMap.end())
+            cout << "Description: " << attrMap["DESCRIPTION"] << endl;
 
-        if(oAttrMap.find("VERSION") != oAttrMap.end())
-            cout << "Version: " << oAttrMap["VERSION"] << endl;
+        if(attrMap.find("VERSION") != attrMap.end())
+            cout << "Version: " << attrMap["VERSION"] << endl;
 
-        if(oAttrMap.find("LOCATION") != oAttrMap.end())
-            cout << "Location: " << oAttrMap["LOCATION"] << endl;
+        if(attrMap.find("LOCATION") != attrMap.end())
+            cout << "Location: " << attrMap["LOCATION"] << endl;
     }
 
     return kError_NoErr;

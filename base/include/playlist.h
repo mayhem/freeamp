@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.19 1999/10/15 22:52:07 elrod Exp $
+	$Id: playlist.h,v 1.40.4.20 1999/10/16 00:17:18 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYLIST_H_
@@ -251,6 +251,11 @@ class PlaylistManager {
                        void* cookie = NULL);
 
     Error WritePlaylist(char* url, PlaylistFormatInfo* format, 
+                        vector<PlaylistItem*>* items = NULL,
+                        PLMCallBackFunction function = NULL,
+                        void* cookie = NULL);
+
+    Error WritePlaylist(char* url,
                         vector<PlaylistItem*>* items = NULL,
                         PLMCallBackFunction function = NULL,
                         void* cookie = NULL);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Win32PreferenceWindow.cpp,v 1.1.2.5 1999/10/12 20:48:13 elrod Exp $
+	$Id: Win32PreferenceWindow.cpp,v 1.1.2.6 1999/10/16 00:17:26 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -31,6 +31,7 @@ ____________________________________________________________________________*/
 #include <assert.h>
 
 #include "eventdata.h"
+#include "thread.h"
 #include "win32updatemanager.h"
 #include "Win32PreferenceWindow.h"
 #include "Win32Window.h"
@@ -1756,6 +1757,13 @@ bool Win32PreferenceWindow::PrefPage5Proc(HWND hwnd,
     return result;
 }
 
+static void check_function(void* arg)
+{
+    UpdateManager* um = (UpdateManager*)arg;
+
+    um->RetrieveLatestVersionInfo();
+}
+
 bool Win32PreferenceWindow::PrefPage6Proc(HWND hwnd, 
                                           UINT msg, 
                                           WPARAM wParam, 
@@ -1851,9 +1859,14 @@ bool Win32PreferenceWindow::PrefPage6Proc(HWND hwnd,
 
                 case IDC_CHECK:
                 {
-                    
-                    m_pContext->updateManager->RetrieveLatestVersionInfo();
-                    ListView_RedrawItems(hwndList, 0, ListView_GetItemCount(hwndList) - 1);
+                    Thread* thread = Thread::CreateThread();
+
+                    if(thread)
+                    {
+                        thread->Create(check_function, m_pContext->updateManager);
+                    }
+                    //m_pContext->updateManager->RetrieveLatestVersionInfo();
+                    //ListView_RedrawItems(hwndList, 0, ListView_GetItemCount(hwndList) - 1);
                     
                     break;
                 }                

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.46 2000/05/23 16:24:22 elrod Exp $
+        $Id: preferences.cpp,v 1.46.4.1 2000/06/05 13:42:55 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -89,6 +89,7 @@ const char* kEqualizerSettingsPref = "EqualizerSettings";
 const char* kSavedPlaylistPositionPref = "SavedPlaylistPosition";
 const char* kMusicBrowserPositionPref = "MusicBrowserPosition";
 const char* kMusicBrowserHeaderWidthsPref = "MusicBrowserHeaderWidths";
+const char* kPlaylistHeaderColumns = "Title|Artist|Albumn|Time|Genre";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -154,7 +155,7 @@ const char* kDefaultEqualizerSettings = "1,50,50,50,50,50,50,50,50,50,50";
 const uint32 kDefaultSavedPlaylistPosition = 0;
 const char* kDefaultMusicBrowserPosition = "-1,-1,-1,-1,-1";
 const char* kDefaultMusicBrowserHeaderWidths = "-1,-1,-1.-1";
-
+const char* kDefaultPlaylistHeaderColumns = "Title|Artist|Albumn|Time|Genre";
 Error
 Preferences::
 SetDefaults()
@@ -250,6 +251,11 @@ SetDefaults()
     if (GetPrefString(kThemeDefaultFontPref, dummyString, 
         (uint32 *)&dummyInt) == kError_NoPrefValue)
         SetPrefString(kThemeDefaultFontPref, kDefaultThemeDefaultFont);
+
+    dummyInt = 255;
+	if (GetPrefString(kPlaylistHeaderColumns, dummyString,
+		(uint32 *)&dummyInt) == kError_NoPrefValue)
+        SetPrefString(kPlaylistHeaderColumns , kDefaultPlaylistHeaderColumns );
 
     dummyInt = 255;
     if (GetPrefString(kMusicBrowserUIPref, dummyString,
@@ -848,6 +854,20 @@ Preferences::
 SetThemePath(const char* path)
 {
     return SetPrefString(kThemePathPref, path);
+}
+
+Error
+Preferences::
+GetPlaylistHeaderColumns(char *columns, uint32* len)
+{
+    return GetPrefString(kPlaylistHeaderColumns, columns, len );
+}
+
+Error 
+Preferences::
+SetPlaylistHeaderColumns( char *columns )
+{
+    return SetPrefString(kPlaylistHeaderColumns, columns);
 }
 
 Error

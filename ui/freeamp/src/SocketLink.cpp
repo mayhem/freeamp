@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SocketLink.cpp,v 1.1.2.3 2000/07/09 12:48:34 ijr Exp $
+   $Id: SocketLink.cpp,v 1.1.2.4 2000/07/09 18:27:40 ksteinbe Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -63,18 +63,23 @@ SocketLink::SocketLink(unsigned short iPortNum)
    m_decoderThread = NULL;
    m_newSocket = -1;
    m_sem = new Semaphore();
+   m_exit = false;
 }
 
 SocketLink::~SocketLink(void)
 {
    if (m_decoderThread)
    {
+      m_exit = true;
+      ConnectToSocket("localhost", 6969);
       m_sem->Signal();
+      m_decoderThread->Join();
    }
    if (m_socket >= 0)
       close(m_socket);
 
    delete m_sem;
+   m_sem = NULL;
 }
 
 bool SocketLink::HasConnection(void)
@@ -146,7 +151,7 @@ void SocketLink::WorkerThread(void)
    if (eError != kError_NoErr)
       return;
 
-   for(;;)
+   for(; !m_exit;)
    {
       uRet = sizeof(sockaddr_in);
       m_newSocket = accept(m_socket, (struct sockaddr *)&sOther, &uRet);
@@ -189,4 +194,29 @@ bool SocketLink::SendCommand(const string &str)
    }
 
    return true;
+}
+
+void SocketLink::ConnectToSocket(const char *hostname, unsigned short portnum)
+{ 
+    struct sockaddr_in sa;
+    struct hostent     *hp;
+    int a, s;
+
+    if ((hp= gethostbyname(hostname)) == NULL) { /* do we know the host's */
+      return;                                /* no */
+    }
+
+    memset(&sa,sizeof(sa), 0);
+    memcpy((char *)&sa.sin_addr,hp->h_addr,hp->h_length); /* set address */
+    sa.sin_family= hp->h_addrtype;
+    sa.sin_port= htons((u_short)portnum);
+
+    if ((s= socket(hp->h_addrtype,SOCK_STREAM,0)) < 0)   /* get socket */
+      return;
+    if (connect(s,(const sockaddr *)&sa,sizeof sa) < 0) {    /* connect */
+      close(s);
+      return;
+    }
+
+    close(s);
 }

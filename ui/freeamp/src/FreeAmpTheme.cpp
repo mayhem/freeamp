@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.4.4.5 2000/07/09 12:48:34 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.88.2.8.2.1.2.4.2.4.4.6 2000/07/09 18:27:40 ksteinbe Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -160,8 +160,10 @@ FreeAmpTheme::~FreeAmpTheme()
 #endif // WIN32
 
     if (m_socketLink->HasConnection())
-       m_socketLink->SendCommand(string("bye: "));
-
+    {
+       m_socketLink->SendCommand(string("bye: foo\r\n"));
+       
+    }
     delete m_socketLink;
 }
 
@@ -1088,7 +1090,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        {
           if (m_socketLink->HasConnection())
           {
-              m_socketLink->SendCommand(string("bye: \r\n"));
+              m_socketLink->SendCommand(string("bye: foo\r\n"));
               m_socketLink->Disconnect();
           }
           m_chatOpen = false;
@@ -1096,6 +1098,8 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        else
        {
 #ifdef WIN32
+
+
           SHELLEXECUTEINFO info;
           Int32PropValue *pProp;
           HWND            hWnd;
@@ -1124,6 +1128,7 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
           ShellExecuteEx( &info );
 
           delete dir;
+
 #endif
 #ifdef HAVE_GTK
           if (fork() == 0) {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SocketLink.h,v 1.1.2.2 2000/07/08 14:46:40 robert Exp $
+   $Id: SocketLink.h,v 1.1.2.3 2000/07/09 18:27:40 ksteinbe Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_SOCKETLINK_H__
@@ -50,8 +50,10 @@ class SocketLink
        int            m_socket, m_newSocket;
        Thread        *m_decoderThread;
        Semaphore     *m_sem;
+       bool           m_exit;
 
        Error CreateSocket(void);
+       void  ConnectToSocket(const char *hostname, unsigned short portnum);
 
     public:
 

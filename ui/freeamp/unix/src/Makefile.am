@@ -18,24 +18,20 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.4 1998/11/16 02:33:45 jdw Exp $
+##      $Id: Makefile.am,v 1.1 1998/11/16 02:33:44 jdw Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
-if AM_ENABLE_GTK
-FILES = freeamp-gtk.cpp
+if AM_ENABLE_X11
+FILES = freeamp.cpp
 MYLIBS = libfauicmdline.a
 TRGT_SYS_HEADS = @top_srcdir@/base/unix/@target_os@/include
-GTK_LINK_TAIL = `gtk-config --cflags` `gtk-config --libs`
 
 all-local: cmdline-local
+else
 
-cmdline-local: freeamp-gtk.o
-	gcc -shared -Wl,-soname,freeampgtk-@target_os@.ui -o freeampgtk-@target_os@.ui freeamp-gtk.o $(GTK_LINK_TAIL)
-	cp freeampgtk-@target_os@.ui @top_srcdir@/plugins
-else 
 FILES = 
 MYLIBS = 
 TRGT_SYS_HEADS =
@@ -43,14 +39,18 @@ all-local:
 	@true
 endif
 
+cmdline-local: freeamp.o
+	gcc -shared -Wl,-soname,freeampgui-@target_os@.ui -o freeampgui-@target_os@.ui freeamp.o -L/usr/X11R6/lib -lX11 -lXext -lXpm
+	cp freeampgui-@target_os@.ui @top_srcdir@/plugins
+
 if AM_HAVE_LINUXTHREADS
 REENT = -D_REENTRANT
 endif
 
-
 noinst_LIBRARIES = $(MYLIBS)
 libfauicmdline_a_SOURCES = $(FILES)
 
-INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/lmc/include -I@top_srcdir@/io/include `gtk-config --cflags`
+INCLUDES = -I@top_srcdir@/base/include -I@srcdir@/../include -I@top_srcdir@/config -I$(TRGT_SYS_HEADS) -I@top_srcdir@/lmc/include -I@top_srcdir@/io/include -I@srcdir@/../res
 CXXFLAGS = $(EXTRA_CXXFLAGS) $(REENT)
+
 

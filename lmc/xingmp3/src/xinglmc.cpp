@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.72 1999/03/29 20:59:08 robert Exp $
+   $Id: xinglmc.cpp,v 1.73 1999/03/31 19:28:20 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -403,7 +403,8 @@ Error XingLMC::GetHeadInfo()
            m_frameBytes = head_info3((unsigned char *)pBuffer,
 			                            iNumBytes, &m_sMpegHead, 
                                      &m_iBitRate, &iForward);
-           if (m_frameBytes > 0 && m_frameBytes < 1050)
+           if (m_frameBytes > 0 && m_frameBytes < 1050 && 
+               m_sMpegHead.option == 1)
            {
               MPEG_HEAD sHead;
               int       iFrameBytes, iBitRate;
@@ -415,7 +416,8 @@ Error XingLMC::GetHeadInfo()
               if (m_input)
                  m_input->EndRead(0);
 
-              if (iFrameBytes > 0 && iFrameBytes < 1050)
+              if (iFrameBytes > 0 && iFrameBytes < 1050 &&
+                  m_sMpegHead.option == 1)
                  return kError_NoErr;
            }
            else
@@ -628,10 +630,10 @@ Error XingLMC::InitDecoder()
          info->number_of_channels = decinfo.channels;
          info->samples_per_second = decinfo.samprate;
 
-		 if (m_sMpegHead.id)
+		   if (m_sMpegHead.id)
              m_iMaxWriteSize = (info->number_of_channels * 
 	    		               (decinfo.bits / 8) * 1152);
-		 else
+		   else
              m_iMaxWriteSize = (info->number_of_channels * 
 	    		               (decinfo.bits / 8) * 576);
 
@@ -830,7 +832,7 @@ void XingLMC::DecodeWork()
           x = m_audioMethods.decode((unsigned char *)pBuffer, 
                                     (short *)pOutBuffer);
           if (x.in_bytes == 0)
-		  {
+		    {
              if (m_input)
                  m_input->EndRead(x.in_bytes);
              if (m_output)
@@ -983,6 +985,14 @@ Error XingLMC::BeginRead(void *&pBuffer, unsigned int iBytesNeeded,
            //   m_input->GetNumBytesInBuffer(), iBufferUpBytes);
            if (m_input->GetNumBytesInBuffer() >= iBufferUpBytes)
               break;
+           if (m_input->GetBufferPercentage() > 90)
+           {
+               printf("iBufferUpBytes: %d Interval: %d bitrate: %d\n",
+                     iBufferUpBytes, m_iBufferUpInterval, m_iBitRate);
+               printf("iBufferPercentage: %d\n",
+                      m_input->GetBufferPercentage());
+               break;
+           }
        }
        printf("Done buffering up.              \n");
    }

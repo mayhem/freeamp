@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.105 1999/03/24 18:11:44 robert Exp $
+        $Id: player.cpp,v 1.106 1999/03/31 19:28:17 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1230,6 +1230,8 @@ void Player::HandleMediaInfo(Event *pEvent)
       m_autoplay = false;
       AcceptEvent(new Event(CMD_Play));
    }
+
+   delete pEvent;
 }
 
 void Player::HandleMediaTimeInfo(Event *pEvent)

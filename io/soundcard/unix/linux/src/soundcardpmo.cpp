@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.19 1999/03/18 20:53:40 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.20 1999/03/31 19:28:19 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -525,6 +525,7 @@ void SoundCardPMO::WorkerThread(void)
 
               continue;
           }
+          
           iRet = write(audio_fd, pBuffer, iToCopy);
           if (iRet > 0)
           {

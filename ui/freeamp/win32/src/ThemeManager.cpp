@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.6 1999/11/05 23:27:15 robert Exp $
+   $Id: ThemeManager.cpp,v 1.7 1999/11/08 23:32:21 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -97,6 +97,7 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
     uint32          len = sizeof(dir);
     string          oThemePath, oThemeBasePath, oThemeFile;
     string          oThemeName;
+    map<string,string>::iterator oDupName;
     ThemeZip        oZip;
 
 
@@ -121,6 +122,16 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
         if(oThemeName.length())
         {
             // got something
+
+            // see if the name is unique
+            oDupName = oThemeFileMap.find(oThemeName);
+            if(oDupName != oThemeFileMap.end())
+            {
+                // dupe found!
+                // manipulate theme name to include filename in it
+                oThemeName += string(" (") + string(find.cFileName) + string(")");
+            }
+            
             oThemeFileMap[oThemeName] = oThemeFile;
         }
         else
@@ -129,8 +140,8 @@ Error ThemeManager::GetThemeList(map<string, string> &oThemeFileMap)
             ptr = strrchr(find.cFileName, '.');
             if (ptr)
                *ptr = 0;
-        }
         oThemeFileMap[find.cFileName] = oThemeFile;
+        }
     }
     while(FindNextFile(handle, &find));
 

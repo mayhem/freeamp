@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.11 1999/11/05 01:19:47 robert Exp $
+   $Id: Win32Window.cpp,v 1.12 1999/11/08 23:32:22 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -603,7 +603,16 @@ Notify(int32 command, LPNMHDR notifyMsgHdr)
 
         m_oControls[idCtrl]->GetTip(strTip);
         if(strTip.length())
-           strncpy(lpttt->szText,strTip.c_str(),80); // if tip is there
+		{
+			if(strTip.length()>79)
+			{
+                // to avoid buffer overruns
+                lpttt->szText[79]=0;
+                strncpy(lpttt->szText,strTip.c_str(),78);
+			}
+			else
+			    strcpy(lpttt->szText,strTip.c_str()); // if tip is there
+		}
     }
 }
 

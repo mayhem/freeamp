@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.6 1999/10/21 17:45:40 elrod Exp $
+   $Id: FreeAmpTheme.cpp,v 1.7 1999/10/22 16:22:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -117,8 +117,8 @@ void FreeAmpTheme::WorkerThread(void)
        sprintf(szTemp, "%d,%d", m_oWindowPos.x, m_oWindowPos.y);
        m_pContext->prefs->SetPrefString(kMainWindowPosPref, szTemp);
    }    
-
-   m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
+   else   
+       m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
 }
 
 void WorkerThreadStart(void* arg)

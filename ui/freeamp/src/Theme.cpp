@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.3 1999/10/21 00:35:30 ijr Exp $
+   $Id: Theme.cpp,v 1.4 1999/10/22 16:22:16 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -507,7 +507,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
            return kError_InvalidParam;
        }
 
-	   if (oAttrMap.find("Rect") == oAttrMap.end())
+       if (oAttrMap.find("Rect") == oAttrMap.end())
        {
            m_oLastError = string("the <BackgroundBitmap> tag needs a Rect attribute");
            return kError_ParseError;
@@ -526,6 +526,7 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 
        return kError_NoErr;
     }
+
     if (oElement == string("Controls"))
     {
        if (m_pCurrentWindow == NULL)

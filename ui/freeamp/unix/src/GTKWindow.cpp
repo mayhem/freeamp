@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.3 1999/10/21 00:35:30 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.4 1999/10/22 16:22:16 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -156,6 +156,9 @@ Error GTKWindow::Run(Pos &oPos)
     quitLoop = false;
     while (!quitLoop) 
        sleep(1);
+
+    oPos = m_oWindowPos;
+
     return kError_NoErr;
 }
 

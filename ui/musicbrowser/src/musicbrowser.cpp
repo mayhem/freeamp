@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.5 1999/10/20 23:39:30 robert Exp $
+        $Id: musicbrowser.cpp,v 1.6 1999/10/22 16:22:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -118,8 +118,9 @@ int32 MusicBrowserUI::AcceptEvent(Event *event)
             
             string lastPlaylist = FreeampDir(m_context->prefs);
             lastPlaylist += "/currentlist.m3u";
-            SaveCurrentPlaylist((char *)lastPlaylist.c_str());  
 
+            SaveCurrentPlaylist((char *)lastPlaylist.c_str());  
+       
             m_playerEQ->AcceptEvent(new Event(INFO_ReadyToDieUI));
 
             break; }
@@ -440,7 +441,14 @@ void MusicBrowserUI::SaveCurrentPlaylist(char *path)
         m_currentListName += format.GetExtension();
     }
 
-    m_plm->WritePlaylist((char *)m_currentListName.c_str(), &format);
+    uint32 urlLength = m_currentListName.length() + 20;
+    char *writeURL = new char[urlLength];
+
+    Error err = FilePathToURL(m_currentListName.c_str(), writeURL, &urlLength);
+    if (IsntError(err))
+        m_plm->WritePlaylist(writeURL, &format);
+
+    delete [] writeURL;
 }
 
 #ifdef HAVE_GTK

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.2 1999/10/19 07:13:17 elrod Exp $
+   $Id: Canvas.cpp,v 1.3 1999/10/22 16:22:16 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "Canvas.h"
@@ -26,8 +26,8 @@ ____________________________________________________________________________*/
 
 Canvas::Canvas(void)
 {
-	m_pBGBitmap = NULL;
-	m_pMaskBitmap = NULL;
+    m_pBGBitmap = NULL;
+    m_pMaskBitmap = NULL;
 }
 
 Canvas::~Canvas(void)
@@ -41,7 +41,7 @@ void Canvas::SetBackgroundRect(Rect &oRect)
 
 void Canvas::SetBackgroundBitmap(Bitmap *pBitmap)
 {
-	delete m_pBGBitmap;
+    delete m_pBGBitmap;
     m_pBGBitmap = pBitmap;
 }
 

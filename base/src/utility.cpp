@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.5 1999/10/21 00:35:28 ijr Exp $
+	$Id: utility.cpp,v 1.6 1999/10/22 16:22:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -272,9 +272,7 @@ char *FreeampDir(Preferences *pref)
     return s;
 }
 
-#else
-
-#ifdef __BEOS__
+#elif defined(__BEOS__)
 
 #include <be/storage/FindDirectory.h>
 #include <be/storage/Path.h>
@@ -315,7 +313,6 @@ char *FreeampDir(Preferences *prefs)
     return s;
 }
 #endif
-#endif    
 
 const char* protocol = "file://";
 
@@ -369,6 +366,7 @@ Error FilePathToURL(const char* path, char* url, uint32* length)
                     url[index] = '/';
             }
 #endif  
+            result = kError_NoErr;
         }
 
         *length = strlen(path) + strlen(protocol) + 1 + extra;
@@ -403,7 +401,8 @@ Error URLToFilePath(const char* url, char* path, uint32* length)
                 if(path[index] == '/')
                     path[index] = '\\';
             }
-#endif  
+#endif 
+            result = kError_NoErr; 
         }
 
         *length = strlen(url) - strlen(protocol) + 1;
@@ -426,4 +425,4 @@ void ToLower(char *s)
     
     for(p = s; *p != '\0'; p++)
        *p = tolower(*p);
-}       
+}      

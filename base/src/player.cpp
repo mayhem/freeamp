@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.138 1999/10/20 23:39:18 robert Exp $
+        $Id: player.cpp,v 1.139 1999/10/22 16:22:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -630,7 +630,7 @@ Run()
                    m_ui = NULL;
                }
             }
-            if (!CompareNames(item->Name(), musicBrowserName))
+            else if (!CompareNames(item->Name(), musicBrowserName))
             {
                m_ui = (UserInterface *) item->InitFunction()(m_context);
               
@@ -640,8 +640,13 @@ Run()
                    RegisterActiveUI(m_ui);
                    m_browserUI = m_ui;
                }
+               else
+               {
+                   delete m_ui;
+                   m_ui = NULL;
+               }
             }
-            if (!CompareNames(item->Name(), name))
+            else if (!CompareNames(item->Name(), name))
             {
                m_ui = (UserInterface *) item->InitFunction()(m_context);
 

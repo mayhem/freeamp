@@ -18,13 +18,14 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.h,v 1.3 1999/11/01 05:38:31 ijr Exp $
+   $Id: GTKFont.h,v 1.4 1999/12/06 12:27:25 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKFONT_H__
 #define INCLUDED_GTKFONT_H__
 
 #include "config.h"
+#include "facontext.h"
 
 #include <string>
 #include <gdk/gdk.h>
@@ -53,7 +54,8 @@ class GTKFont : public Font
 {
     public:
 
-               GTKFont(string &oName, string &oFace, string &oDefault);
+               GTKFont(FAContext *context, string &oName, string &oFace, 
+                       string &oDefault);
       virtual ~GTKFont(void);
 
       Error    Load(int iFontHeight, bool bBold, bool bItalic);
@@ -62,6 +64,9 @@ class GTKFont : public Font
       void     Render(Rect &oClipRect, string &oText, int iOffset, 
                       const Color &oColor, GTKBitmap *bitmap, bool bUnderline);
       
+    protected:
+      FAContext *m_context;
+
     private:
       FontTypeEnum type;
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.12 1999/11/17 05:45:29 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.13 1999/12/06 12:27:25 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -95,6 +95,8 @@ gint do_timeout(GTKWindow *ui)
     ui->m_pMindMeldMutex->Acquire();
     ui->TimerEvent();
     ui->m_pMindMeldMutex->Release();
+    
+    return TRUE;
 }
 
 GTKWindow::GTKWindow(Theme *pTheme, string &oName)

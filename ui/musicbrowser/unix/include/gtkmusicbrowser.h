@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.14 1999/11/29 08:23:20 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.15 1999/12/06 12:27:25 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -147,6 +147,11 @@ class GTKMusicBrowser {
     GtkWidget *toolUp;
     GtkWidget *toolDown;
     GtkItemFactory *menuFactory;
+
+    GtkCTreeNode *mainTree;
+    GtkCTreeNode *allTree;
+    GtkCTreeNode *uncatTree;
+    GtkCTreeNode *playlistTree;
 
     GtkWidget *NewPixmap(char **data);
 

@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.65 1999/11/28 18:44:08 ijr Exp $
+dnl $Id: configure.in,v 1.66 1999/12/06 12:27:24 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-1999 EMusic.com
 dnl
@@ -72,7 +72,7 @@ dnl Check for some more stuff
 cmdline="true"
 isunix="true"
 OSLINK=""
-FPIC="-fpic"
+FPIC="-fPIC"
 LINKMOD="$CC -shared"
 LIBMOD="ar -r"
 OSTYPE="UNIX";

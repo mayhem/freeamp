@@ -18,13 +18,12 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.7 1999/11/15 17:27:27 ijr Exp $
+        $Id: downloadui.cpp,v 1.8 1999/12/06 12:27:25 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
 #include "downloadui.h" 
 #include "eventdata.h"
-#include "gtkmessagedialog.h"
 
 extern "C" {
 
@@ -271,39 +270,4 @@ void DownloadUI::SelChangeEvent(int row)
             break;
     }
     UpdateInfo();
-}
-
-void DownloadUI::AddURLEvent(void)
-{
-    char *text = gtk_entry_get_text(GTK_ENTRY(addEntry));
-    if (text) {
-        uint32 length = strlen(text);
-        if (length) {
-            length++;
-            char *sp = NULL;
-            char *url = new char[length + 7];
- 
-            strcpy(url+7, text);
-
-            if ((sp = strstr(url + 7, "://"))) {
-                if (strncasecmp(url + 7, "http://", 7)) {
-                    GTKMessageDialog oBox;
-                    string oMessage = "The Download Manager only supports http:// URLs for now.";
-                    oBox.Show(oMessage.c_str(), "Error", kMessageOk, true);
-
-                    delete [] url;
-                    return;
-                }
-                sp = url + 7;
-            }
-            else {
-                memcpy(url, "http://", 7);
-                sp = url;
-            }
-
-        m_dlm->AddItem(sp);
-
-        delete [] url;
-        }
-    }
 }

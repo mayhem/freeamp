@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.13 1999/11/19 01:01:11 robert Exp $
+   $Id: Theme.cpp,v 1.14 1999/12/06 12:27:25 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -462,7 +462,8 @@ Error Theme::BeginElement(string &oElement, AttrMap &oAttrMap)
 #ifdef WIN32
        pFont = new Win32Font(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
 #elif defined (HAVE_GTK)
-       pFont = new GTKFont(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
+       pFont = new GTKFont(m_pContext, oAttrMap["Name"], oAttrMap["Face"], 
+                           m_oDefaultFont);
 #elif defined (__BEOS__)
        pFont = new BeOSFont(oAttrMap["Name"], oAttrMap["Face"], m_oDefaultFont);
 #endif

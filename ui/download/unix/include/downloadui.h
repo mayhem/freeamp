@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.4 1999/11/15 17:27:27 ijr Exp $
+	$Id: downloadui.h,v 1.5 1999/12/06 12:27:25 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -56,7 +56,7 @@ class DownloadUI : public UserInterface {
     void PauseEvent(void);
     void ResumeEvent(void);
     void SelChangeEvent(int row);
-    void AddURLEvent(void);
+    void ShowHelp(void);
 
     bool doQuitNow;
 
@@ -94,6 +94,7 @@ class DownloadUI : public UserInterface {
     GtkWidget *m_ResumeButton;
     GtkWidget *m_CloseButton;
     GtkWidget *m_hwndProgress;
+    GtkWidget *m_helpButton;
 
     GtkWidget *artist;
     GtkWidget *album;
@@ -103,10 +104,7 @@ class DownloadUI : public UserInterface {
     GtkWidget *name;
     GtkWidget *size;
    
-    GtkWidget *addEntry;
- 
     vector<DownloadItem *> downloadList;
-    
 };
 
 #endif // INCLUDED_DOWNLOAD_UI_H_

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.35 1999/12/18 00:41:33 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.35.2.1 2000/01/10 18:07:52 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -261,7 +261,7 @@ bool SoundCardPMO::WaitForDrain(void)
    for(; !m_bExit && !m_bPause; )
    {
        ioctl(audio_fd, SNDCTL_DSP_GETOSPACE, &info);
-       if (info.fragments == m_iTotalFragments - 1)
+       if (info.fragments >= m_iTotalFragments - 1)
        {
            return true;
        }

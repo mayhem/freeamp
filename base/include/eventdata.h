@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.42 1999/11/17 05:45:28 ijr Exp $
+        $Id: eventdata.h,v 1.43 1999/11/28 18:44:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 
 #include <iostream>
+#include <algorithm>
 #include <vector>
 using namespace std;
 
@@ -169,10 +170,11 @@ class     MediaInfoEvent:public Event
    int32            m_totalSongs;
    char             m_filename[512];
    uint32           m_plmID;
+   bool             m_copy;
 
    virtual ~ MediaInfoEvent()
    {
-      if (m_childEvents && (m_childEvents->size() != 0))
+      if (m_childEvents && (m_childEvents->size() != 0) && !m_copy)
       {
             vector<Event *>::iterator i = m_childEvents->begin();
 
@@ -187,12 +189,14 @@ class     MediaInfoEvent:public Event
    {
       m_type = INFO_MediaInfo;
       m_filled = false;
+      m_copy = false;
       m_filename[0] = '\0';
       m_childEvents = new vector<Event *>;
    }
 
    MediaInfoEvent(MediaInfoEvent &other)
    {
+      m_copy = true;
       m_type = other.m_type;
       m_filled = other.m_filled;
       m_totalSeconds = other.m_totalSeconds;
@@ -200,18 +204,16 @@ class     MediaInfoEvent:public Event
       m_totalSongs = other.m_totalSongs;
       strcpy(m_filename, other.m_filename);
 
-      m_childEvents = new vector <Event *>;
+      m_childEvents = new vector <Event *>(other.m_childEvents->size());
 
-      m_childEvents->insert(m_childEvents->end(), 
-                            other.m_childEvents->begin(),
-                            other.m_childEvents->end());
-
-      other.m_childEvents->clear();
+      copy(other.m_childEvents->begin(), other.m_childEvents->end(),
+           m_childEvents->begin());
    }
 
    MediaInfoEvent(const char *fn,
                   float ts)
    {
+      m_copy = false;
       m_childEvents = new vector<Event *>;
       m_filled = true;
       m_type = INFO_MediaInfo;

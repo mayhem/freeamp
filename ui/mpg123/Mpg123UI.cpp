@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: Mpg123UI.cpp,v 1.18 1999/11/26 22:30:02 ijr Exp $
+    $Id: Mpg123UI.cpp,v 1.19 1999/11/28 18:44:09 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -55,7 +55,8 @@ Mpg123UI::Mpg123UI(FAContext * context)
 
    verboseMode = false;
    totalFrames = 0;
-   lastSeconds = 0;
+   lastSeconds = -1;
+   fileName[0] = '\0';
 
    m_plm = NULL;
 
@@ -180,7 +181,7 @@ AcceptEvent(Event * e)
          }
       case INFO_Stopped:
          {
-            if (lastSeconds <= 0)
+            if (lastSeconds <= 0 || fileName[0] == '\0')
                break;
 
             int       m = (int) lastSeconds / 60;

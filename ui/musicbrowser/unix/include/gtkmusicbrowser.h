@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.31 2000/03/22 06:06:52 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.32 2000/03/22 21:14:13 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -180,7 +180,8 @@ class GTKMusicBrowser {
     GtkWidget *toolDown;
     GtkWidget *toolbar;
     GtkItemFactory *menuFactory;
-
+    GtkItemFactory *playlistPopup;
+    
     GtkCTreeNode *mainTree;
     GtkCTreeNode *allTree;
     GtkCTreeNode *uncatTree;
@@ -282,6 +283,8 @@ class GTKMusicBrowser {
     void NextMenu(void);
     void PrevMenu(void);
     void SetRepeat(int numrepeat);
+
+    void PlaylistRightClick(int x, int y, uint32 time);
 };
 
 #endif

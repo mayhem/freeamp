@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.18 1998/12/14 19:58:29 jdw Exp $
+	$Id: event.h,v 1.19 1999/01/17 19:15:20 jdw Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -82,15 +82,17 @@ class EventQueue {
 #define INFO_PlayListRepeat     33 // sent by PLM to player to inform of a setting of repeat mode
 #define INFO_PlayListShuffle    34 // sent by PLM to player to inform of a setting of shuffle mode
 #define INFO_PlayListUpdated	35 // sent by PLM to player to inform of a playlist update
-#define INFO_UserMessage        36 // sent by UI to Player, diseminated by Player to each UI
+
+#define	_EQUALIZER_ENABLE_
+#ifdef	_EQUALIZER_ENABLE_
+#define	CMD_SetEQData			36	//set EQ data
+#endif	//_EQUALIZER_ENABLE_
+#undef	_EQUALIZER_ENABLE_
+
+#define	_VISUAL_ENABLE_
+#ifdef	_VISUAL_ENABLE_
+#define	CMD_SendVisBuf			37	//Send PCM buffer from LMC to player
+#endif	//_VISUAL_ENABLE_
+#undef	_VISUAL_ENABLE_
+
 #endif // _EVENT_H_
-
-
-
-
-
-
-
-
-
-

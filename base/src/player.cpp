@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.233 2000/08/30 20:00:33 ijr Exp $
+        $Id: player.cpp,v 1.234 2000/09/01 10:57:59 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -160,7 +160,7 @@ Player(FAContext *context) : EventQueue()
 
     bool pollCD = false;
     m_context->prefs->GetPrefBoolean(kCheckCDAutomaticallyPref, &pollCD);
- 
+
     if (pollCD)
         m_context->timerManager->StartTimer(&m_cdTimer, cd_timer, 5, this);
 
@@ -2470,8 +2470,6 @@ void Player::CDTimer()
 
     if (!pmoRegistry)
         return;
-
-    cout << "tick\n";
 
     while(NULL != (pmo_item = pmoRegistry->GetItem(i++))) 
     {

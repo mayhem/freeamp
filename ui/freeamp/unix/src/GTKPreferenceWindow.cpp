@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.52 2000/08/30 14:56:45 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.53 2000/09/01 10:57:59 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -2320,6 +2320,9 @@ GtkWidget *GTKPreferenceWindow::CreateCD(void)
     gtk_container_add(GTK_CONTAINER(pane), pollCD);
     gtk_signal_connect(GTK_OBJECT(pollCD), "toggled",
                        GTK_SIGNAL_FUNC(pollcd_toggle), this);
+    if (originalValues.pollCD)
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pollCD),
+                                     TRUE);
     gtk_widget_show(pollCD);
 
     GtkWidget *temphbox = gtk_hbox_new(FALSE, 5);

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.15 2000/06/22 15:13:35 elrod Exp $
+	$Id: updatemanager.cpp,v 1.16 2000/09/01 10:57:59 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -80,9 +80,9 @@ typedef ostrstream ostringstream;
 const char* kUpdateServer = BRANDING_UPDATE_SERVER;
 const char* kUpdatePath = BRANDING_UPDATE_PATH;
 const char* kUpdateFile = BRANDING_UPDATE_PATH"/version_info.xml";
-const char* kUpdateRequest = "GET %s HTTP/1.0\n"
-                             "Host: %s\n"
-                             "User-Agent: FreeAmp/%s\n" // we do not want to change this for branding
+const char* kUpdateRequest = "GET %s HTTP/1.0\r\n"
+                             "Host: %s\r\n"
+                             "User-Agent: FreeAmp/%s\r\n" // we do not want to change this for branding
                              "\n";
 const uint8 kUpdatePort = 80;
 
@@ -998,11 +998,11 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
             {
                 gethostname(localname, kMaxHostNameLen);    
 
-                const char* kHTTPQuery = "GET %s HTTP/1.0\n"
-                                         "Host: %s\n"
-                                         "Accept: */*\n" 
-                                         "User-Agent: FreeAmp/%s\n"
-                                         "\n";
+                const char* kHTTPQuery = "GET %s HTTP/1.0\r\n"
+                                         "Host: %s\r\n"
+                                         "Accept: */*\r\n" 
+                                         "User-Agent: FreeAmp/%s\r\n"
+                                         "\r\n";
                                              
                 char* query = new char[ strlen(kHTTPQuery) + 
                                         strlen(file) +

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.37 2000/08/23 17:15:35 robert Exp $
+	$Id: downloadmanager.cpp,v 1.38 2000/09/01 10:57:59 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -775,15 +775,15 @@ Error DownloadManager::Download(DownloadItem* item)
 
             if(IsntError(result))
             {
-                const char* kHTTPQuery = "GET %s HTTP/1.1\n"
-                                         "Host: %s\n"
-                                         "Accept: */*\n" 
-                                         "User-Agent: FreeAmp/%s\n";
+                const char* kHTTPQuery = "GET %s HTTP/1.1\r\n"
+                                         "Host: %s\r\n"
+                                         "Accept: */*\r\n" 
+                                         "User-Agent: FreeAmp/%s\r\n";
 
-                const char* kRange = "Range: bytes=%lu-\n";
-                const char* kIfRange = "If-Range: %s\n";
+                const char* kRange = "Range: bytes=%lu-\r\n";
+                const char* kIfRange = "If-Range: %s\r\n";
 
-                const char* kCookie = "Cookie: %s\n";
+                const char* kCookie = "Cookie: %s\r\n";
 
                 // the magic 256 is enough for a time field that
                 // we got from the server

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browserlist.cpp,v 1.12 2000/06/30 06:29:34 ijr Exp $
+        $Id: browserlist.cpp,v 1.13 2000/09/01 10:57:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -790,10 +790,7 @@ void GTKMusicBrowser::PlaylistRightClick(int x, int y, uint32 time)
 
     string url = sel->URL();
     if (url.find("http://") < url.length() || url.find("rtp://") < url.length())
-    {
         gtk_item_factory_popup(playlist2Popup, x, y, 3, time);
-cout << "stream context\n";
-    }
     else
         gtk_item_factory_popup(playlistPopup, x, y, 3, time);
 }

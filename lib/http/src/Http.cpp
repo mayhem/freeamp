@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: Http.cpp,v 1.11 2000/08/30 09:20:53 ijr Exp $
+   $Id: Http.cpp,v 1.12 2000/09/01 10:57:59 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -278,10 +278,10 @@ Error Http::Download(const string &url, bool fileDownload)
         {
             gethostname(localname, kMaxHostNameLen);    
 
-            const char* kHTTPQuery = "GET %s HTTP/1.1\n"
-                                     "Host: %s\n"
-                                     "Accept: */*\n" 
-                                     "User-Agent: FreeAmp/%s\n";
+            const char* kHTTPQuery = "GET %s HTTP/1.1\r\n"
+                                     "Host: %s\r\n"
+                                     "Accept: */*\r\n" 
+                                     "User-Agent: FreeAmp/%s\r\n";
 
             // the magic 256 is enough for a time field that
             // we got from the server
@@ -292,7 +292,7 @@ Error Http::Download(const string &url, bool fileDownload)
                                     2];
         
             sprintf(query, kHTTPQuery, file, localname, FREEAMP_VERSION);
-            strcat(query, "\n");
+            strcat(query, "\r\n");
 
             int count;
 

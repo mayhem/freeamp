@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.11 1999/07/27 19:25:08 robert Exp $
+	$Id: Mpg123UI.h,v 1.12 1999/08/20 22:58:36 robert Exp $
 ____________________________________________________________________________*/
 
 // Mpg123UI.h
@@ -55,13 +55,12 @@ class Mpg123UI : public UserInterface {
  private:
     Properties *m_propManager;
     int32 m_argc;
-    char **m_argv;
+    char **m_argv, *m_filename;
     int32 m_startupType;
     void ProcessArgs();
 
     PlayListManager *m_plm;
     void DisplayStuff();
-    MediaInfoEvent *m_mediaInfo;
     bool m_mediaInfo_set;
     MpegInfoEvent m_mpegInfo;
     bool m_mpegInfo_set;

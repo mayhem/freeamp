@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.83 2000/09/18 14:21:01 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.84 2000/09/18 19:54:33 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -49,7 +49,6 @@ using namespace std;
 #include "utility.h"
 #include "pmo.h"
 #include "debug.h"
-#include "audiosig.h"
 
 #define METADATABASE_VERSION 1
 

@@ -18,7 +18,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: signaturepmo.cpp,v 1.3 2000/09/18 14:21:01 ijr Exp $
+  $Id: signaturepmo.cpp,v 1.4 2000/09/18 19:54:33 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -130,7 +130,6 @@ Resume()
    PhysicalMediaOutput::Resume();
 
    m_url = m_pPmi->Url();
-cout << "m_url " << m_url << endl;
 }
 
 Error
@@ -222,7 +221,6 @@ WorkerThread(void)
                 break;
        
             if (bDone || bGotPMOQuit) {
-cout << "fa done sig\n";
                 AudioSignatureGeneratedEvent *asge = 
                              new AudioSignatureGeneratedEvent(m_url, m_strGUID,
                                                               this);

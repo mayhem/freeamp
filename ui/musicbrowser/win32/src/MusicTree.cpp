@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.44 2000/01/20 00:33:14 elrod Exp $
+        $Id: MusicTree.cpp,v 1.45 2000/02/16 21:34:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -572,7 +572,7 @@ void MusicBrowserUI::FillPortables(void)
     uint32 i = 0;
     DeviceInfo device;
 
-    while(IsntError(m_oPlm->GetSupportedPortables(&device, i++)))
+    while(IsntError(m_plm->GetSupportedPortables(&device, i++)))
     {
 
         if( portablePlayers.end() != 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.14 2000/02/07 04:44:02 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.15 2000/02/16 21:34:45 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -401,7 +401,7 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
                     PlaylistItem *item;
             
                     item = new PlaylistItem(*treedata->m_pTrack);
-                    m_oPlm->AddItem(item, false);
+                    m_plm->AddItem(item, false);
                 } 
                 else if(treedata && treedata->IsPlaylist())
                 {
@@ -410,7 +410,7 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
                         ClearPlaylistEvent();  
                     }
 
-                    m_oPlm->ReadPlaylist(treedata->m_oPlaylistPath.c_str());
+                    m_plm->ReadPlaylist(treedata->m_oPlaylistPath.c_str());
                 }
                 else if(treedata && treedata->IsPortable())
                 {
@@ -426,7 +426,7 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
                     PlaylistItem *item;
             
                     item = new PlaylistItem(*treedata->m_pStream);
-                    m_oPlm->AddItem(item, false);
+                    m_plm->AddItem(item, false);
                 }
                 else if(tv_htinfo.hItem == m_hNewPlaylistItem)
                 {

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: bootstrap.cpp,v 1.16 1999/03/07 08:37:51 elrod Exp $
+	$Id: bootstrap.cpp,v 1.17 1999/03/17 03:30:53 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -62,7 +62,6 @@ int main(int argc, char **argv) {
     //testBuffer();
     //testHashTable();
     //exit(1);
-
     Preferences *prefs = new Preferences();
     Registrar *registrar= new Registrar();
     LMCRegistry *lmc;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.11 1999/01/28 20:55:21 jdw Exp $
+	$Id: Mpg123UI.cpp,v 1.12 1999/03/17 03:31:00 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -321,7 +321,7 @@ void Mpg123UI::ProcessArgs() {
 		    cout << "use HTTP proxy " << pc << endl;
 		    break;
 		case 'z':
-		    m_plm->SetShuffle(SHUFFLE_SHUFFLED);
+		    m_plm->SetShuffle(SHUFFLE_RANDOM);
 		    //cout << "shuffle play (with wildcards) " << endl;
 		    break;
 		case 'Z':
@@ -340,7 +340,7 @@ void Mpg123UI::ProcessArgs() {
 	    }
 	} else {
 	    //ut << "Adding: " <<m_argv[i] << endl;
-	    m_plm->Add(m_argv[i],0);
+	    m_plm->AddItem(m_argv[i],0);
 	    addedStuff++;
 	}
     }

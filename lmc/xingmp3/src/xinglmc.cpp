@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.67 1999/03/15 10:45:39 robert Exp $
+   $Id: xinglmc.cpp,v 1.68 1999/03/17 03:30:54 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -1027,6 +1027,10 @@ ChangePosition(int32 position)
 {
    ENSURE_INITIALIZED;
    Error     error = kError_NoErr;
+
+
+   if (IsStreaming())
+      return kError_FileSeekNotSupported;
 
    m_seekMutex->Acquire(WAIT_FOREVER);
 

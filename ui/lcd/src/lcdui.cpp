@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lcdui.cpp,v 1.7 1999/01/26 02:14:11 jdw Exp $
+	$Id: lcdui.cpp,v 1.8 1999/03/17 03:30:59 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -414,7 +414,7 @@ void LcdUI::ProcessArgs() {
 	if (pc[0] == '-') {
 	    processSwitch(&(pc[0]));
 	} else {
-	    m_plm->Add(pc,0);
+	    m_plm->AddItem(pc,0);
 	}
     }
     m_plm->SetFirst();

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cmdlineUI.cpp,v 1.11 1998/12/14 19:58:30 jdw Exp $
+	$Id: cmdlineUI.cpp,v 1.12 1999/03/17 03:30:55 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -143,7 +143,7 @@ void cmdlineUI::keyboardServiceFunction(void *pclcio) {
 	    case 's':
 	    case 'S': {
 		if (pMe->m_plm) {
-		    pMe->m_plm->SetShuffle(SHUFFLE_SHUFFLED);
+		    pMe->m_plm->SetShuffle(SHUFFLE_RANDOM);
 		    pMe->m_plm->SetFirst();
 		}
 		Event *e = new Event(CMD_Stop);
@@ -212,7 +212,7 @@ void cmdlineUI::ProcessArgs() {
 	if (pc[0] == '-') {
 	    processSwitch(&(pc[0]));
 	} else {
-	    m_plm->Add(pc,0);
+	    m_plm->AddItem(pc,0);
 	}
     }
     m_plm->SetFirst();

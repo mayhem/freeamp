@@ -18,14 +18,15 @@
 ##      along with this program; if not, write to the Free Software
 ##      Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##      
-##      $Id: Makefile.am,v 1.8 1999/03/07 20:59:23 robert Exp $
+##      $Id: Makefile.am,v 1.9 1999/03/17 03:30:50 robert Exp $
 ##
 ############################################################################
 
 include @top_srcdir@/config/Makefile.header
 
 if AM_HAVE_LINUX
-FILES = linuxthread.cpp mutex.cpp debug.cpp semaphore.cpp utility.cpp mem.c 
+FILES = linuxthread.cpp mutex.cpp debug.cpp semaphore.cpp utility.cpp mem.c \
+        volume.cpp
 MYLIBS = libfasys.a
 else
 FILES = 

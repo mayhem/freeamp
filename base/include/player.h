@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.35 1999/03/16 09:23:16 elrod Exp $
+        $Id: player.h,v 1.36 1999/03/17 03:30:48 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -50,20 +50,6 @@ typedef enum
    STATE_Stopped,
 }
 PlayerState;
-
-const int iID3TitleLength = 30;
-const int iID3ArtistLength = 30;
-const int iID3AlbumLength = 30;
-struct ID3Tag
-{
-   char szTag[3];
-   char szTitle[iID3TitleLength];
-   char szArtist[iID3ArtistLength];
-   char szAlbum[iID3AlbumLength];
-   char szYear[4];
-   char szComment[30];
-   char cGenre;
-}; 
 
 class     Player:public EventQueue, Properties, PropertyWatcher
 {

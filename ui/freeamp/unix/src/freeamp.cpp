@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp.cpp,v 1.23 1999/03/08 02:17:02 robert Exp $
+	$Id: freeamp.cpp,v 1.24 1999/03/17 03:30:56 robert Exp $
 ____________________________________________________________________________*/
 
 #include <X11/Xlib.h>
@@ -476,7 +476,7 @@ void FreeAmpUI::ParseArgs() {
             }
         } else {
 	    if (m_startupType == PRIMARY_UI) {
-		m_plm->Add(arg,0);
+		m_plm->AddItem(arg,0);
 	    }
 	}
     }
@@ -485,7 +485,7 @@ void FreeAmpUI::ParseArgs() {
     }
     if (m_startupType == PRIMARY_UI) {
 	if(shuffle) 
-	    m_plm->SetShuffle(SHUFFLE_SHUFFLED);
+	    m_plm->SetShuffle(SHUFFLE_RANDOM);
 	
 	if(autoplay)
 	    m_playerEQ->AcceptEvent(new Event(CMD_Play));
@@ -662,7 +662,7 @@ int32 FreeAmpUI::AcceptEvent(Event *e) {
 		case SHUFFLE_NOT_SHUFFLED:
 		    m_lcdWindow->ClearIcon(FALcdWindow::SHUFFLE);
 		    break;
-		case SHUFFLE_SHUFFLED:
+		case SHUFFLE_RANDOM:
 		    m_lcdWindow->SetIcon(FALcdWindow::SHUFFLE);
 		    break;
 		default:

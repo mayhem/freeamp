@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.16 1999/11/17 02:42:59 robert Exp $
+   $Id: Win32Window.cpp,v 1.17 1999/12/07 18:08:56 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -370,9 +370,7 @@ Error Win32Window::VulcanMindMeld(Window *pOther)
     sRect.top = oRect.y1;
     sRect.right = oRect.y2;
 
-	// Invalidate the complete old window to ensure a redraw
-    if (oRect.Width() > 0 && oRect.Height() > 0)
-       InvalidateRect(m_hWnd, NULL, true);
+    InvalidateRect(NULL, &sRect, true);
     
     eRet = Window::VulcanMindMeld(pOther);
     m_pMindMeldMutex->Release();

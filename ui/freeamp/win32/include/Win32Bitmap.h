@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.h,v 1.3 1999/11/01 19:06:16 robert Exp $
+   $Id: Win32Bitmap.h,v 1.4 1999/12/07 18:08:50 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32BITMAP_H__
@@ -53,10 +53,10 @@ class Win32Bitmap : public Bitmap
     protected:
 
      void          CreateMaskBitmap(void);
-
     
      HBITMAP  m_hBitmap;
      HBITMAP  m_hMaskBitmap;
+	 void    *m_pBitmapData;
 };
 
 #endif

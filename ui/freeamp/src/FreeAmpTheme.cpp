@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.40 1999/12/06 14:16:06 ijr Exp $
+   $Id: FreeAmpTheme.cpp,v 1.41 1999/12/07 18:08:49 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -197,6 +197,7 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
        GetErrorString(oErr);
        oMessage += oErr;
        oBox.Show(oMessage.c_str(), string(BRANDING), kMessageOk);
+       m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
    }
 }
 

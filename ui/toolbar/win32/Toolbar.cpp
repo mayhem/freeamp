@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Toolbar.cpp,v 1.5 1999/11/12 02:36:26 robert Exp $
+	$Id: Toolbar.cpp,v 1.6 1999/12/07 18:08:58 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -298,6 +298,7 @@ TrayNotify(int32 notifyMessage)
 {
     switch(notifyMessage)
     {
+        case WM_LBUTTONDBLCLK:
         case WM_LBUTTONUP:
         {
             Int32PropValue *pProp;

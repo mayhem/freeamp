@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32MessageDialog.cpp,v 1.4 1999/11/17 05:45:29 ijr Exp $
+   $Id: Win32MessageDialog.cpp,v 1.5 1999/12/07 18:08:55 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
@@ -74,7 +74,10 @@ MessageDialogReturnEnum MessageDialog::
 
     if (IsError(m_context->props->GetProperty("MainWindow", 
                 (PropValue **)&pProp)))
+    {
+       iType |= MB_SETFOREGROUND;            
        hWnd = NULL;
+    }   
     else
        hWnd = (HWND)pProp->GetInt32();
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: updatemanager.cpp,v 1.11 1999/12/12 22:54:40 elrod Exp $
+	$Id: updatemanager.cpp,v 1.12 1999/12/14 19:10:11 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -73,6 +73,8 @@ typedef ostrstream ostringstream;
 #include "event.h"
 #include "eventdata.h"
 #include "zlib.h"
+#include "mutex.h"
+#include "semaphore.h"
 
 
 const char* kUpdateServer = BRANDING_UPDATE_SERVER;
@@ -83,6 +85,7 @@ const char* kUpdateRequest = "GET %s HTTP/1.0\n"
                              "User-Agent: FreeAmp/%s\n" // we do not want to change this for branding
                              "\n";
 const uint8 kUpdatePort = 80;
+
 
 UpdateManager::UpdateManager(FAContext* context)
 {
@@ -918,7 +921,7 @@ Error UpdateManager::DownloadItem(UpdateItem* item,
                 const char* kHTTPQuery = "GET %s HTTP/1.0\n"
                                          "Host: %s\n"
                                          "Accept: */*\n" 
-                                         "User-Agent: "BRANDING"/%s\n"
+                                         "User-Agent: FreeAmp/%s\n"
                                          "\n";
                                              
                 char* query = new char[ strlen(kHTTPQuery) + 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.11 1999/10/25 03:30:42 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.12 1999/10/28 01:13:16 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -1436,15 +1436,35 @@ void GTKMusicBrowser::MoveItemEvent(int source, int dest)
 
 void GTKMusicBrowser::AddTrackPlaylistEvent(char *path)
 {
-    char *tempurl = new char[_MAX_PATH];
-    uint32 length = _MAX_PATH;
     if (m_currentindex == kInvalidIndex)
         m_currentindex = 0;
-    if (IsntError(FilePathToURL(path, tempurl, &length))) {
+
+    char *tempurl;
+    bool additReally = false;
+    bool needToDelete = false;
+
+    if ((tempurl = strstr(path, "http://")))
+        additReally = true;
+    else if ((tempurl = strstr(path, "file://")))
+        additReally = true;
+    else if ((tempurl = strstr(path, "rtp://")))
+        additReally = true;
+    else {
+        tempurl = new char[_MAX_PATH];
+        uint32 length = _MAX_PATH; 
+        if (IsntError(FilePathToURL(path, tempurl, &length))) {
+            additReally = false;
+            needToDelete = true;
+        }
+    }
+
+    if (additReally) {
         m_plm->AddItem(tempurl, m_currentindex);
         UpdatePlaylistList();
     }
-    delete [] tempurl;
+
+    if (needToDelete)
+        delete [] tempurl;
 }
 
 void GTKMusicBrowser::AddTrackPlaylistEvent(PlaylistItem *newitem)

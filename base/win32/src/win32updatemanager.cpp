@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32updatemanager.cpp,v 1.1.2.1 1999/10/11 06:08:57 elrod Exp $
+	$Id: win32updatemanager.cpp,v 1.1.2.2 1999/10/11 06:22:27 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -72,8 +72,14 @@ Error Win32UpdateManager::DetermineLocalVersions()
     {
         char appPath[MAX_PATH];
         uint32 length = sizeof(appPath);
-
         m_context->prefs->GetPrefString(kInstallDirPref, appPath, &length);
+
+        // paths i need to ignore
+        length = sizeof(m_musicPath);
+        m_context->prefs->GetPrefString(kSaveMusicDirPref, m_musicPath, &length);
+   
+        strcpy(m_updatePath, appPath);
+        strcat(m_updatePath, "\\update");
 
         // Analyze all these files
         result = GetFileVersions(appPath);
@@ -88,79 +94,87 @@ Error Win32UpdateManager::GetFileVersions(const char* path)
 {
     Error result = kError_NoErr;
     
-    char musicPath[MAX_PATH];
-    uint32 length = sizeof(musicPath);
+    HANDLE findFileHandle = NULL;
+    WIN32_FIND_DATA findData;  
+    char filePath[MAX_PATH];
+    char* fp;
 
-    result = m_context->prefs->GetPrefString(kSaveMusicDirPref, musicPath, &length);
+    strcpy(filePath, path);
+    strcat(filePath, "\\*.*");
+    fp = strrchr(filePath, '\\') + 1;
+    
+    findFileHandle = FindFirstFile(filePath, &findData);
 
-    if(IsntError(result))
+    cout << "searching in "<< path << ":" << endl;
+
+    if(findFileHandle != INVALID_HANDLE_VALUE)
     {
-        HANDLE findFileHandle = NULL;
-        WIN32_FIND_DATA findData;  
-        char filePath[MAX_PATH];
-        char* fp;
-
-        strcpy(filePath, path);
-        strcat(filePath, "\\*.*");
-        fp = strrchr(filePath, '\\') + 1;
-        
-        findFileHandle = FindFirstFile(filePath, &findData);
-
-        if(findFileHandle != INVALID_HANDLE_VALUE)
+        do
         {
-            do
+            strcpy(fp, findData.cFileName);
+
+            // skip these two special entries && music dir
+            if( strcmp(findData.cFileName, ".") && 
+                strcmp(findData.cFileName, "..") &&
+                strcmp(filePath, m_updatePath) &&
+                strcmp(filePath, m_musicPath))
             {
-                strcpy(fp, findData.cFileName);
-
-                // skip these two special entries && music dir
-                if( strcmp(findData.cFileName, ".") && 
-                    strcmp(findData.cFileName, "..") &&
-                    strcmp(findData.cFileName, musicPath))
+                if(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) 
                 {
-                    if(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) 
-                    {
-                        // call ourselves on that directory
-                        GetFileVersions(filePath);      
-                    }
-                    else 
-                    {
-                        DWORD versionSize;
-                        DWORD dummyHandle;
-                        void* data;
+                    // call ourselves on that directory
+                    GetFileVersions(filePath);      
+                }
+                else 
+                {
+                    DWORD versionSize;
+                    DWORD dummyHandle;
+                    void* data;
 
-                        versionSize = GetFileVersionInfoSize(filePath, &dummyHandle);
-                        
-                        data = malloc(versionSize);
+                    versionSize = GetFileVersionInfoSize(filePath, &dummyHandle);
+                    
+                    data = malloc(versionSize);
 
-                        // actually get the verionsinfo for the file
-                        if(data)
+                    // actually get the verionsinfo for the file
+                    if(data)
+                    {
+                        if(GetFileVersionInfo(filePath, dummyHandle, 
+                                               versionSize, data))
                         {
-                            if(GetFileVersionInfo(filePath, dummyHandle, 
-                                                   versionSize, data))
-                            {
-                                VS_FIXEDFILEINFO* fileInfo;
-                                uint32 size;
+                            VS_FIXEDFILEINFO* fileInfo;
+                            char* fileDescription;
+                            uint32 size;
 
-                                if(VerQueryValue(data, "\\", (void**)&fileInfo, &size))
-                                {
-                                    ostringstream ost;
-                                    
-                                    ost << "dwFileVersionLS: " << fileInfo->dwFileVersionLS << endl;
-                                    ost << "dwFileVersionMS: " << fileInfo->dwFileVersionMS << endl << endl;
+                            if(VerQueryValue(data, "\\", (void**)&fileInfo, &size))
+                            {                                
+                                cout << filePath << ":" << endl;
+                                //cout << "dwFileVersionLS: " << fileInfo->dwFileVersionLS << endl;
+                                //cout << "dwFileVersionMS: " << fileInfo->dwFileVersionMS << endl;
+                                //cout << "hi: " << HIWORD(fileInfo->dwFileVersionLS) << " lo: "<< LOWORD(fileInfo->dwFileVersionLS) << endl;
+                                //cout << "hi: " << HIWORD(fileInfo->dwFileVersionMS) << " lo: "<< LOWORD(fileInfo->dwFileVersionMS) << endl << endl;
 
-                                    OutputDebugString(ost.str().c_str());
-                                }
+                                uint32 major = HIWORD(fileInfo->dwFileVersionMS);
+                                uint32 minor = LOWORD(fileInfo->dwFileVersionMS);
+                                uint32 rev = HIWORD(fileInfo->dwFileVersionLS);
+
+                                cout << "version: " << major << "." << minor << "." << rev << endl;
                             }
 
-                            free(data);
+                            if(VerQueryValue(data, "\\StringFileInfo\\040904B0\\FileDescription", (void**)&fileDescription, &size))
+                            {     
+                                cout << fileDescription << endl;
+                            }
+
+                            cout << endl;
                         }
+
+                        free(data);
                     }
                 }
+            }
 
-            }while(FindNextFile(findFileHandle, &findData));
+        }while(FindNextFile(findFileHandle, &findData));
 
-            FindClose(findFileHandle);
-        }
+        FindClose(findFileHandle);
     }
 
     return result;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.26 1999/10/01 20:56:01 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.27 1999/10/01 23:31:31 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -222,7 +222,12 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          break;
       }   
       case INFO_Playing:
+      {
+         int iState = 1;
+         m_pWindow->ControlIntValue(string("Play"), true, iState);
+         m_bPlayShown = true;
          break;
+      }   
       case INFO_Paused:
       case INFO_Stopped:
       {
@@ -326,37 +331,38 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          m_fSecondsPerFrame = info->GetSecondsPerFrame();
          break;
       }
+
       case INFO_PlaylistRepeat:
       {
-         //PlayListRepeatEvent *plre = (PlayListRepeatEvent *) e;
+         PlaylistRepeatEvent *plre = (PlaylistRepeatEvent *) e;
+         int iState;
 
-         //switch (plre->GetRepeatMode())
-         //{
-         //    case REPEAT_CURRENT:
-         //       break;
-         //    case REPEAT_ALL:
-         //       break;
-         //    case REPEAT_NOT:
-         //    default:
-         //       break;
-         //}
+         switch (plre->GetRepeatMode())
+         {
+             case kPlaylistMode_RepeatNone:
+                iState = 0;
+                break;
+             case kPlaylistMode_RepeatOne:
+                iState = 1;
+                break;
+             case kPlaylistMode_RepeatAll:
+                iState = 2;
+                break;
+             default:
+                break;
+         }
+         m_pWindow->ControlIntValue(string("Repeat"), true, iState);
          break;
       }
       case INFO_PlaylistShuffle:
       {
-         //PlayListShuffleEvent *plse = (PlayListShuffleEvent *) e;
+         PlaylistShuffleEvent *plse = (PlaylistShuffleEvent *) e;
+         int iState;
 
-         //switch (plse->GetShuffleMode())
-         //{
-         //    case SHUFFLE_NOT_SHUFFLED:
-         //       break;
-         //    case SHUFFLE_RANDOM:
-         //       break;
-         //    default:
-         //};
+         iState = plse->GetShuffleMode() ? 1 : 0;
+         m_pWindow->ControlIntValue(string("Shuffle"), true, iState);
          break;
       }
-
       case INFO_VolumeInfo:
       {
          m_iVolume = ((VolumeEvent *) e)->GetVolume();
@@ -547,6 +553,60 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
    	   ReloadTheme();
        return kError_NoErr;
    }
+   if (oControlName == string("Shuffle") && eMesg == CM_Pressed)
+   {
+   	   int iState = 0;
+       string oStatus;
+
+       m_pWindow->ControlIntValue(oControlName, false, iState);
+       iState = (iState + 1) % 2;
+       m_pContext->plm->SetShuffleMode(iState == 1);
+       m_pWindow->ControlIntValue(oControlName, true, iState);
+       
+       switch(iState)
+       {
+          case 0:  
+              oStatus = string("Dont shuffle tracks");
+              break;
+          case 1:  
+              oStatus = string("Shuffle track");
+              break;
+       }
+       m_pWindow->ControlStringValue(string("Info"), true, oStatus);
+       
+       return kError_NoErr;
+   }    
+   if (oControlName == string("Repeat") && eMesg == CM_Pressed)
+   {
+   	   int        iState = 0;
+       string     oStatus;
+       RepeatMode eMode;
+
+       m_pWindow->ControlIntValue(oControlName, false, iState);
+       iState = (iState + 1) % 3;
+       m_pWindow->ControlIntValue(oControlName, true, iState);
+       
+       switch(iState)
+       {
+          case 0:  
+              oStatus = string("Repeat none");
+              eMode = kPlaylistMode_RepeatNone;
+              break;
+          case 1:  
+              oStatus = string("Repeat current track");
+              eMode = kPlaylistMode_RepeatOne;
+              break;
+          case 2:  
+              oStatus = string("Repeat all");
+              eMode = kPlaylistMode_RepeatAll;
+              break;
+       }
+       m_pContext->plm->SetRepeatMode(eMode);
+       m_pWindow->ControlStringValue(string("Info"), true, oStatus);
+       
+       return kError_NoErr;
+   }    
+       
    
    return kError_NoErr;
 }
@@ -580,6 +640,7 @@ void FreeAmpTheme::InitControls(void)
     
     // Set the Play/Pause buttons
     iState = m_bPlayShown ? 0 : 1;
+    Debug_v("Setting to state %d on line %d", iState, __LINE__);
     m_pWindow->ControlIntValue(string("Play"), true, iState);
     
     if (m_oTitle == string(""))

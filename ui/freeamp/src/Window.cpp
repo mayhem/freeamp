@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.40.4.1 2000/06/06 22:47:31 robert Exp $
+   $Id: Window.cpp,v 1.40.4.2 2000/06/07 09:53:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -569,7 +569,6 @@ void Window::HandleMouseLButtonDown(Pos &oScreenPos)
     m_pCanvas->GetBackgroundRect(oRect);
     m_oMoveStart.x2 = m_oMoveStart.x1 + oRect.Width();
     m_oMoveStart.y2 = m_oMoveStart.y1 + oRect.Height();
-//    GetWindowVisibleArea(m_oMoveStart);
 
     m_oMovePos = oScreenPos;
 
@@ -700,30 +699,22 @@ void Window::TimerEvent(void)
 
 void Window::EnableTimer(bool bEnable)
 {
-    IncUsageRef();
     m_bTimerEnabled = bEnable;
-    DecUsageRef();
 }  
 
 void Window::SetStayOnTop(bool bStay)
 {
-    IncUsageRef();
     m_bStayOnTop = bStay;
-    DecUsageRef();
 }
 
 void Window::SetLiveInToolbar(bool bLive)
 {
-    IncUsageRef();
     m_bLiveInToolbar = bLive;
-    DecUsageRef();
 }
 
 void Window::Keystroke(unsigned char cKey)
 {
-//    IncUsageRef();
     m_pTheme->HandleKeystroke(cKey);
-//    DecUsageRef();
 }
 
 bool Window::MenuCommand(uint32 uCommand)
@@ -795,25 +786,4 @@ void Window::GetReloadWindowPos(Rect &oOldRect, int iNewWidth, int iNewHeight,
        oNewRect.y1 = 0;
        oNewRect.y2 = iNewHeight;
     }
-}
-
-    
-void Window::GetWindowVisibleArea(Rect &m_oTotalWindowRect)
-{
-    vector<Panel *>::iterator i;
-    Rect                      oRect;
-
-    // This function needs to be genericized -- right now it will
-    // only cover the specific case for the freeamp theme
-    //m_pCanvas->GetBackgroundRect(oRect);
-    //for(i = m_oPanels.begin(); i != m_oPanels.end(); i++)
-   // {
-   //     if ((*i)->IsOpen())
-   //        continue;
-//
-//        oRect.y2 = (*i)->m_oOpenRect.y2;
-//        m_oTotalWindowRect.y2 = m_oTotalWindowRect.y1 + oRect.Height();
-//        break;
-//    }
-
 }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.cpp,v 1.10.4.2 2000/06/06 22:47:31 robert Exp $
+   $Id: Canvas.cpp,v 1.10.4.3 2000/06/07 09:53:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -108,7 +108,12 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
     int                       iLoop;
     Color                     oColor;
 
-    //printf("init backgrounds\n");
+    // If the bitmap we have came from the theme parser and we're
+    // not supposed to delete it, we've got a normal, non-panel theme
+    // and we should not execute this function
+    if (m_bDeleteBitmap == false && m_pBGBitmap)
+       return;
+
 	 if (m_pBGBitmap)
 	   delete m_pBGBitmap;
 
@@ -170,7 +175,12 @@ void Canvas::InitBackgrounds(vector<Panel *> *pPanels)
     for(i = pPanels->end() - 1; i >= pPanels->begin(); i--)
     {
         if ((*i)->IsHidden())
+        {
+            string j;
+            (*i)->GetName(j);
+            printf("Panel %s is hidden\n", j.c_str());
             continue;
+        }
 
         (*i)->GetRect(oSrcRect);
         (*i)->GetPos(oBitmapPos);

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Panel.cpp,v 1.1.6.1 2000/06/06 22:47:31 robert Exp $
+   $Id: Panel.cpp,v 1.1.6.2 2000/06/07 09:53:53 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -59,6 +59,7 @@ void Panel::Init(void)
 {
     vector<Control *>::iterator i;
 
+    Debug_v("Init called\n");
     if (m_pOnCloseShow)
        m_pOnCloseShow->Hide(false);
     if (m_pOnCloseHide)

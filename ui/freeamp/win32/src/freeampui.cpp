@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.13 1998/11/09 08:57:55 elrod Exp $
+	$Id: freeampui.cpp,v 1.14 1998/11/09 10:10:18 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -142,42 +142,50 @@ AcceptEvent(Event* event)
         
         switch (event->Type()) 
         {
-		case INFO_PlayListRepeat:
+		    case INFO_PlayListRepeat:
 			{
 				PlayListRepeatEvent *plre = (PlayListRepeatEvent *)event;
-				switch (plre->GetRepeatMode()) {
-				case REPEAT_CURRENT:
-					g_displayInfo.repeat = true;
-					g_displayInfo.repeatAll = false;
-					break;
-				case REPEAT_ALL:
-					g_displayInfo.repeat = true;
-					g_displayInfo.repeatAll = true;
-					break;
-				case REPEAT_NOT:
-				default:
-					g_displayInfo.repeat = false;
-					g_displayInfo.repeatAll = false;
-					break;
+				switch (plre->GetRepeatMode()) 
+                {
+				    case REPEAT_CURRENT:
+					    g_displayInfo.repeat = true;
+					    g_displayInfo.repeatAll = false;
+					    break;
+				    case REPEAT_ALL:
+					    g_displayInfo.repeat = true;
+					    g_displayInfo.repeatAll = true;
+					    break;
+				    case REPEAT_NOT:
+				    default:
+					    g_displayInfo.repeat = false;
+					    g_displayInfo.repeatAll = false;
+					    break;
 				}
+
+                UpdateControls(m_hwnd);
 				break;
 			}
-		case INFO_PlayListShuffle:
+
+		    case INFO_PlayListShuffle:
 			{
 				PlayListShuffleEvent *plse = (PlayListShuffleEvent *)event;
-				switch (plse->GetShuffleMode()) {
-				case SHUFFLE_NOT_SHUFFLED:
-					g_displayInfo.shuffled = false;
-					break;
-				case SHUFFLE_SHUFFLED:
-					g_displayInfo.shuffled = true;
-					break;
-				default:
-					g_displayInfo.shuffled = false;
-					OutputDebugString("PlayListShuffle sent a type I don't know about");
+                
+				switch (plse->GetShuffleMode()) 
+                {
+				    case SHUFFLE_NOT_SHUFFLED:
+					    g_displayInfo.shuffled = false;
+					    break;
+				    case SHUFFLE_SHUFFLED:
+					    g_displayInfo.shuffled = true;
+					    break;
+				    default:
+					    g_displayInfo.shuffled = false;
 				};
+
+                UpdateControls(m_hwnd);
 				break;
 			}
+
             case INFO_Playing: 
             {   
 				m_state = STATE_Playing;

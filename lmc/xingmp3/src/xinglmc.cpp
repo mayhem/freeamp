@@ -22,7 +22,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.33 1998/11/08 04:34:09 jdw Exp $
+	$Id: xinglmc.cpp,v 1.34 1998/11/09 10:10:18 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -205,7 +205,7 @@ Error XingLMC::ExtractMediaInfo(MediaInfoEvent **pMIE) {
 								   head.prot,
 								   head.emphasis,
 								   head.mode,
-								   head.mode_ext);
+								   (float)head.mode_ext);
 			if (mie) {
 				(*pMIE)->AddChildEvent((Event *)mie);
 				mie = NULL;

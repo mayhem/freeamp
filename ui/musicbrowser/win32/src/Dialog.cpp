@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.67.2.1.2.3 2000/03/06 23:11:21 elrod Exp $
+        $Id: Dialog.cpp,v 1.67.2.1.2.3.2.1 2000/03/22 20:02:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -1025,6 +1025,8 @@ void MusicBrowserUI::InitDialog(HWND hWnd)
             ExpandCollapseEvent();  
         }
     }
+
+    m_initialized = true;
 }
 
 void MusicBrowserUI::AddToolbarButtons(bool textLabels, bool images)

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.45.2.1.2.1 2000/03/06 21:59:22 elrod Exp $
+        $Id: MusicTree.cpp,v 1.45.2.1.2.1.2.1 2000/03/22 20:02:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -789,7 +789,8 @@ HTREEITEM MusicBrowserUI::FindPlaylist(const string playlist)
 
 void MusicBrowserUI::MusicCatalogCleared()
 {
-    InitTree();
+    if(m_initialized)   
+        InitTree();
 }
 
 void MusicBrowserUI::MusicCatalogTrackChanged(const ArtistList *oldArtist,

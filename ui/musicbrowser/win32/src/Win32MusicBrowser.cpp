@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.cpp,v 1.46.4.1 2000/03/06 23:03:09 elrod Exp $
+        $Id: Win32MusicBrowser.cpp,v 1.46.4.1.2.1 2000/03/22 20:02:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -281,7 +281,6 @@ Error MusicBrowserUI::Init(int32 startup_level)
     }
 
     m_playerEQ = m_context->target;
-    m_initialized = true;
     m_uiThread = Thread::CreateThread();
     m_uiThread->Create(MusicBrowserUI::UIThreadFunc, this);
 
@@ -669,51 +668,29 @@ Error MusicBrowserUI::AcceptEvent(Event *event)
 
         case CMD_TogglePlaylistUI: 
         {
-            if (m_initialized && isVisible)
+            if(m_initialized && isVisible)
             {
                 isVisible = false;
             }
             else 
             {
                 isVisible = true;
-                if (m_initialized)
+
+                if(m_initialized)
                 {
 					ShowBrowser(true);
                 }
-                else 
-                {
-                    m_initialized = true;
-                }
             }
+
             if (m_state == STATE_EXPANDED)
                 ExpandCollapseEvent();
+
             break; 
         }
 
         case CMD_ToggleMusicBrowserUI: 
         {
             ShowBrowser(true);
-
-            /*if (m_initialized && isVisible) 
-            {
-				HideBrowser();
-                isVisible = false;
-            }
-            else 
-            {
-                isVisible = true;
-                if (m_initialized)
-                {
-					ShowBrowser(true);
-                }
-                else 
-                {
-                    m_initialized = true;
-                }
-            }*/
-
-            //if (m_state == STATE_COLLAPSED)
-                //ExpandCollapseEvent();
             break; 
         }
 

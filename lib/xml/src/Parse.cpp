@@ -18,12 +18,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.1.2.4 1999/09/26 03:23:12 robert Exp $
+   $Id: Parse.cpp,v 1.1.2.5 1999/09/27 22:16:50 robert Exp $
 ____________________________________________________________________________*/ 
 
-#include "stdio.h"
-#include "map"
-#include "assert.h"
+#include <stdio.h>
+#include <map>
+#include <assert.h>
 #include "Parse.h"
 #include "debug.h"
 
@@ -33,6 +33,7 @@ const int iMaxElementLineLength = 2048;
 const int iMaxElementNameLength = 255;
 const int iMaxAttrLength = 255;
 const int iMaxValueLength = 1024;
+const int iMaxPCDataLength = 4096;
 
 Parse::Parse(void)
 {
@@ -42,12 +43,12 @@ Parse::~Parse(void)
 {
 }
 
-Error Parse::ParseFile(string &oFile)
+Error Parse::ParseFile(const string &oFile)
 {
     FILE    *fpFile;
-    char    *szElement, *szElementName, *szAttr, *szValue;
+    char    *szElement, *szElementName, *szAttr, *szValue, *szData;
     char     szDummy[10];
-    string   oElementName, oAttr, oValue;
+    string   oElementName, oAttr, oValue, oData;
     int      iRet, iOffset, iTemp;
     bool     bError = false, bEmptyTag = false;
     AttrMap  oAttrMap; 
@@ -67,20 +68,33 @@ Error Parse::ParseFile(string &oFile)
     szElementName = new char[iMaxElementNameLength];
     szAttr = new char[iMaxAttrLength];
     szValue = new char[iMaxValueLength];
+    szData = new char[iMaxPCDataLength];
     for(szElement[0] = 0; !bError;)
     {
     	m_iErrorLine += CountNewlines(szElement);
-    
+        
         iRet = fscanf(fpFile, " < %2048[^>] >", szElement);
         if (iRet < 1)
         {
-           if (feof(fpFile))
-              break;
+            if (feof(fpFile))
+               break;
 
-		   m_oLastError = string("Unrecognized characters found");
-
-           bError = true;
-           break;
+		    iRet = fscanf(fpFile, " %4095[^<]", szData);
+            if (iRet < 1)
+		    {
+		        m_oLastError = string("Unrecognized characters found");
+                bError = true;
+                break;
+            }
+            m_iErrorLine += CountNewlines(szData);
+            oData = string(szData);
+            eRet = PCData(oData);
+            if (IsError(eRet))
+            {
+                bError = true;
+                break;
+            }   
+            continue; 
         }
 
         iRet = fscanf(fpFile, "%[\n\t \r]", szElementName);
@@ -88,7 +102,7 @@ Error Parse::ParseFile(string &oFile)
     	    m_iErrorLine += CountNewlines(szElementName);
 
         iTemp = 0;
-        sscanf(szElement, " /%255[A-Za-z0-9]%n", szElementName, &iTemp);
+        sscanf(szElement, " /%255[A-Za-z0-9_]%n", szElementName, &iTemp);
         if (iTemp > 0)
         {
             oElementName = szElementName;
@@ -104,8 +118,11 @@ Error Parse::ParseFile(string &oFile)
             continue;
         }
         
-        sscanf(szElement, " %255[A-Za-z0-9] %n", szElementName, &iOffset);
+		iOffset = 0;
+        int iRet = sscanf(szElement, " %255[A-Za-z0-9_] %n", szElementName, &iOffset);
         oElementName = szElementName;
+        if (iOffset == 0)
+            iOffset = strlen(szElementName);
 
         oAttrMap.clear();
         bEmptyTag = false;
@@ -152,17 +169,18 @@ Error Parse::ParseFile(string &oFile)
         }
     }
 
-    if (bError)
-    {
-        return kError_ParseError;
-    }
-
     delete szElement;
     delete szElementName,
     delete szAttr;
     delete szValue;
+    delete szData;
 
     fclose(fpFile);
+
+    if (bError)
+    {
+        return kError_ParseError;
+    }
 
     return kError_NoErr;
 }

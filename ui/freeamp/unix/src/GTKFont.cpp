@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.22 2000/10/02 13:01:49 ijr Exp $
+   $Id: GTKFont.cpp,v 1.23 2000/10/13 14:39:43 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <sys/stat.h>
@@ -252,7 +252,6 @@ Error GTKFont::Load(int iFontHeight, bool bBold, bool bItalic)
                     }
                 }
             } 
-            gdk_threads_leave();
         }
     }
 #ifdef HAVE_FREETYPE

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.3 1999/10/21 00:35:30 ijr Exp $
+   $Id: GTKBitmap.cpp,v 1.4 1999/12/14 13:26:18 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -493,9 +493,9 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
     gdk_draw_rgb_image(m_Bitmap, m_GC, 0, 0, w, h, GDK_RGB_DITHER_MAX, data, 
                        w * 3);
 
+    gdk_threads_leave();
     g_free(data);
     g_free(buffer);
-    gdk_threads_leave();
 
     return kError_NoErr;
 }

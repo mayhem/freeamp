@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.4 1999/12/09 19:36:37 ijr Exp $
+   $Id: TextControl.cpp,v 1.5 1999/12/14 13:26:17 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -95,7 +95,7 @@ void TextControl::Init(void)
 void TextControl::Transition(ControlTransitionEnum  eTrans,
                              Pos                   *pMousePos)
 {
-	if (m_eCurrentState == CS_MouseOver && 
+    if (m_eCurrentState == CS_MouseOver && 
         eTrans == CT_MouseLButtonUp)
        m_pParent->SendControlMessage(this, CM_Pressed);
 
@@ -124,7 +124,7 @@ void TextControl::TextChanged(void)
     Canvas *pCanvas;
     int    iRet;
     
-	m_iMarqueePos = 0;
+    m_iMarqueePos = 0;
     pCanvas = m_pParent->GetCanvas();
 
     pCanvas->Erase(m_oRect);

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.46 1999/12/13 19:58:08 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.47 1999/12/14 13:26:17 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1324,6 +1324,6 @@ void FreeAmpTheme::OptionsThread(uint32 defaultPage)
     pWindow->Show(m_pWindow);
 
     delete pWindow;
-    
+   
     m_bInOptions = false;
 }

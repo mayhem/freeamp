@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.cpp,v 1.8 1999/03/18 03:44:36 elrod Exp $
+	$Id: preferences.cpp,v 1.9 1999/03/19 23:23:14 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -94,7 +94,7 @@ Initialize()
 
         // check for plugins directory in cwd
 
-		HANDLE h = FindFirstFile(foo,&win32fd);
+		/*LEAK*/HANDLE h = FindFirstFile(foo,&win32fd);
 
 		if (h != INVALID_HANDLE_VALUE) 
         {

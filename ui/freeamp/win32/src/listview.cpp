@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.cpp,v 1.12 1999/03/18 23:00:56 elrod Exp $
+	$Id: listview.cpp,v 1.13 1999/03/19 23:23:20 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -54,7 +54,7 @@ View(hwnd, parent, viewRegion)
     m_pressedX = 0;
     m_pressedY = 0;
     m_dragging = false;
-    m_list = new List<ListItem*>();
+    /*LEAK*/m_list = new List<ListItem*>();
     m_scroller = NULL;
 
     m_thread = NULL;

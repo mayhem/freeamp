@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.5 1999/03/18 20:37:32 elrod Exp $
+	$Id: utility.cpp,v 1.6 1999/03/19 23:23:24 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -47,7 +47,7 @@ DetermineRegion(DIB* bitmap,
     height = bitmap->Height();
 
     // empty region
-    result = CreateRectRgn(0,0,0,0);
+    /*LEAK*/result = CreateRectRgn(0,0,0,0);
 
     for(int32 y = 0; y < height; y++)
     {
@@ -73,7 +73,7 @@ DetermineRegion(DIB* bitmap,
                 scanning = false;
                 // regions are non-inclusive of their bottom & right edges
                 // so need to add one to values
-                scanline = CreateRectRgn(start, y, x, y + 1);
+                /*LEAK*/scanline = CreateRectRgn(start, y, x, y + 1);
 
                 CombineRgn( result,
                             result,
@@ -87,7 +87,7 @@ DetermineRegion(DIB* bitmap,
         // last pixel in scanline is included in region...
         if(scanning)
         {
-            scanline = CreateRectRgn(start, y, x, y + 1);
+            /*LEAK*/scanline = CreateRectRgn(start, y, x, y + 1);
 
             CombineRgn( result,
                         result,
@@ -113,7 +113,7 @@ DetermineControlRegions(DIB* bitmap,
     for(i = 0; i < numControls; i++)
     {
         // empty region
-        controlRegions[i] = CreateRectRgn(0,0,0,0);
+        /*LEAK*/controlRegions[i] = CreateRectRgn(0,0,0,0);
     }
 
     regionColors = new uint32[numControls];
@@ -148,7 +148,7 @@ DetermineControlRegions(DIB* bitmap,
                     scanning = false;
                     // regions are non-inclusive of their bottom
                     // & right edges so need to add one
-                    scanline = CreateRectRgn(start, y, x, y + 1);
+                    /*LEAK*/scanline = CreateRectRgn(start, y, x, y + 1);
 
                     CombineRgn( controlRegions[scanIndex],
                                 controlRegions[scanIndex],

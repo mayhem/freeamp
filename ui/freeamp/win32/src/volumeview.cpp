@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: volumeview.cpp,v 1.2 1999/03/15 09:16:04 elrod Exp $
+	$Id: volumeview.cpp,v 1.3 1999/03/19 23:23:25 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -65,7 +65,7 @@ View(hwnd, parent, viewRegion)
     m_labelFontWidths = labelFontWidths;
     m_labelFontHeight = labelFontHeight;
 
-    m_viewBitmap = new DIB;
+    /*LEAK*/m_viewBitmap = new DIB;
     m_viewBitmap->Create(   Width(),
                             Height(),
                             backgroundBitmap->BitsPerPixel());

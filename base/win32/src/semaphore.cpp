@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: semaphore.cpp,v 1.3 1998/10/19 00:09:05 elrod Exp $
+	$Id: semaphore.cpp,v 1.4 1999/03/19 23:23:15 robert Exp $
 ____________________________________________________________________________*/
 
 #include "semaphore.h"
@@ -26,7 +26,7 @@ ____________________________________________________________________________*/
 
 Semaphore::Semaphore(int cnt) {
     m_count = cnt;
-    m_sem = CreateSemaphore(NULL, 
+    /*LEAK*/m_sem = CreateSemaphore(NULL, 
 		    				cnt,
 							1024,
 							""); 

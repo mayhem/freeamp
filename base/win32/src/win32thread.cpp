@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: win32thread.cpp,v 1.3 1998/11/03 00:05:21 jdw Exp $
+	$Id: win32thread.cpp,v 1.4 1999/03/19 23:23:16 robert Exp $
 ____________________________________________________________________________*/
 
 #include <process.h>
@@ -74,7 +74,7 @@ Create(thread_function function, void* arg)
     m_arg           = arg;
 
 	//m_threadHandle = (HANDLE) _beginthreadex(
-	m_threadHandle = ::CreateThread(
+	/*LEAK*/m_threadHandle = ::CreateThread(
 									NULL,
 									0,
 									internalThreadFunction,

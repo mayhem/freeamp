@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.102 1999/03/18 20:53:35 robert Exp $
+        $Id: player.cpp,v 1.103 1999/03/19 23:23:10 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -310,7 +310,8 @@ SetArgs(int32 argc, char **argv)
    m_argc = argList.CountItems();
    if (m_argc)
    {
-      m_argv = new pchar[m_argc];
+	   //LEAK
+	   m_argv = new pchar[m_argc];
       for (int f = 0; f < m_argc; f++)
       {
          m_argv[f] = argList.ItemAt(f);

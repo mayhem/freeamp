@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: stringitem.cpp,v 1.5 1999/03/19 04:51:45 elrod Exp $
+	$Id: stringitem.cpp,v 1.6 1999/03/19 23:23:21 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -75,7 +75,7 @@ SetText(char* text)
             m_text = NULL;
         }
 
-        m_text = new char[strlen(text) + 1];
+        /*LEAK*/m_text = new char[strlen(text) + 1];
         strcpy(m_text, text);
 
         int32 textLength = 0;
@@ -101,7 +101,7 @@ SetText(char* text)
             m_textBitmap = NULL;
         }
 
-        m_textBitmap = new DIB;
+        /*LEAK*/m_textBitmap = new DIB;
         m_textBitmap->Create(   textLength, 
                                 m_fontHeight, 
                                 m_fontBitmap->BitsPerPixel());

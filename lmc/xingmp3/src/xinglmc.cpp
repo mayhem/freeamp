@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.68 1999/03/17 03:30:54 robert Exp $
+   $Id: xinglmc.cpp,v 1.69 1999/03/19 23:23:17 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -195,7 +195,7 @@ Stop()
 {
    if (m_decoderThread)
    {
-      XingCommand *xc = new XingCommand[1];
+      /*LEAK*/XingCommand *xc = new XingCommand[1];
 
       if (!xc)
          return kError_OutOfMemory;
@@ -537,7 +537,7 @@ Error XingLMC::ExtractMediaInfo()
        totalSeconds = -1;
    }
 
-   pMIE = new MediaInfoEvent(m_input->Url(), totalSeconds);
+   /*LEAK*/pMIE = new MediaInfoEvent(m_input->Url(), totalSeconds);
    if (!pMIE)
       return kError_OutOfMemory;
 
@@ -559,7 +559,7 @@ Error XingLMC::ExtractMediaInfo()
 
    delete pID3Tag;
 
-   MpegInfoEvent *mie = new MpegInfoEvent(totalFrames,
+   /*LEAK*/MpegInfoEvent *mie = new MpegInfoEvent(totalFrames,
                        milliseconds_per_frame / 1000, m_frameBytes,
                        m_iBitRate, samprate, layer,
                        (m_sMpegHead.sync == 2) ? 3 : (m_sMpegHead.id) ? 1 : 2,

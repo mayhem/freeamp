@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: registrar.cpp,v 1.12 1999/01/22 06:02:50 jdw Exp $
+	$Id: registrar.cpp,v 1.13 1999/03/19 23:23:12 robert Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -159,7 +159,7 @@ InitializeRegistry(Registry* registry, Preferences* prefs)
                 HMODULE module = NULL;
                 error = kError_LoadLibFailed;
 
-                module = LoadLibrary(file);
+                /*LEAK*/module = LoadLibrary(file);
             
                 if(module)
                 {

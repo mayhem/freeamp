@@ -18,41 +18,27 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: dummycoo.cpp,v 1.6 1998/10/16 22:25:31 jdw Exp $
+	$Id: dummyui.h,v 1.1 1998/10/19 04:52:03 elrod Exp $
 ____________________________________________________________________________*/
 
-#include "dummycoo.h"
+#ifndef _DUMMY_COO_H_
+#define _DUMMY_COO_H_
 
-DummyCOO::DummyCOO(Semaphore *sem) {
-    m_termSemaphore = sem;
-    //printf("Dummy this: %x\n",this);
-}
+#include "ctrlobj.h"
+#include "player.h"
+#include "semaphore.h"
 
-DummyCOO::~DummyCOO() {
-    //cout << "DummyCOO: being deleted..." << endl;
-}
+class DummyCOO : public UserInterface {
+ public:
+    virtual int32 AcceptEvent(Event *);
+    virtual void  SetArgs(int32 i, char **c) { return; }
+    DummyCOO(Semaphore*);
+    virtual ~DummyCOO();
 
-int32 DummyCOO::AcceptEvent(Event *pe) {
-    if (pe) {
-  	//cout << "DummyCOO::acceptEvent: processing " << pe->getEvent() << "..." << endl;
-        switch (pe->GetEvent()) {
-	        case CMD_Terminate:
-	            m_termSemaphore->Signal();
-	            break;
+ private:
+    Semaphore*      m_termSemaphore;
+    EventQueueRef   m_target;
 
-	        case CMD_Cleanup: {
-	            Event *pE = new Event(INFO_ReadyToDieUI,this);
-	            Player::GetPlayer()->AcceptEvent(pE);
-	            break; 
-            }
+};
 
-	        default:
-	            break;
-	    }
-
-	    return 0;
-
-    } else {
-	    return 255;
-    }
-}
+#endif // _DUMMY_COO_H_

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.44 2000/01/21 01:29:47 elrod Exp $
+	$Id: main.cpp,v 1.45 2000/01/21 01:55:53 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -287,6 +287,8 @@ bool SendCommandLineToRealJukebox()
                                     MessageBox(NULL, The_BRANDING" does not support the formats "
                                                      "contained in this Music Package.  The download "
                                                      "will be aborted.", "Unsupported Formats", MB_OK);
+
+                                    DeleteFile(__argv[1]);
                                 }
 							}
 						}

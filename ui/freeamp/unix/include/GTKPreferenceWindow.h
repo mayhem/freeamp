@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.12 1999/12/09 16:14:52 ijr Exp $
+   $Id: GTKPreferenceWindow.h,v 1.13 1999/12/17 03:23:23 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -79,6 +79,8 @@ typedef struct PrefsStruct
     string saveMusicDirectory;
     PortableSet portablePlayers;
 
+    string alsaOutput;
+
     bool operator == (const struct PrefsStruct& pref)
     {
         return (
@@ -108,6 +110,7 @@ typedef struct PrefsStruct
             portablePlayers == pref.portablePlayers &&
             listboxIndex == pref.listboxIndex &&
             outputIndex == pref.outputIndex && 
+            alsaOutput == pref.alsaOutput &&
             true
         );
     }
@@ -178,6 +181,8 @@ class GTKPreferenceWindow : public PreferenceWindow
       GtkWidget *ipFourBox;
 
       GtkWidget *pmoMenu;
+      GtkWidget *alsaOneBox;
+      GtkWidget *alsaTwoBox;
 
       GtkWidget *themeList;
 
@@ -216,6 +221,7 @@ class GTKPreferenceWindow : public PreferenceWindow
       void SelectTheme(int number);
 
       void SetPMO(int newsel);
+      void AlsaSet(void);
 
       void ShowHelp(void);
 

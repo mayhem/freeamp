@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.32 1999/12/13 17:03:18 ijr Exp $
+        $Id: musiccatalog.cpp,v 1.33 1999/12/17 03:23:23 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -608,6 +608,9 @@ void MusicCatalog::DoSearchMusic(char *path)
        search.append(DIR_MARKER_STR);
 
     search.append("*");
+#ifdef WIN32
+    search.append(".*");
+#endif
 
     handle = FindFirstFile((char *)search.c_str(), &find);
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.44 1999/12/16 19:44:26 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.45 1999/12/17 03:23:23 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -202,7 +202,7 @@ void emusic_web(GTKMusicBrowser *p, guint action, GtkWidget *w)
 
 void show_about(GTKMusicBrowser *p, guint action, GtkWidget *w)
 {
-    p->ShowOptions(4);
+    p->ShowOptions(5);
 }
 
 void stop_menu(GTKMusicBrowser *p, guint action, GtkWidget *w)

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.12 1999/10/19 07:12:45 elrod Exp $
+	$Id: preferences.h,v 1.13 1999/10/20 23:51:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -67,6 +67,7 @@ extern const char* kMainWindowPosPref;
 extern const char* kThemeDefaultFontPref;
 extern const char* kSaveMusicDirPref;
 extern const char* kDatabaseDirPref;
+extern const char* kCheckForUpdatesPref;
 
 class LibDirFindHandle;
 
@@ -188,6 +189,9 @@ class Preferences {
 
     Error GetThemePath(char*path, uint32* len);
     Error SetThemePath(char*path);
+
+    Error GetCheckForUpdates(bool* value);
+    Error SetCheckForUpdates(bool value);
     
 };
 

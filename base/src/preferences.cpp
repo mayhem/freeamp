@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.18 1999/10/19 07:12:47 elrod Exp $
+        $Id: preferences.cpp,v 1.19 1999/10/20 23:51:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -60,6 +60,7 @@ const char* kMainWindowPosPref = "MainWindowPos";
 const char* kThemeDefaultFontPref = "ThemeDefaultFont";
 const char* kSaveMusicDirPref = "SaveMusicDirectory";
 const char* kDatabaseDirPref = "DatabaseDirectory";
+const char* kCheckForUpdatesPref = "CheckForUpdates";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -92,6 +93,7 @@ const char *kDefaultThemeDefaultFont = "Helvetica";
 #endif
 const char *kDefaultDownloadManagerUI = "download.ui";
 const char *kDefaultMusicBrowserUI = "musicbrowser.ui";
+const bool kDefaultCheckForUpdates = false;
 
 Error
 Preferences::
@@ -188,6 +190,9 @@ SetDefaults()
     if (GetPrefString(kDownloadManagerUIPref, dummyString,
         (uint32 *)&dummyInt) == kError_NoPrefValue)
         SetPrefString(kDownloadManagerUIPref, kDefaultDownloadManagerUI);
+
+    if (GetPrefBoolean(kCheckForUpdatesPref, &dummyBool) == kError_NoPrefValue)
+        SetPrefBoolean(kCheckForUpdatesPref, kDefaultCheckForUpdates);
 
     return kError_NoErr;
 }
@@ -687,6 +692,20 @@ Preferences::
 SetThemePath(char* path)
 {
     return SetPrefString(kThemePathPref, path);
+}
+
+Error
+Preferences::
+GetCheckForUpdates(bool* value)
+{
+    return GetPrefBoolean(kCheckForUpdatesPref, value);
+}
+
+Error
+Preferences::
+SetCheckForUpdates(bool value)
+{
+    return SetPrefBoolean(kCheckForUpdatesPref, value);
 }
 
 LibDirFindHandle *

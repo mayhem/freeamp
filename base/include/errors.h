@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.19 1999/10/19 07:12:45 elrod Exp $
+	$Id: errors.h,v 1.20 1999/10/20 23:51:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -91,6 +91,7 @@ typedef enum Error
     kError_AlreadyUpdating      = 60,
     kError_UnlinkFailed         = 61,
     kError_CopyFailed           = 62,
+    kError_NoItemsUpdated       = 63
 
     kError_LastError            = 9999
 };

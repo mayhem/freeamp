@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.2 1999/10/19 07:13:21 elrod Exp $
+   $Id: Win32PreferenceWindow.h,v 1.3 1999/10/20 23:51:35 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -59,7 +59,7 @@ typedef struct PrefsStruct
     // page 2
     int32 streamInterval;
     bool saveStreams;
-    char saveStreamsDirectory[MAX_PATH + 1];
+    char saveStreamsDirectory[MAX_PATH];
     bool useProxyServer;
     char proxyServer[256]; // is there a domain name length limit???
     bool useAlternateIP;
@@ -79,6 +79,9 @@ typedef struct PrefsStruct
     string currentTheme;
     int    listboxIndex;
 
+    // page 6
+    bool checkForUpdates;
+
     PrefsStruct()
     {
         memset(defaultUI, 0x00, sizeof(defaultUI));
@@ -86,6 +89,7 @@ typedef struct PrefsStruct
         memset(saveStreamsDirectory, 0x00, sizeof(saveStreamsDirectory));
         memset(proxyServer, 0x00, sizeof(proxyServer));
         memset(alternateIP, 0x00, sizeof(alternateIP));
+        memset(defaultFont, 0x00, sizeof(defaultFont));
     }
 
 } PrefsStruct;

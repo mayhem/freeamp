@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: propimpl.cpp,v 1.1 1999/01/23 00:22:26 jdw Exp $
+	$Id: propimpl.cpp,v 1.2 1999/01/23 05:01:06 jdw Exp $
 ____________________________________________________________________________*/
 
 #include "propimpl.h"
@@ -34,14 +34,15 @@ PropertiesImpl::~PropertiesImpl() {
     }
 }
 
-Error PropertiesImpl::GetProperty(const char *pProp, void **ppVal) {
+Error PropertiesImpl::GetProperty(const char *pProp, PropValue **ppVal) {
     Error rtn = kError_UnknownErr;
     m_lock.Acquire();
-    if (pProp) {
-	if (m_props) {
-	    PropElem *ppe = m_props->Value(pProp);
-	    if (ppe) {
-		if (ppVal) {
+    if (ppVal) {
+	*ppVal = NULL;
+	if (pProp) {
+	    if (m_props) {
+		PropElem *ppe = m_props->Value(pProp);
+		if (ppe) {
 		    *ppVal = ppe->m_val;
 		    rtn = kError_NoErr;
 		}
@@ -52,7 +53,7 @@ Error PropertiesImpl::GetProperty(const char *pProp, void **ppVal) {
     return rtn;
 }
 
-Error PropertiesImpl::SetProperty(const char *pProp, void *pVal, bool deleteWhenDone) {
+Error PropertiesImpl::SetProperty(const char *pProp, PropValue *pVal) {
     Error rtn = kError_UnknownErr;
     m_lock.Acquire();
     if (m_props) {
@@ -64,11 +65,10 @@ Error PropertiesImpl::SetProperty(const char *pProp, void *pVal, bool deleteWhen
 		needToInsert = true;
 	    }
 	    if (ppe) {
-		if (ppe->m_deleteWhenDone && ppe->m_val) {
-		    free(ppe->m_val);
+		if (ppe->m_val) {
+		    delete ppe->m_val;
 		}
 		ppe->m_val = pVal;
-		ppe->m_deleteWhenDone;
 		if (needToInsert) {
 		    m_props->Insert(pProp, ppe);
 		}

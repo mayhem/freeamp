@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: propimpl.h,v 1.1 1999/01/23 00:22:25 jdw Exp $
+	$Id: propimpl.h,v 1.2 1999/01/23 05:01:06 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PROPIMPL_H_
@@ -36,19 +36,18 @@ class PropertiesImpl : public Properties {
  private:
     class PropElem {
     public:
-	PropElem() { m_deleteWhenDone = false; m_val = NULL; }
-	~PropElem() { if (m_deleteWhenDone) free(m_val); }
+	PropElem() { m_val = NULL; }
+	~PropElem() {if (m_val) delete m_val; }
 	Vector<PropertyWatcher *> m_propWatchers;
-	void *m_val;
-	bool m_deleteWhenDone;
+	PropValue *m_val;
     };
     HashTable<PropElem *> *m_props;
     Mutex m_lock;
  public:
     PropertiesImpl();
     ~PropertiesImpl();
-    virtual Error GetProperty(const char *, void **);
-    virtual Error SetProperty(const char *, void *, bool);
+    virtual Error GetProperty(const char *, PropValue **);
+    virtual Error SetProperty(const char *, PropValue *);
     virtual Error RegisterPropertyWatcher(const char *, PropertyWatcher *);
     virtual Error RemovePropertyWatcher(const char *, PropertyWatcher *);
 };

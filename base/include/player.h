@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.h,v 1.24 1999/01/23 00:22:25 jdw Exp $
+	$Id: player.h,v 1.25 1999/01/23 05:01:06 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYER_H_
@@ -72,8 +72,8 @@ class Player : public EventQueue, Properties  {
     virtual int32 AcceptEvent(Event *);
 
     // Properties
-    virtual Error GetProperty(const char *, void **);
-    virtual Error SetProperty(const char *, void *, bool);
+    virtual Error GetProperty(const char *, PropValue **);
+    virtual Error SetProperty(const char *, PropValue *);
     virtual Error RegisterPropertyWatcher(const char *, PropertyWatcher *);
     virtual Error RemovePropertyWatcher(const char *, PropertyWatcher *);
  protected:

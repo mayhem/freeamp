@@ -23,7 +23,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: alsapmo.cpp,v 1.1 1999/01/23 00:22:26 jdw Exp $
+	$Id: alsapmo.cpp,v 1.2 1999/01/23 05:01:06 jdw Exp $
 
  *  You can use -a <soundcard #>:<device #>...
  *  For example: mpg123 -a 1:0 aaa.mpg
@@ -114,7 +114,7 @@ AlsaPMO::AlsaPMO() {
     ai->channels = -1;
     ai->format = -1;
 
-    ai->device=strdup(ALSA_DEVICE);
+    // ai->device=strdup(ALSA_DEVICE);  // JDW - moved to Init so we can grabp the ALSA-device Property
 #endif
 
 #ifdef DEBUG
@@ -187,6 +187,20 @@ Error AlsaPMO::Init(OutputInfo* info) {
     } else {
 	// got info, so this is the beginning...
 #ifdef ALSA
+
+	PropValue *pv = NULL;
+	m_propManager->GetProperty("ALSA-device",&pv);
+	if (pv) {
+	    const char *pChar = ((StringPropValue *)pv)->GetString();
+	    if (pChar) {
+		ai->device = strdup(pChar);
+	    } else {
+		ai->device=strdup(ALSA_DEVICE);
+	    }
+	} else {
+	    ai->device=strdup(ALSA_DEVICE);  // use default
+	}
+
 	if(ai->device) {	/* parse ALSA device name */
 #ifdef DEBUG
 cout<<"device="<<ai->device<<endl;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.2 1999/04/21 04:20:53 elrod Exp $
+        $Id: soundcardpmo.cpp,v 1.3 1999/04/21 05:50:53 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -35,7 +35,6 @@ ____________________________________________________________________________*/
 #include <config.h>
 #include "soundcardpmo.h"
 #include "eventdata.h"
-#include "facontext.h"
 #include "log.h"
 
 #define PIECES 50
@@ -55,12 +54,15 @@ extern    "C"
    }
 }
 
-SoundCardPMO::SoundCardPMO(context) :
+SoundCardPMO::SoundCardPMO(FAContext *context) :
               EventBuffer(iInitialBufferSize, iOverflowSize,
 			  iWriteTriggerSize, context)
 {
    //printf("PMO ctor\n");
    m_properlyInitialized = false;
+
+   m_context = context;
+   m_prefs = context->prefs;
 
    myInfo = new OutputInfo();
    memset(myInfo, 0, sizeof(OutputInfo));

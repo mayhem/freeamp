@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.h,v 1.1 1999/04/13 06:21:54 dogcow Exp $
+        $Id: soundcardpmo.h,v 1.2 1999/04/21 05:50:53 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SOUNDCARDPMO_H_
@@ -33,6 +33,8 @@ ____________________________________________________________________________*/
 #include "pmo.h"
 #include "pmoevent.h"
 #include "eventbuffer.h"
+#include "facontext"
+#include "preferences.h"
 
 #define BIT_SELECT  0x1f
 #define SLEEPTIME   256
@@ -59,7 +61,7 @@ class SoundCardPMO:public PhysicalMediaOutput, public EventBuffer
 {
    public:
 
-            SoundCardPMO();
+            SoundCardPMO(FAContext *context);
    virtual ~SoundCardPMO();
 
    virtual Error Init(OutputInfo * info);
@@ -84,6 +86,8 @@ class SoundCardPMO:public PhysicalMediaOutput, public EventBuffer
    virtual Error Reset(bool user_stop);
    void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
 
+   FAContext    *m_context;
+   Preferences  *m_prefs;
    Properties  *m_propManager;
    bool         m_properlyInitialized;
    int16        buffer[OBUFFERSIZE];

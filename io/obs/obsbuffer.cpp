@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: obsbuffer.cpp,v 1.11 1999/03/06 06:00:19 robert Exp $
+   $Id: obsbuffer.cpp,v 1.12 1999/03/07 00:16:01 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -60,13 +60,13 @@ static char *g_ErrorArray[5] =
 };
 
 ObsBuffer::ObsBuffer(size_t iBufferSize, size_t iOverFlowSize, 
-                     size_t iWriteTriggerSize, char *szFile, ObsInput *m_pObs) :
+                     size_t iWriteTriggerSize, char *szFile, ObsInput *pObs) :
         StreamBuffer(iBufferSize, iOverFlowSize, iWriteTriggerSize)
 {
     m_hHandle = -1;
     m_pBufferThread = NULL;
     m_pID3Tag = NULL;
-    m_pObs = m_pObs;
+    m_pObs = pObs;
 
     strcpy(m_szUrl, szFile);
 }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.21 1999/03/06 06:05:22 elrod Exp $
+	$Id: freeampui.cpp,v 1.22 1999/03/07 00:16:02 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1644,7 +1644,7 @@ UpdatePlayList()
             //char buffer[256];
             //sprintf(buffer, "This is StringItem #%d", i);
 
-            m_playlistView->AddItem(new StringItem(item->DisplayString(),
+            m_playlistView->AddItem(new StringItem(item->_DisplayString(),
                                     m_smallFontBitmap,
                                     10,
                                     smallFontWidth));

@@ -17,12 +17,13 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: main.cpp,v 1.21 1998/11/09 07:57:11 elrod Exp $
+	$Id: main.cpp,v 1.22 1999/03/07 00:16:00 robert Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
 #define STRICT
 #include <windows.h>
+#include <winsock.h>
 #include <commctrl.h>
 #include <stdio.h>
 #include <string.h>
@@ -53,6 +54,8 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
         return 0;
    }
 
+   WSADATA sGawdIHateMicrosoft;
+   WSAStartup(0x0002,  &sGawdIHateMicrosoft);
 
    prefs = new Preferences;
    prefs->Initialize();
@@ -116,6 +119,8 @@ int APIENTRY WinMain(	HINSTANCE hInstance,
     delete player;
 
     CloseHandle(runOnceMutex);
+
+	WSACleanup();
 
 	return 0;
 }

@@ -133,6 +133,16 @@ struct CEnd512ByteBlock
 	USHORT m_usPos32KBlockPrevMult256;
 };
 
+// find file structure
+struct CFindFile {
+    int m_iCount;
+    CDirEntry* m_iEntry;
+
+ private:
+     CFindFile():m_iCount(-1),m_iEntry(0){}
+
+};
+
 // disable byte align
 #pragma pack()
 
@@ -215,15 +225,15 @@ public:
 	void SetIODelayRx( long lTime ) { m_lTimeIODelayRx = lTime; }
 	void UseExternalFlash( BOOL bUseExternalFlash );
 	BOOL CheckPresent( void );
-	CDirEntry* FindFile( char* pszFile );
+	CDirEntry* FindFile( const char* pszFile,CFindFile* pFindFile = NULL );
 	BOOL Initialize( BOOL bMarkBadBlock, BOOL (*pfProgress)(int iPos, int iCount, void* cookie), void* cookie);
-	BOOL RemoveFile( char* pszFile );
+	BOOL RemoveFile( const char* pszFile );
 	BOOL RemoveAllFiles( void );
 	BOOL SetFileOrder( UINT* pauiPosOrder, UINT uiCount );
 	BOOL TxDirectory( void );
 	BOOL RxDirectory( void );
-	BOOL TxFile( char* pszPathFile, BOOL (*pfProgress)(int iPos, int iCount, void* cookie), void* cookie);
-	BOOL RxFile( char* pszPathFile, BOOL (*pfProgress)(int iPos, int iCount, void* cookie), void* cookie);
+	BOOL TxFile( const char* pszPathFile, BOOL (*pfProgress)(int iPos, int iCount, void* cookie), void* cookie);
+	BOOL RxFile( const char* pszPathFile, BOOL (*pfProgress)(int iPos, int iCount, void* cookie), void* cookie);
 };
 
 #endif		// _RIO_

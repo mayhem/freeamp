@@ -181,13 +181,13 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // return file only
-static char* GetFile( char* pszPathFile )
+static const char* GetFile( const char* pszPathFile )
 {
 	int iLength = strlen( pszPathFile );
 	if ( !iLength )
 		return pszPathFile;
 
-	char* pc = pszPathFile + iLength - 1;
+	const char* pc = pszPathFile + iLength - 1;
 	while( *pc != '\\' && *pc != '/' && *pc != ':' )
 	{
 		if ( pc == pszPathFile )
@@ -939,15 +939,35 @@ BOOL CRio::CheckPresent( void )
 	return TRUE;
 }
 
-CDirEntry* CRio::FindFile( char* pszFile )
+CDirEntry* CRio::FindFile( const char* pszFile, CFindFile* pFindFile)
 {
 	// search directory entries for matching filename
-	int iCountEntry = m_cDirBlock.m_cDirHeader.m_usCountEntry;
-	CDirEntry* pDirEntry = m_cDirBlock.m_acDirEntry;
-	for( int iA=0; iA<iCountEntry; ++iA, ++pDirEntry )
+
+    int iCountEntry = m_cDirBlock.m_cDirHeader.m_usCountEntry;
+    CDirEntry* pDirEntry = m_cDirBlock.m_acDirEntry;
+    int iA = 0;
+
+    if(pFindFile)
+    {
+        if(pFindFile->m_iCount < iCountEntry)
+        {
+            iA = ++pFindFile->m_iCount;
+            pDirEntry = ++pFindFile->m_iEntry;
+        }
+    }
+	
+	for(iA; iA<iCountEntry; ++iA, ++pDirEntry )
 	{
 		if ( !strcmp(pszFile, pDirEntry->m_szName) )
+        {
+            if(pFindFile)
+            {
+                pFindFile->m_iCount = iA;
+                pFindFile->m_iEntry = pDirEntry;
+            }
+
 			return pDirEntry;
+        }
 	}
 
 	return NULL;
@@ -990,7 +1010,7 @@ BOOL CRio::Initialize( BOOL bMarkBadBlock, BOOL (*pfProgress)(int iPos, int iCou
 	return TRUE;
 }
 
-BOOL CRio::RemoveFile( char* pszFile )
+BOOL CRio::RemoveFile( const char* pszFile )
 {
 	// get directory entry for file
 	CDirEntry* pDirEntry = FindFile( pszFile );
@@ -1174,7 +1194,7 @@ BOOL CRio::RxDirectory( void )
 	return bResult;
 }
 
-BOOL CRio::TxFile( char* pszPathFile, BOOL (*pfProgress)(int iPos, int iCount, void* cookie), void* cookie)
+BOOL CRio::TxFile( const char* pszPathFile, BOOL (*pfProgress)(int iPos, int iCount, void* cookie), void* cookie)
 {
 	// directory header
 	CDirHeader& cDirHeader = m_cDirBlock.m_cDirHeader;
@@ -1355,10 +1375,10 @@ BOOL CRio::TxFile( char* pszPathFile, BOOL (*pfProgress)(int iPos, int iCount, v
 	return bResult;
 }
 
-BOOL CRio::RxFile( char* pszPathFile, BOOL (*pfProgress)(int iPos, int iCount, void* cookie), void* cookie)
+BOOL CRio::RxFile( const char* pszPathFile, BOOL (*pfProgress)(int iPos, int iCount, void* cookie), void* cookie)
 {
 	// get directory entry for file
-	char* pszFile = GetFile( pszPathFile );
+	const char* pszFile = GetFile( pszPathFile );
 	CDirEntry* pDirEntry = FindFile( pszFile );
 	if ( !pDirEntry )
 	{

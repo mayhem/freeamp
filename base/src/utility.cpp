@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.2.2.2 1999/08/30 22:35:20 ijr Exp $
+	$Id: utility.cpp,v 1.2.2.3 1999/09/02 20:01:05 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -75,6 +75,12 @@ Error FilePathToURL(const char* path, char* url, uint32* length)
             {
                 url[8] = '|';
             }
+
+            for(int32 index = strlen(url) - 1; index >=0; index--)
+            {
+                if(url[index] == '\\')
+                    url[index] = '/';
+            }
 #endif  
         }
 
@@ -103,6 +109,12 @@ Error URLToFilePath(const char* url, char* path, uint32* length)
             if(strlen(path) > 1 && path[1] == '|')
             {
                 path[1] = ':';
+            }
+
+            for(int32 index = strlen(path) - 1; index >=0; index--)
+            {
+                if(path[index] == '/')
+                    path[index] = '\\';
             }
 #endif  
         }

@@ -18,13 +18,17 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.8 1999/09/01 22:30:53 ijr Exp $
+	$Id: pmp300.cpp,v 1.1.2.9 1999/09/02 20:01:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
 #include <iostream>
+#include <algorithm>
+#include <sstream>
 #include <string>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 using namespace std;
 
@@ -34,28 +38,7 @@ using namespace std;
 
 #include "pmp300.h"
 #include "rio.h"
-
-
-#ifndef ltoa
-/* Following code is from snippits..  all pd stuff */
-char *ltoa(long val, char *buf, int base)
-{
-    ldiv_t r;
- 
-    if (base > 36 || base < 2) {
-        *buf = '\0';
-        return buf;
-    }
-    if (val < 0)
-        *buf++ = '-';
-    r = ldiv(labs(val), base);
-    if (r.quot > 0)
-        buf = ltoa(r.quot, buf, base);
-    *buf++ = "0123456789abcdefghijklmnopqrstuvwxyz"[(int)r.rem];
-    *buf   = '\0';
-    return buf;
-}
-#endif
+#include "utility.h"
 
 typedef struct DeviceInfoStruct {
     char* manufacturer;
@@ -71,7 +54,7 @@ const uint32 ports[] = { 0x378, 0x278, 0x03BC };
 
 #define kNumDevices (sizeof(devices)/sizeof(DeviceInfoStruct))
 
-Error InternalReadPlaylist(CRio& rio, 
+Error privateReadPlaylist(CRio& rio, 
                            bool useExternal,
                            uint32* totalMem,
                            uint32* usedMem,
@@ -96,6 +79,32 @@ extern "C"
 bool LoadDriver(const char* driverName, const char* driverPath);
 bool UnloadDriver(const char* driverName);
 #endif
+
+
+class PlaylistItemCompare {
+
+ public:
+    PlaylistItemCompare(PlaylistItem* item):m_item(item){}
+
+    // Function object used for comparing PlaylistItems
+    bool operator() (PlaylistItem* item) const
+    {
+        bool result = false;
+
+        assert(item);
+
+        if(item)
+        {
+            result = item->URL() == m_item->URL();
+        }
+
+        return result;
+    }
+
+ private:
+    PlaylistItem* m_item;
+
+};
 
 PMP300::PMP300(FAContext* context):PortableDevice(context)
 {
@@ -299,7 +308,7 @@ static BOOL rioProgress(int pos, int total, void* cookie)
             event.data.progressData.total = total;
             event.data.progressData.item = ps->item;
 
-            ps->function(&event, ps->cookie);
+            result = ps->function(&event, ps->cookie);
         }
     }
 
@@ -341,7 +350,7 @@ Error PMP300::InitializeDevice(DeviceInfo* device,
 
                 RioProgressStruct ps;
 
-                memcpy(&ps, 0x00, sizeof(ps));
+                memset(&ps, 0x00, sizeof(ps));
 
                 ps.function = function;
                 ps.cookie = cookie;
@@ -364,6 +373,15 @@ Error PMP300::InitializeDevice(DeviceInfo* device,
                     }
 
                     result = kError_UnknownErr;
+                }
+
+                if(function)
+                {
+                    PLMEvent event;
+
+                    event.type = kPLMEvent_Done;
+
+                    function(&event, cookie);
                 }
             }
         }
@@ -411,13 +429,13 @@ Error PMP300::ReadPlaylist(DeviceInfo* device,
                     function(&event, cookie);
                 }
 
-                result = InternalReadPlaylist(rio, 
-                                              false,  
-                                              &totalMem, 
-                                              &usedMem, 
-                                              list, 
-                                              function, 
-                                              cookie);
+                result = privateReadPlaylist(rio, 
+                                             false,  
+                                             &totalMem, 
+                                             &usedMem, 
+                                             list, 
+                                             function, 
+                                             cookie);
 
                 if(IsntError(result))
 	            {
@@ -433,20 +451,33 @@ Error PMP300::ReadPlaylist(DeviceInfo* device,
                         function(&event, cookie);
                     }
 
-                    InternalReadPlaylist( rio, 
-                                          true,  
-                                          &externalTotal,
-                                          &externalUsed,
-                                          list, 
-                                          function, 
-                                          cookie);    
+                    rio.UseExternalFlash(true);
+
+                    privateReadPlaylist(rio, 
+                                        true,  
+                                        &externalTotal,
+                                        &externalUsed,
+                                        list, 
+                                        function, 
+                                        cookie);    
                     
                     totalMem += externalTotal;
                     usedMem += externalUsed;
+
+                    rio.UseExternalFlash(false);
                 }
 
                 device->SetNumEntries(list->size());
                 device->SetCapacity(totalMem, usedMem);
+
+                if(function)
+                {
+                    PLMEvent event;
+
+                    event.type = kPLMEvent_Done;
+
+                    function(&event, cookie);
+                }
             }
         }
     }
@@ -470,13 +501,17 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
 
         if(!strcasecmp(device->GetDevice(), devices[0].device))
         {
-            CRio rio;
+            CRio rioInternal, rioExternal;
             bool rioPresent = false;
 
-            rioPresent = FindRio(rio, device, function, cookie);
+            rioPresent = FindRio(rioInternal, device, function, cookie);
 
             if(rioPresent)
             {
+                FindRio(rioExternal, device, function, cookie);
+
+                rioExternal.UseExternalFlash(true);
+
                 if(function)
                 {
                     PLMEvent event;
@@ -487,7 +522,409 @@ Error PMP300::WritePlaylist(DeviceInfo* device,
                     event.eventString += " has been found. Scanning internal memory...";
 
                     function(&event, cookie);
-                }               
+                }     
+
+                vector<PlaylistItem*> origInternal;
+                vector<PlaylistItem*> origExternal;
+                vector<PlaylistItem*> newInternal;
+                vector<PlaylistItem*> newExternal;
+                uint32 externalTotal = 0, internalTotal = 0, usedMem; 
+                uint32 count, index;
+                char* path = new char[_MAX_PATH];
+
+                // first get current state of device
+                // we break our lists into internal and 
+                // external lists for ease of organizing
+                result = privateReadPlaylist(rioInternal, 
+                                             false,  
+                                             &internalTotal,
+                                             &usedMem,
+                                             &origInternal, 
+                                             function, 
+                                             cookie); 
+                
+                if(IsntError(result))
+                {
+                    if(function)
+                    {
+                        PLMEvent event;
+
+                        event.type = kPLMEvent_Status;
+                        event.eventString = "Scanning external memory...";
+
+                        function(&event, cookie);
+                    }
+
+                    privateReadPlaylist(rioExternal, 
+                                        true,  
+                                        &externalTotal,
+                                        &usedMem,
+                                        &origExternal, 
+                                        function, 
+                                        cookie);    
+                }
+
+                count = list->size();
+                bool useExternal = false;
+
+                for(index = 0; index < count; index++)
+                {
+                    PlaylistItem* item = (*list)[index];
+                    
+                    if(item)
+                    {
+                        MetaData metadata = item->GetMetaData();
+
+                        uint32 size = metadata.Size();
+
+                        if(!size)
+                        {
+                            struct stat st;
+
+                            uint32 length = _MAX_PATH;
+
+                            URLToFilePath(item->URL().c_str(), path, &length);
+
+                            if(!stat(path, &st))
+                                size = st.st_size;
+                            else
+                            {
+                                result = kError_FileNoAccess;
+                                break;
+                            }
+                        }
+                        
+                        // figure out where to put it...
+                        uint32* memorySize;
+                        vector<PlaylistItem*>* addList;
+
+                        if(!useExternal)
+                        {
+                            memorySize = &internalTotal;
+                            *memorySize -= size;
+                            addList = &newInternal;
+
+                            if(*memorySize < 0)
+                            {
+                                useExternal = true;
+                            }
+                        }
+                        
+                        if(useExternal)
+                        {
+                            memorySize = &externalTotal;
+                            *memorySize -= size;
+                            addList = &newExternal;
+
+                            if(*memorySize < 0)
+                            {
+                                break;
+                            }
+                        }
+                        
+                        if(*memorySize >= 0)
+                        {
+                            addList->push_back(item);
+                        }
+                    }
+                }
+
+                // if all is well we delete old files
+                // and temporarily download files
+                // that are being moved from internal
+                // to external and vice versa...
+                if(IsntError(result))
+                {
+                    if(function)
+                    {
+                        PLMEvent event;
+
+                        event.type = kPLMEvent_Status;
+                        event.eventString = "Deleting files...";
+
+                        function(&event, cookie);
+                    }
+
+                    count = origInternal.size();
+
+                    for(index = 0; index < count; index++)
+                    {
+                        PlaylistItem* item = origInternal[index];
+
+                        if(find_if(newInternal.begin(), 
+                                   newInternal.end(), 
+                                   PlaylistItemCompare(item)) == newInternal.end())
+                        {
+                            // need to delete it
+                            if(find(newExternal.begin(), 
+                                newExternal.end(), item) != newExternal.end())
+                            {
+                                // need to download it to temp file first
+
+                            }
+
+                            string::size_type pos = item->URL().rfind("/") + 1;
+                            const char* cp = item->URL().c_str();
+
+                            if(!rioInternal.RemoveFile(cp + pos))
+                            {
+                                if(function)
+                                {
+                                    PLMEvent event;
+            
+                                    event.type = kPLMEvent_Error;
+                                    event.data.errorData.errorCode = rioInternal.GetErrorID();
+                                    event.eventString = "Delete failed, ";
+                                    event.eventString += rioInternal.GetErrorStr();
+
+                                    function(&event, cookie);
+                                }
+
+                                result = kError_UnknownErr;
+                                break;
+                            }
+
+                            delete item;
+                            origInternal[index] = NULL;
+                        }
+                    }
+
+                    if(IsntError(result))
+                    {
+                        count = origExternal.size();
+
+                        for(index = 0; index < count; index++)
+                        {
+                            PlaylistItem* item = origExternal[index];
+
+                            if(find_if(newExternal.begin(), 
+                                       newExternal.end(), 
+                                       PlaylistItemCompare(item)) == newExternal.end())
+                            {
+                                // need to delete it
+                                if(find(newInternal.begin(), 
+                                    newInternal.end(), item) != newInternal.end())
+                                {
+                                    // need to download it to temp file first
+                                    // and then upload it to other card
+                                    // in the next stage...
+
+                                }
+
+                                string::size_type pos = item->URL().rfind("/") + 1;
+                                const char* cp = item->URL().c_str();
+
+                                if(!rioExternal.RemoveFile(cp + pos))
+                                {
+                                    if(function)
+                                    {
+                                        PLMEvent event;
+        
+                                        event.type = kPLMEvent_Error;
+                                        event.data.errorData.errorCode = rioExternal.GetErrorID();
+                                        event.eventString = "Delete failed, ";
+                                        event.eventString += rioExternal.GetErrorStr();
+
+                                        function(&event, cookie);
+                                    }
+
+                                    result = kError_UnknownErr;
+                                    break;
+                                }
+
+                                delete item;
+                                origExternal[index] = NULL;
+                            }
+                        }
+                    }
+                }
+
+                // if all is well we add new files
+                // to each card
+                if(IsntError(result))
+                {
+                    // remove NULLs caused by deletes
+                    remove_if(origInternal.begin(), 
+                              origInternal.end(), 
+                              bind2nd(equal_to<PlaylistItem*>(), NULL));
+
+                    remove_if(origExternal.begin(), 
+                              origExternal.end(), 
+                              bind2nd(equal_to<PlaylistItem*>(), NULL));
+
+                    // sync deletes back to the cards
+                    rioInternal.TxDirectory();
+                    rioExternal.TxDirectory();
+
+                    count = origInternal.size();
+
+                    if(function)
+                    {
+                        PLMEvent event;
+
+                        event.type = kPLMEvent_Status;
+                        event.eventString = "Uploading new files...";
+
+                        function(&event, cookie);
+                    }
+
+                    count = newInternal.size();
+
+                    for(index = 0; index < count; index++)
+                    {
+                        PlaylistItem* item = newInternal[index];
+
+                        if(item->URL().find("file://") != string::npos)
+                        {
+                            uint32 length = _MAX_PATH;
+
+                            URLToFilePath(item->URL().c_str(), path, &length);
+
+                            RioProgressStruct ps;
+
+                            memset(&ps, 0x00, sizeof(ps));
+
+                            ps.function = function;
+                            ps.cookie = cookie;
+                            ps.item = item;
+                            
+                            if(!rioInternal.TxFile(path, rioProgress, &ps))
+                            {
+                                if(function)
+                                {
+                                    PLMEvent event;
+        
+                                    event.type = kPLMEvent_Error;
+                                    event.data.errorData.errorCode = rioInternal.GetErrorID();
+                                    event.eventString = "Upload failed, ";
+                                    event.eventString += rioInternal.GetErrorStr();
+
+                                    function(&event, cookie);
+                                }
+
+                                if(rioInternal.GetErrorID() == CRIO_ERROR_INTERRUPTED)
+                                    result = kError_UserCancel;
+                                else
+                                    result = kError_UnknownErr;
+                                break;
+                            }
+
+                            origInternal.push_back(item);
+                        }
+                    }
+
+                    if(IsntError(result))
+                    {
+                        count = newExternal.size();
+
+                        for(index = 0; index < count; index++)
+                        {
+                            PlaylistItem* item = newExternal[index];
+
+                            if(item->URL().find("file://") != string::npos)
+                            {
+                                uint32 length = _MAX_PATH;
+
+                                URLToFilePath(item->URL().c_str(), path, &length);
+
+                                RioProgressStruct ps;
+
+                                memset(&ps, 0x00, sizeof(ps));
+
+                                ps.function = function;
+                                ps.cookie = cookie;
+                                ps.item = item;
+                            
+                                if(!rioExternal.TxFile(path, rioProgress, &ps))
+                                {
+                                    if(function)
+                                    {
+                                        PLMEvent event;
+        
+                                        event.type = kPLMEvent_Error;
+                                        event.data.errorData.errorCode = rioExternal.GetErrorID();
+                                        event.eventString = "Upload failed, ";
+                                        event.eventString += rioExternal.GetErrorStr();
+
+                                        function(&event, cookie);
+                                    }
+
+                                    if(rioExternal.GetErrorID() == CRIO_ERROR_INTERRUPTED)
+                                        result = kError_UserCancel;
+                                    else
+                                        result = kError_UnknownErr;
+                                    break;
+                                }
+
+                                origExternal.push_back(item);
+                            }
+                        }
+                    }
+                }
+
+                // finally put it all in the correct order
+                // and we should be done!
+                if(IsntError(result))
+                {
+                    uint32 entryOrder[ CRIO_MAX_DIRENTRY ];
+
+	                count = newInternal.size();
+
+                    if(count)
+                    {
+
+                        for(index = 0; index < count; index++)
+                        {
+                            vector<PlaylistItem*>::iterator position;
+                            PlaylistItem* item = newInternal[index];
+
+                            if((position = find_if(origInternal.begin(), 
+                                                  origInternal.end(), 
+                                                  PlaylistItemCompare(item))) != origInternal.end())
+                            {
+                                entryOrder[index] = distance(origInternal.begin(), position);
+                            }
+
+                        }
+
+                        rioInternal.SetFileOrder(entryOrder, count);
+                    }
+
+                    count = newExternal.size();
+
+                    if(count)
+                    {
+                        for(index = 0; index < count; index++)
+                        {
+                            vector<PlaylistItem*>::iterator position;
+                            PlaylistItem* item = newExternal[index];
+
+                            if((position = find_if(origExternal.begin(), 
+                                                  origExternal.end(), 
+                                                  PlaylistItemCompare(item))) != origExternal.end())
+                            {
+                                entryOrder[index] = distance(origExternal.begin(), position);
+                            }
+                        }
+
+                        rioExternal.SetFileOrder(entryOrder, count);
+                    }
+
+                    // sync uploads back to the cards
+                    rioInternal.TxDirectory();
+                    rioExternal.TxDirectory();
+                }
+
+                if(function)
+                {
+                    PLMEvent event;
+
+                    event.type = kPLMEvent_Done;
+
+                    function(&event, cookie);
+                }
+
+                delete [] path;
             }
         }       
     }
@@ -522,6 +959,15 @@ Error PMP300::DownloadSong(DeviceInfo* device,
             if(rioPresent)
             {
                 result = kError_FeatureNotSupported;
+
+                if(function)
+                {
+                    PLMEvent event;
+
+                    event.type = kPLMEvent_Done;
+
+                    function(&event, cookie);
+                }
             }
         }   
     }
@@ -568,7 +1014,7 @@ bool FindRio ( CRio& rio,
     return rioPresent;
 }
 
-Error InternalReadPlaylist(CRio& rio, 
+Error privateReadPlaylist(CRio& rio, 
                            bool useExternal,
                            uint32* totalMem,
                            uint32* usedMem,
@@ -577,8 +1023,6 @@ Error InternalReadPlaylist(CRio& rio,
                            void* cookie)
 {
     Error result = kError_UnknownErr;
-
-    rio.UseExternalFlash( useExternal );
 
     if(rio.RxDirectory())
 	{
@@ -603,14 +1047,13 @@ Error InternalReadPlaylist(CRio& rio,
             for(uint32 index = 0; index < count; ++index, ++pDirEntry)
             {
                 string url;
+                ostringstream ost;
                 MetaData metadata;
-                char number[10];
 
-                url = "portable://rio_pmp300/";
-                url += (useExternal ?  "external/" : "internal/");
-                url += ltoa(index, number, 10);
-                url += "/";
-                url += pDirEntry->m_szName;
+                ost << "portable://rio_pmp300/" << 
+                    (useExternal ?  "external/" : "internal/") << index <<
+                    "/" << pDirEntry->m_szName;
+                url = ost.str();
 
                 metadata.SetSize(pDirEntry->m_lSize);
                 metadata.SetTitle(pDirEntry->m_szName);
@@ -725,7 +1168,14 @@ StartDriver(SC_HANDLE scManager,
                              0,       // number of arguments
                              NULL);   // pointer to arguments
 
-        result = (error > 0);
+        result = (error != 0);
+
+        if(!result)
+        {
+            if(GetLastError() == ERROR_SERVICE_ALREADY_RUNNING)
+                result = true;
+        }
+            
 
         CloseServiceHandle(service);    
     }

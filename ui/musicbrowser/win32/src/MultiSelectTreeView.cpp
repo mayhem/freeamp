@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MultiSelectTreeView.cpp,v 1.11 2000/01/13 01:04:13 elrod Exp $
+        $Id: MultiSelectTreeView.cpp,v 1.12 2000/01/14 05:26:15 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -371,6 +371,8 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
             TV_ITEM tv_item;
             TV_HITTESTINFO tv_htinfo;
 
+            KillTimer(hwnd, 1);
+
             //GetCursorPos(&tv_htinfo.pt);
             //ScreenToClient(m_hMusicView, &tv_htinfo.pt);
             tv_htinfo.pt.x =  LOWORD(lParam);
@@ -627,6 +629,13 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
             break;
         }
 
+        case WM_TIMER:
+        {
+            KillTimer(hwnd, 1);
+            EditItemLabel(hwnd, g_editItem);
+            break;
+        }
+
         case WM_LBUTTONUP:
         {
             bool shiftKeyPressed = IsShiftDown();
@@ -741,9 +750,10 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
                             {
                                 // pause a half sec so this does not
                                 // look so jarring
-                                Sleep(500);
-
-                                EditItemLabel(hwnd, item);
+                                //Sleep(500);
+                                SetTimer(hwnd, 1, 500, NULL);
+                                g_editItem = item;
+                                //EditItemLabel(hwnd, item);
                             }
                         }
                         else

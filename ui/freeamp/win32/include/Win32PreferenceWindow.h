@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.10 1999/12/02 22:06:53 elrod Exp $
+   $Id: Win32PreferenceWindow.h,v 1.11 2000/01/14 05:26:15 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -59,6 +59,7 @@ typedef struct PrefsStruct
     bool useTextLabels;
     bool useImages;
     bool savePlaylistOnExit;
+    bool playImmediately;
 
     // page 2
     int32 streamInterval;
@@ -131,6 +132,7 @@ typedef struct PrefsStruct
             useImages == pref.useImages &&
 
             savePlaylistOnExit == pref.savePlaylistOnExit &&
+            playImmediately == pref.playImmediately &&
 
             true
         );

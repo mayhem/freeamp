@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.156 2000/12/29 20:15:59 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.157 2001/01/08 12:54:22 skx Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -75,6 +75,14 @@ extern HINSTANCE g_hinst;
 #include "properties.h"
 #include "missingfile.h"
 #include "utility.h"
+
+#ifndef min
+#define min _cpp_min 
+#endif
+
+#ifndef max
+#define max _cpp_max
+#endif
 
 void WorkerThreadStart(void* arg);
 
@@ -269,6 +277,9 @@ void FreeAmpTheme::LoadFreeAmpTheme(void)
    }
    oThemePath += szTemp;
   
+   // Save the theme.
+   m_themeCache = oThemePath;
+
    eRet = LoadTheme(oThemePath, m_oCurrentWindow);
    
    if (IsError(eRet) && eRet != kError_InvalidParam)					   
@@ -762,14 +773,56 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
 
       case INFO_PrefsChanged:
       {
-         bool bValue;
+		 /*
+		  * Make sure that the theme has changed before we
+		  * bother to reload it.
+		  */
+	     char    *szTemp;
+		 uint32   iLen = 255;
+		 string   oThemePath("");
+		 struct  _stat buf;
+	     bool bValue;
 
-         ReloadTheme();
+		 szTemp = new char[iLen];
+		 m_pContext->prefs->GetPrefString(kThemePathPref, szTemp, &iLen);
 
-         m_pContext->prefs->GetPrefBoolean(kStayOnTopPref, &bValue);
-         m_pWindow->SetStayOnTop(bValue);
-         m_pContext->prefs->GetPrefBoolean(kLiveInTrayPref, &bValue);
-         m_pWindow->SetLiveInToolbar(bValue);
+	    if (strlen(szTemp) < 1) 
+		    strcpy(szTemp, BRANDING_DEFAULT_THEME);
+ 
+		if (_stat(szTemp, &buf) < 0)
+		{
+			// If the theme doesn't exist, let's try to prepend the install/theme dir
+			char   *dir;
+			uint32  len = _MAX_PATH;
+
+			dir = new char[_MAX_PATH];
+   
+			m_pContext->prefs->GetPrefString(kInstallDirPref, dir, &len);
+			oThemePath = string(dir);
+#if defined(unix)
+		    oThemePath += string(BRANDING_SHARE_PATH);
+#endif
+			oThemePath += string(DIR_MARKER_STR);    
+			oThemePath += string("themes");
+	        oThemePath += string(DIR_MARKER_STR);    
+
+			delete [] dir;
+		}
+		oThemePath += szTemp;
+
+		//
+		// Perform the reload - if necessary.
+		//
+        if ( strcmp( oThemePath.c_str(), m_themeCache.c_str() ) != 0 )
+		{
+			ReloadTheme();
+			m_themeCache = oThemePath;
+		}
+
+        m_pContext->prefs->GetPrefBoolean(kStayOnTopPref, &bValue);
+        m_pWindow->SetStayOnTop(bValue);
+        m_pContext->prefs->GetPrefBoolean(kLiveInTrayPref, &bValue);
+        m_pWindow->SetLiveInToolbar(bValue);
          
       	break;
       }

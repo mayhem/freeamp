@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: SliderControl.cpp,v 1.21 2000/11/01 17:22:34 robert Exp $
+   $Id: SliderControl.cpp,v 1.22 2001/01/08 12:54:23 skx Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -27,6 +27,14 @@ ____________________________________________________________________________*/
 #include "debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
+
+#ifndef min
+#define min _cpp_min 
+#endif
+
+#ifndef max
+#define max _cpp_max
+#endif
 
 // Bitmap Info:
 // Frame 0: Normal slider

@@ -18,13 +18,21 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: PixSliderControl.cpp,v 1.4 2000/06/21 19:03:49 ijr Exp $
+   $Id: PixSliderControl.cpp,v 1.5 2001/01/08 12:54:23 skx Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
 #include "PixSliderControl.h"
 #include "Window.h"
 #include "debug.h"
+
+#ifndef min
+#define min _cpp_min 
+#endif
+
+#ifndef max
+#define max _cpp_max
+#endif
 
 static TransitionInfo pTransitions[] =
 {

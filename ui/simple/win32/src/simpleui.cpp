@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.9 1998/10/23 01:42:47 elrod Exp $
+	$Id: simpleui.cpp,v 1.10 1998/10/23 02:10:01 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -317,7 +317,30 @@ AcceptEvent(Event* event)
 
             case INFO_PlayListDonePlay:
             {
-                
+                char timeString[256] = "00:00:00";
+                char szTemp[256] = {0x00};
+
+                SetWindowText(m_hwndCurrent, timeString);
+			    SetWindowText(m_hwndTotal, timeString);
+
+
+                SendMessage(m_hwndStatus, 
+						    SB_SETTEXT, 
+						    0, 
+						    (LPARAM)szTemp);
+
+			    SendMessage(m_hwndStatus, 
+						    SB_SETTEXT, 
+						    1, 
+						    (LPARAM) szTemp);
+
+			    SendMessage(m_hwndStatus, 
+						    SB_SETTEXT, 
+						    2, 
+						    (LPARAM) szTemp);
+
+             
+                SetWindowText(m_hwnd, "FreeAmp");
                 break;
             }
 

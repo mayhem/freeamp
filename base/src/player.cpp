@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.31 1998/10/23 01:42:46 elrod Exp $
+	$Id: player.cpp,v 1.32 1998/10/23 02:10:01 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -618,6 +618,7 @@ int32 Player::ServiceEvent(Event *pC) {
             }
 
 		    m_myPlayList = (PlayList *)pC->GetArgument();
+            m_myPlayList->SetFirst();
 
 		    return 0;
 	    	break;

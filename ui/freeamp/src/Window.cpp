@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.13 1999/11/17 02:42:58 robert Exp $
+   $Id: Window.cpp,v 1.14 1999/12/08 22:57:15 robert Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -86,6 +86,8 @@ Error Window::VulcanMindMeld(Window *pOther)
     
     m_pMouseInControl = NULL;
     m_pCaptureControl = NULL;
+    m_pMouseDownControl = NULL;
+
     m_oControls = pOther->m_oControls;
     m_oControlMap = pOther->m_oControlMap;
 
@@ -358,7 +360,9 @@ void Window::HandleMouseMove(Pos &oScreenPos)
                m_pMouseInControl = pControl;
                m_pMouseInControl->AcceptTransition(CT_MouseEnter);
                if (m_bLButtonDown)
+               {
                   m_pMouseInControl->AcceptTransition(CT_MouseLButtonDown);
+               }   
            }
            else
            if (m_pMouseInControl == NULL)
@@ -366,7 +370,9 @@ void Window::HandleMouseMove(Pos &oScreenPos)
                m_pMouseInControl = pControl;
                m_pMouseInControl->AcceptTransition(CT_MouseEnter);
                if (m_bLButtonDown)
+               {
                   m_pMouseInControl->AcceptTransition(CT_MouseLButtonDown);
+               }
            }
        }
 

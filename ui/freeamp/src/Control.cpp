@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.cpp,v 1.5 1999/11/05 01:19:41 robert Exp $
+   $Id: Control.cpp,v 1.6 1999/12/08 22:57:14 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -178,6 +178,11 @@ void Control::SetBitmap(Bitmap *pBitmap, Rect &oBitmapRect, bool bHoriz)
     m_bHorizontalBitmap = bHoriz;
 }
 
+Bitmap *Control::GetBitmap(void)
+{
+    return m_pBitmap;
+}    
+
 void Control::GetName(string &oName)
 {
     oName = m_oName;
@@ -198,6 +203,8 @@ void Control::BlitFrame(int iFrame, int iNumFramesInBitmap, Rect *pRect)
 	else
 		BlitFrameVert(iFrame,iNumFramesInBitmap,pRect);
 }
+
+Bitmap *last = NULL;
 
 void Control::BlitFrameHoriz(int iFrame, int iNumFramesInBitmap, Rect *pRect)
 {

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.4 1999/11/01 19:06:06 robert Exp $
+   $Id: Control.h,v 1.5 1999/12/08 22:57:12 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -120,6 +120,7 @@ class Control
       virtual void  GetRect(Rect &oRect);
       virtual void  SetPos(Pos &oPos);
       virtual void  SetBitmap(Bitmap *pBitmap, Rect &oBitmapRect, bool bHoriz = true);
+      virtual Bitmap *GetBitmap(void);
       virtual void  GetName(string &oName);
       virtual void  SetDesc(const string &oDesc);
       virtual void  SetTip(const string &oTip);

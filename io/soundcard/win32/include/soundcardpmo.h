@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.18.4.1 1999/09/09 02:42:08 elrod Exp $
+	$Id: soundcardpmo.h,v 1.18.4.2 1999/10/09 18:53:45 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -79,7 +79,7 @@ public:
 	uint32          m_samples_per_second;
 	uint32			m_hdr_size;
 	uint32			m_data_size;
-	uint32			m_num_headers, m_iLastVolume;
+	uint32			m_num_headers;
 	bool			m_initialized, m_bPaused;
 
     Thread         *m_pBufferThread;

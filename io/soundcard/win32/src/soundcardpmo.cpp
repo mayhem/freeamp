@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.42 1999/07/16 22:49:14 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.42.4.1 1999/10/09 18:53:46 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -33,6 +33,7 @@ ____________________________________________________________________________*/
 #include "SoundCardPMO.h"
 #include "eventdata.h"
 #include "log.h"
+#include "debug.h"
 
 #define DB Debug_v("%s:%d", __FILE__, __LINE__);
 
@@ -87,7 +88,6 @@ SoundCardPMO::SoundCardPMO(FAContext *context) :
    m_iBaseTime = MAXINT32;
    m_iBytesPerSample = 0;
    m_num_headers = 0;
-   m_iLastVolume = 0;
    
    if (!m_pBufferThread)
    {
@@ -143,7 +143,6 @@ void SoundCardPMO::SetVolume(int32 volume)
    waveOutSetVolume(   (HWAVEOUT)WAVE_MAPPER, 
                         MAKELPARAM( 0xFFFF*volume/100,  
                                     0xFFFF*volume/100));
-   m_iLastVolume = volume;
 }
 
 int32 SoundCardPMO::GetVolume() 
@@ -192,10 +191,6 @@ Error SoundCardPMO::Init(OutputInfo * info)
    {
       result = kError_NoErr;
    }
-
-   waveOutSetVolume(m_hwo, 
-            MAKELPARAM( 0xFFFF*m_iLastVolume/100,  
-                        0xFFFF*m_iLastVolume/100));
 
    uint32    i;
 

@@ -158,6 +158,10 @@ LINK32=link.exe
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\..\src\database.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\log.cpp
 # End Source File
 # Begin Source File
@@ -166,7 +170,7 @@ SOURCE=..\src\main.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\musicsearch.cpp
+SOURCE=..\..\src\musicbrowser.cpp
 # End Source File
 # Begin Source File
 

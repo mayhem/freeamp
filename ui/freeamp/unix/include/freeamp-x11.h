@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-x11.h,v 1.13.8.3 1999/09/09 02:42:08 elrod Exp $
+	$Id: freeamp-x11.h,v 1.13.8.4 1999/09/09 03:58:13 elrod Exp $
 ____________________________________________________________________________*/
 // FreeAmpUI.h
 
@@ -49,16 +49,12 @@ class FreeAmpUI : public UserInterface {
  public:
     FreeAmpUI(FAContext *context);
     virtual int32 AcceptEvent(Event *);
-    virtual void SetArgs(int argc, char **argv);
-    virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
     virtual Error Init(int32);
-    virtual void SetPlaylistManager(PlaylistManager *);
     static void x11ServiceFunction(void *);
     static void TimerEventFunction(void *);
     virtual ~FreeAmpUI();
 
     EventQueue *m_playerEQ;
-   virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
 
  protected:
     FAContext *m_context;

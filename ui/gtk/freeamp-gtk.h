@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-gtk.h,v 1.4.8.2 1999/09/09 02:42:09 elrod Exp $
+	$Id: freeamp-gtk.h,v 1.4.8.3 1999/09/09 03:58:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_COMMANDLINECIO_H_
@@ -35,10 +35,7 @@ class GtkUI : public UserInterface {
  public:
     GtkUI(FAContext *context);
     virtual int32 AcceptEvent(Event *);
-    virtual void SetArgs(int argc, char **argv);
-    virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
     virtual Error Init();
-    virtual void SetPlaylistManager(PlaylistManager *);
     static void gtkServiceFunction(void *);
     virtual ~GtkUI();
 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.10 1999/09/09 01:25:34 ijr Exp $
+        $Id: player.cpp,v 1.133.2.11 1999/09/09 03:58:08 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -112,6 +112,10 @@ EventQueue()
    m_iVolume = -1;
 
    m_props.RegisterPropertyWatcher("pcm_volume", (PropertyWatcher *) this);
+
+   m_context->plm = m_plm;
+   m_context->props = &m_props;
+   m_context->target = (EventQueue *) this;
 }
 
 #define TYPICAL_DELETE(x) /*printf("deleting...\n");*/ if (x) { delete x; x = NULL; }
@@ -357,6 +361,9 @@ SetArgs(int32 argc, char **argv)
       }
    }
 
+   m_context->argv = m_argv;
+   m_context->argc = m_argc;
+
    return true;
 }
 
@@ -497,10 +504,10 @@ Run()
             {
                m_ui = (UserInterface *) item->InitFunction()(m_context);
 
-               m_ui->SetTarget((EventQueue *) this);
-               m_ui->SetPropManager((Properties *) this);
-               m_ui->SetPlaylistManager(m_plm);
-               m_ui->SetArgs(m_argc, m_argv);
+               //m_ui->SetTarget((EventQueue *) this);
+               //m_ui->SetPropManager((Properties *) this);
+               //m_ui->SetPlaylistManager(m_plm);
+               //m_ui->SetArgs(m_argc, m_argv);
                Error     er = m_ui->Init((uisActivated == 0) ? PRIMARY_UI
 					 : SECONDARY_UI_STARTUP);
                if (IsntError(er))

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.3.8.1 1999/09/09 02:42:00 elrod Exp $
+	$Id: facontext.h,v 1.3.8.2 1999/09/09 03:58:08 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FACONTEXT_H_
@@ -34,6 +34,10 @@ static const int32 c_minorVersion = 0;
 // argFlags bits
 #define FAC_ARGFLAGS_SAVE_STREAMS 1
 
+class PlaylistManager;
+class Properties;
+class EventQueue;
+
 class FAContext
 {
  public:
@@ -42,6 +46,11 @@ class FAContext
 	  minorVersion(c_minorVersion),
 	  prefs(0),
 	  log(0),
+      props(0),
+      plm(0),
+      target(0),
+      argv(0),
+      argc(0),
 	  argFlags(0) { }
     
     ~FAContext()
@@ -56,8 +65,13 @@ class FAContext
 
     int32 majorVersion, minorVersion;
     Preferences *prefs;
+    Properties *props;
+    PlaylistManager *plm;
     LogFile *log;
     uint32 argFlags;
+    int32 argc;
+    char** argv;
+    EventQueue *target;
 };
 
 #endif // _FACONTEXT_H_

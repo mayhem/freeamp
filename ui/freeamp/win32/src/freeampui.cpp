@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.67.2.5 1999/08/30 12:23:21 elrod Exp $
+	$Id: freeampui.cpp,v 1.67.2.6 1999/09/09 03:58:13 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -475,6 +475,9 @@ UserInterface()
     m_uiSemaphore = new Semaphore();
 
     m_prefs = m_context->prefs;
+    m_plm = m_context->plm;
+    m_target = m_context->target;
+    m_propManager = m_context->props;
 
     m_uiThread = Thread::CreateThread();
     m_uiThread->Create(ui_thread_function, this);
@@ -620,6 +623,9 @@ Create()
             break;
         }
     }
+
+    ParseArgs(m_context->argc, m_context->argv); 
+    UpdatePlaylist();
 }
 
 void 
@@ -2922,7 +2928,7 @@ AcceptEvent(Event* event)
 
 void  
 FreeAmpUI::
-SetArgs(int32 argc, char** argv)
+ParseArgs(int32 argc, char** argv)
 {
     char *arg = NULL;
     bool shuffle = false;
@@ -2993,15 +2999,6 @@ SetArgs(int32 argc, char** argv)
     
     if(autoplay)
        m_target->AcceptEvent(new Event(CMD_Play));
-}
-
-void
-FreeAmpUI::
-SetPlaylistManager(PlaylistManager *plm)
-{
-	m_plm = plm;
-
-    UpdatePlaylist();
 }
 
 void

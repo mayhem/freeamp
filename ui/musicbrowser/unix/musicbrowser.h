@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.h,v 1.1.2.1 1999/09/09 01:25:35 ijr Exp $
+        $Id: musicbrowser.h,v 1.1.2.2 1999/09/09 03:58:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _MUSICBROWSER_H_
@@ -40,15 +40,11 @@ class musicbrowserUI : public UserInterface {
  public:
     musicbrowserUI(FAContext *);
     virtual int32 AcceptEvent(Event *);
-    virtual void SetArgs(int32, char **);
-    virtual void SetTarget(EventQueue *eqr) { m_playerEQ = eqr; }
     virtual Error Init(int32);
-    virtual void SetPlaylistManager(PlaylistManager *plm) { m_plm = plm; }
     static void gtkServiceFunction(void *);
     virtual ~musicbrowserUI();
  
     EventQueue *m_playerEQ;
-    virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
 
     uint32 m_currentindex;
 

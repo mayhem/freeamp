@@ -22,11 +22,7 @@ public:
     ~CRainplayUI();
 
 	virtual Error Init(int32 startup_type) { return kError_NoErr; }
-    virtual void SetTarget(EventQueue*);
     virtual int32 AcceptEvent(Event *);
-    virtual void SetArgs(int32,char **);
-	virtual void SetPlaylistManager(PlaylistManager *);
-	virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
     void CreateUI();
 
 	Semaphore*      m_uiSemaphore;

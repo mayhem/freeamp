@@ -66,10 +66,11 @@ CLEAN :"fileinput - Win32 ReleaseCLEAN" "soundcard - Win32 ReleaseCLEAN"\
 !ELSE 
 CLEAN :
 !ENDIF 
+	-@erase "$(INTDIR)\database.obj"
 	-@erase "$(INTDIR)\freeamp.res"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
-	-@erase "$(INTDIR)\musicsearch.obj"
+	-@erase "$(INTDIR)\musicbrowser.obj"
 	-@erase "$(INTDIR)\mutex.obj"
 	-@erase "$(INTDIR)\player.obj"
 	-@erase "$(INTDIR)\playlist.obj"
@@ -113,10 +114,11 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /pdb:"$(OUTDIR)\freeamp.pdb" /machine:I386 /out:"freeamp.exe"\
  /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
+	"$(INTDIR)\database.obj" \
 	"$(INTDIR)\freeamp.res" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
-	"$(INTDIR)\musicsearch.obj" \
+	"$(INTDIR)\musicbrowser.obj" \
 	"$(INTDIR)\mutex.obj" \
 	"$(INTDIR)\player.obj" \
 	"$(INTDIR)\playlist.obj" \
@@ -179,10 +181,11 @@ CLEAN :"fileinput - Win32 DebugCLEAN" "soundcard - Win32 DebugCLEAN"\
 !ELSE 
 CLEAN :
 !ENDIF 
+	-@erase "$(INTDIR)\database.obj"
 	-@erase "$(INTDIR)\freeamp.res"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
-	-@erase "$(INTDIR)\musicsearch.obj"
+	-@erase "$(INTDIR)\musicbrowser.obj"
 	-@erase "$(INTDIR)\mutex.obj"
 	-@erase "$(INTDIR)\player.obj"
 	-@erase "$(INTDIR)\playlist.obj"
@@ -229,10 +232,11 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /pdb:"$(OUTDIR)\freeamp.pdb" /debug /machine:I386 /out:"freeamp.exe"\
  /pdbtype:sept /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
+	"$(INTDIR)\database.obj" \
 	"$(INTDIR)\freeamp.res" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
-	"$(INTDIR)\musicsearch.obj" \
+	"$(INTDIR)\musicbrowser.obj" \
 	"$(INTDIR)\mutex.obj" \
 	"$(INTDIR)\player.obj" \
 	"$(INTDIR)\playlist.obj" \
@@ -298,10 +302,11 @@ CLEAN :"fileinput - Win32 NASM ReleaseCLEAN"\
 !ELSE 
 CLEAN :
 !ENDIF 
+	-@erase "$(INTDIR)\database.obj"
 	-@erase "$(INTDIR)\freeamp.res"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
-	-@erase "$(INTDIR)\musicsearch.obj"
+	-@erase "$(INTDIR)\musicbrowser.obj"
 	-@erase "$(INTDIR)\mutex.obj"
 	-@erase "$(INTDIR)\player.obj"
 	-@erase "$(INTDIR)\playlist.obj"
@@ -345,10 +350,11 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /pdb:"$(OUTDIR)\freeamp.pdb" /machine:I386 /out:"freeamp.exe"\
  /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
+	"$(INTDIR)\database.obj" \
 	"$(INTDIR)\freeamp.res" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
-	"$(INTDIR)\musicsearch.obj" \
+	"$(INTDIR)\musicbrowser.obj" \
 	"$(INTDIR)\mutex.obj" \
 	"$(INTDIR)\player.obj" \
 	"$(INTDIR)\playlist.obj" \
@@ -413,10 +419,11 @@ CLEAN :"fileinput - Win32 NASM DebugCLEAN" "soundcard - Win32 NASM DebugCLEAN"\
 !ELSE 
 CLEAN :
 !ENDIF 
+	-@erase "$(INTDIR)\database.obj"
 	-@erase "$(INTDIR)\freeamp.res"
 	-@erase "$(INTDIR)\log.obj"
 	-@erase "$(INTDIR)\main.obj"
-	-@erase "$(INTDIR)\musicsearch.obj"
+	-@erase "$(INTDIR)\musicbrowser.obj"
 	-@erase "$(INTDIR)\mutex.obj"
 	-@erase "$(INTDIR)\player.obj"
 	-@erase "$(INTDIR)\playlist.obj"
@@ -463,10 +470,11 @@ LINK32_FLAGS=gdbm.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib\
  /pdb:"$(OUTDIR)\freeamp.pdb" /debug /machine:I386 /out:"freeamp.exe"\
  /pdbtype:sept /libpath:"..\..\..\lib\gdbm" 
 LINK32_OBJS= \
+	"$(INTDIR)\database.obj" \
 	"$(INTDIR)\freeamp.res" \
 	"$(INTDIR)\log.obj" \
 	"$(INTDIR)\main.obj" \
-	"$(INTDIR)\musicsearch.obj" \
+	"$(INTDIR)\musicbrowser.obj" \
 	"$(INTDIR)\mutex.obj" \
 	"$(INTDIR)\player.obj" \
 	"$(INTDIR)\playlist.obj" \
@@ -533,6 +541,74 @@ LINK32_OBJS= \
 !IF "$(CFG)" == "freeamp - Win32 Release" || "$(CFG)" ==\
  "freeamp - Win32 Debug" || "$(CFG)" == "freeamp - Win32 NASM Release" ||\
  "$(CFG)" == "freeamp - Win32 NASM Debug"
+SOURCE=..\..\src\database.cpp
+
+!IF  "$(CFG)" == "freeamp - Win32 Release"
+
+DEP_CPP_DATAB=\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
+	"..\..\include\database.h"\
+	"..\..\include\errors.h"\
+	"..\include\mutex.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+
+"$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 Debug"
+
+DEP_CPP_DATAB=\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
+	"..\..\include\database.h"\
+	"..\..\include\errors.h"\
+	"..\include\mutex.h"\
+	
+
+"$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Release"
+
+DEP_CPP_DATAB=\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
+	"..\..\include\database.h"\
+	"..\..\include\errors.h"\
+	"..\include\mutex.h"\
+	{$(INCLUDE)}"sys\stat.h"\
+	{$(INCLUDE)}"sys\types.h"\
+	
+
+"$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "freeamp - Win32 NASM Debug"
+
+DEP_CPP_DATAB=\
+	"..\..\..\config\config.h"\
+	"..\..\..\lib\gdbm\gdbm_fa.h"\
+	"..\..\include\database.h"\
+	"..\..\include\errors.h"\
+	"..\include\mutex.h"\
+	
+
+"$(INTDIR)\database.obj" : $(SOURCE) $(DEP_CPP_DATAB) "$(INTDIR)"\
+ "..\..\..\config\config.h"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
 SOURCE=..\..\src\log.cpp
 DEP_CPP_LOG_C=\
 	"..\..\include\log.h"\
@@ -561,7 +637,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
@@ -577,8 +653,6 @@ DEP_CPP_MAIN_=\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	"..\include\win32prefs.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_MAIN_=\
 	"..\..\include\win32impl.h"\
@@ -606,7 +680,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
@@ -646,7 +720,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
@@ -662,8 +736,6 @@ DEP_CPP_MAIN_=\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	"..\include\win32prefs.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_MAIN_=\
 	"..\..\include\win32impl.h"\
@@ -691,7 +763,7 @@ DEP_CPP_MAIN_=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
@@ -716,7 +788,7 @@ DEP_CPP_MAIN_=\
 
 !ENDIF 
 
-SOURCE=..\..\src\musicsearch.cpp
+SOURCE=..\..\src\musicbrowser.cpp
 
 !IF  "$(CFG)" == "freeamp - Win32 Release"
 
@@ -735,7 +807,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
@@ -747,16 +819,15 @@ DEP_CPP_MUSIC=\
 	"..\..\include\queue.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_MUSIC=\
 	"..\..\src\win32impl.h"\
 	
 
-"$(INTDIR)\musicsearch.obj" : $(SOURCE) $(DEP_CPP_MUSIC) "$(INTDIR)"\
+"$(INTDIR)\musicbrowser.obj" : $(SOURCE) $(DEP_CPP_MUSIC) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
@@ -778,7 +849,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
@@ -790,11 +861,12 @@ DEP_CPP_MUSIC=\
 	"..\..\include\queue.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 
-"$(INTDIR)\musicsearch.obj" : $(SOURCE) $(DEP_CPP_MUSIC) "$(INTDIR)"\
+"$(INTDIR)\musicbrowser.obj" : $(SOURCE) $(DEP_CPP_MUSIC) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
@@ -816,7 +888,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
@@ -828,16 +900,15 @@ DEP_CPP_MUSIC=\
 	"..\..\include\queue.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_MUSIC=\
 	"..\..\src\win32impl.h"\
 	
 
-"$(INTDIR)\musicsearch.obj" : $(SOURCE) $(DEP_CPP_MUSIC) "$(INTDIR)"\
+"$(INTDIR)\musicbrowser.obj" : $(SOURCE) $(DEP_CPP_MUSIC) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
@@ -859,7 +930,7 @@ DEP_CPP_MUSIC=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
@@ -871,11 +942,12 @@ DEP_CPP_MUSIC=\
 	"..\..\include\queue.h"\
 	"..\..\include\registry.h"\
 	"..\..\include\thread.h"\
+	"..\..\include\utility.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
 	
 
-"$(INTDIR)\musicsearch.obj" : $(SOURCE) $(DEP_CPP_MUSIC) "$(INTDIR)"\
+"$(INTDIR)\musicbrowser.obj" : $(SOURCE) $(DEP_CPP_MUSIC) "$(INTDIR)"\
  "..\..\..\config\config.h"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
@@ -904,7 +976,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
@@ -919,8 +991,6 @@ DEP_CPP_PLAYE=\
 	"..\..\include\thread.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_PLAYE=\
 	"..\..\include\win32impl.h"\
@@ -951,7 +1021,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
@@ -993,7 +1063,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\
@@ -1008,8 +1078,6 @@ DEP_CPP_PLAYE=\
 	"..\..\include\thread.h"\
 	"..\include\mutex.h"\
 	"..\include\semaphore.h"\
-	{$(INCLUDE)}"sys\stat.h"\
-	{$(INCLUDE)}"sys\types.h"\
 	
 NODEP_CPP_PLAYE=\
 	"..\..\include\win32impl.h"\
@@ -1040,7 +1108,7 @@ DEP_CPP_PLAYE=\
 	"..\..\include\hashtable.h"\
 	"..\..\include\log.h"\
 	"..\..\include\metadata.h"\
-	"..\..\include\musicsearch.h"\
+	"..\..\include\musicbrowser.h"\
 	"..\..\include\player.h"\
 	"..\..\include\playlist.h"\
 	"..\..\include\playlistformat.h"\

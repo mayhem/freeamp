@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.21.8.1 1999/08/27 03:09:44 elrod Exp $
+	$Id: simpleui.cpp,v 1.21.8.2 1999/09/09 03:58:14 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -80,11 +80,6 @@ INT WINAPI DllMain (HINSTANCE hInst,
     return 1;                 
 }
 
-void
-SimpleUI::
-SetPlaylistManager(PlaylistManager *plm) {
-	m_plm = plm;
-}
 
 SimpleUI::
 SimpleUI(FAContext *context):
@@ -92,6 +87,10 @@ SimpleUI(FAContext *context):
 {
     m_context = context;
     m_prefs = context->prefs;
+    m_plm = m_context->plm;
+    m_target = m_context->target;
+    m_propManager = m_context->props;
+
     m_scrolling = false;
 
     m_uiSemaphore = new Semaphore();
@@ -106,13 +105,6 @@ SimpleUI::
 ~SimpleUI()
 {
     delete m_uiSemaphore;
-}
-
-void 
-SimpleUI::
-SetTarget(EventQueue* eq)
-{
-    m_target = eq;
 }
 
 void 
@@ -388,7 +380,7 @@ AcceptEvent(Event* event)
 
 void  
 SimpleUI::
-SetArgs(int32 argc, char** argv)
+ParseArgs(int32 argc, char** argv)
 {
     PlaylistManager* Playlist = m_plm;
     char *arg = NULL;
@@ -559,6 +551,14 @@ SetTrayTooltip(char *str)
 	nid.uFlags = NIF_TIP;				// just change tip
 	strcpy(nid.szTip, m_trayTooltip);
 	Shell_NotifyIcon(NIM_MODIFY, &nid); // now, modify our tooltip
+}
+
+Error 
+SimpleUI::
+Init(int32 startup_type) 
+{ 
+    ParseArgs(m_context->argc, m_context->argv);
+    return kError_NoErr;
 }
 
 

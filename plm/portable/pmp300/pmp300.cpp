@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.11 1999/09/03 08:31:45 elrod Exp $
+	$Id: pmp300.cpp,v 1.1.2.12 1999/09/09 03:58:13 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -29,7 +29,10 @@ ____________________________________________________________________________*/
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#ifdef WIN32
 #include <direct.h>
+#endif
 
 using namespace std;
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.h,v 1.11.4.3 1999/09/09 02:42:09 elrod Exp $
+	$Id: Mpg123UI.h,v 1.11.4.4 1999/09/09 03:58:14 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -37,15 +37,11 @@ class Mpg123UI : public UserInterface {
     Mpg123UI(FAContext *context);
 
     virtual int32 AcceptEvent(Event *);
-    virtual void SetArgs(int argc, char **argv);
-    virtual void SetTarget(EventQueue *);
     virtual Error Init(int32);
-    virtual void SetPlaylistManager(PlaylistManager *);
     
     ~Mpg123UI();
 
     static EventQueue *m_playerEQ;
-   virtual Error SetPropManager(Properties *p) { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
 
  protected:
     FAContext *m_context;

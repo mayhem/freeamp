@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.1.2.4 1999/09/09 02:42:10 elrod Exp $
+   $Id: FreeAmpTheme.h,v 1.1.2.5 1999/09/09 03:58:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -35,21 +35,10 @@ class FreeAmpTheme : public UserInterface, public Theme
     public:
 
         FreeAmpTheme(FAContext * context);
-       ~FreeAmpTheme();
+        virtual ~FreeAmpTheme();
 
-        int32 AcceptEvent(Event * e);
-        void  SetArgs(int argc, char **argv);
-        void  SetTarget(EventQueue *pTarget)
-              {
-                  m_pTarget = pTarget;
-              };
-        Error SetPropManager(Properties *pProps)
-              {
-                  m_pPropManager = pProps;
-                  return kError_NoErr;
-              };
-        void  SetPlaylistManager(PlaylistManager * plm);
-        Error Init(int32 startup_type);
+        virtual int32 AcceptEvent(Event * e);
+        virtual Error Init(int32 startup_type);
 
     protected:
 

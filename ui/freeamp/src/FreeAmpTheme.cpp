@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.4 1999/09/09 00:27:00 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.5 1999/09/09 03:58:14 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -37,6 +37,12 @@ extern    "C"
 FreeAmpTheme::FreeAmpTheme(FAContext * context)
 {
    m_pContext = context;
+   m_pPlaylistManager = context->plm;
+   m_iArgc = context->argc;
+   m_pArgv = context->argv;
+   m_pPropManager = context->props;
+   m_pTarget = context->target;
+
    m_iCurrentSeconds = 0;
    m_iTotalSeconds = 0;
    m_iSeekSeconds = 0;
@@ -45,11 +51,6 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
 FreeAmpTheme::~FreeAmpTheme()
 {
 
-}
-
-void FreeAmpTheme::SetPlaylistManager(PlaylistManager * plm)
-{
-   m_pPlaylistManager = plm;
 }
 
 Error FreeAmpTheme::Init(int32 startup_type)
@@ -224,7 +225,7 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
    return 0;
 }
 
-void FreeAmpTheme::SetArgs(int argc, char **argv)
+/*void FreeAmpTheme::SetArgs(int argc, char **argv)
 {
    m_iArgc = argc;
    m_pArgv = argv;
@@ -243,5 +244,5 @@ void FreeAmpTheme::SetArgs(int argc, char **argv)
       }
    }
 
-}
+}*/
 

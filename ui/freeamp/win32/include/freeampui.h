@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.31.8.2 1999/09/09 02:42:09 elrod Exp $
+	$Id: freeampui.h,v 1.31.8.3 1999/09/09 03:58:13 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_UI_H_
@@ -78,12 +78,7 @@ class FreeAmpUI : public UserInterface {
     ~FreeAmpUI();
 
     virtual Error Init(int32 startup_type) { return kError_NoErr;}
-    virtual void SetTarget(EventQueue* eq){m_target = eq;}
     virtual int32 AcceptEvent(Event*);
-    virtual void SetArgs(int32,char**);
-	virtual void SetPlaylistManager(PlaylistManager*);
-    virtual Error SetPropManager(Properties *p) 
-    { m_propManager = p; if (p) return kError_NoErr; else return kError_UnknownErr; }
 
     void SetWindowHandle(HWND hwnd){m_hwnd = hwnd;}
     HCURSOR SetCursor(HCURSOR cursor)
@@ -125,6 +120,8 @@ class FreeAmpUI : public UserInterface {
     Preferences* GetPreferences() const { return m_prefs;}
 
  protected:
+    void ParseArgs(int32 argc, char** argv);
+
     static void ui_thread_function(void*);
     void UIThreadFunction();
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.68 2000/05/12 09:53:58 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.69 2000/05/15 12:24:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -274,6 +274,7 @@ class MusicBrowserUI : public UserInterface
     void    FillPortables();
     void    FillWiredPlanet();
     void    FillIceCast(vector<IcecastStreamInfo> &list);
+    void    FillFavorites();
     int32   GetCurrentItemFromMousePos();
     void    GetSelectedMusicTreeItems(vector<PlaylistItem*>* items);
     BOOL    FindSelectedItems(HTREEITEM root, vector<PlaylistItem*>* items);
@@ -340,6 +341,9 @@ class MusicBrowserUI : public UserInterface
     POINT               m_sMinSize;
     HTREEITEM	        m_hPlaylistItem, m_hMyMusicItem, m_hPortableItem;
     HTREEITEM           m_hAllItem, m_hUncatItem, m_hStreamsItem, m_hCDItem;
+    HTREEITEM           m_hNewPlaylistItem, m_hNewPortableItem;
+    HTREEITEM           m_hWiredPlanetItem, m_hShoutCastItem, m_hIceCastItem;
+    HTREEITEM           m_hFavoritesItem;
     int                 m_iCollapseMoveAmount;
     HCURSOR             m_hSavedCursor, m_hDragCursor, m_hNoDropCursor;
     HCURSOR             m_hSplitterCursor, m_hPointerCursor, m_hCurrentCursor;
@@ -354,8 +358,7 @@ class MusicBrowserUI : public UserInterface
     HWND                m_hToolbar, m_hTextToolbar, m_hImageToolbar, m_hBothToolbar;
     DropTarget*         m_playlistDropTarget;
     vector<string>      m_searchPathList;
-    HTREEITEM           m_hNewPlaylistItem, m_hNewPortableItem;
-    HTREEITEM           m_hWiredPlanetItem, m_hShoutCastItem, m_hIceCastItem;
+    
     uint32              m_initialCount;
     uint32              m_itemsAddedBeforeWeWereCreated;
 

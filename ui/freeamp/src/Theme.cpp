@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.53 2000/06/22 18:53:10 elrod Exp $
+   $Id: Theme.cpp,v 1.54 2000/08/21 08:05:23 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -1716,6 +1716,14 @@ Error Theme::EndElement(string &oElement)
                m_oLastError = "A <TextControl> needs to define a <Style> tag";
                return kError_InvalidParam;
            }    
+       }
+
+       // fix lameass broken CocaCola themes... someone didn't read the theme
+       // HOWTO
+       if (m_pCurrentPanel == NULL) 
+       {
+           m_pCurrentPanel = new Panel("DummyPanel");
+           m_pCurrentPanel->SetParentWindow(m_pCurrentWindow);
        }
 
        m_pCurrentPanel->AddControl(m_pCurrentControl);

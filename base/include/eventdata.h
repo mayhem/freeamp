@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.61 2000/08/09 15:44:31 ijr Exp $
+        $Id: eventdata.h,v 1.62 2000/08/21 08:05:22 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -799,6 +799,20 @@ public:
     const float  ZXing() const { return m_zxing; }
     const float  Length() const { return m_length; }
     const int   *Spectrum() const { return m_spectrum; }
+    PhysicalMediaOutput *PMO() { return m_pmo; }
+};
+
+class AudioSignatureFailedEvent : public Event {
+  private:
+    string m_url;
+    PhysicalMediaOutput *m_pmo;
+    
+  public:
+    AudioSignatureFailedEvent(string &url, PhysicalMediaOutput *pmo)
+    { m_type = INFO_AudioSignatureFailed; m_url = url; m_pmo = pmo; } 
+    virtual ~AudioSignatureFailedEvent() {}
+
+    const string Url() const { return m_url; }
     PhysicalMediaOutput *PMO() { return m_pmo; }
 };
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.101 2000/08/18 09:48:12 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.102 2000/08/21 08:05:23 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -71,7 +71,7 @@ void GTKMusicBrowser::AskSignatureDialog(void)
                      "selecting 'Stop Signaturing' from the Relatable menu in "
                      "'My Music'. " +
                      string("You need to signature ") + string(numtracks) + 
-                     string(" tracks.  Do it?");
+                     string(" track(s).  Do it?");
 
     if (dialog->Show(message.c_str(), caption.c_str(), kMessageYesNo) ==
         kMessageReturnYes) 

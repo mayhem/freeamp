@@ -18,7 +18,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-  $Id: signaturepmo.cpp,v 1.1 2000/07/31 19:51:39 ijr Exp $
+  $Id: signaturepmo.cpp,v 1.2 2000/08/21 08:05:23 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -230,6 +230,14 @@ WorkerThread(void)
                     break;
                 }
             }
+            if (pEvent->Type() == PMO_Error)
+            {
+                AudioSignatureFailedEvent *asfe;
+                asfe = new AudioSignatureFailedEvent(m_url, this);
+                m_pTarget->AcceptEvent(asfe);
+                delete pEvent;
+                return;
+            }
             delete pEvent;
 
             continue;
@@ -285,6 +293,14 @@ WorkerThread(void)
                 if (pEvent->Type() == PMO_Quit) {
                     bGotPMOQuit = true;
                     continue;
+                }
+                if (pEvent->Type() == PMO_Error)
+                {
+                    AudioSignatureFailedEvent *asfe;
+                    asfe = new AudioSignatureFailedEvent(m_url, this);
+                    m_pTarget->AcceptEvent(asfe);
+                    delete pEvent;
+                    return;
                 }
 
                 delete pEvent;

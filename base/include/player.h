@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.h,v 1.59 2000/08/15 20:53:07 ijr Exp $
+        $Id: player.h,v 1.60 2000/08/21 08:05:22 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PLAYER_H_
@@ -148,6 +148,7 @@ class Player : public EventQueue, Properties, PropertyWatcher
     void SendEventToCatalog(Event *pEvent);   
     void GenerateSignature(Event *pEvent);
     void HandleAudioSigGenerated(Event *pEvent);
+    void HandleAudioSigFailed(Event *pEvent);
     void KillSigThread(Event *pEvent);
     
     #define _EQUALIZER_ENABLE_

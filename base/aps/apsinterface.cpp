@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: apsinterface.cpp,v 1.13 2000/08/19 12:46:43 sward Exp $
+        $Id: apsinterface.cpp,v 1.14 2000/08/21 08:05:22 ijr Exp $
 ____________________________________________________________________________*/
 
 ///////////////////////////////////////////////////////////////////
@@ -323,6 +323,11 @@ int APSInterface::ChangeProfile(const char *pczUserName)
                              string(pczUserName);
         m_pLogFile = new fstream(logfilename.c_str(), 
                                  ios_base::out | ios_base::app);
+
+        string savedProfiles = m_profilePath + string(DIR_MARKER_STR) +
+                               string("profiles.txt");
+        WriteProfileMap(savedProfiles.c_str());
+
         return APS_NOERROR;
     }
     else
@@ -421,6 +426,10 @@ int APSInterface::DeleteProfile(const char *pczNewName, bool bServerToo)
             m_pLogFile = NULL;
         }
     }
+
+    string savedProfiles = m_profilePath + string(DIR_MARKER_STR) +
+                           string("profiles.txt");
+    WriteProfileMap(savedProfiles.c_str());
 
     return APS_NOERROR;
 }

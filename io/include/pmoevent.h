@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: pmoevent.h,v 1.2 1999/10/19 07:13:00 elrod Exp $
+   $Id: pmoevent.h,v 1.3 2000/08/21 08:05:23 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PMOEVENTS_H_
@@ -35,7 +35,8 @@ enum
     PMO_Init,
     PMO_Info,
     PMO_Reset,
-    PMO_Quit
+    PMO_Quit,
+    PMO_Error
 };
 
 class PMOInitEvent : public Event
@@ -106,6 +107,15 @@ class PMOQuitEvent : public Event
                   m_type = PMO_Quit;
                };
       virtual ~PMOQuitEvent(void) { ; };
+
+    protected:
+};
+
+class PMOErrorEvent : public Event
+{
+    public:
+	      PMOErrorEvent(void) { m_type = PMO_Error; }
+     virtual ~PMOErrorEvent(void) { ; }
 
     protected:
 };

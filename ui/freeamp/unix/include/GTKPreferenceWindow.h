@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKPreferenceWindow.h,v 1.19 2000/03/28 01:34:54 elrod Exp $
+   $Id: GTKPreferenceWindow.h,v 1.20 2000/04/07 01:14:44 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKPREFERENCEWINDOW_H__
@@ -85,9 +85,14 @@ typedef struct PrefsStruct
 
     string alsaOutput;
 
+    string watchThisDirectory;
+    int32  watchThisDirTimeout;
+
     bool operator == (const struct PrefsStruct& pref)
     {
         return (
+            watchThisDirTimeout == pref.watchThisDirTimeout &&
+            watchThisDirectory == pref.watchThisDirectory &&
             convertUnderscores == pref.convertUnderscores &&
             allowMultipleInstances == pref.allowMultipleInstances &&
             playImmediately == pref.playImmediately &&
@@ -217,6 +222,8 @@ class GTKPreferenceWindow : public PreferenceWindow
 
       GtkWidget *paneVbox;
       GtkWidget *visiblePane;
+  
+      GtkWidget *watchDirBox;
 
       GtkCTree *prefTree;
 
@@ -274,6 +281,9 @@ class GTKPreferenceWindow : public PreferenceWindow
       void ReclaimTypesToggle(int active);
       void AskReclaimToggle(int active);
 
+      void WatchDirSet(char *newpath, bool set);
+      void SetWatchTimeout(int32 timeout);
+ 
       FAContext *GetContext(void) { return m_pContext; }
 };
 

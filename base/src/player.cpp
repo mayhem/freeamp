@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.187 2000/04/06 22:36:40 ijr Exp $
+        $Id: player.cpp,v 1.188 2000/04/07 01:14:43 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -866,6 +866,7 @@ Run()
    m_eventServiceThread->Create(Player::EventServiceThreadFunc, this);
 
    m_cdTimer->Start();
+   m_context->catalog->StartTimer();
 
    delete[] name;
    delete[] musicBrowserName;

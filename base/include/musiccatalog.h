@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.h,v 1.8 2000/04/06 22:36:40 ijr Exp $
+        $Id: musiccatalog.h,v 1.9 2000/04/07 01:14:43 ijr Exp $
  ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSER_H_
@@ -91,6 +91,7 @@ class MusicCatalog : public EventQueue
     MusicCatalog(FAContext *context, char *databasepath = NULL);
     virtual ~MusicCatalog();
 
+    void StartTimer(void);
     void SetDatabase(const char *path);
 
     void SearchMusic(vector<string> &pathList, bool bBrowserMessages = true);

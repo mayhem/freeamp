@@ -18,13 +18,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: esdvolume.cpp,v 1.3 1999/07/13 18:42:06 robert Exp $
+	$Id: esdvolume.cpp,v 1.4 1999/07/14 18:04:15 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <linux/soundcard.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <esd.h>

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: preferences.cpp,v 1.45 2000/05/12 09:53:58 elrod Exp $
+        $Id: preferences.cpp,v 1.46 2000/05/23 16:24:22 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <string.h>
@@ -88,6 +88,7 @@ const char* kWriteID3v2Pref = "WriteID3v2Tags";
 const char* kEqualizerSettingsPref = "EqualizerSettings";
 const char* kSavedPlaylistPositionPref = "SavedPlaylistPosition";
 const char* kMusicBrowserPositionPref = "MusicBrowserPosition";
+const char* kMusicBrowserHeaderWidthsPref = "MusicBrowserHeaderWidths";
 
 //logging
 const char* kUseDebugLogPref = "UseDebugLog";
@@ -151,7 +152,8 @@ const bool  kDefaultWriteID3v1 = true;
 const bool  kDefaultWriteID3v2 = true;
 const char* kDefaultEqualizerSettings = "1,50,50,50,50,50,50,50,50,50,50";
 const uint32 kDefaultSavedPlaylistPosition = 0;
-const char *kDefaultMusicBrowserPosition = "-1,-1,-1,-1";  
+const char* kDefaultMusicBrowserPosition = "-1,-1,-1,-1,-1";
+const char* kDefaultMusicBrowserHeaderWidths = "-1,-1,-1.-1";
 
 Error
 Preferences::
@@ -361,6 +363,11 @@ SetDefaults()
     if (GetPrefString(kMusicBrowserPositionPref, dummyString, 
         (uint32 *)&dummyInt) == kError_NoPrefValue)
         SetPrefString(kMusicBrowserPositionPref, kDefaultMusicBrowserPosition);
+
+    dummyInt = 255;
+    if (GetPrefString(kMusicBrowserHeaderWidthsPref, dummyString, 
+        (uint32 *)&dummyInt) == kError_NoPrefValue)
+        SetPrefString(kMusicBrowserHeaderWidthsPref, kDefaultMusicBrowserHeaderWidths);
 
     return kError_NoErr;
 }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: preferences.h,v 1.37 2000/05/12 09:53:58 elrod Exp $
+	$Id: preferences.h,v 1.38 2000/05/23 16:24:22 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_PREFERENCES_H
@@ -94,6 +94,7 @@ extern const char* kWriteID3v2Pref;
 extern const char* kEqualizerSettingsPref;
 extern const char* kSavedPlaylistPositionPref;
 extern const char* kMusicBrowserPositionPref;
+extern const char* kMusicBrowserHeaderWidthsPref;
 
 extern const int32 kDefaultWatchThisDirTimeout;
 

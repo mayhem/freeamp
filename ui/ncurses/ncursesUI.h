@@ -76,9 +76,6 @@ class ncursesUI : public UserInterface {
    int32 m_lastIndexPlayed;
    bool m_id3InfoPrinted;
    float totalTime;
-//   int totalFrames;
-//   MediaInfoEvent m_mediaInfo;
-//   bool m_mediaInfo_set;
    float lastSeconds;
    int titleStart;
    int titleDir;
@@ -95,4 +92,6 @@ class ncursesUI : public UserInterface {
 
 
 #endif // _NCURSESUI_H_
+
+
 

@@ -79,9 +79,8 @@ ncursesUI::ncursesUI(FAContext *context) {
     m_mediaInfo_set = false;
     m_mediaInfo = NULL;
     m_mpegInfo_set = false;
-
     totalFrames = 0; */
-    totalTime = 0;    
+    totalTime = 0;
     keyboardListenThread = NULL;
 }
 
@@ -249,26 +248,52 @@ int32 ncursesUI::AcceptEvent(Event *e) {
 //                    m_mediaInfo_set = true;
                 }
                 if (pmvi && m_lastIndexPlayed != pmvi->m_indexOfSong) {
+                    const PlaylistItem *pItem;
+                    MetaData md;
+                    char buf[1024];                    
                     m_lastIndexPlayed = pmvi->m_indexOfSong;
-                    m_id3InfoPrinted = false;
+//                    m_id3InfoPrinted = false;
+                    pItem = m_plm->GetCurrentItem();
+                    if (!pItem)
+                       break;
+                    md = pItem->GetMetaData();
 
                     clear();
                     move(0,0);
                     showInfo();
                     move(2, 0);
                     addstr("Title  : ");
-                    addstr(pmvi->m_filename);
+                    if (md.Title().c_str()[0] != '\0')
+		        addstr(md.Title().c_str());
+		    else
+                        addstr(pmvi->m_filename);
                     addstr("\nArtist : ");
+                    addstr(md.Artist().c_str());
                     addstr("\nAlbum  : ");
+                    addstr(md.Album().c_str());
                     addstr("\nYear   : ");
+                    if (md.Year() != 0)
+		    {
+			sprintf(buf, "%d", md.Year());
+		    	addstr(buf);
+                    }
+                    addstr("\nGenre  : ");
+                    addstr(md.Genre().c_str());
+                    addstr("\nTrack  : ");
+                    if (md.Track() != 0)
+                    {
+                        sprintf(buf, "%d", md.Track());
+                        addstr(buf);
+                    }
                     addstr("\nComment: ");
+                    addstr(md.Comment().c_str());
                     addstr("\n");
-//                    refresh();
+                    refresh();
 
                     counter = 0;
                     title = (char *)malloc((2*sizeof(char)) * (12 + strlen(pmvi->m_filename)));
-                    sprintf( title, "Freeamp - [%s]", pmvi->m_filename);
-                    if ( 12 + strlen(pmvi->m_filename) > (unsigned)COLS - 13 )
+                    sprintf( title, "Freeamp " FREEAMP_VERSION " - [%s]", pmvi->m_filename);
+                    if ( strlen(title) > (unsigned)COLS - 13 )
                     {
                         titleStart = 0;
                         titleDir = -1;
@@ -281,7 +306,7 @@ int32 ncursesUI::AcceptEvent(Event *e) {
                     }
                     else
                     {
-                        move(0, (COLS / 2) - ( 12 + strlen(pmvi->m_filename) ) / 2 );
+                        move(0, (COLS / 2) - ( strlen(title) ) / 2 );
                         color_set(7, NULL);
                         attron(A_REVERSE);
                         addstr(title);
@@ -307,7 +332,7 @@ int32 ncursesUI::AcceptEvent(Event *e) {
                 break;
             } 
             case INFO_MediaTimeInfo: {
-                MediaTimeInfoEvent *pmtp = (MediaTimeInfoEvent *)e;
+                MediaTimeInfoEvent *pmtp = ( MediaTimeInfoEvent *)e;
                 float percentAmount;
                 int i=0, hours, minutes, seconds;
                 char buf[1024];
@@ -448,9 +473,7 @@ void ncursesUI::showInfo() {
     for (int i=0; i < COLS; i++)
         addstr(" ");
     move(0, (COLS/2) - 4);
-    addstr("Freeamp");
-    move(0, COLS-6);
-    addstr("_ o x");
+    addstr("Freeamp" FREEAMP_VERSION);
     attroff(A_REVERSE);
 //    refresh();
     color_set(7, NULL);
@@ -576,4 +599,5 @@ void ncursesUI::playlist() {
      }
 */
 }
+
 

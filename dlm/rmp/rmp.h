@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.h,v 1.1.2.3 1999/09/27 21:36:49 robert Exp $
+	$Id: rmp.h,v 1.1.2.4 1999/10/04 07:59:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_RMP_H
@@ -59,7 +59,8 @@ class RMP : public DownloadFormat, public Parse {
      FAContext             *m_context;
      vector<DownloadItem*> *m_pList;
      string                 m_oPath, m_oFileName, m_oLocation;
-	 string                 m_oPackageId, m_oListId, m_oTrackId;   
+	 string                 m_oPackageId, m_oListId, m_oTrackId;  
+     string                 m_oPlaylist, m_oServer;
      MetaData              *m_pMetaData;
 };
 

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.29 1999/10/04 02:42:35 elrod Exp $
+        $Id: player.cpp,v 1.133.2.30 1999/10/04 07:59:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -161,6 +161,8 @@ EventQueue()
 Player::
 ~Player()
 {
+    TYPICAL_DELETE(m_dlm);
+
     TYPICAL_DELETE(m_pTermSem);
 
     if(m_argUIList)
@@ -218,7 +220,6 @@ Player::
     TYPICAL_DELETE(m_uiRegistry);
     TYPICAL_DELETE(m_lmcExtensions);
     TYPICAL_DELETE(m_musicBrowser);
-    TYPICAL_DELETE(m_dlm);
 }
 
 void      
@@ -386,7 +387,7 @@ SetArgs(int32 argc, char **argv)
                         }
 
                         if(giveToDLM)
-                            m_dlm->AddItem(url);
+                            m_dlm->ReadDownloadFile(url);
                         else
                             m_plm->AddItem(url); 
 
@@ -432,7 +433,7 @@ SetArgs(int32 argc, char **argv)
                 }
 
                 if(giveToDLM)
-                    m_dlm->AddItem(url);
+                    m_dlm->ReadDownloadFile(url);
                 else
                     m_plm->AddItem(url);
 #endif
@@ -1635,130 +1636,134 @@ int32
 Player::
 ServiceEvent(Event * pC)
 {
-   if (!pC)
-   {
+    if (!pC)
+    {
       return 255;
-   }
+    }
 
-   //printf("Got event %d\n", pC->Type());
-   switch (pC->Type())
-   {
-      case INFO_DoneOutputting:
-           DoneOutputting(pC);
-           break;
+    //printf("Got event %d\n", pC->Type());
+    switch (pC->Type())
+    {
+        case INFO_DoneOutputting:
+            DoneOutputting(pC);
+            break;
 
-      case CMD_Stop:
-           Stop(pC);
-           break;
+        case CMD_Stop:
+            Stop(pC);
+            break;
 
-      case CMD_GetVolume:
-           GetVolume(pC);
-           break;
+        case CMD_GetVolume:
+            GetVolume(pC);
+            break;
 
-      case CMD_SetVolume:
-           SetVolume(pC);
-           break;
+        case CMD_SetVolume:
+            SetVolume(pC);
+            break;
 
-      case CMD_ChangePosition:
-           ChangePosition(pC);
-           break;
+        case CMD_ChangePosition:
+            ChangePosition(pC);
+            break;
 
-      case CMD_PLMGetMediaInfo:
-           GetMediaInfo(pC);
-           break;
+        case CMD_PLMGetMediaInfo:
+            GetMediaInfo(pC);
+            break;
 
-      case CMD_PlayPaused:
-           Play(pC);
-           break;
+        case CMD_PlayPaused:
+            Play(pC);
+            break;
 
-      case CMD_Play:
-           Play(pC);
-           break;
+        case CMD_Play:
+            Play(pC);
+            break;
 
-      case CMD_NextMediaPiece:
-           Next(pC); 
-           break;
+        case CMD_NextMediaPiece:
+            Next(pC); 
+            break;
 
-      case CMD_PrevMediaPiece:
-           Previous(pC);
-           break;
+        case CMD_PrevMediaPiece:
+            Previous(pC);
+            break;
 
-      case CMD_Pause:
-           Pause(pC);
-           break;
+        case CMD_Pause:
+            Pause(pC);
+            break;
 
-      case CMD_UnPause:
-           UnPause(pC);
-           break;
+        case CMD_UnPause:
+            UnPause(pC);
+            break;
 
-      case CMD_TogglePause:
-           TogglePause(pC);
-           break;
+        case CMD_TogglePause:
+            TogglePause(pC);
+            break;
 
-      case CMD_QuitPlayer:
-           return Quit(pC);
+        case CMD_QuitPlayer:
+            return Quit(pC);
 
-      case INFO_ReadyToDieUI:
-           return ReadyToDieUI(pC);
+        case INFO_ReadyToDieUI:
+            return ReadyToDieUI(pC);
 
-      case INFO_UserMessage:
-      case INFO_StatusMessage:
-      case INFO_BrowserMessage:
-           UserMessage(pC);
-           break;
+        case INFO_UserMessage:
+        case INFO_StatusMessage:
+        case INFO_BrowserMessage:
+            UserMessage(pC);
+            break;
 
-      case INFO_MediaInfo:
-           HandleMediaInfo(pC);
-           break;
+        case INFO_MediaInfo:
+            HandleMediaInfo(pC);
+            break;
 
-      case INFO_MediaTimeInfo:
-           HandleMediaTimeInfo(pC);
-           break;
+        case INFO_MediaTimeInfo:
+            HandleMediaTimeInfo(pC);
+            break;
 
-      case INFO_StreamInfo:
-      case INFO_PlaylistShuffle:
-      case INFO_PlaylistRepeat:
-      case INFO_PlaylistUpdated:
-      case INFO_BufferStatus:
-      case INFO_SearchMusicDone:
-           SendEventToUI(pC);
-           break;
+        case INFO_StreamInfo:
+        case INFO_PlaylistShuffle:
+        case INFO_PlaylistRepeat:
+        case INFO_PlaylistUpdated:
+        case INFO_BufferStatus:
+        case INFO_SearchMusicDone:
+        case INFO_DownloadItemAdded:
+        case INFO_DownloadItemRemoved:
+        case INFO_DownloadItemNewState:
+        case INFO_DownloadItemProgress:
+            SendEventToUI(pC);
+            break;
 
-      case CMD_ToggleDownloadUI:
-      case CMD_TogglePlaylistUI:
-      case CMD_ToggleMusicBrowserUI:
-           ToggleUI(pC);
-           break;
-      
-      case INFO_LMCError:
-           LMCError(pC);
-           break;
+        case CMD_ToggleDownloadUI:
+        case CMD_TogglePlaylistUI:
+        case CMD_ToggleMusicBrowserUI:
+            ToggleUI(pC);
+            break;
+
+        case INFO_LMCError:
+            LMCError(pC);
+            break;
 
 #define _EQUALIZER_ENABLE_
 #ifdef  _EQUALIZER_ENABLE_
-      case CMD_SetEQData:
-           SetEQData(pC);
-           break;
+        case CMD_SetEQData:
+            SetEQData(pC);
+            break;
 
 #endif // _EQUALIZER_ENABLE_
 #undef  _EQUALIZER_ENABLE_
 
 #define _VISUAL_ENABLE_
 #ifdef  _VISUAL_ENABLE_
-      case CMD_SendVisBuf:
-           SendVisBuf(pC);
-           break;
+        case CMD_SendVisBuf:
+            SendVisBuf(pC);
+            break;
 #endif // _VISUAL_ENABLE_
 #undef  _VISUAL_ENABLE_
 
-      default:
-           m_context->log->Error("serviceEvent: Unknown event: %d\n",
-				 pC->Type());
-           delete  pC;
-           break;
-   }
+        default:
+            m_context->log->Error("serviceEvent: Unknown event: %d\n",
+            pC->Type());
+            delete  pC;
+            break;
+    }
 
-   return 0;
+    return 0;
 }
 
 Error     

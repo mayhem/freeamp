@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.1.2.17 1999/10/02 19:50:40 elrod Exp $
+	$Id: downloadui.cpp,v 1.1.2.18 1999/10/04 07:59:29 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -139,6 +139,27 @@ int32 DownloadUI::AcceptEvent(Event* event)
         {
 	        case CMD_Cleanup: 
             {
+                LV_ITEM item;
+                uint32 itemCount = ListView_GetItemCount(m_hwndList);
+
+                for(uint32 i = 0; i < itemCount; i++)
+                {
+                    item.mask = LVIF_PARAM;
+                    item.iItem = i;
+                    item.lParam = 0;
+
+                    if(ListView_GetItem(m_hwndList, &item))
+                    {
+                        DownloadItem* dli = (DownloadItem*)item.lParam;
+
+                        if(dli->GetState() == kDownloadItemState_Queued ||
+                           dli->GetState() == kDownloadItemState_Downloading)
+                        {
+                            m_dlm->CancelDownload(dli, false);  
+                        }
+                    }
+                }
+
                 DestroyWindow(m_hwnd);
 	            m_target->AcceptEvent(new Event(INFO_ReadyToDieUI));
 	            break; 
@@ -171,6 +192,10 @@ int32 DownloadUI::AcceptEvent(Event* event)
                 ListView_InsertItem(m_hwndList, &item);
 
                 UpdateOverallProgress();
+
+                // bring window into view
+                ShowWindow(m_hwnd, SW_SHOW);
+                SetForegroundWindow(m_hwnd);
                
 	            break; 
             }
@@ -187,15 +212,16 @@ int32 DownloadUI::AcceptEvent(Event* event)
 
                     for(uint32 i = 0; i < itemCount; i++)
                     {
+                        item.mask = LVIF_PARAM;
+                        item.iItem = i;
+                        item.lParam = 0;
+
                         if(ListView_GetItem(m_hwndList, &item))
                         {
-                            item.mask = LVIF_PARAM;
-                            item.iItem = i;
-                            item.lParam = 0;
-
                             if(dlire->Item() == (DownloadItem*)item.lParam)
                             {
-                                ListView_DeleteItem(m_hwndList, i);
+                                ListView_RedrawItems(m_hwndList, i, i);
+                                UpdateWindow(m_hwndList);
                                 break;
                             }
                         }
@@ -208,9 +234,8 @@ int32 DownloadUI::AcceptEvent(Event* event)
             }
 
             case INFO_DownloadItemNewState: 
-            case INFO_DownloadItemProgress: 
             {
-	            DownloadItemRemovedEvent* dlire = (DownloadItemRemovedEvent*)event;
+	            DownloadItemNewStateEvent* dlinse = (DownloadItemNewStateEvent*)event;
 
                 uint32 itemCount = ListView_GetItemCount(m_hwndList);
 
@@ -220,15 +245,49 @@ int32 DownloadUI::AcceptEvent(Event* event)
 
                     for(uint32 i = 0; i < itemCount; i++)
                     {
+                        item.mask = LVIF_PARAM;
+                        item.iItem = i;
+                        item.lParam = 0;
+
                         if(ListView_GetItem(m_hwndList, &item))
                         {
-                            item.mask = LVIF_PARAM;
-                            item.iItem = i;
-                            item.lParam = 0;
-
-                            if(dlire->Item() == (DownloadItem*)item.lParam)
+                            if(dlinse->Item() == (DownloadItem*)item.lParam)
                             {
-                                ListView_Update(m_hwndList, i);
+                                ListView_RedrawItems(m_hwndList, i, i);
+                                UpdateWindow(m_hwndList);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                UpdateOverallProgress();
+
+	            break; 
+            }
+
+            case INFO_DownloadItemProgress: 
+            {
+	            DownloadItemProgressEvent* dlipe = (DownloadItemProgressEvent*)event;
+
+                uint32 itemCount = ListView_GetItemCount(m_hwndList);
+
+                if(itemCount)
+                {
+                    LV_ITEM item;
+
+                    for(uint32 i = 0; i < itemCount; i++)
+                    {
+                        item.mask = LVIF_PARAM;
+                        item.iItem = i;
+                        item.lParam = 0;
+
+                        if(ListView_GetItem(m_hwndList, &item))
+                        {
+                            if(dlipe->Item() == (DownloadItem*)item.lParam)
+                            {
+                                ListView_RedrawItems(m_hwndList, i, i);
+                                UpdateWindow(m_hwndList);
                                 break;
                             }
                         }
@@ -253,6 +312,7 @@ int32 DownloadUI::AcceptEvent(Event* event)
 
 void DownloadUI::ParseArgs(int32 argc, char** argv)
 {
+    /*
     char *arg = NULL;
     int32 count = 0;
 
@@ -262,13 +322,14 @@ void DownloadUI::ParseArgs(int32 argc, char** argv)
 
 	    if(arg[0] == '-') 
         {
-	        //switch(arg[1]) 
-            //{
+	        switch(arg[1]) 
+            {
 		        
-            //}
+            }
         }
        
     }
+    */
 }
 
 void DownloadUI::CreateUI()
@@ -402,7 +463,7 @@ BOOL DownloadUI::InitDialog()
     }
 
     // Add Items that are currently in the download manager
-    DownloadItem* dli = NULL;
+    /*DownloadItem* dli = NULL;
     i = 0;
 
     while(dli = m_dlm->ItemAt(i++))
@@ -415,7 +476,17 @@ BOOL DownloadUI::InitDialog()
         item.lParam = (LPARAM)dli;
 
         ListView_InsertItem(m_hwndList, &item);
+
+        if(dli->GetState() == kDownloadItemState_Queued ||
+           dli->GetState() == kDownloadItemState_Downloading)
+        {
+            // bring window into view
+            ShowWindow(m_hwnd, SW_SHOW);
+            SetForegroundWindow(m_hwnd);
+        }
     }
+
+    UpdateOverallProgress();*/
 
     m_uiSemaphore->Signal();
     return TRUE;
@@ -627,11 +698,18 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                 }
 
                 case kDownloadItemState_Cancelled:
+                {
                     if(!(dis->itemState & ODS_SELECTED))
                         SetTextColor(dis->hDC, RGB(192, 0, 0));
 
-                    displayString = "Cancelled";
+                    ostringstream ost;
+
+                    ost << "Cancelled";
+
+                    displayString = ost.str();
                     break;
+                }
+
                 case kDownloadItemState_Paused:
                 {
                     if(!(dis->itemState & ODS_SELECTED))
@@ -673,11 +751,16 @@ BOOL DownloadUI::DrawItem(int32 controlId, DRAWITEMSTRUCT* dis)
                 }
 
                 case kDownloadItemState_Error:
+                {
                     if(!(dis->itemState & ODS_SELECTED))
                         SetTextColor(dis->hDC, RGB(192, 0, 0));
 
-                    displayString = "Error";
+                    ostringstream ost;
+
+                    ost << "Error: " <<  dli->GetDownloadError();
+                    displayString = ost.str();
                     break;
+                }
 
                 case kDownloadItemState_Done:
                     displayString = "Download Complete";
@@ -1081,17 +1164,32 @@ BOOL DownloadUI::Command(int32 command, HWND src)
                        switch(command)
                        {
 		                    case IDC_PAUSE:
+                            {
+                                m_dlm->CancelDownload(dli, true);
+                                EnableWindow(m_hwndPause, FALSE);
+                                EnableWindow(m_hwndCancel, TRUE);
+                                EnableWindow(m_hwndResume, TRUE);
+                                break;
+                            }
+
                             case IDC_CANCEL:
 		                    {
-                                m_dlm->CancelDownload(dli, 
-                                    (command == IDC_PAUSE ? true : false));  
+                                m_dlm->CancelDownload(dli, false);  
+                                EnableWindow(m_hwndPause, FALSE);
+                                EnableWindow(m_hwndCancel, FALSE);
+                                EnableWindow(m_hwndResume, TRUE);
                                 break;
                             }
 
                             case IDC_RESUME:
-                                m_dlm->QueueDownload(dli);  
+                            {
+                                m_dlm->QueueDownload(dli); 
+                                EnableWindow(m_hwndPause, TRUE);
+                                EnableWindow(m_hwndCancel, TRUE);
+                                EnableWindow(m_hwndResume, FALSE);
                                 break;
-                       }
+                            }
+                        }
                     }
                 }
             }
@@ -1377,8 +1475,6 @@ void DownloadUI::UpdateOverallProgress()
                     totalBytes += dli->GetTotalBytes();
                     doneBytes += dli->GetTotalBytes();
                 }
-
-                break;
             }
         }
     }

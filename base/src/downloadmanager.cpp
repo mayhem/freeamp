@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.33 1999/10/01 15:22:33 ijr Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.34 1999/10/04 07:59:29 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -149,6 +149,10 @@ DownloadManager::~DownloadManager()
 
         if(item)
         {
+            if(item->GetState() == kDownloadItemState_Cancelled)
+            {
+                CleanUpDownload(item);
+            }
             delete item;
         }
     }
@@ -290,7 +294,8 @@ Error DownloadManager::CancelDownload(DownloadItem* item, bool allowResume)
     if(item)
     {
         if(item->GetState() == kDownloadItemState_Downloading ||
-           item->GetState() == kDownloadItemState_Queued)
+           item->GetState() == kDownloadItemState_Queued ||
+           item->GetState() == kDownloadItemState_Paused)
         {
             m_queueMutex.Acquire();
 
@@ -554,8 +559,6 @@ Error DownloadManager::Download(DownloadItem* item)
 
     if(item)
     {
-        cout << "Downloading item: " << item->SourceURL() << endl;
-
         char hostname[kMaxHostNameLen + 1];
         char localname[kMaxHostNameLen + 1];
         char proxyname[kMaxHostNameLen + 1];
@@ -831,12 +834,17 @@ Error DownloadManager::Download(DownloadItem* item)
                         int openFlags = O_BINARY|O_CREAT|O_RDWR;
 
                         if(returnCode == 200) // always whole file
+                        {
+                            item->SetBytesReceived(0);
                             openFlags |= O_TRUNC;
+                        }
 
                         int fd = open(destPath, openFlags);
 
                         if(fd >= 0)
                         {
+                            result = kError_NoErr;
+
                             char* cp = strstr(buffer, "\n\n");
 
                             if(cp)
@@ -882,6 +890,32 @@ Error DownloadManager::Download(DownloadItem* item)
                             }while(count > 0 && IsntError(result));
 
                             close(fd);                           
+                        }
+                        else
+                        {
+                            switch(errno)
+                            {
+                                case EEXIST:
+                                    result = kError_FileExists;
+                                    break;
+
+                                case EACCES:
+                                    result = kError_FileNoAccess;
+                                    break;
+
+                                case ENOENT:
+                                    result = kError_FileNotFound;
+                                    break;
+
+                                case EMFILE:
+                                    result = kError_FileNoHandles;
+                                    break;
+
+                                case EINVAL:
+                                    result = kError_FileInvalidArg;
+                                    break;
+                
+                            }
                         }
                         
                         break;
@@ -1007,6 +1041,8 @@ void DownloadManager::CleanUpDownload(DownloadItem* item)
     strcat(path, item->DestinationFile().c_str());
 
     remove(path);
+
+    item->SetBytesReceived(0);
 }
 
 Error DownloadManager::SubmitToDatabase(DownloadItem* item)
@@ -1044,12 +1080,10 @@ void DownloadManager::DownloadThreadFunction()
 
         if(item)
         {
-            result = Download(item);
+            item->SetState(kDownloadItemState_Downloading);
+            SendStateChangedMessage(item);
 
-            if(IsError(result))
-            {
-                cout << "Error: " << (int)result << endl;
-            }
+            result = Download(item);
 
             if(IsntError(result))
             {
@@ -1067,6 +1101,7 @@ void DownloadManager::DownloadThreadFunction()
             else
             {
                 item->SetState(kDownloadItemState_Error);
+                CleanUpDownload(item);
             }
 
             item->SetDownloadError(result);
@@ -1076,8 +1111,6 @@ void DownloadManager::DownloadThreadFunction()
 
         m_queueSemaphore.Wait();
     }
-
-    cout << "Exiting download thread..." << endl;
 
     m_quitMutex.Release();
 }
@@ -1311,6 +1344,9 @@ void DownloadManager::LoadResumableDownloadItems()
                 item->SetState(kDownloadItemState_Paused);
 
                 m_itemList.push_back(item);
+                SendItemAddedMessage(item);
+
+                database.Remove(key);
             }
         }
     }

@@ -18,10 +18,11 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: rmp.cpp,v 1.1.2.3 1999/09/27 21:36:48 robert Exp $
+	$Id: rmp.cpp,v 1.1.2.4 1999/10/04 07:59:29 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
+#include <errno.h>
 #include <iostream>
 #include <string>
 
@@ -29,7 +30,7 @@ using namespace std;
 
 #include "config.h"
 #include "errors.h"
-#include "errno.h"
+#include "utility.h"
 #include "rmp.h"
 
 typedef struct FormatInfoStruct {
@@ -93,11 +94,16 @@ Error RMP::ReadDownloadFile(char* url, vector<DownloadItem*>* list)
 
     if(url && list)
     {
-       m_pList = list;
+        char* path = new char[_MAX_PATH];
+        uint32 length = _MAX_PATH;
 
-       result = ParseFile(string(url));
+        URLToFilePath(url, path, &length);
+        m_pList = list;
+
+        result = ParseFile(string(path));
        
-       m_pList = NULL; 
+        m_pList = NULL; 
+        delete [] path;
     }
 
     return result;
@@ -122,6 +128,16 @@ Error RMP::PCData(string &oData)
 	if (m_oPath == string("/PACKAGE/PACKAGEID"))
     {
         m_oPackageId = oData;
+        return kError_NoErr;
+    }
+    if (m_oPath == string("/PACKAGE/TARGET"))
+    {
+        m_oPlaylist = oData;
+        return kError_NoErr;
+    }
+    if (m_oPath == string("/PACKAGE/SERVER/NETNAME"))
+    {
+    	m_oServer = oData;
         return kError_NoErr;
     }
 	if (m_oPath == string("/PACKAGE/SERVER/LOCATION"))
@@ -170,6 +186,11 @@ Error RMP::PCData(string &oData)
     	m_pMetaData->SetSize(atoi(oData.c_str()));
         return kError_NoErr;
     }
+    if (m_oPath == string("/PACKAGE/TRACKLIST/TRACK/YEAR"))
+    {
+    	m_pMetaData->SetYear(atoi(oData.c_str()));
+        return kError_NoErr;
+    }
         
 	return kError_NoErr;
 }
@@ -190,13 +211,19 @@ Error RMP::EndElement(string &oElement)
 	if (oElement == string("PACKAGE"))
     {
         DownloadItem *pItem;
-        string        oFinal = m_oLocation;
+        string        oFinal = "http://";
+        
+        oFinal += m_oServer;
+        oFinal += m_oLocation;
       
         MangleLocation(oFinal);
         
         pItem = new DownloadItem(oFinal.c_str(), 
                                  m_oFileName.c_str(),
                                  m_pMetaData);
+        pItem->SetPlaylistName(m_oPlaylist.c_str());
+        pItem->SetTotalBytes(m_pMetaData->Size());
+
 		m_pList->push_back(pItem);
         m_pMetaData = NULL;
     }

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.h,v 1.11 2000/06/12 16:44:10 robert Exp $
+	$Id: downloadui.h,v 1.12 2000/08/24 12:25:33 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DOWNLOAD_UI_H_
@@ -102,6 +102,7 @@ class DownloadUI : public UserInterface {
     HWND    m_hwndClose;
     HWND    m_hwndProgress;
     HWND    m_hwndText;
+	HWND    m_hwndCheck;
 
     HIMAGELIST  m_noteImage;
     HBITMAP  m_progressBitmap;

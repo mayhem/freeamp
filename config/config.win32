@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: config.win32,v 1.27.2.1 2000/02/28 02:10:02 elrod Exp $
+	$Id: config.win32,v 1.27.2.1.2.1 2000/03/08 07:05:19 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef CONFIG_H
@@ -45,7 +45,7 @@ ____________________________________________________________________________*/
 // uncomment these lines if branding version != FreeAmp version
 //#define BRANDING_MAJOR_VERSION "2"
 //#define BRANDING_MINOR_VERSION "0"
-//#define BRANDING_REVISION_VERSION "3"
+//#define BRANDING_REVISION_VERSION "5"
 //#define BRANDING_VERSION BRANDING_MAJOR_VERSION"."BRANDING_MINOR_VERSION"."BRANDING_REVISION_VERSION
 
 #if !defined(RC_INVOKED)
@@ -55,7 +55,7 @@ ____________________________________________________________________________*/
 #define FREEAMP_PATH_ENV "FREEAMP_PATH"
 #define FREEAMP_MAJOR_VERSION "2"
 #define FREEAMP_MINOR_VERSION "0"
-#define FREEAMP_REVISION_VERSION "4"
+#define FREEAMP_REVISION_VERSION "5"
 #define FREEAMP_VERSION FREEAMP_MAJOR_VERSION"."FREEAMP_MINOR_VERSION"."FREEAMP_REVISION_VERSION
 
 #ifndef BRANDING_VERSION

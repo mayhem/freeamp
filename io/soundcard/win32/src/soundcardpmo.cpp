@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: soundcardpmo.cpp,v 1.31 1999/04/15 22:06:52 robert Exp $
+   $Id: soundcardpmo.cpp,v 1.32 1999/04/16 03:27:00 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -517,21 +517,8 @@ void SoundCardPMO::WorkerThread(void)
    pPref->GetDecoderThreadPriority(&iValue);
    delete pPref;
 
-   switch(iValue)
-   {
-       case 0: 
-          SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_IDLE);
-          break;
-       case 1: 
-          SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
-          break;
-       case 2: 
-          SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_NORMAL);
-          break;
-       case 3: 
-          SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_ABOVE_NORMAL);
-          break;
-   }
+   m_pBufferThread->SetPriority((Priority) iValue);
+
 
    m_bPause = false;
    for(; !m_bExit;)

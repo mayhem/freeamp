@@ -22,7 +22,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.cpp,v 1.75 1999/04/15 21:51:04 robert Exp $
+   $Id: xinglmc.cpp,v 1.76 1999/04/16 03:27:01 robert Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -671,8 +671,9 @@ void XingLMC::DecodeWork()
    size_t         iOutBytesNeeded;
    void          *pBuffer, *pOutBuffer;
    Error          Err;
-   int            iLoop = 0;
+   int            iLoop = 0, iValue;
    IN_OUT         x = {0, 0};
+   Preferences *pPref;
 
    in_bytes = out_bytes = 0;
 
@@ -722,6 +723,14 @@ void XingLMC::DecodeWork()
 
        return;
    }
+
+
+   pPref = new Preferences();
+   pPref->GetDecoderThreadPriority(&iValue);
+   delete pPref;
+
+   m_decoderThread->SetPriority((Priority) iValue);
+
 
    for (m_frameCounter = 0; !m_bExit;)
    {

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: fawindow.h,v 1.1 1998/11/19 03:27:20 jdw Exp $
+	$Id: fawindow.h,v 1.2 1998/11/19 21:37:25 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -58,6 +58,7 @@ class FAWindow {
     void SetPixmap(Pixmap);
     void SetMask(Pixmap);
     void MapWindow();
+    void UnMapWindow();
     void SelectInput(int32);
     virtual void DoEvent(XEvent) = 0;
 };
@@ -72,6 +73,8 @@ class FAMainWindow : public FAWindow {
     virtual void DoEvent(XEvent);
 };
 
+typedef void (*action_function)(void *);
+
 class FATriStateWindow : public FAWindow {
  private:
     int32 m_state;
@@ -80,12 +83,15 @@ class FATriStateWindow : public FAWindow {
     bool m_insideButton;
     int32 m_partialHeight;
     void Draw();
+    void *m_cookie;
+    action_function m_clickFunction;
  public:
     FATriStateWindow(Display *,int32,GC,Window,int32,int32,int32,int32);
     virtual ~FATriStateWindow();
     void SetPartialHeight(int32);
     void SetActivated();
     void ClearActivated();
+    void SetClickAction(action_function,void *);
     virtual void DoEvent(XEvent);
 };
 #endif // _WindowHash_H_

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeamp-x11.h,v 1.3 1998/11/19 03:27:20 jdw Exp $
+	$Id: freeamp-x11.h,v 1.4 1998/11/19 21:37:25 jdw Exp $
 ____________________________________________________________________________*/
 // FreeAmpUI.h
 
@@ -58,19 +58,33 @@ class FreeAmpUI : public UserInterface {
  private:
     FAMainWindow *m_mainWindow;
     FATriStateWindow *m_playButton;
+    static void playFunction(void *);
+    FATriStateWindow *m_stopButton;
+    static void stopFunction(void *);
     FATriStateWindow *m_pauseButton;
+    static void pauseFunction(void *);
     FATriStateWindow *m_prevButton;
+    static void prevFunction(void *);
     FATriStateWindow *m_nextButton;
+    static void nextFunction(void *);
 
     FATriStateWindow *m_switchModeButton;
+    static void switchModeFunction(void *);
     FATriStateWindow *m_minimizeButton;
+    static void minimizeFunction(void *);
     FATriStateWindow *m_closeButton;
+    static void closeFunction(void *);
     FATriStateWindow *m_repeatButton;
+    static void repeatFunction(void *);
     FATriStateWindow *m_shuffleButton;
-    FATriStateWindow *m_ejectButton;
+    static void shuffleFunction(void *);
+    FATriStateWindow *m_openButton;
+    static void openFunction(void *);
 
     WindowHash *m_windowHash;
-
+    
+    bool m_done;
+    
     Display *m_display;
     int32 m_screenNum;
     Pixmap m_doubleBufferPixmap;

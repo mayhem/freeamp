@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.11 1999/09/21 03:43:27 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.12 1999/09/23 16:55:40 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -26,19 +26,14 @@ ____________________________________________________________________________*/
 // When symbols are longer than 255 characters, the warning is disabled.
 #ifdef WIN32
 #pragma warning(disable:4786)
-#else
-#include <sys/socket.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#define SOCKET int
-#define closesocket(z) close(z)
-#include <unistd.h>
 #endif
 
 #include <assert.h>
+#include <io.h>
+#include <fcntl.h>
+#include <errno.h>
 #include <iostream>
 #include <algorithm>
-#include <stdio.h>
 
 #include "config.h"
 #include "facontext.h"
@@ -46,6 +41,7 @@ ____________________________________________________________________________*/
 #include "errors.h"
 #include "downloadmanager.h"
 #include "registrar.h"
+#include "utility.h"
 
 DownloadManager::DownloadManager(FAContext* context)
 {
@@ -478,6 +474,31 @@ DownloadItem* DownloadManager::GetNextQueuedItem()
 const uint8 kHttpPort = 80;
 const uint32 kMaxHostNameLen = 64;
 
+static bool IsHTTPHeaderComplete(char* buffer, uint32 length)
+{
+    bool result = false;
+
+    if(length >= 4)
+    {
+        if( (buffer[0] == 'H' && buffer[1] == 'T' 
+               && buffer[2] == 'T' && buffer[3] == 'P'))
+        {
+            //cout << "buffer is HTTP" << endl;
+
+            for(char* cp = buffer; cp < buffer + length; cp++)
+            {
+                if(!strncmp(cp, "\n\n", 2) || !strncmp(cp, "\r\n\r\n", 4))
+                {
+                    result = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
 Error DownloadManager::Download(DownloadItem* item)
 {
     Error result = kError_InvalidParam;
@@ -486,13 +507,15 @@ Error DownloadManager::Download(DownloadItem* item)
 
     if(item)
     {
+        cout << "Downloading item: " << item->SourceURL() << endl;
+
         char hostname[kMaxHostNameLen + 1];
         char localname[kMaxHostNameLen + 1];
-        uint16  port;
+        uint8  port;
         struct sockaddr_in  addr;
         struct hostent      host;
         SOCKET s;
-        char* file = "";
+        char* file;
         
 
         result = kError_ProtocolNotSupported;
@@ -505,7 +528,7 @@ Error DownloadManager::Download(DownloadItem* item)
             result = kError_NoErr;  
 
             numFields = sscanf(item->SourceURL().c_str(), 
-                               "http://%[^:/]:%d", hostname, (int *) &port);
+                               "http://%[^:/]:%d", hostname, &port);
 
             if(numFields < 1)
             {
@@ -570,14 +593,14 @@ Error DownloadManager::Download(DownloadItem* item)
         // connect and send request
         if(IsntError(result))
         {
-            if(connect(s,(const sockaddr *)&addr, sizeof(addr)))
+            if(connect(s,(const struct sockaddr*)&addr, sizeof(struct sockaddr)))
                 result = kError_CannotBind;
             else
             {
                 gethostname(localname, kMaxHostNameLen);    
 
                 const char* kHTTPQuery = "GET %s HTTP/1.1\n"
-                                         "Host %s\n"
+                                         "Host: %s\n"
                                          "Accept: */*\n" 
                                          "User-Agent: FreeAmp/%s\n";
 
@@ -592,6 +615,8 @@ Error DownloadManager::Download(DownloadItem* item)
 
                 int count;
 
+                //cout << query << endl;
+
                 count = send(s, query, strlen(query), 0);
 
                 if(count != strlen(query))
@@ -599,17 +624,208 @@ Error DownloadManager::Download(DownloadItem* item)
                     closesocket(s);
                     result = kError_IOError;
                 }
+
+                delete [] query;
             }
         }
+
 
         // receive response
         if(IsntError(result))
         {
+            uint32 bufferSize = 2048;
+            char* buffer = NULL;
+            int count;
+            uint32 total = 0;
 
+            buffer = (char*)malloc(bufferSize);
+
+            result = kError_OutOfMemory;
+
+            if(buffer)
+            {
+                result = kError_NoErr;
+
+                do
+                {
+                    if(total >= bufferSize - 1)
+                    {
+                        bufferSize *= 2;
+
+                        buffer = (char*) realloc(buffer, bufferSize);
+
+                        if(!buffer)
+                        {
+                            result = kError_OutOfMemory;
+                            break;
+                        }
+                    }
+
+                    count = recv(s, buffer + total, bufferSize - total - 1, 0);
+
+                    if(count > 0)
+                        total += count;
+                    else
+                    {
+                        result = kError_UnknownErr;
+                        break;
+                    }
+
+                }while(!IsHTTPHeaderComplete(buffer, total));
+            }
+
+            // parse header
+            if(IsntError(result))
+            {
+                uint32 returnCode = atoi(buffer+9);
+                buffer[total] = 0x00;
+                //cout << buffer << endl;
+
+                cout << returnCode << endl;
+
+                switch(buffer[9])
+                {
+                    // 1xx: Informational - Request received, continuing process
+                    case '1':
+                    {
+                        // not sure what to do here... continue receiving???
+                    }    
+
+                    // 2xx: Success - The action was successfully received,
+                    // understood, and accepted
+                    case '2':
+                    {
+                        result = kError_UnknownErr;
+
+                        char path[MAX_PATH];
+                        uint32 length = sizeof(path);
+
+                        URLToFilePath(item->DestinationURL().c_str(), path, &length);
+
+                        cout << path << endl;
+
+                        int fd = open(path, _O_BINARY|_O_CREAT|_O_RDWR);
+
+                        if(fd >= 0)
+                        {
+                            char* cp = strstr(buffer, "\n\n");
+
+                            if(cp)
+                                cp += 2;
+                            else
+                            {
+                                cp = strstr(buffer, "\r\n\r\n");
+
+                                if(cp)
+                                    cp += 4;
+                            }
+
+                            if(cp)
+                            {
+                                if(cp - buffer < total)
+                                {
+                                    write(fd, cp, total - (cp - buffer));
+                                }
+                            }
+
+                            do
+                            {
+                                count = recv(s, buffer, bufferSize, 0);
+
+                                if(count > 0)
+                                    write(fd, buffer, count);
+
+                                cout << "bytes recvd:" << count << endl;
+
+                            }while(count > 0 && 
+                                   item->GetState() == kDownloadItemState_Downloading);
+
+                            close(fd);
+
+                            result = kError_NoErr;
+                        }
+                        
+                        break;
+                    }
+
+                    // 3xx: Redirection - Further action must be taken in order to
+                    // complete the request
+                    case '3':
+                    {
+                        char* cp = strstr(buffer, "Location:");
+                        //int32 length;
+
+                        if(cp)
+                        {
+                            cp += 9;
+
+                            if(*cp == 0x20)
+                                cp++;
+
+                            for(char* end = cp; end < buffer + total; end++)
+                                if(*end=='\r' || *end == '\n') break;
+
+                            *end = 0x00;
+
+                            //cout << cp << endl;
+
+                            item->SetSourceURL(cp);
+
+                            result = Download(item);
+                        }
+                        
+                        break;
+                    }
+
+                    // 4xx: Client Error - The request contains bad syntax or cannot
+                    // be fulfilled
+                    case '4':
+                    {
+                        switch(returnCode)
+                        {
+                            case 400:
+                                result = kError_BadHTTPRequest;
+                                break;
+
+                            case 401:
+                                result = kError_AccessNotAuthorized;
+                                break;                           
+
+                            case 403:
+                                result = kError_AccessForbidden;
+                                break;
+
+                            case 404:
+                                result = kError_FileNotFound;
+                                break;
+
+                            case 416:
+                                result = kError_RangeNotExceptable;
+                                break;
+
+                            default:
+                                result = kError_UnknownErr;
+                                break;
+                        }
+
+                        break;
+                    }
+
+                    // 5xx: Server Error - The server failed to fulfill an apparently
+                    // valid request
+                    case '5':
+                    {
+                        result = kError_UnknownServerError;
+                        break;
+                    }
+                }
+
+            }
+
+           
+            if(buffer)
+                free(buffer);
         }
-
-
-        cout << "Downloading item: " << item->SourceURL() << endl;
 
     }
 
@@ -619,6 +835,13 @@ Error DownloadManager::Download(DownloadItem* item)
 void DownloadManager::CleanUpDownload(DownloadItem* item)
 {
     cout << "Cleaning item: " << item->SourceURL() << endl;
+
+    char path[MAX_PATH];
+    uint32 length = sizeof(path);
+
+    URLToFilePath(item->DestinationURL().c_str(), path, &length);
+
+    remove(path);
 }
 
 Error DownloadManager::SubmitToDatabase(DownloadItem* item)
@@ -649,6 +872,11 @@ void DownloadManager::DownloadThreadFunction()
         if(item)
         {
             result = Download(item);
+
+            if(IsError(result))
+            {
+                cout << "Error: " << (int)result << endl;
+            }
 
             if(IsntError(result))
             {

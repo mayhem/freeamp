@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.7 1999/09/21 01:03:15 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.8 1999/09/21 02:47:32 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -479,9 +479,12 @@ Error DownloadManager::Download(DownloadItem* item)
     if(item)
     {
         char hostname[kMaxHostNameLen + 1];
+        char localname[kMaxHostNameLen + 1];
         uint8  port;
         struct sockaddr_in  addr;
         struct hostent      host;
+        SOCKET s;
+        char* file;
         
 
         result = kError_ProtocolNotSupported;
@@ -505,6 +508,8 @@ Error DownloadManager::Download(DownloadItem* item)
             {
                 port = kHttpPort;
             }
+
+            file = strchr(item->SourceURL().c_str() + 7, '/');
         }
 
         // get hostname
@@ -547,7 +552,54 @@ Error DownloadManager::Download(DownloadItem* item)
             memcpy(&addr.sin_addr, host.h_addr, host.h_length);
             addr.sin_family= host.h_addrtype;
             addr.sin_port= htons(port); 
+
+            s = socket(host.h_addrtype, SOCK_STREAM, 0);
+
+            if(s < 0)
+                result = kError_CantCreateSocket;
         }
+
+        // connect and send request
+        if(IsntError(result))
+        {
+            if(connect(s,(const sockaddr *)&addr, sizeof(addr)))
+                result = kError_CannotBind;
+            else
+            {
+                gethostname(localname, kMaxHostNameLen);    
+
+                const char* kHTTPQuery = "GET %s HTTP/1.1\n"
+                                         "Host %s\n"
+                                         "Accept: */*\n" 
+                                         "User-Agent: FreeAmp/%s\n";
+
+                char* query = new char[ strlen(kHTTPQuery) + 
+                                        strlen(file) +
+                                        strlen(localname) +
+                                        strlen(FREEAMP_VERSION) + 2];
+            
+                sprintf(query, kHTTPQuery, file, localname, FREEAMP_VERSION);
+            
+                strcat(query, "\n");
+
+                int count;
+
+                count = send(s, query, strlen(query), 0);
+
+                if(count != strlen(query))
+                {
+                    closesocket(s);
+                    result = kError_IOError;
+                }
+            }
+        }
+
+        // receive response
+        if(IsntError(result))
+        {
+
+        }
+
 
         cout << "Downloading item: " << item->SourceURL() << endl;
 

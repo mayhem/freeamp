@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.18.4.11 1999/09/21 01:03:15 elrod Exp $
+	$Id: errors.h,v 1.18.4.12 1999/09/21 02:47:32 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -79,6 +79,7 @@ typedef enum Error
     kError_ProtocolNotSupported = 48,
     kError_InvalidURL           = 49,
     kError_CantFindHost         = 50,
+    kError_IOError              = 51,
 
     kError_LastError            = 9999
 };

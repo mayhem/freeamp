@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     
-    $Id: vorbis.cpp,v 1.3 2000/09/28 08:08:02 ijr Exp $
+    $Id: vorbis.cpp,v 1.4 2000/10/26 14:36:57 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -95,19 +95,75 @@ bool Vorbis::ReadMetaData(const char *url, MetaData * metadata)
     {
         temp = vorbis_comment_query(comment, "title", 0);
         if (temp)
-            metadata->SetTitle(temp);
-
+        {
+            string iso;
+            iso = ConvertToISO(temp);
+            metadata->SetTitle(iso.c_str());
+        }
         temp = vorbis_comment_query(comment, "artist", 0);
         if (temp)
-            metadata->SetArtist(temp);
+        {
+            string iso;
+            iso = ConvertToISO(temp);
+            metadata->SetArtist(iso.c_str());
+        }
 
         temp = vorbis_comment_query(comment, "album", 0);
         if (temp)
-            metadata->SetAlbum(temp);
+        {
+            string iso;
+            iso = ConvertToISO(temp);
+            metadata->SetAlbum(iso.c_str());
+        }
 
-        metadata->SetTrack(0);
+        temp = vorbis_comment_query(comment, "tracknumber", 0);
+        if (temp)
+            metadata->SetTrack(atoi(temp));
     }
     ov_clear(&vf);   
 
     return true;
 }
+
+const string Vorbis::ConvertToISO(const char *utf8)
+{
+   unsigned char *in, *buf;
+   unsigned char *out, *end;
+   string               ret;
+
+   in = (unsigned char *)utf8;
+   buf = out = new unsigned char[strlen(utf8) + 1];
+   end = in + strlen(utf8);
+   for(;*in != 0x00 && in <= end; in++, out++)
+   {
+       if (*in < 0x80)
+       {  /* lower 7-bits unchanged */
+          *out = *in;
+       }
+       else
+       if (*in > 0xC3)
+       { /* discard anything above 0xFF */
+          *out = '?';
+       }
+       else
+       if (*in & 0xC0)
+       { /* parse upper 7-bits */
+          if (in >= end)
+            *out = 0;
+          else
+          {
+            *out = (((*in) & 0x1F) << 6) | (0x3F & (*(++in)));
+          }
+       }  
+       else
+       {
+          *out = '?';  /* this should never happen */
+       }
+   }
+   *out = 0x00; /* append null */
+   ret = string((char *)buf);
+   delete buf;
+
+   return ret;
+}
+

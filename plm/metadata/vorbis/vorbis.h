@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: vorbis.h,v 1.2 2000/09/21 20:19:04 robert Exp $
+	$Id: vorbis.h,v 1.3 2000/10/26 14:36:57 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_VORBIS_H
@@ -47,8 +47,8 @@ class Vorbis : public MetaDataFormat {
 
  private:
 
+    const string ConvertToISO(const char *utf8);
 };
-
 
 #endif // INCLUDED_VORBIS_H
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.117 2000/09/28 08:08:03 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.118 2000/10/02 08:17:46 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -736,8 +736,9 @@ void GTKMusicBrowser::CreateExpanded(void)
     gtk_widget_show_all(masterBrowserBox);
 }
 
-void set_label_menu(GtkWidget *w, gchar *newtitle)
+void set_label_menu(GtkWidget *w, void *title)
 {
+    gchar *newtitle = (gchar*)title;
     if (GTK_IS_ACCEL_LABEL(GTK_OBJECT(w))) {
         gtk_label_set_text(&(GTK_ACCEL_LABEL(w)->label), newtitle);
     }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: httpbuffer.cpp,v 1.19 1999/04/26 09:01:27 elrod Exp $
+   $Id: httpbuffer.cpp,v 1.20 1999/04/26 21:37:17 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -60,6 +60,12 @@ const int iInitialBufferSize = 1024;
 const int iHeaderSize = 1024;
 const int iICY_OK = 200;
 const int iTransmitTimeout = 60;
+
+#ifdef WIN32
+const char cDirSepChar = '\\';
+#else
+const char cDirSepChar = '/';
+#endif
 
 #define DB printf("%s:%d\n", __FILE__, __LINE__);
 
@@ -392,27 +398,26 @@ Error HttpBuffer::Open(void)
     {
         char szPath[255], szFile[255];
         int i;
-
-        for(i = 0; i < strlen(szStreamName); i++)
-           if (strchr("\\/?*{}[]()*|<>\"'", szStreamName[i]))
-               szStreamName[i] = '-';
-
+					
         if (szStreamName[0] == 0)
            sprintf(szStreamName, "%s:%d", szHostName, iPort);
+
+        for(i = 0; i < strlen(szStreamName); i++)
+           if (strchr("\\/?*{}[]()*|:<>\"'", szStreamName[i]))
+               szStreamName[i] = '-';
 
         if (m_context->prefs->GetPrefString(kSaveStreamsDirPref, szPath, &size) == 
             kError_NoPrefValue)
            strcpy(szPath, ".");
-        if (szPath[strlen(szPath) - 1] == '/' ||
-            szPath[strlen(szPath) - 1] == '\\')
+        if (szPath[strlen(szPath) - 1] == cDirSepChar)
             szPath[strlen(szPath) - 1]  = 0;
 
         for(i = 0;; i++)
         {
             if (!i)
-                sprintf(szFile, "%s/%s.mp3", szPath, szStreamName);
+                sprintf(szFile, "%s%c%s.mp3", szPath, cDirSepChar, szStreamName);
             else
-                sprintf(szFile, "%s/%s-%d.mp3", szPath, szStreamName, i);
+                sprintf(szFile, "%s%c%s-%d.mp3", szPath, cDirSepChar, szStreamName, i);
 
             if (access(szFile, F_OK))
                 break;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.cpp,v 1.7 1999/12/09 07:01:58 elrod Exp $
+        $Id: EditTrackInfoDialog.cpp,v 1.8 1999/12/16 03:06:31 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -210,10 +210,23 @@ BOOL MusicBrowserUI::EditTrackInfoDlgProc(HWND hwnd,
             break;
         }      
 
+        case WM_HELP:
+        {
+            ShowHelp(Edit_Info);
+            result = TRUE;
+            break;
+        }
+
         case WM_COMMAND:
         {
             switch(LOWORD(wParam))
             {
+                case IDHELP:
+                {
+                    ShowHelp(Edit_Info);
+                    break;
+                }
+
                 case IDCANCEL:
                     EndDialog(hwnd, FALSE);
                     break;
@@ -300,13 +313,7 @@ BOOL MusicBrowserUI::EditTrackInfoDlgProc(HWND hwnd,
                         }
                     }
                     break;
-                }
-
-                case IDC_SHOWHELP:
-                {
-                    ShowHelp(Edit_Info);
-                    break;
-                }
+                }                
             }
   
             break;

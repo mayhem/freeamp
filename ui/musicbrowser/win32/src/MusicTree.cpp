@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.35 1999/12/12 19:51:39 elrod Exp $
+        $Id: MusicTree.cpp,v 1.36 1999/12/16 03:06:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -342,7 +342,7 @@ void MusicBrowserUI::FillUncatTracks(void)
     }
 }
 
-int32 MusicBrowserUI::GetMusicTreeSelection(HTREEITEM hItem)
+int32 MusicBrowserUI::GetMusicTreeSelection(HTREEITEM* hItem)
 {
     TV_ITEM sItem;
     
@@ -350,13 +350,13 @@ int32 MusicBrowserUI::GetMusicTreeSelection(HTREEITEM hItem)
     sItem.hItem = TreeView_GetSelection(m_hMusicCatalog);
     if (sItem.hItem)
     {
-       hItem = sItem.hItem;
+       *hItem = sItem.hItem;
        TreeView_GetItem(m_hMusicCatalog, &sItem);
        return sItem.lParam;   
     }
     else
     {
-       hItem = NULL;
+       *hItem = NULL;
        return -1;
     }   
 }   

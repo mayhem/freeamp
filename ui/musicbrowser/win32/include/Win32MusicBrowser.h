@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.51 1999/12/14 19:56:42 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.52 1999/12/16 03:06:31 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -128,6 +128,7 @@ class MusicBrowserUI : public UserInterface
     void   SetMinMaxInfo(void);
     void   EditItemLabel(HWND hwnd, HTREEITEM item);
 
+    bool   IntroductionWizard();
 
     BOOL   DialogProc(HWND hwnd, UINT msg, 
                       WPARAM wParam, LPARAM lParam);
@@ -155,7 +156,7 @@ class MusicBrowserUI : public UserInterface
 
 
     
-
+    
     const PlaylistManager* PLManager() const { return m_oPlm; }
  
  protected:
@@ -248,6 +249,8 @@ class MusicBrowserUI : public UserInterface
     // Functions in Win32MusicBrowser.cpp
     void  AddMusicBrowserWindow(MusicBrowserUI *pWindow);
     void  RemoveMusicBrowserWindow(MusicBrowserUI *pWindow);
+    void  MusicSearchDone();
+    void  DisplayBrowserMessage(const char* msg);
 
     // Functions is MusicTree.cpp
     void    InitTree(void);
@@ -259,7 +262,7 @@ class MusicBrowserUI : public UserInterface
     void    FillUncatTracks(void);
     void    FillPortables(void);
     int32   GetCurrentItemFromMousePos(void);
-    int32   GetMusicTreeSelection(HTREEITEM hItem);
+    int32   GetMusicTreeSelection(HTREEITEM* hItem);
     void    GetSelectedMusicTreeItems(vector<PlaylistItem*>* items);
     BOOL    FindSelectedItems(HTREEITEM root, vector<PlaylistItem*>* items);
     void    AddTrackItems(TV_ITEM* tv_item, vector<PlaylistItem*>* items);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicSearchDialog.cpp,v 1.4 1999/12/03 21:07:57 elrod Exp $
+        $Id: MusicSearchDialog.cpp,v 1.5 1999/12/16 03:06:31 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -112,7 +112,14 @@ BOOL MusicBrowserUI::MusicSearchDlgProc(HWND hwnd,
             Edit_SetText(hwndDirectory, kAllFolders);
 
             break;
-        }      
+        }   
+        
+        case WM_HELP:
+        {
+            SendMessage(hwnd, WM_COMMAND, IDHELP, 0);
+            result = TRUE;
+            break;
+        }
 
         case WM_COMMAND:
         {

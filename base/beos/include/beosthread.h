@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: beosthread.h,v 1.3 1999/10/19 07:12:45 elrod Exp $
+	$Id: beosthread.h,v 1.4 1999/10/23 08:26:38 hiro Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_BEOS_THREAD_H
@@ -29,8 +29,6 @@ ____________________________________________________________________________*/
 #include "thread.h"
 
 #include "mutex.h"
-
-typedef uint32 Priority;
 
 class beosThread : public Thread
 {
@@ -43,8 +41,8 @@ public:
 	virtual void		Suspend();
 	virtual void		Resume();
 	virtual void		Join();
-	virtual Priority	GetPriority() const;
-	virtual Priority	SetPriority(Priority priority);
+	virtual uint32      GetPriority( void ) const;
+	virtual uint32      SetPriority( uint32 priority );
 	virtual void		DumpThreadInfo( void ) const;
 
 	static int32		internalThreadFunction(void *);
@@ -55,7 +53,7 @@ protected:
 	void				Unlock( void );
 
 private:
-	Priority			m_priority;
+	uint32              m_priority;
 	thread_id			m_threadHandle;
 	unsigned			m_threadId;
 	bool				m_suspended;
@@ -82,7 +80,7 @@ beosThread::Unlock( void )
 
 inline
 int32
-beos_priority( Priority freeamp_prio )
+beos_priority( uint32 freeamp_prio )
 {
 #if 0
 	switch ( freeamp_prio ) {

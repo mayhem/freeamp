@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: BeOSWindow.cpp,v 1.6 1999/12/10 07:16:42 elrod Exp $
+   $Id: BeOSWindow.cpp,v 1.7 1999/12/10 08:46:05 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -172,6 +172,7 @@ Error
 BeOSWindow::SetTitle( string& oTitle )
 {
     CHECK_POINT_MSG( "SetTitle" );
+    m_mainWindow->SetTitle(oTitle.c_str());
     return kError_NoErr;
 }
 
@@ -204,6 +205,7 @@ Error
 BeOSWindow::Minimize( void )
 {
     CHECK_POINT_MSG( "Minimize" );
+    m_mainWindow->Minimize(true);
     return kError_NoErr;
 }
 
@@ -211,6 +213,7 @@ Error
 BeOSWindow::Restore( void )
 {
     CHECK_POINT_MSG( "Restore" );
+    m_mainWindow->Minimize(false);
     return kError_NoErr;
 }
 

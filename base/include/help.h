@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: help.h,v 1.1 2000/06/12 16:13:55 robert Exp $
+   $Id: help.h,v 1.2 2000/06/12 18:43:25 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_HELP_H
@@ -28,7 +28,7 @@ ____________________________________________________________________________*/
 #define Music_Browser                 "music_browser_entry.html"
 #define Music_Browser_Drive_Selection "drive_selection_entry.html"
 #define Download_Manager              "download_manager_entry.html"
-#define Preferences_General           "preferences_general_entry.thml"
+#define Preferences_General           "preferences_general_entry.html"
 #define Preferences_Themes            "preferences_themes_entry.html"
 #define Preferences_Streaming         "preferences_streaming_entry.html"
 #define Preferences_Update            "preferences_update_entry.html"

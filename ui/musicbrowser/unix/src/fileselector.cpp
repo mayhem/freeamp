@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: fileselector.cpp,v 1.3 1999/11/10 02:43:26 ijr Exp $
+        $Id: fileselector.cpp,v 1.3.12.1 2000/04/09 15:56:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "fileselector.h"
@@ -28,7 +28,7 @@ FileSelector::FileSelector(char *windowtitle)
 {
     title = windowtitle;
     returnpath = "";
-    extended = false;
+    extended = true;
     ok = false;
     done = false;
 }

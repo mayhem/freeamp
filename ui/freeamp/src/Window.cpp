@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Window.cpp,v 1.29.2.2 2000/02/26 20:03:05 ijr Exp $
+   $Id: Window.cpp,v 1.29.2.2.6.1 2000/04/09 15:56:41 ijr Exp $
 ____________________________________________________________________________*/ 
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -591,6 +591,12 @@ void Window::HandleMouseLButtonDown(Pos &oScreenPos)
     if (pControl)
     {
        m_bLButtonDown = true;
+       if (m_pMouseInControl != pControl) {
+           if (m_pMouseInControl)
+               m_pMouseInControl->AcceptTransition(CT_MouseLeave);
+           m_pMouseInControl = pControl;
+           m_pMouseInControl->AcceptTransition(CT_MouseEnter);
+       }
        m_pMouseDownControl = pControl;
        pControl->AcceptTransition(CT_MouseLButtonDown, &oPos);
        DecUsageRef();

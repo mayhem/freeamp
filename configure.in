@@ -1,4 +1,4 @@
-dnl $Id: configure.in,v 1.81.2.2.2.2 2000/03/05 23:04:54 ijr Exp $
+dnl $Id: configure.in,v 1.81.2.2.2.2.4.1 2000/04/09 15:56:41 ijr Exp $
 dnl FreeAmp - The Free MP3 Player
 dnl Portions copyright (C) 1998-2000 EMusic.com
 dnl
@@ -22,7 +22,7 @@ AC_INIT(base/src/player.cpp)
 AC_CONFIG_AUX_DIR(config)
 AC_CANONICAL_HOST
 
-AC_DEFINE_UNQUOTED(FREEAMP_VERSION, "2.0.5")
+AC_DEFINE_UNQUOTED(FREEAMP_VERSION, "2.0.7")
 
 AC_PROG_MAKE_SET
 

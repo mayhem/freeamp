@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.12.4.4 2000/03/06 23:40:31 ijr Exp $
+        $Id: downloadui.cpp,v 1.12.4.4.4.1 2000/04/09 15:56:41 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -95,6 +95,7 @@ void DownloadUI::GTKEventService(void)
         m_context->gtkInitialized = true;
 
 	g_thread_init(NULL);
+        gtk_set_locale();
 	gtk_init(&m_context->argc, &m_context->argv);
 	gdk_rgb_init();
 

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.cpp,v 1.59.2.1.2.4.2.1 2000/03/20 23:51:55 ijr Exp $
+        $Id: gtkmusicbrowser.cpp,v 1.59.2.1.2.4.2.1.2.1 2000/04/09 15:56:42 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -593,7 +593,7 @@ static void tree_clicked(GtkWidget *widget, GdkEventButton *event,
 
     if (event->type == GDK_2BUTTON_PRESS) {
         vector<PlaylistItem *> *newlist = getTreeSelection(ctree);
-        p->AddTracksPlaylistEvent(newlist, true);
+        p->AddTracksDoubleClick(newlist);
     }
     else {
         int row, column;
@@ -2502,9 +2502,11 @@ void GTKMusicBrowser::AddTrackPlaylistEvent(PlaylistItem *newitem)
 }
 
 void GTKMusicBrowser::AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist,
-                                             bool end)
+                                             bool end, bool forcePlay,
+                                             bool forceNoPlay)
 {
     bool play = false;
+    int playPos = 0;
 
     if (m_currentindex == kInvalidIndex)
         m_currentindex = 0;
@@ -2518,13 +2520,35 @@ void GTKMusicBrowser::AddTracksPlaylistEvent(vector<PlaylistItem *> *newlist,
         if (playNow)
             play = true;
     }
+    else
+        playPos = m_currentindex;
 
     m_plm->AddItems(newlist, m_currentindex, true);
 
+    if (forceNoPlay)
+        play = false;
+    if (forcePlay)
+        play = true;
+
     if (play) {
-        m_currentindex = 0;
+        m_currentindex = playPos;
         PlayEvent();
     }
+}
+
+void GTKMusicBrowser::AddTracksDoubleClick(vector<PlaylistItem *> *newlist)
+{
+    bool playNow = false;
+
+    m_context->prefs->GetPlayImmediately(&playNow);
+
+    if (playNow) {
+        DeleteListEvent();
+        m_currentindex = 0;
+        AddTracksPlaylistEvent(newlist, true, true);
+    }
+    else
+        AddTracksPlaylistEvent(newlist, true);
 }
 
 void GTKMusicBrowser::PlayEvent(void)

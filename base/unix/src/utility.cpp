@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.3 2000/06/22 15:27:17 elrod Exp $
+	$Id: utility.cpp,v 1.4 2000/06/22 19:05:08 elrod Exp $
 ____________________________________________________________________________*/
 
 /* System Includes */
@@ -35,7 +35,7 @@ ____________________________________________________________________________*/
 #define UI          "UI"
 #define DEFAULT_UI  "freeamp"
 
-Error GetPrefString(kInstallDirPref, char* path, int32 len)
+Error GetInstallDirectory(char* path, int32 len)
 {
     getcwd(path,len);
     return kError_NoErr;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.9 2000/06/22 15:13:35 elrod Exp $
+        $Id: cdpmo.cpp,v 1.10 2000/06/22 19:05:16 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -76,7 +76,7 @@ CDPMO::~CDPMO()
    cd_finish(m_cdDesc);
 }
 
-void CDPMO::SetPrefInt32(kVolumePref, int32 left, int32 right)
+void CDPMO::SetVolume( int32 left, int32 right)
 {
     if (m_cdDesc != -1)
     {
@@ -91,7 +91,7 @@ void CDPMO::SetPrefInt32(kVolumePref, int32 left, int32 right)
     }
 }
 
-void CDPMO::GetPrefInt32(kVolumePref, int32 &left, int32 &right)
+void CDPMO::GetVolume(int32 &left, int32 &right)
 {
     left = right = -1;
     if (m_cdDesc != -1)

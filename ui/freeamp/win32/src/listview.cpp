@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: listview.cpp,v 1.16.12.1 1999/08/27 03:09:43 elrod Exp $
+	$Id: listview.cpp,v 1.16.12.2 1999/08/29 20:24:38 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -965,7 +965,8 @@ ItemAt(int32 index) const
 {
     ListItem* result = NULL;
 
-    result = m_list->at(index);
+    if(index < m_list->size())
+        result = m_list->at(index);
 
     return result;
 }

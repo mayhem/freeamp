@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.cpp,v 1.67.2.2 1999/08/27 03:09:42 elrod Exp $
+	$Id: freeampui.cpp,v 1.67.2.3 1999/08/29 20:24:38 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1575,10 +1575,11 @@ MouseMove(int32 xPos,
     else
     {
         uint32 count = m_viewList->size() - 1;
+        uint32 size = m_viewList->size();
 
-        for(uint32 i = count; i >= 0; i--)
+        for(uint32 i = 0; i < size; i++)
         {
-            View* viewItem = m_viewList->at(i);
+            View* viewItem = m_viewList->at(count--);
 
             if( viewItem->PointInView(xPos, yPos) && 
                 viewItem->Visible() &&
@@ -1617,10 +1618,11 @@ LeftButtonDown( int32 xPos,
     bool result = false;
 
     uint32 count = m_viewList->size() - 1;
+    uint32 size = m_viewList->size();
 
-    for(uint32 i = count; i >= 0; i--)
+    for(uint32 i = 0; i < size; i++)
     {
-        View* viewItem = m_viewList->at(i);
+        View* viewItem = m_viewList->at(count--);
 
         if( viewItem->PointInView(xPos, yPos) && 
             viewItem->Visible() &&
@@ -1662,10 +1664,11 @@ LeftButtonUp(   int32 xPos,
     else
     {
         uint32 count = m_viewList->size() - 1;
+        uint32 size = m_viewList->size();
 
-        for(uint32 i = count; i >= 0; i--)
+        for(uint32 i = 0; i < size; i++)
         {
-            View* viewItem = m_viewList->at(i);
+            View* viewItem = m_viewList->at(count--);
 
             if( viewItem->PointInView(xPos, yPos) && 
                 viewItem->Visible() &&
@@ -1696,10 +1699,12 @@ LeftButtonDoubleClick(  int32 xPos,
     //OutputDebugString("LeftButtonDoubleClick\r\n");
 
     uint32 count = m_viewList->size() - 1;
+    uint32 size = m_viewList->size();
 
-    for(uint32 i = count; i >= 0; i--)
+    for(uint32 i = 0; i < size; i++)
     {
-        View* viewItem = m_viewList->at(i);
+        View* viewItem = m_viewList->at(count--);
+
         if( viewItem->PointInView(xPos, yPos) && 
             viewItem->Visible() &&
             viewItem->Enabled())

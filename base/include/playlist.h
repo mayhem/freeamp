@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: playlist.h,v 1.40.4.10 1999/08/27 07:16:45 elrod Exp $
+	$Id: playlist.h,v 1.40.4.11 1999/08/29 20:24:32 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PLAYLIST_H_
@@ -286,6 +286,10 @@ class PlaylistManager {
     DeviceInfo  m_portableDevice;
 
     Mutex       m_mutex;
+
+    Registry m_playlistRegistry;
+    Registry m_portableRegistry;
+    Registry m_metadataRegistry;
 
     vector<MetaDataFormat*>         m_metadataFormats;
     vector<PlaylistFormatInfo*>     m_playlistFormats;

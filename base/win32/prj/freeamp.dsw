@@ -86,6 +86,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name gdbm
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name id3v1
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -124,6 +127,18 @@ Package=<4>
 ###############################################################################
 
 Project: "httpinput"=..\..\..\io\http\win32\prj\httpinput.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "id3v1"=..\..\..\plm\metadata\id3v1\prj\id3v1.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: metadata.h,v 1.1.2.4 1999/08/27 16:55:28 ijr Exp $
+	$Id: metadata.h,v 1.1.2.5 1999/08/29 20:24:32 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _METADATA_H_
@@ -32,6 +32,7 @@ using namespace std;
 
 #include "config.h"
 #include "errors.h"
+#include "facontext.h"
 
 
 class MetaData {
@@ -120,11 +121,11 @@ class MetaData {
 
 class MetaDataFormat {
  public:
-    MetaDataFormat();
-    virtual ~MetaDataFormat();
+    MetaDataFormat(FAContext *context) {}
+    virtual ~MetaDataFormat() {}
 
-    virtual bool ReadMetaData(const char* url, MetaData* metadata);
-    virtual bool WriteMetaData(const char* url, const MetaData& metadata);
+    virtual bool ReadMetaData(const char* url, MetaData* metadata) = 0;
+    virtual bool WriteMetaData(const char* url, const MetaData& metadata) = 0;
 };
 
 

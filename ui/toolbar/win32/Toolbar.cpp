@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Toolbar.cpp,v 1.1.2.1 1999/10/04 00:29:06 robert Exp $
+	$Id: Toolbar.cpp,v 1.1.2.2 1999/10/04 19:18:45 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -403,12 +403,12 @@ UIThreadFunction()
     wc.hCursor = LoadCursor( NULL, IDC_ARROW );
     wc.hIcon = LoadIcon( g_hinst, MAKEINTRESOURCE(IDI_EXE_ICON) );
     wc.hbrBackground = NULL;//(HBRUSH)( COLOR_WINDOW + 1 );
-    wc.lpszClassName = "FreeAmp";
+    wc.lpszClassName = "ToolbarUI";
 
     if( RegisterClass( &wc ) )    
     {
-        CreateWindow(   "FreeAmp", 
-                        "FreeAmp",
+        CreateWindow(   "ToolbarUI", 
+                        "ToolbarUI Hidden Window",
                         WS_POPUP | WS_SYSMENU, 
                         0, 
                         0, 

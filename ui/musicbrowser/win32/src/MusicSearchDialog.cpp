@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicSearchDialog.cpp,v 1.7 2000/02/07 17:42:36 robert Exp $
+        $Id: MusicSearchDialog.cpp,v 1.8 2000/02/16 19:19:48 robert Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -162,7 +162,7 @@ BOOL MusicBrowserUI::MusicSearchDlgProc(HWND hwnd,
                     if(allDrives)
                     {
                         DWORD  dwDrives;
-                        char   *szDrive = "X:\\";
+                        char   szDrive[5];
                         int32  i, ret;
 
                         dwDrives = GetLogicalDrives();
@@ -171,6 +171,9 @@ BOOL MusicBrowserUI::MusicSearchDlgProc(HWND hwnd,
                            if (dwDrives & (1 << i))
                            {
                               szDrive[0] = 'A' + i;
+							  szDrive[1] = ':';
+							  szDrive[2] = '\\';
+							  szDrive[3] = 0;
                               ret = GetDriveType(szDrive);
                               if (ret != DRIVE_CDROM && ret != DRIVE_REMOVABLE)
                               {

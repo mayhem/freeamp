@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ThemeManager.cpp,v 1.14.2.1 2000/02/28 01:51:13 robert Exp $
+   $Id: ThemeManager.cpp,v 1.14.2.2 2000/02/28 02:10:02 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -174,7 +174,7 @@ Error ThemeManager::AddTheme(string &oThemeFile, bool bRename)
         ThemeZip oZip;
         string   oName;
 
-        if (IsntError(oZip.GetDescriptiveName(oThemeFile, oName))
+        if (IsntError(oZip.GetDescriptiveName(oThemeFile, oName)))
         {
             int i;
 

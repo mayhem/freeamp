@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: TextControl.cpp,v 1.1.2.9 1999/09/28 22:59:38 robert Exp $
+   $Id: TextControl.cpp,v 1.1.2.10 1999/09/29 00:38:24 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -96,17 +96,14 @@ void TextControl::Transition(ControlTransitionEnum  eTrans,
 void TextControl::TextChanged(void)
 {
     Canvas *pCanvas;
-    string oFontFace;
     int    iRet;
     
 	m_iMarqueePos = 0;
-    m_pFont->GetFace(oFontFace);
-
     pCanvas = m_pParent->GetCanvas();
     pCanvas->Erase(m_oRect);
     iRet = pCanvas->RenderText(m_oRect.Height(), m_oRect, 
                                m_oValue, m_eAlign, 
-                               oFontFace, m_oColor, m_bBold, 
+                               m_pFont, m_oColor, m_bBold, 
                                m_bItalic, m_bUnderline); 
     m_bWantsTimingMessages = (iRet > 0);
 }
@@ -115,25 +112,22 @@ void TextControl::TextChanged(void)
 void TextControl::MarqueeText(void)
 {
     Canvas *pCanvas;
-    string oFontFace;
     int    iRet;
 
 	m_iMarqueePos += m_iMarqueeScrollIncrement;
     
-    m_pFont->GetFace(oFontFace);
-
     pCanvas = m_pParent->GetCanvas();
     pCanvas->Erase(m_oRect);
     iRet = pCanvas->RenderOffsetText(m_oRect.Height(), m_oRect, 
                                      m_oValue, m_iMarqueePos, 
-                                     oFontFace, m_oColor, m_bBold, 
+                                     m_pFont, m_oColor, m_bBold, 
                                      m_bItalic, m_bUnderline); 
     if (iRet < 0)
     {
        m_iMarqueePos = -iRet;                           
        pCanvas->RenderOffsetText(m_oRect.Height(), m_oRect, 
                                  m_oValue, m_iMarqueePos, 
-                                 oFontFace, m_oColor, m_bBold, 
+                                 m_pFont, m_oColor, m_bBold, 
                                  m_bItalic, m_bUnderline); 
     }                             
 }

@@ -18,12 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Canvas.cpp,v 1.1.2.9 1999/09/28 22:59:48 robert Exp $
+   $Id: Win32Canvas.cpp,v 1.1.2.10 1999/09/29 00:38:26 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <windows.h>
 #include "Win32Canvas.h"
 #include "Win32Bitmap.h"
+#include "Win32Font.h"
 #include "debug.h"
 
 #define DB Debug_v("%s:%d\n", __FILE__, __LINE__);
@@ -64,13 +65,16 @@ void Win32Canvas::Init(void)
 // If the text all fit, it returns 0.
 int Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect, 
                             string &oText, AlignEnum eAlign,
-                            string &oFont, const Color &oColor,
+                            Font *pFont, const Color &oColor,
                             bool bBold, bool bItalic, bool bUnderline)
 {
    HDC   hRootDC, hMemDC;
    HFONT hFont;
    RECT  sClip;
    SIZE  sSize;
+   string oFontFace;
+
+   ((Win32Font *)pFont)->GetFace(oFontFace);
    
    sClip.left = oClipRect.x1;
    sClip.right = oClipRect.x2;
@@ -88,7 +92,7 @@ int Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect,
    hFont = CreateFont(iFontHeight, 0, 0, 0, bBold ? FW_BOLD : FW_NORMAL, 
                       bItalic, bUnderline, 0, DEFAULT_CHARSET,
  					  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-                      DEFAULT_PITCH, oFont.c_str()); 
+                      DEFAULT_PITCH, oFontFace.c_str()); 
                       
    DeleteObject(SelectObject(hMemDC, hFont));
 
@@ -115,14 +119,17 @@ int Win32Canvas::RenderText(int iFontHeight, Rect &oClipRect,
 // If the text all fit, it returns 0.
 int Win32Canvas::RenderOffsetText(int iFontHeight, Rect &oClipRect, 
                                   string &oText, int iOffset,
-                                  string &oFont, const Color &oColor,
+                                  Font *pFont, const Color &oColor,
                                   bool bBold, bool bItalic, bool bUnderline)
 {
-   HDC   hRootDC, hMemDC;
-   HFONT hFont;
-   RECT  sClip;
-   SIZE  sSize;
-   int   iRet;
+   HDC    hRootDC, hMemDC;
+   HFONT  hFont;
+   RECT   sClip;
+   SIZE   sSize;
+   int    iRet;
+   string oFontFace;
+
+   ((Win32Font *)pFont)->GetFace(oFontFace);
    
    sClip.left = oClipRect.x1;
    sClip.right = oClipRect.x2;
@@ -140,7 +147,7 @@ int Win32Canvas::RenderOffsetText(int iFontHeight, Rect &oClipRect,
    hFont = CreateFont(iFontHeight, 0, 0, 0, bBold ? FW_BOLD : FW_NORMAL, 
                       bItalic, bUnderline, 0, DEFAULT_CHARSET,
  					  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-                      DEFAULT_PITCH, oFont.c_str()); 
+                      DEFAULT_PITCH, oFontFace.c_str()); 
                       
    DeleteObject(SelectObject(hMemDC, hFont));
 

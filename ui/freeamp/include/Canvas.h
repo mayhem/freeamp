@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Canvas.h,v 1.1.2.11 1999/09/28 22:59:29 robert Exp $
+   $Id: Canvas.h,v 1.1.2.12 1999/09/29 00:38:21 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CANVAS_H__
@@ -26,6 +26,7 @@ ____________________________________________________________________________*/
 
 #include "Types.h"
 #include "Bitmap.h"
+#include "Font.h"
 
 const int iMarqueeSpacer = 20;	 // Number of pixels of space to insert
                                  // between wrappings of the same text.
@@ -57,11 +58,11 @@ class Canvas
      virtual void  Erase(Rect &oPaintRect) = 0;
      virtual int   RenderText(int iFontHeight, Rect &oClipRect,
                               string &oText, AlignEnum eAlign,
-                              string &oFont, const Color &oColor,
+                              Font *pFont, const Color &oColor,
                               bool bBold, bool bItalic, bool bUnderline) = 0;
      virtual int   RenderOffsetText(int iFontHeight, Rect &oClipRect, 
                                     string &oText, int iOffset,
-                                    string &oFont, const Color &oColor,
+                                    Font *pFont, const Color &oColor,
                                     bool bBold, bool bItalic, bool bUnderline) = 0;
      virtual Error Invalidate(Rect &oRect) = 0;
      virtual Error Update(void) = 0;

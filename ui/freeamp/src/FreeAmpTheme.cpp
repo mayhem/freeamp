@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.1.2.19 1999/09/28 22:59:37 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.1.2.20 1999/09/29 00:38:23 robert Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -91,12 +91,9 @@ void FreeAmpTheme::WorkerThread(void)
    unsigned int  iLen = 255;
    Error  eRet;
    bool   bSet = false;
-   string oWelcome("Welcome to FreeAmp");
 
    m_pContext->prefs->GetPrefString(kMainWindowPosPref, szTemp, &iLen);
    sscanf(szTemp, " %d , %d", &m_oWindowPos.x, &m_oWindowPos.y);
-
-   //m_pWindow->ControlStringValue(string("Title"), true, oWelcome);
 
    eRet = Theme::Run(m_oWindowPos);
    if (!IsError(eRet))
@@ -260,8 +257,8 @@ int32 FreeAmpTheme::AcceptEvent(Event * e)
          StreamInfoEvent *pInfo = (StreamInfoEvent *) e;
 
          pInfo->GetTitle(szTitle, 100);
-         oText = string(szTitle);
-         m_pWindow->ControlStringValue(oName, true, oText);
+         m_oTitle = string(szTitle);
+         m_pWindow->ControlStringValue(oName, true, m_oTitle);
          oText = string("FreeAmp: ") + string(szTitle);
          m_pWindow->SetTitle(oText);
 
@@ -479,6 +476,25 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
        m_pContext->target->AcceptEvent(new Event(CMD_PrevMediaPiece));
        return kError_NoErr;
    }
+   if (oControlName == string("MyMusic") && eMesg == CM_Pressed)
+   {
+       //m_pContext->target->AcceptEvent(new Event(INFO_ToggleMusicBrowserUI));
+       return kError_NoErr;
+   }
+   if (oControlName == string("Playlist") && eMesg == CM_Pressed)
+   {
+       //m_pContext->target->AcceptEvent(new Event(INFO_TogglePlaylistUI));
+       return kError_NoErr;
+   }
+   if (oControlName == string("Download") && eMesg == CM_Pressed)
+   {
+       //m_pContext->target->AcceptEvent(new Event(INFO_ToggleDownloadUI));
+       return kError_NoErr;
+   }
+   if (oControlName == string("Options") && eMesg == CM_Pressed)
+   {
+       return kError_NoErr;
+   }
    if (oControlName == string("Quit") && eMesg == CM_Pressed)
    {
        m_pContext->target->AcceptEvent(new Event(CMD_QuitPlayer));
@@ -523,7 +539,8 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
 
 void FreeAmpTheme::InitControls(void)
 {
-	bool bSet;
+	bool   bSet;
+    string oWelcome("Welcome to FreeAmp!");
     
     assert(m_pWindow);
     
@@ -559,4 +576,9 @@ void FreeAmpTheme::InitControls(void)
     	bSet = true;
         m_pWindow->ControlShow(string("Pause"), true, bSet);
     }
+    
+    if (m_oTitle == string(""))
+        m_pWindow->ControlStringValue(string("Title"), true, oWelcome);
+    else    
+        m_pWindow->ControlStringValue(string("Title"), true, m_oTitle);
 }

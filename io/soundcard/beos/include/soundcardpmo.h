@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardpmo.h,v 1.6 1999/11/04 22:59:38 hiro Exp $
+	$Id: soundcardpmo.h,v 1.7 1999/12/11 23:50:26 hiro Exp $
 ____________________________________________________________________________*/
 
 
@@ -112,8 +112,9 @@ private:
     int32                   m_lastFrame;
     int64                   m_totalBytesWritten;
     Event*                  m_event;
+    static int32            s_lastVolume;
 #if DEBUG_SAVE_PCM
-	FILE*					m_pcmSaveFile;
+    FILE*                   m_pcmSaveFile;
 #endif
 };
 

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: freeampui.h,v 1.21 1999/03/15 09:16:03 elrod Exp $
+	$Id: freeampui.h,v 1.22 1999/03/16 08:10:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _FREEAMP_UI_H_
@@ -120,6 +120,9 @@ class FreeAmpUI : public UserInterface {
     void CreateTooltips();
 
     void UpdatePlayList();
+
+    bool OpenSong(List<char*>* filelist);
+
 
  public:
     

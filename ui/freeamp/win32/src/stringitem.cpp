@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: stringitem.cpp,v 1.3 1999/03/08 12:08:31 elrod Exp $
+	$Id: stringitem.cpp,v 1.4 1999/03/16 08:10:57 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -43,69 +43,12 @@ ListItem()
     m_fontBitmap = fontBitmap;
     m_fontWidths = fontWidths;
     m_fontHeight = fontHeight;
+    m_text       = NULL;
+    m_textBitmap = NULL;
 
-    m_text = new char[strlen(text) + 1];
-    strcpy(m_text, text);
-
-    int32 textLength = 0;
-    int32 offset = 0;
-    int32 i = 0;
-
-    // calculate how long the bitmap needs to be
-    // that will hold the pre-rendered string
-    for(i = 0; m_text[i]; i++)
-    {
-        if(m_text[i] < 127 && m_text[i] > 31)
-            textLength += m_fontWidths[m_text[i] - 32];
-        else
-            textLength += m_fontWidths[63 - 32];
-
-    }
-
-    // create text bitmap
-    m_textBitmap = new DIB;
-    m_textBitmap->Create(   textLength, 
-                            m_fontHeight, 
-                            m_fontBitmap->BitsPerPixel());
-
-    if(m_fontBitmap->BitsPerPixel() == 8)
-    {
-        m_textBitmap->SetPalette(m_fontBitmap->Palette(), 
-                                 m_fontBitmap->NumberOfPaletteEntries() );
-
-    }
-
-    // render the string
-    for(i = 0; m_text[i]; i++)
-    {
-        int32 y;
-        int32 width;
-
-        if(m_text[i] < 127 && m_text[i] > 31)
-        {
-            y = (m_text[i] - 32)*m_fontHeight;
-            width = m_fontWidths[m_text[i] - 32];
-        }
-        else
-        {
-            y = (63 - 32)*m_fontHeight;
-            width = m_fontWidths[63 - 32];
-        }
-
-        Renderer::Copy( m_textBitmap,
-                        offset, 
-                        0,     
-                        width,   
-                        m_fontHeight,
-                        m_fontBitmap,    
-                        0,
-                        y);
-
-        offset += width;
-    }
+    SetText(text);
 
     SetHeight(fontHeight);
-    SetWidth(textLength);
 }
 
 StringItem::
@@ -116,6 +59,91 @@ StringItem::
 
     if(m_text)
         delete [] m_text;
+}
+
+void 
+StringItem::
+SetText(char* text)
+{
+    assert(text);
+
+    if(text)
+    {
+        if(m_text)
+        {
+            delete [] m_text;
+            m_text = NULL;
+        }
+
+        m_text = new char[strlen(text) + 1];
+        strcpy(m_text, text);
+
+        int32 textLength = 0;
+        int32 offset = 0;
+        int32 i = 0;
+
+        // calculate how long the bitmap needs to be
+        // that will hold the pre-rendered string
+        for(i = 0; m_text[i]; i++)
+        {
+            if(m_text[i] < 127 && m_text[i] > 31)
+                textLength += m_fontWidths[m_text[i] - 32];
+            else
+                textLength += m_fontWidths[63 - 32];
+
+        }
+
+        // create text bitmap
+
+        if(m_textBitmap)
+        {
+            delete m_textBitmap;
+            m_textBitmap = NULL;
+        }
+
+        m_textBitmap = new DIB;
+        m_textBitmap->Create(   textLength, 
+                                m_fontHeight, 
+                                m_fontBitmap->BitsPerPixel());
+
+        if(m_fontBitmap->BitsPerPixel() == 8)
+        {
+            m_textBitmap->SetPalette(m_fontBitmap->Palette(), 
+                                     m_fontBitmap->NumberOfPaletteEntries() );
+
+        }
+
+        // render the string
+        for(i = 0; m_text[i]; i++)
+        {
+            int32 y;
+            int32 width;
+
+            if(m_text[i] < 127 && m_text[i] > 31)
+            {
+                y = (m_text[i] - 32)*m_fontHeight;
+                width = m_fontWidths[m_text[i] - 32];
+            }
+            else
+            {
+                y = (63 - 32)*m_fontHeight;
+                width = m_fontWidths[63 - 32];
+            }
+
+            Renderer::Copy( m_textBitmap,
+                            offset, 
+                            0,     
+                            width,   
+                            m_fontHeight,
+                            m_fontBitmap,    
+                            0,
+                            y);
+
+            offset += width;
+        }
+
+        SetWidth(textLength);
+    }
 }
 
 void

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: event.h,v 1.23 1999/03/13 00:45:07 robert Exp $
+	$Id: event.h,v 1.24 1999/03/16 08:10:55 elrod Exp $
 ____________________________________________________________________________*/
 
 // event.h
@@ -82,28 +82,29 @@ class EventQueue {
 #define INFO_PlayListRepeat     33 // sent by PLM to player to inform of a setting of repeat mode
 #define INFO_PlayListShuffle    34 // sent by PLM to player to inform of a setting of shuffle mode
 #define INFO_PlayListUpdated	35 // sent by PLM to player to inform of a playlist update
-#define INFO_UserMessage        36 // sent by UI to Player, diseminated by Player to each UI
+#define INFO_PlayListItemUpdated    36 // sent by PLM to player to inform of a playlistitem update
+#define INFO_UserMessage        37 // sent by UI to Player, diseminated by Player to each UI
 
 #define _EQUALIZER_ENABLE_
 #ifdef  _EQUALIZER_ENABLE_
-#define CMD_SetEQData                   37      //set EQ data
+#define CMD_SetEQData                   38      //set EQ data
 #endif  //_EQUALIZER_ENABLE_
 #undef  _EQUALIZER_ENABLE_
 
 #define _VISUAL_ENABLE_
 #ifdef  _VISUAL_ENABLE_
-#define CMD_SendVisBuf                  38      //Send PCM buffer from LMC to player
+#define CMD_SendVisBuf                  39      //Send PCM buffer from LMC to player
 #endif  //_VISUAL_ENABLE_
 #undef  _VISUAL_ENABLE_
 
-#define CMD_VolumeUp           39
-#define CMD_VolumeDown         40
+#define CMD_VolumeUp           40
+#define CMD_VolumeDown         41
 
-#define INFO_BufferingBegin       41 // Network rebuffering just started
-#define INFO_BufferingEnd         42 // Network rebuffering just stopped
-#define INFO_BufferStatus         43 // Buffer percent full information
+#define INFO_BufferingBegin       42 // Network rebuffering just started
+#define INFO_BufferingEnd         43 // Network rebuffering just stopped
+#define INFO_BufferStatus         44 // Buffer percent full information
 
-#define CMD_PLMGetMediaTitle      44 // sent by PlayListManager to player to get title about a particular playlistitem
+#define CMD_PLMGetMediaTitle      45 // sent by PlayListManager to player to get title about a particular playlistitem
 
 #endif // _EVENT_H_
 

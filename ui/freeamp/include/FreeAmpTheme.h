@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.h,v 1.32 2000/06/12 18:07:50 robert Exp $
+   $Id: FreeAmpTheme.h,v 1.33 2000/08/18 11:26:12 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FREEAMP_THEME_H
@@ -55,6 +55,13 @@ enum FreeAmpMenuCommand
 	kMCNext    = 6904,
 	kMCPrev    = 6905,
 	kMCExit    = 6906
+};
+
+enum SignatureDisplayState
+{
+    kIdle,
+    kSigsPending,
+    kGeneratingSigs
 };
 
 class FreeAmpTheme : public UserInterface, public Theme
@@ -110,6 +117,7 @@ class FreeAmpTheme : public UserInterface, public Theme
         TimeDisplayState m_eTimeDisplayState;
         UpdateManager   *m_pUpdateMan;
         Equalizer       *m_eq;
+        SignatureDisplayState m_sigState;
 };
 
 #endif

@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.136 2000/08/08 22:34:43 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.137 2000/08/18 11:26:12 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -123,6 +123,7 @@ FreeAmpTheme::FreeAmpTheme(FAContext * context)
    m_bShowBuffers = m_bPaused = m_bBufferingUp = false;
    m_iFramesSinceSeek = 2;
    m_fSecondsPerFrame = 0;
+   m_sigState = kIdle;
 
    m_eq = new Equalizer(context);
    m_eq->LoadSettings();
@@ -788,6 +789,43 @@ Error FreeAmpTheme::AcceptEvent(Event * e)
       	 break;
       }
 
+      case INFO_UnsignaturedTracksExist:
+      {
+          int    iState = 1;
+
+          m_sigState = kSigsPending;
+          m_pWindow->ControlIntValue(string("SigIndicator"), true, iState);
+      	 break;
+      }
+
+      case INFO_SignaturingStarted:
+      {
+          int    iState = 2;
+
+          m_sigState = kGeneratingSigs;
+          m_pWindow->ControlIntValue(string("SigIndicator"), true, iState);
+      	 break;
+      }
+
+      case INFO_SignaturingStopped:
+      {
+          int    iState;
+
+          if (m_pContext->catalog->GetNumNeedingSigs() > 0)
+          {
+              m_sigState = kSigsPending;
+              iState = 1;
+              m_pWindow->ControlIntValue(string("SigIndicator"), true, iState);
+          }
+          else
+          {
+              m_sigState = kIdle;
+              iState = 0;
+              m_pWindow->ControlIntValue(string("SigIndicator"), true, iState);
+          }
+      	 break;
+      }
+
       case CMD_LoadTheme:
       {
           char         *szSavedTheme, *szNewTheme;
@@ -1301,6 +1339,14 @@ Error FreeAmpTheme::HandleControlMessage(string &oControlName,
                             Event(CMD_EditCurrentPlaylistItemInfo));
        return kError_NoErr;
    } 
+   if (oControlName == string("SigIndicator") && eMesg == CM_Pressed)
+   {
+       if (m_sigState == kSigsPending)
+          m_pContext->catalog->StartGeneratingSigs();
+       else
+       if (m_sigState == kGeneratingSigs)
+          m_pContext->catalog->StopGeneratingSigs();
+   }
   
    return kError_NoErr;
 }

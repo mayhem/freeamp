@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: database.cpp,v 1.9 2000/08/24 17:40:38 ijr Exp $
+        $Id: database.cpp,v 1.10 2000/10/17 10:24:03 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -26,6 +26,7 @@ ____________________________________________________________________________*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <string.h>
 
 #include "gdbm_fa.h"
 #include "errors.h"

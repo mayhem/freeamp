@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-       $Id: ttfont.cpp,v 1.7 2000/10/05 11:47:33 ijr Exp $
+       $Id: ttfont.cpp,v 1.8 2000/10/17 10:24:05 ijr Exp $
  ____________________________________________________________________________*/ 
 
 /*
@@ -45,6 +45,10 @@
 #include "config.h"
 
 #ifdef HAVE_FREETYPE
+
+#include <iostream>
+
+using namespace std;
 
 #include <stdlib.h>
 #include <string.h>
@@ -73,13 +77,18 @@ create_font_raster(int width, int height)
    rmap->flow = TT_Flow_Down;
    rmap->cols = rmap->width;
    rmap->size = rmap->rows * rmap->width;
-   if (rmap->size > 0)
+   if (rmap->size <= 0)
      {
-	rmap->bitmap = malloc(rmap->size);
-	memset(rmap->bitmap, 0, rmap->size);
+        free(rmap);
+        return NULL;
      }
-   else
-      rmap->bitmap = NULL;
+   rmap->bitmap = malloc(rmap->size);
+   if (!rmap->bitmap)
+     {
+        free(rmap);
+        return NULL;
+     }
+   memset(rmap->bitmap, 0, rmap->size);
    return rmap;
 }
 
@@ -444,9 +453,18 @@ EFont_draw_string(GdkPixmap *win, GdkGC *gc, int x, int y, char *text,
    inx = 0;
    iny = 0;
 
+   if (strlen(text) < 1)
+       return;
+
    ttfLock.Acquire();
 
    rtmp = calc_size(font, &w, &h, text);
+   if (w <= 0 || h <= 0)
+   {
+       destroy_font_raster(rtmp);
+       ttfLock.Release();
+       return;
+   }
    rmap = create_font_raster(w, h);
 
    render_text(rmap, rtmp, font, text, &inx, &iny);
@@ -630,21 +648,10 @@ Efont_load(char *file, int size)
 	  }
      }
    if (i == n)
-     {
-	no_cmap = 1;
-	num_glyphs = f->properties.num_Glyphs;
-	TT_Done_Instance(f->instance);
-	TT_Close_Face(f->face);
-        have_engine--;
-	free(f);
-        if (!have_engine)
-            TT_Done_FreeType(engine);
-
-        ttfLock.Release();
-	return NULL;
-     }
+      TT_Get_CharMap(f->face, 0, &char_map);
    f->num_glyph = f->properties.num_Glyphs;
-   f->glyphs = (TT_Glyph *) malloc(f->num_glyph * sizeof(TT_Glyph));
+   //f->num_glyph = 256;
+   f->glyphs = (TT_Glyph *) malloc((f->num_glyph + 1) * sizeof(TT_Glyph));
    memset(f->glyphs, 0, f->num_glyph * sizeof(TT_Glyph));
    f->glyphs_cached = 
               (TT_Raster_Map **) malloc(f->num_glyph * sizeof(TT_Raster_Map *));
@@ -690,6 +697,14 @@ Efont_load(char *file, int size)
       f->ascent = -f->ascent;
    if (f->descent < 0)
       f->descent = -f->descent;
+
+   if (((f->ascent == 0) && (f->descent == 0)) || (f->ascent == 0))
+   {
+       f->ascent = f->max_ascent / 64; 
+       f->descent = -f->max_descent / 64;
+   }
+
+   TT_Flush_Face(f->face);
 
    ttfLock.Release();
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.23 2000/10/13 14:39:43 ijr Exp $
+   $Id: GTKFont.cpp,v 1.24 2000/10/17 10:24:05 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <sys/stat.h>
@@ -382,8 +382,9 @@ GTKFont::~GTKFont(void)
     }
 #ifdef HAVE_FREETYPE
     else {
-        if (ttfont)
+        if (ttfont) {
             Efont_free(ttfont);
+         }
     }
 #endif
     gdk_threads_leave();

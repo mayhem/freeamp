@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Window.cpp,v 1.6 1999/11/01 19:33:05 robert Exp $
+   $Id: Win32Window.cpp,v 1.7 1999/11/01 19:38:33 robert Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -128,7 +128,6 @@ static LRESULT WINAPI MainWndProc(HWND hwnd, UINT msg,
             ui->HandleMouseMove(oPos);
             break;
         }
-
 
         case WM_NCMOUSEMOVE:
         {
@@ -375,6 +374,15 @@ void Win32Window::Paint(void)
 
     m_pMindMeldMutex->Release();
 }    
+
+void Win32Window::TimerEvent(void)
+{
+    m_pMindMeldMutex->Acquire();
+
+    Window::TimerEvent();
+
+    m_pMindMeldMutex->Release();
+}
 
 void Win32Window::SaveWindowPos(Pos &oPos)
 {

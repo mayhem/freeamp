@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.cpp,v 1.2.2.4 1999/09/16 00:03:59 ijr Exp $
+	$Id: utility.cpp,v 1.2.2.5 1999/09/16 00:49:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -31,6 +31,21 @@ ____________________________________________________________________________*/
 #include "utility.h"
 
 #ifdef WIN32
+
+char *FreeampDir(void)
+{
+    char path[_MAX_PATH] = {0x00};
+    uint32 len = sizeof(path);
+    char *s;
+
+    //pref->GetInstallDirectory(path, &len);
+
+    s = new char[strlen(path) + 1];
+    strcpy(s, path);
+
+    return s;
+}
+
 #else
 
 #include <stdlib.h>

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.1.2.2 1999/09/15 22:19:50 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.1.2.3 1999/09/16 00:49:27 elrod Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -35,10 +35,41 @@ ____________________________________________________________________________*/
 
 #include "errors.h"
 #include "downloadmanager.h"
+#include "registrar.h"
 
 DownloadManager::DownloadManager(FAContext* context)
 {
     m_context = context;
+    m_current = 0;
+
+    Registrar registrar;
+
+    registrar.SetSubDir("plugins");
+    registrar.SetSearchString("*.dlf");
+    registrar.InitializeRegistry(&m_formatRegistry, context->prefs);
+
+    const RegistryItem* module = NULL;
+    DownloadFormat* dlf = NULL;
+    int32 i = 0;
+
+    while((module = m_formatRegistry.GetItem(i++)))
+    {
+        dlf = (DownloadFormat*) module->InitFunction()(m_context);
+
+        if(dlf)
+        {
+            DownloadFormatInfo dlfi;
+
+            uint32 index = 0;
+
+            // error != kError_NoMoreFormats
+            while(IsntError(dlf->GetSupportedFormats(&dlfi, index++)))
+            {
+                dlfi.SetRef(dlf);
+                m_formats.push_back(new DownloadFormatInfo(dlfi));
+            }
+        }
+    }
 }
 
 DownloadManager::~DownloadManager()
@@ -58,6 +89,14 @@ DownloadManager::~DownloadManager()
         {
             delete item;
         }
+    }
+
+    size = m_formats.size();
+
+    for(index = 0; index < size; index++)
+    {
+        //delete m_formats[index]->GetRef();
+        delete m_formats[index];
     }
 }
 
@@ -94,7 +133,7 @@ Error DownloadManager::AddItem(DownloadItem* item)
 
     if(item)
     {
-        m_itemList->push_back(item);
+        m_itemList.push_back(item);
 
         result = kError_NoErr;
     }
@@ -112,7 +151,7 @@ Error DownloadManager::AddItems(vector<DownloadItem*>* list)
 
     if(list)
     {
-        m_itemList->insert( m_itemList->end(),
+        m_itemList.insert( m_itemList.end(),
                             list->begin(), 
                             list->end());
 
@@ -153,9 +192,9 @@ Error DownloadManager::RemoveItem(uint32 index)
 
     if(index != kInvalidIndex)
     {
-        DownloadItem* item = (*m_itemList)[index];
+        DownloadItem* item = m_itemList[index];
 
-        m_itemList->erase(&(*m_itemList)[index]);
+        m_itemList.erase(&m_itemList[index]);
 
         delete item;
 
@@ -177,12 +216,12 @@ Error DownloadManager::RemoveItems(uint32 index, uint32 count)
     {
         for(uint32 i = 0; i < count; i++)
         {
-            DownloadItem* item = (*m_itemList)[index + i];
+            DownloadItem* item = m_itemList[index + i];
 
             delete item;
         }
 
-        m_itemList->erase(&(*m_itemList)[index], &(*m_itemList)[index + count]);
+        m_itemList.erase(&m_itemList[index], &m_itemList[index + count]);
 
         result = kError_NoErr;
     }
@@ -212,7 +251,7 @@ Error DownloadManager::RemoveItems(vector<DownloadItem*>* items)
 
             if(item)
             {
-                m_itemList->erase(&(*m_itemList)[IndexOf(item)]);
+                m_itemList.erase(&m_itemList[IndexOf(item)]);
 
                 delete item;
 
@@ -233,11 +272,11 @@ Error DownloadManager::RemoveAll()
     DownloadItem* item = NULL;
     m_mutex.Acquire();
 
-    size = m_itemList->size();
+    size = m_itemList.size();
 
     for(index = 0; index < size; index++)
     {
-        item = (*m_itemList)[index];
+        item = m_itemList[index];
 
         if(item)
         {            
@@ -245,7 +284,7 @@ Error DownloadManager::RemoveAll()
         }
     }  
 
-    m_itemList->clear();
+    m_itemList.clear();
 
     m_mutex.Release();
     return result;
@@ -258,12 +297,16 @@ Error DownloadManager::RemoveAll()
 // state is Done, or Downloading.
 Error DownloadManager::QueueDownload(DownloadItem* item)
 {
+    Error result = kError_InvalidParam;
 
+    return result;
 }
 
 Error DownloadManager::QueueDownload(uint32 index)
 {
+    Error result = kError_InvalidParam;
 
+    return result;
 }
 
 
@@ -272,14 +315,17 @@ Error DownloadManager::QueueDownload(uint32 index)
 // Has no effect if the item's state is Done, Cancelled, or Error.
 Error DownloadManager::CancelDownload(DownloadItem* item, bool allowResume)
 {
+    Error result = kError_InvalidParam;
 
+    return result;
 }
 
 Error DownloadManager::CancelDownload(uint32 index, bool allowResume)
 {
+    Error result = kError_InvalidParam;
 
+    return result;
 }
-
 
 
 // File Format support
@@ -294,22 +340,155 @@ Error DownloadManager::GetSupportedDownloadFormats(DownloadFormatInfo* format,
     {
         result = kError_NoMoreFormats;
 
-        uint32 numFormats = m_downloadFormats.size();
+        uint32 numFormats = m_formats.size();
 
         if(index < numFormats)
         {
             result = kError_NoErr;
 
-            *format = *m_downloadFormats[index];
+            *format = *m_formats[index];
         }
     }
 
     return result;
 }
 
-Error DownloadManager::ImportDownloadFile(char* url, 
-                                          vector<DownloadItem*>* items)
+Error DownloadManager::ReadDownloadFile(char* url, 
+                                        vector<DownloadItem*>* items)
 {
+    Error result = kError_InvalidParam;
 
+    assert(url);
+
+    if(url)
+    {
+        // find a suitable plugin
+        result = kError_FormatNotSupported;
+        char* extension = strrchr(url, '.');
+
+        if(extension)
+        {
+            extension++;
+
+            uint32 numFormats = m_formats.size();
+
+            for(uint32 index = 0; index < numFormats; index++)
+            {
+                DownloadFormatInfo* format = m_formats[index];
+                
+                if(!strcmp(extension, format->GetExtension()))
+                {
+                    bool addToInternalList = false;
+
+                    if(!items)
+                    {
+                        items = new vector<DownloadItem*>;
+                        addToInternalList = true;
+                    }
+
+                    result = format->GetRef()->ReadDownloadFile(url, 
+                                                                items);
+
+                    if(addToInternalList)
+                    {
+                        AddItems(items);
+                        delete items;
+                    }
+
+                    break;
+                }
+            }
+        }
+    }
+
+    return result;
 }
 
+// Utility Functions
+bool DownloadManager::IsEmpty()
+{
+    bool result;
+    m_mutex.Acquire();
+
+    result = m_itemList.empty();
+
+    m_mutex.Release();
+    return result;
+}
+
+uint32 DownloadManager::CountItems()
+{
+    uint32 result;
+    m_mutex.Acquire();
+
+    result = m_itemList.size();
+
+    m_mutex.Release();
+    return result;
+}
+
+DownloadItem* DownloadManager::ItemAt(uint32 index)
+{
+    DownloadItem* result = NULL;
+    m_mutex.Acquire();
+    
+    index = CheckIndex(index);
+
+    if(index != kInvalidIndex)
+    {
+        result = m_itemList[index];
+    }
+    
+    m_mutex.Release();
+    return result;
+}
+
+uint32 DownloadManager::IndexOf(DownloadItem* item)
+{
+    return InternalIndexOf(&m_itemList, item);
+}
+
+uint32 DownloadManager::InternalIndexOf(vector<DownloadItem*>* list,
+                                        DownloadItem* item)
+{
+    uint32 result = kInvalidIndex;
+    uint32 index = 0;
+    uint32 size = 0;
+
+    assert(list);
+    assert(item);
+
+    if(list && item)
+    {
+        size = list->size();
+
+        for(index = 0; index < size; index++)
+        {
+            if(item == (*list)[index])
+            {
+                result = index;
+                break;
+            }
+        }
+    }
+    
+    return result;
+}
+
+bool DownloadManager::HasItem(DownloadItem* item)
+{
+    return (IndexOf(item) != kInvalidIndex);
+}
+
+// Internal functions
+
+inline uint32 DownloadManager::CheckIndex(uint32 index)
+{
+	// If we're dealing with a bogus index then set it to -1.
+	if(index >= CountItems())
+    {
+		index = kInvalidIndex;
+    }
+
+	return index;
+}

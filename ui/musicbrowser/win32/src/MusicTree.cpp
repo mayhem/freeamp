@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicTree.cpp,v 1.7 1999/11/07 07:48:25 elrod Exp $
+        $Id: MusicTree.cpp,v 1.8 1999/11/07 12:48:10 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -729,10 +729,7 @@ LRESULT MusicBrowserUI::TreeViewWndProc(HWND hwnd,
                                     (LPARAM)&nm_treeview);
 
                         return TRUE;
-
-                        //MessageBox(NULL, "drag", "hey", MB_OK);
                     }
-                
                 }
             }
 

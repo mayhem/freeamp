@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: help.h,v 1.3 2000/01/21 09:51:03 elrod Exp $
+   $Id: help.h,v 1.4 2000/06/07 13:01:08 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_HELP_H
@@ -46,6 +46,7 @@ ____________________________________________________________________________*/
 #define Preferences_Plugins 7
 #define Preferences_Advanced 8
 #define Preferences_About 9
+#define Preferences_Directory 12
 
 #define Edit_Info 11
 

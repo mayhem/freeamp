@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: simpleui.cpp,v 1.6 1998/10/21 05:38:03 elrod Exp $
+	$Id: simpleui.cpp,v 1.7 1998/10/22 00:59:09 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -477,7 +477,9 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
                         isPaused = false;
                     }
                     else
+                    {
                         m_ui->m_target->AcceptEvent( m_ui->m_target, new Event(CMD_Play));
+                    }
 
 					break;
 				}
@@ -571,6 +573,7 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
 						}
 
 						m_ui->m_target->AcceptEvent(m_ui->m_target, new Event(CMD_SetPlaylist,playlist));
+                        EnableWindow(m_ui->m_hwndPlay, TRUE);
 					}
 
 					delete [] filelist;
@@ -653,6 +656,7 @@ BOOL CALLBACK SimpleUI::MainProc(	HWND hwnd,
 			}
 
 			m_ui->m_target->AcceptEvent(m_ui->m_target, new Event(CMD_SetPlaylist,playlist));
+            EnableWindow(m_ui->m_hwndPlay, TRUE);
 
 			break;
 		}

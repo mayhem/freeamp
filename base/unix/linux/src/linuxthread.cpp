@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: linuxthread.cpp,v 1.5 1999/04/16 09:46:39 elrod Exp $
+	$Id: linuxthread.cpp,v 1.6 1999/04/19 23:57:21 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -132,13 +132,13 @@ uint32
 linuxThread::
 GetPriority() const
 {
-    return((Priority) 0);
+    return( 0);
 }
 
 uint32 
 linuxThread::
 SetPriority(uint32 priority)
 {
-    return((Priority) 0);
+    return( 0);
 }
 

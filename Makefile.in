@@ -1,6 +1,6 @@
 # Generated automatically from Makefile.in by configure.
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.48 2000/02/06 06:45:57 hiro Exp $
+# $Id: Makefile.in,v 1.49 2000/02/16 04:39:35 ijr Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = -fpic for plugins.
@@ -110,7 +110,7 @@ freeamp: $(FREEAMPOBJ) $(freeamp_DEPENDENCIES)
 clean: freeamp-clean plugins-clean
 
 clean-freeamp freeamp-clean:
-	-rm -f $(FREEAMPOBJ) freeamp $(GDBMOBJ) $(PARSEOBJ) 
+	-rm -f $(FREEAMPOBJ) freeamp $(ZLIBOBJ) $(GDBMOBJ) $(PARSEOBJ) 
 
 plugins: plugins-cc
 

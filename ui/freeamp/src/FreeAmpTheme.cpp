@@ -19,7 +19,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-   $Id: FreeAmpTheme.cpp,v 1.85 2000/02/15 21:33:44 robert Exp $
+   $Id: FreeAmpTheme.cpp,v 1.86 2000/02/16 04:39:35 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h> 
@@ -1129,22 +1129,6 @@ void FreeAmpTheme::SetVolume(int iVolume)
     m_pWindow->ControlStringValue(string("Info"), true, oVol);
 }    
 
-const char *aThemes[] =
-{
-     "D:\\FREEAMP\\FREEAMP\\BASE\\WIN32\\PRJ\\THEMES\\Aquatica.fat",
-     "D:\\FREEAMP\\FREEAMP\\BASE\\WIN32\\PRJ\\THEMES\\FreeAmpClassic.fat",
-     "D:\\FREEAMP\\FREEAMP\\BASE\\WIN32\\PRJ\\THEMES\\FreeAmp.fat",
-     "D:\\FREEAMP\\FREEAMP\\BASE\\WIN32\\PRJ\\THEMES\\EMusic.fat",
-     "D:\\FREEAMP\\FREEAMP\\BASE\\WIN32\\PRJ\\THEMES\\Minimalist.fat",
-     "D:\\FREEAMP\\FREEAMP\\BASE\\WIN32\\PRJ\\THEMES\\Visions.fat",
-     "D:\\FREEAMP\\FREEAMP\\BASE\\WIN32\\PRJ\\THEMES\\Stereo.fat",
-     "D:\\FREEAMP\\FREEAMP\\BASE\\WIN32\\PRJ\\THEMES\\office.fat",
-     "D:\\FREEAMP\\FREEAMP\\BASE\\WIN32\\PRJ\\THEMES\\giger.fat",
-     "D:\\FREEAMP\\FREEAMP\\BASE\\WIN32\\PRJ\\THEMES\\emusich.fat",
-     "D:\\FREEAMP\\FREEAMP\\BASE\\WIN32\\PRJ\\THEMES\\freeamph.fat",
-     "\0"
-};
-
 void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
 {
     switch(cKey)
@@ -1215,7 +1199,7 @@ void FreeAmpTheme::HandleKeystroke(unsigned char cKey)
      {
         m_bShowBuffers = !m_bShowBuffers;
         break;
-     }    
+     }   
    }
 }
 

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cdct.c,v 1.9 1999/07/15 20:20:01 robert Exp $
+	$Id: cdct.c,v 1.10 1999/07/21 22:17:00 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  cdct.c  ***************************************************
@@ -39,6 +39,11 @@ portable C
 #include <stdio.h>
 #include <float.h>
 #include <math.h>
+
+#ifdef ASM_X86
+extern void fdct32_asm(float*a, float*b);
+extern void fdct32_dual_asm(float*a, float*b);
+#endif /* ASM_X86 */
 
 float coef32[31];	/* 32 pt dct coefs */
 

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cwin.c,v 1.5 1999/04/22 08:24:01 mhw Exp $
+	$Id: cwin.c,v 1.6 1999/07/21 22:17:00 elrod Exp $
 ____________________________________________________________________________*/
 
 /****  cwin.c  ***************************************************
@@ -34,6 +34,15 @@ portable C
 ******************************************************************/
 
 #include "config.h"
+
+#ifdef ASM_X86
+extern void window_mpg_asm(float *a, int b, short *c);
+extern void window_dual_asm(float *a, int b, short *c);
+extern void window16_asm(float *a, int b, short *c);
+extern void window16_dual_asm(float *a, int b, short *c);
+extern void window8_asm(float *a, int b, short *c);
+extern void window8_dual_asm(float *a, int b, short *c);
+#endif /* ASM_X86 */
 
 /*-------------------------------------------------------------------------*/
 void window(float *vbuf, int vb_ptr, short *pcm)

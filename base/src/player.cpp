@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.133.2.37 1999/10/13 23:07:55 robert Exp $
+        $Id: player.cpp,v 1.133.2.38 1999/10/14 23:08:20 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1716,6 +1716,7 @@ ServiceEvent(Event * pC)
         case INFO_PlaylistShuffle:
         case INFO_PlaylistRepeat:
         case INFO_PlaylistUpdated:
+        case INFO_PlaylistCurrentItemInfo:
         case INFO_BufferStatus:
         case INFO_SearchMusicDone:
         case INFO_DownloadItemAdded:

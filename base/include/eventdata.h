@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: eventdata.h,v 1.30.4.11 1999/10/01 22:23:18 elrod Exp $
+        $Id: eventdata.h,v 1.30.4.12 1999/10/14 23:08:20 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EVENTDATA_H_
@@ -544,36 +544,48 @@ public:
 
 class PlaylistItemAddedEvent : public Event {
 private:
-	PlaylistItem* m_item;
+	const PlaylistItem* m_item;
 public:
-	PlaylistItemAddedEvent(PlaylistItem* item) 
+	PlaylistItemAddedEvent(const PlaylistItem* item) 
     { m_type = INFO_PlaylistItemAdded; m_item = item; }
 	virtual ~PlaylistItemAddedEvent() {}
 
-	PlaylistItem* UpdatedItem() { return m_item; }
+	const PlaylistItem* Item() { return m_item; }
 };
 
 class PlaylistItemRemovedEvent : public Event {
 private:
-	PlaylistItem* m_item;
+	const PlaylistItem* m_item;
 public:
-	PlaylistItemRemovedEvent(PlaylistItem* item) 
+	PlaylistItemRemovedEvent(const PlaylistItem* item) 
     { m_type = INFO_PlaylistItemRemoved; m_item = item; }
 	virtual ~PlaylistItemRemovedEvent() {}
 
-	PlaylistItem* UpdatedItem() { return m_item; }
+	const PlaylistItem* Item() { return m_item; }
 };
 
 class PlaylistItemUpdatedEvent : public Event {
 private:
-	PlaylistItem* m_item;
+	const PlaylistItem* m_item;
 public:
-	PlaylistItemUpdatedEvent(PlaylistItem* item) 
+	PlaylistItemUpdatedEvent(const PlaylistItem* item) 
     { m_type = INFO_PlaylistItemUpdated; m_item = item; }
 	virtual ~PlaylistItemUpdatedEvent() {}
 
-	PlaylistItem* UpdatedItem() { return m_item; }
+	const PlaylistItem* Item() { return m_item; }
 };
+
+class PlaylistCurrentItemInfoEvent : public Event {
+private:
+	const PlaylistItem* m_item;
+public:
+	PlaylistCurrentItemInfoEvent(const PlaylistItem* item) 
+    { m_type = INFO_PlaylistCurrentItemInfo; m_item = item; }
+	virtual ~PlaylistCurrentItemInfoEvent() {}
+
+	const PlaylistItem* Item() { return m_item; }
+};
+
 
 class PlaylistRepeatEvent : public Event {
 private:

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Parse.cpp,v 1.1.2.13 1999/10/14 07:14:05 elrod Exp $
+   $Id: Parse.cpp,v 1.1.2.14 1999/10/14 23:08:27 elrod Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -34,6 +34,8 @@ const int iMaxElementNameLength = 255;
 const int iMaxAttrLength = 255;
 const int iMaxValueLength = 1024;
 const int iMaxPCDataLength = 4096;
+
+AttrMap  oAttrMap; 
 
 Parse::Parse(void)
 {
@@ -115,7 +117,6 @@ Error Parse::DoParse(void)
     string   oElementName, oAttr, oValue, oData;
     int      iRet, iOffset, iTemp;
     bool     bError = false, bEmptyTag = false;
-    AttrMap  oAttrMap; 
     Error    eRet;
 
     szElement = new char[iMaxElementLineLength];

@@ -1,4 +1,3 @@
-
 /*____________________________________________________________________________
 	
 	FreeAmp - The Free MP3 Player
@@ -19,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: localfileinput.h,v 1.1 1998/10/14 03:44:07 elrod Exp $
+	$Id: localfileinput.h,v 1.2 1998/10/14 06:11:27 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LOCALFILEINPUT_H_
@@ -36,13 +35,12 @@ class LocalFileInput : public PhysicalMediaInput {
 public:
 	LocalFileInput();
 	LocalFileInput(char* path);
-	virtual ~LocalFileInput();
+	virtual ~LocalFileInput(void);
 	virtual int32 Read(void* buf, size_t numbytes);
 	virtual int32 Seek(int32 offset, int32 origin);
-	virtual char *GetStreamName();
-	bool SetTo(char* path);
-	bool Close(void);
-	const char* File() const { return m_path; }
+	virtual bool SetTo(char* url);
+	virtual bool Close(void);
+	virtual const char* Url(void) const { return m_path; }
 	
 private:
 	int m_fd;

@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: pmo.h,v 1.2 1998/10/14 06:11:26 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -59,7 +59,7 @@ class PhysicalMediaOutput{
 
 public:
 	virtual ~PhysicalMediaOutput() { }
-	virtual bool Initialize(OutputInfo* /*info*/){ return false; }
+	virtual bool Init(OutputInfo* /*info*/){ return false; }
 	virtual bool Reset(bool /*user_stop*/){ return false; }
 	virtual void Append(uint32 /*channel*/, int16 /*value*/) { }
 	virtual int32 Write() { return -1; }

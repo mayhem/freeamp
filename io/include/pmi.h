@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmi.h,v 1.1 1998/10/09 00:07:09 jdw Exp $
+	$Id: pmi.h,v 1.2 1998/10/14 06:11:26 elrod Exp $
 ____________________________________________________________________________*/
 
 
@@ -52,7 +52,9 @@ public:
     virtual ~PhysicalMediaInput() { }
     virtual int32 Read(void* /*buf*/, size_t /*numbytes*/) {return -1;}
     virtual int32 Seek(int32 offset, int32 origin) {return -1;}
-    virtual char *GetStreamName(void) = 0;
+    virtual bool SetTo(char* url) = 0;
+    virtual bool Close(void) = 0;
+    virtual const char* Url(void) const = 0;
 };
 
 #endif /* _PMI_H_ */

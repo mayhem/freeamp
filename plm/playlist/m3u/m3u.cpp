@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: m3u.cpp,v 1.7 1999/11/10 05:55:28 elrod Exp $
+	$Id: m3u.cpp,v 1.8 1999/11/10 05:59:07 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -249,9 +249,10 @@ Error M3U::WritePlaylist(const char* url, PlaylistFormatInfo* format,
 
                     length = sizeof(path);
 
-                    URLToFilePath(item->URL().c_str(), path, &length);
-
-                    fprintf(fp, "%s%s", path, LINE_END_MARKER_STR);
+                    if(IsError(URLToFilePath(item->URL().c_str(), path, &length)))
+                        fprintf(fp, "%s%s", item->URL().c_str(), LINE_END_MARKER_STR);
+                    else
+                        fprintf(fp, "%s%s", path, LINE_END_MARKER_STR);
                 }
 
                 fclose(fp);

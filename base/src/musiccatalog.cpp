@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musiccatalog.cpp,v 1.1.2.2 1999/10/14 00:35:14 robert Exp $
+        $Id: musiccatalog.cpp,v 1.1.2.3 1999/10/16 21:48:09 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -218,11 +218,11 @@ void MusicBrowser::SetDatabase(const char *path)
 
 typedef struct MusicSearchThreadStruct {
     MusicBrowser *mb;
-    char *path;
+    vector<string> pathList;
     Thread *thread;
 } MusicSearchThreadStruct;
 
-void MusicBrowser::SearchMusic(char *path)
+void MusicBrowser::SearchMusic(vector<string> &pathList)
 {
     if (!m_database->Working())
         return;
@@ -233,12 +233,16 @@ void MusicBrowser::SearchMusic(char *path)
         MusicSearchThreadStruct *mst = new MusicSearchThreadStruct;
 
         mst->mb = this;
-        mst->path = new char[strlen(path) + 1];
-        strcpy(mst->path, path);
+        mst->pathList = pathList;
         mst->thread = thread;
 
         thread->Create(musicsearch_thread_function, mst);
     }
+}
+
+void MusicBrowser::StopSearchMusic(void)
+{
+    m_exit = true;
 }
 
 void MusicBrowser::musicsearch_thread_function(void *arg)
@@ -248,15 +252,23 @@ void MusicBrowser::musicsearch_thread_function(void *arg)
     mst->mb->m_mutex->Acquire();
 
     mst->mb->m_numSymLinks = 0;
-    mst->mb->DoSearchMusic(mst->path);
+    mst->mb->m_exit = false;
+    mst->mb->DoSearchPaths(mst->pathList);
 
     mst->mb->AcceptEvent(new Event(INFO_SearchMusicDone));
 
     mst->mb->m_mutex->Release();
 
-    delete mst->path;
     delete mst->thread;
     delete mst;
+}
+
+void MusicBrowser::DoSearchPaths(vector<string> &pathList)
+{
+    vector<string>::iterator i;
+    
+    for(i = pathList.begin(); i != pathList.end(); i++)
+        DoSearchMusic((char *)(*i).c_str());
 }
 
 void MusicBrowser::DoSearchMusic(char *path)
@@ -347,7 +359,7 @@ void MusicBrowser::DoSearchMusic(char *path)
                 delete fileExt;
             }
         }
-        while (FindNextFile(handle, &find));
+        while (FindNextFile(handle, &find) && !m_exit);
         FindClose(handle);
     }
 }

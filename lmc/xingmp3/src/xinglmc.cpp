@@ -22,7 +22,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.cpp,v 1.4 1998/10/16 20:29:01 elrod Exp $
+	$Id: xinglmc.cpp,v 1.5 1998/10/17 18:26:11 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -146,7 +146,9 @@ void XingLMC::Init() {
 	    info.number_of_channels = decinfo.channels;
 	    info.samples_per_second = decinfo.samprate;
 	    info.max_buffer_size = (info.number_of_channels * 2 * 1152) << 5;
+	    //cout << "about to send to output..." << endl;
 	    m_output->Init(m_output, &info);
+	    //cout << "back from the dead..." << endl;
 	} else {
 	    cout << "Couldn't init decoder..." << endl;
 	    return;

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: soundcardlib.cpp,v 1.1 1998/10/16 23:33:57 jdw Exp $
+	$Id: soundcardlib.cpp,v 1.2 1998/10/17 18:26:11 jdw Exp $
 ____________________________________________________________________________*/
 
 /* project headers */
@@ -62,7 +62,9 @@ int32 Write(PMORef ref, void* buf, int32 len)
 { 
     PhysicalMediaOutput* pmo = (PhysicalMediaOutput*)ref->ref;
 
-    return pmo->Write(buf, len);
+    int32 rtn = pmo->Write(buf, len);
+
+    return rtn;
 }
 
 void Clear(PMORef ref)

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: Mpg123UI.cpp,v 1.9 1998/10/16 23:33:57 jdw Exp $
+	$Id: Mpg123UI.cpp,v 1.10 1998/10/17 18:26:11 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -285,7 +285,7 @@ void Mpg123UI::SetArgs(int argc, char **argv) {
 		    break;
 	    }
 	} else {
-	    cout << "Adding: " <<argv[i] << endl;
+	    //ut << "Adding: " <<argv[i] << endl;
 	    pl->Add(argv[i],0);
 	}
     }

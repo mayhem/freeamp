@@ -17,7 +17,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: xinglmc.h,v 1.30 1999/07/02 01:13:52 robert Exp $
+   $Id: xinglmc.h,v 1.31 1999/07/02 19:05:09 robert Exp $
 
 ____________________________________________________________________________*/
 
@@ -80,7 +80,7 @@ class     XingLMC:public LogicalMediaConverter
 
    virtual Error ChangePosition(int32 position);
 
-   virtual bool  CanDecode();
+   virtual Error CanDecode();
    virtual void  Clear();
    virtual Error ExtractMediaInfo();
 

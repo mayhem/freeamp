@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: alsapmo.h,v 1.7 1999/04/26 15:48:36 robert Exp $
+	$Id: alsapmo.h,v 1.8 1999/07/02 19:05:01 robert Exp $
 ____________________________________________________________________________*/
 
 
@@ -41,7 +41,9 @@ ____________________________________________________________________________*/
 /* project headers */
 #include <config.h>
 #include "thread.h"
+#include "mutex.h"
 #include "pmo.h"
+#include "pmoevent.h"
 #include "eventbuffer.h"
 
 struct audio_info_struct
@@ -81,7 +83,7 @@ enum {
     pmoError_MaximumError
 };
 
-class AlsaPMO : public PhysicalMediaOutput, public EventBuffer
+class AlsaPMO : public PhysicalMediaOutput
 {
 public:
     AlsaPMO(FAContext *context);
@@ -89,41 +91,27 @@ public:
     
     virtual VolumeManager *GetVolumeManager();
     virtual Error Init(OutputInfo* info);
-    virtual Error Pause();
-    virtual Error Resume();
-   virtual Error Break();
-   virtual void  WaitToQuit();
-   virtual Error Clear();
-   virtual Error SetPropManager(Properties * p);
-
-   static void   StartWorkerThread(void *);
-   virtual Error BeginWrite(void *&pBuffer, size_t &iBytesToWrite);
-   virtual Error EndWrite  (size_t iNumBytesWritten);
-   virtual Error AcceptEvent(Event *);
-   virtual int   GetBufferPercentage();
+    static void   StartWorkerThread(void *);
+    virtual void  Pause(void);
 
  private:
 
-   void          WorkerThread(void); 
-   virtual Error Reset(bool user_stop);
-   void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
+    void          WorkerThread(void); 
+    virtual Error Reset(bool user_stop);
+    void          HandleTimeInfoEvent(PMOTimeInfoEvent *pEvent);
+    bool          WaitForDrain(void);  
 
-    Properties *m_propManager;
-    bool	m_properlyInitialized;
-    int16	buffer[OBUFFERSIZE];
-    int16	*bufferp[MAXCHANNELS];
-    uint32	channels;
+    bool	         m_properlyInitialized;
+    uint32	      channels;
 #ifdef SOUNDCARD
     static int audio_fd;
 #endif
-    OutputInfo *myInfo;
-    int32 getprocessed(void);
-   Thread      *m_pBufferThread;
-   Mutex       *m_pPauseMutex;
-   int          m_iOutputBufferSize, m_iTotalBytesWritten, m_iBytesPerSample;
-   int          m_iLastFrame;
-   int          m_iDataSize;
-   int          m_iCard, m_iDevice;
+    OutputInfo  *myInfo;
+    Thread      *m_pBufferThread;
+    int          m_iOutputBufferSize, m_iBytesPerSample;
+    int          m_iTotalFragments, m_iBaseTime;
+    int          m_iDataSize;
+    int          m_iCard, m_iDevice;
  
     struct audio_info_struct *ai;
     int audio_set_all(struct audio_info_struct *);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.cpp,v 1.26 1999/07/02 01:13:46 robert Exp $
+        $Id: soundcardpmo.cpp,v 1.27 1999/07/02 19:05:05 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -157,9 +157,6 @@ Error SoundCardPMO::Init(OutputInfo * info)
    audio_fd = fd;
 
    channels = info->number_of_channels;
-
-   for (unsigned int i = 0; i < info->number_of_channels; ++i)
-      bufferp[i] = buffer + i;
 
    // configure the device:
    int       play_precision = 16;

@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.122 1999/07/02 01:13:27 robert Exp $
+        $Id: player.cpp,v 1.123 1999/07/02 19:05:00 robert Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1408,7 +1408,7 @@ LMCError(Event *pEvent)
    MessageBox(NULL, ((LMCErrorEvent *) pEvent)->GetError() ,NULL,MB_OK); 
 #endif
    if (m_pmo)
-      Pause(pEvent);
+      Stop(pEvent);
    else
       delete pEvent;
 }
@@ -1510,7 +1510,6 @@ ServiceEvent(Event * pC)
            break;
 
       case INFO_LMCError:
-           printf("Got error event\n");
            LMCError(pC);
            break;
 

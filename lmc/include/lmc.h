@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: lmc.h,v 1.21 1999/06/28 23:09:35 robert Exp $
+	$Id: lmc.h,v 1.22 1999/07/02 19:05:08 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef _LMC_H_
@@ -54,7 +54,7 @@ class LogicalMediaConverter : public PipelineUnit
 
     protected:
 
-      virtual bool  CanDecode() = 0;
+      virtual Error CanDecode() = 0;
       virtual Error ExtractMediaInfo() = 0;
      
       PhysicalMediaInput    *m_pmi;

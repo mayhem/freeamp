@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: pmo.cpp,v 1.3 1999/07/02 05:51:18 dogcow Exp $
+        $Id: pmo.cpp,v 1.4 1999/07/02 19:05:07 robert Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -104,7 +104,7 @@ void PhysicalMediaOutput::SetPMI(PhysicalMediaInput *pPMI)
     m_pMutex->Release();
 }
 
-void PhysicalMediaOutput::Pause()
+void PhysicalMediaOutput::Pause(void)
 {
     PipelineUnit::Pause();
 
@@ -113,7 +113,7 @@ void PhysicalMediaOutput::Pause()
     Reset(true);
 }
 
-void PhysicalMediaOutput::Resume()
+void PhysicalMediaOutput::Resume(void)
 {
     if (m_pPmi->PauseLoop(false))
     {
@@ -129,7 +129,7 @@ void PhysicalMediaOutput::Resume()
 
 bool PhysicalMediaOutput::WasteTime()
 {
-    usleep(10000);
+    usleep(50000);
 
     return m_bExit || m_bPause;
 }       

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.76 2000/06/12 10:08:21 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.77 2000/06/12 16:13:55 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -197,8 +197,6 @@ class MusicBrowserUI : public UserInterface
     Error  CloseMainDialog();
     uint32 CalcStringEllipsis(HDC hdc, string& displayString, 
                                  int32 columnWidth);
-    void   ShowHelp(uint32 topic);
-
 
     // Functions in OpenSavePlaylist.cpp
     void OpenPlaylist();

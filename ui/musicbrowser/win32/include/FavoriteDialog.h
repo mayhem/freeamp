@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: FavoriteDialog.h,v 1.1 2000/05/15 22:25:28 elrod Exp $
+        $Id: FavoriteDialog.h,v 1.2 2000/06/12 16:13:55 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FAVORITEDIALOG_H_
@@ -53,7 +53,6 @@ class FavoriteDialog
                     WPARAM wParam, 
                     LPARAM lParam); 
  protected:
-    void Help();
 
  private:
     FAContext* m_context;

@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: utility.h,v 1.12 2000/05/24 17:08:33 ijr Exp $
+	$Id: utility.h,v 1.13 2000/06/12 16:13:55 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_UTILITY_H
@@ -37,6 +37,7 @@ ____________________________________________________________________________*/
 using namespace std;
 
 #include "config.h"
+#include "facontext.h"
 #include "errors.h"
 #include "preferences.h"
 
@@ -66,5 +67,7 @@ bool ResolveLink(string& path);
 
 /* func to find the real filename of a path, irregardless of case */
 string FindFile(string oPath);
+
+void ShowHelp(FAContext *context, const char *helptopic);
 
 #endif /* INCLUDED_UTILITY_H */

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: MusicSearchDialog.cpp,v 1.10 2000/03/30 08:57:09 elrod Exp $
+        $Id: MusicSearchDialog.cpp,v 1.11 2000/06/12 16:13:55 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -134,17 +134,7 @@ BOOL MusicBrowserUI::MusicSearchDlgProc(HWND hwnd,
             {
                 case IDHELP:
                 {
-                    string            oHelpFile;
-                    char              dir[MAX_PATH];
-                    uint32            len = sizeof(dir);
-
-                    m_context->prefs->GetInstallDirectory(dir, &len);
-                    oHelpFile = string(dir);
-                    oHelpFile += string("\\");
-                    oHelpFile += string(HELP_FILE);
-
-                    //WinHelp(m_hWnd, oHelpFile.c_str(), HELP_FINDER, 0);
-                    WinHelp(m_hWnd, oHelpFile.c_str(), HELP_CONTEXT, Music_Browser_Drive_Selection);
+                    ShowHelp(m_context, Music_Browser_Drive_Selection);
                     break;
                 }
 

@@ -18,13 +18,11 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: help.h,v 1.5 2000/06/12 13:25:39 robert Exp $
+   $Id: help.h,v 1.1 2000/06/12 16:13:55 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_HELP_H
 #define INCLUDED_HELP_H
-
-#define HELP_FILE BRANDING_HELP_FILE
 
 #define FreeAmp_Main_Window           "help.html"
 #define Music_Browser                 "music_browser_entry.html"

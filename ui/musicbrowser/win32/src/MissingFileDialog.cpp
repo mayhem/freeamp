@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    $Id: MissingFileDialog.cpp,v 1.2 2000/06/06 10:00:56 elrod Exp $
+    $Id: MissingFileDialog.cpp,v 1.3 2000/06/12 16:13:55 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -133,7 +133,7 @@ BOOL MissingFileDialog::DialogProc(HWND hwnd,
 
         case WM_HELP:
         {
-            Help();
+            ShowHelp(m_context, Edit_Info);
             result = TRUE;
             break;
         }
@@ -144,7 +144,7 @@ BOOL MissingFileDialog::DialogProc(HWND hwnd,
             {
                 case IDHELP:
                 {
-                    Help();
+                    ShowHelp(m_context, Edit_Info);
                     break;
                 }
 
@@ -250,15 +250,3 @@ BOOL MissingFileDialog::DialogProc(HWND hwnd,
     return result;
 }
 
-void MissingFileDialog::Help()
-{
-    string            helpFile;
-    char              dir[MAX_PATH];
-    uint32            len = sizeof(dir);
-
-    m_context->prefs->GetInstallDirectory(dir, &len);
-    helpFile = dir;
-    helpFile += "\\"HELP_FILE;    
-
-    WinHelp(m_hwnd, helpFile.c_str(), HELP_CONTEXT, Edit_Info);
-}

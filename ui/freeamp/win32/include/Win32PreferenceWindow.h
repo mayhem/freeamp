@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32PreferenceWindow.h,v 1.18 2000/05/22 13:50:19 elrod Exp $
+   $Id: Win32PreferenceWindow.h,v 1.19 2000/06/12 16:13:55 robert Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32PREFERENCEWINDOW_H__
@@ -174,7 +174,6 @@ class Win32PreferenceWindow : public PreferenceWindow
       virtual ~Win32PreferenceWindow(void); 
       
 
-               void LaunchHelp(HWND hwnd, uint32 topic);
       virtual  bool Show(Window *pParent);
 
                void GetPrefsValues(PrefsStruct* values);

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.h,v 1.4 2000/05/23 13:37:30 elrod Exp $
+        $Id: EditTrackInfoDialog.h,v 1.5 2000/06/12 16:13:55 robert Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_EDITTRACKINFO_H_
@@ -53,8 +53,6 @@ class EditTrackInfoDialog
     virtual ~EditTrackInfoDialog();
 
     bool Show();
-
-    void Help();
 
     BOOL DialogProc(HWND hwnd, 
                     UINT msg, 

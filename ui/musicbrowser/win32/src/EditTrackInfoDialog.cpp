@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.cpp,v 1.14 2000/05/23 13:37:30 elrod Exp $
+        $Id: EditTrackInfoDialog.cpp,v 1.15 2000/06/12 16:13:55 robert Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -255,7 +255,7 @@ BOOL EditTrackInfoDialog::DialogProc(HWND hwnd,
 
         case WM_HELP:
         {
-            Help();
+            ShowHelp(m_context, Edit_Info);
             result = TRUE;
             break;
         }
@@ -266,7 +266,7 @@ BOOL EditTrackInfoDialog::DialogProc(HWND hwnd,
             {
                 case IDHELP:
                 {
-                    Help();
+                    ShowHelp(m_context, Edit_Info);
                     break;
                 }
 
@@ -365,19 +365,6 @@ BOOL EditTrackInfoDialog::DialogProc(HWND hwnd,
 
     return result;
 }
-
-void EditTrackInfoDialog::Help()
-{
-    string            helpFile;
-    char              dir[MAX_PATH];
-    uint32            len = sizeof(dir);
-
-    m_context->prefs->GetInstallDirectory(dir, &len);
-    helpFile = dir;
-    helpFile += "\\"HELP_FILE;    
-
-    WinHelp(m_hwnd, helpFile.c_str(), HELP_CONTEXT, Edit_Info);
-}     
 
 void EditTrackInfoDialog::CreateEditInfoLists(set<string>& artists,
                                               set<string>& albums,

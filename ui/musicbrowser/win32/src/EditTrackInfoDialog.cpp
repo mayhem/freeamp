@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.cpp,v 1.10 2000/01/04 19:07:57 robert Exp $
+        $Id: EditTrackInfoDialog.cpp,v 1.11 2000/01/21 10:01:20 elrod Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -362,7 +362,7 @@ void EditTrackInfoDialog::Help()
 
     m_context->prefs->GetInstallDirectory(dir, &len);
     helpFile = dir;
-    helpFile += "\\freeamp.hlp";    
+    helpFile += "\\"HELP_FILE;    
 
     WinHelp(m_hwnd, helpFile.c_str(), HELP_CONTEXT, Edit_Info);
 }     

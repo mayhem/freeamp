@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.62 2000/01/19 19:14:30 elrod Exp $
+        $Id: Dialog.cpp,v 1.63 2000/01/21 10:01:20 elrod Exp $
 ____________________________________________________________________________*/
 
 #define STRICT
@@ -1748,7 +1748,7 @@ void MusicBrowserUI::ShowHelp(uint32 topic)
 
     m_context->prefs->GetInstallDirectory(dir, &len);
     oHelpFile = string(dir);
-    oHelpFile += string("\\freeamp.hlp");    
+    oHelpFile += string("\\"HELP_FILE);    
 
     WinHelp(m_hWnd, oHelpFile.c_str(), HELP_CONTEXT, topic);
 }        

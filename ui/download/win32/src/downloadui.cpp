@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadui.cpp,v 1.16 2000/01/15 01:55:00 robert Exp $
+	$Id: downloadui.cpp,v 1.17 2000/01/21 10:01:19 elrod Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -1893,7 +1893,7 @@ void DownloadUI::ShowHelp(uint32 topic)
 
     m_context->prefs->GetInstallDirectory(dir, &len);
     oHelpFile = string(dir);
-    oHelpFile += string("\\freeamp.hlp");    
+    oHelpFile += string("\\"HELP_FILE);    
 
     WinHelp(m_hwnd, oHelpFile.c_str(), HELP_CONTEXT, topic);
 }        

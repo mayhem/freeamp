@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: browsertree.cpp,v 1.32 2000/10/02 08:03:45 ijr Exp $
+        $Id: browsertree.cpp,v 1.33 2000/10/04 12:18:40 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -28,6 +28,7 @@ ____________________________________________________________________________*/
 #ifdef WIN32
 #include <io.h>
 #else
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>

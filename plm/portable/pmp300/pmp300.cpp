@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmp300.cpp,v 1.1.2.5 1999/08/31 08:15:30 elrod Exp $
+	$Id: pmp300.cpp,v 1.1.2.6 1999/08/31 10:26:15 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <assert.h>
@@ -267,10 +267,32 @@ Error PMP300::GetDeviceInfo(DeviceInfo* device)
     return result;
 }
 
-static BOOL rioCallback(int pos, int count, void* cookie)
+typedef struct RioProgressStruct {
+    PLMCallBackFunction function;
+    void* cookie;
+    PlaylistItem* item;
+} RioProgressStruct;
+
+static BOOL rioProgress(int pos, int total, void* cookie)
 {
     BOOL result = false;
 
+    if(cookie)
+    {
+        RioProgressStruct* ps = (RioProgressStruct*)cookie;
+
+        if(ps->function)
+        {
+            PLMEvent event;
+            
+            event.type = kPLMEvent_Progress;
+            event.data.progressData.position = pos;
+            event.data.progressData.total = total;
+            event.data.progressData.item = ps->item;
+
+            ps->function(&event, ps->cookie);
+        }
+    }
 
     return result;
 }
@@ -291,6 +313,16 @@ Error PMP300::InitializeDevice(DeviceInfo* device,
         {
             CRio rio;
             bool rioPresent = false;
+
+            if(function)
+            {
+                PLMEvent event;
+    
+                event.type = kPLMEvent_Status;
+                event.eventString = "Searching for portable device...";
+
+                function(&event, cookie);
+            }
 
             if(device->GetPortAddress() && 
                rio.Set(device->GetPortAddress()) && 
@@ -313,7 +345,44 @@ Error PMP300::InitializeDevice(DeviceInfo* device,
 
             if(rioPresent)
             {
-                //rio.Initialize(true, bVerbose ? ProgressCallback : NULL)
+                if(function)
+                {
+                    PLMEvent event;
+    
+                    event.type = kPLMEvent_Status;
+                    event.eventString += "A ";
+                    event.eventString = device->GetDevice();
+                    event.eventString += " has been found. Initializing internal memory...";
+
+                    function(&event, cookie);
+                }
+
+                RioProgressStruct ps;
+
+                memcpy(&ps, 0x00, sizeof(ps));
+
+                ps.function = function;
+                ps.cookie = cookie;
+                ps.item = NULL;
+
+                result = kError_NoErr;
+
+                if(!rio.Initialize(true, rioProgress, &ps))
+                {
+                    if(function)
+                    {
+                        PLMEvent event;
+            
+                        event.type = kPLMEvent_Error;
+                        event.data.errorData.errorCode = rio.GetErrorID();
+                        event.eventString = "Initialize failed, ";
+                        event.eventString += rio.GetErrorStr();
+
+                        function(&event, cookie);
+                    }
+
+                    result = kError_UnknownErr;
+                }
             }
         }
     }
@@ -342,6 +411,16 @@ Error PMP300::ReadPlaylist(DeviceInfo* device,
             CRio rio;
             bool rioPresent = false;
 
+            if(function)
+            {
+                PLMEvent event;
+    
+                event.type = kPLMEvent_Status;
+                event.eventString = "Searching for portable device...";
+
+                function(&event, cookie);
+            }
+
             if(device->GetPortAddress() && 
                rio.Set(device->GetPortAddress()) && 
                rio.CheckPresent())
@@ -363,7 +442,157 @@ Error PMP300::ReadPlaylist(DeviceInfo* device,
 
             if(rioPresent)
             {
+                uint32 numEntries, totalMem, usedMem; 
 
+                if(function)
+                {
+                    PLMEvent event;
+    
+                    event.type = kPLMEvent_Status;
+                    event.eventString += "A ";
+                    event.eventString = device->GetDevice();
+                    event.eventString += " has been found. Scanning internal memory...";
+
+                    function(&event, cookie);
+                }
+
+                result = kError_UnknownErr;
+
+                if(rio.RxDirectory())
+	            {
+                    result = kError_NoErr;
+
+                    CDirBlock& cDirBlock = rio.GetDirectoryBlock();
+                    CDirHeader& cDirHeader = cDirBlock.m_cDirHeader;
+
+                    totalMem = ((long)cDirHeader.m_usCount32KBlockAvailable * CRIO_SIZE_32KBLOCK);
+                    usedMem = ((long)cDirHeader.m_usCount32KBlockUsed * CRIO_SIZE_32KBLOCK);
+
+                    uint32 count = cDirHeader.m_usCountEntry;
+
+                    numEntries = count;
+
+	                if(count)
+	                {
+		                CDirEntry* pDirEntry = cDirBlock.m_acDirEntry;
+
+		                if(count > CRIO_MAX_DIRENTRY)
+			                count = CRIO_MAX_DIRENTRY;
+
+
+                        for(uint32 index = 0; index < count; ++index, ++pDirEntry)
+                        {
+                            string url;
+                            MetaData metadata;
+                            char number[10];
+
+                            url = "portable://rio_pmp300/internal/";
+                            url += ltoa(index, number, 10);
+                            url +="/";
+                            url += pDirEntry->m_szName;
+
+                            metadata.SetSize(pDirEntry->m_lSize);
+                            metadata.SetTitle(pDirEntry->m_szName);
+
+                            PlaylistItem* item = new PlaylistItem(url.c_str(), &metadata);
+
+                            if(!item)
+                            {
+                                result = kError_OutOfMemory;  
+                                break;
+                            }
+
+                            list->push_back(item);
+
+                            if(function)
+                            {
+                                PLMEvent event;
+        
+                                event.type = kPLMEvent_Progress;
+                                event.data.progressData.position = index + 1;
+                                event.data.progressData.total = count;
+                                event.data.progressData.item = item;
+
+                                function(&event, cookie);
+                            }
+                        }
+	                }       
+                }
+
+                if(IsntError(result) && function)
+                {
+                    PLMEvent event;
+    
+                    event.type = kPLMEvent_Status;
+                    event.eventString = " Scanning external memory...";
+
+                    function(&event, cookie);
+                }
+
+                rio.UseExternalFlash( true );
+
+                if(IsntError(result) && rio.RxDirectory())
+	            {
+                    CDirBlock& cDirBlock = rio.GetDirectoryBlock();
+                    CDirHeader& cDirHeader = cDirBlock.m_cDirHeader;
+
+                    totalMem += ((long)cDirHeader.m_usCount32KBlockAvailable * CRIO_SIZE_32KBLOCK);
+                    usedMem += ((long)cDirHeader.m_usCount32KBlockUsed * CRIO_SIZE_32KBLOCK);
+
+                    uint32 count = cDirHeader.m_usCountEntry;
+
+                    numEntries += count;
+
+	                if(count)
+	                {
+		                CDirEntry* pDirEntry = cDirBlock.m_acDirEntry;
+
+		                if(count > CRIO_MAX_DIRENTRY)
+			                count = CRIO_MAX_DIRENTRY;
+
+                        for(uint32 index = 0; index < count; ++index, ++pDirEntry)
+                        {
+                            string url;
+                            MetaData metadata;
+                            char number[10];
+
+                            url = "portable://rio_pmp300/external/";
+                            url += ltoa(index, number, 10);
+                            url +="/";
+                            url += pDirEntry->m_szName;
+
+                            metadata.SetSize(pDirEntry->m_lSize);
+                            metadata.SetTitle(pDirEntry->m_szName);
+
+                            PlaylistItem* item = new PlaylistItem(url.c_str(), &metadata);
+
+                            if(!item)
+                            {
+                                result = kError_OutOfMemory;  
+                                break;
+                            }
+
+                            list->push_back(item);
+
+                            if(function)
+                            {
+                                PLMEvent event;
+        
+                                event.type = kPLMEvent_Progress;
+                                event.data.progressData.position = index + 1;
+                                event.data.progressData.total = count;
+                                event.data.progressData.item = item;
+
+                                function(&event, cookie);
+                            }
+                        }
+	                }       
+                }
+
+                device->SetNumEntries(numEntries);
+                device->SetCapacity(totalMem, usedMem);
+
+                uint32 count = list->size();
             }
         }
     }
@@ -463,7 +692,7 @@ Error PMP300::DownloadSong(DeviceInfo* device,
 
             if(rioPresent)
             {
-
+                result = kError_FeatureNotSupported;
             }
         }   
     }

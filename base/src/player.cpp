@@ -18,7 +18,7 @@
         along with this program; if not, Write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: player.cpp,v 1.140 1999/11/01 19:05:32 robert Exp $
+        $Id: player.cpp,v 1.141 1999/11/02 02:54:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -1207,7 +1207,8 @@ DoneOutputting(Event *pEvent)
 
    if (m_plm->HasAnotherItem())
    {
-      AcceptEvent(new Event(CMD_NextMediaPiece));
+      //AcceptEvent(new Event(CMD_NextMediaPiece));
+      m_plm->GotoNextItem(false);
 
       if (m_playerState == PlayerState_Paused)
       {

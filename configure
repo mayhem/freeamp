@@ -583,7 +583,7 @@ echo "$ac_t""$host" 1>&6
 
 
 cat >> confdefs.h <<EOF
-#define FREEAMP_VERSION "2.0.3"
+#define FREEAMP_VERSION "2.0.5"
 EOF
 
 
@@ -1628,7 +1628,7 @@ else
 int main() {
 
 /* Ultrix mips cc rejects this.  */
-typedef int charset[2]; const charset x;
+typedef int charset[2]; const charset x = {0,0};
 /* SunOS 4.1.1 cc rejects this.  */
 char const *const *ccp;
 char **p;
@@ -2144,7 +2144,7 @@ else
 int main() {
 
 /* Ultrix mips cc rejects this.  */
-typedef int charset[2]; const charset x;
+typedef int charset[2]; const charset x = {0,0};
 /* SunOS 4.1.1 cc rejects this.  */
 char const *const *ccp;
 char **p;

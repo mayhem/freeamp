@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: id3v2.cpp,v 1.11 2000/05/22 14:05:02 robert Exp $
+	$Id: id3v2.cpp,v 1.12 2000/06/06 10:00:56 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <stdio.h>
@@ -297,6 +297,21 @@ bool ID3v2::WriteMetaData(const char* url, const MetaData& metadata)
     if (!pFrame)
     {
         pFrame = ID3Frame_NewID(ID3FID_SIZE);
+        pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
+        ID3Field_SetASCII(pField, dummy);
+        ID3Tag_AttachFrame(pTag, pFrame);
+    }
+    else
+    {
+        pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
+        ID3Field_SetASCII(pField, dummy);
+    }
+
+    sprintf(dummy, "%d", metadata.Track());
+    pFrame = ID3Tag_FindFrameWithID(pTag, ID3FID_TRACKNUM);
+    if (!pFrame)
+    {
+        pFrame = ID3Frame_NewID(ID3FID_TRACKNUM);
         pField = ID3Frame_GetField(pFrame, ID3FN_TEXT);
         ID3Field_SetASCII(pField, dummy);
         ID3Tag_AttachFrame(pTag, pFrame);

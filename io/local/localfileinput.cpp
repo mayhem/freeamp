@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: localfileinput.cpp,v 1.5 1998/10/27 21:40:13 jdw Exp $
+	$Id: localfileinput.cpp,v 1.6 1998/10/27 22:25:59 jdw Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -163,7 +163,7 @@ Read(int32 &rtn, void* buf, size_t numbytes)
     if (rtn >= 0) {
 	return kError_NoErr;
     } else {
-	return kError_Unsuccessful;
+	return kError_InputUnsuccessful;
     }
 }
 
@@ -174,7 +174,7 @@ Seek(int32 &rtn, int32 offset, int32 origin)
     if (rtn >= 0) {
 	return kError_NoErr;
     } else {
-	return kError_Unsuccessful;
+	return kError_InputUnsuccessful;
     }
 }
 

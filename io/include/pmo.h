@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: pmo.h,v 1.8 1998/10/27 08:35:07 elrod Exp $
+	$Id: pmo.h,v 1.9 1998/10/27 22:25:59 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef _PMO_H_
@@ -40,6 +40,7 @@ ____________________________________________________________________________*/
 
 /* project headers */
 #include "config.h"
+#include "errors.h"
 
 #define MAXCHANNELS		2
 
@@ -56,31 +57,14 @@ typedef struct OutputInfo
 class PhysicalMediaOutput{
 
 public:
-	virtual ~PhysicalMediaOutput() { }
-	virtual bool Init(OutputInfo* /*info*/){ return false; }
-	virtual bool Reset(bool /*user_stop*/){ return false; }
-	virtual int32 Write(void * /* pBuffer */, int32 /* bufflength */) { return -1; }
-    virtual void Pause(){}
-    virtual void Resume(){}
+    virtual ~PhysicalMediaOutput() { }
+    virtual Error Init(OutputInfo* /*info*/){ return kError_GotDefaultMethod; }
+    virtual Error Reset(bool /*user_stop*/){ return kError_GotDefaultMethod; }
+    virtual Error Write(int32 &, void * /* pBuffer */, int32 /* bufflength */) { return kError_GotDefaultMethod; }
+    virtual Error Pause(){ return kError_GotDefaultMethod;}
+    virtual Error Resume(){ return kError_GotDefaultMethod; }
+    virtual const char *GetErrorString(int32) { return NULL; }
 };
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-typedef struct PMO{
-    void*   ref;
-    bool    (*Init)         (struct PMO*, OutputInfo*);
-    bool    (*Reset)        (struct PMO*, bool);
-    int32   (*Write)        (struct PMO*, void*, int32);
-    void    (*Pause)        (struct PMO*);
-    void    (*Resume)       (struct PMO*);
-    void    (*Clear)        (struct PMO*);
-    void    (*Cleanup)      (struct PMO*);
-}PMO, *PMORef;
-
-#ifdef __cplusplus
-} // extern "C" 
-#endif
 
 #endif /* _PMO_H_ */
 

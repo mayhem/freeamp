@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: xinglmc.h,v 1.9 1998/10/27 21:40:13 jdw Exp $
+	$Id: xinglmc.h,v 1.10 1998/10/27 22:26:00 jdw Exp $
 ____________________________________________________________________________*/
 
 
@@ -71,6 +71,7 @@ enum {
     lmcError_OutputWriteFailed,
     lmcError_DecodeDidntDecode,
     lmcError_ID3ReadFailed,
+    lmcError_OutputInitializeFailed,
     lmcError_MaximumError
 };
 

@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: errors.h,v 1.7 1998/10/27 21:40:12 jdw Exp $
+	$Id: errors.h,v 1.8 1998/10/27 22:25:59 jdw Exp $
 ____________________________________________________________________________*/
 
 #ifndef ERROR_H
@@ -47,8 +47,9 @@ typedef enum Error
     kError_InvalidError     = 16,
     kError_PluginNotInitialized = 17,
     kError_GotDefaultMethod = 18,
-    kError_Unsuccessful = 19,
-    kError_FileSeekNotSupported = 20
+    kError_InputUnsuccessful = 19,
+    kError_FileSeekNotSupported = 20,
+    kError_OutputUnsuccessful = 21
 }Error;
 
 

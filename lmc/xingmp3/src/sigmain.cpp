@@ -21,7 +21,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigmain.cpp,v 1.10 2000/10/26 22:51:32 ijr Exp $
+        $Id: sigmain.cpp,v 1.11 2000/11/14 22:11:00 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <stdlib.h>
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
 
    if (argc < 2)
    {
-       printf("Usage: sigapp [-q] [-n] [-s secs] <mp3 file>\n");
+       printf("Usage: sigapp [-q] [-n] <mp3 file>\n");
        printf("  -q => quiet mode\n");
        printf("  -n => don't submit data to musicbrainz\n");
        exit(0);
@@ -197,13 +197,6 @@ int main(int argc, char *argv[])
    if (strcmp(argv[index], "-n") == 0)
    {
        nosubmit = 1;
-       index++;
-   }
-
-   if (strcmp(argv[index], "-s") == 0)
-   {
-       index++;
-       secs = atoi(argv[index]);
        index++;
    }
 
@@ -235,6 +228,13 @@ int main(int argc, char *argv[])
            printf("%s\n", sig);
            if (!nosubmit)
                submit_metadata(&m);
+
+#ifdef SIG_DEBUG
+           FILE *logfile = fopen("guid_mapping.txt", "a+");
+           fprintf(logfile,"%s\t%s\n", argv[index], sig);
+           fclose(logfile);
+#endif
+
        }
        else
        {

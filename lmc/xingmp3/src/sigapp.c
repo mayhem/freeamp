@@ -21,11 +21,11 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: sigapp.c,v 1.6 2000/10/26 22:51:32 ijr Exp $
+        $Id: sigapp.c,v 1.7 2000/11/14 22:11:00 ijr Exp $
 ____________________________________________________________________________*/
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <float.h>
 #include <math.h>
 #include <string.h>

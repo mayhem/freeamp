@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupini.c,v 1.5.10.2 2000/10/05 13:38:17 robert Exp $
+	$Id: cupini.c,v 1.5.10.3 2000/10/13 11:25:14 ijr Exp $
 ____________________________________________________________________________*/
 
 /*=========================================================
@@ -189,7 +189,7 @@ static int out_chans[5] =
 int audio_decode_initL1(MPEG_HEAD * h, int framebytes_arg,
 		   int reduction_code, int transform_code, int convert_code,
 			int freq_limit);
-void sbt_init();
+void sbt_init(MPEG *m);
 
 
 IN_OUT L1audio_decode(void *mv, unsigned char *bs, signed short *pcm);
@@ -417,7 +417,7 @@ int audio_decode_init(MPEG *m, MPEG_HEAD * h, int framebytes_arg,
 
 
 /* init sub-band transform */
-   sbt_init();
+   sbt_init(m);
 
    return 1;
 }

@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: cupL1.c,v 1.4.10.1 2000/08/11 18:27:45 robert Exp $
+	$Id: cupL1.c,v 1.4.10.2 2000/10/13 11:25:14 ijr Exp $
 ____________________________________________________________________________*/
 
 /****  cupL1.c  ***************************************************
@@ -312,7 +312,7 @@ int L1audio_decode_init(MPEG *m, MPEG_HEAD * h, int framebytes_arg,
 
 
 /* init sub-band transform */
-   sbt_init();
+   sbt_init(m);
 
    return 1;
 }

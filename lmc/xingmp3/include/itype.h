@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: itype.h,v 1.2.26.1 2000/08/11 18:27:45 robert Exp $
+	$Id: itype.h,v 1.2.26.2 2000/10/12 16:56:07 sward Exp $
 ____________________________________________________________________________*/
 
 /*---------------------------------------------------------------
@@ -90,9 +90,17 @@ doing the right thing.
 ------------------------------------------------------------------*/
 /*-- settings for MS C++ 4.0 flat 32 bit (long=int=32bit) --*/
 /*-- asm replacement modules must use these settings ---*/
+#ifndef ITYPES_H
+#define ITYPES_H
 
+#ifdef WIN32
+#include <basetsd.h>
+#endif
+
+#ifndef WIN32
 typedef long INT32;
 typedef unsigned long UINT32;
+#endif
 
 typedef int SAMPLEINT;
 
@@ -106,3 +114,4 @@ typedef int WINCOEF;
 
 #define WINBITS 10
 #define WINMULT(x,coef)  ((x)*(coef))
+#endif

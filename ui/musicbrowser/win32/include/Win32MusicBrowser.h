@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.69 2000/05/15 12:24:47 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.70 2000/05/15 15:22:44 elrod Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -237,7 +237,8 @@ class MusicBrowserUI : public UserInterface
     void  EditInfoEvent();
     void  RenameEvent();
     void  PlayNowEvent();
-    bool  DeleteFromDrive(const char* url);    
+    bool  DeleteFromDrive(const char* url);
+    void  EjectCDEvent();
 
     // Functions in PlaylistView.cpp
     void  PlaylistListItemAdded(const PlaylistItem* item);

@@ -18,7 +18,7 @@
 	along with this program; if not, Write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: player.cpp,v 1.61 1998/12/13 01:45:39 jdw Exp $
+	$Id: player.cpp,v 1.62 1998/12/14 03:30:11 jdw Exp $
 ____________________________________________________________________________*/
 
 #include <iostream.h>
@@ -376,6 +376,7 @@ void Player::EventServiceThreadFunc(void *pPlayer) {
     while (rtnVal == 0) {   // serviceEvent will return 1 if error or time to quit.
         //cout << "About to Read queue..." << endl;
         pP->m_eventSem->Wait();
+	//cout << "Wait returned..." << endl;
         pC = pP->m_eventQueue->Read();
         //cout << "Read queue..." << endl;
         if (pC) {
@@ -471,6 +472,9 @@ void Player::ReleaseUIManipLock() {
 }
 
 int32 Player::AcceptEvent(Event *e) {
+    if (e) {
+	//cout << "Accepting event: " << e->Type() << endl;
+    }
     m_eventQueue->Write(e);
     m_eventSem->Signal();
     return 0;

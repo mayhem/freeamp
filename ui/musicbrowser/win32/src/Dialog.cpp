@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Dialog.cpp,v 1.21 1999/11/10 06:57:18 elrod Exp $
+        $Id: Dialog.cpp,v 1.22 1999/11/10 09:54:47 elrod Exp $
 ____________________________________________________________________________*/
 
 #include <windows.h>
@@ -184,6 +184,14 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
                 case ID_FILE_SAVEASPLAYLIST:
                     SavePlaylistAs();
                     return 1;
+
+                case ID_FILE_IMPORT:
+                    ImportTracksAndPlaylists();
+                    return 1;
+
+                case ID_FILE_EXPORTPLAYLIST:
+                    ExportPlaylistEvent();
+                    return 1;
                 
                 case ID_FILE_SEARCHFORMUSIC:
                     StartStopMusicSearch();
@@ -195,18 +203,19 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
 
 
                 case ID_EDIT_ADDTRACK:
-                    AddEvent();
+                    AddTrackEvent();
                     return 1;
 
                 case ID_EDIT_MOVEUP:
                     MoveUpEvent();
                     return 1;
+
                 case ID_EDIT_MOVEDOWN:
                     MoveDownEvent();
                     return 1;
 
                 case ID_EDIT_EDITPLAYLIST:
-                    EditEvent();
+                    EditPlaylistEvent();
                     return 1;
 
                 case ID_EDIT_EDITINFO:
@@ -215,10 +224,6 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
                 
                 case ID_EDIT_REMOVE:
                     RemoveEvent();
-                    return 1;
-                
-                case ID_FILE_IMPORT:
-                    ImportEvent();
                     return 1;
                 
                 case ID_EDIT_CLEARPLAYLIST:
@@ -240,7 +245,8 @@ BOOL MusicBrowserUI::DialogProc(HWND hwnd, UINT msg,
                 case ID_CONTROLS_REPEATONE:
                 case ID_CONTROLS_REPEATALL:
                     PlayerControlsEvent(LOWORD(wParam));
-                
+                    return 1;
+
                 case ID_SORT_ARTIST:
                 case ID_SORT_ALBUM:
                 case ID_SORT_TITLE:
@@ -1369,7 +1375,7 @@ bool
 FileOpenDialog(HWND hwnd, 
                const char* title,
                const char* filter,
-               vector<char*>* fileList,
+               vector<string>* fileList,
                Preferences* prefs)
 {
     bool result = false;
@@ -1417,18 +1423,14 @@ FileOpenDialog(HWND hwnd,
 
     if(GetOpenFileName(&ofn) || ofn.lCustData)
     {
-        char file[MAX_PATH + 1];
+        char file[MAX_PATH];
         char* cp = NULL;
 
         if(ofn.lCustData) // URL
         {
-            char* foo = new char[strlen(fileBuffer) + 1];
-
-            strcpy(foo, fileBuffer);
-
-            fileList->push_back(foo);
+            fileList->push_back(fileBuffer);
         }
-          else // potential list of files
+        else // potential list of files
         {
             strncpy(file, fileBuffer, ofn.nFileOffset);
 
@@ -1439,14 +1441,14 @@ FileOpenDialog(HWND hwnd,
 
             while(*cp)
             {
+                char url[MAX_PATH + 7];
+                uint32 length = sizeof(url);
+
 	            strcpy(file + ofn.nFileOffset, cp);
 
-                char* foo = new char[strlen(file) + 8];
+                FilePathToURL(file, url, &length);
 
-                strcpy(foo, "file://");
-                strcat(foo, file);
-
-                fileList->push_back(foo);
+                fileList->push_back(url);
 
 	            cp += strlen(cp) + 1;
             }

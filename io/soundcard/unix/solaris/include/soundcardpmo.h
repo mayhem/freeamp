@@ -17,7 +17,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: soundcardpmo.h,v 1.2 1999/04/21 05:50:53 elrod Exp $
+        $Id: soundcardpmo.h,v 1.3 1999/04/21 06:53:40 dogcow Exp $
 ____________________________________________________________________________*/
 
 #ifndef _SOUNDCARDPMO_H_
@@ -33,7 +33,7 @@ ____________________________________________________________________________*/
 #include "pmo.h"
 #include "pmoevent.h"
 #include "eventbuffer.h"
-#include "facontext"
+#include "facontext.h"
 #include "preferences.h"
 
 #define BIT_SELECT  0x1f

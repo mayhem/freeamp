@@ -18,13 +18,13 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: infoeditor.cpp,v 1.5 1999/11/17 05:45:29 ijr Exp $
+        $Id: infoeditor.cpp,v 1.6 1999/12/06 13:29:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "utility.h"
 #include "infoeditor.h"
 #include "metadata.h"
-#include "musicbrowser.h"
+#include "musiccatalog.h"
 
 void infoeditorUI::DoApplyInfoEdit(void)
 {
@@ -58,7 +58,7 @@ void infoeditorUI::DoApplyInfoEdit(void)
 
     m_playlistItem->SetMetaData(&newmeta);
 
-    m_context->browser->m_catalog->UpdateSong(m_playlistItem);
+    m_context->catalog->UpdateSong(m_playlistItem);
 }
 
 gint info_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)

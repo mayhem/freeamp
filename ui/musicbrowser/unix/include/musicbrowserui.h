@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowserui.h,v 1.5 1999/11/15 17:27:27 ijr Exp $
+        $Id: musicbrowserui.h,v 1.6 1999/12/06 13:29:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_MUSICBROWSERUI_H_
@@ -30,7 +30,7 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "thread.h"
 #include "playlist.h"
-#include "musicbrowser.h"
+#include "musiccatalog.h"
 #include "gtkmusicbrowser.h"
 #include "musicsearchui.h"
 

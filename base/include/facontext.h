@@ -19,7 +19,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: facontext.h,v 1.4 1999/10/19 07:12:45 elrod Exp $
+	$Id: facontext.h,v 1.5 1999/12/06 13:29:49 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_FACONTEXT_H_
@@ -39,7 +39,7 @@ static const int32 c_minorVersion = 0;
 class PlaylistManager;
 class Properties;
 class EventQueue;
-class MusicBrowser;
+class MusicCatalog;
 class DownloadManager;
 class UpdateManager;
 class Player;
@@ -55,7 +55,7 @@ class FAContext
           props(0),
           plm(0),
           target(0),
-	  browser(0),
+	  catalog(0),
           downloadManager(0),
           //updateManager(0),
           player(0),
@@ -82,7 +82,7 @@ class FAContext
     Properties *props;
     PlaylistManager *plm;
     EventQueue *target;
-    MusicBrowser *browser;
+    MusicCatalog *catalog;
     DownloadManager *downloadManager;
     //UpdateManager *updateManager;
     Player *player;

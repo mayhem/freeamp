@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicsearch.cpp,v 1.3 1999/11/29 08:56:12 ijr Exp $
+        $Id: musicsearch.cpp,v 1.4 1999/12/06 13:29:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #include "config.h"
@@ -30,7 +30,7 @@ ____________________________________________________________________________*/
 #include "utility.h"
 #include "eventdata.h"
 #include "fileselector.h"
-#include "musicbrowser.h"
+#include "musiccatalog.h"
 #include "musicsearchui.h"
 
 gboolean search_destroy(GtkWidget *widget, gpointer p)
@@ -264,13 +264,13 @@ void musicsearchUI::StartSearch(void)
     vector<string> oPathList;
     oPathList.push_back(searchPath);
     searchInProgress = true;
-    m_context->browser->SearchMusic(oPathList);
+    m_context->catalog->SearchMusic(oPathList);
     gtk_label_set_text(GTK_LABEL(buttonLabel), "Cancel Search");
 }
 
 void musicsearchUI::EndSearch(void)
 {
-    m_context->browser->StopSearchMusic();
+    m_context->catalog->StopSearchMusic();
     gtk_label_set_text(GTK_LABEL(buttonLabel), "Restart Search >");
     searchInProgress = false;    
 }

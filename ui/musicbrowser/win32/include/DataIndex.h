@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: DataIndex.h,v 1.4 1999/12/02 22:06:53 elrod Exp $
+        $Id: DataIndex.h,v 1.5 1999/12/06 13:29:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_DATAINDEX_H_
@@ -29,7 +29,7 @@ ____________________________________________________________________________*/
 #endif
 
 #include "playlist.h"
-#include "musicbrowser.h"
+#include "musiccatalog.h"
 
 class TreeData
 {

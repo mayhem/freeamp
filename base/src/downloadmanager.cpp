@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-	$Id: downloadmanager.cpp,v 1.10 1999/11/29 22:28:59 elrod Exp $
+	$Id: downloadmanager.cpp,v 1.11 1999/12/06 13:29:49 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -65,7 +65,7 @@ typedef ostrstream ostringstream;
 #include "utility.h"
 #include "event.h"
 #include "eventdata.h"
-#include "musicbrowser.h"
+#include "musiccatalog.h"
 
 
 DownloadManager::DownloadManager(FAContext* context)
@@ -1113,9 +1113,9 @@ Error DownloadManager::SubmitToDatabase(DownloadItem* item)
         
         if (IsntError(FilePathToURL(path, url, &urlLength)))
         {
-            m_context->browser->WriteMetaDataToDatabase(url, 
+            m_context->catalog->WriteMetaDataToDatabase(url, 
                                                         item->GetMetaData());
-            m_context->browser->m_catalog->AddSong(url);
+            m_context->catalog->AddSong(url);
         }
 
         delete [] url;

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: EditTrackInfoDialog.cpp,v 1.3 1999/12/03 21:07:56 elrod Exp $
+        $Id: EditTrackInfoDialog.cpp,v 1.4 1999/12/06 13:29:50 ijr Exp $
 ____________________________________________________________________________*/
 
 // system includes
@@ -318,7 +318,7 @@ void MusicBrowserUI::CreateEditInfoLists(vector<string>& artists,
     vector<ArtistList*>::iterator   artist;    
 
     artistList = (vector<ArtistList*>*)
-            m_context->browser->m_catalog->GetMusicList();
+            m_context->catalog->GetMusicList();
 
     for(artist = artistList->begin(); 
         artist != artistList->end(); 

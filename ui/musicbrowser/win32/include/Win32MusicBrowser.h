@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: Win32MusicBrowser.h,v 1.47 1999/12/03 21:07:56 elrod Exp $
+        $Id: Win32MusicBrowser.h,v 1.48 1999/12/06 13:29:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_WIN32MUSICBROWSER_H_
@@ -43,7 +43,7 @@ using namespace std;
 #include "event.h"
 #include "thread.h"
 #include "playlist.h"
-#include "musicbrowser.h"
+#include "musiccatalog.h"
 #include "DataIndex.h"
 #include "DropTarget.h"
 

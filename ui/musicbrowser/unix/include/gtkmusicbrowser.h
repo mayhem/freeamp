@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: gtkmusicbrowser.h,v 1.15 1999/12/06 12:27:25 ijr Exp $
+        $Id: gtkmusicbrowser.h,v 1.16 1999/12/06 13:29:50 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifndef INCLUDED_GTKMUSICBROWSER_H_
@@ -32,7 +32,7 @@ ____________________________________________________________________________*/
 #include "event.h"
 #include "thread.h"
 #include "playlist.h"
-#include "musicbrowser.h"
+#include "musiccatalog.h"
 
 class FAContext;
 class MusicBrowserUI;

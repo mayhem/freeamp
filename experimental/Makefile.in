@@ -1,6 +1,6 @@
 # Freeamp master Makefile
 # blown into bits and reconstructed by dogcow
-# $Id: Makefile.in,v 1.9 1999/04/28 21:36:12 dogcow Exp $
+# $Id: Makefile.in,v 1.10 1999/04/29 23:06:41 dogcow Exp $
 
 SHELL = /bin/sh
 
@@ -71,7 +71,7 @@ DEFS = -I. -I$(srcdir) -I./config -DUNIX_LIBDIR=\"$(libdir)\" -D$(HOST_OS)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 X_CFLAGS = @X_CFLAGS@
-X_LIBS = @X_LIBS@ -lX11 -lXext -lXpm
+X_LIBS = @X_LIBS@ -lX11 -lXext @XPMLIB@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Control.h,v 1.17 2000/06/10 18:47:28 robert Exp $
+   $Id: Control.h,v 1.18 2000/06/13 20:24:32 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_CONTROL_H__
@@ -193,6 +193,7 @@ class Control
 
       // this is cute
       vector<map<ControlStateEnum, Rect> > m_oStateBitmapRect;
+      vector<map<ControlStateEnum, Bitmap *> > m_oStateBitmaps;
 };
 
 #endif

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Bitmap.h,v 1.7 2000/06/10 18:47:28 robert Exp $
+   $Id: Bitmap.h,v 1.8 2000/06/13 20:24:32 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_BITMAP_H__
@@ -61,6 +61,8 @@ class Bitmap
      virtual Bitmap *Clone(void) = 0;
      virtual Error   MakeTransparent(Rect &oRect) = 0; 
 
+     virtual void    GetColor(Pos oPos, Color &oColor) = 0;
+     virtual void    GetSize(Pos &oPos) = 0;
     protected:
 
      string  m_oBitmapName, m_oLastError;

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.cpp,v 1.17 2000/06/10 18:47:28 robert Exp $
+   $Id: Win32Bitmap.cpp,v 1.18 2000/06/13 20:24:32 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <assert.h>
@@ -543,3 +543,12 @@ void Win32Bitmap::BlitIt(int x, int y)
    DeleteDC(hSrcDC);
 }
 
+void Win32Bitmap::GetColor(Pos oPos, Color &oColor)
+{
+}
+
+void Win32Bitmap::GetSize(Pos &oPos)
+{
+    oPos.x = m_iWidth;
+    oPos.y = m_iHeight;
+}

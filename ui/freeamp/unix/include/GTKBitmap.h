@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.h,v 1.7 2000/06/12 13:13:10 ijr Exp $
+   $Id: GTKBitmap.h,v 1.8 2000/06/13 20:24:32 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_GTKBITMAP_H__
@@ -57,6 +57,9 @@ class GTKBitmap : public Bitmap
      virtual Bitmap *Clone(void);
      virtual Error MakeTransparent(Rect &oRect);
 
+     virtual void GetColor(Pos oPos, Color &oColor);
+     virtual void GetSize(Pos &oPos);
+
      GdkPixmap *GetBitmap() { return m_Bitmap; }
      GdkPixmap *GetMask() { return m_MaskBitmap; }
 
@@ -71,6 +74,11 @@ class GTKBitmap : public Bitmap
      GdkGC *m_GC;
      bool shape_set;
      int  m_width, m_height;
+
+     bool m_cache;
+     GdkImage *m_image;
+     GdkColormap *m_cmap;
+     GdkVisual *m_v;
 };
 
 #endif

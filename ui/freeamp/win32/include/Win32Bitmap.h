@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Win32Bitmap.h,v 1.10 2000/05/14 23:12:26 robert Exp $
+   $Id: Win32Bitmap.h,v 1.11 2000/06/13 20:24:32 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #ifndef INCLUDED_WIN32BITMAP_H__
@@ -52,6 +52,9 @@ class Win32Bitmap : public Bitmap
                                       Rect &oDestRect);
      virtual Error   MakeTransparent(Rect &oRect); 
      virtual Bitmap *Clone(void);
+
+     virtual void GetColor(Pos oPos, Color &oColor);
+     virtual void GetSize(Pos &oPos);
 
      HBITMAP       GetBitmapHandle(void);
      HBITMAP       GetMaskBitmapHandle(void);

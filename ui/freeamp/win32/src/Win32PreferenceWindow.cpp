@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-   $Id: Win32PreferenceWindow.cpp,v 1.57 2000/09/24 19:26:25 ijr Exp $
+   $Id: Win32PreferenceWindow.cpp,v 1.58 2000/09/24 19:57:27 ijr Exp $
 ____________________________________________________________________________*/
 
 // The debugger can't handle symbols more than 255 characters long.
@@ -383,7 +383,7 @@ void Win32PreferenceWindow::GetPrefsValues(PrefsStruct* values)
     {
         bufferSize = size;
         buffer = (char*)realloc(buffer, bufferSize);
-        m_prefs->GetPrefString(PlaylistHeaderColumnsPref, buffer, &size);
+        m_prefs->GetPrefString(kPlaylistHeaderColumnsPref, buffer, &size);
     }
 
     values->playlistHeaderColumns = buffer;
@@ -3887,7 +3887,7 @@ bool Win32PreferenceWindow::PrefBrowserProc(HWND hwnd,
         }
         case WM_HELP:
         {
-            LaunchHelp(hwnd, Preferences_General);
+            //LaunchHelp(hwnd, Preferences_General);
             break;
         }
 

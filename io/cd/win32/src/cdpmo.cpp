@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         
-        $Id: cdpmo.cpp,v 1.11 2000/09/20 12:00:58 robert Exp $
+        $Id: cdpmo.cpp,v 1.12 2000/09/24 19:57:27 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -399,7 +399,7 @@ void CDPMO::WorkerThread(void)
 
               return;
           }
-          WasteTime();
+          usleep(10000);
       }
    }
 }

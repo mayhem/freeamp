@@ -18,7 +18,7 @@
        along with this program; if not, write to the Free Software
        Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
        
-       $Id: ColumnInfo.h,v 1.1 2000/09/24 19:26:25 ijr Exp $
+       $Id: ColumnInfo.h,v 1.2 2000/09/24 19:57:27 ijr Exp $
 ____________________________________________________________________________*/
 
 
@@ -79,7 +79,7 @@ class ColumnInfo
      {
          for( int i = 0; i < m_columnData.size(); i++ )
          {
-             ColumnHolder *ch = m_columnData.at( i );
+             ColumnHolder *ch = m_columnData[i];
              if ( index == ch->GetIndex() )
                  return( ch->GetText() );
          }
@@ -93,7 +93,7 @@ class ColumnInfo
      {
          for( int i = 0; i < m_columnData.size(); i++ )
          {
-             ColumnHolder *ch = m_columnData.at( i );
+             ColumnHolder *ch = m_columnData[i];
              if ( stricmp( ch->GetText(), text ) == 0 )
                  return( ch->GetIndex() );
          }

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKUtility.cpp,v 1.1.2.6 1999/10/11 22:01:23 ijr Exp $
+   $Id: GTKUtility.cpp,v 1.1.2.7 1999/10/13 01:14:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <string>
@@ -56,7 +56,6 @@ void InitializeGTK(FAContext *context)
 {
     if (gtkThread)
         return;
-
     context->gtkLock.Acquire();
     if (!context->gtkInitialized) {
         context->gtkInitialized = true;
@@ -80,8 +79,9 @@ void ShutdownGTK(void)
         gdk_threads_enter();
         gtk_main_quit();
         gdk_threads_leave();
+        weAreGTK = false;
 //        gtkThread->Join();
-// Segfault on exit's better than hang on exit
+// gtk_main() NEVER QUITS... stupid, what am I missing?
     }
 }
 

@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKBitmap.cpp,v 1.1.2.11 1999/10/02 00:40:14 ijr Exp $
+   $Id: GTKBitmap.cpp,v 1.1.2.12 1999/10/13 01:14:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "string"
@@ -219,17 +219,18 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
 
 
     fseek(file, offset, SEEK_SET);
+    gdk_threads_enter();
     buffer = (guchar *)g_malloc(imgsize);
+    data = (guchar *)g_malloc0((w * 3 * h) + 3); // +3 is just for safety
+    gdk_threads_leave();
     fread(buffer, imgsize, 1, file);
     fclose(file);
     buffer_ptr = buffer;
     buffer_end = buffer + imgsize;
-    data = (guchar *)g_malloc0((w * 3 * h) + 3);   /* +3 is just for safety
- */
+
     data_end = data + (w * 3 * h);
-    if (!data) {
+    if (!data) 
         return kError_LoadBitmapFailed;
-    }
     ptr = data + ((h - 1) * w * 3);
 
     if (bitcount == 4) {
@@ -492,10 +493,10 @@ Error GTKBitmap::LoadBitmapFromDisk(string &oFile)
     gdk_draw_rgb_image(m_Bitmap, m_GC, 0, 0, w, h, GDK_RGB_DITHER_MAX, data, 
                        w * 3);
 
-    gdk_threads_leave();
-
     g_free(data);
     g_free(buffer);
+    gdk_threads_leave();
+
     return kError_NoErr;
 }
 

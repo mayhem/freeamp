@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: Theme.cpp,v 1.1.2.24 1999/10/12 23:28:15 robert Exp $
+   $Id: Theme.cpp,v 1.1.2.25 1999/10/13 01:14:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -958,7 +958,7 @@ Error Theme::ParseColor(string &oColorstring, Color &oColor)
     iRet = sscanf(oColorstring.c_str(), "#%02X%02X%02X",
                   &iRed, &iGreen, &iBlue);
 
-	if (iRet == 3)
+    if (iRet == 3)
     {
     	oColor.red = iRed;
         oColor.green = iGreen;

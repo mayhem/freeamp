@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: musicbrowser.cpp,v 1.1.2.1 1999/10/12 23:28:06 robert Exp $
+        $Id: musicbrowser.cpp,v 1.1.2.2 1999/10/13 01:14:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #ifdef WIN32
@@ -86,7 +86,7 @@ Error MusicBrowserUI::Init(int32 startup_level)
     return kError_NoErr;
 
 #else
-	m_initialized = true;
+    m_initialized = true;
     m_uiThread = Thread::CreateThread();
     m_uiThread->Create(MusicBrowserUI::UIThreadFunc, this);
     return kError_NoErr;
@@ -107,23 +107,19 @@ void MusicBrowserUI::GTKEventService(void)
 
     LoadPlaylist((char *)lastPlaylist.c_str());
 
-    bool init = false;
     weAreGTK = false;
-
     m_context->gtkLock.Acquire();
     if (!m_context->gtkInitialized) {
-        init = true;
         m_context->gtkInitialized = true;
-    }
-    m_context->gtkLock.Release();
-
-    if (init) {
         g_thread_init(NULL);
         gtk_init(&m_argc, &m_argv);
         gdk_rgb_init();
         weAreGTK = true;
-        gtk_main();
     }
+    m_context->gtkLock.Release();
+
+    if (weAreGTK)
+        gtk_main();
 }
 
 #endif
@@ -338,7 +334,7 @@ void MusicBrowserUI::SaveCurrentPlaylist(char *path)
     if (m_currentListName == "")
         return;
 
-    char *ext = strrchr(path, '.');
+    char *ext = strrchr(m_currentListName.c_str(), '.');
     if (ext)
         ext = ext + 1;
     Error result = kError_NoErr;
@@ -363,6 +359,14 @@ void MusicBrowserUI::SaveCurrentPlaylist(char *path)
     m_plm->WritePlaylist((char *)m_currentListName.c_str(), &format);
 }
 
+void MusicBrowserUI::ImportPlaylist(char *path)
+{
+    if (!path)
+        return;
+    m_context->browser->m_catalog->AddPlaylist(path);
+    UpdateCatalog();
+}
+
 void MusicBrowserUI::LoadPlaylist(char *path)
 {
     Error err;
@@ -380,3 +384,9 @@ void MusicBrowserUI::LoadPlaylist(char *path)
         }
     }
 }
+
+void MusicBrowserUI::ReadPlaylist(char *path, vector<PlaylistItem *> *plist)
+{
+    m_plm->ReadPlaylist(path, plist);
+}
+

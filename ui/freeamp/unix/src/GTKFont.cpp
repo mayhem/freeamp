@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKFont.cpp,v 1.1.2.3 1999/10/03 04:49:25 ijr Exp $
+   $Id: GTKFont.cpp,v 1.1.2.4 1999/10/13 01:14:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "GTKFont.h"
@@ -77,7 +77,7 @@ Error GTKFont::Load(int iFontHeight, bool bBold, bool bItalic)
                 gfont = gdk_font_load("default");  
                 if (!gfont) {
                     gdk_threads_leave();
-                    cout << "oops, couldn't load a font...\n";
+                    cout << "oops, couldn't load _any_ fonts...\n";
                     return kError_YouScrewedUp;
                 }
             }

@@ -18,7 +18,7 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-        $Id: downloadui.cpp,v 1.1.2.3 1999/10/11 22:01:22 ijr Exp $
+        $Id: downloadui.cpp,v 1.1.2.4 1999/10/13 01:14:01 ijr Exp $
 ____________________________________________________________________________*/
 
 #include <gtk/gtk.h>
@@ -86,9 +86,8 @@ void DownloadUI::GTKEventService(void)
     }
     m_context->gtkLock.Release();
 
-    if (weAreGTK) {
+    if (weAreGTK)
         gtk_main();
-    }
 }
 
 int32 DownloadUI::AcceptEvent(Event *event)
@@ -135,14 +134,18 @@ int32 DownloadUI::AcceptEvent(Event *event)
             DownloadItemAddedEvent *dliae = (DownloadItemAddedEvent *)event;
             downloadList.push_back(dliae->Item());
 
+            gdk_threads_enter();
             UpdateDownloadList();
             UpdateOverallProgress();
+            gdk_threads_leave();
             break; }
         case INFO_DownloadItemRemoved:
         case INFO_DownloadItemProgress:
         case INFO_DownloadItemNewState: {
+            gdk_threads_enter();
             UpdateDownloadList();
             UpdateOverallProgress();
+            gdk_threads_leave();
             break; }
         default:
             break;

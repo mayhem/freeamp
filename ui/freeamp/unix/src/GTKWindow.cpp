@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: GTKWindow.cpp,v 1.1.2.13 1999/10/11 22:01:23 ijr Exp $
+   $Id: GTKWindow.cpp,v 1.1.2.14 1999/10/13 01:14:01 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include <stdio.h>
@@ -120,12 +120,12 @@ Error GTKWindow::Run(Pos &oPos)
     m_oWindowPos = oPos;
     m_pCanvas->Init();
 
+    GetCanvas()->GetBackgroundRect(oRect);
+
     gdk_threads_enter();
     iMaxX = gdk_screen_width();
     iMaxY = gdk_screen_height();
  
-    GetCanvas()->GetBackgroundRect(oRect);
-
     if (m_oWindowPos.x > iMaxX || m_oWindowPos.x + oRect.Width() < 0)
        m_oWindowPos.x = 0;
     if (m_oWindowPos.y > iMaxY || m_oWindowPos.y + oRect.Height() < 0)
@@ -134,18 +134,20 @@ Error GTKWindow::Run(Pos &oPos)
     gtk_widget_set_uposition(mainWindow, m_oWindowPos.x, m_oWindowPos.y);
     gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
     gdk_threads_leave();
-    
+
     Init();
     GdkBitmap *mask = ((GTKCanvas *)m_pCanvas)->GetMask();
+
+    gdk_threads_enter();
     if (mask)
         gdk_window_shape_combine_mask(mainWindow->window, mask, 0, 0);
+    gdk_threads_leave();
 
     ((GTKCanvas *)GetCanvas())->Paint(oRect);
 
     gdk_threads_enter();
     gtk_widget_show(mainWindow);
     gdk_flush(); 
-
     gtkTimer = gtk_timeout_add(250, do_timeout, this);
     gdk_threads_leave();
  
@@ -169,11 +171,13 @@ Error GTKWindow::VulcanMindMeld(Window *pOther)
     m_pCanvas->GetBackgroundRect(oRect);
     pOther->GetWindowPosition(oRect);
     SetWindowPosition(oRect);
-    gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
-
     GdkBitmap *mask = ((GTKCanvas *)m_pCanvas)->GetMask();
+
+    gdk_threads_enter();
+    gtk_widget_set_usize(mainWindow, oRect.Width(), oRect.Height());
     if (mask)
         gdk_window_shape_combine_mask(mainWindow->window, mask, 0, 0);
+    gdk_threads_leave();
 
     ((GTKCanvas *)m_pCanvas)->SetParent(this);
     m_pCanvas->Update();
@@ -192,15 +196,18 @@ Error GTKWindow::Close(void)
    
     if (quitLoop)
         return kError_NoErr;
-    gdk_threads_enter();
-    gtk_timeout_remove(gtkTimer);
+
     GetWindowPosition(oRect);
     oPos.x = oRect.x1;
     oPos.y = oRect.y1;
     SaveWindowPos(oPos);
+
+    gdk_threads_enter();
+    gtk_timeout_remove(gtkTimer);
     gtk_widget_destroy(mainWindow);
     gdk_flush();
     gdk_threads_leave();
+
     quitLoop = true;
     return kError_NoErr;
 }
@@ -217,34 +224,40 @@ Error GTKWindow::Disable(void)
 
 Error GTKWindow::Show(void)
 {
+    gdk_threads_enter();
     gtk_widget_show(mainWindow);
+    gdk_threads_leave();
     return kError_NoErr;
 }
 
 Error GTKWindow::Hide(void)
 {
+    gdk_threads_enter();
     gtk_widget_hide(mainWindow);
+    gdk_threads_leave();
     return kError_NoErr;
 }
 
 Error GTKWindow::SetTitle(string &oTitle)
 {
+    gdk_threads_enter();
     gtk_window_set_title(GTK_WINDOW(mainWindow), oTitle.c_str());
+    gdk_threads_leave();
     return kError_NoErr;
 }
 
 Error GTKWindow::CaptureMouse(bool bCapture)
 {
-    if (bCapture) {
+    gdk_threads_enter();
+    if (bCapture)
         gdk_pointer_grab(mainWindow->window, FALSE, (GdkEventMask)
                          (GDK_SUBSTRUCTURE_MASK | GDK_STRUCTURE_MASK | 
                           GDK_POINTER_MOTION_MASK | GDK_BUTTON_MOTION_MASK | 
                           GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK), 
                           mainWindow->window, NULL, 0);
-    }
-    else {
+    else 
         gdk_pointer_ungrab(0);
-    }
+    gdk_threads_leave();
     return kError_NoErr;
 }
 
@@ -255,20 +268,27 @@ Error GTKWindow::HideMouse(bool bHide)
 
 Error GTKWindow::SetMousePos(Pos &oPos)
 {
+    gdk_threads_enter();
     WarpPointer(mainWindow->window, oPos.x, oPos.y);
+    gdk_threads_leave();
     return kError_NoErr;
 }
 
 Error GTKWindow::GetMousePos(Pos &oPos)
 {
-    if (initialized)
+    if (initialized) {
+        gdk_threads_enter();
         gtk_widget_get_pointer(mainWindow, &oPos.x, &oPos.y);
+        gdk_threads_leave();
+    }
     return kError_NoErr;
 }
 
 Error GTKWindow::SetWindowPosition(Rect &oWindowRect)
 {
+    gdk_threads_enter();
     gdk_window_move(mainWindow->window, oWindowRect.x1, oWindowRect.y1);
+    gdk_threads_leave();
     return kError_NoErr;
 }
 
@@ -276,14 +296,18 @@ Error GTKWindow::GetWindowPosition(Rect &oWindowRect)
 {
     if (!mainWindow->window)
         return kError_NoErr;
+    gdk_threads_enter();
     gdk_window_get_position(mainWindow->window, &oWindowRect.x1, 
                             &oWindowRect.y1);
+    gdk_threads_leave();
     return kError_NoErr;
 }
 
 Error GTKWindow::Minimize(void)
 {
+    gdk_threads_enter();
     IconifyWindow(mainWindow->window);
+    gdk_threads_leave();
     return kError_NoErr;
 }
 

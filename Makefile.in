@@ -1,5 +1,5 @@
 # Freeamp master Makefile
-# $Id: Makefile.in,v 1.27 1999/07/26 20:22:08 robert Exp $
+# $Id: Makefile.in,v 1.28 1999/07/27 02:03:58 dogcow Exp $
 
 FPIC=
 # RELOC = null for freeamp main; RELOC = @FPIC@ for plugins.
@@ -65,6 +65,15 @@ install-freeamp: freeamp
 depend:
 	makedepend -- $(DEFS) $(INCLUDES) $(CFLAGS) -- `echo $(FREEAMPOBJ) | sed -e 's,\.o,.cpp,g'`
 	+$(PIMAKE) depend
+
+Makefile: Makefile.in Makefile-plugins.in
+	./config.status
+	make -$(MAKEFLAGS)
+
+#Makefile: configure.in configure
+#	./config.status --recheck
+#	./config.status
+#	make -$(MAKEFLAGS)
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 

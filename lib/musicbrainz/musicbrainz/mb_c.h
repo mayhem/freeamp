@@ -18,7 +18,7 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-     $Id: mb_c.h,v 1.10 2000/10/13 15:48:10 sward Exp $
+     $Id: mb_c.h,v 1.11 2000/10/27 12:00:22 robert Exp $
 
 ----------------------------------------------------------------------------*/
 #ifndef _MB_C_H_
@@ -32,8 +32,12 @@ extern "C"
 {
 #endif
 
+/* Basic C abstraction types for the interfaces */
 typedef void * musicbrainz_t;
+typedef void * rdfgen_t;
+typedef void * trm_t;
 
+/* The interface to the main MusicBrainz object */
 musicbrainz_t mb_New           (void);
 void      mb_Delete            (musicbrainz_t o);
 int       mb_SetServer         (musicbrainz_t o, char *serverAddr, 
@@ -41,6 +45,7 @@ int       mb_SetServer         (musicbrainz_t o, char *serverAddr,
 int       mb_SetProxy          (musicbrainz_t o, char *serverAddr, 
                                 short serverPort);
 int       mb_SetDevice         (musicbrainz_t o, char *device);
+void      mb_UseUTF8           (musicbrainz_t o, int useUTF8);
 
 int       mb_Query             (musicbrainz_t o, char *xmlObject);
 int       mb_QueryWithArgs     (musicbrainz_t o, char *xmlObject, char **args);
@@ -56,14 +61,26 @@ int       mb_GetResultRDFLen   (musicbrainz_t o);
 int       mb_SetResultRDF      (musicbrainz_t o, char *xml);
 int       mb_GetNumItems       (musicbrainz_t o);
 
-void      mb_SetPCMDataInfo    (musicbrainz_t o, int samplesPerSecond, 
-                                int numChannels, int bitsPerSample);
-int       mb_GenerateSignature (musicbrainz_t o, char *data, int size,
-                                char signature[17], char *collectionID);
-void      mb_GenerateSignatureNow(musicbrainz_t o, char signature[17],
-                                char *collectionID);
-void      mb_ConvertSigToASCII (musicbrainz_t o, char sig[17], 
-                                char ascii_sig[37]);
+/* The interface to the Relatable TRM signature generator */
+trm_t trm_New                 (void);
+void  trm_Delete              (trm_t o);
+int   trm_SetProxy            (trm_t o, char *proxyAddr, short proxyPort);
+void  trm_SetPCMDataInfo      (trm_t o, int samplesPerSecond, 
+                               int numChannels, int bitsPerSample);
+int   trm_GenerateSignature   (trm_t o, char *data, int size,
+                               char signature[17], char *collectionID);
+void  trm_GenerateSignatureNow(trm_t o, char signature[17],
+                               char *collectionID);
+void  trm_ConvertSigToASCII   (trm_t o, char sig[17], 
+                               char ascii_sig[37]);
+
+/* An interface to the very simplistic rdf generator */
+rdfgen_t rg_New           (void);
+void     rg_Delete        (rdfgen_t o);
+int      rg_Select        (rdfgen_t o, char *selectQuery);
+int      rg_Insert        (rdfgen_t o, char *key, char *value);
+int      rg_Generate      (rdfgen_t o, char *RDFtemplate, 
+                           char *RDF, int maxRDFLen);
 
 #ifdef __cplusplus
 }

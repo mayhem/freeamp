@@ -18,7 +18,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   $Id: ButtonControl.cpp,v 1.16 2000/08/24 16:18:13 robert Exp $
+   $Id: ButtonControl.cpp,v 1.17 2000/09/19 07:31:00 ijr Exp $
 ____________________________________________________________________________*/ 
 
 #include "stdio.h"
@@ -70,7 +70,6 @@ ButtonControl::ButtonControl(Window *pWindow, string &oName, string &oUrl) :
 
 ButtonControl::~ButtonControl(void)
 {
-
 }
 
 void ButtonControl::Init(void)

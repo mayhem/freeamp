@@ -18,7 +18,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 	
-    $Id: GTKPreferenceWindow.cpp,v 1.53 2000/09/01 10:57:59 ijr Exp $
+    $Id: GTKPreferenceWindow.cpp,v 1.54 2000/09/19 07:31:00 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -51,10 +51,14 @@ GTKPreferenceWindow::GTKPreferenceWindow(FAContext *context,
 
 GTKPreferenceWindow::~GTKPreferenceWindow(void)
 {
-    if (m_PMOnames)
+    if (m_PMOnames) 
         delete m_PMOnames;
-    if (paneList)
+    if (paneList) {
+        while (paneList->size() > 0) {
+            paneList->erase(paneList->begin());
+        }
         delete paneList;
+    }
 } 
 
 static gboolean pref_destroy(GtkWidget *widget, GTKPreferenceWindow *p)

@@ -18,7 +18,7 @@
    along with this program; if not, Write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    
-   $Id: vorbislmc.cpp,v 1.7 2000/08/03 21:26:22 robert Exp $
+   $Id: vorbislmc.cpp,v 1.8 2000/09/19 07:31:00 ijr Exp $
 ____________________________________________________________________________*/
 
 /* system headers */
@@ -248,7 +248,7 @@ uint32 VorbisLMC::CalculateSongLength(const char *url)
 
     dur = ov_time_total(&vf, 0);
 
-    fclose(fpFile);
+    ov_clear(&vf);
 
     return (int)dur;
 }

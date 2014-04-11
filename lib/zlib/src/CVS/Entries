@@ -1,0 +1,16 @@
+/.cvsignore/1.1/Wed Dec 29 01:19:11 1999//
+/adler32.c/1.2/Tue Oct 19 07:13:07 1999//
+/compress.c/1.2/Tue Oct 19 07:13:07 1999//
+/crc32.c/1.2/Tue Oct 19 07:13:07 1999//
+/deflate.c/1.2/Tue Oct 19 07:13:07 1999//
+/gzio.c/1.2/Tue Oct 19 07:13:07 1999//
+/infblock.c/1.2/Tue Oct 19 07:13:07 1999//
+/infcodes.c/1.2/Tue Oct 19 07:13:07 1999//
+/inffast.c/1.2/Tue Oct 19 07:13:07 1999//
+/inflate.c/1.2/Tue Oct 19 07:13:07 1999//
+/inftrees.c/1.2/Tue Oct 19 07:13:07 1999//
+/infutil.c/1.2/Tue Oct 19 07:13:07 1999//
+/trees.c/1.2/Tue Oct 19 07:13:07 1999//
+/uncompr.c/1.2/Tue Oct 19 07:13:07 1999//
+/zutil.c/1.2/Tue Oct 19 07:13:07 1999//
+D

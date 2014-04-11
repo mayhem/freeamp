@@ -1,0 +1,19 @@
+/.cvsignore/1.1/Mon Sep 11 06:39:38 2000//
+/database.cpp/1.13/Wed Nov 15 14:55:20 2000//
+/debug.cpp/1.3/Wed May 24 17:08:33 2000//
+/downloadmanager.cpp/1.44/Tue Oct 30 20:19:13 2001//
+/errors.cpp/1.8/Mon Mar 13 21:25:59 2000//
+/log.cpp/1.8/Fri Apr 20 19:32:28 2001//
+/missingfile.cpp/1.4/Sat Oct 27 23:20:21 2001//
+/musiccatalog.cpp/1.103/Mon Mar  5 21:54:47 2001//
+/player.cpp/1.262/Wed May 23 23:45:50 2001//
+/preferences.cpp/1.64/Tue Apr 16 17:14:28 2002//
+/prefixprefs.cpp/1.4/Tue Oct 19 07:12:47 1999//
+/propimpl.cpp/1.6/Sat Oct 27 01:49:11 2001//
+/registrar.cpp/1.26/Thu Oct  5 20:14:05 2000//
+/registry.cpp/1.12/Thu Oct  5 20:14:05 2000//
+/thread.cpp/1.12/Thu Sep 28 11:33:09 2000//
+/timer.cpp/1.16/Thu Sep 28 11:33:09 2000//
+/undomanager.cpp/1.2/Mon Sep 11 22:14:04 2000//
+/utility.cpp/1.37/Thu Apr 19 19:33:02 2001//
+D

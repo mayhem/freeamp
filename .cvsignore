@@ -1,0 +1,11 @@
+plugins
+Makefile
+Makefile-plugins
+Makefile.header
+Makefile.towav
+config.log
+config.status
+config.cache
+freeamp
+MakeTheme
+.config.check

@@ -1,0 +1,8 @@
+[General]
+Type=FILELIST
+Version=1.10.000
+
+[TopDir]
+file0=D:\iso\freeamp\base\win32\prj\tools\ThemeHowTo.txt
+file1=D:\iso\freeamp\base\win32\prj\tools\MakeTheme.exe
+

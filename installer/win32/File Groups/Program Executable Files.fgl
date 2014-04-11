@@ -1,0 +1,13 @@
+[General]
+Type=FILELIST
+Version=1.10.000
+
+[TopDir]
+file0=D:\iso\freeamp\base\win32\prj\freeamp.exe
+file1=D:\iso\freeamp\ReadMe.txt
+file2=D:\iso\freeamp\Changes.txt
+file3=D:\iso\freeamp\Authors.txt
+file4=D:\iso\freeamp\Copying.txt
+file5=D:\iso\freeamp\base\win32\prj\update.exe
+file6=D:\iso\freeamp\base\win32\prj\id3lib.dll
+
